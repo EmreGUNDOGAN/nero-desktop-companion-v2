@@ -1,0 +1,6 @@
+{
+  "happy": ["Buradayım.", "Bugün fena değilsin.", "Bir şey yapacaksak başlayalım."],
+  "bored": ["Sıkıldım.", "Masaüstünü izlemek de bir yere kadar.", "Bir planımız var mı?"],
+  "upset": ["Beni biraz unuttun sanki.", "Ben burada bekliyorum bu arada."],
+  "lonely": ["Uzun zamandır yoksun.", "Tamam. Ben yine buradayım."]
+}
