@@ -1,0 +1,1 @@
+document.addEventListener('click', async () => { const state = await window.nero.getState(); const b=document.querySelector('#bubble'); b.textContent=state.line||'Buradayım.'; b.hidden=false; setTimeout(()=>b.hidden=true,3000); });
