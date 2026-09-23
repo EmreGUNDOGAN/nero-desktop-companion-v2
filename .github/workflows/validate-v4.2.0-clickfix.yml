@@ -1,0 +1,44 @@
+name: Validate Nero 4.2.0 header click fix
+
+on:
+  push:
+    branches:
+      - build-v4.2.0-clickfix-test
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: windows-latest
+    steps:
+      - name: Kaynak kodu al
+        uses: actions/checkout@v4
+
+      - name: Node.js kur
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Bağımlılıkları kur
+        shell: pwsh
+        run: |
+          npm ci
+          if ($LASTEXITCODE -ne 0) { throw "npm ci başarısız." }
+
+      - name: Tüm testleri çalıştır
+        shell: pwsh
+        run: |
+          npm test
+          if ($LASTEXITCODE -ne 0) { throw "Node testleri başarısız." }
+
+      - name: Gerçek Electron header click smoke testi
+        shell: pwsh
+        run: |
+          $out = @(npx electron test/window-controls-electron-smoke.js 2>&1)
+          $code = $LASTEXITCODE
+          $out | ForEach-Object { Write-Host $_ }
+          if ($code -ne 0) { throw "Header click smoke testi başarısız." }
+          if (($out -join [Environment]::NewLine) -notmatch "window-controls-electron-smoke: ok") {
+            throw "Header click smoke testi başarı işareti vermedi."
+          }
