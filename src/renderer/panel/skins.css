@@ -1826,3 +1826,72 @@
 :is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .mood-history-month.active {
   background: var(--accent); color: #fff;
 }
+
+/* ==========================================================================
+   4.3.1 Checkpoint D — küçük yardım işareti + root tooltip katmanı
+   ========================================================================== */
+/* Tema kuralları yukarıda section-help'e border/background verebildiği için
+   final override burada tutulur. Hit area 19px, görsel yalnız "?" işaretidir. */
+[data-skin] .section-help {
+  width: 19px !important;
+  height: 19px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 50% !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  font-size: 12px !important;
+  line-height: 1 !important;
+}
+[data-skin] .section-help:hover,
+[data-skin] .section-help:focus-visible,
+[data-skin] .section-help.open {
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+[data-skin="latte"] .section-tooltip-layer {
+  border: 1.5px dashed color-mix(in srgb, var(--accent) 70%, var(--line));
+  background: var(--surface);
+}
+[data-skin="pazartesi"] .section-tooltip-layer {
+  border: 2px solid var(--ink);
+  border-radius: 8px;
+  background: var(--surface);
+  box-shadow: 3px 3px 0 var(--ink);
+}
+[data-skin="gece"] .section-tooltip-layer {
+  background: #12152A;
+  color: var(--ink) !important;
+  border-color: var(--line);
+  box-shadow: 0 16px 40px rgba(0,0,0,.42);
+}
+[data-skin="disket"] .section-tooltip-layer {
+  border-radius: 0;
+  border: 2px solid var(--ink);
+  box-shadow: var(--bevel);
+  background: #fff;
+  color: var(--ink) !important;
+  font-family: "Space Mono", monospace !important;
+}
+[data-skin="kasaba"] .section-tooltip-layer {
+  border: 1px solid var(--ink);
+  border-radius: 0;
+  box-shadow: none;
+  background: #FDFBF3;
+  color: var(--ink) !important;
+  font-family: "Courier Prime", monospace !important;
+}
+:is([data-skin="yagmur"], [data-skin="kar"]) .section-tooltip-layer {
+  background: color-mix(in srgb, var(--surface) 96%, transparent);
+  border: 1.5px solid color-mix(in srgb, var(--ink) 42%, transparent);
+  backdrop-filter: blur(8px);
+}
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .section-tooltip-layer {
+  background: var(--glass);
+  border: 2px solid var(--ink);
+  box-shadow: none;
+  backdrop-filter: blur(8px);
+}
+
