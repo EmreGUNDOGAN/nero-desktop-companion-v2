@@ -1,4 +1,4 @@
-name: Build Nero 4.3.1 test 4
+name: Build Nero 4.3.1 test 5
 
 on:
   push:
@@ -30,7 +30,7 @@ jobs:
         shell: pwsh
         run: |
           $pkg = Get-Content package.json -Raw | ConvertFrom-Json
-          if ($pkg.version -ne "4.3.1-test.4") { throw "Unexpected version: $($pkg.version)" }
+          if ($pkg.version -ne "4.3.1-test.5") { throw "Unexpected version: $($pkg.version)" }
           foreach ($path in @(
             "src/main/main.js",
             "src/preload/preload.js",
@@ -66,6 +66,15 @@ jobs:
             throw "Panel pointer smoke failed"
           }
 
+      - name: Moodboard checkpoint C Electron smoke
+        shell: pwsh
+        run: |
+          $out = @(npx electron test/moodboard-checkpoint-c-electron-smoke.js 2>&1)
+          $out | ForEach-Object { Write-Host $_ }
+          if ($LASTEXITCODE -ne 0 -or (($out -join [Environment]::NewLine) -notmatch "moodboard-checkpoint-c-electron-smoke: ok")) {
+            throw "Moodboard checkpoint C smoke failed"
+          }
+
       - name: Build test setup
         shell: pwsh
         env:
@@ -73,11 +82,11 @@ jobs:
         run: |
           npm run dist
           if ($LASTEXITCODE -ne 0) { throw "electron-builder failed" }
-          if (-not (Test-Path "dist/Nero-Setup-4.3.1-test.4.exe")) { throw "Test setup missing" }
+          if (-not (Test-Path "dist/Nero-Setup-4.3.1-test.5.exe")) { throw "Test setup missing" }
 
       - name: Upload setup only
         uses: actions/upload-artifact@v4
         with:
-          name: Nero-Setup-4.3.1-test.4
-          path: dist/Nero-Setup-4.3.1-test.4.exe
+          name: Nero-Setup-4.3.1-test.5
+          path: dist/Nero-Setup-4.3.1-test.5.exe
           if-no-files-found: error
