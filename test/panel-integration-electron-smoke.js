@@ -44,7 +44,7 @@ app.whenReady().then(async () => {
       }))()
     `);
     ensure(init.tab === 'home', 'Panel home sekmesinde açılmadı.');
-    ensure(init.version === 'v4.3.0', '4.3.0 sürüm etiketi render edilmedi.');
+    ensure(init.version === 'v4.3.1', '4.3.1 sürüm etiketi render edilmedi.');
     ensure(init.helpCount === 7, `Yardım ikonu sayısı 7 değil: ${init.helpCount}`);
     ensure(init.moodDays === 30, `Eylül moodboard 30 gün değil: ${init.moodDays}`);
 
@@ -60,14 +60,38 @@ app.whenReady().then(async () => {
         (() => {
           const shell = document.querySelector('.shell').getBoundingClientRect();
           const help = document.querySelector('.week .section-help');
+          const helpStyle = getComputedStyle(help);
+          const helpRect = help.getBoundingClientRect();
+          const headingRect = help.closest('.section-heading').querySelector('h3').getBoundingClientRect();
           help.click();
           const tip = help.querySelector('.section-tooltip').getBoundingClientRect();
           const reset = document.getElementById('stats-reset');
           const dialogue = document.querySelector('.nero-says');
           const dialogueStyle = getComputedStyle(dialogue);
           const totals = document.querySelector('.totals').getBoundingClientRect();
+          const allHelpStyles = [...document.querySelectorAll('.section-help')].map((el) => {
+            const s = getComputedStyle(el);
+            const r = el.getBoundingClientRect();
+            return {
+              borderTopWidth:s.borderTopWidth,
+              borderTopStyle:s.borderTopStyle,
+              backgroundColor:s.backgroundColor,
+              width:r.width,
+              height:r.height
+            };
+          });
           return {
             shell: { left: shell.left, right: shell.right, width: shell.width },
+            help: {
+              left:helpRect.left,right:helpRect.right,top:helpRect.top,bottom:helpRect.bottom,width:helpRect.width,height:helpRect.height,
+              borderTopWidth:helpStyle.borderTopWidth,
+              borderTopStyle:helpStyle.borderTopStyle,
+              backgroundColor:helpStyle.backgroundColor,
+              fontSize:helpStyle.fontSize,
+              headingRight:headingRect.right,
+              headingTop:headingRect.top
+            },
+            allHelpStyles,
             tip: { left: tip.left, right: tip.right, width: tip.width, height: tip.height },
             resetVisible: reset.getBoundingClientRect().width > 0,
             totalsWidth: totals.width,
@@ -80,7 +104,13 @@ app.whenReady().then(async () => {
 
       ensure(home.resetVisible, `${skin}: reset ikonu görünmüyor.`);
       ensure(home.totalsWidth > 180, `${skin}: Şimdiye kadar kartı çökmüş.`);
-      ensure(home.tip.width > 40 && home.tip.height > 20, `${skin}: yardım tooltip'i görünmüyor.`);
+      ensure(home.help.width >= 16 && home.help.width <= 20 && home.help.height >= 16 && home.help.height <= 20, `${skin}: yardım ikonu küçük mikro boyutta değil: ${JSON.stringify(home.help)}`);
+      ensure(parseFloat(home.help.borderTopWidth) === 0 || home.help.borderTopStyle === 'none', `${skin}: yardım ikonunda border kaldı: ${home.help.borderTopWidth} ${home.help.borderTopStyle}`);
+      ensure(home.help.backgroundColor === 'rgba(0, 0, 0, 0)', `${skin}: yardım ikonunun arka planı transparent değil: ${home.help.backgroundColor}`);
+      ensure(home.help.left >= home.help.headingRight - 1, `${skin}: yardım ikonu başlığın sağına yerleşmedi.`);
+      ensure(home.help.top <= home.help.headingTop + 3, `${skin}: yardım ikonu başlığın sağ-üst hizasında değil.`);
+      ensure(home.allHelpStyles.every((h) => (parseFloat(h.borderTopWidth) === 0 || h.borderTopStyle === 'none') && h.backgroundColor === 'rgba(0, 0, 0, 0)' && h.width <= 20 && h.height <= 20), `${skin}: bazı yardım ikonları hâlâ büyük/border'lı: ${JSON.stringify(home.allHelpStyles)}`);
+      ensure(home.tip.width > 40 && home.tip.width <= 222 && home.tip.height > 15, `${skin}: yardım tooltip'i beklenen kompakt ölçüde değil: ${JSON.stringify(home.tip)}`);
       ensure(home.tip.left >= home.shell.left - 2 && home.tip.right <= home.shell.right + 2, `${skin}: yardım tooltip'i yatayda shell dışına taşıyor.`);
       ensure(home.scrollOverflow <= 2, `${skin}: ana panel yatay overflow üretiyor: ${home.scrollOverflow}px`);
 
