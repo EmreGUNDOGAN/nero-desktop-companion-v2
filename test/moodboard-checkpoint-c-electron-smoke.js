@@ -31,9 +31,13 @@ app.whenReady().then(async () => {
           document.querySelector('[data-tab="home"]').click();
           const cal = document.getElementById('user-mood-calendar');
           const days = [...cal.querySelectorAll('.mood-day')];
-          const one = days.find(x => x.textContent.trim() === '1').getBoundingClientRect();
-          const seven = days.find(x => x.textContent.trim() === '7').getBoundingClientRect();
-          const rowDistance = Math.round((seven.top + seven.height / 2) - (one.top + one.height / 2));
+          const rects = days.map((x) => {
+            const r = x.getBoundingClientRect();
+            return { day:x.textContent.trim(), top:Math.round(r.top), left:Math.round(r.left), width:r.width, height:r.height };
+          });
+          const rowTops = [...new Set(rects.map(x => x.top))].sort((a,b) => a-b);
+          const rowSteps = rowTops.slice(1).map((top, i) => top - rowTops[i]);
+          const dayHeight = rects[0]?.height || 0;
 
           for (const picker of document.querySelectorAll('.mood-picker')) picker.hidden = true;
           const current = cal.querySelector('button.mood-day:not(:disabled)');
@@ -45,8 +49,10 @@ app.whenReady().then(async () => {
 
           return {
             count:days.length,
-            rowDistance,
-            dayHeight:one.height,
+            rowTops,
+            rowSteps,
+            dayHeight,
+            first14:rects.slice(0,14),
             calWidth:cal.getBoundingClientRect().width,
             scrollWidth:cal.scrollWidth,
             labels
@@ -55,8 +61,9 @@ app.whenReady().then(async () => {
       `);
 
       ensure(result.count === 30, `${skin}: Eylül 30 gün değil.`);
-      ensure(result.rowDistance >= result.dayHeight * .95, `${skin}: moodboard satırları üst üste biniyor: ${JSON.stringify(result)}`);
-      ensure(result.rowDistance <= result.dayHeight * 1.4, `${skin}: moodboard satırları hâlâ fazla açık: ${JSON.stringify(result)}`);
+      ensure(result.rowTops.length === 5, `${skin}: Eylül takvimi 5 düzenli satır üretmedi: ${JSON.stringify(result)}`);
+      ensure(result.rowSteps.every(step => step >= result.dayHeight * .95), `${skin}: moodboard satırları üst üste biniyor: ${JSON.stringify(result)}`);
+      ensure(result.rowSteps.every(step => step <= result.dayHeight * 1.4), `${skin}: moodboard satırları hâlâ fazla açık: ${JSON.stringify(result)}`);
       ensure(result.scrollWidth <= result.calWidth + 2, `${skin}: moodboard yatay taşıyor.`);
       ensure(result.labels.map(x => x.title).join('|') === 'Muhteşem|İdare eder|Kötü',
         `${skin}: mood picker dili yanlış: ${JSON.stringify(result.labels)}`);
