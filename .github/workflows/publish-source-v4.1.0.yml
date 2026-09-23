@@ -100,6 +100,24 @@ jobs:
           $changelog = $changelog.Replace($oldClick, $newClick)
           [IO.File]::WriteAllText((Join-Path $PWD "project/CHANGELOG.md"), $changelog, [Text.UTF8Encoding]::new($false))
 
+      - name: Arşiv Moodboard ve Ayarlar görevlerini uygula
+        shell: pwsh
+        run: |
+          $parts = Get-ChildItem "build-input/archive-moodboard-settings-b64.part*" | Sort-Object Name
+          if ($parts.Count -ne 4) { throw "Arşiv/Moodboard/Ayarlar patch parçaları eksik: $($parts.Count)/4" }
+          $b64 = ($parts | ForEach-Object { Get-Content $_.FullName -Raw }) -join ''
+          [IO.File]::WriteAllBytes((Join-Path $PWD "impl.patch.gz"), [Convert]::FromBase64String($b64))
+          $hash = (Get-FileHash "impl.patch.gz" -Algorithm SHA256).Hash.ToLower()
+          if ($hash -ne "b3cd65cdab9f98aef7db9826244327c850683a9261db97a9ecbdf09fb433c959") { throw "Arşiv/Moodboard/Ayarlar patch checksum hatası: $hash" }
+
+          & "C:\Program Files\Git\bin\bash.exe" -lc "gzip -dc impl.patch.gz > impl.raw.patch"
+          if ($LASTEXITCODE -ne 0) { throw "Implementasyon patch gzip açılamadı." }
+          $raw = Get-Content "impl.raw.patch" -Raw
+          $raw = $raw.Replace("/mnt/data/nero_baseline/nero/","a/").Replace("/mnt/data/nero_impl/nero/","b/")
+          [IO.File]::WriteAllText((Join-Path $PWD "impl-normalized.patch"), $raw, [Text.UTF8Encoding]::new($false))
+          & "C:\Program Files\Git\bin\bash.exe" -lc "cd project && patch -p1 --batch --forward < ../impl-normalized.patch"
+          if ($LASTEXITCODE -ne 0) { throw "Arşiv/Moodboard/Ayarlar implementasyon patch'i uygulanamadı." }
+
       - name: Kaynak bütünlüğünü test et
         shell: pwsh
         working-directory: project
@@ -119,10 +137,50 @@ jobs:
           if ($skins -match 'min-height:\s*150px' -or $skins -match 'min-height:\s*128px') { throw "Eski büyük tema ölçüleri hâlâ mevcut." }
           if ($skins -match 'grid-template-rows:\s*28px auto auto;\s*align-content:\s*start;\s*min-height:\s*110px') { throw "110px override geri gelmiş." }
 
+          foreach ($path in @(
+            "src/main/moodboard.js",
+            "docs/NERO-v4.1.0-ARCHIVE-MOODBOARD-SETTINGS.md",
+            "test/archive-moodboard-settings.test.js",
+            "test/moodboard-electron-smoke.js"
+          )) {
+            if (-not (Test-Path $path)) { throw "Yeni 4.1.0 kaynak dosyası eksik: $path" }
+          }
+
+          $panelHtml = Get-Content "src/renderer/panel/index.html" -Raw
+          $panelJs = Get-Content "src/renderer/panel/panel.js" -Raw
+          $mainJs = Get-Content "src/main/main.js" -Raw
+          $preload = Get-Content "src/preload/preload.js" -Raw
+          if ($panelHtml -match 'data-tab="settings"') { throw "Ayarlar hâlâ navbar içinde." }
+          if ($panelHtml -notmatch 'id="settings-button"') { throw "Üst sağ Ayarlar dişlisi eksik." }
+          if (($panelHtml | Select-String -Pattern 'role="tab" data-tab=' -AllMatches).Matches.Count -ne 5) { throw "Ana navbar 5 sekme değil." }
+          if ($panelHtml -match 'id="mood-strip"') { throw "Eski Son 30 gün mood-strip hâlâ mevcut." }
+          if ($panelHtml -notmatch 'id="user-mood-calendar"' -or $panelHtml -notmatch 'id="nero-mood-calendar"') { throw "Çift moodboard UI eksik." }
+          if ($panelJs -notmatch 'renderMoodboards' -or $panelJs -notmatch 'archive-more') { throw "Moodboard veya Home ilk-5 dropdown renderer davranışı eksik." }
+          if ($mainJs -notmatch "notes:archive" -or $mainJs -notmatch "todos:archive" -or $mainJs -notmatch "todos:archiveDone" -or $mainJs -notmatch "moodboard:set") { throw "Yeni IPC implementasyonu eksik." }
+          if ($preload -notmatch "notes:archive" -or $preload -notmatch "todos:archive" -or $preload -notmatch "moodboard:set") { throw "Yeni IPC preload allowlist eksik." }
+
+          node --check src/main/main.js
+          if ($LASTEXITCODE -ne 0) { throw "main.js syntax hatası." }
+          node --check src/main/journal.js
+          if ($LASTEXITCODE -ne 0) { throw "journal.js syntax hatası." }
+          node --check src/main/moodboard.js
+          if ($LASTEXITCODE -ne 0) { throw "moodboard.js syntax hatası." }
+          node --check src/renderer/panel/panel.js
+          if ($LASTEXITCODE -ne 0) { throw "panel.js syntax hatası." }
+          node --check src/preload/preload.js
+          if ($LASTEXITCODE -ne 0) { throw "preload.js syntax hatası." }
+
           npm install --no-audit --no-fund
           if ($LASTEXITCODE -ne 0) { throw "npm install başarısız." }
           npm test
           if ($LASTEXITCODE -ne 0) { throw "Testler başarısız." }
+
+      - name: Electron moodboard PNG smoke testi
+        shell: pwsh
+        working-directory: project
+        run: |
+          npx electron test/moodboard-electron-smoke.js
+          if ($LASTEXITCODE -ne 0) { throw "Electron moodboard PNG smoke testi başarısız." }
 
       - name: Kaynak ağacını temizle
         shell: pwsh
@@ -149,7 +207,7 @@ jobs:
           git rm -rf . | Out-Null
           Get-ChildItem $publish -Force | ForEach-Object { Copy-Item $_.FullName "." -Recurse -Force }
           git add -A
-          git commit -m "source: Nero 4.1.0 complete source with achievements and theme stats fix"
+          git commit -m "source: Nero 4.1.0 archives moodboards settings and full regression fixes"
           git push --force origin source-v4.1.0
 
       - name: Kaynak zipini build artifact olarak sakla
