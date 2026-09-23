@@ -1616,6 +1616,11 @@ function registerIpc() {
     broadcastState();
     return mood.summary();
   });
+  ipcMain.handle('stats:resetDisplay', () => {
+    stats.resetDisplayBaseline();
+    broadcastState();
+    return stats.summary();
+  });
   ipcMain.handle('panel:hide', () => { hidePanel(); return true; });
   ipcMain.handle('quick:addTodo', async (_e, text) => {
     const clean = String(text || '').trim().slice(0, 300);
