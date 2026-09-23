@@ -8,6 +8,7 @@ const {
   daysInMonthKey,
   userMonth,
   setUserMood,
+  dataMonths,
   closedDataMonths,
   renderMoodboardSvg
 } = require('../src/main/moodboard');
@@ -48,6 +49,24 @@ test('kapanmış veri ayları user ve Nero günlüğünden birlikte bulunur', ()
     '2026-09'
   );
   assert.deepEqual(result, ['2026-07', '2026-08']);
+});
+
+test('geçmiş moodboard menüsü yalnız gerçekten veri bulunan ayları döndürür', () => {
+  const result = dataMonths(
+    { days: {
+      '2026-03-01': 'green',
+      '2026-04-02': null,
+      '2026-09-20': 'yellow',
+      '2030-01-01': 'red'
+    } },
+    { days: {
+      '2026-02-11': { sum: 0, count: 0 },
+      '2026-08-03': { sum: 70, count: 1 },
+      '2025-12-04': { sum: 80, count: 2 }
+    } },
+    '2026-09'
+  );
+  assert.deepEqual(result, ['2025-12', '2026-03', '2026-08', '2026-09']);
 });
 
 test('Nero mood günlüğü bir takvim ayını 5 bucket sistemiyle döndürür', () => {
@@ -136,18 +155,32 @@ test('Ayarlar navbar yerine üst sağ tema uyumlu dişli düğmesindedir', () =>
   assert.match(skins, /settings-btn/);
 });
 
-test('iki moodboard rendererda ayrıdır ve eski Son 30 gün gridine bağlı değildir', () => {
+test('iki moodboard rendererda ayrıdır, kompaktır ve yalnız dolu geçmiş aylara gider', () => {
   const html = fs.readFileSync(path.join(__dirname, '../src/renderer/panel/index.html'), 'utf8');
   const panel = fs.readFileSync(path.join(__dirname, '../src/renderer/panel/panel.js'), 'utf8');
   const css = fs.readFileSync(path.join(__dirname, '../src/renderer/panel/panel.css'), 'utf8');
+  const main = fs.readFileSync(path.join(__dirname, '../src/main/main.js'), 'utf8');
+  const preload = fs.readFileSync(path.join(__dirname, '../src/preload/preload.js'), 'utf8');
   assert.match(html, /Benim Moodboard’um/);
   assert.match(html, /Nero’nun Moodboard’u/);
   assert.match(html, /id="user-mood-calendar"/);
   assert.match(html, /id="nero-mood-calendar"/);
+  assert.match(html, /id="mood-history-toggle"/);
+  assert.match(html, /id="mood-history-popover"/);
+  assert.match(html, /id="moodboard-prev"/);
+  assert.match(html, /id="moodboard-next"/);
+  assert.match(html, /id="moodboard-current"/);
   assert.doesNotMatch(html, /id="mood-strip"/);
   assert.match(panel, /moodboard:set/);
-  assert.match(css, /\.mood-calendar/);
-  assert.match(css, /repeat\(7/);
+  assert.match(panel, /moodboard:get/);
+  assert.match(panel, /geçmiş kayıt · salt okunur/);
+  assert.match(panel, /gridColumnStart/);
+  assert.match(main, /ipcMain\.handle\('moodboard:get'/);
+  assert.match(main, /dataMonths\(/);
+  assert.match(preload, /'moodboard:get'/);
+  assert.match(css, /grid-template-columns:\s*repeat\(7, 36px\)/);
+  assert.match(css, /row-gap:\s*10px/);
+  assert.match(css, /\.mood-history-popover/);
 });
 
 test('moodboard ve yeni arşiv verileri backup snapshotına dahil edilir', () => {
