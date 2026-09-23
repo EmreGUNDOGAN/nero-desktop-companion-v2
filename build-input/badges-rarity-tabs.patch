@@ -1,0 +1,195 @@
+--- a/src/renderer/panel/index.html
++++ b/src/renderer/panel/index.html
+@@ -164,11 +164,17 @@
+       <!-- ROZETLER -->
+       <section class="view" id="view-badges" role="tabpanel" hidden>
+         <div class="card badges">
+-            <div class="card-head"><h3>Rozetler</h3><span id="badge-count"></span></div>
+-            <ul class="badge-grid" id="badge-grid"></ul>
++          <div class="card-head"><h3>Rozetler</h3><span id="badge-count"></span></div>
++          <div class="badge-rarity-tabs" id="badge-rarity-tabs" role="tablist" aria-label="Rozet kategorileri">
++            <button type="button" role="tab" data-rarity="yaygin" aria-selected="true">Yaygın</button>
++            <button type="button" role="tab" data-rarity="siradisi" aria-selected="false">Sıradışı</button>
++            <button type="button" role="tab" data-rarity="nadir" aria-selected="false">Nadir</button>
++            <button type="button" role="tab" data-rarity="efsanevi" aria-selected="false">Efsanevi</button>
++            <button type="button" role="tab" data-rarity="gizli" aria-selected="false" hidden>Gizli</button>
++          </div>
++          <div class="badge-category-meta"><strong id="badge-category-title">Yaygın</strong><span id="badge-category-count"></span></div>
++          <ul class="badge-grid" id="badge-grid"></ul>
+         </div>
+-
+-        <button class="pill more-badges" id="badges-more" type="button"></button>
+       </section>
+ 
+       <!-- NOTLAR -->
+--- a/src/renderer/panel/panel.js
++++ b/src/renderer/panel/panel.js
+@@ -744,28 +744,62 @@
+     return m ? `${h} sa ${m} dk` : `${h} saat`;
+   }
+ 
+-  const BADGE_PAGE = 20;
+-  let badgesExpanded = false;
++  const BADGE_RARITY_LABELS = {
++    yaygin: 'Yaygın',
++    siradisi: 'Sıradışı',
++    nadir: 'Nadir',
++    efsanevi: 'Efsanevi',
++    gizli: 'Gizli'
++  };
++  let activeBadgeRarity = 'yaygin';
++
++  function renderBadgeRarityTabs(list) {
++    const tabs = [...document.querySelectorAll('#badge-rarity-tabs [data-rarity]')];
++    const discoveredHidden = list.some((a) => a.rarity === 'gizli' && a.unlockedAt);
++    for (const tab of tabs) {
++      const rarity = tab.dataset.rarity;
++      if (rarity === 'gizli') tab.hidden = !discoveredHidden;
++      const selected = rarity === activeBadgeRarity && !tab.hidden;
++      tab.setAttribute('aria-selected', selected ? 'true' : 'false');
++      tab.tabIndex = selected ? 0 : -1;
++    }
++    if (activeBadgeRarity === 'gizli' && !discoveredHidden) {
++      activeBadgeRarity = 'yaygin';
++      return renderBadgeRarityTabs(list);
++    }
++  }
+ 
+   function renderBadges() {
+     const list = state.achievements || [];
+-    const got = list.filter((a) => a.unlockedAt).length;
+-    $('badge-count').textContent = `${got} / ${list.length}`;
++    const normal = list.filter((a) => a.rarity !== 'gizli');
++    const got = normal.filter((a) => a.unlockedAt).length;
++    $('badge-count').textContent = `${got} / 100`;
++    renderBadgeRarityTabs(list);
++
++    const filtered = list.filter((a) => a.rarity === activeBadgeRarity);
++    const unlockedInCategory = filtered.filter((a) => a.unlockedAt).length;
++    $('badge-category-title').textContent = BADGE_RARITY_LABELS[activeBadgeRarity] || 'Rozetler';
++    $('badge-category-count').textContent = activeBadgeRarity === 'gizli'
++      ? `${unlockedInCategory} keşfedildi`
++      : `${unlockedInCategory} / ${filtered.length}`;
++
+     const grid = $('badge-grid');
+     grid.textContent = '';
+-    // Kazanılanlar önce, en yeni en başta
+-    const sorted = [...list].sort((a, b) => (b.unlockedAt || 0) - (a.unlockedAt || 0));
+-    const shown = badgesExpanded ? sorted : sorted.slice(0, BADGE_PAGE);
+-    for (const a of shown) {
++    // Seçili nadirlikte kazanılanlar önce, en yeni en başta.
++    const sorted = [...filtered].sort((a, b) => {
++      const unlockedDiff = Number(Boolean(b.unlockedAt)) - Number(Boolean(a.unlockedAt));
++      if (unlockedDiff) return unlockedDiff;
++      return (b.unlockedAt || 0) - (a.unlockedAt || 0);
++    });
++    for (const a of sorted) {
+       const li = document.createElement('li');
+-      li.className = `badge${a.unlockedAt ? ' on' : ''}`;
++      li.className = `badge badge-${a.rarity}${a.unlockedAt ? ' on' : ''}`;
+       const icon = document.createElement('span');
+       icon.className = 'badge-icon';
+       icon.textContent = a.unlockedAt ? a.icon : '?';
+       const name = document.createElement('span');
+       name.className = 'badge-name';
+       name.textContent = a.title;
+-      // Kilitli rozetin de adı ve nasıl kazanılacağı görünür
+       const desc = document.createElement('span');
+       desc.className = 'badge-desc';
+       desc.textContent = a.unlockedAt ? new Date(a.unlockedAt).toLocaleDateString('tr-TR') : a.desc;
+@@ -782,11 +816,27 @@
+       }
+       grid.appendChild(li);
+     }
+-    const rest = sorted.length - shown.length;
+-    const more = $('badges-more');
+-    more.hidden = sorted.length <= BADGE_PAGE;
+-    more.textContent = badgesExpanded ? 'Daha azını göster' : `Kalan ${rest} rozeti göster`;
+   }
+ 
+-  $('badges-more').addEventListener('click', () => { badgesExpanded = !badgesExpanded; renderBadges(); });
++  $('badge-rarity-tabs').addEventListener('click', (event) => {
++    const tab = event.target.closest('[data-rarity]');
++    if (!tab || tab.hidden) return;
++    activeBadgeRarity = tab.dataset.rarity;
++    renderBadges();
++  });
++
++  $('badge-rarity-tabs').addEventListener('keydown', (event) => {
++    if (!['ArrowLeft', 'ArrowRight'].includes(event.key)) return;
++    const tabs = [...document.querySelectorAll('#badge-rarity-tabs [data-rarity]:not([hidden])')];
++    const current = tabs.findIndex((tab) => tab.dataset.rarity === activeBadgeRarity);
++    if (current < 0 || !tabs.length) return;
++    event.preventDefault();
++    const delta = event.key === 'ArrowRight' ? 1 : -1;
++    const next = tabs[(current + delta + tabs.length) % tabs.length];
++    activeBadgeRarity = next.dataset.rarity;
++    renderBadges();
++    next.focus();
++  });
+ 
+   function renderUpdate() {
+     const u = state.update || {};
+--- a/src/renderer/panel/panel.css
++++ b/src/renderer/panel/panel.css
+@@ -596,6 +596,29 @@
+ 
+ /* ---------- Rozetler ---------- */
+ .badges { margin: 0; }
++.badge-rarity-tabs {
++  display: flex; gap: 6px; margin: 2px 0 12px; padding: 3px; overflow-x: auto;
++  scrollbar-width: none; border-radius: 12px; background: color-mix(in srgb, var(--paper) 72%, transparent);
++}
++.badge-rarity-tabs::-webkit-scrollbar { display: none; }
++.badge-rarity-tabs button {
++  flex: 0 0 auto; border: 1px solid color-mix(in srgb, var(--line) 72%, transparent);
++  border-radius: 999px; padding: 6px 10px; background: var(--surface); color: var(--muted);
++  font: 750 10.5px/1 var(--text); cursor: pointer; white-space: nowrap;
++}
++.badge-rarity-tabs button:hover { color: var(--ink); }
++.badge-rarity-tabs button[aria-selected="true"] {
++  background: var(--accent); color: var(--accent-ink); border-color: var(--accent);
++  box-shadow: 0 2px 7px rgba(0, 0, 0, .10);
++}
++.badge-rarity-tabs button:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
++.badge-rarity-tabs button[hidden] { display: none; }
++.badge-category-meta {
++  display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin: 0 2px 10px;
++  color: var(--muted); font-size: 10.5px;
++}
++.badge-category-meta strong { color: var(--ink); font-size: 12px; }
+ .badge-grid {
+   list-style: none; margin: 0; padding: 0;
+   display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 14px 8px;
+@@ -622,8 +645,6 @@
+   opacity: 1; visibility: visible; transform: translate(-50%, 0);
+ }
+ .badge.on:focus .badge-icon { outline: 2px solid var(--accent); outline-offset: 2px; }
+-.more-badges { display: block; margin: 14px auto 0; }
+-.more-badges[hidden] { display: none; }
+ .scene-row { display: none; }
+ 
+ /* ---------- Hatırlatma saati ---------- */
+--- a/test/achievements.test.js
++++ b/test/achievements.test.js
+@@ -83,3 +83,19 @@
+   assert.match(css, /\.badge\.on:hover \.badge-tooltip/);
+   assert.match(css, /\.badge\.on:focus \.badge-tooltip/);
+ });
++
++
++test('rozetler nadirlik sekmelerine ayrılır ve tek kategori render edilir', () => {
++  const html = fs.readFileSync(path.join(__dirname, '../src/renderer/panel/index.html'), 'utf8');
++  const js = fs.readFileSync(path.join(__dirname, '../src/renderer/panel/panel.js'), 'utf8');
++  const css = fs.readFileSync(path.join(__dirname, '../src/renderer/panel/panel.css'), 'utf8');
++  for (const rarity of ['yaygin', 'siradisi', 'nadir', 'efsanevi', 'gizli']) {
++    assert.match(html, new RegExp(`data-rarity="${rarity}"`));
++  }
++  assert.match(js, /activeBadgeRarity/);
++  assert.match(js, /a\.rarity === activeBadgeRarity/);
++  assert.match(js, /discoveredHidden/);
++  assert.doesNotMatch(js, /BADGE_PAGE/);
++  assert.doesNotMatch(html, /badges-more/);
++  assert.match(css, /\.badge-rarity-tabs/);
++  assert.match(css, /aria-selected="true"/);
++});
