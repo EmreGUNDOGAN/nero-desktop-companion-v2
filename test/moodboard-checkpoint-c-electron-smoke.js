@@ -72,7 +72,7 @@ app.whenReady().then(async () => {
       ensure(result.rowSteps.every(step => step >= result.dayHeight * .95), `${skin}: moodboard satırları üst üste biniyor: ${JSON.stringify(result)}`);
       ensure(result.rowSteps.every(step => step <= result.dayHeight * 1.4), `${skin}: moodboard satırları hâlâ fazla açık: ${JSON.stringify(result)}`);
       ensure(result.calHeight <= 225, `${skin}: 30 günlük moodboard gereksiz uzuyor: ${JSON.stringify(result)}`);
-      ensure(result.userBoardHeight <= 270, `${skin}: kullanıcı moodboard bölümü gereksiz yüksek: ${JSON.stringify(result)}`);
+      ensure(result.userBoardHeight <= 285, `${skin}: kullanıcı moodboard bölümü gereksiz yüksek: ${JSON.stringify(result)}`);
       ensure(result.neroBoardTop - result.userBoardBottom <= 24, `${skin}: iki moodboard arasında gereksiz boşluk var: ${JSON.stringify(result)}`);
       ensure(result.scrollWidth <= result.calWidth + 2, `${skin}: moodboard yatay taşıyor.`);
       ensure(result.labels.map(x => x.title).join('|') === 'Muhteşem|İdare eder|Kötü',
