@@ -62,9 +62,12 @@ jobs:
           if ($html -notmatch 'id="notes-archive"' -or $html -notmatch 'id="todos-archive"') { throw "Arşiv drawerları eksik." }
           if ($html -notmatch 'id="archive-more"') { throw "Home ilk-5 dropdown eksik." }
 
-          foreach ($channel in @("notes:archive","notes:unarchive","todos:archive","todos:unarchive","todos:archiveDone","moodboard:set")) {
+          foreach ($channel in @("notes:archive","todos:archive","todos:archiveDone","moodboard:set")) {
             if ($main -notmatch [regex]::Escape($channel)) { throw "Main IPC eksik: $channel" }
             if ($preload -notmatch [regex]::Escape($channel)) { throw "Preload IPC eksik: $channel" }
+          }
+          if ($panel -notmatch "notes:archive', note.id, false" -or $panel -notmatch "todos:archive', todo.id, false") {
+            throw "Arşivden geri alma davranışı eksik."
           }
 
           foreach ($skin in @("latte","pazartesi","gece","disket","kasaba","yagmur","kar","cilek","mum","ege")) {
