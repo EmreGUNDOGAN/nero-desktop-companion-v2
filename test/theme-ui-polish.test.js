@@ -9,6 +9,9 @@ const skinsCss = fs.readFileSync(path.join(__dirname, '../src/renderer/panel/ski
 
 test('başlık kontrolleri tek no-drag hit area içinde ve tıklanabilir kalır', () => {
   assert.match(html, /class="window-controls"[^>]*role="group"/);
+  const controlsAt = html.indexOf('class="window-controls"');
+  const headerAt = html.indexOf('<header class="top">');
+  assert.ok(controlsAt > 0 && headerAt > controlsAt, 'window-controls draggable header dışında ve shell içinde olmalı');
   for (const id of ['settings-button', 'pin', 'minimize', 'close']) {
     assert.match(html, new RegExp(`id="${id}"`));
   }
