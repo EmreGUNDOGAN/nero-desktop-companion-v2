@@ -61,7 +61,7 @@ app.whenReady().then(async () => {
           const shell = document.querySelector('.shell').getBoundingClientRect();
           const help = document.querySelector('.week .section-help');
           help.click();
-          const tip = help.querySelector('.section-tooltip').getBoundingClientRect();
+          const tip = document.getElementById('section-tooltip-layer').getBoundingClientRect();
           const reset = document.getElementById('stats-reset');
           const dialogue = document.querySelector('.nero-says');
           const dialogueStyle = getComputedStyle(dialogue);
