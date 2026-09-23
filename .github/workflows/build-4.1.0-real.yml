@@ -88,6 +88,10 @@ jobs:
           [IO.File]::WriteAllBytes((Join-Path $PWD "project/package.json"), [Convert]::FromBase64String($pkgB64))
           if (Test-Path "project/package-lock.json") { Remove-Item "project/package-lock.json" -Force }
 
+          # Final test dosyası app.asar içinde doğal olarak bulunmaz; build girdisinden ekle.
+          New-Item -ItemType Directory -Force -Path "project/test" | Out-Null
+          Copy-Item "build-input/home-dialogue.test.js" "project/test/home-dialogue.test.js" -Force
+
       - name: Setup ve tema uyumluluğunu doğrula
         shell: pwsh
         run: |
