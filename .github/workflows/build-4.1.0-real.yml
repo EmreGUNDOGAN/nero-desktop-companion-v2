@@ -1,0 +1,97 @@
+name: Nero 4.1.0 gerçek NSIS test build
+
+on:
+  push:
+    branches: [build-v4.1.0-real-installer]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Build dalını al
+        uses: actions/checkout@v4
+
+      - name: Node.js kur
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Nero 4.0.4 gerçek installer'ını release'ten indir
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          New-Item -ItemType Directory -Force -Path base | Out-Null
+          $releases = gh release list --limit 100 --json tagName,name | ConvertFrom-Json
+          $rel = $releases | Where-Object { $_.tagName -match '4\.0\.4' -or $_.name -match '4\.0\.4' } | Select-Object -First 1
+          if (-not $rel) { throw "4.0.4 GitHub Release bulunamadı." }
+          Write-Host "Baz release: $($rel.tagName)"
+          gh release download $rel.tagName --pattern "Nero-Setup-4.0.4.exe" --dir base
+          if (-not (Test-Path "base/Nero-Setup-4.0.4.exe")) { throw "Nero-Setup-4.0.4.exe release asset bulunamadı." }
+
+      - name: 4.0.4 installer içinden gerçek uygulamayı çıkar
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path base/nsis | Out-Null
+          & 7z x "base/Nero-Setup-4.0.4.exe" "-obase/nsis" -y
+          $appArchive = Get-ChildItem "base/nsis" -Recurse -File | Where-Object { $_.Name -match '^app-.*\.7z$' } | Select-Object -First 1
+          if (-not $appArchive) { throw "Installer içinde app-*.7z bulunamadı." }
+          New-Item -ItemType Directory -Force -Path base/app | Out-Null
+          & 7z x $appArchive.FullName "-obase/app" -y
+          if (-not (Test-Path "base/app/resources/app.asar")) { throw "4.0.4 app.asar çıkarılamadı." }
+
+      - name: 4.0.4 app.asar kaynaklarını aç
+        shell: pwsh
+        run: |
+          npm install --global @electron/asar
+          asar extract "base/app/resources/app.asar" "project"
+          if (Test-Path "project/node_modules") { Remove-Item "project/node_modules" -Recurse -Force }
+          if (Test-Path "project/themes") { Remove-Item "project/themes" -Recurse -Force }
+          Copy-Item "base/app/resources/themes" "project/themes" -Recurse -Force
+
+      - name: 4.1.0 overlay arşivini oluştur ve uygula
+        shell: pwsh
+        run: |
+          $parts = Get-ChildItem "build-input/overlay.part.*" | Sort-Object Name
+          if ($parts.Count -lt 1) { throw "Overlay parçaları bulunamadı." }
+          $b64 = ($parts | ForEach-Object { Get-Content $_.FullName -Raw }) -join ''
+          [IO.File]::WriteAllBytes("overlay.zip", [Convert]::FromBase64String($b64))
+          Expand-Archive -Path "overlay.zip" -DestinationPath "project" -Force
+
+      - name: Eski setup tasarımının birebir korunduğunu doğrula
+        shell: pwsh
+        run: |
+          $pkg = Get-Content "project/package.json" -Raw | ConvertFrom-Json
+          if ($pkg.version -ne "4.1.0") { throw "Sürüm 4.1.0 değil." }
+          if ($pkg.build.nsis.include -ne "build/installer.nsh") { throw "installer.nsh bağlantısı eksik." }
+          if ($pkg.build.nsis.installerSidebar -ne "build/installerSidebar.bmp") { throw "Eski sidebar kullanılmıyor." }
+          if ($pkg.build.nsis.installerHeader -ne "build/installerHeader.bmp") { throw "Eski header kullanılmıyor." }
+          if ($pkg.build.nsis.language -ne "1055") { throw "Türkçe installer dili korunmamış." }
+          if ($pkg.build.nsis.installerLanguages -notcontains "tr_TR") { throw "tr_TR installer dili korunmamış." }
+
+      - name: Bağımlılıkları kur ve testleri çalıştır
+        shell: pwsh
+        working-directory: project
+        run: |
+          npm ci
+          npm test
+
+      - name: 4.0.4 ile aynı Electron Builder + NSIS zincirinden setup üret
+        shell: pwsh
+        working-directory: project
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+        run: npm run dist
+
+      - name: Installer dosyalarını artifact olarak yükle
+        uses: actions/upload-artifact@v4
+        with:
+          name: Nero-4.1.0-real-installer
+          path: |
+            project/dist/Nero-Setup-4.1.0.exe
+            project/dist/Nero-Setup-4.1.0.exe.blockmap
+            project/dist/latest.yml
+          if-no-files-found: error
