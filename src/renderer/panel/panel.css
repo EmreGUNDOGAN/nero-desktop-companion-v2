@@ -579,7 +579,7 @@ main { overflow: hidden; position: relative; flex: 1 1 auto; min-height: 0; }
 
 .nero-says {
   position: relative;
-  display: flex; align-items: flex-start; gap: 10px;
+  display: flex; align-items: center; gap: 10px;
   padding-right: 18px;
   margin-bottom: 0;
 }
@@ -611,6 +611,90 @@ main { overflow: hidden; position: relative; flex: 1 1 auto; min-height: 0; }
 .card h3 { margin: 0; font: 600 16px/1.2 var(--serif); font-variation-settings: "SOFT" 100, "opsz" 24; }
 .card-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
 .card-head span { font: 600 16px/1 var(--hand); color: var(--muted); }
+
+.section-heading { position: relative; display: inline-flex; align-items: center; gap: 6px; min-width: 0; }
+.section-help {
+  position: relative;
+  flex: none;
+  width: 20px; height: 20px; padding: 0;
+  display: grid; place-items: center;
+  border: 1px solid color-mix(in srgb, var(--line) 86%, transparent);
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--surface) 90%, transparent);
+  color: var(--muted);
+  font: 800 11px/1 var(--text);
+  box-shadow: none;
+}
+.section-help:hover, .section-help:focus-visible, .section-help.open { color: var(--ink); border-color: var(--accent); background: var(--surface); }
+.section-tooltip {
+  position: absolute; z-index: 70;
+  left: 50%; top: calc(100% + 7px); translate: -50% 0;
+  width: max-content; max-width: min(250px, 68vw);
+  padding: 8px 10px;
+  border: 1px solid var(--line); border-radius: 10px;
+  background: var(--surface);
+  color: var(--ink) !important;
+  box-shadow: var(--soft-shadow);
+  font: 650 11px/1.35 var(--text) !important;
+  text-align: left;
+  white-space: normal;
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transform: translateY(-3px);
+  transition: opacity .14s ease, transform .14s ease, visibility .14s ease;
+}
+.section-tooltip::before {
+  content: ""; position: absolute; left: 50%; top: -5px;
+  width: 8px; height: 8px; translate: -50% 0; rotate: 45deg;
+  background: var(--surface); border-left: 1px solid var(--line); border-top: 1px solid var(--line);
+}
+.section-help:hover .section-tooltip,
+.section-help:focus-visible .section-tooltip,
+.section-help.open .section-tooltip {
+  opacity: 1; visibility: visible; transform: translateY(0);
+}
+
+.totals-head { align-items: center; }
+.stats-reset {
+  flex: none; width: 26px; height: 26px; padding: 0;
+  display: grid; place-items: center;
+  border: 1px solid color-mix(in srgb, var(--line) 86%, transparent);
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  color: var(--muted);
+}
+.stats-reset svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.stats-reset:hover, .stats-reset:focus-visible { color: var(--ink); border-color: var(--accent); }
+.stats-reset.has-baseline { color: var(--accent-ink); background: color-mix(in srgb, var(--accent) 55%, var(--surface)); }
+
+.confirm-backdrop {
+  position: absolute; inset: 0; z-index: 120;
+  display: grid; place-items: center;
+  padding: 22px;
+  background: rgba(38, 28, 26, .34);
+  backdrop-filter: blur(4px);
+}
+.confirm-backdrop[hidden] { display: none; }
+.confirm-card {
+  width: min(360px, 100%);
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--surface);
+  box-shadow: 0 18px 48px rgba(35, 24, 22, .24);
+  text-align: center;
+}
+.confirm-nero {
+  width: 38px; height: 38px; margin: 0 auto 10px;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--accent-ink);
+  font: 800 20px/1 var(--serif);
+}
+.confirm-card h3 { margin: 0 0 8px; font: 650 19px/1.2 var(--serif); }
+.confirm-card p { margin: 0; color: var(--muted); font-size: 12.5px; line-height: 1.55; }
+.confirm-actions { display: flex; justify-content: center; gap: 8px; margin-top: 16px; }
+.confirm-actions .pill { padding: 9px 15px; }
 .week, .totals, .quote { margin: 0; }
 .bars { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 7px; align-items: end; height: 76px; }
 .bar { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 5px; height: 100%; }
@@ -659,6 +743,7 @@ main { overflow: hidden; position: relative; flex: 1 1 auto; min-height: 0; }
 }
 @container (max-width: 560px) {
   .tabs svg { display: none; }
+  .section-tooltip { max-width: 210px; }
 }
 
 /* Sağ alt köşedeki sürüm etiketi */
