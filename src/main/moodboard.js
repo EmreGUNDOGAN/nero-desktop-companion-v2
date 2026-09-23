@@ -63,17 +63,21 @@ function setUserMood(data, date, value) {
   return next;
 }
 
-function closedDataMonths(userData, neroData, current = monthKey()) {
+function dataMonths(userData, neroData, current = monthKey()) {
   const months = new Set();
-  for (const key of Object.keys(userData?.days || {})) {
-    const mk = key.slice(0, 7);
-    if (validMonthKey(mk) && mk < current) months.add(mk);
+  for (const [date, value] of Object.entries(userData?.days || {})) {
+    const mk = String(date).slice(0, 7);
+    if (validMonthKey(mk) && mk <= current && USER_MOODS.has(value)) months.add(mk);
   }
-  for (const key of Object.keys(neroData?.days || {})) {
-    const mk = key.slice(0, 7);
-    if (validMonthKey(mk) && mk < current) months.add(mk);
+  for (const [date, row] of Object.entries(neroData?.days || {})) {
+    const mk = String(date).slice(0, 7);
+    if (validMonthKey(mk) && mk <= current && row && Number(row.count) > 0) months.add(mk);
   }
   return [...months].sort();
+}
+
+function closedDataMonths(userData, neroData, current = monthKey()) {
+  return dataMonths(userData, neroData, current).filter((mk) => mk < current);
 }
 
 function esc(value) {
@@ -141,6 +145,7 @@ module.exports = {
   monthLabelTr,
   userMonth,
   setUserMood,
+  dataMonths,
   closedDataMonths,
   renderMoodboardSvg
 };
