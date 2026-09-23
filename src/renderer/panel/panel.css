@@ -871,7 +871,8 @@ main { overflow: hidden; position: relative; flex: 1 1 auto; min-height: 0; }
   .todo-add { grid-template-columns: minmax(90px, 1fr) minmax(90px, 1fr) 44px; }
   .todo-duration, .todo-time { width: 100%; }
   .todo-time input { width: 52px; }
-  .mood-calendar { grid-template-columns: repeat(7, 32px); row-gap: 8px; }
+  .mood-calendar { grid-template-columns: repeat(7, minmax(0, 1fr)); grid-auto-rows: 32px; column-gap: 4px; row-gap: 5px; }
+  .mood-day-wrap { height: 32px; }
   .mood-day { width: 32px; height: 32px; }
   .mood-board-head > span { display: none; }
   .moodboard-nav > span { min-width: 70px; font-size: 10.5px; }
@@ -936,7 +937,7 @@ main { overflow: hidden; position: relative; flex: 1 1 auto; min-height: 0; }
 .mood-current-btn[hidden] { display: none; }
 
 .mood-board { position: relative; }
-.mood-board + .mood-board { margin-top: 11px; padding-top: 11px; border-top: 1px solid color-mix(in srgb, var(--line) 72%, transparent); }
+.mood-board + .mood-board { margin-top: 14px; padding-top: 14px; border-top: 1px solid color-mix(in srgb, var(--line) 72%, transparent); }
 .mood-board-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 0 0 7px; }
 .mood-board-title { display: flex; align-items: center; gap: 6px; min-width: 0; }
 .mood-board-head strong { font-size: 12.5px; color: var(--ink); }
@@ -968,13 +969,21 @@ main { overflow: hidden; position: relative; flex: 1 1 auto; min-height: 0; }
 
 .mood-calendar {
   display: grid;
-  grid-template-columns: repeat(7, 36px);
-  justify-content: space-between;
-  column-gap: 5px;
-  row-gap: 10px;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  grid-auto-rows: 36px;
+  align-content: start;
+  align-items: start;
+  column-gap: 6px;
+  row-gap: 6px;
   overflow: visible;
 }
-.mood-day-wrap { position: relative; display: grid; place-items: center; min-width: 0; }
+.mood-day-wrap {
+  position: relative;
+  display: grid;
+  place-items: start center;
+  min-width: 0;
+  height: 36px;
+}
 .mood-day {
   width: 36px; height: 36px; padding: 0; border-radius: 50%;
   display: grid; place-items: center; border: 1.5px solid color-mix(in srgb, var(--line) 86%, transparent);
