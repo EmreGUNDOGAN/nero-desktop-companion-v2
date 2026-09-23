@@ -82,64 +82,9 @@ jobs:
           & "C:\Program Files\Git\bin\bash.exe" -lc "cd project && patch -p1 --batch --forward < ../home-stats-normalized.patch || true"
 
           $changelog = Get-Content "project/CHANGELOG.md" -Raw
-          if ($changelog -notmatch 'Tüm temalarda ana sayfa istatistik alanı yeniden sıkılaştırıldı') {
-            $marker = '### Değişti'
-            $lines = @(
-              '### Düzeltildi',
-              '- **Tüm temalarda ana sayfa istatistik alanı yeniden sıkılaştırıldı:** dört günlük istatistik kartı gereksiz dikey boşluk bırakmıyor.',
-              '- **Bu hafta odak grafiği kompaktlaştırıldı;** grafik alanı paneli gereksiz yere uzatmıyor.',
-              '- Disket, Kasaba, Yağmur, Kar, Çilekli Piknik, Mum Işığı ve Ege Yazı temalarının özel istatistik stilleri ortak boyut kurallarıyla çakışmayacak şekilde düzenlendi.',
-              '- Hava/resimli temalardaki sonradan gelen CSS override artık kartları tekrar 110px yüksekliğe zorlamıyor.',
-              ''
-            )
-            $note = ($lines -join [Environment]::NewLine) + [Environment]::NewLine
-            $changelog = $changelog.Replace($marker, $note + $marker)
-          }
-          $oldClick = '- Konuşma kartına tıklayınca mevcut Home cümlesi gizlenebilir; bu işlem yeni replik üretmez.'
-          $newClick = '- Konuşma kartına tıklamak mevcut Home cümlesini artık gizlemez; replik yalnızca otomatik zamanlayıcıyla değişir.'
-          $changelog = $changelog.Replace($oldClick, $newClick)
-          [IO.File]::WriteAllText((Join-Path $PWD "project/CHANGELOG.md"), $changelog, [Text.UTF8Encoding]::new($false))
-
-      - name: Arşiv Moodboard ve Ayarlar görevlerini uygula
-        shell: pwsh
-        run: |
-          $parts = Get-ChildItem "build-input/archive-moodboard-settings-b64.part*" | Sort-Object Name
-          if ($parts.Count -ne 4) { throw "Arşiv/Moodboard/Ayarlar patch parçaları eksik: $($parts.Count)/4" }
-          $b64 = ($parts | ForEach-Object { Get-Content $_.FullName -Raw }) -join ''
-          [IO.File]::WriteAllBytes((Join-Path $PWD "impl.patch.gz"), [Convert]::FromBase64String($b64))
-          $hash = (Get-FileHash "impl.patch.gz" -Algorithm SHA256).Hash.ToLower()
-          if ($hash -ne "b3cd65cdab9f98aef7db9826244327c850683a9261db97a9ecbdf09fb433c959") { throw "Arşiv/Moodboard/Ayarlar patch checksum hatası: $hash" }
-
-          & "C:\Program Files\Git\bin\bash.exe" -lc "gzip -dc impl.patch.gz > impl.raw.patch"
-          if ($LASTEXITCODE -ne 0) { throw "Implementasyon patch gzip açılamadı." }
-          $raw = Get-Content "impl.raw.patch" -Raw
-          $raw = $raw.Replace("/mnt/data/nero_baseline/nero/","a/").Replace("/mnt/data/nero_impl/nero/","b/")
-          [IO.File]::WriteAllText((Join-Path $PWD "impl-normalized.patch"), $raw, [Text.UTF8Encoding]::new($false))
-          # CHANGELOG hunk'ı bir önceki tema düzeltmesi tarafından aynı bölgede değiştirildiği için
-          # yalnız CHANGELOG çakışmasına izin veriyoruz; diğer kaynak hunks daha sonra doğrulanır.
-          & "C:\Program Files\Git\bin\bash.exe" -lc "cd project && patch -p1 --batch --forward < ../impl-normalized.patch || true"
-
-          $rejects = Get-ChildItem "project" -Recurse -File -Filter "*.rej"
-          $unexpected = $rejects | Where-Object { $_.Name -ne "CHANGELOG.md.rej" }
-          if ($unexpected) { throw "Implementasyon patch'inde beklenmeyen reject var: $($unexpected.FullName -join ', ')" }
-
-          $changelog = Get-Content "project/CHANGELOG.md" -Raw
           if ($changelog -notmatch '### Arşiv, Moodboard ve Ayarlar düzeni') {
             $marker = '### Achievement sistemi v2'
-            $lines = @(
-              '### Arşiv, Moodboard ve Ayarlar düzeni',
-              '- **İşler arşivi:** tamamlanan işler artık kullanıcı istediğinde manuel olarak arşivlenebilir; İşler sayfasının altındaki Arşivler alanında ay ay açılır/kapanır gruplarda tutulur ve geri alınabilir.',
-              '- **Not arşivi:** notlar manuel olarak arşivlenebilir; aktif not listesinden çıkar, aylık Arşivler bölümünde saklanır ve geri alınabilir.',
-              '- Ana sayfadaki **“Bu ay yaptıkların”** bölümü ilk 5 işi gösterir; daha fazlası açılır/kapanır bir listede tutulur. En yeni tamamlanan iş her zaman üsttedir.',
-              '- **Benim Moodboard’um:** ayın her günü için kullanıcı yeşil/sarı/kırmızı seçim yapabilir; gelecek günler seçilemez ve ay değişince yeni ay boş başlar.',
-              '- **Nero’nun Moodboard’u:** mevcut otomatik happiness günlüğü korunarak son 30 gün yerine gerçek takvim ayı görünümüne taşındı.',
-              '- Kapanmış ayların kullanıcı + Nero moodboard’u birlikte **PNG olarak Resimler/Nero Moodboards** klasörüne kaydedilir; ham JSON geçmişi silinmez.',
-              '- Moodboard tasarımı ve arşiv bileşenleri tüm yerleşik temaların görsel diline uyarlanır.',
-              '- **Ayarlar** ana sekme çubuğundan kaldırıldı ve üst sağda, pin düğmesinin solunda tema uyumlu bir dişli düğmesine taşındı.',
-              '- Yeni arşiv ve moodboard verileri Nero''nun dışa aktarma / otomatik yedek snapshot''ına dahil edildi.',
-              ''
-            )
-            $section = ($lines -join [Environment]::NewLine) + [Environment]::NewLine
+            $section = [Text.Encoding]::UTF8.GetString([Convert]::FromBase64String("IyMjIEFyxZ9pdiwgTW9vZGJvYXJkIHZlIEF5YXJsYXIgZMO8emVuaQotICoqxLDFn2xlciBhcsWfaXZpOioqIHRhbWFtbGFuYW4gacWfbGVyIGFydMSxayBrdWxsYW7EsWPEsSBpc3RlZGnEn2luZGUgbWFudWVsIG9sYXJhayBhcsWfaXZsZW5lYmlsaXI7IMSwxZ9sZXIgc2F5ZmFzxLFuxLFuIGFsdMSxbmRha2kgQXLFn2l2bGVyIGFsYW7EsW5kYSBheSBheSBhw6fEsWzEsXIva2FwYW7EsXIgZ3J1cGxhcmRhIHR1dHVsdXIgdmUgZ2VyaSBhbMSxbmFiaWxpci4KLSAqKk5vdCBhcsWfaXZpOioqIG5vdGxhciBtYW51ZWwgb2xhcmFrIGFyxZ9pdmxlbmViaWxpcjsgYWt0aWYgbm90IGxpc3Rlc2luZGVuIMOnxLFrYXIsIGF5bMSxayBBcsWfaXZsZXIgYsO2bMO8bcO8bmRlIHNha2xhbsSxciB2ZSBnZXJpIGFsxLFuYWJpbGlyLgotIEFuYSBzYXlmYWRha2kgKirigJxCdSBheSB5YXB0xLFrbGFyxLFu4oCdKiogYsO2bMO8bcO8IGlsayA1IGnFn2kgZ8O2c3RlcmlyOyBkYWhhIGZhemxhc8SxIGHDp8SxbMSxci9rYXBhbsSxciBiaXIgbGlzdGVkZSB0dXR1bHVyLiBFbiB5ZW5pIHRhbWFtbGFuYW4gacWfIGhlciB6YW1hbiDDvHN0dGVkaXIuCi0gKipCZW5pbSBNb29kYm9hcmTigJl1bToqKiBhecSxbiBoZXIgZ8O8bsO8IGnDp2luIGt1bGxhbsSxY8SxIHllxZ9pbC9zYXLEsS9rxLFybcSxesSxIHNlw6dpbSB5YXBhYmlsaXI7IGdlbGVjZWsgZ8O8bmxlciBzZcOnaWxlbWV6IHZlIGF5IGRlxJ9pxZ9pbmNlIHllbmkgYXkgYm/FnyBiYcWfbGFyLgotICoqTmVyb+KAmW51biBNb29kYm9hcmTigJl1OioqIG1ldmN1dCBvdG9tYXRpayBoYXBwaW5lc3MgZ8O8bmzDvMSfw7wga29ydW5hcmFrIHNvbiAzMCBnw7xuIHllcmluZSBnZXLDp2VrIHRha3ZpbSBhecSxIGfDtnLDvG7DvG3DvG5lIHRhxZ/EsW5kxLEuCi0gS2FwYW5txLHFnyBheWxhcsSxbiBrdWxsYW7EsWPEsSArIE5lcm8gbW9vZGJvYXJk4oCZdSBiaXJsaWt0ZSAqKlBORyBvbGFyYWsgUmVzaW1sZXIvTmVybyBNb29kYm9hcmRzKioga2xhc8O2csO8bmUga2F5ZGVkaWxpcjsgaGFtIEpTT04gZ2XDp21pxZ9pIHNpbGlubWV6LgotIE1vb2Rib2FyZCB0YXNhcsSxbcSxIHZlIGFyxZ9pdiBiaWxlxZ9lbmxlcmkgdMO8bSB5ZXJsZcWfaWsgdGVtYWxhcsSxbiBnw7Zyc2VsIGRpbGluZSB1eWFybGFuxLFyLgotICoqQXlhcmxhcioqIGFuYSBzZWttZSDDp3VidcSfdW5kYW4ga2FsZMSxcsSxbGTEsSB2ZSDDvHN0IHNhxJ9kYSwgcGluIGTDvMSfbWVzaW5pbiBzb2x1bmRhIHRlbWEgdXl1bWx1IGJpciBkacWfbGkgZMO8xJ9tZXNpbmUgdGHFn8SxbmTEsS4KLSBZZW5pIGFyxZ9pdiB2ZSBtb29kYm9hcmQgdmVyaWxlcmkgTmVybydudW4gZMSxxZ9hIGFrdGFybWEgLyBvdG9tYXRpayB5ZWRlayBzbmFwc2hvdCfEsW5hIGRhaGlsIGVkaWxkaS4KCg=="))
             $changelog = $changelog.Replace($marker, $section + $marker)
             [IO.File]::WriteAllText((Join-Path $PWD "project/CHANGELOG.md"), $changelog, [Text.UTF8Encoding]::new($false))
           }
