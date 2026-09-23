@@ -180,7 +180,7 @@ test('iki moodboard rendererda ayrıdır, kompaktır ve yalnız dolu geçmiş ay
   assert.match(preload, /'moodboard:get'/);
   assert.match(css, /grid-template-columns:\s*repeat\(7, minmax\(0, 1fr\)\)/);
   assert.match(css, /grid-auto-rows:\s*36px/);
-  assert.match(css, /row-gap:\s*10px/);
+  assert.match(css, /row-gap:\s*6px/);
   assert.match(css, /\.mood-history-popover/);
 });
 
