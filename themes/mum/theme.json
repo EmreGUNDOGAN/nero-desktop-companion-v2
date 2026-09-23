@@ -1,0 +1,169 @@
+{
+  "id": "mum",
+  "name": "Mum Işığı",
+  "author": "Stenwick",
+  "formatVersion": 1,
+  "canvas": {
+    "width": 220,
+    "height": 260
+  },
+  "defaultScale": 1,
+  "bubbleAnchor": {
+    "x": 110,
+    "y": 24
+  },
+  "eyeTracking": {
+    "center": {
+      "x": 110,
+      "y": 108
+    },
+    "range": {
+      "x": 7,
+      "y": 6
+    }
+  },
+  "layers": {
+    "body": {
+      "default": "assets/body.svg"
+    },
+    "outfit": {
+      "pajama": "assets/outfit-pajama.svg",
+      "party": "assets/outfit-party.svg",
+      "winter": "assets/outfit-winter.svg"
+    },
+    "eyes": {
+      "default": "assets/eyes.svg"
+    },
+    "pupils": {
+      "default": "assets/pupils.svg"
+    },
+    "lids": {
+      "heavy": "assets/lids-heavy.svg",
+      "half": "assets/lids-half.svg",
+      "closed": "assets/lids-closed.svg"
+    },
+    "brows": {
+      "normal": "assets/brows-normal.svg",
+      "happy": "assets/brows-happy.svg",
+      "curious": "assets/brows-curious.svg",
+      "sad": "assets/brows-sad.svg",
+      "angry": "assets/brows-angry.svg",
+      "surprised": "assets/brows-surprised.svg",
+      "sleepy": "assets/brows-sleepy.svg"
+    },
+    "mouth": {
+      "neutral": "assets/mouth-neutral.svg",
+      "smile": "assets/mouth-smile.svg",
+      "happy": "assets/mouth-happy.svg",
+      "talk1": "assets/mouth-talk1.svg",
+      "talk2": "assets/mouth-talk2.svg",
+      "sad": "assets/mouth-sad.svg",
+      "surprised": "assets/mouth-surprised.svg",
+      "flat": "assets/mouth-flat.svg",
+      "sleepy": "assets/mouth-sleepy.svg",
+      "smirk": "assets/mouth-smirk.svg"
+    },
+    "front": {},
+    "effects": {
+      "blush": "assets/fx-blush.svg",
+      "sweat": "assets/fx-sweat.svg",
+      "angry": "assets/fx-angry.svg",
+      "zzz": "assets/fx-zzz.svg",
+      "shock": "assets/fx-shock.svg",
+      "heart": "assets/fx-heart.svg"
+    }
+  },
+  "blink": {
+    "lid": "closed"
+  },
+  "talkMouths": [
+    "talk1",
+    "talk2"
+  ],
+  "expressions": {
+    "normal": {
+      "lids": "heavy",
+      "brows": "normal",
+      "mouth": "neutral"
+    },
+    "content": {
+      "lids": "heavy",
+      "brows": "normal",
+      "mouth": "smirk"
+    },
+    "happy": {
+      "lids": null,
+      "brows": "happy",
+      "mouth": "happy"
+    },
+    "smile": {
+      "lids": "heavy",
+      "brows": "happy",
+      "mouth": "smile"
+    },
+    "curious": {
+      "lids": null,
+      "brows": "curious",
+      "mouth": "flat"
+    },
+    "surprised": {
+      "lids": null,
+      "brows": "surprised",
+      "mouth": "surprised"
+    },
+    "sad": {
+      "lids": "half",
+      "brows": "sad",
+      "mouth": "sad"
+    },
+    "sulky": {
+      "lids": "half",
+      "brows": "angry",
+      "mouth": "flat"
+    },
+    "angry": {
+      "lids": null,
+      "brows": "angry",
+      "mouth": "flat"
+    },
+    "bored": {
+      "lids": "half",
+      "brows": "sleepy",
+      "mouth": "flat"
+    },
+    "sleepy": {
+      "lids": "half",
+      "brows": "sleepy",
+      "mouth": "sleepy"
+    },
+    "asleep": {
+      "lids": "closed",
+      "brows": "sleepy",
+      "mouth": "sleepy"
+    },
+    "dizzy": {
+      "lids": "half",
+      "brows": "sad",
+      "mouth": "sleepy",
+      "effect": "sweat"
+    }
+  },
+  "ui": {
+    "skin": "mum",
+    "paper": "#FBF3E8",
+    "surface": "#FBF3E8",
+    "ink": "#3B2A22",
+    "muted": "#6E5A4E",
+    "accent": "#D9793B",
+    "accentInk": "#FFFFFF",
+    "secondary": "#D9793B",
+    "danger": "#B9542E",
+    "line": "#E6D5C2",
+    "bubbleBg": "#FBF3E8",
+    "bubbleInk": "#3B2A22",
+    "bubbleLine": "#3B2A22",
+    "noteColors": [
+      "#FBF3E8"
+    ]
+  }
+}

@@ -1,0 +1,55 @@
+:root {
+  --paper: #E7ECE4;
+  --surface: #F5F7F2;
+  --ink: #1F2B33;
+  --muted: #5D6B70;
+  --accent: #C08A22;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: transparent; }
+body {
+  font: 500 14px/1.4 "Nunito", "Segoe UI", sans-serif;
+  color: var(--ink);
+  -webkit-app-region: drag;
+}
+.box {
+  height: 100%;
+  margin: 8px;
+  padding: 12px 14px;
+  border-radius: 16px;
+  background: var(--surface);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, .35), 0 0 0 1px rgba(0, 0, 0, .06);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.type {
+  -webkit-app-region: no-drag;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.type button {
+  border: 0;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: var(--paper);
+  font-weight: 700;
+  font-size: 12.5px;
+  color: var(--muted);
+  cursor: pointer;
+}
+.type button.on { background: var(--accent); color: #fff; }
+.type .hint { margin-left: auto; font-size: 11px; color: var(--muted); }
+input {
+  -webkit-app-region: no-drag;
+  width: 100%;
+  padding: 10px 12px;
+  border: 0;
+  border-radius: 10px;
+  background: var(--paper);
+  font: inherit;
+  color: var(--ink);
+  outline: none;
+}
+input:focus { box-shadow: 0 0 0 2px var(--accent); }

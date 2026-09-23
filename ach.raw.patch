@@ -1,0 +1,1507 @@
+diff -ruN '--exclude=node_modules' '--exclude=dist' '--exclude=.git' nero410_base_for_ach/nero/src/data/achievements.js nero411_work/nero/src/data/achievements.js
+--- nero410_base_for_ach/nero/src/data/achievements.js	2026-09-22 10:02:00.000000000 +0000
++++ nero411_work/nero/src/data/achievements.js	2026-09-23 03:19:18.793473379 +0000
+@@ -1,46 +1,159 @@
+-// Rozetler (başarımlar). Her rozetin ya istatistiklere bakan bir koşulu (check)
+-// ya da belirli bir anda doğrudan verilen bir olayı (event) vardır.
+-// icon: rozet kartında gösterilen küçük sembol.
++const CORE_INTERACTIONS = Object.freeze(['click','hover','drag','drop','shake','dizzy','pet','wake','nap','snore','peek']);
+ 
+-module.exports = [
+-  // İşler
+-  { id: 'ilk_is', icon: '✓', title: 'Bir yerden başlamak lazım', desc: 'İlk işini bitir.', check: (s) => s.totals.todos >= 1 },
+-  { id: 'is_10', icon: '10', title: 'Isınma turları', desc: 'Toplam 10 iş bitir.', check: (s) => s.totals.todos >= 10 },
+-  { id: 'is_50', icon: '50', title: 'Liste avcısı', desc: 'Toplam 50 iş bitir.', check: (s) => s.totals.todos >= 50 },
+-  { id: 'is_100', icon: '100', title: 'Yüzlük', desc: 'Toplam 100 iş bitir.', check: (s) => s.totals.todos >= 100 },
+-  { id: 'is_500', icon: '500', title: 'Nero bile etkilendi', desc: 'Toplam 500 iş bitir.', check: (s) => s.totals.todos >= 500 },
+-  { id: 'gunde_5', icon: '5', title: 'Verimli gün', desc: 'Bir günde 5 iş bitir.', check: (s) => s.today.todos >= 5 },
+-  { id: 'gunde_10', icon: '⚡', title: 'Bugün başka biri gibisin', desc: 'Bir günde 10 iş bitir.', check: (s) => s.today.todos >= 10 },
+-  { id: 'hepsi_bitti', icon: '☐', title: 'Boş liste', desc: 'Listedeki bütün işleri bitir.', event: true },
+-  { id: 'gece_kusu', icon: '☾', title: 'Gece kuşu', desc: 'Gece yarısından sonra bir iş bitir.', event: true },
+-  { id: 'erken_kus', icon: '☀', title: 'Erken kalkan', desc: 'Sabah 7\'den önce bir iş bitir.', event: true },
+-
+-  // Odak
+-  { id: 'ilk_sayac', icon: '⏱', title: 'İlk odak', desc: 'Bir sayacı sonuna kadar tamamla.', check: (s) => s.totals.timersDone >= 1 },
+-  { id: 'sayac_25', icon: '25', title: 'Sayaç dostu', desc: '25 sayacı tamamla.', check: (s) => s.totals.timersDone >= 25 },
+-  { id: 'odak_10s', icon: '10s', title: 'On saat', desc: 'Toplam 10 saat odaklan.', check: (s) => s.totals.focusMin >= 600 },
+-  { id: 'odak_50s', icon: '50s', title: 'Elli saat', desc: 'Toplam 50 saat odaklan.', check: (s) => s.totals.focusMin >= 3000 },
+-  { id: 'gunluk_2s', icon: '2s', title: 'Derin iş', desc: 'Bir günde 2 saat odaklan.', check: (s) => s.today.focus >= 120 },
+-  { id: 'maraton', icon: '60', title: 'Maraton', desc: 'Tek seferde 60 dakikalık bir sayacı bitir.', event: true },
+-  { id: 'pes_etmeyen', icon: '5x', title: 'Pes etmek yok', desc: 'Üst üste 5 sayacı yarıda bırakmadan bitir.', event: true },
+-
+-  // Seri ve birliktelik
+-  { id: 'seri_3', icon: '3', title: 'Alışkanlık başlıyor', desc: '3 gün üst üste gel.', check: (s) => s.streak >= 3 },
+-  { id: 'seri_7', icon: '7', title: 'Bir haftalık seri', desc: '7 gün üst üste gel.', check: (s) => s.streak >= 7 },
+-  { id: 'seri_30', icon: '30', title: 'Bir aylık seri', desc: '30 gün üst üste gel.', check: (s) => s.streak >= 30 },
+-  { id: 'birlikte_30', icon: '♥', title: 'Bir ay oldu', desc: '30 gündür birliktesiniz.', check: (s) => s.daysTogether >= 30 },
+-  { id: 'birlikte_100', icon: '♥♥', title: 'Yüz gün', desc: '100 gündür birliktesiniz.', check: (s) => s.daysTogether >= 100 },
++function maxRolling(history, days, field) {
++  if (!Array.isArray(history) || !history.length) return 0;
++  let best = 0;
++  for (let i = 0; i < history.length; i++) {
++    const slice = history.slice(Math.max(0, i - days + 1), i + 1);
++    best = Math.max(best, slice.reduce((a, d) => a + (Number(d[field]) || 0), 0));
++  }
++  return best;
++}
++function rollingCompletionRatio(history, days) {
++  const slice = Array.isArray(history) ? history.slice(-days) : [];
++  const created = slice.reduce((a, d) => a + (Number(d.todosCreated) || 0), 0);
++  const done = slice.reduce((a, d) => a + (Number(d.todos) || 0), 0);
++  return created > 0 ? Math.min(1, done / created) : 0;
++}
++function hasCalendarStreak(history, need, predicate) {
++  let run = 0, previous = null;
++  for (const row of Array.isArray(history) ? history : []) {
++    if (previous) {
++      const gap = Math.round((new Date(row.day + 'T12:00:00') - new Date(previous + 'T12:00:00')) / 86400000);
++      if (gap !== 1) run = 0;
++    }
++    run = predicate(row) ? run + 1 : 0;
++    if (run >= need) return true;
++    previous = row.day;
++  }
++  return false;
++}
+ 
+-  // Notlar
+-  { id: 'ilk_not', icon: '✎', title: 'Aklımda tutarım demedin', desc: 'İlk notunu al.', check: (s) => s.totals.notes >= 1 },
+-  { id: 'not_25', icon: '✎✎', title: 'Arşivci', desc: '25 not al.', check: (s) => s.totals.notes >= 25 },
+-
+-  // Nero ile
+-  { id: 'sev_1', icon: '♡', title: 'İlk sevgi', desc: 'Nero\'yu sev.', check: (s) => s.totals.pets >= 1 },
+-  { id: 'sev_50', icon: '♡♡', title: 'Sevgi dolu', desc: 'Nero\'yu 50 kere sev.', check: (s) => s.totals.pets >= 50 },
+-  { id: 'sev_200', icon: '♡♡♡', title: 'Nero\'nun favorisi', desc: 'Nero\'yu 200 kere sev.', check: (s) => s.totals.pets >= 200 },
+-  { id: 'uyandirdin', icon: 'z', title: 'Uyku kaçıran', desc: 'Nero\'yu uykusundan uyandır.', event: true },
+-  { id: 'salladin', icon: '~', title: 'Deprem', desc: 'Nero\'yu salla. Evet, bunu da saydık.', event: true },
+-  { id: 'yakaladin', icon: '!', title: 'Casus avcısı', desc: 'Sürpriz ziyarette Nero\'yu yakala.', event: true },
+-  { id: 'dogum_gunu', icon: '★', title: 'İyi ki doğdun', desc: 'Doğum gününü Nero ile geçir.', event: true }
++module.exports = [
++  { id: "ilk_is", icon: "✓", title: "Bir yerden başlamak lazım", desc: "İlk işini bitir.", completedDesc: "İlk işini bitirdin.", rarity: "yaygin", hidden: false, type: "check", check: (s) => s.totals.todos >= 1 },
++  { id: "is_10", icon: "10", title: "Isınma turları", desc: "Toplam 10 iş bitir.", completedDesc: "Toplam 10 iş bitirdin.", rarity: "yaygin", hidden: false, type: "check", check: (s) => s.totals.todos >= 10 },
++  { id: "gunde_5", icon: "5", title: "Verimli gün", desc: "Bir günde 5 iş bitir.", completedDesc: "Bir günde 5 iş bitirdin.", rarity: "yaygin", hidden: false, type: "check", check: (s) => s.today.todos >= 5 },
++  { id: "ilk_sayac", icon: "⏱", title: "İlk odak", desc: "Bir sayacı sonuna kadar tamamla.", completedDesc: "Bir sayacı sonuna kadar tamamladın.", rarity: "yaygin", hidden: false, type: "check", check: (s) => s.totals.timersDone >= 1 },
++  { id: "seri_3", icon: "3", title: "Alışkanlık başlıyor", desc: "3 gün üst üste Nero'ya gel.", completedDesc: "3 gün üst üste Nero'ya geldin.", rarity: "yaygin", hidden: false, type: "check", check: (s) => s.streak >= 3 },
++  { id: "ilk_not", icon: "✎", title: "Aklımda tutarım demedin", desc: "İlk notunu oluştur.", completedDesc: "İlk notunu oluşturdun.", rarity: "yaygin", hidden: false, type: "check", check: (s) => s.totals.notes >= 1 },
++  { id: "sev_1", icon: "♡", title: "İlk sevgi", desc: "Nero'yu ilk kez sev.", completedDesc: "Nero'yu ilk kez sevdin.", rarity: "yaygin", hidden: false, type: "check", check: (s) => s.totals.pets >= 1 },
++  { id: "tanistik_1gun", icon: "•", title: "Tanıştığımıza Memnun Oldum Sanırım", desc: "Nero ile ilk günü tamamla.", completedDesc: "Nero ile ilk gününü tamamladın.", rarity: "yaygin", hidden: false, type: "check", check: (s) => s.daysTogether >= 2 },
++  { id: "uyandir_3", icon: "•", title: "Beş Dakika Daha", desc: "Nero'yu 3 ayrı uykuda uykusundan uyandır.", completedDesc: "Nero'yu 3 ayrı uykuda uykusundan uyandırdın.", rarity: "yaygin", hidden: false, type: "event/count", check: (s) => s.metrics.wakeCount >= 3 },
++  { id: "mola_ilk", icon: "•", title: "Minik Bir Mola", desc: "İlk mola hatırlatmasına uy / onayla.", completedDesc: "İlk mola hatırlatmasına uydun / onayladın.", rarity: "yaygin", hidden: false, type: "event", check: (s) => s.metrics.breakAck >= 1 },
++  { id: "su_ilk", icon: "•", title: "Su İçen İnsan", desc: "İlk su hatırlatmasına uy / onayla.", completedDesc: "İlk su hatırlatmasına uydun / onayladın.", rarity: "yaygin", hidden: false, type: "event", check: (s) => s.metrics.waterAck >= 1 },
++  { id: "hatirlat_ilk", icon: "•", title: "Hatırlat Bana", desc: "Saatli ilk görevini oluştur.", completedDesc: "Saatli ilk görevini oluşturdun.", rarity: "yaygin", hidden: false, type: "event", check: (s) => s.metrics.scheduledCreated >= 1 },
++  { id: "gun_modu_ilk", icon: "•", title: "Bugün Buradayım", desc: "İlk kez bir gün modu seç.", completedDesc: "İlk kez bir gün modu seçtin.", rarity: "yaygin", hidden: false, type: "event", check: (s) => s.metrics.modeDaysTotal >= 1 },
++  { id: "kavanoz_ilk", icon: "•", title: "Bir Şey Yazdın", desc: "Kavanoza ilk anını bırak.", completedDesc: "Kavanoza ilk anını bıraktın.", rarity: "yaygin", hidden: false, type: "event", check: (s) => s.metrics.jarAdds >= 1 },
++  { id: "geri_dondun_30dk", icon: "•", title: "Geri Döndün", desc: "Bilgisayardan en az 30 dakika uzak kaldıktan sonra geri dön.", completedDesc: "Bilgisayardan en az 30 dakika uzak kaldıktan sonra geri döndün.", rarity: "yaygin", hidden: false, type: "event", check: (s) => s.metrics.return30Count >= 1 },
++  { id: "pijama_ilk", icon: "•", title: "Pijama Partisi", desc: "Nero'yu ilk kez pijamalı gör.", completedDesc: "Nero'yu ilk kez pijamalı gördün.", rarity: "yaygin", hidden: false, type: "event", check: (s) => s.sets.outfitsSeen.includes('pajama') },
++  { id: "mektup_ilk", icon: "•", title: "İlk Mektup", desc: "Nero'dan ilk haftalık mektubunu al.", completedDesc: "Nero'dan ilk haftalık mektubunu aldın.", rarity: "yaygin", hidden: false, type: "event", check: (s) => s.metrics.weeklyLetters >= 1 },
++  { id: "beraber_30dk", icon: "•", title: "Biraz Oturalım", desc: "Nero açıkken aynı oturumda 30 dakika geçir.", completedDesc: "Nero açıkken aynı oturumda 30 dakika geçirdin.", rarity: "yaygin", hidden: false, type: "check/session", check: (s) => s.sessionMinutes >= 30 },
++  { id: "planli_3", icon: "•", title: "Planlı İnsan", desc: "Aynı anda 3 saatli görev oluştur.", completedDesc: "Aynı anda 3 saatli görev oluşturdun.", rarity: "yaygin", hidden: false, type: "check/event", check: (s) => s.metrics.maxScheduledTodos >= 3 },
++  { id: "ayni_gun_2_odak", icon: "•", title: "Bir Tur Daha", desc: "Aynı gün ikinci odak seansını tamamla.", completedDesc: "Aynı gün ikinci odak seansını tamamladın.", rarity: "yaygin", hidden: false, type: "check", check: (s) => s.today.timersDone >= 2 },
++  { id: "rest_ilk", icon: "•", title: "Günü Kapattık", desc: "İlk kez 'Bugünlük yeter' seçeneğini kullan.", completedDesc: "İlk kez 'Bugünlük yeter' seçeneğini kullandın.", rarity: "yaygin", hidden: false, type: "event", check: (s) => s.sets.restDays.length >= 1 },
++  { id: "iyi_geceler_ilk", icon: "•", title: "İyi Geceler Nero", desc: "Nero'yu ilk kez manuel olarak uyut.", completedDesc: "Nero'yu ilk kez manuel olarak uyuttun.", rarity: "yaygin", hidden: false, type: "event", check: (s) => s.sets.goodnightDays.length >= 1 },
++  { id: "konum_degistir_ilk", icon: "•", title: "Kendi Köşen", desc: "Nero'yu ilk kez farklı bir yere taşı ve bırak.", completedDesc: "Nero'yu ilk kez farklı bir yere taşıyıp bıraktın.", rarity: "yaygin", hidden: false, type: "event", check: (s) => s.metrics.dragDrops >= 1 },
++  { id: "panel_sabitle_ilk", icon: "•", title: "Burada Kal", desc: "Nero/panel sabitleme özelliğini ilk kez kullan.", completedDesc: "Nero/panel sabitleme özelliğini ilk kez kullandın.", rarity: "yaygin", hidden: false, type: "event", check: (s) => s.metrics.panelPinnedUsed >= 1 },
++  { id: "sessiz_ilk", icon: "•", title: "Biraz Sessizlik", desc: "Sessiz modu ilk kez aç.", completedDesc: "Sessiz modu ilk kez açtın.", rarity: "yaygin", hidden: false, type: "event", check: (s) => s.metrics.mutedUsed >= 1 },
++  { id: "is_50", icon: "50", title: "Liste avcısı", desc: "Toplam 50 iş bitir.", completedDesc: "Toplam 50 iş bitirdin.", rarity: "siradisi", hidden: false, type: "check", check: (s) => s.totals.todos >= 50 },
++  { id: "gunde_10", icon: "⚡", title: "Bugün başka biri gibisin", desc: "Bir günde 10 iş bitir.", completedDesc: "Bir günde 10 iş bitirdin.", rarity: "siradisi", hidden: false, type: "check", check: (s) => s.today.todos >= 10 },
++  { id: "hepsi_bitti", icon: "☐", title: "Boş liste", desc: "En az 2 görevden oluşan listedeki bütün işleri bitir.", completedDesc: "En az 2 görevden oluşan listedeki bütün işleri bitirdin.", rarity: "siradisi", hidden: false, type: "event", event: true },
++  { id: "gece_kusu", icon: "☾", title: "Gece kuşu", desc: "00:00-04:59 arasında bir iş bitir.", completedDesc: "00:00-04:59 arasında bir iş bitirdin.", rarity: "siradisi", hidden: false, type: "event", event: true },
++  { id: "erken_kus", icon: "☀", title: "Erken kalkan", desc: "05:00-06:59 arasında bir iş bitir.", completedDesc: "05:00-06:59 arasında bir iş bitirdin.", rarity: "siradisi", hidden: false, type: "event", event: true },
++  { id: "sayac_25", icon: "25", title: "Sayaç dostu", desc: "25 sayacı tamamla.", completedDesc: "25 sayacı tamamladın.", rarity: "siradisi", hidden: false, type: "check", check: (s) => s.totals.timersDone >= 25 },
++  { id: "odak_10s", icon: "10s", title: "On saat", desc: "Toplam 10 saat odaklan.", completedDesc: "Toplam 10 saat odaklandın.", rarity: "siradisi", hidden: false, type: "check", check: (s) => s.totals.focusMin >= 600 },
++  { id: "gunluk_2s", icon: "2s", title: "Derin iş", desc: "Bir günde toplam 2 saat odaklan.", completedDesc: "Bir günde toplam 2 saat odaklandın.", rarity: "siradisi", hidden: false, type: "check", check: (s) => s.today.focus >= 120 },
++  { id: "pes_etmeyen", icon: "5x", title: "Pes etmek yok", desc: "Üst üste 5 sayacı yarıda bırakmadan tamamla.", completedDesc: "Üst üste 5 sayacı yarıda bırakmadan tamamladın.", rarity: "siradisi", hidden: false, type: "event", event: true },
++  { id: "seri_7", icon: "7", title: "Bir haftalık seri", desc: "7 gün üst üste Nero'ya gel.", completedDesc: "7 gün üst üste Nero'ya geldin.", rarity: "siradisi", hidden: false, type: "check", check: (s) => s.streak >= 7 },
++  { id: "birlikte_30", icon: "♥", title: "Bir ay oldu", desc: "Nero ile tanışalı 30 gün olsun.", completedDesc: "Nero ile tanışalı 30 gün oldu.", rarity: "siradisi", hidden: false, type: "check", check: (s) => s.daysTogether >= 30 },
++  { id: "not_25", icon: "✎✎", title: "Arşivci", desc: "25 not oluştur.", completedDesc: "25 not oluşturdun.", rarity: "siradisi", hidden: false, type: "check", check: (s) => s.totals.notes >= 25 },
++  { id: "sev_50", icon: "♡♡", title: "Sevgi dolu", desc: "Nero'yu 50 kere sev.", completedDesc: "Nero'yu 50 kere sevdin.", rarity: "siradisi", hidden: false, type: "check", check: (s) => s.totals.pets >= 50 },
++  { id: "uyandirdin", icon: "z", title: "Uyku kaçıran", desc: "Nero'yu ilk kez uykusundan uyandır.", completedDesc: "Nero'yu ilk kez uykusundan uyandırdın.", rarity: "siradisi", hidden: false, type: "event", event: true },
++  { id: "salladin", icon: "~", title: "Deprem", desc: "Nero'yu salla.", completedDesc: "Nero'yu salladın.", rarity: "siradisi", hidden: false, type: "event", event: true },
++  { id: "yakaladin", icon: "!", title: "Casus avcısı", desc: "Sürpriz ziyarette Nero'yu yakala.", completedDesc: "Sürpriz ziyarette Nero'yu yakaladın.", rarity: "siradisi", hidden: false, type: "event", event: true },
++  { id: "dogum_gunu", icon: "★", title: "İyi ki doğdun", desc: "Doğum gününü Nero ile geçir.", completedDesc: "Doğum gününü Nero ile geçirdin.", rarity: "siradisi", hidden: false, type: "event", event: true },
++  { id: "ziyaret_14", icon: "◆", title: "Düzenli Ziyaretçi", desc: "Nero'ya 14 farklı aktif günde uğra.", completedDesc: "Nero'ya 14 farklı aktif günde uğradın.", rarity: "siradisi", hidden: false, type: "check", check: (s) => s.activeDaysCount >= 14 },
++  { id: "sozunun_eri", icon: "◆", title: "Sözünün Eri", desc: "Aynı gün içinde oluşturduğun en az 5 görevin tamamını aynı gün bitir.", completedDesc: "Aynı gün oluşturduğun en az 5 görevin tamamını aynı gün bitirdin.", rarity: "siradisi", hidden: false, type: "composite", event: true },
++  { id: "hatirlatma_10", icon: "◆", title: "Beni Dinledi", desc: "Toplam 10 su/mola hatırlatmasına uy / onayla.", completedDesc: "Toplam 10 su/mola hatırlatmasına uydun / onayladın.", rarity: "siradisi", hidden: false, type: "check", check: (s) => (s.metrics.waterAck + s.metrics.breakAck) >= 10 },
++  { id: "haftalik_odak_5s", icon: "◆", title: "Odak Modu: Açık", desc: "Tek bir 7 günlük dönemde toplam 5 saat odaklan.", completedDesc: "Tek bir 7 günlük dönemde toplam 5 saat odaklandın.", rarity: "siradisi", hidden: false, type: "rolling", check: (s) => maxRolling(s.history, 7, 'focus') >= 300 },
++  { id: "surpriz_5", icon: "◆", title: "Buralardaydım", desc: "Nero'nun 5 farklı sürpriz ziyaretini gör.", completedDesc: "Nero'nun 5 farklı sürpriz ziyaretini gördün.", rarity: "siradisi", hidden: false, type: "count", check: (s) => s.metrics.peekSeen >= 5 },
++  { id: "kavanoz_10", icon: "◆", title: "Hatıra Koleksiyoncusu", desc: "Kavanoza 10 anı bırak.", completedDesc: "Kavanoza 10 anı bıraktın.", rarity: "siradisi", hidden: false, type: "check", check: (s) => s.metrics.jarAdds >= 10 },
++  { id: "kavanoz_hatirlatma", icon: "◆", title: "Geçmişten Bir Şey", desc: "Nero'nun kavanozdan eski bir anıyı sana hatırlatmasını gör.", completedDesc: "Nero'nun kavanozdan eski bir anıyı sana hatırlatmasını gördün.", rarity: "siradisi", hidden: false, type: "event", check: (s) => s.metrics.jarRecalls >= 1 },
++  { id: "gece_arkadasi_5", icon: "◆", title: "Gece Arkadaşı", desc: "5 farklı gün 00:00'dan sonra Nero ile aktif ol.", completedDesc: "5 farklı gün 00:00'dan sonra Nero ile aktif oldun.", rarity: "siradisi", hidden: false, type: "date-count", check: (s) => s.sets.nightDays.length >= 5 },
++  { id: "sabah_5", icon: "◆", title: "Sabahın Körü", desc: "5 farklı gün 07:00'dan önce Nero'yu aç.", completedDesc: "5 farklı gün 07:00'dan önce Nero'yu açtın.", rarity: "siradisi", hidden: false, type: "date-count", check: (s) => s.sets.morningDays.length >= 5 },
++  { id: "uc_mod_3er", icon: "◆", title: "İyi Günde Kötü Günde", desc: "Sakin, Üretken ve Kendime modlarının her birini en az 3 farklı gün kullan.", completedDesc: "Sakin, Üretken ve Kendime modlarının her birini en az 3 farklı gün kullandın.", rarity: "siradisi", hidden: false, type: "composite", check: (s) => ['sakin','uretken','kendime'].every((m) => (s.sets.modeDays[m] || []).length >= 3) },
++  { id: "odakli_gun_25", icon: "◆", title: "Birlikte Çalışıyoruz", desc: "25 farklı günde en az bir odak seansı tamamla.", completedDesc: "25 farklı günde en az bir odak seansı tamamladın.", rarity: "siradisi", hidden: false, type: "date-count", check: (s) => s.sets.focusDays.length >= 25 },
++  { id: "birlikte_50", icon: "◆", title: "Artık Alıştım Sana", desc: "Nero ile tanışalı 50 gün olsun.", completedDesc: "Nero ile tanışalı 50 gün oldu.", rarity: "siradisi", hidden: false, type: "check", check: (s) => s.daysTogether >= 50 },
++  { id: "iyi_geceler_10", icon: "◆", title: "Rutinimiz Var", desc: "10 farklı gün Nero'ya manuel olarak iyi geceler de / uyut.", completedDesc: "10 farklı gün Nero'ya manuel olarak iyi geceler dedin / uyuttun.", rarity: "siradisi", hidden: false, type: "date-count", check: (s) => s.sets.goodnightDays.length >= 10 },
++  { id: "kucuk_zaferler_10", icon: "◆", title: "Küçük Zaferler", desc: "10 farklı günde en az 3 görev tamamla.", completedDesc: "10 farklı günde en az 3 görev tamamladın.", rarity: "siradisi", hidden: false, type: "date-count", check: (s) => s.history.filter((d) => d.todos >= 3).length >= 10 },
++  { id: "mola_25", icon: "◆", title: "Mola Vermeyi Öğrendin", desc: "25 mola hatırlatmasına uy / onayla.", completedDesc: "25 mola hatırlatmasına uydun / onayladın.", rarity: "siradisi", hidden: false, type: "check", check: (s) => s.metrics.breakAck >= 25 },
++  { id: "su_25", icon: "◆", title: "Sözümü Dinliyorsun", desc: "25 su hatırlatmasına uy / onayla.", completedDesc: "25 su hatırlatmasına uydun / onayladın.", rarity: "siradisi", hidden: false, type: "check", check: (s) => s.metrics.waterAck >= 25 },
++  { id: "tum_haller", icon: "◆", title: "Her Halini Gördüm", desc: "Nero'nun sleepy, meh, energetic, sulky ve lonely durumlarının tamamını en az bir kez gör.", completedDesc: "Nero'nun sleepy, meh, energetic, sulky ve lonely durumlarının tamamını en az bir kez gördün.", rarity: "siradisi", hidden: false, type: "set/event", check: (s) => ['sleepy','meh','energetic','sulky','lonely'].every((x) => s.sets.statesSeen.includes(x)) },
++  { id: "hepsinden_biraz", icon: "◆", title: "Hepsinden Biraz", desc: "Aynı gün en az 1 görev tamamla, 1 odak seansı bitir, 1 not yaz ve Nero'yu sev.", completedDesc: "Aynı gün en az 1 görev tamamladın, 1 odak seansı bitirdin, 1 not yazdın ve Nero'yu sevdin.", rarity: "siradisi", hidden: false, type: "composite", check: (s) => s.today.todos >= 1 && s.today.timersDone >= 1 && s.today.notes >= 1 && s.today.pets >= 1 },
++  { id: "is_100", icon: "100", title: "Yüzlük", desc: "Toplam 100 iş bitir.", completedDesc: "Toplam 100 iş bitirdin.", rarity: "nadir", hidden: false, type: "check", check: (s) => s.totals.todos >= 100 },
++  { id: "odak_50s", icon: "50s", title: "Elli saat", desc: "Toplam 50 saat odaklan.", completedDesc: "Toplam 50 saat odaklandın.", rarity: "nadir", hidden: false, type: "check", check: (s) => s.totals.focusMin >= 3000 },
++  { id: "maraton", icon: "60", title: "Maraton", desc: "Tek seferde 60 dakikalık bir sayacı tamamla.", completedDesc: "Tek seferde 60 dakikalık bir sayacı tamamladın.", rarity: "nadir", hidden: false, type: "event", event: true },
++  { id: "seri_30", icon: "30", title: "Bir aylık seri", desc: "30 gün üst üste Nero'ya gel.", completedDesc: "30 gün üst üste Nero'ya geldin.", rarity: "nadir", hidden: false, type: "check", check: (s) => s.streak >= 30 },
++  { id: "birlikte_100", icon: "♥♥", title: "Yüz gün", desc: "Nero ile tanışalı 100 gün olsun.", completedDesc: "Nero ile tanışalı 100 gün oldu.", rarity: "nadir", hidden: false, type: "check", check: (s) => s.daysTogether >= 100 },
++  { id: "sev_200", icon: "♡♡♡", title: "Nero'nun favorisi", desc: "Nero'yu 200 kere sev.", completedDesc: "Nero'yu 200 kere sevdin.", rarity: "nadir", hidden: false, type: "check", check: (s) => s.totals.pets >= 200 },
++  { id: "aktif_100", icon: "✦", title: "Buraya Kadar Geldik", desc: "100 farklı aktif günde Nero'yu kullan.", completedDesc: "100 farklı aktif günde Nero'yu kullandın.", rarity: "nadir", hidden: false, type: "check", check: (s) => s.activeDaysCount >= 100 },
++  { id: "gunluk_odak_4s", icon: "✦", title: "Derin Çalışma", desc: "Bir günde toplam 4 saat odaklan.", completedDesc: "Bir günde toplam 4 saat odaklandın.", rarity: "nadir", hidden: false, type: "check", check: (s) => s.today.focus >= 240 },
++  { id: "yedi_gun_60dk", icon: "✦", title: "Makine Gibi", desc: "7 gün üst üste her gün en az 60 dakika odaklan.", completedDesc: "7 gün üst üste her gün en az 60 dakika odaklandın.", rarity: "nadir", hidden: false, type: "streak/composite", check: (s) => hasCalendarStreak(s.history, 7, (d) => d.focus >= 60) },
++  { id: "otuz_gun_yuzde90", icon: "✦", title: "Söz Verdin, Yaptın", desc: "30 günlük dönemde oluşturduğun görevlerin en az %90'ını tamamla.", completedDesc: "30 günlük dönemde oluşturduğun görevlerin en az %90'ını tamamladın.", rarity: "nadir", hidden: false, type: "rolling/composite", check: (s) => rollingCompletionRatio(s.history, 30) >= 0.9 },
++  { id: "arsiv_100", icon: "✦", title: "Tam Bir Arşiv", desc: "Toplam 100 not + kavanoz anısı biriktir.", completedDesc: "Toplam 100 not + kavanoz anısı biriktirdin.", rarity: "nadir", hidden: false, type: "check", check: (s) => (s.totals.notes + s.metrics.jarAdds) >= 100 },
++  { id: "gun_sonu_25", icon: "✦", title: "Günün Sonuna Kadar", desc: "25 farklı günde Nero'nun gün sonu değerlendirmesini gör.", completedDesc: "25 farklı günde Nero'nun gün sonu değerlendirmesini gördün.", rarity: "nadir", hidden: false, type: "date-count", check: (s) => s.sets.daySummaryDays.length >= 25 },
++  { id: "aktif_kayit_30", icon: "✦", title: "Vazgeçmeyen", desc: "30 gün üst üste her gün en az bir aktif kayıt oluştur: görev, not, odak veya Nero etkileşimi.", completedDesc: "30 gün üst üste her gün görev, not, odak veya Nero etkileşimiyle en az bir aktif kayıt oluşturdun.", rarity: "nadir", hidden: false, type: "streak", check: (s) => hasCalendarStreak(s.history, 30, (d) => !!d.meaningful) },
++  { id: "gun_kapat_50", icon: "✦", title: "Bizim Bir Düzenimiz Var", desc: "50 farklı günde 'Bugünlük yeter' ile günü kapat.", completedDesc: "50 farklı günde 'Bugünlük yeter' ile günü kapattın.", rarity: "nadir", hidden: false, type: "date-count", check: (s) => s.sets.restDays.length >= 50 },
++  { id: "odak_gun_30", icon: "✦", title: "İstikrarlı", desc: "30 farklı günde en az bir odak seansı tamamla.", completedDesc: "30 farklı günde en az bir odak seansı tamamladın.", rarity: "nadir", hidden: false, type: "date-count", check: (s) => s.sets.focusDays.length >= 30 },
++  { id: "kavanoz_50", icon: "✦", title: "Kavanoz Taşıyor", desc: "Kavanoza 50 anı bırak.", completedDesc: "Kavanoza 50 anı bıraktın.", rarity: "nadir", hidden: false, type: "check", check: (s) => s.metrics.jarAdds >= 50 },
++  { id: "kisisel_replik_25", icon: "✦", title: "Nero Seni Tanıyor", desc: "Nero'nun istatistik/geçmiş verisi kullanan 25 farklı kişiselleştirilmiş repliğini tetikle.", completedDesc: "Nero'nun istatistik/geçmiş verisi kullanan 25 farklı kişiselleştirilmiş repliğini tetikledin.", rarity: "nadir", hidden: false, type: "unique-event", check: (s) => s.sets.personalizedLines.length >= 25 },
++  { id: "haftalik_50_is", icon: "✦", title: "Biraz Fazla Verimli", desc: "Tek bir 7 günlük dönemde 50 görev tamamla.", completedDesc: "Tek bir 7 günlük dönemde 50 görev tamamladın.", rarity: "nadir", hidden: false, type: "rolling", check: (s) => maxRolling(s.history, 7, 'todos') >= 50 },
++  { id: "rituel_14", icon: "✦", title: "Ritüelimiz Oldu", desc: "14 gün üst üste bir gün modu seç ve günü 'Bugünlük yeter' ile kapat.", completedDesc: "14 gün üst üste bir gün modu seçip günü 'Bugünlük yeter' ile kapattın.", rarity: "nadir", hidden: false, type: "streak/composite", check: (s) => hasCalendarStreak(s.history, 14, (d) => !!d.mode && !!d.rest) },
++  { id: "ozel_tepki_10", icon: "✦", title: "Seni Bayağı Tanıyorum", desc: "Nero'nun 10 farklı özel durum/ruh hali tepki türünü gör.", completedDesc: "Nero'nun 10 farklı özel durum/ruh hali tepki türünü gördün.", rarity: "nadir", hidden: false, type: "unique-event", check: (s) => s.sets.specialReactions.length >= 10 },
++  { id: "is_500", icon: "500", title: "Nero bile etkilendi", desc: "Toplam 500 iş bitir.", completedDesc: "Toplam 500 iş bitirdin.", rarity: "efsanevi", hidden: false, type: "check", check: (s) => s.totals.todos >= 500 },
++  { id: "birlikte_365", icon: "★", title: "Eski Dostlar", desc: "Nero ile tanışalı 365 gün olsun.", completedDesc: "Nero ile tanışalı 365 gün oldu.", rarity: "efsanevi", hidden: false, type: "check", check: (s) => s.daysTogether >= 365 },
++  { id: "guven_30", icon: "★", title: "Nero'nun Güvendiği İnsan", desc: "30 aktif gün boyunca Nero'yu sulky veya lonely seviyesine düşürmeden kullan.", completedDesc: "30 aktif gün boyunca Nero'yu sulky veya lonely seviyesine düşürmeden kullandın.", rarity: "efsanevi", hidden: false, type: "streak/composite", check: (s) => s.metrics.safeActiveRun >= 30 },
++  { id: "birlikte_buyuduk", icon: "★", title: "Birlikte Büyüdük", desc: "1000 görev tamamla + 100 saat odaklan + 100 aktif güne ulaş.", completedDesc: "1000 görev tamamladın, 100 saat odaklandın ve 100 aktif güne ulaştın.", rarity: "efsanevi", hidden: false, type: "composite", check: (s) => s.totals.todos >= 1000 && s.totals.focusMin >= 6000 && s.activeDaysCount >= 100 },
++  { id: "sev_1000", icon: "★", title: "Ben Saymayı Bıraktım", desc: "Nero'yu 1000 kere sev.", completedDesc: "Nero'yu 1000 kere sevdin.", rarity: "efsanevi", hidden: false, type: "check", check: (s) => s.totals.pets >= 1000 },
++  { id: "ikinci_yildonumu", icon: "★", title: "Gerçekten Hâlâ Buradasın", desc: "Nero ile ikinci yıldönümünü gör.", completedDesc: "Nero ile ikinci yıldönümünü gördün.", rarity: "efsanevi", hidden: false, type: "date/event", check: (s) => s.daysTogether >= 730 },
++  { id: "aktif_500", icon: "★", title: "Ev Arkadaşı", desc: "500 farklı aktif günde Nero'yu kullan.", completedDesc: "500 farklı aktif günde Nero'yu kullandın.", rarity: "efsanevi", hidden: false, type: "check", check: (s) => s.activeDaysCount >= 500 },
++  { id: "hayat_kurduk", icon: "★", title: "Burada Bir Hayat Kurduk", desc: "250 saat odak + 500 görev + 250 aktif gün koşullarının üçünü de tamamla.", completedDesc: "250 saat odak, 500 görev ve 250 aktif gün koşullarının üçünü de tamamladın.", rarity: "efsanevi", hidden: false, type: "composite", check: (s) => s.totals.focusMin >= 15000 && s.totals.todos >= 500 && s.activeDaysCount >= 250 },
++  { id: "arsiv_250", icon: "★", title: "Kavanozun Dibini Göremiyorum", desc: "Toplam 250 not + kavanoz anısı biriktir.", completedDesc: "Toplam 250 not + kavanoz anısı biriktirdin.", rarity: "efsanevi", hidden: false, type: "check", check: (s) => (s.totals.notes + s.metrics.jarAdds) >= 250 },
++  { id: "guveniyorum", icon: "★", title: "Sana Güveniyorum Sanırım", desc: "Nero ile tanışalı en az 100 gün olsun; en az 75 aktif gün ve 50 tamamlanmış odak seansı yap.", completedDesc: "Nero ile en az 100 günü, 75 aktif günü ve 50 tamamlanmış odak seansını geride bıraktın.", rarity: "efsanevi", hidden: false, type: "composite", check: (s) => s.daysTogether >= 100 && s.activeDaysCount >= 75 && s.totals.timersDone >= 50 },
++  { id: "tum_normal", icon: "★", title: "Her Şeyi Gördüm", desc: "Bu başarım hariç diğer 99 gizli olmayan başarımın tamamını aç.", completedDesc: "Diğer 99 gizli olmayan başarımın tamamını açtın.", rarity: "efsanevi", hidden: false, type: "meta", check: (s) => s.normalUnlockedCount >= 99 },
++  { id: "aktif_180", icon: "★", title: "Yarım Yıl Beraber", desc: "180 farklı aktif günde Nero'yu kullan.", completedDesc: "180 farklı aktif günde Nero'yu kullandın.", rarity: "efsanevi", hidden: false, type: "check", check: (s) => s.activeDaysCount >= 180 },
++  { id: "odak_500s", icon: "★", title: "Odak Ustası", desc: "Toplam 500 saat odaklan.", completedDesc: "Toplam 500 saat odaklandın.", rarity: "efsanevi", hidden: false, type: "check", check: (s) => s.totals.focusMin >= 30000 },
++  { id: "mukemmel_ay", icon: "★", title: "Mükemmel Ay", desc: "30 gün üst üste her gün en az 1 görev tamamla ve 1 odak seansı bitir.", completedDesc: "30 gün üst üste her gün en az 1 görev tamamlayıp 1 odak seansı bitirdin.", rarity: "efsanevi", hidden: false, type: "streak/composite", check: (s) => hasCalendarStreak(s.history, 30, (d) => d.todos >= 1 && d.timersDone >= 1) },
++  { id: "demir_irade", icon: "★", title: "Demir İrade", desc: "50 odak seansını arka arkaya yarıda bırakmadan tamamla.", completedDesc: "50 odak seansını arka arkaya yarıda bırakmadan tamamladın.", rarity: "efsanevi", hidden: false, type: "streak/event", check: (s) => s.doneStreak >= 50 },
++  { id: "gun_kapat_100", icon: "★", title: "Bizim Rutinimiz", desc: "100 farklı günde 'Bugünlük yeter' ile günü kapat.", completedDesc: "100 farklı günde 'Bugünlük yeter' ile günü kapattın.", rarity: "efsanevi", hidden: false, type: "date-count", check: (s) => s.sets.restDays.length >= 100 },
++  { id: "kavanoz_500", icon: "★", title: "Anılarla Dolu", desc: "Kavanoza 500 anı bırak.", completedDesc: "Kavanoza 500 anı bıraktın.", rarity: "efsanevi", hidden: false, type: "check", check: (s) => s.metrics.jarAdds >= 500 },
++  { id: "aktif_365", icon: "★", title: "Ben Buradaydım", desc: "365 farklı aktif günde en az bir anlamlı aktivite gerçekleştir.", completedDesc: "365 farklı aktif günde en az bir anlamlı aktivite gerçekleştirdin.", rarity: "efsanevi", hidden: false, type: "check", check: (s) => s.sets.meaningfulDays.length >= 365 },
++  { id: "gece_gunduz_25", icon: "★", title: "Gece Gündüz", desc: "25 farklı sabah ve 25 farklı gece Nero ile aktif ol.", completedDesc: "25 farklı sabah ve 25 farklı gece Nero ile aktif oldun.", rarity: "efsanevi", hidden: false, type: "composite", check: (s) => s.sets.morningDays.length >= 25 && s.sets.nightDays.length >= 25 },
++  { id: "nero_dunyasi", icon: "★", title: "Nero'nun Dünyası", desc: "Nero'nun gizli olmayan fiziksel/karakter etkileşim türlerinin tamamını en az bir kez gerçekleştir.", completedDesc: "Nero'nun gizli olmayan fiziksel/karakter etkileşim türlerinin tamamını en az bir kez gerçekleştirdin.", rarity: "efsanevi", hidden: false, type: "set/meta", check: (s) => CORE_INTERACTIONS.every((x) => s.sets.interactionTypes.includes(x)) },
++  { id: "secret_beni_rahat_birak", icon: "?", title: "Beni Rahat Bırak", desc: "Nero'yu uyurken kısa bir süre içinde toplam 5 kez uyandır.", completedDesc: "Nero'yu uyurken kısa bir süre içinde toplam 5 kez uyandırdın.", rarity: "gizli", hidden: true, type: "secret-event", event: true },
++  { id: "secret_karar_ver", icon: "?", title: "Karar Ver", desc: "Nero'yu 10 saniye içinde 5 farklı yere sürükleyip bırak.", completedDesc: "Nero'yu 10 saniye içinde 5 farklı yere sürükleyip bıraktın.", rarity: "gizli", hidden: true, type: "secret-event", event: true },
++  { id: "secret_dunya_donuyor", icon: "?", title: "Dünya Dönüyor", desc: "Nero'yu dizzy durumuna getir ve normale dönmeden önce sev.", completedDesc: "Nero'yu dizzy durumuna getirip normale dönmeden önce sevdin.", rarity: "gizli", hidden: true, type: "secret-event", event: true },
++  { id: "secret_goz_goze", icon: "?", title: "Göz Göze Geldik", desc: "Sürpriz ziyarette Nero'nun üzerine mouse'u getir ve birkaç saniye tıklamadan bekle.", completedDesc: "Sürpriz ziyarette Nero'nun üzerinde birkaç saniye tıklamadan bekledin.", rarity: "gizli", hidden: true, type: "secret-event", event: true },
++  { id: "secret_inat", icon: "?", title: "İnat", desc: "Nero sulky durumundayken bir süre hiç etkileşme, sonra yalnızca bir kez sev.", completedDesc: "Nero sulky durumundayken bir süre bekleyip yalnızca bir kez sevdin.", rarity: "gizli", hidden: true, type: "secret-event", event: true },
++  { id: "secret_gece_uc", icon: "?", title: "Gece Üçte Ne Yapıyoruz?", desc: "03:00-03:10 arasında Nero'ya 3 kez tıkla.", completedDesc: "03:00-03:10 arasında Nero'ya 3 kez tıkladın.", rarity: "gizli", hidden: true, type: "secret-event", event: true },
++  { id: "secret_son_dakikaci", icon: "?", title: "Son Dakikacı", desc: "Bir odak seansını yerel saatle 23:59'da tamamla.", completedDesc: "Bir odak seansını yerel saatle 23:59'da tamamladın.", rarity: "gizli", hidden: true, type: "secret-event", event: true },
++  { id: "secret_yeni_gun", icon: "?", title: "Yeni Gün, Aynı Biz", desc: "00:00-00:01 arasında Nero ile etkileş.", completedDesc: "00:00-00:01 arasında Nero ile etkileştin.", rarity: "gizli", hidden: true, type: "secret-event", event: true },
++  { id: "secret_beni_izliyor_musun", icon: "?", title: "Beni İzliyor Musun?", desc: "Mouse ile Nero'nun gözlerini belirgin biçimde uzun süre sağa-sola takip ettir.", completedDesc: "Mouse ile Nero'nun gözlerini uzun süre sağa-sola takip ettirdin.", rarity: "gizli", hidden: true, type: "secret-gesture", event: true },
++  { id: "secret_dokunma_bana", icon: "?", title: "Dokunma Bana", desc: "Nero sulky/lonely durumundayken kısa sürede aşırı miktarda sev.", completedDesc: "Nero sulky/lonely durumundayken kısa sürede aşırı miktarda sevdin.", rarity: "gizli", hidden: true, type: "secret-event", event: true },
++  { id: "secret_sessiz_anlasma", icon: "?", title: "Sessiz Anlaşma", desc: "Nero konuştuktan sonra 30 saniye hiçbir etkileşim yapma; ardından yalnızca bir kez sev.", completedDesc: "Nero konuştuktan sonra 30 saniye bekleyip yalnızca bir kez sevdin.", rarity: "gizli", hidden: true, type: "secret-event", event: true },
++  { id: "secret_hala_uyaniksin", icon: "?", title: "Hâlâ Uyanıksın", desc: "Nero pijamalıyken arka arkaya 3 odak seansı tamamla.", completedDesc: "Nero pijamalıyken arka arkaya 3 odak seansı tamamladın.", rarity: "gizli", hidden: true, type: "secret-composite", event: true },
++  { id: "secret_bir_dakika", icon: "?", title: "Bir Dakika...", desc: "Timerda tam 00:01 kalmışken duraklat.", completedDesc: "Timerda tam 00:01 kalmışken duraklattın.", rarity: "gizli", hidden: true, type: "secret-event", event: true },
++  { id: "secret_kacis_plani", icon: "?", title: "Kaçış Planı", desc: "Aynı timerı 4 kez durdur/devam ettir ve sonunda tamamla.", completedDesc: "Aynı timerı 4 kez durdurup devam ettirdin ve sonunda tamamladın.", rarity: "gizli", hidden: true, type: "secret-event", event: true },
++  { id: "secret_yabanci_degilsin", icon: "?", title: "Yabancı Değilsin", desc: "Nero'yu en az 7 gün hiç açmadıktan sonra geri dön.", completedDesc: "Nero'yu en az 7 gün açmadıktan sonra geri döndün.", rarity: "gizli", hidden: true, type: "secret-event", event: true },
++  { id: "secret_yeterli", icon: "?", title: "Yeterli", desc: "00:00-04:59 arasında Nero pijamalıyken, o gün 0 görev tamamlanmışken Nero'yu sev.", completedDesc: "00:00-04:59 arasında Nero pijamalıyken ve o gün 0 görev tamamlanmışken Nero'yu sevdin.", rarity: "gizli", hidden: true, type: "secret-composite", event: true },
++  { id: "secret_boop", icon: "?", title: "Boop.", desc: "Nero'nun yüzüne kısa aralıklarla tam 3 kez tıkla; dördüncü tıklamayı yapma.", completedDesc: "Nero'nun yüzüne kısa aralıklarla tam 3 kez tıklayıp dördüncü tıklamayı yapmadın.", rarity: "gizli", hidden: true, type: "secret-gesture", event: true },
++  { id: "secret_orada_bir_sey", icon: "?", title: "Orada Bir Şey Mi Var?", desc: "Mouse'u Nero'nun baktığı yöndeki ekran kenarında 15 saniye hareketsiz tut.", completedDesc: "Mouse'u Nero'nun baktığı yöndeki ekran kenarında 15 saniye hareketsiz tuttun.", rarity: "gizli", hidden: true, type: "secret-gesture", event: true },
++  { id: "secret_ikimiz_de_issiziz", icon: "?", title: "İkimiz de İşsiziz Şu An", desc: "Nero ile 60 dakika geçir; bu sürede görev, not veya timer kullanma.", completedDesc: "Nero ile 60 dakika geçirip bu sürede görev, not veya timer kullanmadın.", rarity: "gizli", hidden: true, type: "secret-session", event: true },
++  { id: "secret_tam_ben_uyurken", icon: "?", title: "Tam Ben Uyurken", desc: "Nero kendi kendine uykuya daldıktan sonraki ilk 5 saniye içinde uyandır.", completedDesc: "Nero kendi kendine uyuduktan sonraki ilk 5 saniye içinde uyandırdın.", rarity: "gizli", hidden: true, type: "secret-event", event: true },
++  { id: "secret_404", icon: "?", title: "404: Üretkenlik Bulunamadı", desc: "Aynı gün Nero açıkken 3+ saat geçir, hiçbir görev tamamlamadan günü kapat.", completedDesc: "Aynı gün Nero açıkken 3+ saat geçirip hiçbir görev tamamlamadan günü kapattın.", rarity: "gizli", hidden: true, type: "secret-composite", event: true },
++  { id: "secret_nereye_bakiyorsun", icon: "?", title: "Nereye Bakıyorsun?", desc: "Mouse'u Nero'nun çevresinde uzun süre yavaş ve kontrollü biçimde dolaştırarak göz takibini tetikle.", completedDesc: "Mouse'u Nero'nun çevresinde uzun süre yavaş ve kontrollü biçimde dolaştırdın.", rarity: "gizli", hidden: true, type: "secret-gesture", event: true },
++  { id: "secret_tam_tersi", icon: "?", title: "Tam Tersi", desc: "Nero sulky durumundayken kısa süre içinde onu olumlu etkileyen 3 farklı etkileşim türü gerçekleştir.", completedDesc: "Nero sulky durumundayken kısa sürede onu olumlu etkileyen 3 farklı etkileşim yaptın.", rarity: "gizli", hidden: true, type: "secret-composite", event: true },
++  { id: "secret_uyuyan_guzel", icon: "?", title: "Uyuyan Güzel Değilim", desc: "Nero horladıktan hemen sonra onu severek uyandır.", completedDesc: "Nero horladıktan hemen sonra onu severek uyandırdın.", rarity: "gizli", hidden: true, type: "secret-event", event: true },
++  { id: "secret_hicbir_sey_olmadi", icon: "?", title: "Hiçbir Şey Olmadı", desc: "Nero'yu dizzy durumuna getir; tamamen normale dönene kadar hiçbir etkileşim yapmadan bekle.", completedDesc: "Nero'yu dizzy durumuna getirip tamamen normale dönene kadar hiçbir etkileşim yapmadan bekledin.", rarity: "gizli", hidden: true, type: "secret-event", event: true },
+ ];
++module.exports.CORE_INTERACTIONS = CORE_INTERACTIONS;
+\ No newline at end of file
+diff -ruN '--exclude=node_modules' '--exclude=dist' '--exclude=.git' nero410_base_for_ach/nero/src/main/main.js nero411_work/nero/src/main/main.js
+--- nero410_base_for_ach/nero/src/main/main.js	2026-09-22 22:58:03.000000000 +0000
++++ nero411_work/nero/src/main/main.js	2026-09-23 03:14:19.825038061 +0000
+@@ -163,6 +163,17 @@
+ let panelLink = null;         // panelin karaktere göre konumu { dx, dy }
+ let syncingMove = false;
+ 
++// Achievement v2 kısa süreli etkileşim durumu (kalıcı metrikler Stats içinde tutulur).
++let lastSpeechEndedAt = 0;
++let lastUserInteractionAt = Date.now();
++let interactionSerial = 0;
++let napStartedAt = 0;
++let lastSnoreAt = 0;
++let timerPauseResumeCount = 0;
++let peekHoverStartedAt = 0;
++let peekHoverClicked = false;
++let achievementCursor = { reversals: [], lastDir: 0, lastX: null, lastY: null, slowSince: 0, slowDistance: 0, edgeSince: 0 };
++
+ // ---------------------------------------------------------------------------
+ // Yardımcılar
+ // ---------------------------------------------------------------------------
+@@ -172,6 +183,56 @@
+ const truncate = (s, n) => (s.length > n ? `${s.slice(0, n - 1)}…` : s);
+ const settings = () => settingsStore.get();
+ 
++function markUserInteraction() {
++  lastUserInteractionAt = Date.now();
++  interactionSerial += 1;
++}
++
++function trackAchievementCursor(p) {
++  if (!stats || !charWin || !charWin.isVisible()) return;
++  const now = Date.now();
++  const b = charWin.getBounds();
++  const cx = b.x + b.width / 2;
++  const cy = b.y + b.height / 2;
++  const dx = p.x - (achievementCursor.lastX ?? p.x);
++  const dy = p.y - (achievementCursor.lastY ?? p.y);
++  const dist = Math.hypot(dx, dy);
++  const near = Math.hypot(p.x - cx, p.y - cy) < Math.max(360, b.width * 1.4);
++  if (near && Math.abs(dx) >= 3) {
++    const dir = Math.sign(dx);
++    if (achievementCursor.lastDir && dir !== achievementCursor.lastDir) {
++      achievementCursor.reversals = [...achievementCursor.reversals.filter((t) => now - t < 6500), now];
++      if (achievementCursor.reversals.length >= 8) {
++        stats.recordEyeGesture('sweep');
++        achievementCursor.reversals = [];
++      }
++    }
++    achievementCursor.lastDir = dir;
++  }
++  if (near && dist > 0.3 && dist < 18) {
++    if (!achievementCursor.slowSince) achievementCursor.slowSince = now;
++    achievementCursor.slowDistance += dist;
++    if (now - achievementCursor.slowSince >= 12000 && achievementCursor.slowDistance >= 420) {
++      stats.recordEyeGesture('wander');
++      achievementCursor.slowSince = now;
++      achievementCursor.slowDistance = 0;
++    }
++  } else if (!near || dist >= 30) {
++    achievementCursor.slowSince = 0;
++    achievementCursor.slowDistance = 0;
++  }
++  const wa = screen.getDisplayNearestPoint(p).workArea;
++  const edge = Math.min(Math.abs(p.x - wa.x), Math.abs(p.x - (wa.x + wa.width - 1)), Math.abs(p.y - wa.y), Math.abs(p.y - (wa.y + wa.height - 1))) <= 5;
++  if (edge) {
++    if (!achievementCursor.edgeSince) achievementCursor.edgeSince = now;
++    if (now - achievementCursor.edgeSince >= 15000) {
++      stats.recordEyeGesture('edge');
++      achievementCursor.edgeSince = now + 60000;
++    }
++  } else achievementCursor.edgeSince = 0;
++  achievementCursor.lastX = p.x; achievementCursor.lastY = p.y;
++}
++
+ function sendTo(win, channel, payload) {
+   if (win && !win.isDestroyed()) win.webContents.send(channel, payload);
+ }
+@@ -562,6 +623,7 @@
+ 
+ function applyHomeDialogueState(h) {
+   if (!h) return;
++  if (stats && ['productivity', 'time', 'relationship', 'return'].includes(h.category)) stats.recordPersonalized(h.id);
+   if (homeCache) {
+     homeCache = {
+       ...homeCache, jab: h.text, dialogueId: h.id, dialogueCategory: h.category,
+@@ -582,6 +644,7 @@
+   if (checkLetter && settings().lastLetterWeek !== wk && sum.week.some((d) => d.focus > 0 || d.todos > 0)) {
+     letter = journal.writeLetter(sum.week, sum.totals);
+     settingsStore.patch({ lastLetterWeek: wk });
++    stats.recordWeeklyLetter();
+     setTimeout(() => say('weekly_letter_line', {}, { force: false, interrupt: false }), 3000);
+   }
+ 
+@@ -653,6 +716,7 @@
+   const mode = todayMode();
+   if (mode && MODE_CATEGORIES.has(category) && chance(0.6)) category = `mode_${mode}`;
+   if (mode === 'kendime' && ['remark', 'poke_spam', 'sulky', 'lonely'].includes(category) && chance(0.5)) category = 'mode_kendime';
++  if (/^(birthday|new_year|anniversary|returned|peek_|dizzy|pet_too_much|reminder|day_summary_|weekly_letter_line|archive_recall|jar_recall|self_mood_)/.test(category)) stats.recordSpecialReaction(category);
+   const line = dialogue.pick(category, { name: settings().userName || '', ...vars });
+   if (!line) return;
+   const muted = settings().muted && !force;
+@@ -685,6 +749,7 @@
+   if (Math.random() > 0.02) return; // ~%2 ihtimalle, 20 sn'lik döngüde
+   const type = ['sleepy', 'meh', 'energetic'][Math.floor(Math.random() * 3)];
+   selfMood = { type, until: now + rand(20, 45) * MIN };
++  stats.recordState(type);
+   say(`self_mood_${type}`, {}, { interrupt: false });
+ }
+ 
+@@ -718,6 +783,7 @@
+ function setDayMode(mode) {
+   if (!['sakin', 'uretken', 'kendime'].includes(mode)) return null;
+   settingsStore.patch({ dayMode: mode, dayModeDay: todayKey() });
++  stats.recordDayMode(mode);
+   mood.interact('panel');
+   say(`ritual_${mode}`, {}, { force: true });
+   nextProdNudgeAt = Date.now() + 40 * MIN;
+@@ -731,6 +797,8 @@
+   if (auto && (settings().restMode === false || settings().restDay === todayKey())) return;
+   restActive = true;
+   settingsStore.patch({ restDay: todayKey() });
++  stats.recordRest();
++  if (stats.summary().sessionMinutes >= 180 && stats.summary().today.todos === 0) stats.award('secret_404');
+   say('rest_start', {}, { force: true });
+   broadcastState();
+ }
+@@ -753,6 +821,7 @@
+ function updateBaseline(force = false) {
+   const expr = Date.now() < dizzyUntil ? 'dizzy' : mood.baselineExpression();
+   const outfit = currentOutfit();
++  if (outfit) stats.recordOutfit(outfit);
+   const key = `${expr}|${outfit}`;
+   if (lastOutfit !== undefined && outfit !== lastOutfit && !settings().muted) {
+     const category = { pajama: 'pajama_on', party: 'outfit_party', winter: 'outfit_winter' }[outfit]
+@@ -774,6 +843,8 @@
+ 
+ function startNap() {
+   const night = currentOutfit() === 'pajama';
++  napStartedAt = Date.now();
++  stats.recordInteraction('nap', { stage: mood.stage });
+   napUntil = Date.now() + (night ? rand(10, 25) : rand(4, 9)) * MIN;
+   nextSnoreAt = Date.now() + rand(1.5, 3) * MIN;
+   mood.setNap(true);
+@@ -788,7 +859,12 @@
+   groggyUntil = Date.now() + 90 * 1000;
+   nextNapAt = Date.now() + napGap(currentOutfit() === 'pajama');
+   updateBaseline(true);
+-  if (reason === 'click' || reason === 'drag' || reason === 'pet') stats.award('uyandirdin');
++  if (reason === 'click' || reason === 'drag' || reason === 'pet') {
++    stats.award('uyandirdin');
++    stats.recordWake();
++    if (napStartedAt && Date.now() - napStartedAt <= 5000) stats.award('secret_tam_ben_uyurken');
++    if (reason === 'pet' && lastSnoreAt && Date.now() - lastSnoreAt <= 15000) stats.award('secret_uyuyan_guzel');
++  }
+   const category = { click: 'nap_woken', drag: 'nap_woken_drag', pet: 'nap_woken_pet', timer: 'nap_woken_timer', self: 'nap_wake_self' }[reason] || 'nap_woken';
+   say(category, {}, { force: reason === 'timer' });
+   return true;
+@@ -800,7 +876,11 @@
+     if (now >= napUntil) { wakeNap('self'); return; }
+     if (now >= nextSnoreAt) {
+       nextSnoreAt = now + rand(2, 4) * MIN;
+-      if (chance(0.5)) say('snore', {}, { interrupt: false });
++      if (chance(0.5)) {
++        lastSnoreAt = Date.now();
++        stats.recordInteraction('snore', { stage: mood.stage });
++        say('snore', {}, { interrupt: false });
++      }
+     }
+     return;
+   }
+@@ -819,6 +899,7 @@
+ function greet() {
+   const info = mood.startupInfo();
+   if (info.firstRun) return say('first_run', {}, { force: true });
++  stats.recordReturn(info.offlineMs || 0);
+   // Özel günler: günde bir kez
+   const now = new Date();
+   const todayKey = now.toDateString();
+@@ -846,6 +927,8 @@
+ 
+ // Etkileşim sonrası: ihmal edilmişse sitem eder, uyuyorsa uyanır.
+ function reactToInteraction(kind, fallback) {
++  markUserInteraction();
++  stats.recordInteraction(kind, { stage: mood.stage });
+   const result = mood.interact(kind);
+   maybeRareEvent();
+   updateBaseline();
+@@ -893,6 +976,8 @@
+ // ---------------------------------------------------------------------------
+ function startDrag() {
+   if (!charWin || drag || peek) return;
++  markUserInteraction();
++  stats.recordInteraction('drag', { stage: mood.stage });
+   if (mood.state.napping) wakeNap('drag');
+   const cursor = screen.getCursorScreenPoint();
+   const b = charWin.getBounds();
+@@ -939,6 +1024,7 @@
+       drag.shook = true;
+       drag.spoke = true;
+       stats.award('salladin');
++      stats.recordInteraction('shake', { stage: mood.stage });
+       mood.interact('shake');
+       say('shake');
+     }
+@@ -960,10 +1046,14 @@
+   charWin.webContents.invalidate();
+   const b = charWin.getBounds();
+   settingsStore.patch({ position: { x: b.x, y: b.y } });
++  stats.recordDragDrop(b.x, b.y);
+   if (panelIsLinkable()) movePanelWithCharacter();
+   mood.interact('drag');
+   if (dizzy) {
+     dizzyUntil = Date.now() + 20000;
++    stats.recordInteraction('dizzy', { stage: mood.stage });
++    const serialAtDizzy = interactionSerial;
++    setTimeout(() => { if (interactionSerial === serialAtDizzy) stats.award('secret_hicbir_sey_olmadi'); }, 20500);
+     setTimeout(() => { say('dizzy'); updateBaseline(); }, 300);
+     setTimeout(() => updateBaseline(), 20500);
+   } else if (!shook && long && (spoke ? chance(0.5) : chance(0.3))) {
+@@ -1009,10 +1099,18 @@
+ }
+ 
+ function petNero() {
+-  if (wakeNap('pet')) { mood.interact('pet'); stats.pet(); broadcastState(); return; }
+   const now = Date.now();
++  const preStage = mood.stage;
++  const ignoredMs = mood.state.ignoredMs || 0;
++  const silentAgreement = lastSpeechEndedAt && now - lastSpeechEndedAt >= 30000 && lastUserInteractionAt <= lastSpeechEndedAt;
++  markUserInteraction();
++  if (silentAgreement) stats.award('secret_sessiz_anlasma');
++  if (Date.now() < dizzyUntil) stats.award('secret_dunya_donuyor');
++  if (currentOutfit() === 'pajama' && new Date().getHours() < 5 && stats.summary().today.todos === 0) stats.award('secret_yeterli');
++  const woke = wakeNap('pet');
++  stats.pet({ stage: preStage, ignoredMs, dizzy: Date.now() < dizzyUntil });
++  if (woke) { mood.interact('pet'); broadcastState(); return; }
+   petTimes = [...petTimes.filter((t) => now - t < 2 * MIN), now];
+-  stats.pet();
+   if (petTimes.length > 6) {
+     mood.interact('pet_too_much');
+     updateBaseline();
+@@ -1037,6 +1135,8 @@
+ function startTimer(minutes, label = '') {
+   const m = Math.max(1, Math.min(600, Math.round(Number(minutes) || 25)));
+   settingsStore.patch({ lastTimerMinutes: m });
++  timerPauseResumeCount = 0;
++  stats.productiveAction();
+   timer.start(m, label);
+ }
+ 
+@@ -1135,6 +1235,7 @@
+     default:
+       settingsStore.patch({ [key]: typeof DEFAULT_SETTINGS[key] === 'boolean' ? !!value : value });
+   }
++  if (stats) stats.recordSetting(key, value);
+   broadcastState();
+   return settings();
+ }
+@@ -1178,6 +1279,7 @@
+   ipcMain.handle('rest:exit', () => { exitRest(); return fullState(); });
+   ipcMain.handle('rest:start', () => { enterRest(false); return fullState(); });
+   ipcMain.handle('rest:goodnight', () => {
++    stats.recordGoodnight();
+     say('rest_goodnight', {}, { force: true });
+     exitRest();
+     hidePanel();
+@@ -1189,6 +1291,8 @@
+     if (!clean) return null;
+     const todo = { id: uid(), text: clean, done: false, createdAt: Date.now(), doneAt: null, remindAt: parseRemindTime(time), reminded: false };
+     todosStore.set([...todosStore.get(), todo]);
++    stats.todoCreated({ scheduled: !!todo.remindAt });
++    stats.scheduledTodoCount(todosStore.get().filter((t) => !t.done && t.remindAt).length);
+     reactToInteraction('todo_add', () => {
+       if (restActive) say('rest_more');
+       else if (chance(0.45)) say('todo_add', { label: truncate(clean, 40) });
+@@ -1202,11 +1306,14 @@
+     todo.done = !todo.done;
+     todo.doneAt = todo.done ? Date.now() : null;
+     todosStore.set(todos);
+-    stats.todoDone(todo.done ? 1 : -1);
++    stats.todoDone(todo.done ? 1 : -1, { createdAt: todo.createdAt });
+     if (todo.done) {
+       journal.archiveDone(todo.text);
+       if (settings().sound) sendTo(charWin, 'sound', 'pop');
+       const allDone = todos.length >= 2 && todos.every((t) => t.done);
++      const today = dayKey();
++      const createdToday = todos.filter((t) => t.createdAt && dayKey(new Date(t.createdAt)) === today);
++      if (createdToday.length >= 5 && createdToday.every((t) => t.done && t.doneAt && dayKey(new Date(t.doneAt)) === today)) stats.award('sozunun_eri');
+       reactToInteraction('todo_done', () => {
+         if (allDone) {
+           stats.award('hepsi_bitti');
+@@ -1231,7 +1338,12 @@
+   ipcMain.handle('todos:setReminder', (_e, id, time) => {
+     const todos = todosStore.get();
+     const todo = todos.find((t) => t.id === id);
+-    if (todo) { todo.remindAt = parseRemindTime(time); todo.reminded = false; todosStore.set(todos); }
++    if (todo) {
++      const had = !!todo.remindAt;
++      todo.remindAt = parseRemindTime(time); todo.reminded = false; todosStore.set(todos);
++      if (!had && todo.remindAt) stats.recordScheduledCreated();
++      stats.scheduledTodoCount(todos.filter((t) => !t.done && t.remindAt).length);
++    }
+     broadcastState();
+     return todo;
+   });
+@@ -1286,7 +1398,7 @@
+   ipcMain.handle('panel:hide', () => { hidePanel(); return true; });
+   ipcMain.handle('quick:addTodo', async (_e, text) => {
+     const clean = String(text || '').trim().slice(0, 300);
+-    if (clean) { todosStore.set([...todosStore.get(), { id: uid(), text: clean, done: false, createdAt: Date.now(), doneAt: null, remindAt: null, reminded: false }]); stats.markActive(); }
++    if (clean) { todosStore.set([...todosStore.get(), { id: uid(), text: clean, done: false, createdAt: Date.now(), doneAt: null, remindAt: null, reminded: false }]); stats.todoCreated({ scheduled: false }); }
+     broadcastState();
+     return true;
+   });
+@@ -1299,7 +1411,7 @@
+   ipcMain.on('quick:close', () => { if (quickWin) quickWin.hide(); });
+   ipcMain.handle('jar:add', (_e, text) => {
+     const item = journal.jarAdd(text);
+-    if (item) reactToInteraction('note_add', () => say('jar_add', {}, { force: false }));
++    if (item) { stats.recordJarAdd(); reactToInteraction('note_add', () => say('jar_add', {}, { force: false })); }
+     broadcastState();
+     return item;
+   });
+@@ -1380,20 +1492,44 @@
+   });
+   ipcMain.on('char:dragStart', () => startDrag());
+   ipcMain.on('char:dragEnd', () => stopDrag());
+-  ipcMain.on('char:bubbleDone', () => { speakingUntil = 0; });
++  ipcMain.on('char:bubbleDone', () => { speakingUntil = 0; lastSpeechEndedAt = Date.now(); });
+   ipcMain.on('char:pet', () => petNero());
++  ipcMain.on('char:hoverStart', () => {
++    markUserInteraction();
++    stats.recordInteraction('hover', { stage: mood.stage });
++    if (peek) {
++      peekHoverStartedAt = Date.now(); peekHoverClicked = false;
++      const started = peekHoverStartedAt;
++      setTimeout(() => {
++        if (peek && peekHoverStartedAt === started && !peekHoverClicked && Date.now() - started >= 3000) stats.award('secret_goz_goze');
++      }, 3100);
++    }
++  });
++  ipcMain.on('char:hoverEnd', () => {
++    if (peek && peekHoverStartedAt && !peekHoverClicked && Date.now() - peekHoverStartedAt >= 3000) stats.award('secret_goz_goze');
++    peekHoverStartedAt = 0;
++  });
+   ipcMain.on('char:contextMenu', () => {
+     if (charWin) buildMenu().popup({ window: charWin });
+   });
+-  ipcMain.on('char:click', () => {
++  ipcMain.on('char:click', (_e, point) => {
++    if (point && charWin) {
++      const L = characterLayout(currentTheme, settings().scale);
++      if (point.y >= L.charY && point.y <= L.charY + L.charH * 0.48) stats.recordFaceClick();
++    }
++    if (peek) peekHoverClicked = true;
+     if (mood.state.napping) {
+       // İlk tık sadece uyandırır; panel açılmaz, huysuzlanır.
++      markUserInteraction();
++      stats.recordInteraction('click', { stage: mood.stage });
+       wakeNap('click');
+       mood.interact('click');
+       lastPanelToggleAt = Date.now();
+       return;
+     }
+     if (peek) {
++      markUserInteraction();
++      stats.recordInteraction('click', { stage: mood.stage });
+       mood.interact('click');
+       say('peek_caught');
+       stats.award('yakaladin');
+@@ -1405,6 +1541,8 @@
+ 
+     if (clickTimes.length >= 4) {
+       clickTimes = [];
++      markUserInteraction();
++      stats.recordInteraction('click', { stage: mood.stage });
+       mood.interact('poke_spam');
+       updateBaseline();
+       say('poke_spam');
+@@ -1441,12 +1579,22 @@
+     sendTo(panelWin, 'timer', snap);
+   });
+   timer.on('started', ({ minutes }) => {
++    timerPauseResumeCount = 0;
++    stats.productiveAction();
+     reactToInteraction('timer_start', () => say('timer_start', { minutes }));
+   });
+-  timer.on('paused', () => say('timer_pause'));
+-  timer.on('resumed', () => { if (chance(0.8)) say('timer_resume'); });
++  timer.on('paused', () => {
++    const rem = timer.snapshot().remainingMs;
++    if (rem >= 500 && rem <= 1500) stats.award('secret_bir_dakika');
++    say('timer_pause');
++  });
++  timer.on('resumed', () => { timerPauseResumeCount += 1; if (chance(0.8)) say('timer_resume'); });
+   timer.on('done', ({ minutes, label }) => {
+-    stats.focus(minutes, true);
++    const now = new Date();
++    if (now.getHours() === 23 && now.getMinutes() === 59) stats.award('secret_son_dakikaci');
++    stats.focus(minutes, true, { pajama: currentOutfit() === 'pajama', pauseResumeCount: timerPauseResumeCount });
++    stats.recordInteraction('timer_done', { stage: mood.stage });
++    timerPauseResumeCount = 0;
+     homeDialogue.recordTimerResult(true);
+     const woke = wakeNap('timer');
+     mood.interact('timer_done');
+@@ -1465,7 +1613,8 @@
+     broadcastState();
+   });
+   timer.on('cancelled', ({ progress, minutes }) => {
+-    stats.focus(minutes * progress, false);
++    stats.focus(minutes * progress, false, { pajama: currentOutfit() === 'pajama', pauseResumeCount: timerPauseResumeCount });
++    timerPauseResumeCount = 0;
+     homeDialogue.recordTimerResult(false);
+     mood.interact('timer_cancel');
+     updateBaseline();
+@@ -1486,6 +1635,7 @@
+     if (p.x === lastCursor.x && p.y === lastCursor.y) return;
+     lastCursor = p;
+     trackCursorReturn(p);
++    trackAchievementCursor(p);
+     const b = charWin.getBounds();
+     sendTo(charWin, 'cursor', { x: p.x, y: p.y, wx: b.x, wy: b.y });
+   }, 33);
+@@ -1507,8 +1657,10 @@
+     lastTick = now;
+     const systemIdleSec = powerMonitor.getSystemIdleTime();
+     mood.tick(dt, systemIdleSec, screenLocked);
+-    homeDialogue.noteActivity(!screenLocked && systemIdleSec < 120, now);
+-    stats.markActive();
++    const userActive = !screenLocked && systemIdleSec < 120;
++    homeDialogue.noteActivity(userActive, now);
++    if (userActive) stats.markActive();
++    stats.sessionTick(dt, userActive);
+     journal.recordHappiness(mood.summary().happiness);
+     trackActivity(dt);
+     if (settings().lastBackupDay !== new Date().toDateString()) autoBackup();
+@@ -1553,13 +1705,14 @@
+       say('archive_recall', { item: truncate(a.text, 50) }, { interrupt: false });
+     } else if (category === 'idle' && chance(0.12) && journal.jarCount() >= 3) {
+       const j = journal.jarRandom();
+-      if (j) say('jar_recall', { text: truncate(j.text, 60) }, { interrupt: false });
++      if (j) { stats.recordJarRecall(); say('jar_recall', { text: truncate(j.text, 60) }, { interrupt: false }); }
+     } else {
+       say(category, {}, { interrupt: false });
+     }
+   }, 20 * 1000);
+ 
+   mood.on('stage', ({ stage, previous }) => {
++    stats.recordState(stage);
+     const order = ['content', 'bored', 'sulky', 'lonely'];
+     // Sadece kötüye giderken duyur (kademeli geçiş hissi için).
+     if (order.indexOf(stage) > order.indexOf(previous) && !settings().muted) {
+@@ -1607,6 +1760,7 @@
+   const s = settings();
+   if (!charWin || peek || drag || s.muted || s.hidden || mood.state.asleep || mood.state.napping) return;
+   if (panelWin && panelWin.isVisible()) return;
++  stats.recordPeek();
+   const b = charWin.getBounds();
+   const wa = screen.getDisplayMatching(b).workArea;
+   const L = characterLayout(currentTheme, s.scale);
+@@ -1657,20 +1811,34 @@
+   return d.getTime();
+ }
+ 
+-// Yeni rozet: aynı anda birden fazla gelirse arka arkaya söylesin.
++// Yeni rozet: uygulama içi tepki + Windows bildirimi, yalnız locked -> unlocked anında.
+ let unlockDelay = 0;
++let unlockNotificationAt = 0;
+ function handleUnlock(a) {
+   unlockDelay = Math.max(unlockDelay, Date.now()) + 6500;
+   setTimeout(() => {
+     if (settings().sound) sendTo(charWin, 'sound', 'chime');
+     say('achievement', { title: a.title }, { force: true });
+   }, Math.max(2500, unlockDelay - Date.now() - 4000));
++
++  unlockNotificationAt = Math.max(unlockNotificationAt, Date.now()) + 1800;
++  setTimeout(() => {
++    const title = a.hidden ? 'Gizli başarım keşfedildi!' : 'Yeni rozet açıldı!';
++    notify(title, `${a.title} — ${a.completedDesc || a.desc}`);
++  }, Math.max(300, unlockNotificationAt - Date.now() - 1200));
+   broadcastState();
+ }
+ 
+ function notify(title, body) {
+-  if (!Notification.isSupported()) return;
+-  new Notification({ title, body, icon: iconPath, silent: !settings().sound }).show();
++  if (!Notification.isSupported()) return null;
++  const n = new Notification({ title, body, icon: iconPath, silent: !settings().sound });
++  n.show();
++  return n;
++}
++
++function notifyAck(title, body, kind) {
++  const n = notify(title, `${body} Bildirime tıklarsan “yaptım” olarak sayacağım.`);
++  if (n) n.once('click', () => { stats.recordReminderAck(kind); broadcastState(); });
+ }
+ 
+ function checkReminders() {
+@@ -1703,11 +1871,13 @@
+   if (s.waterEvery > 0 && sinceWaterMs >= s.waterEvery * MIN && !quiet) {
+     sinceWaterMs = 0;
+     say('remind_water', {}, { interrupt: false });
++    notifyAck('Nero: su molası', 'Biraz su iç.', 'water');
+   }
+   const breakEvery = todayMode() === 'sakin' && s.breakEvery > 45 ? 45 : s.breakEvery;
+   if (breakEvery > 0 && activeStreakMs >= breakEvery * MIN && timer.snapshot().status !== 'running' && !quiet) {
+     activeStreakMs = 0;
+     say('remind_break', {}, { interrupt: false });
++    notifyAck('Nero: mola zamanı', 'Kısa bir mola ver.', 'break');
+   }
+ }
+ 
+@@ -1722,6 +1892,7 @@
+   if (s.hidden || mood.state.asleep || mood.state.napping || drag || peek) return;
+   if (powerMonitor.getSystemIdleTime() > 120) return;
+   settingsStore.patch({ lastSummaryDay: key });
++  stats.recordDaySummary();
+   const today = stats.summary().today;
+   const category = today.todos === 0 && today.focus === 0 ? 'day_summary_none'
+     : today.todos >= 3 || today.focus >= 60 ? 'day_summary_good' : 'day_summary_ok';
+@@ -1794,7 +1965,10 @@
+   fs.writeFileSync(path.join(backupDir, `nero-geri-yukleme-oncesi-${Date.now()}.json`), JSON.stringify(snapshotData(), null, 2), 'utf8');
+   notesStore.set(data.notes);
+   todosStore.set(data.todos);
+-  if (data.stats && typeof data.stats === 'object') { statsStore.set(data.stats); stats = new Stats(statsStore); stats.onUnlock = handleUnlock; }
++  if (data.stats && typeof data.stats === 'object') {
++    statsStore.set(data.stats); stats = new Stats(statsStore); stats.onUnlock = handleUnlock;
++    stats.onDeskUnlock = (item) => { setTimeout(() => say('desk_unlock', { title: item.title }, { force: true }), 1500); };
++  }
+   if (data.homeDialogue && typeof data.homeDialogue === 'object') {
+     homeDialogueStore.set(data.homeDialogue);
+     homeDialogue = new HomeDialogueEngine({
+@@ -1933,6 +2107,9 @@
+   jarStore = new JsonStore(userData, 'jar', {});
+   homeDialogueStore = new JsonStore(userData, 'home-dialogue-state', {});
+   journal = new Journal({ moodStore: moodLogStore, archiveStore, jarStore });
++  // Migration sırasında mevcut saatli görevler sayılır; onUnlock henüz bağlı olmadığı için eski
++  // kullanıcı verileri için toplu Windows bildirimi spamı oluşmaz.
++  stats.scheduledTodoCount(todosStore.get().filter((t) => !t.done && t.remindAt).length);
+   stats.onUnlock = handleUnlock;
+   stats.onDeskUnlock = (item) => {
+     setTimeout(() => {
+diff -ruN '--exclude=node_modules' '--exclude=dist' '--exclude=.git' nero410_base_for_ach/nero/src/main/stats.js nero411_work/nero/src/main/stats.js
+--- nero410_base_for_ach/nero/src/main/stats.js	2026-09-22 22:51:00.000000000 +0000
++++ nero411_work/nero/src/main/stats.js	2026-09-23 03:09:53.194532381 +0000
+@@ -1,8 +1,10 @@
+-// Kullanım istatistikleri: ana sayfadaki kutucuklar ve Nero'nun laf sokmaları buradan beslenir.
++// Nero kullanım istatistikleri + Achievement Sistemi v2.
++// 4.1.0'da mevcut 31 achievement ID'si korunur; uzun dönem metrikleri 90 günlük
++// günlük özetinden ayrı ve kalıcı tutulur.
+ 
+ const ACHIEVEMENTS = require('../data/achievements');
++const { CORE_INTERACTIONS } = ACHIEVEMENTS;
+ 
+-// Masa köşesi: toplam odak saatine göre kalıcı objeler biriktirir.
+ const DESK_ITEMS = [
+   { id: 'fincan', hours: 1, icon: '☕', title: 'Kahve fincanı' },
+   { id: 'defter', hours: 3, icon: '📓', title: 'Not defteri' },
+@@ -15,8 +17,10 @@
+   { id: 'saksi2', hours: 85, icon: '🌸', title: 'Çiçek açan saksı' },
+   { id: 'gramofon', hours: 120, icon: '📻', title: 'Eski radyo' }
+ ];
++
+ const DAY_MS = 24 * 60 * 60 * 1000;
+ const KEEP_DAYS = 90;
++const MAX_HISTORY_DAYS = 1200;
+ 
+ function dayKey(date = new Date()) {
+   const y = date.getFullYear();
+@@ -31,40 +35,133 @@
+   return Math.round((Date.UTC(by, bm - 1, bd) - Date.UTC(ay, am - 1, ad)) / DAY_MS);
+ }
+ 
++function unique(arr) { return [...new Set(Array.isArray(arr) ? arr : [])]; }
++function addUnique(arr, value, limit = 1500) {
++  const out = unique(arr);
++  if (value !== undefined && value !== null && !out.includes(value)) out.push(value);
++  return out.length > limit ? out.slice(-limit) : out;
++}
++
++function emptyHistoryRow() {
++  return {
++    todos: 0, todosCreated: 0, focus: 0, timersDone: 0, timersQuit: 0,
++    notes: 0, pets: 0, active: false, meaningful: false, badMood: false,
++    mode: null, rest: false, goodnight: false
++  };
++}
++
++const DEFAULT_METRICS = {
++  wakeCount: 0,
++  waterAck: 0,
++  breakAck: 0,
++  scheduledCreated: 0,
++  jarAdds: 0,
++  jarRecalls: 0,
++  weeklyLetters: 0,
++  return30Count: 0,
++  peekSeen: 0,
++  dragDrops: 0,
++  panelPinnedUsed: 0,
++  mutedUsed: 0,
++  maxScheduledTodos: 0,
++  daySummaryCount: 0,
++  modeDaysTotal: 0
++};
++
++const DEFAULT_SETS = {
++  activeDays: [], meaningfulDays: [], morningDays: [], nightDays: [], focusDays: [],
++  restDays: [], goodnightDays: [], daySummaryDays: [], outfitsSeen: [], statesSeen: [],
++  personalizedLines: [], specialReactions: [], interactionTypes: [],
++  modeDays: { sakin: [], uretken: [], kendime: [] }
++};
++
+ const DEFAULTS = {
+   firstUsedAt: null,
+   lastActiveDay: null,
+   daysActive: 0,
+   streak: 0,
+   bestStreak: 0,
+-  totals: { todos: 0, focusMin: 0, timersDone: 0, timersQuit: 0, notes: 0, pets: 0 },
++  totals: { todos: 0, todoCreated: 0, focusMin: 0, timersDone: 0, timersQuit: 0, notes: 0, pets: 0 },
+   days: {},
+-  achievements: {},   // rozet kimliği -> kazanıldığı zaman
+-  desk: {},           // masa objesi kimliği -> kazanıldığı zaman
+-  doneStreak: 0       // yarıda bırakmadan üst üste tamamlanan sayaç
++  history: {},
++  achievements: {},
++  desk: {},
++  doneStreak: 0,
++  metrics: DEFAULT_METRICS,
++  sets: DEFAULT_SETS
+ };
+ 
+ class Stats {
+   constructor(store) {
+     this.store = store;
+-    const s = store.get();
++    const s = store.get() || {};
+     this.data = {
+       ...structuredClone(DEFAULTS),
+       ...s,
+       totals: { ...DEFAULTS.totals, ...(s.totals || {}) },
+       days: { ...(s.days || {}) },
++      history: { ...(s.history || {}) },
+       achievements: { ...(s.achievements || {}) },
+-      desk: { ...(s.desk || {}) }
++      desk: { ...(s.desk || {}) },
++      metrics: { ...DEFAULT_METRICS, ...(s.metrics || {}) },
++      sets: {
++        ...structuredClone(DEFAULT_SETS), ...(s.sets || {}),
++        modeDays: { ...DEFAULT_SETS.modeDays, ...((s.sets && s.sets.modeDays) || {}) }
++      }
+     };
++    for (const key of Object.keys(DEFAULT_SETS)) {
++      if (key === 'modeDays') continue;
++      this.data.sets[key] = unique(this.data.sets[key]);
++    }
++    for (const mode of Object.keys(DEFAULT_SETS.modeDays)) this.data.sets.modeDays[mode] = unique(this.data.sets.modeDays[mode]);
++
+     this.onUnlock = null;
+     this.onDeskUnlock = null;
++    this.sessionStartedAt = Date.now();
++    this.sessionActiveMs = 0;
++    this.sessionNoProductiveMs = 0;
++    this.transient = {
++      wakeTimes: [], clickTimes: [], petTimes: [], dragDrops: [], positiveSulky: [],
++      faceClicks: [], faceClickToken: 0
++    };
++
+     if (!this.data.firstUsedAt) this.data.firstUsedAt = Date.now();
++    this._migrateHistory();
+     this.markActive();
+   }
+ 
+-  // Bugün kullanıldı olarak işaretle, seriyi güncelle.
+-  markActive() {
+-    const today = dayKey();
++  _migrateHistory() {
++    for (const [key, row] of Object.entries(this.data.days || {})) {
++      if (!this.data.history[key]) {
++        this.data.history[key] = {
++          ...emptyHistoryRow(),
++          todos: row.todos || 0, focus: row.focus || 0,
++          timersDone: row.timersDone || 0, timersQuit: row.timersQuit || 0,
++          active: true,
++          meaningful: (row.todos || 0) > 0 || (row.focus || 0) > 0
++        };
++      }
++      this.data.sets.activeDays = addUnique(this.data.sets.activeDays, key);
++      if ((row.todos || 0) > 0 || (row.focus || 0) > 0) this.data.sets.meaningfulDays = addUnique(this.data.sets.meaningfulDays, key);
++      if ((row.timersDone || 0) > 0) this.data.sets.focusDays = addUnique(this.data.sets.focusDays, key);
++    }
++  }
++
++  _historyDay(key = dayKey()) {
++    if (!this.data.history[key]) this.data.history[key] = emptyHistoryRow();
++    return this.data.history[key];
++  }
++
++  _today() {
++    const key = dayKey();
++    if (!this.data.days[key]) this.data.days[key] = { todos: 0, focus: 0, timersDone: 0, timersQuit: 0, notes: 0, pets: 0, todosCreated: 0 };
++    const row = this.data.days[key];
++    for (const f of ['todos','focus','timersDone','timersQuit','notes','pets','todosCreated']) if (!Number.isFinite(row[f])) row[f] = 0;
++    return row;
++  }
++
++  markActive(date = new Date()) {
++    const today = dayKey(date);
+     const d = this.data;
+     if (d.lastActiveDay !== today) {
+       const gap = d.lastActiveDay ? daysBetween(d.lastActiveDay, today) : null;
+@@ -72,65 +169,224 @@
+       d.bestStreak = Math.max(d.bestStreak, d.streak);
+       d.daysActive += 1;
+       d.lastActiveDay = today;
+-      this._prune();
+-      this._save();
+-      this.evaluate();
+     }
++    const h = this._historyDay(today);
++    h.active = true;
++    d.sets.activeDays = addUnique(d.sets.activeDays, today);
++    const hour = date.getHours();
++    if (hour < 7) d.sets.morningDays = addUnique(d.sets.morningDays, today);
++    if (hour < 5) d.sets.nightDays = addUnique(d.sets.nightDays, today);
++    this._prune();
++    this._save();
++    this.evaluate();
+   }
+ 
+-  _today() {
+-    const key = dayKey();
+-    if (!this.data.days[key]) this.data.days[key] = { todos: 0, focus: 0, timersDone: 0, timersQuit: 0 };
+-    else {
+-      if (!Number.isFinite(this.data.days[key].timersDone)) this.data.days[key].timersDone = 0;
+-      if (!Number.isFinite(this.data.days[key].timersQuit)) this.data.days[key].timersQuit = 0;
+-    }
+-    return this.data.days[key];
++  meaningful(kind = 'interaction', date = new Date()) {
++    this.markActive(date);
++    const key = dayKey(date);
++    this._historyDay(key).meaningful = true;
++    this.data.sets.meaningfulDays = addUnique(this.data.sets.meaningfulDays, key);
++    if (kind === 'productive') this.sessionNoProductiveMs = 0;
++    this._save();
+   }
+ 
+-  todoDone(delta = 1) {
+-    this.markActive();
++  productiveAction() {
++    this.meaningful('productive');
++    this.sessionNoProductiveMs = 0;
++  }
++
++  sessionTick(dtMs, active = true) {
++    if (!active) return;
++    const dt = Math.max(0, Math.min(Number(dtMs) || 0, 5 * 60 * 1000));
++    this.sessionActiveMs += dt;
++    this.sessionNoProductiveMs += dt;
++    if (this.sessionNoProductiveMs >= 60 * 60 * 1000) this.award('secret_ikimiz_de_issiziz');
++    this.evaluate();
++  }
++
++  todoCreated({ scheduled = false } = {}) {
++    this.productiveAction();
++    const t = this._today();
++    t.todosCreated += 1;
++    const h = this._historyDay();
++    h.todosCreated += 1;
++    this.data.totals.todoCreated += 1;
++    if (scheduled) this.data.metrics.scheduledCreated += 1;
++    this._save();
++    this.evaluate();
++  }
++
++  scheduledTodoCount(count) {
++    this.data.metrics.maxScheduledTodos = Math.max(this.data.metrics.maxScheduledTodos || 0, Number(count) || 0);
++    this._save(); this.evaluate();
++  }
++
++  todoDone(delta = 1, { createdAt = null } = {}) {
++    this.productiveAction();
+     const t = this._today();
+     t.todos = Math.max(0, t.todos + delta);
+     this.data.totals.todos = Math.max(0, this.data.totals.todos + delta);
+-    this._save();
++    const h = this._historyDay();
++    h.todos = Math.max(0, h.todos + delta);
+     if (delta > 0) {
+-      const h = new Date().getHours();
+-      if (h < 5) this.award('gece_kusu');
+-      else if (h < 7) this.award('erken_kus');
++      const now = new Date();
++      if (now.getHours() < 5) this.award('gece_kusu');
++      else if (now.getHours() < 7) this.award('erken_kus');
++      if (createdAt && dayKey(new Date(createdAt)) === dayKey(now)) h.sameDayTodoDone = (h.sameDayTodoDone || 0) + 1;
+     }
+-    this.evaluate();
++    this._save(); this.evaluate();
+   }
+ 
+-  focus(minutes, completed) {
+-    this.markActive();
++  focus(minutes, completed, meta = {}) {
++    this.productiveAction();
+     const m = Math.max(0, Math.round(minutes));
+-    const today = this._today();
+-    today.focus += m;
+-    this.data.totals.focusMin += m;
++    const t = this._today();
++    const h = this._historyDay();
++    t.focus += m; h.focus += m; this.data.totals.focusMin += m;
+     if (completed) {
+-      today.timersDone += 1;
+-      this.data.totals.timersDone += 1;
++      t.timersDone += 1; h.timersDone += 1; this.data.totals.timersDone += 1;
+       this.data.doneStreak = (this.data.doneStreak || 0) + 1;
++      this.data.sets.focusDays = addUnique(this.data.sets.focusDays, dayKey());
+       if (m >= 60) this.award('maraton');
+       if (this.data.doneStreak >= 5) this.award('pes_etmeyen');
++      if (meta.pajama) {
++        this.data.metrics.pajamaTimerStreak = (this.data.metrics.pajamaTimerStreak || 0) + 1;
++        if (this.data.metrics.pajamaTimerStreak >= 3) this.award('secret_hala_uyaniksin');
++      } else this.data.metrics.pajamaTimerStreak = 0;
++      if ((meta.pauseResumeCount || 0) >= 4) this.award('secret_kacis_plani');
+     } else {
+-      today.timersQuit += 1;
+-      this.data.totals.timersQuit += 1;
++      t.timersQuit += 1; h.timersQuit += 1; this.data.totals.timersQuit += 1;
+       this.data.doneStreak = 0;
++      this.data.metrics.pajamaTimerStreak = 0;
+     }
+-    this._save();
+-    this.evaluate();
+-    this.evaluateDesk();
++    this._save(); this.evaluate(); this.evaluateDesk();
++  }
++
++  noteCreated() {
++    this.productiveAction();
++    this.data.totals.notes += 1;
++    this._today().notes += 1;
++    this._historyDay().notes += 1;
++    this._save(); this.evaluate();
++  }
++
++  pet(meta = {}) {
++    this.meaningful('interaction');
++    this.data.totals.pets += 1;
++    this._today().pets += 1;
++    this._historyDay().pets += 1;
++    this.recordInteraction('pet', meta);
++    const now = Date.now();
++    this.transient.petTimes = [...this.transient.petTimes.filter((t) => now - t < 120000), now];
++    if ((meta.stage === 'sulky' || meta.stage === 'lonely') && this.transient.petTimes.filter((t) => now - t < 20000).length >= 6) this.award('secret_dokunma_bana');
++    if (meta.stage === 'sulky' && (meta.ignoredMs || 0) >= 15 * 60 * 1000) this.award('secret_inat');
++    this._save(); this.evaluate();
++  }
++
++  recordInteraction(type, meta = {}) {
++    this.meaningful('interaction');
++    if (CORE_INTERACTIONS.includes(type)) this.data.sets.interactionTypes = addUnique(this.data.sets.interactionTypes, type, 50);
++    const now = new Date();
++    if (now.getHours() === 0 && now.getMinutes() <= 1) this.award('secret_yeni_gun');
++    if (type === 'click' && now.getHours() === 3 && now.getMinutes() <= 10) {
++      const ms = Date.now();
++      this.transient.clickTimes = [...this.transient.clickTimes.filter((t) => ms - t < 10 * 60 * 1000), ms];
++      if (this.transient.clickTimes.length >= 3) this.award('secret_gece_uc');
++    }
++    if (meta.stage === 'sulky' && ['pet','panel','todo_done','timer_done'].includes(type)) {
++      const ms = Date.now();
++      this.transient.positiveSulky = this.transient.positiveSulky.filter((x) => ms - x.t < 120000);
++      this.transient.positiveSulky.push({ t: ms, type });
++      if (new Set(this.transient.positiveSulky.map((x) => x.type)).size >= 3) this.award('secret_tam_tersi');
++    }
++    this._save(); this.evaluate();
++  }
++
++  recordFaceClick() {
++    const now = Date.now();
++    this.transient.faceClicks = [...this.transient.faceClicks.filter((t) => now - t < 1200), now];
++    const token = ++this.transient.faceClickToken;
++    if (this.transient.faceClicks.length === 3) {
++      setTimeout(() => {
++        if (this.transient.faceClickToken === token && this.transient.faceClicks.length === 3) this.award('secret_boop');
++      }, 900);
++    }
++    if (this.transient.faceClicks.length > 3) this.transient.faceClicks = [];
++  }
++
++  recordWake() {
++    this.data.metrics.wakeCount += 1;
++    this.recordInteraction('wake');
++    const now = Date.now();
++    this.transient.wakeTimes = [...this.transient.wakeTimes.filter((t) => now - t < 10 * 60 * 1000), now];
++    if (this.transient.wakeTimes.length >= 5) this.award('secret_beni_rahat_birak');
++    this._save(); this.evaluate();
++  }
++
++  recordDragDrop(x, y) {
++    this.data.metrics.dragDrops += 1;
++    this.recordInteraction('drop');
++    const now = Date.now();
++    this.transient.dragDrops = this.transient.dragDrops.filter((p) => now - p.t < 10000);
++    const distinct = !this.transient.dragDrops.some((p) => Math.hypot((x || 0) - p.x, (y || 0) - p.y) < 28);
++    if (distinct) this.transient.dragDrops.push({ t: now, x: x || 0, y: y || 0 });
++    if (this.transient.dragDrops.length >= 5) this.award('secret_karar_ver');
++    this._save(); this.evaluate();
++  }
++
++  recordReminderAck(kind) {
++    if (kind === 'water') this.data.metrics.waterAck += 1;
++    if (kind === 'break') this.data.metrics.breakAck += 1;
++    this.meaningful('interaction'); this._save(); this.evaluate();
++  }
++
++  recordReturn(offlineMs) {
++    if (offlineMs >= 30 * 60 * 1000) this.data.metrics.return30Count += 1;
++    if (offlineMs >= 7 * DAY_MS) this.award('secret_yabanci_degilsin');
++    this._save(); this.evaluate();
+   }
+ 
+-  // Toplam odak saatine göre yeni masa objesi açılmış mı bak.
++  recordDayMode(mode) {
++    if (!['sakin','uretken','kendime'].includes(mode)) return;
++    const key = dayKey();
++    this.data.sets.modeDays[mode] = addUnique(this.data.sets.modeDays[mode], key);
++    this.data.metrics.modeDaysTotal = Object.values(this.data.sets.modeDays).reduce((a, arr) => a + arr.length, 0);
++    this._historyDay().mode = mode;
++    this.meaningful('interaction'); this._save(); this.evaluate();
++  }
++
++  recordRest() {
++    const key = dayKey();
++    this.data.sets.restDays = addUnique(this.data.sets.restDays, key);
++    this._historyDay().rest = true;
++    this.meaningful('interaction'); this._save(); this.evaluate();
++  }
++
++  recordGoodnight() {
++    const key = dayKey();
++    this.data.sets.goodnightDays = addUnique(this.data.sets.goodnightDays, key);
++    this._historyDay().goodnight = true;
++    this.meaningful('interaction'); this._save(); this.evaluate();
++  }
++
++  recordJarAdd() { this.data.metrics.jarAdds += 1; this.meaningful('productive'); this._save(); this.evaluate(); }
++  recordJarRecall() { this.data.metrics.jarRecalls += 1; this._save(); this.evaluate(); }
++  recordWeeklyLetter() { this.data.metrics.weeklyLetters += 1; this._save(); this.evaluate(); }
++  recordPeek() { this.data.metrics.peekSeen += 1; this.recordInteraction('peek'); this._save(); this.evaluate(); }
++  recordDaySummary() { const k = dayKey(); this.data.sets.daySummaryDays = addUnique(this.data.sets.daySummaryDays, k); this.data.metrics.daySummaryCount = this.data.sets.daySummaryDays.length; this._save(); this.evaluate(); }
++  recordOutfit(outfit) { if (outfit) this.data.sets.outfitsSeen = addUnique(this.data.sets.outfitsSeen, outfit, 20); this._save(); this.evaluate(); }
++  recordState(state) { if (state) this.data.sets.statesSeen = addUnique(this.data.sets.statesSeen, state, 30); if (state === 'sulky' || state === 'lonely') this._historyDay().badMood = true; this._save(); this.evaluate(); }
++  recordSpecialReaction(type) { if (type) this.data.sets.specialReactions = addUnique(this.data.sets.specialReactions, type, 100); this._save(); this.evaluate(); }
++  recordPersonalized(id) { if (id) this.data.sets.personalizedLines = addUnique(this.data.sets.personalizedLines, id, 500); this._save(); this.evaluate(); }
++  recordSetting(key, value) { if (key === 'panelPinned' && value) this.data.metrics.panelPinnedUsed = 1; if (key === 'muted' && value) this.data.metrics.mutedUsed = 1; this._save(); this.evaluate(); }
++  recordScheduledCreated() { this.data.metrics.scheduledCreated += 1; this._save(); this.evaluate(); }
++  recordEyeGesture(kind) { const map = { sweep: 'secret_beni_izliyor_musun', edge: 'secret_orada_bir_sey', wander: 'secret_nereye_bakiyorsun' }; if (map[kind]) this.award(map[kind]); }
++
+   evaluateDesk() {
+     const hours = this.data.totals.focusMin / 60;
+     for (const item of DESK_ITEMS) {
+       if (!this.data.desk[item.id] && hours >= item.hours) {
+-        this.data.desk[item.id] = Date.now();
+-        this._save();
++        this.data.desk[item.id] = Date.now(); this._save();
+         if (this.onDeskUnlock) this.onDeskUnlock(item);
+       }
+     }
+@@ -145,60 +401,61 @@
+     };
+   }
+ 
+-  // Koşullu rozetleri kontrol et; yeni kazanılanları bildir.
+   evaluate() {
+-    const sum = this.summary();
+-    for (const a of ACHIEVEMENTS) {
+-      if (a.check && !this.data.achievements[a.id] && a.check(sum)) this._unlock(a);
++    // Meta achievementlar aynı turdaki diğer unlockları da görebilsin diye birkaç sabit nokta turu.
++    for (let pass = 0; pass < 3; pass++) {
++      const sum = this.summary();
++      let changed = false;
++      for (const a of ACHIEVEMENTS) {
++        if (a.check && !this.data.achievements[a.id] && a.check(sum)) changed = this._unlock(a) || changed;
++      }
++      if (!changed) break;
+     }
+   }
+ 
+-  // Olay rozetini doğrudan ver.
+   award(id) {
+     const a = ACHIEVEMENTS.find((x) => x.id === id);
+-    if (a && !this.data.achievements[id]) this._unlock(a);
++    if (a && !this.data.achievements[id]) return this._unlock(a);
++    return false;
+   }
+ 
+   _unlock(a) {
++    if (this.data.achievements[a.id]) return false;
+     this.data.achievements[a.id] = Date.now();
+     this._save();
+-    if (this.onUnlock) this.onUnlock({ id: a.id, title: a.title, icon: a.icon, desc: a.desc });
++    if (this.onUnlock) this.onUnlock({
++      id: a.id, title: a.title, icon: a.icon, desc: a.desc,
++      completedDesc: a.completedDesc, rarity: a.rarity, hidden: !!a.hidden
++    });
++    return true;
+   }
+ 
+   achievementList() {
+-    return ACHIEVEMENTS.map((a) => ({
+-      id: a.id, icon: a.icon, title: a.title, desc: a.desc,
+-      unlockedAt: this.data.achievements[a.id] || null
+-    }));
+-  }
+-
+-  noteCreated() {
+-    this.data.totals.notes += 1;
+-    this._save();
+-    this.evaluate();
+-  }
+-
+-  pet() {
+-    this.data.totals.pets += 1;
+-    this._save();
+-    this.evaluate();
++    return ACHIEVEMENTS
++      .filter((a) => !a.hidden || !!this.data.achievements[a.id])
++      .map((a) => ({
++        id: a.id, icon: a.icon, title: a.title, desc: a.desc,
++        completedDesc: a.completedDesc, rarity: a.rarity, hidden: !!a.hidden, type: a.type,
++        unlockedAt: this.data.achievements[a.id] || null
++      }));
+   }
+ 
+   _prune() {
+     const keys = Object.keys(this.data.days).sort();
+     while (keys.length > KEEP_DAYS) delete this.data.days[keys.shift()];
++    const historyKeys = Object.keys(this.data.history).sort();
++    while (historyKeys.length > MAX_HISTORY_DAYS) delete this.data.history[historyKeys.shift()];
+   }
+ 
+-  _save() {
+-    this.store.set(this.data);
+-  }
++  _save() { this.store.set(this.data); }
+ 
+   summary() {
+     const d = this.data;
+-    const rawToday = this.data.days[dayKey()] || { todos: 0, focus: 0, timersDone: 0, timersQuit: 0 };
++    const rawToday = this.data.days[dayKey()] || {};
+     const today = {
+       todos: rawToday.todos || 0, focus: rawToday.focus || 0,
+-      timersDone: rawToday.timersDone || 0, timersQuit: rawToday.timersQuit || 0
++      timersDone: rawToday.timersDone || 0, timersQuit: rawToday.timersQuit || 0,
++      notes: rawToday.notes || 0, pets: rawToday.pets || 0, todosCreated: rawToday.todosCreated || 0
+     };
+     const week = [];
+     for (let i = 6; i >= 0; i--) {
+@@ -207,16 +464,33 @@
+       week.push({ day: k, weekday: date.getDay(), focus: d.days[k]?.focus || 0, todos: d.days[k]?.todos || 0 });
+     }
+     const together = Math.max(1, Math.floor((Date.now() - d.firstUsedAt) / DAY_MS) + 1);
++    const history = Object.keys(d.history).sort().map((day) => ({ day, ...d.history[day] }));
++    const activeRows = history.filter((row) => row.active);
++    let safeActiveRun = 0;
++    for (let i = activeRows.length - 1; i >= 0; i--) {
++      if (activeRows[i].badMood) break;
++      safeActiveRun += 1;
++    }
++    const normalUnlockedCount = ACHIEVEMENTS.filter((a) => !a.hidden && a.id !== 'tum_normal' && d.achievements[a.id]).length;
+     return {
+-      today,
+-      week,
+-      totals: d.totals,
+-      streak: d.streak,
+-      bestStreak: d.bestStreak,
++      today, week, totals: d.totals,
++      streak: d.streak, bestStreak: d.bestStreak,
+       daysActive: d.daysActive,
+-      daysTogether: together
++      activeDaysCount: Math.max(d.daysActive || 0, d.sets.activeDays.length),
++      daysTogether: together,
++      doneStreak: d.doneStreak || 0,
++      sessionMinutes: this.sessionActiveMs / 60000,
++      noProductiveSessionMinutes: this.sessionNoProductiveMs / 60000,
++      metrics: { ...d.metrics, safeActiveRun },
++      sets: {
++        ...d.sets,
++        modeDays: { ...d.sets.modeDays }
++      },
++      history,
++      normalUnlockedCount,
++      unlockedIds: Object.keys(d.achievements).filter((id) => d.achievements[id])
+     };
+   }
+ }
+ 
+-module.exports = { Stats, dayKey, ACHIEVEMENTS, DESK_ITEMS };
++module.exports = { Stats, dayKey, ACHIEVEMENTS, DESK_ITEMS, CORE_INTERACTIONS };
+diff -ruN '--exclude=node_modules' '--exclude=dist' '--exclude=.git' nero410_base_for_ach/nero/src/preload/preload.js nero411_work/nero/src/preload/preload.js
+--- nero410_base_for_ach/nero/src/preload/preload.js	2026-09-22 22:58:03.000000000 +0000
++++ nero411_work/nero/src/preload/preload.js	2026-09-23 03:13:13.325186346 +0000
+@@ -15,7 +15,7 @@
+ 
+ const SEND = new Set([
+   'char:ready', 'char:ignoreMouse', 'char:dragStart', 'char:dragEnd',
+-  'char:click', 'char:contextMenu', 'char:bubbleDone', 'char:pet',
++  'char:click', 'char:contextMenu', 'char:bubbleDone', 'char:pet', 'char:hoverStart', 'char:hoverEnd',
+   'panel:resizeStart', 'panel:resizeEnd'
+ ]);
+ 
+diff -ruN '--exclude=node_modules' '--exclude=dist' '--exclude=.git' nero410_base_for_ach/nero/src/renderer/character/character.js nero411_work/nero/src/renderer/character/character.js
+--- nero410_base_for_ach/nero/src/renderer/character/character.js	2026-09-22 20:53:07.000000000 +0000
++++ nero411_work/nero/src/renderer/character/character.js	2026-09-23 03:13:13.325883229 +0000
+@@ -625,14 +625,15 @@
+     const target = hitWhat(e.clientX, e.clientY);
+     setIgnore(!target);
+     const nowHover = target === 'char';
+-    if (nowHover && !hovering) onHoverStart();
++    if (nowHover && !hovering) { api.send('char:hoverStart'); onHoverStart(); }
++    if (!nowHover && hovering) api.send('char:hoverEnd');
+     hovering = nowHover;
+     if (nowHover) trackPet(e.clientX);
+     else petTrack.dir = 0;
+   });
+ 
+   document.addEventListener('mouseleave', () => {
+-    if (!press) { setIgnore(true); hovering = false; }
++    if (!press) { if (hovering) api.send('char:hoverEnd'); setIgnore(true); hovering = false; }
+   });
+ 
+   window.addEventListener('pointerdown', (e) => {
+@@ -657,7 +658,7 @@
+     }
+     if (p.target === 'bubble') endSpeech();
+     else if (p.target === 'badge') api.invoke('timer:badge');
+-    else if (p.target === 'char') api.send('char:click');
++    else if (p.target === 'char') api.send('char:click', { x: e.clientX, y: e.clientY });
+     setIgnore(!hitWhat(e.clientX, e.clientY));
+   });
+ 
+diff -ruN '--exclude=node_modules' '--exclude=dist' '--exclude=.git' nero410_base_for_ach/nero/src/renderer/panel/index.html nero411_work/nero/src/renderer/panel/index.html
+--- nero410_base_for_ach/nero/src/renderer/panel/index.html	2026-09-22 22:52:48.000000000 +0000
++++ nero411_work/nero/src/renderer/panel/index.html	2026-09-23 03:13:13.326032531 +0000
+@@ -41,12 +41,12 @@
+       <button role="tab" data-tab="todos">
+         <svg viewBox="0 0 20 20" aria-hidden="true"><rect x="3" y="3" width="14" height="14" rx="4"/><path d="M6.5 10l2.4 2.4L13.8 7.6"/></svg><span class="tl" data-k="todos">Yapılacaklar</span>
+       </button>
+-      <button role="tab" data-tab="badges">
+-        <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="8" r="5"/><path d="M6.5 12.5L5 18l5-2.2L15 18l-1.5-5.5"/></svg><span class="tl" data-k="badges">Rozetler</span>
+-      </button>
+       <button role="tab" data-tab="timer">
+         <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="11" r="6.5"/><path d="M10 7.5V11l2.2 1.6M8 2.5h4"/></svg><span class="tl" data-k="timer">Zaman</span>
+       </button>
++      <button role="tab" data-tab="badges">
++        <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="8" r="5"/><path d="M6.5 12.5L5 18l5-2.2L15 18l-1.5-5.5"/></svg><span class="tl" data-k="badges">Rozetler</span>
++      </button>
+       <button role="tab" data-tab="settings">
+         <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="2.6"/><path d="M10 2.5v2M10 15.5v2M2.5 10h2M15.5 10h2M4.7 4.7l1.4 1.4M13.9 13.9l1.4 1.4M4.7 15.3l1.4-1.4M13.9 6.1l1.4-1.4"/></svg><span class="tl" data-k="settings">Ayarlar</span>
+       </button>
+diff -ruN '--exclude=node_modules' '--exclude=dist' '--exclude=.git' nero410_base_for_ach/nero/src/renderer/panel/panel.css nero411_work/nero/src/renderer/panel/panel.css
+--- nero410_base_for_ach/nero/src/renderer/panel/panel.css	2026-09-23 00:09:15.000000000 +0000
++++ nero411_work/nero/src/renderer/panel/panel.css	2026-09-23 03:13:13.326638358 +0000
+@@ -600,7 +600,7 @@
+   list-style: none; margin: 0; padding: 0;
+   display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 14px 8px;
+ }
+-.badge { display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; cursor: default; }
++.badge { position: relative; display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; cursor: default; outline: none; }
+ .badge-icon {
+   width: 44px; height: 44px; border-radius: 50%;
+   display: grid; place-items: center;
+@@ -611,6 +611,17 @@
+ .badge.on .badge-icon { background: var(--accent); color: var(--accent-ink); border: 2px solid var(--accent); box-shadow: 0 3px 10px rgba(0, 0, 0, .12); }
+ .badge-name { font-size: 10.5px; font-weight: 700; line-height: 1.2; color: var(--ink); }
+ .badge-desc { font-size: 10px; line-height: 1.25; color: var(--muted); }
++.badge-tooltip {
++  position: absolute; z-index: 30; left: 50%; bottom: calc(100% + 8px); transform: translate(-50%, 4px);
++  width: max-content; max-width: 220px; padding: 7px 9px; border-radius: 9px;
++  background: var(--ink); color: var(--surface); box-shadow: var(--soft-shadow);
++  font-size: 10.5px; line-height: 1.35; text-align: left; pointer-events: none;
++  opacity: 0; visibility: hidden; transition: opacity .14s ease, transform .14s ease, visibility .14s;
++}
++.badge.on:hover .badge-tooltip, .badge.on:focus .badge-tooltip, .badge.on:focus-within .badge-tooltip {
++  opacity: 1; visibility: visible; transform: translate(-50%, 0);
++}
++.badge.on:focus .badge-icon { outline: 2px solid var(--accent); outline-offset: 2px; }
+ .more-badges { display: block; margin: 14px auto 0; }
+ .more-badges[hidden] { display: none; }
+ .scene-row { display: none; }
+diff -ruN '--exclude=node_modules' '--exclude=dist' '--exclude=.git' nero410_base_for_ach/nero/src/renderer/panel/panel.js nero411_work/nero/src/renderer/panel/panel.js
+--- nero410_base_for_ach/nero/src/renderer/panel/panel.js	2026-09-23 00:09:15.000000000 +0000
++++ nero411_work/nero/src/renderer/panel/panel.js	2026-09-23 03:13:13.326493374 +0000
+@@ -770,6 +770,15 @@
+       desc.className = 'badge-desc';
+       desc.textContent = a.unlockedAt ? new Date(a.unlockedAt).toLocaleDateString('tr-TR') : a.desc;
+       li.append(icon, name, desc);
++      if (a.unlockedAt) {
++        li.tabIndex = 0;
++        li.setAttribute('aria-label', `${a.title}. ${a.completedDesc || a.desc}`);
++        const tip = document.createElement('span');
++        tip.className = 'badge-tooltip';
++        tip.setAttribute('role', 'tooltip');
++        tip.textContent = a.completedDesc || a.desc;
++        li.appendChild(tip);
++      }
+       grid.appendChild(li);
+     }
+     const rest = sorted.length - shown.length;
+diff -ruN '--exclude=node_modules' '--exclude=dist' '--exclude=.git' nero410_base_for_ach/nero/test/achievements.test.js nero411_work/nero/test/achievements.test.js
+--- nero410_base_for_ach/nero/test/achievements.test.js	1970-01-01 00:00:00.000000000 +0000
++++ nero411_work/nero/test/achievements.test.js	2026-09-23 03:14:39.671903788 +0000
+@@ -0,0 +1,85 @@
++const test = require('node:test');
++const assert = require('node:assert/strict');
++const fs = require('fs');
++const path = require('path');
++const ACHIEVEMENTS = require('../src/data/achievements');
++const { Stats } = require('../src/main/stats');
++
++class MemoryStore {
++  constructor(seed = {}) { this.data = structuredClone(seed); }
++  get() { return this.data; }
++  set(next) { this.data = structuredClone(next); return this.data; }
++}
++
++const LEGACY_IDS = [
++  'ilk_is','is_10','is_50','is_100','is_500','gunde_5','gunde_10','hepsi_bitti','gece_kusu','erken_kus',
++  'ilk_sayac','sayac_25','odak_10s','odak_50s','gunluk_2s','maraton','pes_etmeyen','seri_3','seri_7','seri_30',
++  'birlikte_30','birlikte_100','ilk_not','not_25','sev_1','sev_50','sev_200','uyandirdin','salladin','yakaladin','dogum_gunu'
++];
++
++test('Achievement v2 tam 125 benzersiz rozet içerir ve dağılım doğrudur', () => {
++  assert.equal(ACHIEVEMENTS.length, 125);
++  assert.equal(new Set(ACHIEVEMENTS.map((a) => a.id)).size, 125);
++  const count = (r) => ACHIEVEMENTS.filter((a) => a.rarity === r).length;
++  assert.equal(count('yaygin'), 25);
++  assert.equal(count('siradisi'), 35);
++  assert.equal(count('nadir'), 20);
++  assert.equal(count('efsanevi'), 20);
++  assert.equal(count('gizli'), 25);
++});
++
++test('4.0.x mevcut 31 achievement IDsi korunmuştur', () => {
++  const ids = new Set(ACHIEVEMENTS.map((a) => a.id));
++  for (const id of LEGACY_IDS) assert.ok(ids.has(id), `eksik legacy id: ${id}`);
++});
++
++test('bütün rozetlerde UI için tamamlanmış görev açıklaması vardır', () => {
++  for (const a of ACHIEVEMENTS) {
++    assert.ok(a.title && a.desc && a.completedDesc, `${a.id} metin alanı eksik`);
++    assert.ok(!a.completedDesc.startsWith('Tamamladın:'), `${a.id} generic completedDesc kullanıyor`);
++    assert.ok(['yaygin','siradisi','nadir','efsanevi','gizli'].includes(a.rarity));
++    assert.equal(a.hidden, a.rarity === 'gizli');
++  }
++});
++
++test('kilitli gizli rozetler UI listesinden tamamen gizlenir, açılınca görünür', () => {
++  const stats = new Stats(new MemoryStore());
++  assert.equal(stats.achievementList().length, 100);
++  stats.award('secret_boop');
++  const list = stats.achievementList();
++  assert.equal(list.length, 101);
++  const boop = list.find((a) => a.id === 'secret_boop');
++  assert.ok(boop?.unlockedAt);
++});
++
++test('aynı achievement ikinci kez unlock callback üretmez', () => {
++  const stats = new Stats(new MemoryStore());
++  let calls = 0;
++  stats.onUnlock = () => { calls += 1; };
++  stats.award('salladin');
++  stats.award('salladin');
++  stats.evaluate();
++  assert.equal(calls, 1);
++});
++
++test('uzun dönem sayaçları 90 günlük prune dışında kalır', () => {
++  const stats = new Stats(new MemoryStore({ daysActive: 179 }));
++  stats.data.daysActive = 180;
++  stats.evaluate();
++  assert.ok(stats.data.achievements.aktif_180);
++});
++
++test('UI sekme sırası Sayaç -> Rozetler şeklindedir', () => {
++  const html = fs.readFileSync(path.join(__dirname, '../src/renderer/panel/index.html'), 'utf8');
++  assert.ok(html.indexOf('data-tab="timer"') < html.indexOf('data-tab="badges"'));
++});
++
++test('tamamlanmış rozet tooltipi hover ve focus ile erişilebilir', () => {
++  const js = fs.readFileSync(path.join(__dirname, '../src/renderer/panel/panel.js'), 'utf8');
++  const css = fs.readFileSync(path.join(__dirname, '../src/renderer/panel/panel.css'), 'utf8');
++  assert.match(js, /badge-tooltip/);
++  assert.match(js, /completedDesc/);
++  assert.match(js, /tabIndex\s*=\s*0/);
++  assert.match(css, /\.badge\.on:hover \.badge-tooltip/);
++  assert.match(css, /\.badge\.on:focus \.badge-tooltip/);
++});

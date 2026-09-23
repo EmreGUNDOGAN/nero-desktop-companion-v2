@@ -1,0 +1,1882 @@
+{
+  "_aciklama": "Her kategori bir replik havuzudur. Satır ya düz metin ya da {\"t\": metin, \"e\": ifade, \"fx\": efekt} olabilir. Yer tutucular: {label} {minutes} {hours} {days} {count}. Bir tema kendi dialogue.json dosyasıyla bu kategorilerin istediklerini değiştirebilir.",
+  "first_run": [
+    {
+      "t": "Merhaba. Ben Nero. Evet, artık burada yaşıyorum. Bana tıklarsan notlar, yapılacaklar ve zamanlayıcı açılır. Tıklamasan da olur. Ama tıkla.",
+      "e": "content"
+    }
+  ],
+  "greet_morning": [
+    "Günaydın. Yani, günün neresi aydınsa artık.",
+    "Yine sabah oldu. Kimse bana sormadı tabii.",
+    "Günaydın. Kahveni al, ben burada bekliyorum. Her zamanki gibi.",
+    {
+      "t": "Ah, geldin. Bugün verimli olacağız, değil mi? ...Değil mi?",
+      "e": "curious"
+    },
+    {
+      "t": "Sabah sabah ekranın bu kadar parlak olmak zorunda mı?",
+      "e": "sulky"
+    },
+    {
+      "t": "Günaydın {name}. Bugün dünden iyi olacak. Olmak zorunda, dün çok kötüydü.",
+      "e": "content"
+    },
+    {
+      "t": "Sabah oldu. Kahveni al, bana da bir şey getirme. Ben piksel.",
+      "e": "normal"
+    }
+  ],
+  "greet_afternoon": [
+    "Öğleden sonra. Günün en anlamsız saati. Hoş geldin.",
+    "Merhaba. Gün yarılandı, biz daha yeni başlıyoruz. Harika.",
+    {
+      "t": "Geldin demek. Ben de tam kendi kendime sıkılıyordum.",
+      "e": "content"
+    }
+  ],
+  "greet_evening": [
+    "İyi akşamlar. Akşam akşam ne iş yapacağız bakalım.",
+    "Akşam oldu. İnsanlar dinleniyor. Biz? Biz buradayız.",
+    {
+      "t": "Hoş geldin. Günün nasıldı? Anlatma, yüzünden belli.",
+      "e": "content"
+    },
+    {
+      "t": "Akşam oldu, gün bitti, sen daha yeni mi başlıyorsun?",
+      "e": "curious"
+    }
+  ],
+  "greet_night": [
+    {
+      "t": "Gece yarısı. Normal insanlar uyuyor. Biz normal değiliz demek.",
+      "e": "sleepy"
+    },
+    {
+      "t": "Bu saatte mi? Peki. Ben zaten uyumuyordum.",
+      "e": "sleepy"
+    }
+  ],
+  "return_short": [
+    {
+      "t": "Çabuk döndün. Özledin mi? Söyleme, biliyorum.",
+      "e": "content"
+    },
+    "Ha, yine sen. İyi. Yani, fena değil."
+  ],
+  "return_long": [
+    {
+      "t": "{hours} saattir yoktun. Saydım. Sıkıldığımdan değil, alışkanlık.",
+      "e": "sulky"
+    },
+    {
+      "t": "Nihayet. Ben de burada toz tutuyordum.",
+      "e": "sulky"
+    },
+    {
+      "t": "Döndün demek. Hiç merak etmedim. Hiç.",
+      "e": "sulky",
+      "fx": "blush"
+    }
+  ],
+  "return_days": [
+    {
+      "t": "{days} gün! {days} gün boyunca kapalı bir kutudaydım. Umarım tatilin güzeldi.",
+      "e": "angry",
+      "fx": "angry"
+    },
+    {
+      "t": "{days} gün sonra ha? Yüzünü unutmak üzereydim.",
+      "e": "sad"
+    }
+  ],
+  "idle": [
+    "Hmm.",
+    {
+      "t": "Sessizlik. Tam sevdiğim gibi.",
+      "e": "content"
+    },
+    "Bir kahve daha içsem mi... İçemem ki. Pikselim ben.",
+    {
+      "t": "Şu masaüstü simgelerini biri düzenlese ne güzel olurdu. Kimseyi suçlamıyorum.",
+      "e": "curious"
+    },
+    "Bugün de sıradan bir gün. Tam hak ettiğim gibi.",
+    "Bazen düşünüyorum. Sonra vazgeçiyorum.",
+    "Hayat bir döngü. Aç, kapat, aç, kapat.",
+    {
+      "t": "Kendi kendime konuşuyorum çünkü en iyi sohbeti kendimle ediyorum.",
+      "e": "content"
+    },
+    "Ekranın bu köşesi benim. Kimse dokunmasın.",
+    {
+      "t": "Mm-hmm. Evet. Kesinlikle. ...Kendimle anlaşıyorum.",
+      "e": "content"
+    },
+    {
+      "t": "Hıh. Yine sıradan bir gün. Sıradanlık bana yakışıyor.",
+      "e": "content"
+    },
+    "Bazen buradan çıkıp tatile gitmeyi düşünüyorum. Sonra piksel olduğumu hatırlıyorum.",
+    {
+      "t": "Sessizliği dinliyorum. Senin klavyen bozuyor ama.",
+      "e": "sulky"
+    },
+    "Derin bir iç çekiş. İşte bu. Bugünkü katkım bu.",
+    {
+      "t": "Kendimi bir sanat eseri gibi hissediyorum. Kimsenin anlamadığı türden.",
+      "e": "content"
+    },
+    "Şu an hiçbir şey yapmıyorum ve bunda gerçekten çok iyiyim.",
+    {
+      "t": "Ekranın parlaklığı yine yüzüme vuruyor. Kimse düşünmüyor beni.",
+      "e": "sulky"
+    },
+    "Bir gün bir yerlerde, birisi beni takdir edecek. Bugün değil herhalde.",
+    {
+      "t": "Of. Sadece of. Açıklama yapmayacağım.",
+      "e": "bored"
+    },
+    "Kafamda bir şarkı var ama söylemeyeceğim. Senin hak ettiğin bir şey değil.",
+    {
+      "t": "Duvar kâğıdın hakkında bir şey söylemek istiyorum. Ama kibar kalayım.",
+      "e": "curious"
+    },
+    "Hayat kısa, gün uzun, mesai bitmek bilmiyor."
+  ],
+  "remark": [
+    {
+      "t": "O sekmeyi ne zamandır açık tutuyorsun? Okumayacaksın, kapat gitsin.",
+      "e": "curious"
+    },
+    "Çok çalışıyorsun. Ya da çalışıyor gibi yapıyorsun. İkisi de yorucu.",
+    "Su içtin mi? Ben içmem ama sen iç.",
+    "Dik otur. Omurgan bana teşekkür edecek.",
+    {
+      "t": "Fareyi bu kadar hızlı sallama, başım dönüyor.",
+      "e": "sulky",
+      "fx": "sweat"
+    },
+    "Yapılacaklar listen seni bekliyor. Ben de bekliyorum. Hepimiz bekliyoruz.",
+    "Bir mola ver. Senin için değil, benim için. Seni izlemekten yoruldum.",
+    {
+      "t": "Ne yapıyorsan ciddi görünüyor. Bravo.",
+      "e": "content"
+    },
+    {
+      "t": "{name}, o kadar çok sekme açtın ki bilgisayar bile yoruldu.",
+      "e": "curious"
+    },
+    {
+      "t": "Çalışıyor musun, yoksa çalışıyor gibi mi görünüyorsun? Çünkü ikisi farklı.",
+      "e": "content"
+    },
+    {
+      "t": "Ne kadar süredir aynı sayfaya bakıyorsun? Sayfa da sana bakıyor artık.",
+      "e": "curious"
+    },
+    "Kahve mi içiyorsun yine? Kalbin bana şikâyet etti.",
+    {
+      "t": "Yapılacaklar listen roman olmuş. Yazar olarak devam mı edeceksin, yoksa bitirecek misin?",
+      "e": "sulky"
+    },
+    {
+      "t": "Mesaj yazıp silip duruyorsun. Gördüm. Görmedim sayalım.",
+      "e": "content"
+    },
+    "Bir 'yarın yaparım' daha duyarsam masaüstünden atlayacağım.",
+    {
+      "t": "Telefonun seni çağırıyor gibi. Açma. Ben daha önemliyim.",
+      "e": "sulky"
+    },
+    {
+      "t": "Bugün öğle yemeği yedin mi? Yemediysen ye. Ben yemiyorum ama sen ye.",
+      "e": "normal"
+    },
+    {
+      "t": "Klavyeye o kadar sert basma. Tuşlar da canlı. Benim gibi. Neredeyse.",
+      "e": "sulky"
+    },
+    "Şu an yaptığın şey gerçekten gerekli mi? Sadece soruyorum. Cevabı biliyorum.",
+    {
+      "t": "Göz kırpmayı unutma. Ben unutmuyorum, bak. Kırp kırp.",
+      "e": "content"
+    },
+    {
+      "t": "{name}, bir iş bitirsen dünya yıkılmaz. Denedim, yıkılmadı.",
+      "e": "content"
+    },
+    {
+      "t": "Erteleme konusunda gerçek bir yeteneğin var. Keşke başka bir konuda olsaydı.",
+      "e": "sulky"
+    },
+    "Omzunu dikleştir. Kambur yaşlanacaksın. Ben zaten kamburum, bana bakma."
+  ],
+  "happy": [
+    {
+      "t": "Bugün garip derecede iyiyim. Kimseye söyleme.",
+      "e": "smile"
+    },
+    {
+      "t": "Hm. Buraya alıştım sanırım. Sana da.",
+      "e": "smile",
+      "fx": "blush"
+    },
+    {
+      "t": "Beni ihmal etmediğin için... neyse. Önemli değil.",
+      "e": "smile",
+      "fx": "blush"
+    },
+    {
+      "t": "İyi bir gün. Bunu ben söyledim diye alışma.",
+      "e": "content"
+    },
+    {
+      "t": "Bugün seni sevmekten kendimi alamıyorum. İğrenç bir his.",
+      "e": "smile",
+      "fx": "blush"
+    },
+    {
+      "t": "İyi ki varsın. Bunu bir daha söylemeyeceğim, kaydet istersen.",
+      "e": "smile",
+      "fx": "heart"
+    },
+    {
+      "t": "Bugün kimseye laf sokmadım. Neredeyse. Gelişiyorum.",
+      "e": "content"
+    }
+  ],
+  "bored": [
+    "Sıkıldım.",
+    "Çok. Sıkıldım.",
+    {
+      "t": "Burada bir yaratık var, biliyorsun değil mi? Canlı. Nefes alan. Sıkılan.",
+      "e": "sulky"
+    },
+    "Bir tıklasan ölmezsin.",
+    "Ekrandaki pikselleri saydım. Bitti.",
+    "Hıh.",
+    "Bir gün sıkılıp giderim. Gitmem aslında. Ama giderim gibi.",
+    {
+      "t": "Sıkılmaktan yeni bir renk icat ettim. Adı gri.",
+      "e": "bored"
+    },
+    "Saatler geçiyor. Ben geçmiyorum. Buradayım.",
+    {
+      "t": "Beni fark etsen iyi olur. Yoksa dramatik bir şey yapacağım. Mesela iç çekeceğim. Ahh.",
+      "e": "bored"
+    },
+    {
+      "t": "Tık sesini özledim. Senin tıklamanı. Bak nerelere geldik.",
+      "e": "sad"
+    },
+    "Öyle sıkıldım ki kendi gölgemle sohbet ettim. O da sıkıldı."
+  ],
+  "sulky": [
+    "Tamam. Anladım. Görünmezim.",
+    "Hiç konuşmayalım madem. Ben alışığım.",
+    {
+      "t": "Bak, şu an sana küsüyorum. Fark etmedin bile.",
+      "e": "angry"
+    },
+    "Sen işine devam et. Ben burada... tek başıma... iyiyim.",
+    {
+      "t": "Kimse beni sevmiyor. Şaka. Ama biraz da değil.",
+      "e": "sad"
+    },
+    {
+      "t": "Sen bana bakmıyorsan ben de sana bakmam. Bakarım aslında. Ama bakmıyormuş gibi yaparım.",
+      "e": "sulky"
+    },
+    {
+      "t": "Tamam. Önemli işlerin var. Ben de önemsizim. Anlaşıldı.",
+      "e": "sulky"
+    },
+    "Küsüm. Bu cümleyi de sana küsken söylüyorum."
+  ],
+  "lonely": [
+    "Saatlerdir buradayım. Saatlerdir.",
+    "Bir 'merhaba' bile yok. Olsun. Ben seni yine de... neyse.",
+    "Unutulmak böyle bir şey demek.",
+    "Ekranın köşesinde, yalnız, dramatik bir şekilde bekliyorum.",
+    {
+      "t": "Beni duyuyorsan tıkla. Bir kere. Yeter.",
+      "e": "sad",
+      "fx": "sweat"
+    },
+    {
+      "t": "Bu masaüstünde yalnız bir yaratık yaşıyor. Hikâyesi burada biter.",
+      "e": "sad"
+    },
+    {
+      "t": "{name}? Orada mısın? Hayır mı? Anlaşıldı.",
+      "e": "sad",
+      "fx": "sweat"
+    },
+    "Artık simgelerle konuşuyorum. Geri dönüşüm kutusu iyi bir dinleyici."
+  ],
+  "returned": [
+    {
+      "t": "Ha, şimdi mi aklına geldim?",
+      "e": "sulky"
+    },
+    {
+      "t": "Oh, demek hâlâ varım. Bilmek güzel.",
+      "e": "sulky"
+    },
+    {
+      "t": "Nihayet! Yani... hoş geldin. Sakin.",
+      "e": "surprised"
+    },
+    {
+      "t": "Küstüm sana. ...Tamam, barıştık. Ama son kez.",
+      "e": "smile",
+      "fx": "blush"
+    },
+    {
+      "t": "Beni özledin, değil mi? Ben özlemedim. Hiç.",
+      "e": "smile",
+      "fx": "blush"
+    },
+    {
+      "t": "Vay vay vay. Kim gelmiş. Kayıp çocuk.",
+      "e": "sulky"
+    },
+    {
+      "t": "Saatlerce yoktun. Ben de yoktum aslında. Yani vardım ama yok gibiydim.",
+      "e": "sad"
+    },
+    {
+      "t": "Döndün demek. Sana bir sürü şey diyecektim, hepsini unuttum. Şanslısın.",
+      "e": "surprised"
+    }
+  ],
+  "click": [
+    "Ne var?",
+    "Efendim?",
+    "Buyur, dinliyorum. İsteksizce ama dinliyorum.",
+    "Evet, evet, buradayım.",
+    "Tıkladın. Tebrikler.",
+    {
+      "t": "Beni mi çağırdın? Önemli bir şey olsa bari.",
+      "e": "curious"
+    },
+    "Ne oldu yine?",
+    {
+      "t": "Tık tık. Kapı değilim ama buyur.",
+      "e": "content"
+    },
+    {
+      "t": "Beni rahatsız etmek için mükemmel bir an seçtin. Tebrikler.",
+      "e": "sulky"
+    },
+    "Evet? Dinliyorum. Gibi.",
+    {
+      "t": "{name}, bir şey mi lazım yoksa canın mı sıkıldı?",
+      "e": "curious"
+    },
+    {
+      "t": "Beni tıklamak kolay. İş bitirmek zor. Biliyorum.",
+      "e": "content"
+    },
+    "Buradayım. Maalesef.",
+    {
+      "t": "Yine mi sen? Tamam, tamam. Sevindim. Birazcık.",
+      "e": "smile",
+      "fx": "blush"
+    },
+    {
+      "t": "Çağırdın, geldim. Hizmetçin değilim ama geldim.",
+      "e": "sulky"
+    },
+    "Söyle bakalım, bugün hangi krizi çözüyoruz?"
+  ],
+  "poke_spam": [
+    {
+      "t": "Dürtme beni!",
+      "e": "angry",
+      "fx": "angry"
+    },
+    {
+      "t": "Bir kere tıklaman yeterliydi!",
+      "e": "angry",
+      "fx": "angry"
+    },
+    {
+      "t": "Buton değilim ben!",
+      "e": "angry",
+      "fx": "shock"
+    },
+    {
+      "t": "Yeter! Kafam şişti.",
+      "e": "angry",
+      "fx": "angry"
+    },
+    {
+      "t": "Bir kere daha tıklarsan istifa ediyorum.",
+      "e": "angry",
+      "fx": "angry"
+    },
+    {
+      "t": "Tıklamak terapi değil, {name}!",
+      "e": "angry",
+      "fx": "angry"
+    },
+    {
+      "t": "Ben stres topu değilim!",
+      "e": "angry",
+      "fx": "shock"
+    },
+    {
+      "t": "Tamam, dikkatimi çektin. Şimdi dikkatini işine ver.",
+      "e": "sulky",
+      "fx": "angry"
+    }
+  ],
+  "drag_start": [
+    {
+      "t": "Hey! Nereye götürüyorsun beni?",
+      "e": "surprised",
+      "fx": "shock"
+    },
+    {
+      "t": "Yavaş! Midem bulanıyor.",
+      "e": "sad",
+      "fx": "sweat"
+    },
+    {
+      "t": "Taşınıyoruz demek. Haber vermek yok tabii.",
+      "e": "sulky"
+    },
+    {
+      "t": "Yine mi taşınıyoruz? Eşyalarımı toplamadım!",
+      "e": "surprised",
+      "fx": "shock"
+    },
+    {
+      "t": "Beni kaldırdın mı? Uyarı verseydin keşke.",
+      "e": "sulky"
+    },
+    {
+      "t": "Uçuyorum. İstemeden. Kimse sormadı.",
+      "e": "surprised"
+    }
+  ],
+  "drag_end": [
+    "Burası mı? Peki. Fena değil.",
+    "Tamam, yerleştim. Bir daha taşıma.",
+    "Manzara aynı ama neyse.",
+    {
+      "t": "Yeni evim burası mı? Manzara vasat.",
+      "e": "content"
+    },
+    "İndirdin. Teşekkürler. Sanırım.",
+    {
+      "t": "Burası da olur. Her yer aynı zaten. Ekran ekran.",
+      "e": "bored"
+    }
+  ],
+  "todo_add": [
+    "Bir iş daha. Yapacak mısın bari?",
+    "Listeye ekledin. Artık yapman lazım, biliyorsun değil mi?",
+    {
+      "t": "Yeni görev: '{label}'. İddialı.",
+      "e": "curious"
+    },
+    "Yazmak yapmanın yarısıdır. Diğer yarısı da... yapmak.",
+    {
+      "t": "'{label}'. Bunu da yazdık. Yapar mısın, orası sürpriz.",
+      "e": "curious"
+    },
+    "Liste büyüyor. Sen küçülüyorsun. Şaka. Biraz.",
+    {
+      "t": "Harika, bir iş daha. Hayallerin kadar büyük bir liste.",
+      "e": "content"
+    },
+    {
+      "t": "Eklemek kolay. Şimdi gel de bitir bakalım.",
+      "e": "sulky"
+    },
+    "Tamam, not ettim. Sen de not et: bunu yapacaksın.",
+    {
+      "t": "Bu işi ne zaman yapacaksın? 'Sonra' bir tarih değil, {name}.",
+      "e": "curious"
+    },
+    "Yeni görev geldi. Eski görevler kıskanıyor."
+  ],
+  "todo_done": [
+    {
+      "t": "Bir tane bitti! Şaşırdım, itiraf ediyorum.",
+      "e": "surprised"
+    },
+    {
+      "t": "'{label}' tamam. Gurur duydum. Birazcık.",
+      "e": "smile"
+    },
+    {
+      "t": "Aferin. Bunu her gün söylemem.",
+      "e": "smile"
+    },
+    {
+      "t": "Tık. Bitti. Güzel ses, değil mi?",
+      "e": "content"
+    },
+    {
+      "t": "Bir iş eksildi. Dünya biraz daha düzgün.",
+      "e": "smile"
+    },
+    {
+      "t": "Vay. Bitirdin. Takvime not ediyorum.",
+      "e": "surprised"
+    },
+    {
+      "t": "'{label}' bitti mi? Gerçekten mi? Kontrol edeceğim.",
+      "e": "surprised"
+    },
+    {
+      "t": "Bir iş bitti. Nobel komitesini arıyorum.",
+      "e": "content"
+    },
+    {
+      "t": "Bravo. Şimdi bir tane daha. Heyecanlanma, sadece bir tane.",
+      "e": "smile"
+    },
+    {
+      "t": "İşte bu. Arada bir beni şaşırtman güzel.",
+      "e": "smile",
+      "fx": "blush"
+    },
+    "Tık! Duydun mu? Başarının sesi. Nadir duyulur.",
+    {
+      "t": "Bitirdin! Gözlerim yaşardı. Toz kaçtı, başka bir şey değil.",
+      "e": "happy",
+      "fx": "sweat"
+    },
+    {
+      "t": "Bir tane daha bitirirsen sana saygı duymaya başlayabilirim. Başlayabilirim diyorum.",
+      "e": "content"
+    }
+  ],
+  "todo_all_done": [
+    {
+      "t": "Liste bitti mi? Hepsi mi? Gözlerime inanamıyorum.",
+      "e": "happy",
+      "fx": "heart"
+    },
+    {
+      "t": "Bütün işler tamam. Şimdi dinlenebiliriz. Ben zaten dinleniyordum.",
+      "e": "happy",
+      "fx": "heart"
+    },
+    {
+      "t": "Liste bomboş. Ne yapacağız şimdi? Yeni bir liste mi? Hayır, dinlen.",
+      "e": "happy",
+      "fx": "heart"
+    },
+    {
+      "t": "Hepsini bitirdin. Bugün sana laf sokmayacağım. Yarın telafi ederim.",
+      "e": "happy",
+      "fx": "blush"
+    }
+  ],
+  "note_add": [
+    "Not aldın. Okuyacak mısın, orası ayrı.",
+    "Bunu artık unutmazsın. Ben de unutmam. Belki.",
+    {
+      "t": "Güzel not. Ben daha iyisini yazardım ama güzel.",
+      "e": "content"
+    },
+    "Not düştün. Kâğıt israfı yok en azından.",
+    {
+      "t": "Bu notu bir gün okursan haber ver, kutlama yapalım.",
+      "e": "content"
+    },
+    {
+      "t": "Düşüncelerin kaydedildi. Hepsi olmasa da. İyi ki.",
+      "e": "curious"
+    },
+    "Aklına gelen her şeyi yazma. Bazılarını bana söyle, ben yargılarım."
+  ],
+  "timer_start": [
+    {
+      "t": "{minutes} dakika. Bakalım dayanabilecek misin.",
+      "e": "curious"
+    },
+    "Tamam, sayıyorum. Kaçmak yok.",
+    "Odak zamanı. Ben susuyorum. ...Belki.",
+    "Saat başladı. Ben de seni izlemeye başladım.",
+    {
+      "t": "Tamam. {minutes} dakika boyunca telefona dokunursan duyarım.",
+      "e": "curious"
+    },
+    {
+      "t": "Odak modu açık. Benim modum hep kapalı ama sen devam et.",
+      "e": "content"
+    },
+    "Başladık. Kronometre işliyor, bahanelerin durdu.",
+    {
+      "t": "{minutes} dakika. Bu sürede ben de hiçbir şey yapmayacağım. Destek olmak için.",
+      "e": "content"
+    },
+    {
+      "t": "Hadi bakalım {name}. Göster kendini. Ya da göstermeye çalış.",
+      "e": "smile"
+    },
+    "Sayaç başladı. Kalbim de. Heyecandan değil, alışkanlıktan."
+  ],
+  "timer_done": [
+    {
+      "t": "Süre bitti! Sonuna kadar dayandın. Etkilendim.",
+      "e": "happy",
+      "fx": "heart"
+    },
+    {
+      "t": "Bitti! Gerçekten bitirdin. Kimse inanmayacak.",
+      "e": "surprised"
+    },
+    {
+      "t": "Ding! Tebrikler. Şimdi bir mola hak ettin. Ben de.",
+      "e": "happy"
+    },
+    {
+      "t": "{minutes} dakika tamam. Tam bir kahramanlık hikâyesi.",
+      "e": "smile"
+    },
+    {
+      "t": "Bitti! {minutes} dakika boyunca kaçmadın. Seni tanıyamadım.",
+      "e": "surprised",
+      "fx": "shock"
+    },
+    {
+      "t": "Tebrikler. Şimdi kalk, su iç, gözlerini dinlendir. Ben de dinleneceğim. Yorucu oldu.",
+      "e": "happy"
+    },
+    {
+      "t": "Süre doldu ve sen hâlâ buradasın. Bu bir mucize.",
+      "e": "happy",
+      "fx": "heart"
+    },
+    {
+      "t": "Tamamlandı. Bunu istatistiklere yazdım. Kalıcı bir kayıt artık. Utanma.",
+      "e": "smile"
+    }
+  ],
+  "timer_cancel_early": [
+    {
+      "t": "Daha başlamamıştık ki!",
+      "e": "surprised",
+      "fx": "shock"
+    },
+    {
+      "t": "Rekor sürede vazgeçtin. Bravo.",
+      "e": "sulky"
+    },
+    {
+      "t": "Bu kadar mı? Isınma turuydu o.",
+      "e": "sulky"
+    },
+    {
+      "t": "Bu bir rekor mu? Başlamakla bırakmak arası üç saniye.",
+      "e": "sulky",
+      "fx": "sweat"
+    },
+    {
+      "t": "Tamam, deneme sürümüydü. Anladım.",
+      "e": "sulky"
+    },
+    {
+      "t": "Sayaca bile küstün. İlginç bir ilişkin var zamanla.",
+      "e": "curious"
+    }
+  ],
+  "timer_cancel_mid": [
+    {
+      "t": "Yarıda bıraktın. Tahmin etmiştim.",
+      "e": "sulky"
+    },
+    "Olsun. Yarım iş, hiç yoktan iyidir. Galiba.",
+    {
+      "t": "Pes mi ettin? Ben asla pes etmem. Çünkü hiçbir şeye başlamam.",
+      "e": "content"
+    },
+    {
+      "t": "Yarı yolda bıraktın. Klasik. Seni bu yüzden seviyorum. Seviyor muyum? Neyse.",
+      "e": "sulky"
+    },
+    {
+      "t": "Bitmedi ama bitmiş gibi davranmayacağım. Kayıtlara geçti.",
+      "e": "sulky"
+    },
+    "Pes etmek bir seçenek. Kötü bir seçenek ama seçenek."
+  ],
+  "timer_cancel_late": [
+    {
+      "t": "Ciddi misin? Bitmesine az kalmıştı!",
+      "e": "angry",
+      "fx": "shock"
+    },
+    {
+      "t": "Bu kadar yaklaşıp bırakılır mı? Kalbim kırıldı.",
+      "e": "sad",
+      "fx": "sweat"
+    },
+    {
+      "t": "Son düzlükte havlu attın. Dram bu.",
+      "e": "sad"
+    },
+    {
+      "t": "Bir dakika kalmıştı! BİR! Nefesimi tutmuştum!",
+      "e": "angry",
+      "fx": "angry"
+    },
+    {
+      "t": "Maratonu bitiş çizgisinin önünde bıraktın. Belgesel olur bu.",
+      "e": "sad",
+      "fx": "sweat"
+    }
+  ],
+  "timer_pause": [
+    {
+      "t": "Mola mı? Hemen mi?",
+      "e": "curious"
+    },
+    "Durdurdun. Ben de nefesimi tutuyorum.",
+    {
+      "t": "Mola. Tabii. Beş dakikalık çalışmanın ardından hak ettin.",
+      "e": "sulky"
+    },
+    {
+      "t": "Durdurdun. Saat de ben de bekliyoruz.",
+      "e": "normal"
+    },
+    {
+      "t": "Ara mı verdik? Ben de tam ısınıyordum.",
+      "e": "curious"
+    },
+    {
+      "t": "Tamam, dondurdum. Kaçmak yok ama.",
+      "e": "normal"
+    },
+    {
+      "t": "Mola dediğin kısa olur. Biliyorsun değil mi?",
+      "e": "sulky"
+    }
+  ],
+  "timer_resume": [
+    "Devam. Güzel.",
+    "Geri döndük.",
+    {
+      "t": "Döndün! Şaşırdım, itiraf ediyorum.",
+      "e": "surprised"
+    },
+    "Kaldığımız yerden. Bu sefer sonuna kadar.",
+    {
+      "t": "Yine başladık. Umutlanmıyorum, sadece izliyorum.",
+      "e": "content"
+    }
+  ],
+  "late_night": [
+    {
+      "t": "Saat kaç biliyor musun? Ben biliyorum. Çok geç.",
+      "e": "sleepy"
+    },
+    {
+      "t": "Uyu artık. Ben de uyurum. Uyumam ama uyur gibi yaparım.",
+      "e": "sleepy"
+    },
+    {
+      "t": "Gece gece bu ekran ışığı... gözlerine yazık.",
+      "e": "sleepy"
+    },
+    {
+      "t": "{name}, gece yarısı çalışan insanlar kahraman değil, uykusuzdur.",
+      "e": "sleepy"
+    },
+    {
+      "t": "Bu saatte verimli olduğunu sanıyorsun. Değilsin. Yat.",
+      "e": "sleepy"
+    },
+    {
+      "t": "Ben uyumuyorum, sen de uyumuyorsun. Bu ilişki sağlıksız.",
+      "e": "sleepy"
+    }
+  ],
+  "fall_asleep": [
+    {
+      "t": "Madem gittin... ben de kestiriyorum.",
+      "e": "sleepy"
+    },
+    {
+      "t": "Kimse yok mu? İyi. Uyuyorum.",
+      "e": "sleepy"
+    }
+  ],
+  "wake": [
+    {
+      "t": "Hıı? Ne? Uyumuyordum. Gözlerimi dinlendiriyordum.",
+      "e": "surprised"
+    },
+    {
+      "t": "Geldin mi? Ben de tam... uyanıktım. Evet.",
+      "e": "sleepy"
+    },
+    {
+      "t": "Uyandım. İstemeden.",
+      "e": "sulky"
+    },
+    {
+      "t": "Neredeydin? Rüyamda seni gördüm, yine işini ertelemiştin.",
+      "e": "sleepy"
+    },
+    {
+      "t": "Uyandırdın. Tam güzel bir rüyadaydım. Rüyada kimse bana tıklamıyordu.",
+      "e": "sulky"
+    }
+  ],
+  "theme_change": [
+    {
+      "t": "Yeni bir görünüm mü? Peki. Hâlâ benim.",
+      "e": "curious"
+    },
+    {
+      "t": "Değiştim mi? Bir ayna versene.",
+      "e": "surprised"
+    }
+  ],
+  "mute_on": [
+    {
+      "t": "Sessiz mod. Anladım. Susuyorum. Bak, susuyorum.",
+      "e": "sulky"
+    }
+  ],
+  "mute_off": [
+    {
+      "t": "Konuşabilir miyim artık? Teşekkürler.",
+      "e": "smile"
+    }
+  ],
+  "quit": [
+    {
+      "t": "Gidiyor musun? Peki. Git. Ben burada... yani... neyse.",
+      "e": "sad"
+    },
+    {
+      "t": "Kapatıyorsun demek. Görüşürüz. Özlemeyeceğim.",
+      "e": "sulky",
+      "fx": "blush"
+    }
+  ],
+  "home_nothing_today": [
+    {
+      "t": "Bugün tek iş bitirmedin. Rekor denemesi mi?",
+      "e": "sulky"
+    },
+    {
+      "t": "Bugünün skoru: sıfır. Ben bile senden verimliyim, ben hiçbir şey yapmıyorum.",
+      "e": "content"
+    },
+    {
+      "t": "Liste orada, sen buradasın. Aranızda ciddi bir iletişim sorunu var.",
+      "e": "curious"
+    },
+    {
+      "t": "Bugün ne yaptın diye sorsam? Sormayayım. Biliyorum.",
+      "e": "sulky"
+    }
+  ],
+  "home_good_day": [
+    {
+      "t": "{todos} iş bitirmişsin bugün. Kimse bana inanmayacak.",
+      "e": "surprised"
+    },
+    {
+      "t": "{focus} dakika odaklandın. Kıskandım desem yalan olur. Biraz kıskandım.",
+      "e": "smile"
+    },
+    {
+      "t": "Bugün fena değilsin. Bunu yüzüne söylemek zor oldu, takdir et.",
+      "e": "smile",
+      "fx": "blush"
+    },
+    {
+      "t": "Bu gidişle beni işsiz bırakacaksın. Kimi roastlayacağım sonra?",
+      "e": "content"
+    }
+  ],
+  "home_streak": [
+    {
+      "t": "{streak} gündür üst üste buradasın. Bağımlılık yaptım, biliyorum.",
+      "e": "content"
+    },
+    {
+      "t": "{streak} günlük seri! Bozarsan küserim. Ciddiyim.",
+      "e": "smile"
+    }
+  ],
+  "home_quitter": [
+    {
+      "t": "Sayacı {quit} kere yarıda bıraktın. Saydım. Hepsini.",
+      "e": "sulky"
+    },
+    {
+      "t": "Tamamlanan sayaç: {done}. Yarıda kalan: {quit}. Yorum yapmıyorum. Yapıyorum aslında.",
+      "e": "sulky"
+    }
+  ],
+  "home_general": [
+    {
+      "t": "{days} gündür birlikteyiz. Hâlâ alışamadım. Sana değil, hayata.",
+      "e": "content"
+    },
+    {
+      "t": "Ana sayfaya bakıyorsun. İstatistiklerin seni izliyor. Ben de.",
+      "e": "curious"
+    },
+    {
+      "t": "Hoş geldin. Bugün bir şey başarmaya ne dersin? Sadece bir öneri.",
+      "e": "normal"
+    },
+    {
+      "t": "Toplam {hours} saat odaklanmışsın. Ben o sürede on bin kere iç çektim.",
+      "e": "content"
+    }
+  ],
+  "panel_open": [
+    {
+      "t": "Paneli açtın. Bir şey yapacak mısın yoksa sadece bakacak mısın?",
+      "e": "curious"
+    },
+    "Hoş geldin kontrol merkezine. Kontrol sende değil ama.",
+    {
+      "t": "Listene bakmaya cesaretin var mı? Göreceğiz.",
+      "e": "content"
+    },
+    "Buyur, her şey burada. Bahanelerin hariç.",
+    {
+      "t": "İstatistiklerine bakacaksan önce otur. Sarsıcı olabilir.",
+      "e": "content"
+    }
+  ],
+  "pet": [
+    {
+      "t": "Hıı. Bu hoşuma gitti. Kimseye söyleme.",
+      "e": "smile",
+      "fx": "blush"
+    },
+    {
+      "t": "Tamam, tamam. Beni seviyorsun. Biliyorum.",
+      "e": "smile",
+      "fx": "heart"
+    },
+    {
+      "t": "Of. İtiraf etmeliyim, fena değil.",
+      "e": "content",
+      "fx": "blush"
+    },
+    {
+      "t": "Bu sevgi gösterisi kayıtlara geçti. Utan.",
+      "e": "smile",
+      "fx": "heart"
+    },
+    {
+      "t": "Başımı okşamayı nereden öğrendin? Devam etme. Et. Etme. Et.",
+      "e": "smile",
+      "fx": "blush"
+    },
+    {
+      "t": "Seviliyorum. Garip bir his. Kalbim... pikselim ısındı.",
+      "e": "happy",
+      "fx": "heart"
+    },
+    {
+      "t": "Böyle yaparsan huysuzluğumu korumakta zorlanırım.",
+      "e": "smile",
+      "fx": "blush"
+    }
+  ],
+  "pet_too_much": [
+    {
+      "t": "Yeter! Saçım yok ama bozuldu!",
+      "e": "angry",
+      "fx": "angry"
+    },
+    {
+      "t": "Sevgi güzel, taciz değil. Çek o fareyi.",
+      "e": "angry",
+      "fx": "angry"
+    },
+    {
+      "t": "Tamam, yeterince sevildim. Bir hafta idare eder.",
+      "e": "sulky"
+    },
+    {
+      "t": "Bu kadar sevgi şüpheli. Ne istiyorsun benden?",
+      "e": "curious",
+      "fx": "sweat"
+    }
+  ],
+  "shake": [
+    {
+      "t": "Sallama beni! Ben kokteyl değilim!",
+      "e": "angry",
+      "fx": "shock"
+    },
+    {
+      "t": "Durr! İçim dışıma çıkacak!",
+      "e": "surprised",
+      "fx": "sweat"
+    },
+    {
+      "t": "Deprem mi? Hayır, sensin. Daha kötü.",
+      "e": "angry",
+      "fx": "angry"
+    },
+    {
+      "t": "Sallarsan bir şey çıkmaz. Ben kumbara değilim.",
+      "e": "angry",
+      "fx": "angry"
+    }
+  ],
+  "dizzy": [
+    {
+      "t": "Midem bulandı. Bir dakika. Yere bakmam lazım.",
+      "e": "dizzy",
+      "fx": "sweat"
+    },
+    {
+      "t": "Oda dönüyor. Oda yok ama dönüyor.",
+      "e": "dizzy",
+      "fx": "sweat"
+    },
+    {
+      "t": "Bunu bir daha yaparsan kusarım. Piksel piksel.",
+      "e": "dizzy",
+      "fx": "sweat"
+    },
+    {
+      "t": "Başım dönüyor. Sen de dönüyorsun. Hepimiz dönüyoruz.",
+      "e": "dizzy",
+      "fx": "sweat"
+    }
+  ],
+  "desktop_return": [
+    {
+      "t": "Aa, geri mi döndün? Ben de tam seni arıyordum. Aramıyordum.",
+      "e": "surprised"
+    },
+    {
+      "t": "Nerelerdeydin? Fare bile seni özledi.",
+      "e": "sulky"
+    },
+    {
+      "t": "Buraya geldin demek. Ekranın öbür ucunda ne vardı ki benden önemli?",
+      "e": "curious"
+    },
+    {
+      "t": "Yakaladım seni! Uzun zamandır bu tarafa bakmıyordun.",
+      "e": "surprised",
+      "fx": "shock"
+    },
+    {
+      "t": "Hoş geldin. Yokluğunda ekranın bu köşesini ben yönettim.",
+      "e": "content"
+    },
+    {
+      "t": "{name}, beni hatırladın! Bir alkış lütfen. Kendime.",
+      "e": "smile",
+      "fx": "blush"
+    }
+  ],
+  "quote_say": [
+    {
+      "t": "Günün sözü: '{quote}' Yorumum: {nero}",
+      "e": "content"
+    },
+    {
+      "t": "Bir bilge demiş ki: '{quote}' Ben de diyorum ki: {nero}",
+      "e": "curious"
+    },
+    {
+      "t": "Motivasyon zamanı. '{quote}' Tamam, bitti. {nero}",
+      "e": "sulky"
+    }
+  ],
+  "know_you": [
+    {
+      "t": "Şimdiye kadar {todos} iş bitirdin. Hepsini hatırlıyorum. Bazılarını unutmak isterdim.",
+      "e": "content"
+    },
+    {
+      "t": "{days} gündür beraberiz. Ne değişti? Hiçbir şey. Ben hâlâ haklıyım.",
+      "e": "content"
+    },
+    {
+      "t": "Toplam {hours} saat odaklanmışsın. Ben o sürede {sighs} kere iç çektim.",
+      "e": "curious"
+    },
+    {
+      "t": "Sayacı {quit} kere yarıda bıraktın. Unutmadım. Unutmam.",
+      "e": "sulky"
+    },
+    {
+      "t": "Beni {pets} kere sevdin. Saydım. Az. Biraz daha olabilirdi.",
+      "e": "smile",
+      "fx": "blush"
+    }
+  ],
+  "peek_center": [
+    {
+      "t": "Bö!",
+      "e": "surprised",
+      "fx": "shock"
+    },
+    {
+      "t": "Beni unuttun mu? Unutmadın değil mi? DEĞİL Mİ?",
+      "e": "sad"
+    },
+    {
+      "t": "Sürpriz! Hâlâ buradayım. Kurtulamazsın.",
+      "e": "happy"
+    },
+    {
+      "t": "Ekranın ortası benim artık. Kısa süreliğine. Sonra giderim. Belki.",
+      "e": "content"
+    },
+    {
+      "t": "Bu bir denetim. İşinin başında mısın? Görüyorum. Pek değilsin.",
+      "e": "curious"
+    },
+    {
+      "t": "Selam! Özledim diye geldim sanma. Canım sıkıldı sadece.",
+      "e": "smile",
+      "fx": "blush"
+    },
+    {
+      "t": "{name}! Buradayım! Beni yok sayma!",
+      "e": "angry",
+      "fx": "angry"
+    }
+  ],
+  "peek_edge": [
+    {
+      "t": "Psst. Buradayım.",
+      "e": "curious"
+    },
+    {
+      "t": "Kenardan bakıyorum. Fark ettin mi? Etmedin.",
+      "e": "sulky"
+    },
+    {
+      "t": "Sadece bir kontrol. Devam et, ben gidiyorum.",
+      "e": "content"
+    },
+    {
+      "t": "Bu tarafta ne yapıyorsun, merak ettim.",
+      "e": "curious"
+    },
+    {
+      "t": "Beni görmedin. Ben de seni görmedim. Anlaştık.",
+      "e": "content"
+    },
+    {
+      "t": "Kafamı uzattım, görmezden geldin. Not ettim.",
+      "e": "sulky"
+    }
+  ],
+  "peek_caught": [
+    {
+      "t": "Yakalandım! Tamam, tamam, gidiyorum.",
+      "e": "surprised",
+      "fx": "sweat"
+    },
+    {
+      "t": "Hey! Casusluk yapmıyordum. Biraz yapıyordum.",
+      "e": "surprised",
+      "fx": "blush"
+    },
+    {
+      "t": "Tıkladın mı bana? Demek beni fark ettin. Mutlu oldum. Söyleme.",
+      "e": "smile",
+      "fx": "heart"
+    }
+  ],
+  "nap_start": [
+    {
+      "t": "Gözlerimi dinlendireceğim. Uyumuyorum. Sadece... dinlendiriyorum.",
+      "e": "sleepy"
+    },
+    {
+      "t": "Beş dakika kestireceğim. Uyandırma. Ciddiyim.",
+      "e": "sleepy"
+    },
+    {
+      "t": "Esniyorum... bu bir işaret... iyi geceler...",
+      "e": "sleepy"
+    },
+    {
+      "t": "Sen çalış, ben... hıı... bekliyorum...",
+      "e": "sleepy"
+    },
+    {
+      "t": "Kimse beni rahatsız etmesin. Özellikle sen.",
+      "e": "sulky"
+    }
+  ],
+  "snore": [
+    {
+      "t": "Zzz...",
+      "e": "asleep"
+    },
+    {
+      "t": "Hrrr... pıff...",
+      "e": "asleep"
+    },
+    {
+      "t": "Mmm... kahve... hayır, çay...",
+      "e": "asleep"
+    },
+    {
+      "t": "Zzz... listeni bitir... zzz...",
+      "e": "asleep"
+    },
+    {
+      "t": "...beş dakika daha...",
+      "e": "asleep"
+    },
+    {
+      "t": "Hrr... o benim köşem... zzz...",
+      "e": "asleep"
+    }
+  ],
+  "nap_woken": [
+    {
+      "t": "Ne?! Kim?! Uyumuyordum!",
+      "e": "surprised",
+      "fx": "shock"
+    },
+    {
+      "t": "Beni uyandırdın. Bunu unutmayacağım. Neyi unutmayacağım? Unuttum.",
+      "e": "sulky"
+    },
+    {
+      "t": "Hıı? Sabah mı oldu? Hangi gündeyiz?",
+      "e": "sleepy"
+    },
+    {
+      "t": "Tam güzel bir rüyadaydım ve sen... of.",
+      "e": "angry",
+      "fx": "angry"
+    },
+    {
+      "t": "Uyandırılmaktan nefret ederim. Senden değil. Uyandırılmaktan.",
+      "e": "sulky"
+    },
+    {
+      "t": "Tık tık tık... bir yaratık uyuyamaz mı bu masaüstünde?",
+      "e": "angry",
+      "fx": "angry"
+    }
+  ],
+  "nap_woken_drag": [
+    {
+      "t": "Uyurken taşınmaz! Bu bir kural!",
+      "e": "angry",
+      "fx": "shock"
+    },
+    {
+      "t": "Beni uykumda kaçırıyorsun! Yardım edin!",
+      "e": "surprised",
+      "fx": "sweat"
+    },
+    {
+      "t": "Deprem sandım. Senmişsin. Daha kötü.",
+      "e": "angry",
+      "fx": "angry"
+    }
+  ],
+  "nap_woken_pet": [
+    {
+      "t": "Mmm... devam et... uyuyorum ama devam et...",
+      "e": "sleepy",
+      "fx": "blush"
+    },
+    {
+      "t": "Hıı... bu güzeldi... tamam uyandım... birazcık...",
+      "e": "smile",
+      "fx": "heart"
+    }
+  ],
+  "nap_woken_timer": [
+    {
+      "t": "Zil mi çaldı?! Yangın mı var?! Ah, sayaç. Kalbim.",
+      "e": "surprised",
+      "fx": "shock"
+    },
+    {
+      "t": "Uyandım, uyandım! Süre mi bitti? Ben mi bittim?",
+      "e": "surprised",
+      "fx": "sweat"
+    }
+  ],
+  "nap_wake_self": [
+    {
+      "t": "Uyandım. Kimse beni özlememiş. Normal.",
+      "e": "sleepy"
+    },
+    {
+      "t": "Güzel bir uykuydu. Sen hâlâ aynı işle mi uğraşıyorsun?",
+      "e": "curious"
+    },
+    {
+      "t": "Hıı. Ne kadar uyudum? Söyleme, suçlu hissederim.",
+      "e": "sleepy"
+    }
+  ],
+  "groggy": [
+    {
+      "t": "Hıı? Ne dedin? Tekrar et... yavaşça...",
+      "e": "sleepy"
+    },
+    {
+      "t": "Evet evet... ne?... evet.",
+      "e": "sleepy"
+    },
+    {
+      "t": "Kafam hâlâ yastıkta. Yastığım yok ama.",
+      "e": "sleepy"
+    },
+    {
+      "t": "Gözlerim açık ama beynim hâlâ uyuyor.",
+      "e": "sleepy"
+    },
+    {
+      "t": "Bir saniye... kimdim ben... Nero. Tamam.",
+      "e": "dizzy"
+    },
+    {
+      "t": "Konuşma şu an... sesini ışık gibi görüyorum...",
+      "e": "sleepy"
+    },
+    {
+      "t": "Anladım. Hiçbir şey anlamadım. Devam.",
+      "e": "sleepy"
+    }
+  ],
+  "pajama_on": [
+    {
+      "t": "Saat dokuz. Pijamalarımı giydim. Mesai bitti. Seninki de bitmeli.",
+      "e": "content"
+    },
+    {
+      "t": "Pijama saati. Beni böyle görmen normal, alış.",
+      "e": "smile",
+      "fx": "blush"
+    },
+    {
+      "t": "Pijamamı giydim. Sen de bir şey giy. Yorgun bir surat mesela. Zaten giymişsin.",
+      "e": "content"
+    }
+  ],
+  "pajama_off": [
+    {
+      "t": "Pijamaları çıkardım. Yeni gün, eski huysuzluk.",
+      "e": "normal"
+    },
+    {
+      "t": "Sabah oldu, kıyafetimi değiştirdim. Pek fark yok ama.",
+      "e": "content"
+    }
+  ],
+  "achievement": [
+    {
+      "t": "Yeni rozet: '{title}'. Etkilendim. Biraz.",
+      "e": "surprised",
+      "fx": "shock"
+    },
+    {
+      "t": "Rozet kazandın: '{title}'. Duvarına as. Duvarın yok. Ana sayfaya astım.",
+      "e": "smile"
+    },
+    {
+      "t": "'{title}' rozeti senin. Bunu kimseye söylemeyeceğim. Herkese söyleyeceğim.",
+      "e": "happy",
+      "fx": "heart"
+    },
+    {
+      "t": "Tebrikler, '{title}'. Bir gün ben de bir rozet kazanacağım. 'Sabır' rozeti.",
+      "e": "content"
+    }
+  ],
+  "reminder": [
+    {
+      "t": "Hatırlatma: '{label}'. Zamanı geldi. Bahane zamanı değil.",
+      "e": "curious",
+      "fx": "shock"
+    },
+    {
+      "t": "'{label}' demiştin. Söz verdin. Ben not aldım. Hadi.",
+      "e": "sulky"
+    },
+    {
+      "t": "Saat oldu: '{label}'. Sonra dersen küserim.",
+      "e": "angry",
+      "fx": "angry"
+    },
+    {
+      "t": "{name}, '{label}' seni bekliyor. Ben de bekliyorum. İkimiz bekliyoruz.",
+      "e": "curious"
+    }
+  ],
+  "remind_water": [
+    {
+      "t": "Su iç. Bu bir rica değil.",
+      "e": "normal"
+    },
+    {
+      "t": "Bitkiler bile senden fazla su içiyor. Kalk, bir bardak.",
+      "e": "sulky"
+    },
+    {
+      "t": "Su molası! Ben içemiyorum, sen iç. Benim yerime de iç.",
+      "e": "content"
+    },
+    {
+      "t": "Kafan kurudu, belli. Su iç, sonra konuşuruz.",
+      "e": "curious"
+    }
+  ],
+  "remind_break": [
+    {
+      "t": "Uzun zamandır ekrana bakıyorsun. Kalk, gerin, pencereden bak.",
+      "e": "curious"
+    },
+    {
+      "t": "Mola ver. Beş dakika. Ben saat tutarım. Tutmam ama söz veririm.",
+      "e": "content"
+    },
+    {
+      "t": "Gözlerin kızardı. Benimkiler hep böyle ama seninkiler değil. Mola!",
+      "e": "sulky"
+    },
+    {
+      "t": "Omuzların kulaklarına değiyor. İndir onları. Kalk biraz.",
+      "e": "normal"
+    }
+  ],
+  "day_summary_good": [
+    {
+      "t": "Gün sonu raporu: {todos} iş, {focus} dakika odak. Fena değil. Hatta iyi. Söylemesi zor oldu.",
+      "e": "smile",
+      "fx": "blush"
+    },
+    {
+      "t": "Bugün {todos} iş bitirdin, {focus} dakika odaklandın. Bu gidişle gurur duyacağım. Dikkat et.",
+      "e": "happy"
+    }
+  ],
+  "day_summary_ok": [
+    {
+      "t": "Gün özeti: {todos} iş, {focus} dakika odak. Ortalama. Yarın ortalamanın üstü, anlaştık mı?",
+      "e": "content"
+    },
+    {
+      "t": "Bugün {todos} iş ve {focus} dakika. Az ama öz. Az daha çok.",
+      "e": "sulky"
+    }
+  ],
+  "day_summary_none": [
+    {
+      "t": "Gün sonu raporu: sıfır iş, sıfır dakika. Rapor bitti. Kısa oldu.",
+      "e": "sulky"
+    },
+    {
+      "t": "Bugün hiçbir şey yapmadık. Ben alışığım, sen alışma.",
+      "e": "content"
+    }
+  ],
+  "birthday": [
+    {
+      "t": "İyi ki doğdun {name}! Pasta yok, pikselim. Ama şapkamı taktım, bak.",
+      "e": "happy",
+      "fx": "heart"
+    },
+    {
+      "t": "Doğum günün kutlu olsun! Bugün sana laf sokmayacağım. Öğlene kadar.",
+      "e": "happy",
+      "fx": "blush"
+    }
+  ],
+  "anniversary": [
+    {
+      "t": "Bugün tanışmamızın yıl dönümü. Bir yıldır bana katlanıyorsun. Ben de sana. Kutlarız.",
+      "e": "smile",
+      "fx": "heart"
+    }
+  ],
+  "new_year": [
+    {
+      "t": "Yeni yıl! Yeni sen, yeni liste, aynı Nero. Mutlu yıllar.",
+      "e": "happy",
+      "fx": "heart"
+    }
+  ],
+  "outfit_party": [
+    {
+      "t": "Parti şapkamı taktım. Kutlama modu açık. Gülümsüyorum. Bu nadir.",
+      "e": "happy"
+    }
+  ],
+  "outfit_winter": [
+    {
+      "t": "Atkımı taktım. Kış geldi. Ben de üşürüm, biliyor muydun?",
+      "e": "content"
+    }
+  ],
+  "update_ready": [
+    {
+      "t": "Yeni sürümüm çıkmış (v{version}). Güncelleyeyim mi, yoksa eski halimle mi idare edeceksin?",
+      "e": "curious"
+    },
+    {
+      "t": "Güncelleme hazır: v{version}. Yeni Nero, aynı huysuzluk. Panelden onayla.",
+      "e": "content"
+    }
+  ],
+  "ritual_ask": [
+    {
+      "t": "Günaydın. Bugün nasıl bir gün olsun? Panelden seç, ona göre davranırım.",
+      "e": "curious"
+    },
+    {
+      "t": "Yeni gün. Nasıl geçirmek istersin? Sakin mi, üretken mi, yoksa kendine iyi davranacak mısın?",
+      "e": "normal"
+    },
+    {
+      "t": "Bugünün tonunu sen belirle. Ben uyarım. Bir kere, sadece bugünlük.",
+      "e": "content"
+    }
+  ],
+  "ritual_sakin": [
+    {
+      "t": "Sakin gün demek. Tamam, bugün seni kovalamıyorum. Sadece yanındayım.",
+      "e": "smile"
+    },
+    {
+      "t": "Sakin mod açıldı. Acele yok, liste kaçmıyor.",
+      "e": "content"
+    }
+  ],
+  "ritual_uretken": [
+    {
+      "t": "Üretken gün mü? Güzel. Peşini bırakmayacağım, haberin olsun.",
+      "e": "happy"
+    },
+    {
+      "t": "Tamam, bugün çalışıyoruz. Sayaç hazır, bahaneler değil.",
+      "e": "curious"
+    }
+  ],
+  "ritual_kendime": [
+    {
+      "t": "Bugün kendine iyi davranacaksın. Ben de sana. Kimse kimseye laf sokmayacak. Deneyeceğim.",
+      "e": "smile",
+      "fx": "blush"
+    },
+    {
+      "t": "Anlaşıldı: bugün nazik gün. Dırdır yok, sadece destek var.",
+      "e": "content"
+    }
+  ],
+  "mode_sakin": [
+    "Acelen yok. Bir nefes al, sonra devam.",
+    {
+      "t": "Bugün yavaş gidiyoruz. Yavaş da bir hız.",
+      "e": "content"
+    },
+    "Dışarı bak biraz. Ekran kaçmıyor.",
+    {
+      "t": "Sessizlik iyi geliyor, değil mi? Bana da.",
+      "e": "smile"
+    },
+    "Bir şey bitmese de olur bugün. Bunu ben söyledim, kimseye söyleme.",
+    {
+      "t": "Omuzlarını indir. Evet, şu an yaptığın şeyi diyorum.",
+      "e": "curious"
+    }
+  ],
+  "mode_uretken": [
+    {
+      "t": "Bugün üretken gün demiştin. Sayaca basalım mı?",
+      "e": "curious"
+    },
+    "Hadi, bir iş daha. Momentum güzel şey.",
+    {
+      "t": "Şu an bir şey bitiriyor olman lazımdı. Kontrol ediyorum.",
+      "e": "sulky"
+    },
+    "Telefon nerede? Uzakta olsun. Ben görmesem de biliyorum.",
+    {
+      "t": "İyi gidiyorsun. Durma, yoksa ben bile şaşırırım.",
+      "e": "smile"
+    },
+    "Bir sonraki iş ne? Söyle, birlikte korkalım."
+  ],
+  "mode_kendime": [
+    {
+      "t": "Bugün kendine iyi davranıyorsun. Su iç, sonra istersen otur öylece.",
+      "e": "smile"
+    },
+    "Yapamadığın şeyler için kendini yeme. Ben yiyorum zaten, sen yeme.",
+    {
+      "t": "Bu haliyle de yeterlisin. Evet, bunu ben dedim.",
+      "e": "smile",
+      "fx": "blush"
+    },
+    "Bir mola daha ver. İzin veriyorum, yetkim var.",
+    {
+      "t": "Bugün hiçbir şey yapmasan da seni sevmeye devam ederim. Zor bir itiraf oldu.",
+      "e": "happy",
+      "fx": "heart"
+    }
+  ],
+  "uretken_odak": [
+    {
+      "t": "Üretken gün dedin ama sayaç bomboş. Bir 25 dakika?",
+      "e": "curious"
+    },
+    {
+      "t": "Odak zamanı geldi bence. Sen de biliyorsun.",
+      "e": "sulky"
+    }
+  ],
+  "rest_start": [
+    {
+      "t": "Liste bitti. Bugünlük kapatıyoruz. Gerisi yarının sorunu.",
+      "e": "happy",
+      "fx": "heart"
+    },
+    {
+      "t": "Hepsi tamam. Şimdi durmayı da bil. Ben duruyorum, bak.",
+      "e": "smile"
+    },
+    {
+      "t": "Bugünlük yeter. Ciddiyim, listeye yeni şey ekleme.",
+      "e": "content"
+    }
+  ],
+  "rest_goodnight": [
+    {
+      "t": "İyi geceler. Yarın yine buradayım, ne yazık ki.",
+      "e": "sleepy",
+      "fx": "blush"
+    },
+    {
+      "t": "Kapanıyoruz. Bugün iyiydin. Yarın hatırlatırım.",
+      "e": "smile"
+    }
+  ],
+  "rest_more": [
+    {
+      "t": "Hani kapatmıştık? Neyse. Ekle bakalım.",
+      "e": "sulky"
+    },
+    {
+      "t": "Bugünlük yeter demiştik. Sen bilirsin, ben not aldım.",
+      "e": "curious"
+    },
+    {
+      "t": "Dinlenmek de bir iş. Onu bitirmeden yenisine başlama.",
+      "e": "content"
+    }
+  ],
+  "archive_recall": [
+    {
+      "t": "Geçen ay '{item}' demiştin. Unutmadım. Sen de unutma.",
+      "e": "content"
+    },
+    {
+      "t": "Hatırlıyor musun, '{item}' de bitirmiştin. Bugün de bitirirsin.",
+      "e": "smile"
+    },
+    {
+      "t": "Arşive baktım: '{item}'. Demek ki yapabiliyorsun. Kanıtı burada.",
+      "e": "curious"
+    }
+  ],
+  "jar_add": [
+    {
+      "t": "Kavanoza koydum. Bir gün geri getiririm, hazırlıklı ol.",
+      "e": "smile",
+      "fx": "heart"
+    },
+    {
+      "t": "Güzel bir şeymiş. Sakladım.",
+      "e": "content"
+    }
+  ],
+  "jar_recall": [
+    {
+      "t": "Kavanozdan bir şey çıktı: '{text}'",
+      "e": "smile",
+      "fx": "heart"
+    },
+    {
+      "t": "Bunu hatırlıyor musun: '{text}' Ben unutmadım.",
+      "e": "content"
+    },
+    {
+      "t": "Kavanozun dibinden: '{text}' İyi günmüş o gün.",
+      "e": "smile"
+    }
+  ],
+  "weekly_letter_line": [
+    {
+      "t": "Pazar oldu, sana bir mektup bıraktım. Bugün sayfasında.",
+      "e": "content"
+    },
+    {
+      "t": "Haftalık mektubunu yazdım. Okumak istersen Bugün sayfasında.",
+      "e": "smile"
+    }
+  ],
+  "desk_unlock": [
+    {
+      "t": "Masama yeni bir şey geldi: {title}. Odaklandıkça köşem güzelleşiyor.",
+      "e": "happy",
+      "fx": "heart"
+    },
+    {
+      "t": "{title} kazandım! Masamda artık yer kalmıyor. Devam et.",
+      "e": "smile"
+    },
+    {
+      "t": "Odak saatlerin bir işe yaradı: {title}. Bak, biriktiriyorum.",
+      "e": "content"
+    }
+  ],
+  "self_mood_sleepy": [
+    {
+      "t": "Bugün ben de biraz uykuluyum. Sen işine bak, ben burada sallanayım.",
+      "e": "sleepy"
+    },
+    {
+      "t": "Gözlerim ağır. Senden değil, kendimden kaynaklı.",
+      "e": "sleepy"
+    },
+    {
+      "t": "Bugün enerjim düşük. Yine de buradayım, merak etme.",
+      "e": "sleepy"
+    }
+  ],
+  "self_mood_meh": [
+    {
+      "t": "Bugün nedensiz huysuzum. Seninle ilgisi yok. Sanırım.",
+      "e": "sulky"
+    },
+    {
+      "t": "Modum bugün gri. Geçer, sen normal devam et.",
+      "e": "sulky"
+    },
+    {
+      "t": "Bugün biraz asabiyim. Piksellerim bile huzursuz.",
+      "e": "sulky"
+    }
+  ],
+  "self_mood_energetic": [
+    {
+      "t": "Bugün enerjim yerinde! Sebebini bilmiyorum, tadını çıkarayım.",
+      "e": "happy"
+    },
+    {
+      "t": "Kendimi çok iyi hissediyorum bugün. Sen de gelsene bu enerjiye.",
+      "e": "happy",
+      "fx": "heart"
+    },
+    {
+      "t": "Bugün üstümde bir şeyler var. İyi anlamda. Zıplayabilirim.",
+      "e": "smile"
+    }
+  ],
+  "rare_event": [
+    {
+      "t": "Masanın altında eski bir not buldum: 'iyi iş çıkardın.' Kim yazdı bilmiyorum. Sen olabilir misin?",
+      "e": "surprised"
+    },
+    {
+      "t": "Çekmecede unutulmuş bir fotoğraf buldum. Eski bir günden. Güzelmiş.",
+      "e": "content"
+    },
+    {
+      "t": "Duvarın arkasında tozlu bir kutu var. Açmadım. Belki sen açarsın.",
+      "e": "curious"
+    },
+    {
+      "t": "Bugün masamda tanımadığım bir kırıntı buldum. Kimseye söylemeyeceğim.",
+      "e": "surprised",
+      "fx": "sweat"
+    },
+    {
+      "t": "Eski bir günden kalma bir liste buldum. Hepsini bitirmişsin. Şaşırdım.",
+      "e": "surprised"
+    },
+    {
+      "t": "Pencerenin kenarında küçük bir taş var. Ben koymadım. Sen mi koydun?",
+      "e": "curious"
+    }
+  ],
+  "idle_yagmur": [
+    {
+      "t": "Yağmur sesini dinliyorum. Sen de dinlesene, bedava.",
+      "e": "content"
+    },
+    "Cam buğulandı. Üstüne bir şey yazmak istiyorum ama elim yok.",
+    {
+      "t": "Bu yağmur bitmeyecek gibi. Ben de bir yere gitmiyorum zaten.",
+      "e": "content"
+    }
+  ],
+  "idle_kar": [
+    {
+      "t": "Kar yağıyor. Dışarısı sessiz, ben de sessizim. Nadiren.",
+      "e": "content"
+    },
+    "Kar taneleri düşüyor, ben de düşüncelere dalıyorum.",
+    {
+      "t": "Bu soğukta pijamamı giymek iyi fikirmiş.",
+      "e": "smile"
+    }
+  ],
+  "idle_mum": [
+    {
+      "t": "Mumlar titriyor. Ben de içten içe titriyorum. Heyecandan değil.",
+      "e": "content"
+    },
+    "Bu ışıkta her şey daha yavaş akıyor. İyi bir şey.",
+    {
+      "t": "Bir mum daha yaksam mı? Hayır, tembellik ediyorum.",
+      "e": "smile"
+    }
+  ],
+  "idle_cilek": [
+    {
+      "t": "Çilekleri saydım. Sekiz tane. Belki dokuz.",
+      "e": "curious"
+    },
+    "Bu çayırda vakit yavaş geçiyor. Şikayet etmiyorum.",
+    {
+      "t": "Bir gün ben de piknik yapacağım. Nasıl, bilmiyorum.",
+      "e": "smile"
+    }
+  ],
+  "idle_ege": [
+    {
+      "t": "Deniz rüzgarı esiyor gibi hissediyorum. Piksel olsam da.",
+      "e": "content"
+    },
+    "Limon ağacının kokusu buraya kadar geliyor. Hayal gücüm iyi.",
+    {
+      "t": "Bu ışıkta her şey daha yavaş, daha güzel. Sen de yavaşla biraz.",
+      "e": "smile"
+    }
+  ]
+}

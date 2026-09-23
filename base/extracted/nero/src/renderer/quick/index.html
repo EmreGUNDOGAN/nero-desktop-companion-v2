@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self';">
+  <title>Nero — hızlı yakalama</title>
+  <link rel="stylesheet" href="../fonts/fonts.css">
+  <link rel="stylesheet" href="quick.css">
+</head>
+<body>
+  <div class="box">
+    <div class="type">
+      <button class="on" data-type="todo" type="button">İş</button>
+      <button data-type="note" type="button">Not</button>
+      <span class="hint">Esc: kapat</span>
+    </div>
+    <form id="form" autocomplete="off">
+      <input id="input" type="text" maxlength="300" placeholder="Hızlıca yaz, Enter'a bas…" autofocus>
+    </form>
+  </div>
+  <script src="quick.js"></script>
+</body>
+</html>

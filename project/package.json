@@ -1,0 +1,88 @@
+{
+  "name": "nero",
+  "productName": "Nero",
+  "version": "4.1.0",
+  "description": "Nero - huysuz ama seni seven masaüstü arkadaşın",
+  "main": "src/main/main.js",
+  "author": {
+    "name": "Stenwick"
+  },
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --win --x64 --publish never",
+    "dist:dir": "electron-builder --win --x64 --dir --publish never",
+    "test": "node --test test/*.test.js"
+  },
+  "devDependencies": {
+    "electron": "^44.4.3",
+    "electron-builder": "^26.15.3"
+  },
+  "build": {
+    "appId": "com.stenwick.nero",
+    "productName": "Nero",
+    "copyright": "Copyright © 2026 Stenwick",
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "files": [
+      "src/**/*",
+      "docs/**/*",
+      "build/icon.png",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "themes",
+        "to": "themes"
+      }
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "build/icon.ico",
+      "legalTrademarks": "Stenwick"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Nero",
+      "uninstallDisplayName": "Nero",
+      "installerIcon": "build/icon.ico",
+      "uninstallerIcon": "build/icon.ico",
+      "include": "build/installer.nsh",
+      "warningsAsErrors": false,
+      "runAfterFinish": true,
+      "artifactName": "Nero-Setup-${version}.exe",
+      "installerSidebar": "build/installerSidebar.bmp",
+      "uninstallerSidebar": "build/installerSidebar.bmp",
+      "installerHeader": "build/installerHeader.bmp",
+      "installerLanguages": [
+        "tr_TR"
+      ],
+      "language": "1055"
+    },
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "EmreGUNDOGAN",
+        "repo": "nero-desktop-companion-v2",
+        "releaseType": "release"
+      }
+    ]
+  },
+  "dependencies": {
+    "electron-updater": "^6.8.9"
+  }
+}

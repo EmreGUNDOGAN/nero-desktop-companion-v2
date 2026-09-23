@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="220" height="260" viewBox="0 0 220 260">
+  <!-- parti şapkası: başın tepesine oturur, hafif yana yatık -->
+  <g transform="rotate(14 119 46)">
+    <path d="M90 46 L120 10 L148 46 Q119 54 90 46 Z" fill="#F2B84B" stroke="#4A3A36" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M104 32 L114 20 M120 42 L132 26" stroke="#E7738A" stroke-width="5.5" stroke-linecap="round"/>
+    <circle cx="134" cy="40" r="3" fill="#7FB6E0"/>
+    <circle cx="110" cy="42" r="2.8" fill="#7FB6E0"/>
+    <path d="M90 46 Q119 54 148 46" fill="none" stroke="#4A3A36" stroke-width="4"/>
+    <circle cx="120" cy="10" r="7" fill="#E7738A" stroke="#4A3A36" stroke-width="3.5"/>
+  </g>
+</svg>

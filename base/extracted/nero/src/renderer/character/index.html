@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' nero-theme: data:; font-src 'self';">
+  <title>Nero</title>
+  <link rel="stylesheet" href="../fonts/fonts.css">
+  <link rel="stylesheet" href="character.css">
+</head>
+<body>
+  <div id="stage">
+    <div id="bubble" class="bubble" aria-live="polite">
+      <div class="bubble-text"></div>
+      <div class="bubble-tail"></div>
+    </div>
+
+    <div id="char">
+      <div id="char-inner">
+        <!-- Katmanlar character.js tarafından temaya göre oluşturulur -->
+      </div>
+    </div>
+
+    <button id="badge" class="badge" type="button" tabindex="-1"></button>
+  </div>
+  <script src="character.js"></script>
+</body>
+</html>

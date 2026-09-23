@@ -1,0 +1,400 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' nero-theme: data:; font-src 'self';">
+  <title>Nero</title>
+  <link rel="stylesheet" href="../fonts/fonts.css">
+  <link rel="stylesheet" href="panel.css">
+  <link rel="stylesheet" href="skins.css">
+</head>
+<body>
+  <div class="shell">
+    <div class="gingham" aria-hidden="true"></div>
+    <header class="top">
+      <div class="mast-meta" aria-hidden="true"><span id="mm-issue">Sayı 1</span><span id="mm-date"></span><span>Hava: kahvelik</span></div>
+      <div class="brand">
+        <h1>Nero</h1>
+        <div class="meter" id="meter" role="meter" aria-label="Nero'nun keyfi" aria-valuemin="0" aria-valuemax="100"></div>
+      </div>
+      <button class="close settings-btn" id="settings-button" type="button" aria-label="Ayarlar" aria-pressed="false" title="Ayarlar">
+        <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="2.5"/><path d="M10 2.5v2M10 15.5v2M2.5 10h2M15.5 10h2M4.7 4.7l1.4 1.4M13.9 13.9l1.4 1.4M4.7 15.3l1.4-1.4M13.9 6.1l1.4-1.4"/></svg>
+      </button>
+      <button class="close pin-btn" id="pin" type="button" aria-label="Paneli sabitle" aria-pressed="false" title="Sabitle: Nero'ya tıklayınca kapanmasın">
+        <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M4.2 1.5h3.6M5 1.5v3L3.2 6.8h5.6L7 4.5v-3M6 6.8V10.5"/></svg>
+      </button>
+      <button class="close minimize" id="minimize" type="button" aria-label="Küçült" title="Küçült (görev çubuğunda kalır)">
+        <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 6h7"/></svg>
+      </button>
+      <button class="close" id="close" type="button" aria-label="Paneli kapat" title="Kapat (tepsiye gider)">
+        <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 2.5l7 7M9.5 2.5l-7 7"/></svg>
+      </button>
+      <p class="tagline" id="tagline" aria-hidden="true"></p>
+      <p class="mood-note"><span id="mood-label">…</span> <span id="mood-detail"></span></p>
+    </header>
+
+    <nav class="tabs" role="tablist">
+      <button role="tab" data-tab="home">
+        <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3.5 9.5L10 4l6.5 5.5M5.5 8v8h9V8"/></svg><span class="tl" data-k="home">Bugün</span>
+      </button>
+      <button role="tab" data-tab="notes" aria-selected="true">
+        <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 16l1-4 8-8 3 3-8 8z M11.5 5.5l3 3"/></svg><span class="tl" data-k="notes">Notlar</span>
+      </button>
+      <button role="tab" data-tab="todos">
+        <svg viewBox="0 0 20 20" aria-hidden="true"><rect x="3" y="3" width="14" height="14" rx="4"/><path d="M6.5 10l2.4 2.4L13.8 7.6"/></svg><span class="tl" data-k="todos">Yapılacaklar</span>
+      </button>
+      <button role="tab" data-tab="timer">
+        <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="11" r="6.5"/><path d="M10 7.5V11l2.2 1.6M8 2.5h4"/></svg><span class="tl" data-k="timer">Zaman</span>
+      </button>
+      <button role="tab" data-tab="badges">
+        <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="8" r="5"/><path d="M6.5 12.5L5 18l5-2.2L15 18l-1.5-5.5"/></svg><span class="tl" data-k="badges">Rozetler</span>
+      </button>
+    </nav>
+
+    <div class="update-banner" id="update-banner" hidden>
+      <span id="update-text"></span>
+      <div class="update-actions">
+        <button class="chip primary" id="update-now" type="button">Şimdi güncelle</button>
+        <button class="chip" id="update-onquit" type="button">Kapatınca kur</button>
+        <button class="chip ghost" id="update-dismiss" type="button" aria-label="Şimdi değil">Şimdi değil</button>
+      </div>
+    </div>
+
+    <div class="rest-screen" id="rest-screen" hidden>
+      <div class="rest-card">
+        <p class="rest-title" id="rest-title">Bugünlük kapatıyoruz.</p>
+        <p class="rest-summary" id="rest-summary"></p>
+        <div class="rest-actions">
+          <button class="pill primary" id="rest-night" type="button">İyi geceler</button>
+          <button class="pill" id="rest-continue" type="button">Yine de devam et</button>
+        </div>
+      </div>
+    </div>
+
+    <main>
+      <!-- ANA SAYFA -->
+      <section class="view" id="view-home" role="tabpanel" hidden>
+        <div class="home-grid">
+          <div class="card ritual" id="ritual" hidden>
+            <p class="ritual-q">Bugün nasıl bir gün olsun?</p>
+            <div class="ritual-opts">
+              <button class="pill" data-mode="sakin" type="button">Sakin</button>
+              <button class="pill" data-mode="uretken" type="button">Üretken</button>
+              <button class="pill" data-mode="kendime" type="button">Kendime iyi davranacağım</button>
+            </div>
+          </div>
+          <div class="hello">
+            <h2 id="hello">Merhaba</h2>
+            <p id="hello-date"></p>
+          </div>
+
+          <div class="sticky-note" aria-hidden="true"><span id="sticky-text"></span></div>
+          <div class="card nero-says">
+            <span class="deco-cat" aria-hidden="true"></span>
+            <p id="home-jab"></p>
+          </div>
+
+          <div class="tiles">
+            <div class="card tile"><strong id="st-today-todos">0</strong><span>bugün biten iş</span></div>
+            <div class="card tile"><strong id="st-today-focus">0 dk</strong><span>bugün odak</span></div>
+            <div class="card tile"><strong id="st-streak">1</strong><span>günlük seri</span></div>
+            <div class="card tile"><strong id="st-days">1</strong><span>gündür birlikteyiz</span></div>
+          </div>
+
+          <div class="card week">
+            <div class="card-head"><h3>Bu hafta odak</h3><span id="week-total"></span></div>
+            <div class="bars" id="week-bars"></div>
+          </div>
+
+          <div class="card totals">
+            <h3>Şimdiye kadar</h3>
+            <dl>
+              <div><dt>Biten iş</dt><dd id="tt-todos">0</dd></div>
+              <div><dt>Toplam odak</dt><dd id="tt-focus">0 dk</dd></div>
+              <div><dt>Tamamlanan sayaç</dt><dd id="tt-done">0</dd></div>
+              <div><dt>Yarıda bırakılan</dt><dd id="tt-quit">0</dd></div>
+              <div><dt>Alınan not</dt><dd id="tt-notes">0</dd></div>
+              <div><dt>En uzun seri</dt><dd id="tt-best">0 gün</dd></div>
+              <div><dt>Nero'yu sevdin</dt><dd id="tt-pets">0 kere</dd></div>
+            </dl>
+          </div>
+
+          <div class="card desk">
+            <div class="card-head"><h3>Masa köşen</h3><span id="desk-next"></span></div>
+            <ul class="desk-grid" id="desk-grid"></ul>
+          </div>
+
+          <div class="card letter" id="letter-card" hidden>
+            <div class="card-head"><h3>Haftalık mektup</h3><button class="link" id="letter-close" type="button">kapat</button></div>
+            <p id="letter-text"></p>
+          </div>
+
+          <div class="card moodboards" id="moodboards-card">
+            <div class="card-head"><h3>Moodboard</h3><span id="moodboard-month"></span></div>
+            <section class="mood-board user-mood-board" aria-labelledby="user-mood-title">
+              <div class="mood-board-head"><strong id="user-mood-title">Benim Moodboard’um</strong><span>güne dokun, rengini seç</span></div>
+              <div class="mood-calendar" id="user-mood-calendar"></div>
+            </section>
+            <section class="mood-board nero-mood-board" aria-labelledby="nero-mood-title">
+              <div class="mood-board-head"><strong id="nero-mood-title">Nero’nun Moodboard’u</strong><span>kendiliğinden dolar</span></div>
+              <div class="mood-calendar" id="nero-mood-calendar"></div>
+            </section>
+          </div>
+
+          <div class="card jar">
+            <div class="card-head"><h3>Kavanoz</h3><span id="jar-count"></span></div>
+            <form class="jar-form" id="jar-form" autocomplete="off">
+              <input id="jar-input" type="text" maxlength="200" placeholder="Bugün güzel bir şey oldu mu?">
+              <button class="chip" type="submit">Bırak</button>
+            </form>
+          </div>
+
+          <div class="card archive" id="archive-card" hidden>
+            <div class="card-head"><h3>Bu ay yaptıkların</h3><span id="archive-count"></span></div>
+            <ul class="archive-list" id="archive-list"></ul>
+            <details class="archive-more" id="archive-more" hidden>
+              <summary id="archive-more-summary"></summary>
+              <ul class="archive-list archive-list-more" id="archive-more-list"></ul>
+            </details>
+          </div>
+
+          <figure class="card quote">
+            <blockquote id="quote-t"></blockquote>
+            <figcaption id="quote-nero"></figcaption>
+          </figure>
+
+          <div class="quick">
+            <button class="pill primary" id="q-focus" type="button">25 dk odaklan</button>
+            <button class="pill" id="q-todo" type="button">İş ekle</button>
+            <button class="pill" id="q-note" type="button">Not al</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ROZETLER -->
+      <section class="view" id="view-badges" role="tabpanel" hidden>
+        <div class="card badges">
+          <div class="card-head"><h3>Rozetler</h3><span id="badge-count"></span></div>
+          <div class="badge-rarity-tabs" id="badge-rarity-tabs" role="tablist" aria-label="Rozet kategorileri">
+            <button type="button" role="tab" data-rarity="yaygin" aria-selected="true">Yaygın</button>
+            <button type="button" role="tab" data-rarity="siradisi" aria-selected="false">Sıradışı</button>
+            <button type="button" role="tab" data-rarity="nadir" aria-selected="false">Nadir</button>
+            <button type="button" role="tab" data-rarity="efsanevi" aria-selected="false">Efsanevi</button>
+            <button type="button" role="tab" data-rarity="gizli" aria-selected="false" hidden>Gizli</button>
+          </div>
+          <div class="badge-category-meta"><strong id="badge-category-title">Yaygın</strong><span id="badge-category-count"></span></div>
+          <ul class="badge-grid" id="badge-grid"></ul>
+        </div>
+      </section>
+
+      <!-- NOTLAR -->
+      <section class="view" id="view-notes" role="tabpanel">
+        <div id="notes-list-view">
+          <ul class="notes" id="notes-list"></ul>
+          <details class="archive-drawer" id="notes-archive" hidden>
+            <summary><span>Arşivler</span><span id="notes-archive-count"></span></summary>
+            <div class="monthly-archives" id="notes-archive-months"></div>
+          </details>
+        </div>
+        <div id="note-editor-view" hidden>
+          <div class="toolbar">
+            <button class="link" id="note-back" type="button">‹ Notlar</button>
+            <span class="save-state" id="note-save-state"></span>
+            <button class="link" id="note-archive" type="button" hidden>Arşivle</button>
+            <button class="link danger" id="note-delete" type="button">Sil</button>
+          </div>
+          <div class="paper" id="note-paper">
+            <span class="tape" aria-hidden="true"></span>
+            <svg class="clip" viewBox="0 0 16 34" aria-hidden="true"><path d="M5 10V26a4 4 0 0 0 8 0V6a3 3 0 0 0-6 0v19"/></svg>
+            <div class="form-head" aria-hidden="true">
+              <strong>TUTANAKTIR</strong>
+              <div class="form-fields"><span>Konu: <b id="form-subject"></b></span><span>Tarih: <b id="form-date"></b></span></div>
+            </div>
+            <span class="stamp editor-stamp" aria-hidden="true">NERO OKUDU<br>YORUM YOK</span>
+            <textarea id="note-body" placeholder="Aklındakini yaz… İlk satır başlık olur." spellcheck="true"></textarea>
+          </div>
+        </div>
+      </section>
+
+      <!-- YAPILACAKLAR -->
+      <section class="view" id="view-todos" role="tabpanel" hidden>
+        <form class="todo-add" id="todo-form" autocomplete="off">
+          <input id="todo-input" type="text" maxlength="300" placeholder="Bugün ne yapıyoruz?">
+          <label class="todo-time" title="Hatırlatma saati (isteğe bağlı)">
+            <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="11" r="6.5"/><path d="M10 7.5V11l2.2 1.6M4 3.5l2 1.6M16 3.5l-2 1.6"/></svg>
+            <input id="todo-time" type="time" aria-label="Hatırlatma saati">
+          </label>
+          <button class="add" type="submit" aria-label="Ekle">
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v10M3 8h10"/></svg>
+          </button>
+        </form>
+        <div class="card list-card">
+          <div class="rings" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          <div class="list-title" id="list-title"></div>
+          <ul class="todos" id="todo-list"></ul>
+          <p class="empty" id="todos-empty">Liste boş. Nero bundan şüpheleniyor.</p>
+        </div>
+        <footer class="todo-footer" id="todo-footer">
+          <span id="todo-count"></span>
+          <button class="link" id="todo-clear" type="button">Bitenleri arşivle</button>
+        </footer>
+        <div class="delay" id="delay">
+          <div class="delay-row"><span id="delay-label">Erteleme ihtimali</span><span id="delay-pct"></span></div>
+          <div class="delay-bar"><i id="delay-fill"></i></div>
+          <p class="delay-note" id="delay-note"></p>
+        </div>
+        <details class="archive-drawer" id="todos-archive" hidden>
+          <summary><span>Arşivler</span><span id="todos-archive-count"></span></summary>
+          <div class="monthly-archives" id="todos-archive-months"></div>
+        </details>
+      </section>
+
+      <!-- ZAMANLAYICI -->
+      <section class="view" id="view-timer" role="tabpanel" hidden>
+        <div class="dial">
+          <div class="crown" aria-hidden="true"><i></i><b></b></div>
+          <svg viewBox="0 0 200 200" class="ring" aria-hidden="true">
+            <circle cx="100" cy="100" r="86" class="ring-track"/>
+            <circle cx="100" cy="100" r="86" class="ring-fill" id="ring-fill"/>
+          </svg>
+          <div class="dial-center">
+            <svg class="steam" viewBox="0 0 26 18" aria-hidden="true"><path d="M8 16c-2-3 2-5 0-8s2-5 0-7M14 16c-2-3 2-5 0-8s2-5 0-7M20 16c-2-3 2-5 0-8s2-5 0-7"/></svg>
+            <output class="digits" id="timer-digits">25:00</output>
+            <span class="dial-label" id="timer-status">hazır olduğunda</span>
+          </div>
+        </div>
+
+        <div class="lcd-bar" aria-hidden="true"><i id="lcd-fill"></i></div>
+
+        <div class="timer-setup" id="timer-setup">
+          <input class="soft-input" id="timer-label" type="text" maxlength="80" placeholder="Neye odaklanıyorsun? (isteğe bağlı)" aria-label="Neye odaklanıyorsun?">
+          <div class="presets" id="presets" role="group" aria-label="Hazır süreler">
+            <button type="button" data-min="5">5</button>
+            <button type="button" data-min="15">15</button>
+            <button type="button" data-min="25" class="on">25</button>
+            <button type="button" data-min="45">45</button>
+            <button type="button" data-min="60">60</button>
+            <label class="custom">
+              <input id="timer-custom" type="number" min="1" max="600" value="25" aria-label="Özel süre (dakika)">
+              <span>dk</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="timer-actions">
+          <button class="pill primary" id="timer-start" type="button">Başlat</button>
+          <button class="pill" id="timer-pause" type="button" hidden>Duraklat</button>
+          <button class="pill primary" id="timer-resume" type="button" hidden>Devam et</button>
+          <button class="link danger" id="timer-cancel" type="button" hidden>Bırak</button>
+          <span class="cancel-note" id="cancel-note" aria-hidden="true"></span>
+        </div>
+      </section>
+
+      <!-- AYARLAR -->
+      <section class="view" id="view-settings" role="tabpanel" hidden>
+        <div class="card">
+          <h2>Görünüm</h2>
+          <label class="row">
+            <span>Tema<small class="sub" data-sub="theme"></small></span>
+            <select id="set-theme"></select>
+          </label>
+          <p class="theme-errors" id="theme-errors" hidden></p>
+          <div class="row chips">
+            <button class="chip" id="themes-reload" type="button">Temaları yenile</button>
+            <button class="chip" id="themes-folder" type="button">Tema klasörü</button>
+            <button class="chip" id="themes-guide" type="button">Tema rehberi</button>
+          </div>
+          <label class="row">
+            <span>Boyut <output id="scale-out">100%</output></span>
+            <input id="set-scale" type="range" min="50" max="200" step="5">
+          </label>
+        </div>
+
+        <div class="card">
+          <h2>Davranış</h2>
+          <div class="row">
+            <span>Konuşkanlık<small class="sub" data-sub="talk"></small></span>
+            <div class="segmented" id="set-talk" role="radiogroup" aria-label="Konuşkanlık">
+              <button type="button" data-value="az" role="radio">Az</button>
+              <button type="button" data-value="normal" role="radio">Normal</button>
+              <button type="button" data-value="cok" role="radio" id="talk-cok">Çok</button>
+            </div>
+          </div>
+          <label class="row toggle"><span>Sessiz mod<small class="sub" data-sub="muted"></small></span><input type="checkbox" id="set-muted"></label>
+          <label class="row toggle"><span>Süreyi karakterin altında göster<small class="sub" data-sub="badge"></small></span><input type="checkbox" id="set-badge"></label>
+          <label class="row toggle"><span>Sesler<small class="sub" data-sub="sound"></small></span><input type="checkbox" id="set-sound"></label>
+          <label class="row toggle"><span>Geri dönüş şakaları<small class="sub" data-sub="desk"></small></span><input type="checkbox" id="set-desk"></label>
+          <label class="row toggle scene-row"><span>Arka plan resmi<small class="sub" data-sub="scene"></small></span><input type="checkbox" id="set-scene"></label>
+          <label class="row toggle scene-row"><span>Ortam sesi<small class="sub" data-sub="ambient"></small></span><input type="checkbox" id="set-ambient"></label>
+          <label class="row toggle weather-row"><span>Hava efektleri<small class="sub" data-sub="fx"></small></span><input type="checkbox" id="set-fx"></label>
+          <label class="row toggle"><span>Sürpriz ziyaretler<small class="sub" data-sub="peek"></small></span><input type="checkbox" id="set-peek"></label>
+        </div>
+
+        <div class="card">
+          <h2>Hatırlatmalar</h2>
+          <label class="row"><span>Su hatırlatması</span>
+            <select id="set-water"><option value="0">Kapalı</option><option value="45">45 dakikada bir</option><option value="60">Saatte bir</option><option value="90">90 dakikada bir</option><option value="120">2 saatte bir</option></select>
+          </label>
+          <label class="row"><span>Mola hatırlatması<small class="sub" data-sub="break"></small></span>
+            <select id="set-break"><option value="0">Kapalı</option><option value="45">45 dk kesintisiz çalışınca</option><option value="60">1 saat kesintisiz çalışınca</option><option value="90">90 dk kesintisiz çalışınca</option></select>
+          </label>
+          <label class="row toggle"><span>Gün sonu özeti<small class="sub" data-sub="summary"></small></span><input type="checkbox" id="set-summary"></label>
+          <div class="row"><span>Doğum günün<small class="sub" data-sub="bday"></small></span>
+            <span class="bday"><select id="set-bday-day" aria-label="Gün"><option value="">Gün</option><option value="01">1</option><option value="02">2</option><option value="03">3</option><option value="04">4</option><option value="05">5</option><option value="06">6</option><option value="07">7</option><option value="08">8</option><option value="09">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option></select><select id="set-bday-month" aria-label="Ay"><option value="">Ay</option><option value="01">Ocak</option><option value="02">Şubat</option><option value="03">Mart</option><option value="04">Nisan</option><option value="05">Mayıs</option><option value="06">Haziran</option><option value="07">Temmuz</option><option value="08">Ağustos</option><option value="09">Eylül</option><option value="10">Ekim</option><option value="11">Kasım</option><option value="12">Aralık</option></select></span>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Güncellemeler</h2>
+          <label class="row toggle"><span>Yeni sürümleri kendiliğinden denetle</span><input type="checkbox" id="set-autoupdate"></label>
+          <div class="row"><span id="update-status">…</span><button class="chip" id="update-check" type="button">Şimdi denetle</button></div>
+        </div>
+
+        <div class="card">
+          <h2>Yedekler</h2>
+          <p class="hint">Her gün otomatik yedek alınır, son 7 gün saklanır.</p>
+          <div class="row chips">
+            <button class="chip" id="data-export" type="button">Dışa aktar</button>
+            <button class="chip" id="data-import" type="button">Yedekten geri yükle</button>
+            <button class="chip" id="data-backups" type="button">Yedek klasörü</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Hızlı yakalama</h2>
+          <label class="row toggle"><span>Kısayolla aç<small class="sub" data-sub="quick"></small></span><input type="checkbox" id="set-quick"></label>
+          <p class="hint" id="quick-hint"></p>
+        </div>
+
+        <div class="card">
+          <h2>Sistem</h2>
+          <label class="row toggle"><span>Her zaman üstte<small class="sub" data-sub="top"></small></span><input type="checkbox" id="set-top"></label>
+          <label class="row toggle"><span>Masaüstünde hep görünür kal<small class="sub" data-sub="stay"></small></span><input type="checkbox" id="set-stay"></label>
+          <label class="row toggle"><span>Yerinde sabit dur<small class="sub" data-sub="lock"></small></span><input type="checkbox" id="set-lock"></label>
+          <label class="row toggle"><span>Windows açılınca başlat<small class="sub" data-sub="startup"></small></span><input type="checkbox" id="set-startup"></label>
+        </div>
+
+        <div class="card">
+          <h2>Nero</h2>
+          <label class="row">
+            <span>Adın<small class="sub" data-sub="name"></small></span>
+            <input class="name-input" id="set-name" type="text" maxlength="30" placeholder="Nero sana nasıl seslensin?">
+          </label>
+          <div class="row chips">
+            <button class="chip" id="mood-reset" type="button">Ruh halini sıfırla <small class="sub inline" data-sub="reset"></small></button>
+            <button class="chip" id="char-hide" type="button">Nero'yu gizle</button>
+            <button class="chip danger" id="app-quit" type="button">Çıkış</button>
+          </div>
+        </div>
+        <p class="version" id="version"></p>
+      </section>
+    </main>
+    <span class="app-version" id="app-version" aria-label="Sürüm"></span>
+    <button class="grip grip-left" data-side="left" type="button" aria-label="Boyutlandır" tabindex="-1"></button>
+    <button class="grip grip-right" data-side="right" type="button" aria-label="Boyutlandır" tabindex="-1"></button>
+  </div>
+
+  <script src="panel.js"></script>
+</body>
+</html>
