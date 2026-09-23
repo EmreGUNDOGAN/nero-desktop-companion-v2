@@ -106,12 +106,23 @@
           </div>
 
           <div class="card week">
-            <div class="card-head"><h3>Bu hafta odak</h3><span id="week-total"></span></div>
+            <div class="card-head"><div class="section-heading"><h3>Bu hafta odak</h3><button class="section-help" type="button" aria-label="Bu bölüm ne işe yarıyor?" aria-expanded="false">
+    <span aria-hidden="true">?</span>
+    <span class="section-tooltip" role="tooltip">Bu hafta odaklandığın dakikaları gün gün gösterir.</span>
+  </button></div><span id="week-total"></span></div>
             <div class="bars" id="week-bars"></div>
           </div>
 
           <div class="card totals">
-            <h3>Şimdiye kadar</h3>
+            <div class="card-head totals-head">
+              <div class="section-heading"><h3>Şimdiye kadar</h3><button class="section-help" type="button" aria-label="Bu bölüm ne işe yarıyor?" aria-expanded="false">
+    <span aria-hidden="true">?</span>
+    <span class="section-tooltip" role="tooltip">Nero’yla son başlangıç noktasından beri biriken genel istatistiklerin.</span>
+  </button></div>
+              <button class="stats-reset" id="stats-reset" type="button" aria-label="Şimdiye kadar sayaçlarını sıfırla" title="Yeni bir başlangıç">
+                <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5.2 6.2A6 6 0 1 1 4 11M4.2 3.8v3.7h3.7"/></svg>
+              </button>
+            </div>
             <dl>
               <div><dt>Biten iş</dt><dd id="tt-todos">0</dd></div>
               <div><dt>Toplam odak</dt><dd id="tt-focus">0 dk</dd></div>
@@ -124,18 +135,27 @@
           </div>
 
           <div class="card desk">
-            <div class="card-head"><h3>Masa köşen</h3><span id="desk-next"></span></div>
+            <div class="card-head"><div class="section-heading"><h3>Masa köşen</h3><button class="section-help" type="button" aria-label="Bu bölüm ne işe yarıyor?" aria-expanded="false">
+    <span aria-hidden="true">?</span>
+    <span class="section-tooltip" role="tooltip">Odaklandıkça küçük masa eşyalarının kilidini açarsın.</span>
+  </button></div><span id="desk-next"></span></div>
             <ul class="desk-grid" id="desk-grid"></ul>
           </div>
 
           <div class="card letter" id="letter-card" hidden>
-            <div class="card-head"><h3>Haftalık mektup</h3><button class="link" id="letter-close" type="button">kapat</button></div>
+            <div class="card-head"><div class="section-heading"><h3>Haftalık mektup</h3><button class="section-help" type="button" aria-label="Bu bölüm ne işe yarıyor?" aria-expanded="false">
+    <span aria-hidden="true">?</span>
+    <span class="section-tooltip" role="tooltip">Nero haftanın sonunda geçen haftana bakıp sana küçük bir not bırakır.</span>
+  </button></div><button class="link" id="letter-close" type="button">kapat</button></div>
             <p id="letter-text"></p>
           </div>
 
           <div class="card moodboards" id="moodboards-card">
             <div class="card-head moodboard-card-head">
-              <h3>Moodboard</h3>
+              <div class="section-heading"><h3>Moodboard</h3><button class="section-help" type="button" aria-label="Bu bölüm ne işe yarıyor?" aria-expanded="false">
+    <span aria-hidden="true">?</span>
+    <span class="section-tooltip" role="tooltip">Her gün nasıl hissettiğini işaretle; Nero’nun ruh hali de altta kendiliğinden oluşur.</span>
+  </button></div>
               <div class="moodboard-nav" aria-label="Moodboard ayı">
                 <button class="mood-nav-btn" id="moodboard-prev" type="button" aria-label="Önceki dolu aya git">‹</button>
                 <span id="moodboard-month"></span>
@@ -166,7 +186,10 @@
           </div>
 
           <div class="card jar">
-            <div class="card-head"><h3>Kavanoz</h3><span id="jar-count"></span></div>
+            <div class="card-head"><div class="section-heading"><h3>Kavanoz</h3><button class="section-help" type="button" aria-label="Bu bölüm ne işe yarıyor?" aria-expanded="false">
+    <span aria-hidden="true">?</span>
+    <span class="section-tooltip" role="tooltip">Günün güzel bir anını bırak. Nero onları senin için saklar.</span>
+  </button></div><span id="jar-count"></span></div>
             <form class="jar-form" id="jar-form" autocomplete="off">
               <input id="jar-input" type="text" maxlength="200" placeholder="Bugün güzel bir şey oldu mu?">
               <button class="chip" type="submit">Bırak</button>
@@ -174,7 +197,10 @@
           </div>
 
           <div class="card archive" id="archive-card" hidden>
-            <div class="card-head"><h3>Bu ay yaptıkların</h3><span id="archive-count"></span></div>
+            <div class="card-head"><div class="section-heading"><h3>Bu ay yaptıkların</h3><button class="section-help" type="button" aria-label="Bu bölüm ne işe yarıyor?" aria-expanded="false">
+    <span aria-hidden="true">?</span>
+    <span class="section-tooltip" role="tooltip">Bu ay tamamladığın işleri en yeniden eskiye burada görürsün.</span>
+  </button></div><span id="archive-count"></span></div>
             <ul class="archive-list" id="archive-list"></ul>
             <details class="archive-more" id="archive-more" hidden>
               <summary id="archive-more-summary"></summary>
@@ -418,6 +444,19 @@
         <p class="version" id="version"></p>
       </section>
     </main>
+
+    <div class="confirm-backdrop" id="stats-reset-modal" hidden>
+      <section class="confirm-card" role="dialog" aria-modal="true" aria-labelledby="stats-reset-title" aria-describedby="stats-reset-copy">
+        <div class="confirm-nero" aria-hidden="true">N</div>
+        <h3 id="stats-reset-title">Yeni bir sayfa mı açıyoruz?</h3>
+        <p id="stats-reset-copy">Eski işlerini, notlarını, rozetlerini silmeyeceğim. Sadece “Şimdiye kadar” sayacını buradan itibaren yeniden sayacağım.</p>
+        <div class="confirm-actions">
+          <button class="pill primary" id="stats-reset-confirm" type="button">Sıfırdan say</button>
+          <button class="pill" id="stats-reset-cancel" type="button">Vazgeç</button>
+        </div>
+      </section>
+    </div>
+
     <span class="app-version" id="app-version" aria-label="Sürüm"></span>
     <button class="grip grip-left" data-side="left" type="button" aria-label="Boyutlandır" tabindex="-1"></button>
     <button class="grip grip-right" data-side="right" type="button" aria-label="Boyutlandır" tabindex="-1"></button>
