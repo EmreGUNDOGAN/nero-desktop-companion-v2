@@ -1,0 +1,83 @@
+name: Build Nero 4.3.1 test 1
+
+on:
+  push:
+    branches:
+      - test-v4.3.1-window-interactions-clean
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install
+        shell: pwsh
+        run: |
+          npm ci
+          if ($LASTEXITCODE -ne 0) { throw "npm ci failed" }
+
+      - name: Version and syntax
+        shell: pwsh
+        run: |
+          $pkg = Get-Content package.json -Raw | ConvertFrom-Json
+          if ($pkg.version -ne "4.3.1-test.1") { throw "Unexpected version: $($pkg.version)" }
+          foreach ($path in @(
+            "src/main/main.js",
+            "src/preload/preload.js",
+            "src/renderer/panel/panel.js",
+            "src/renderer/character/character.js",
+            "test/panel-pointer-electron-smoke.js"
+          )) {
+            node --check $path
+            if ($LASTEXITCODE -ne 0) { throw "Syntax error: $path" }
+          }
+
+      - name: Node regression tests
+        shell: pwsh
+        run: |
+          npm test
+          if ($LASTEXITCODE -ne 0) { throw "Node tests failed" }
+
+      - name: Header controls Electron hit-test
+        shell: pwsh
+        run: |
+          $out = @(npx electron test/window-controls-electron-smoke.js 2>&1)
+          $out | ForEach-Object { Write-Host $_ }
+          if ($LASTEXITCODE -ne 0 -or (($out -join [Environment]::NewLine) -notmatch "window-controls-electron-smoke: ok")) {
+            throw "Header controls smoke failed"
+          }
+
+      - name: Repeated panel pointer gestures
+        shell: pwsh
+        run: |
+          $out = @(npx electron test/panel-pointer-electron-smoke.js 2>&1)
+          $out | ForEach-Object { Write-Host $_ }
+          if ($LASTEXITCODE -ne 0 -or (($out -join [Environment]::NewLine) -notmatch "panel-pointer-electron-smoke: ok")) {
+            throw "Panel pointer smoke failed"
+          }
+
+      - name: Build test setup
+        shell: pwsh
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: "false"
+        run: |
+          npm run dist
+          if ($LASTEXITCODE -ne 0) { throw "electron-builder failed" }
+          if (-not (Test-Path "dist/Nero-Setup-4.3.1-test.1.exe")) { throw "Test setup missing" }
+
+      - name: Upload setup only
+        uses: actions/upload-artifact@v4
+        with:
+          name: Nero-Setup-4.3.1-test.1
+          path: dist/Nero-Setup-4.3.1-test.1.exe
+          if-no-files-found: error
