@@ -613,7 +613,21 @@
     api.send('char:ignoreMouse', value);
   }
 
+  function cancelPointerGesture() {
+    if (dragging) api.send('char:dragEnd');
+    dragging = false;
+    press = null;
+    charEl.classList.remove('dragging');
+  }
+
   window.addEventListener('pointermove', (e) => {
+    // Pointerup pencerenin dışında kaybolmuşsa sol tuşun artık basılı olmadığını
+    // ilk harekette görüp eski gesture'ı kapat.
+    if (press && (e.buttons & 1) === 0) {
+      cancelPointerGesture();
+      setIgnore(!hitWhat(e.clientX, e.clientY));
+      return;
+    }
     if (press) {
       if (!dragging && press.target === 'char' && !settings.lockPosition && Math.hypot(e.screenX - press.x, e.screenY - press.y) > 5) {
         dragging = true;
@@ -638,6 +652,8 @@
 
   window.addEventListener('pointerdown', (e) => {
     if (e.button !== 0) return;
+    // Önceki gesture yarım kaldıysa yeni sürüklemeyi engellemesin.
+    if (press || dragging) cancelPointerGesture();
     const target = hitWhat(e.clientX, e.clientY);
     if (!target) return;
     press = { x: e.screenX, y: e.screenY, target };
@@ -662,12 +678,9 @@
     setIgnore(!hitWhat(e.clientX, e.clientY));
   });
 
-  window.addEventListener('pointercancel', () => {
-    if (dragging) api.send('char:dragEnd');
-    dragging = false;
-    press = null;
-    charEl.classList.remove('dragging');
-  });
+  window.addEventListener('pointercancel', cancelPointerGesture);
+  window.addEventListener('blur', cancelPointerGesture);
+  document.body.addEventListener('lostpointercapture', cancelPointerGesture);
 
   window.addEventListener('contextmenu', (e) => {
     e.preventDefault();
@@ -731,7 +744,11 @@
     if (p) charEl.classList.add(p.mode === 'center' ? 'peek-center' : `peek-${p.side}`);
   });
   api.on('dragging', (on) => {
-    if (!on && dragging) { dragging = false; charEl.classList.remove('dragging'); }
+    if (!on) {
+      dragging = false;
+      press = null;
+      charEl.classList.remove('dragging');
+    }
   });
 
   requestAnimationFrame(frame);
