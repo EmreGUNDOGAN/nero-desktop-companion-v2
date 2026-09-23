@@ -363,6 +363,23 @@ function sendTheme() {
 // ---------------------------------------------------------------------------
 // Panel penceresi
 // ---------------------------------------------------------------------------
+function resetWindowInteractionState({ restoreCharacterMouse = false } = {}) {
+  if (drag) stopDrag();
+  if (panelDrag) stopPanelDrag();
+  if (resize) stopResize();
+
+  sendTo(panelWin, 'interaction:reset');
+  sendTo(charWin, 'interaction:reset');
+
+  if (restoreCharacterMouse && charWin) {
+    try { charWin.setIgnoreMouseEvents(false, { forward: true }); } catch (_) { /* yoksay */ }
+    try { charWin.webContents.invalidate(); } catch (_) { /* yoksay */ }
+  }
+  if (panelWin) {
+    try { panelWin.webContents.invalidate(); } catch (_) { /* yoksay */ }
+  }
+}
+
 function createPanelWindow() {
   const size = panelSize();
   panelWin = new BrowserWindow({
@@ -404,7 +421,14 @@ function createPanelWindow() {
     const b = charWin.getBounds();
     settingsStore.patch({ position: { x: b.x, y: b.y } });
   });
-  panelWin.on('restore', () => { revealCharacter(); if (charWin) positionPanel(); });
+  panelWin.on('minimize', () => {
+    resetWindowInteractionState();
+  });
+  panelWin.on('restore', () => {
+    resetWindowInteractionState({ restoreCharacterMouse: true });
+    revealCharacter();
+    if (charWin) positionPanel();
+  });
   panelWin.on('show', () => revealCharacter());
   panelWin.on('focus', () => revealCharacter());
 }
@@ -1709,7 +1733,11 @@ function registerIpc() {
     };
   });
   ipcMain.on('panel:resizeEnd', () => stopResize());
-  ipcMain.handle('panel:minimize', () => { if (panelWin) panelWin.minimize(); return true; });
+  ipcMain.handle('panel:minimize', () => {
+    resetWindowInteractionState();
+    if (panelWin) panelWin.minimize();
+    return true;
+  });
   ipcMain.handle('panel:open', (_e, tab) => { showPanel(tab); return true; });
   ipcMain.handle('app:quit', () => { quitWithGoodbye(); return true; });
 
