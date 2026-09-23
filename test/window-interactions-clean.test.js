@@ -62,3 +62,10 @@ test('taskbar minimize/restore bütün etkileşim stateini sıfırlar', () => {
   assert.match(preload, /'interaction:reset'/);
 });
 
+test('Nero click-through başlangıcından forwarded mousemove ile kendi kendine uyanır', () => {
+  assert.match(main, /charWin\.setIgnoreMouseEvents\(true, \{ forward: true \}\)/);
+  assert.match(character, /setIgnoreMouseEvents[\s\S]*forward:true|mousemove/);
+  assert.match(character, /window\.addEventListener\('mousemove'/);
+  assert.doesNotMatch(character, /window\.addEventListener\('pointermove',[\s\S]*?const target = hitWhat/);
+});
+
