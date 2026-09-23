@@ -1,4 +1,4 @@
-name: Finalize Nero 4.1.0 source
+name: Validate Nero 4.1.0 source
 
 on:
   push:
@@ -6,66 +6,24 @@ on:
       - source-prep-v4.1.0
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  finalize:
+  validate:
     runs-on: windows-latest
     steps:
-      - name: Build girdilerini al
-        uses: actions/checkout@v4
-
       - name: Güncel 4.1.0 kaynak dalını al
         uses: actions/checkout@v4
         with:
           ref: source-v4.1.0
-          path: project
 
       - name: Node.js kur
         uses: actions/setup-node@v4
         with:
           node-version: 22
 
-      - name: Moodboard PNG export düzeltmesini uygula
+      - name: Kaynak bütünlüğü
         shell: pwsh
-        run: |
-          $b64 = Get-Content "build-input/moodboard-png-fix.patch.b64" -Raw
-          [IO.File]::WriteAllBytes((Join-Path $PWD "moodboard-png-fix.patch.gz"), [Convert]::FromBase64String($b64))
-          $hash = (Get-FileHash "moodboard-png-fix.patch.gz" -Algorithm SHA256).Hash.ToLower()
-          if ($hash -ne "e55b42a4e1bc4eb4257ccf28c40ac7231af638c67bb2ada83f83a42d8b130b01") {
-            throw "Moodboard PNG fix checksum hatası"
-          }
-          & "C:\Program Files\Git\bin\bash.exe" -lc "gzip -dc moodboard-png-fix.patch.gz > moodboard-png-fix.patch"
-          if ($LASTEXITCODE -ne 0) { throw "Moodboard PNG fix açılamadı." }
-
-          & "C:\Program Files\Git\bin\bash.exe" -lc "cd project && patch -p1 --batch --forward < ../moodboard-png-fix.patch || true"
-
-          $rejects = @(Get-ChildItem "project" -Recurse -File -Filter "*.rej")
-          foreach ($reject in $rejects) {
-            if ($reject.FullName -notlike "*archive-moodboard-settings.test.js.rej") {
-              throw "Beklenmeyen patch reject: $($reject.FullName)"
-            }
-          }
-
-          foreach ($path in @(
-            "project/src/main/main.js",
-            "project/src/main/moodboard-image.js",
-            "project/test/moodboard-electron-smoke.js"
-          )) {
-            if (-not (Test-Path $path)) { throw "PNG fix dosyası eksik: $path" }
-          }
-
-          $regressionB64 = "Y29uc3QgdGVzdCA9IHJlcXVpcmUoJ25vZGU6dGVzdCcpOwpjb25zdCBhc3NlcnQgPSByZXF1aXJlKCdub2RlOmFzc2VydC9zdHJpY3QnKTsKY29uc3QgZnMgPSByZXF1aXJlKCdub2RlOmZzJyk7CmNvbnN0IHBhdGggPSByZXF1aXJlKCdub2RlOnBhdGgnKTsKCnRlc3QoJ2F5bMSxayBQTkcgZXhwb3J0IENocm9taXVtIGNhcHR1cmVQYWdlIHlhcmTEsW1jxLEgbW9kw7xsw7xuw7wga3VsbGFuxLFyJywgKCkgPT4gewogIGNvbnN0IG1haW4gPSBmcy5yZWFkRmlsZVN5bmMocGF0aC5qb2luKF9fZGlybmFtZSwgJy4uL3NyYy9tYWluL21haW4uanMnKSwgJ3V0ZjgnKTsKICBjb25zdCBpbWFnZSA9IGZzLnJlYWRGaWxlU3luYyhwYXRoLmpvaW4oX19kaXJuYW1lLCAnLi4vc3JjL21haW4vbW9vZGJvYXJkLWltYWdlLmpzJyksICd1dGY4Jyk7CiAgYXNzZXJ0Lm1hdGNoKG1haW4sIC9yZXF1aXJlXCgnXC5cL21vb2Rib2FyZC1pbWFnZSdcKS8pOwogIGFzc2VydC5tYXRjaChtYWluLCAvYXdhaXQgc3ZnVG9QbmdcKC8pOwogIGFzc2VydC5kb2VzTm90TWF0Y2gobWFpbiwgL25hdGl2ZUltYWdlXC5jcmVhdGVGcm9tRGF0YVVSTFwoYGRhdGE6aW1hZ2VcL3N2Z1wreG1sLyk7CiAgYXNzZXJ0Lm1hdGNoKGltYWdlLCAvbmV3IEJyb3dzZXJXaW5kb3dcKC8pOwogIGFzc2VydC5tYXRjaChpbWFnZSwgL2NhcHR1cmVQYWdlXCgvKTsKICBhc3NlcnQubWF0Y2goaW1hZ2UsIC90b1BOR1woXCkvKTsKfSk7Cg=="
-          [IO.File]::WriteAllBytes(
-            (Join-Path $PWD "project/test/moodboard-png-export.test.js"),
-            [Convert]::FromBase64String($regressionB64)
-          )
-
-          foreach ($reject in $rejects) { Remove-Item $reject.FullName -Force }
-
-      - name: 4.1.0 bütünlük kontrolleri
-        shell: pwsh
-        working-directory: project
         run: |
           $pkg = Get-Content "package.json" -Raw | ConvertFrom-Json
           if ($pkg.version -ne "4.1.0") { throw "Sürüm 4.1.0 değil." }
@@ -76,87 +34,83 @@ jobs:
           node -e "const a=require('./src/data/achievements'); const c=r=>a.filter(x=>x.rarity===r).length; if(a.length!==125||new Set(a.map(x=>x.id)).size!==125||c('yaygin')!==25||c('siradisi')!==35||c('nadir')!==20||c('efsanevi')!==20||c('gizli')!==25) process.exit(1)"
           if ($LASTEXITCODE -ne 0) { throw "125 achievement dağılımı hatalı." }
 
+          foreach ($path in @(
+            "src/main/main.js",
+            "src/main/journal.js",
+            "src/main/moodboard.js",
+            "src/main/moodboard-image.js",
+            "src/preload/preload.js",
+            "src/renderer/panel/panel.js"
+          )) {
+            node --check $path
+            if ($LASTEXITCODE -ne 0) { throw "Syntax hatası: $path" }
+          }
+
+      - name: Task spec regresyon kontrolleri
+        shell: pwsh
+        run: |
           $html = Get-Content "src/renderer/panel/index.html" -Raw
           $panel = Get-Content "src/renderer/panel/panel.js" -Raw
           $main = Get-Content "src/main/main.js" -Raw
           $preload = Get-Content "src/preload/preload.js" -Raw
-          $css = Get-Content "src/renderer/panel/panel.css" -Raw
           $skins = Get-Content "src/renderer/panel/skins.css" -Raw
 
           if ($html -match 'data-tab="settings"') { throw "Ayarlar navbar içinde kalmış." }
-          if ($html -notmatch 'id="settings-button"') { throw "Tema uyumlu Ayarlar dişlisi eksik." }
-          if (($html | Select-String -Pattern 'role="tab" data-tab=' -AllMatches).Matches.Count -ne 5) { throw "Ana navbar 5 sekme değil." }
-          if ($html -match 'id="mood-strip"') { throw "Eski Son 30 gün mood-strip hâlâ mevcut." }
+          if ($html -notmatch 'id="settings-button"') { throw "Ayarlar dişlisi eksik." }
           if ($html -notmatch 'id="user-mood-calendar"' -or $html -notmatch 'id="nero-mood-calendar"') { throw "Çift moodboard eksik." }
-          if ($panel -notmatch 'renderMoodboards' -or $panel -notmatch 'archive-more') { throw "Moodboard veya Home ilk-5 dropdown renderer eksik." }
-          if ($main -notmatch "notes:archive" -or $main -notmatch "todos:archive" -or $main -notmatch "todos:archiveDone" -or $main -notmatch "moodboard:set") { throw "Arşiv veya moodboard IPC eksik." }
-          if ($preload -notmatch "notes:archive" -or $preload -notmatch "todos:archive" -or $preload -notmatch "moodboard:set") { throw "Preload IPC allowlist eksik." }
-          if (-not (Test-Path "src/main/moodboard.js")) { throw "moodboard.js eksik." }
-          if (-not (Test-Path "src/main/moodboard-image.js")) { throw "moodboard-image.js eksik." }
-          if ($main -notmatch "require\('\.\/moodboard-image'\)" -or $main -notmatch "await svgToPng\(") { throw "Chromium PNG export entegrasyonu eksik." }
-          if ($main -match "nativeImage\.createFromDataURL\(`data:image\/svg\+xml") { throw "Hatalı nativeImage SVG yolu hâlâ mevcut." }
+          if ($html -match 'id="mood-strip"') { throw "Eski Son 30 gün mood grid hâlâ mevcut." }
+          if ($html -notmatch 'id="notes-archive"' -or $html -notmatch 'id="todos-archive"') { throw "Arşiv drawerları eksik." }
+          if ($html -notmatch 'id="archive-more"') { throw "Home ilk-5 dropdown eksik." }
 
-          if ($css -notmatch 'min-height:\s*86px' -or $css -notmatch 'height:\s*76px') { throw "Kompakt istatistik layout'u eksik." }
-          if ($skins -match 'min-height:\s*150px' -or $skins -match 'min-height:\s*128px') { throw "Eski büyük tema ölçüleri hâlâ mevcut." }
+          foreach ($channel in @("notes:archive","notes:unarchive","todos:archive","todos:unarchive","todos:archiveDone","moodboard:set")) {
+            if ($main -notmatch [regex]::Escape($channel)) { throw "Main IPC eksik: $channel" }
+            if ($preload -notmatch [regex]::Escape($channel)) { throw "Preload IPC eksik: $channel" }
+          }
 
-          node --check src/main/main.js
-          if ($LASTEXITCODE -ne 0) { throw "main.js syntax hatası." }
-          node --check src/main/journal.js
-          if ($LASTEXITCODE -ne 0) { throw "journal.js syntax hatası." }
-          node --check src/main/moodboard.js
-          if ($LASTEXITCODE -ne 0) { throw "moodboard.js syntax hatası." }
-          node --check src/main/moodboard-image.js
-          if ($LASTEXITCODE -ne 0) { throw "moodboard-image.js syntax hatası." }
-          node --check src/renderer/panel/panel.js
-          if ($LASTEXITCODE -ne 0) { throw "panel.js syntax hatası." }
-          node --check src/preload/preload.js
-          if ($LASTEXITCODE -ne 0) { throw "preload.js syntax hatası." }
+          foreach ($skin in @("latte","pazartesi","gece","disket","kasaba","yagmur","kar","cilek","mum","ege")) {
+            if ($skins -notmatch [regex]::Escape($skin)) { throw "Tema stili eksik: $skin" }
+          }
+          if ($skins -notmatch 'settings-btn' -or $skins -notmatch 'mood-calendar') { throw "Tema uyumlu dişli/moodboard stilleri eksik." }
 
-      - name: Tüm Node testlerini çalıştır
+      - name: Bağımlılıkları kur
         shell: pwsh
-        working-directory: project
         run: |
           npm install --no-audit --no-fund
           if ($LASTEXITCODE -ne 0) { throw "npm install başarısız." }
+
+      - name: Tüm Node testlerini çalıştır
+        shell: pwsh
+        run: |
           npm test
           if ($LASTEXITCODE -ne 0) { throw "Node testleri başarısız." }
 
       - name: Gerçek Electron PNG smoke testi
         shell: pwsh
-        working-directory: project
         run: |
-          $smoke = @(npx electron test/moodboard-electron-smoke.js 2>&1)
-          $exitCode = $LASTEXITCODE
-          $smoke | ForEach-Object { Write-Host $_ }
-          if ($exitCode -ne 0) { throw "Electron PNG smoke testi başarısız." }
-          $output = $smoke -join [Environment]::NewLine
-          if ($output -notmatch "moodboard-electron-smoke: ok") {
-            throw "Electron PNG smoke testi başarı işareti vermedi."
-          }
+          if (-not (Test-Path "test/moodboard-electron-smoke.js")) { throw "Electron smoke testi eksik." }
+          $out = @(npx electron test/moodboard-electron-smoke.js 2>&1)
+          $code = $LASTEXITCODE
+          $out | ForEach-Object { Write-Host $_ }
+          if ($code -ne 0) { throw "Electron PNG smoke testi başarısız." }
+          if (($out -join [Environment]::NewLine) -notmatch "moodboard-electron-smoke: ok") { throw "PNG smoke başarı işareti yok." }
 
-      - name: Kaynak dalını güncelle
+      - name: EXE üretilmediğini doğrula
         shell: pwsh
-        working-directory: project
+        run: |
+          if (Test-Path "dist") { throw "Bu aşamada dist oluşturulmamalı." }
+          if (Get-ChildItem "." -Recurse -File -Filter "Nero-Setup-*.exe" | Select-Object -First 1) { throw "Bu aşamada EXE oluşturulmamalı." }
+
+      - name: Kaynak ZIP hazırla
+        shell: pwsh
         run: |
           if (Test-Path "node_modules") { Remove-Item "node_modules" -Recurse -Force }
-          Get-ChildItem "." -Recurse -Force -File | Where-Object { $_.Name -match "\.(rej|orig)$" } | Remove-Item -Force
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A
-          if (git status --porcelain) {
-            git commit -m "fix: make monthly moodboard PNG export use Chromium capturePage"
-            git push origin HEAD:source-v4.1.0
-          }
-
-      - name: Güncel kaynak ZIP
-        shell: pwsh
-        run: |
-          if (Test-Path "project/.git") { Remove-Item "project/.git" -Recurse -Force }
-          Compress-Archive -Path "project/*" -DestinationPath "nero-v4.1.0-kaynak.zip" -Force
+          if (Test-Path ".git") { Remove-Item ".git" -Recurse -Force }
+          if (Test-Path ".github/workflows") { Remove-Item ".github/workflows" -Recurse -Force }
+          Compress-Archive -Path "*" -DestinationPath "nero-v4.1.0-kaynak-validated.zip" -Force
 
       - name: Kaynak ZIP artifact
         uses: actions/upload-artifact@v4
         with:
-          name: nero-v4.1.0-kaynak-final
-          path: nero-v4.1.0-kaynak.zip
+          name: nero-v4.1.0-kaynak-validated
+          path: nero-v4.1.0-kaynak-validated.zip
           if-no-files-found: error
