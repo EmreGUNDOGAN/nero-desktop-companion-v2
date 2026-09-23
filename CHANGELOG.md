@@ -2,6 +2,29 @@
 
 Her sürümde eklenenler, değişenler ve düzeltilenler burada. En yeni sürüm en üstte.
 
+## 4.3.1: Pencere etkileşimleri, görev çubuğu, Moodboard ve yardım polish
+
+### Düzeltildi
+- Nero ve panel art arda tekrar tekrar sürüklenebiliyor; görev çubuğundan geri dönüş sonrasında sürükleme state'i güvenli biçimde sıfırlanıyor.
+- Windows restore sonrasında şeffaf Nero penceresinin mouse hit-test alanının takılı kalması giderildi; Nero'yu sürüklemek için önce paneli hareket ettirmek gerekmiyor.
+- Ayarlar / Sabitle / Küçült / Kapat kontrolleri sürükleme yüzeyinden ayrıldı ve tıklanabilirlikleri korunuyor.
+- Konum kilidi aktif sürüklemeleri kapatıyor; kilit kaldırılınca hareket yeniden kullanılabiliyor.
+- Panel açıksa görev çubuğundan geri çağırmada Nero + panel birlikte öne geliyor; panel kapalıysa yalnız Nero öne geliyor ve panel zorla açılmıyor.
+
+### Moodboard
+- 7 sütunlu takvim daha kompakt, doğal içerik yüksekliğinde ve dengeli satır aralığında gösteriliyor.
+- Geniş panelde Moodboard tam genişliği kullanıyor; dar panelde 32 px, normal panelde 36 px hücre ritmi korunuyor.
+- Duygu adları **Muhteşem / İdare eder / Kötü** olarak güncellendi. Mevcut `green / yellow / red` kayıt biçimi değişmedi.
+
+### Yardım sistemi
+- Ana sayfadaki küçük `?` işaretleri tüm temalarda bordersız ve transparan hale getirildi.
+- Tooltip kartların overflow/stacking context'inden çıkarılıp body seviyesinde tek bir fixed overlay katmanına taşındı.
+- Tooltip viewport içinde tutuluyor, tema dekorlarının veya içeriğin arkasında kalmıyor ve aynı anda yalnız bir yardım açık kalıyor.
+
+### Tema ve test
+- Latte, Pazartesi, Gece, Disket, Kasaba, Yağmur, Kar, Çilekli Piknik, Mum Işığı ve Ege Yazı temaları korunuyor.
+- Pencere kontrolleri, tekrarlı panel drag, Moodboard ve yardım tooltip davranışları gerçek Electron smoke testleriyle; veri ve UI davranışları regression testleriyle doğrulanıyor.
+
 ## 4.3.0: İş kronometresi, moodboard geçmişi ve ana sayfa yardım sistemi
 
 ### Yeni
