@@ -46,6 +46,7 @@ app.whenReady().then(async () => {
           return {
             count:days.length,
             rowDistance,
+            dayHeight:one.height,
             calWidth:cal.getBoundingClientRect().width,
             scrollWidth:cal.scrollWidth,
             labels
@@ -54,7 +55,8 @@ app.whenReady().then(async () => {
       `);
 
       ensure(result.count === 30, `${skin}: Eylül 30 gün değil.`);
-      ensure(result.rowDistance >= 34 && result.rowDistance <= 44, `${skin}: moodboard satırları hâlâ fazla açık: ${result.rowDistance}px`);
+      ensure(result.rowDistance >= result.dayHeight * .95, `${skin}: moodboard satırları üst üste biniyor: ${JSON.stringify(result)}`);
+      ensure(result.rowDistance <= result.dayHeight * 1.4, `${skin}: moodboard satırları hâlâ fazla açık: ${JSON.stringify(result)}`);
       ensure(result.scrollWidth <= result.calWidth + 2, `${skin}: moodboard yatay taşıyor.`);
       ensure(result.labels.map(x => x.title).join('|') === 'Muhteşem|İdare eder|Kötü',
         `${skin}: mood picker dili yanlış: ${JSON.stringify(result.labels)}`);
