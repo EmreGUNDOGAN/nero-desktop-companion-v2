@@ -1826,3 +1826,95 @@
 :is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .mood-history-month.active {
   background: var(--accent); color: #fff;
 }
+
+/* ==========================================================================
+   4.3.1 — küçük, border'sız yardım işaretleri
+   ========================================================================== */
+/* Eski tema butonu görünümünü tamamen bastır: ? yalnızca hafif bir mikro işaret. */
+[data-skin] .section-help {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+[data-skin] .section-help:hover,
+[data-skin] .section-help:focus-visible,
+[data-skin] .section-help.open {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+[data-skin="latte"] .section-help { color: color-mix(in srgb, var(--accent) 78%, var(--muted)); }
+[data-skin="pazartesi"] .section-help { color: color-mix(in srgb, var(--ink) 72%, transparent); }
+[data-skin="gece"] .section-help { color: color-mix(in srgb, var(--secondary) 84%, transparent); }
+[data-skin="disket"] .section-help {
+  color: color-mix(in srgb, var(--ink) 78%, transparent);
+  font-family: "Pixelify Sans", monospace;
+  font-size: 12px;
+}
+[data-skin="kasaba"] .section-help {
+  color: color-mix(in srgb, var(--ink) 72%, transparent);
+  font-family: "Courier Prime", monospace;
+  font-size: 11px;
+}
+:is([data-skin="yagmur"], [data-skin="kar"]) .section-help {
+  color: color-mix(in srgb, var(--ink) 68%, transparent);
+}
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .section-help {
+  color: color-mix(in srgb, var(--ink) 64%, transparent);
+}
+
+/* Tooltip kart değil, kısa web-yardım balonu gibi kalsın. */
+[data-skin="latte"] .section-tooltip {
+  border: 1px dashed color-mix(in srgb, var(--accent) 52%, var(--line));
+  border-radius: 7px;
+  box-shadow: 0 5px 14px rgba(90,55,35,.10);
+}
+[data-skin="pazartesi"] .section-tooltip {
+  border: 1.5px solid var(--ink);
+  border-radius: 6px;
+  background: var(--surface);
+  box-shadow: 2px 2px 0 color-mix(in srgb, var(--ink) 72%, transparent);
+}
+[data-skin="pazartesi"] .section-tooltip::before {
+  border-left-width: 1.5px;
+  border-top-width: 1.5px;
+}
+[data-skin="gece"] .section-tooltip {
+  border: 1px solid color-mix(in srgb, var(--line) 82%, transparent);
+  border-radius: 7px;
+  background: #12152A;
+  box-shadow: 0 7px 18px rgba(0,0,0,.28);
+}
+[data-skin="disket"] .section-tooltip {
+  border: 1px solid var(--ink);
+  border-radius: 0;
+  background: #fff;
+  box-shadow: 2px 2px 0 color-mix(in srgb, var(--ink) 40%, transparent);
+  font-family: "Space Mono", monospace !important;
+  font-size: 9.5px !important;
+}
+[data-skin="disket"] .section-tooltip::before {
+  border-left-width: 1px;
+  border-top-width: 1px;
+}
+[data-skin="kasaba"] .section-tooltip {
+  border: 1px solid color-mix(in srgb, var(--ink) 72%, transparent);
+  border-radius: 0;
+  background: #FDFBF3;
+  box-shadow: 2px 3px 0 rgba(42,36,28,.07);
+}
+:is([data-skin="yagmur"], [data-skin="kar"]) .section-tooltip {
+  border: 1px solid color-mix(in srgb, var(--ink) 28%, transparent);
+  border-radius: 7px;
+  background: color-mix(in srgb, var(--surface) 96%, transparent);
+  box-shadow: 0 6px 16px rgba(25,30,45,.14);
+}
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .section-tooltip {
+  border: 1px solid color-mix(in srgb, var(--ink) 28%, transparent);
+  border-radius: 7px;
+  background: color-mix(in srgb, var(--glass) 96%, var(--surface));
+  box-shadow: 0 6px 16px rgba(45,34,30,.12);
+}
+
