@@ -680,7 +680,11 @@
 
   window.addEventListener('pointercancel', cancelPointerGesture);
   window.addEventListener('blur', cancelPointerGesture);
-  document.body.addEventListener('lostpointercapture', cancelPointerGesture);
+  document.body.addEventListener('lostpointercapture', () => {
+    // Normal pointerup önce press'i null yaptığı için burada yalnız gerçekten
+    // beklenmedik capture kaybını temizleriz.
+    if (press) cancelPointerGesture();
+  });
 
   window.addEventListener('contextmenu', (e) => {
     e.preventDefault();
