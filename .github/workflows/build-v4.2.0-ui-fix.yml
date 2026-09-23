@@ -92,6 +92,79 @@ jobs:
             throw "Electron PNG smoke testi başarı işareti vermedi."
           }
 
+      - name: Gerçek Electron header control hit-test smoke testi
+        shell: pwsh
+        run: |
+          @'
+const { app, BrowserWindow } = require('electron');
+const path = require('node:path');
+
+const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+const skins = ['kar', 'yagmur', 'cilek', 'mum', 'ege'];
+const ids = ['settings-button', 'pin', 'minimize', 'close'];
+
+app.whenReady().then(async () => {
+  let win;
+  try {
+    win = new BrowserWindow({
+      width: 720,
+      height: 980,
+      show: false,
+      frame: false,
+      webPreferences: { nodeIntegration: false, contextIsolation: true, sandbox: true }
+    });
+    await win.loadFile(path.join(__dirname, 'src/renderer/panel/index.html'));
+    await wait(150);
+
+    for (const skin of skins) {
+      await win.webContents.executeJavaScript(`
+        document.documentElement.dataset.skin = ${JSON.stringify(skin)};
+        window.__controlHits = [];
+        for (const id of ${JSON.stringify(ids)}) {
+          const el = document.getElementById(id);
+          if (!el) throw new Error('Eksik kontrol: ' + id);
+          el.addEventListener('click', () => window.__controlHits.push(id), { capture: true, once: true });
+        }
+        true;
+      `);
+      await wait(80);
+
+      for (const id of ids) {
+        const rect = await win.webContents.executeJavaScript(`
+          (() => {
+            const r = document.getElementById(${JSON.stringify(id)}).getBoundingClientRect();
+            return { x: Math.round(r.left + r.width / 2), y: Math.round(r.top + r.height / 2), w: r.width, h: r.height };
+          })()
+        `);
+        if (!rect.w || !rect.h) throw new Error(`${skin}/${id} görünür değil.`);
+        win.webContents.sendInput({ type: 'mouseDown', x: rect.x, y: rect.y, button: 'left', clickCount: 1 });
+        win.webContents.sendInput({ type: 'mouseUp', x: rect.x, y: rect.y, button: 'left', clickCount: 1 });
+        await wait(70);
+        const hit = await win.webContents.executeJavaScript(`window.__controlHits.includes(${JSON.stringify(id)})`);
+        if (!hit) throw new Error(`${skin}/${id} click hit-test başarısız.`);
+      }
+    }
+
+    console.log('window-controls-electron-smoke: ok');
+  } catch (err) {
+    console.error(err);
+    process.exitCode = 1;
+  } finally {
+    if (win && !win.isDestroyed()) win.destroy();
+    app.quit();
+  }
+});
+'@ | Set-Content "window-controls-smoke.js" -Encoding UTF8
+
+          $out = @(npx electron "window-controls-smoke.js" 2>&1)
+          $code = $LASTEXITCODE
+          $out | ForEach-Object { Write-Host $_ }
+          Remove-Item "window-controls-smoke.js" -Force
+          if ($code -ne 0) { throw "Header kontrol hit-test smoke testi başarısız." }
+          if (($out -join [Environment]::NewLine) -notmatch "window-controls-electron-smoke: ok") {
+            throw "Header kontrol smoke testi başarı işareti vermedi."
+          }
+
       - name: Gerçek NSIS setup oluştur
         shell: pwsh
         env:
