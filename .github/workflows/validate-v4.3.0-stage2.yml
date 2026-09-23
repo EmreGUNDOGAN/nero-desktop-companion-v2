@@ -1,0 +1,88 @@
+name: Validate Nero 4.3.0 stage 2
+
+on:
+  push:
+    branches:
+      - validate-v4.3.0-stage2
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: windows-latest
+    steps:
+      - name: Kaynak kodu al
+        uses: actions/checkout@v4
+
+      - name: Node.js kur
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Bağımlılıkları kur
+        shell: pwsh
+        run: |
+          npm ci
+          if ($LASTEXITCODE -ne 0) { throw "npm ci başarısız." }
+
+      - name: Sözdizimi kontrolleri
+        shell: pwsh
+        run: |
+          foreach ($path in @(
+            "src/main/main.js",
+            "src/main/moodboard.js",
+            "src/preload/preload.js",
+            "src/renderer/panel/panel.js"
+          )) {
+            node --check $path
+            if ($LASTEXITCODE -ne 0) { throw "Syntax hatası: $path" }
+          }
+
+      - name: Tüm testleri çalıştır
+        shell: pwsh
+        run: |
+          npm test
+          if ($LASTEXITCODE -ne 0) { throw "Testler başarısız." }
+
+      - name: Moodboard PNG Electron smoke testi
+        shell: pwsh
+        run: |
+          $out = @(npx electron test/moodboard-electron-smoke.js 2>&1)
+          $code = $LASTEXITCODE
+          $out | ForEach-Object { Write-Host $_ }
+          if ($code -ne 0) { throw "Moodboard Electron smoke testi başarısız." }
+          if (($out -join [Environment]::NewLine) -notmatch "moodboard-electron-smoke: ok") {
+            throw "Moodboard smoke testi başarı işareti vermedi."
+          }
+
+      - name: 4.3.0 stage 2 kaynak kontrolü
+        shell: pwsh
+        run: |
+          $version = node -p "require('./package.json').version"
+          if ($version.Trim() -ne "4.3.0") { throw "Sürüm 4.3.0 değil." }
+
+          $html = Get-Content "src/renderer/panel/index.html" -Raw
+          $main = Get-Content "src/main/main.js" -Raw
+          $panel = Get-Content "src/renderer/panel/panel.js" -Raw
+          $css = Get-Content "src/renderer/panel/panel.css" -Raw
+
+          if ($html -notmatch 'id="mood-history-toggle"') { throw "Geçmiş moodboard ikonu eksik." }
+          if ($main -notmatch "moodboard:get" -or $main -notmatch "dataMonths") { throw "Moodboard geçmiş IPC/veri filtresi eksik." }
+          if ($panel -notmatch "geçmiş kayıt · salt okunur") { throw "Geçmiş görünüm salt-okunur davranışı eksik." }
+          if ($css -notmatch 'repeat\(7, 36px\)' -or $css -notmatch 'row-gap:\s*10px') { throw "Kompakt moodboard grid CSS eksik." }
+
+      - name: Checkpoint kaynak ZIP oluştur
+        shell: pwsh
+        run: |
+          if (Test-Path "node_modules") { Remove-Item "node_modules" -Recurse -Force }
+          if (Test-Path ".git") { Remove-Item ".git" -Recurse -Force }
+          if (Test-Path ".github/workflows") { Remove-Item ".github/workflows" -Recurse -Force }
+          Compress-Archive -Path "*" -DestinationPath "Nero-v4.3.0-checkpoint-02-moodboard-history.zip" -Force
+
+      - name: Checkpoint artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Nero-v4.3.0-checkpoint-02-moodboard-history
+          path: Nero-v4.3.0-checkpoint-02-moodboard-history.zip
+          if-no-files-found: error
