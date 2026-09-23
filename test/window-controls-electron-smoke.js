@@ -2,7 +2,7 @@ const { app, BrowserWindow } = require('electron');
 const path = require('node:path');
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-const skins = ['kar', 'yagmur', 'cilek', 'mum', 'ege'];
+const skins = ['latte','pazartesi','gece','disket','kasaba','yagmur','kar','cilek','mum','ege'];
 const ids = ['settings-button', 'pin', 'minimize', 'close'];
 
 app.whenReady().then(async () => {
@@ -11,7 +11,7 @@ app.whenReady().then(async () => {
     win = new BrowserWindow({
       width: 720,
       height: 980,
-      show: false,
+      show: true,
       frame: false,
       transparent: true,
       webPreferences: { nodeIntegration: false, contextIsolation: true, sandbox: true }
@@ -20,14 +20,22 @@ app.whenReady().then(async () => {
     await win.loadFile(path.join(__dirname, '../src/renderer/panel/index.html'));
     await wait(200);
 
-    const hierarchyOk = await win.webContents.executeJavaScript(`
+    const structure = await win.webContents.executeJavaScript(`
       (() => {
         const group = document.querySelector('.window-controls');
         const top = document.querySelector('.top');
-        return !!group && !!top && group.parentElement === top.parentElement && !top.contains(group);
+        const drag = document.querySelector('.panel-drag-zone');
+        if (!group || !top || !drag) return { ok:false };
+        return {
+          ok: group.parentElement === top.parentElement && drag.parentElement === top.parentElement && !top.contains(group),
+          topRegion: getComputedStyle(top).getPropertyValue('-webkit-app-region').trim(),
+          dragRegion: getComputedStyle(drag).getPropertyValue('-webkit-app-region').trim()
+        };
       })()
     `);
-    if (!hierarchyOk) throw new Error('window-controls draggable header dışında değil.');
+    if (!structure.ok) throw new Error('window-controls / drag-zone shell sibling yapısı bozuk.');
+    if (structure.topRegion !== 'no-drag') throw new Error(`top alanı hâlâ drag: ${structure.topRegion}`);
+    if (structure.dragRegion !== 'drag') throw new Error(`özel drag-zone drag değil: ${structure.dragRegion}`);
 
     for (const skin of skins) {
       await win.webContents.executeJavaScript(`
@@ -35,6 +43,23 @@ app.whenReady().then(async () => {
         true;
       `);
       await wait(80);
+
+      const geometry = await win.webContents.executeJavaScript(`
+        (() => {
+          const drag = document.querySelector('.panel-drag-zone').getBoundingClientRect();
+          const controls = document.querySelector('.window-controls').getBoundingClientRect();
+          const overlaps = !(drag.right <= controls.left || drag.left >= controls.right || drag.bottom <= controls.top || drag.top >= controls.bottom);
+          const center = document.elementFromPoint(Math.round(drag.left + Math.max(1, drag.width / 2)), Math.round(drag.top + Math.max(1, drag.height / 2)));
+          return {
+            overlaps,
+            drag:{left:drag.left,right:drag.right,top:drag.top,bottom:drag.bottom,width:drag.width,height:drag.height},
+            controls:{left:controls.left,right:controls.right,top:controls.top,bottom:controls.bottom,width:controls.width,height:controls.height},
+            centerClass:center?.className || ''
+          };
+        })()
+      `);
+      if (geometry.overlaps) throw new Error(`${skin}: drag-zone window-controls ile fiziksel olarak çakışıyor: ${JSON.stringify(geometry)}`);
+      if (geometry.drag.width < 80 || geometry.drag.height < 30) throw new Error(`${skin}: drag-zone kullanılamaz boyutta.`);
 
       for (const id of ids) {
         const info = await win.webContents.executeJavaScript(`
