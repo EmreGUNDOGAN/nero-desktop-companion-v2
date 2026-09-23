@@ -1,4 +1,4 @@
-name: Build Nero 4.3.1 test 2
+name: Build Nero 4.3.1 test 3
 
 on:
   push:
@@ -30,7 +30,7 @@ jobs:
         shell: pwsh
         run: |
           $pkg = Get-Content package.json -Raw | ConvertFrom-Json
-          if ($pkg.version -ne "4.3.1-test.2") { throw "Unexpected version: $($pkg.version)" }
+          if ($pkg.version -ne "4.3.1-test.3") { throw "Unexpected version: $($pkg.version)" }
           foreach ($path in @(
             "src/main/main.js",
             "src/preload/preload.js",
@@ -73,11 +73,11 @@ jobs:
         run: |
           npm run dist
           if ($LASTEXITCODE -ne 0) { throw "electron-builder failed" }
-          if (-not (Test-Path "dist/Nero-Setup-4.3.1-test.2.exe")) { throw "Test setup missing" }
+          if (-not (Test-Path "dist/Nero-Setup-4.3.1-test.3.exe")) { throw "Test setup missing" }
 
       - name: Upload setup only
         uses: actions/upload-artifact@v4
         with:
-          name: Nero-Setup-4.3.1-test.2
-          path: dist/Nero-Setup-4.3.1-test.2.exe
+          name: Nero-Setup-4.3.1-test.3
+          path: dist/Nero-Setup-4.3.1-test.3.exe
           if-no-files-found: error
