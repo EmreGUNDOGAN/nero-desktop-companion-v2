@@ -57,6 +57,47 @@
 - Syntax ve 4.3.0 source integration kontrolleri başarılı.
 - EXE üretilmedi.
 
+## Aşama 2 — Moodboard kompakt görünüm + dinamik ay + geçmiş arşivi
+
+### Yeni
+- Moodboard alanı daha sıkı ve dengeli bir grid düzenine geçirildi.
+- Gün hücreleri 7 sütunlu gerçek takvim akışına göre hizalanıyor; ayın ilk günü doğru haftalık kolondan başlıyor.
+- Ay uzunluğu sabit değil; 28 / 29 / 30 / 31 günlük aylar mevcut takvim ayına göre otomatik üretiliyor.
+- **Benim Moodboard’um** başlığının yanına küçük geçmiş/takvim ikonu eklendi.
+- Geçmiş seçim menüsü yalnızca gerçekten veri bulunan ayları gösteriyor.
+- Boş aylar ve boş yıllar seçenek olarak üretilmiyor.
+- Geçmiş aylar yıl bazında gruplanıyor ve en yeni kayıtlar önce gösteriliyor.
+- Seçilen geçmiş ayda **Benim Moodboard’um** ve **Nero’nun Moodboard’u** aynı aya birlikte geçiyor.
+- Önceki / sonraki okları yalnızca gerçekten veri bulunan aylara gidiyor.
+- Geçmiş görünümden güncel aya dönmek için kompakt **Bugün** kontrolü eklendi.
+
+### Davranış
+- Geçmiş moodboardlar **salt okunur** açılıyor; geçmiş kayıtların yanlışlıkla değiştirilmesi engellendi.
+- Güncel ay kullanıcı moodboardu düzenlenebilir olmaya devam ediyor.
+- Gelecek günler düzenlenemiyor.
+- Geçmiş menüsündeki ay listesi hem kullanıcı moodboard verisini hem Nero’nun otomatik mood günlüğünü dikkate alıyor.
+- Gelecek tarihli veya içi boş kayıtlar geçmiş menüsüne alınmıyor.
+
+### UI / Tema
+- İki moodboard arasındaki gereksiz boşluk azaltıldı.
+- Başlık → grid mesafesi küçültüldü.
+- Grid noktaları daha dolgun hale getirildi; boş günlerin çizgileri daha hafif görsel ağırlığa çekildi.
+- Dar panelde noktalar otomatik küçülerek 7 sütunu koruyor.
+- Geçmiş ikonu, ay navigasyonu ve geçmiş ay popover’ı Latte, Pazartesi, Gece, Disket, Kasaba, Yağmur, Kar, Çilek, Mum ve Ege temalarına uyarlandı.
+
+### Veri / PNG
+- PNG export mevcut gerçek ay gün sayısı modelini kullanmaya devam ediyor.
+- Geçmiş ay filtrelemesi için yalnızca dolu ayları döndüren ortak `dataMonths()` yardımcı fonksiyonu eklendi.
+- Mevcut otomatik geçmiş PNG arşivleme davranışı korunuyor.
+
+### Test
+- 28 / 29 / 30 / 31 günlük ay testleri korunup genişletildi.
+- Yalnız dolu ayların geçmiş menüsüne girdiği test edildi.
+- Moodboard geçmiş IPC, salt-okunur görünüm ve kompakt grid entegrasyonu test edildi.
+- Tüm regresyonlarla birlikte **32/32 test başarılı, 0 hata**.
+- Gerçek Electron moodboard PNG smoke testi başarılı: **55.847 byte PNG**.
+- EXE üretilmedi.
+
 ## Checkpoint politikası
 Her tamamlanan geliştirme bloğundan sonra:
 1. Unit/regression testleri çalıştırılır.
