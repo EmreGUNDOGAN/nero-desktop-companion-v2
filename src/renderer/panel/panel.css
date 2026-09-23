@@ -48,9 +48,24 @@ button { cursor: pointer; }
 
 /* ---------- Başlık ---------- */
 .top {
-  -webkit-app-region: drag;
+  -webkit-app-region: no-drag;
   position: relative;
   padding: 20px 22px 6px;
+}
+
+/* 4.3.1: Draggable alan pencere kontrolleriyle fiziksel olarak çakışmaz.
+   Tüm header'ı drag yapmak Windows paketli build'de sibling no-drag alanlarını
+   yutabiliyordu; bu yüzden yalnız güvenli sol üst şerit sürüklenebilir. */
+.panel-drag-zone {
+  -webkit-app-region: drag;
+  position: absolute;
+  z-index: 40;
+  top: 0;
+  left: 0;
+  right: 205px;
+  height: 72px;
+  pointer-events: auto;
+  user-select: none;
 }
 .brand { display: flex; align-items: baseline; gap: 12px; }
 h1 {
@@ -93,11 +108,12 @@ h1 {
   position: absolute;
   top: 16px;
   right: 16px;
-  z-index: 50;
+  z-index: 100;
   display: flex;
   align-items: center;
   gap: 8px;
   pointer-events: auto;
+  isolation: isolate;
 }
 .window-controls,
 .window-controls * {
@@ -612,40 +628,64 @@ main { overflow: hidden; position: relative; flex: 1 1 auto; min-height: 0; }
 .card-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
 .card-head span { font: 600 16px/1 var(--hand); color: var(--muted); }
 
-.section-heading { position: relative; display: inline-flex; align-items: center; gap: 6px; min-width: 0; }
+.section-heading {
+  position: relative;
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 3px;
+  min-width: 0;
+}
 .section-help {
   position: relative;
   flex: none;
-  width: 20px; height: 20px; padding: 0;
-  display: grid; place-items: center;
-  border: 1px solid color-mix(in srgb, var(--line) 86%, transparent);
-  border-radius: 50%;
-  background: color-mix(in srgb, var(--surface) 90%, transparent);
-  color: var(--muted);
-  font: 800 11px/1 var(--text);
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  margin: -2px 0 0 0;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: color-mix(in srgb, var(--muted) 82%, transparent);
+  font: 800 12px/1 var(--text);
   box-shadow: none;
+  opacity: .78;
+  transition: color .14s ease, opacity .14s ease, transform .14s ease;
 }
-.section-help:hover, .section-help:focus-visible, .section-help.open { color: var(--ink); border-color: var(--accent); background: var(--surface); }
+.section-help:hover, .section-help:focus-visible, .section-help.open {
+  color: var(--ink);
+  background: transparent;
+  opacity: 1;
+  transform: translateY(-1px);
+}
+.section-help:focus-visible {
+  outline: 1px dashed color-mix(in srgb, var(--accent) 75%, transparent);
+  outline-offset: 1px;
+}
 .section-tooltip {
   position: absolute; z-index: 70;
-  left: 50%; top: calc(100% + 7px); translate: -50% 0;
-  width: max-content; max-width: min(250px, 68vw);
-  padding: 8px 10px;
-  border: 1px solid var(--line); border-radius: 10px;
+  left: 50%; top: calc(100% + 5px); translate: -50% 0;
+  width: max-content; max-width: min(220px, 66vw);
+  padding: 6px 8px;
+  border: 1px solid color-mix(in srgb, var(--line) 76%, transparent);
+  border-radius: 7px;
   background: var(--surface);
   color: var(--ink) !important;
-  box-shadow: var(--soft-shadow);
-  font: 650 11px/1.35 var(--text) !important;
+  box-shadow: 0 5px 16px rgba(45, 34, 30, .12);
+  font: 650 10.5px/1.32 var(--text) !important;
   text-align: left;
   white-space: normal;
   opacity: 0; visibility: hidden; pointer-events: none;
-  transform: translateY(-3px);
+  transform: translateY(-2px);
   transition: opacity .14s ease, transform .14s ease, visibility .14s ease;
 }
 .section-tooltip::before {
-  content: ""; position: absolute; left: 50%; top: -5px;
-  width: 8px; height: 8px; translate: -50% 0; rotate: 45deg;
-  background: var(--surface); border-left: 1px solid var(--line); border-top: 1px solid var(--line);
+  content: ""; position: absolute; left: 50%; top: -4px;
+  width: 7px; height: 7px; translate: -50% 0; rotate: 45deg;
+  background: var(--surface);
+  border-left: 1px solid color-mix(in srgb, var(--line) 76%, transparent);
+  border-top: 1px solid color-mix(in srgb, var(--line) 76%, transparent);
 }
 .section-help:hover .section-tooltip,
 .section-help:focus-visible .section-tooltip,
