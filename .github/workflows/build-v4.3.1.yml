@@ -1,0 +1,156 @@
+name: Build Nero 4.3.1 release artifacts
+
+on:
+  push:
+    branches:
+      - build-v4.3.1
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Kaynak kodu al
+        uses: actions/checkout@v4
+
+      - name: Node.js kur
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Bağımlılıkları kur
+        shell: pwsh
+        run: |
+          npm ci
+          if ($LASTEXITCODE -ne 0) { throw "npm ci başarısız." }
+
+      - name: Kaynak bütünlüğünü doğrula
+        shell: pwsh
+        run: |
+          $pkg = Get-Content "package.json" -Raw | ConvertFrom-Json
+          if ($pkg.version -ne "4.3.1") { throw "Beklenen sürüm 4.3.1, bulunan: $($pkg.version)" }
+
+          $lockVersion = node -p "require('./package-lock.json').version"
+          if ($lockVersion.Trim() -ne "4.3.1") { throw "package-lock sürümü 4.3.1 değil." }
+
+          $dialogue = Get-Content "src/data/home-dialogues.tr.json" -Raw | ConvertFrom-Json
+          if ($dialogue.dialogues.Count -ne 665) { throw "665 Home repliği eksik." }
+
+          node -e "const a=require('./src/data/achievements'); const c=r=>a.filter(x=>x.rarity===r).length; if(a.length!==125||new Set(a.map(x=>x.id)).size!==125||c('yaygin')!==25||c('siradisi')!==35||c('nadir')!==20||c('efsanevi')!==20||c('gizli')!==25) process.exit(1)"
+          if ($LASTEXITCODE -ne 0) { throw "125 achievement dağılımı hatalı." }
+
+          foreach ($path in @(
+            "src/main/main.js",
+            "src/main/journal.js",
+            "src/main/moodboard.js",
+            "src/main/moodboard-image.js",
+            "src/main/stats.js",
+            "src/main/todo-stopwatch.js",
+            "src/preload/preload.js",
+            "src/renderer/panel/panel.js"
+          )) {
+            node --check $path
+            if ($LASTEXITCODE -ne 0) { throw "Syntax hatası: $path" }
+          }
+
+          foreach ($asset in @(
+            "build/installer.nsh",
+            "build/icon.ico",
+            "build/icon.png",
+            "build/installerSidebar.bmp",
+            "build/installerHeader.bmp"
+          )) {
+            if (-not (Test-Path $asset)) { throw "Kurulum asseti eksik: $asset" }
+          }
+
+      - name: Tüm Node regression testleri
+        shell: pwsh
+        run: |
+          npm test
+          if ($LASTEXITCODE -ne 0) { throw "Node testleri başarısız." }
+
+      - name: Header kontrolleri gerçek Electron hit-test
+        shell: pwsh
+        run: |
+          $out = @(npx electron test/window-controls-electron-smoke.js 2>&1)
+          $code = $LASTEXITCODE
+          $out | ForEach-Object { Write-Host $_ }
+          if ($code -ne 0 -or (($out -join [Environment]::NewLine) -notmatch "window-controls-electron-smoke: ok")) {
+            throw "Header Electron smoke başarısız."
+          }
+
+      - name: Cross-theme panel gerçek Electron smoke
+        shell: pwsh
+        run: |
+          $out = @(npx electron test/panel-integration-electron-smoke.js 2>&1)
+          $code = $LASTEXITCODE
+          $out | ForEach-Object { Write-Host $_ }
+          if ($code -ne 0 -or (($out -join [Environment]::NewLine) -notmatch "panel-integration-electron-smoke: ok")) {
+            throw "Panel cross-theme Electron smoke başarısız."
+          }
+
+      - name: Gerçek NSIS setup oluştur
+        shell: pwsh
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: "false"
+        run: |
+          npm run dist
+          if ($LASTEXITCODE -ne 0) { throw "electron-builder build başarısız." }
+
+      - name: Release dosyalarını doğrula
+        shell: pwsh
+        run: |
+          $setup = "dist/Nero-Setup-4.3.1.exe"
+          $blockmap = "$setup.blockmap"
+          $latest = "dist/latest.yml"
+
+          foreach ($path in @($setup, $blockmap, $latest)) {
+            if (-not (Test-Path $path)) { throw "Eksik release çıktısı: $path" }
+          }
+
+          $yml = Get-Content $latest -Raw
+          if ($yml -notmatch "version:\s*4\.3\.1") { throw "latest.yml sürümü 4.3.1 değil." }
+          if ($yml -notmatch "Nero-Setup-4\.3\.1\.exe") { throw "latest.yml setup adı hatalı." }
+
+          & "C:\Program Files\7-Zip\7z.exe" l $setup | Tee-Object -Variable listing
+          if ($LASTEXITCODE -ne 0) { throw "Setup 7-Zip ile okunamadı." }
+          $joined = $listing -join [Environment]::NewLine
+          if ($joined -notmatch "Type = Nsis") { throw "Setup gerçek NSIS installer değil." }
+
+          $sha = (Get-FileHash $setup -Algorithm SHA256).Hash.ToLower()
+          "$sha  Nero-Setup-4.3.1.exe" | Set-Content "dist/Nero-Setup-4.3.1.exe.sha256" -Encoding ascii
+
+      - name: Kaynak ZIP oluştur
+        shell: pwsh
+        run: |
+          $src = Join-Path $env:RUNNER_TEMP "nero-v4.3.1-source"
+          New-Item -ItemType Directory -Force -Path $src | Out-Null
+
+          Get-ChildItem "." -Force | Where-Object {
+            $_.Name -notin @(".git","node_modules","dist",".github")
+          } | ForEach-Object {
+            Copy-Item $_.FullName $src -Recurse -Force
+          }
+
+          Compress-Archive -Path "$src\*" -DestinationPath "dist/nero-v4.3.1-kaynak.zip" -Force
+          if (-not (Test-Path "dist/nero-v4.3.1-kaynak.zip")) { throw "Kaynak ZIP oluşmadı." }
+
+      - name: CHANGELOG kopyala
+        shell: pwsh
+        run: |
+          Copy-Item "CHANGELOG.md" "dist/CHANGELOG-4.3.1.md" -Force
+
+      - name: Release artifactlerini yükle
+        uses: actions/upload-artifact@v4
+        with:
+          name: Nero-4.3.1-release-files
+          if-no-files-found: error
+          path: |
+            dist/Nero-Setup-4.3.1.exe
+            dist/Nero-Setup-4.3.1.exe.blockmap
+            dist/Nero-Setup-4.3.1.exe.sha256
+            dist/latest.yml
+            dist/nero-v4.3.1-kaynak.zip
+            dist/CHANGELOG-4.3.1.md
