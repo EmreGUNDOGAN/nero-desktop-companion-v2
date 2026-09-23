@@ -2,6 +2,53 @@
 
 Her sürümde eklenenler, değişenler ve düzeltilenler burada. En yeni sürüm en üstte.
 
+## 4.2.0: Arşivler, çift moodboard ve arayüz iyileştirmeleri
+
+### Yeni
+- **İş arşivi:** tamamlanan işler artık kullanıcı tarafından manuel olarak arşivlenebiliyor. Arşivlenen işler ana listeden ayrılıyor, ay ay gruplanıyor ve istenirse yeniden aktif listeye alınabiliyor.
+- **Not arşivi:** notlar silinmeden arşivlenebiliyor. Arşivler aylık accordion yapısında tutuluyor ve notlar tek tıkla geri alınabiliyor.
+- **Benim Moodboard’um:** her takvim günü için yeşil, sarı veya kırmızı ruh hali seçilebilen yeni kişisel moodboard eklendi. Ayın gerçek gün sayısı kullanılıyor; gelecek günler seçilemiyor.
+- **Nero’nun Moodboard’u:** Nero’nun mevcut otomatik happiness günlüğü yeni aylık moodboard tasarımına taşındı ve kullanıcı moodboard’undan ayrı tutuldu.
+- **Aylık Moodboard PNG arşivi:** kapanan ayların kullanıcı + Nero moodboard’u tek görselde saklanabiliyor. PNG üretimi Electron/Chromium `capturePage()` akışıyla güvenilir biçimde oluşturuluyor.
+- **Tema uyumlu Ayarlar dişlisi:** Ayarlar ana sekme çubuğundan çıkarıldı ve panelin sağ üstünde, pin düğmesinin soluna taşındı. Dişli tüm temalarda o temanın görsel diline uyum sağlıyor.
+
+### Değişti
+- Ana navigasyon artık daha sade: **Bugün, Notlar, İşler, Zaman ve Rozetler** olmak üzere beş ana sekmeden oluşuyor.
+- **“Bu ay yaptıkların”** alanı ilk 5 tamamlanan işi doğrudan gösteriyor; daha eski işler açılır bölümde tutuluyor. En yeni tamamlanan iş her zaman en üstte.
+- İşler sayfasındaki eski **“Bitenleri temizle”** davranışı veri silmek yerine tamamlanan işleri arşivlemeye yönlendirildi.
+- Eski **“Son 30 gün”** mood noktaları kaldırıldı; yerine takvim ayına bağlı iki ayrı moodboard geldi.
+- Arşiv, moodboard ve yeni Ayarlar kontrolü tüm mevcut temalarda özel stil kurallarıyla uyumlu hale getirildi.
+
+### Düzeltildi
+- Tüm temalarda ana sayfa istatistik kartlarının gereksiz büyük görünmesine neden olan ortak yükseklik çakışmaları giderildi.
+- Disket, Kasaba, Yağmur, Kar, Çilekli Piknik, Mum Işığı ve Ege Yazı temalarında istatistik kartlarının ve “Bu hafta odak” alanının aşırı büyümesine neden olan override kuralları düzeltildi.
+- Moodboard aylık PNG üretiminde güvenilir olmayan SVG → image dönüşüm yolu kaldırıldı; gerçek Chromium render/capture akışına geçirildi.
+- Ana sayfa konuşma kartına tıklanınca yazının kaybolup kartın boş kalması engellendi.
+
+### Rozetler ve başarımlar
+- **125 achievement** sistemi korunuyor.
+- Rozetler **Yaygın, Sıradışı, Nadir ve Efsanevi** sekmelerine ayrılıyor; Gizli sekmesi yalnızca keşfedilmiş gizli başarımlar varsa görünür.
+- Tamamlanan achievement rozetlerinde hover ile görevin tamamlanmış açıklaması gösteriliyor.
+- Achievement tamamlandığında Nero tepkisine ek olarak Windows bildirimi de destekleniyor.
+
+### Home Dialogue
+- **665 Home Dialogue repliği** ve bağlama duyarlı konuşma motoru korunuyor.
+- Replikler doğal kullanımda rastgele **5–10 dakika** aralığında otomatik değişiyor.
+- Son 20 replik, rare/ultra-rare görünürlük durumu ve kategori cooldownları kalıcı olarak saklanıyor.
+- Aktif odak seansında Home replik rotasyonu erteleniyor.
+
+### Veri güvenliği
+- Güncelleme mevcut notları, işleri, arşivleri, moodboard kayıtlarını, ayarları, istatistikleri ve rozetleri koruyacak şekilde devam ediyor.
+- Eski not ve görev verileri `archivedAt` alanı olmasa da aktif kayıt olarak kabul ediliyor; geriye dönük uyumluluk korunuyor.
+- Moodboard geçmişi JSON olarak saklanmaya devam ediyor; PNG dışa aktarma geçmiş veriyi silmiyor.
+- Kurulum ve kaldırma sırasında mevcut iki aşamalı veri güvenliği davranışı korunuyor.
+
+### Teknik
+- Yeni moodboard yardımcıları ve Chromium tabanlı PNG görüntüleme katmanı eklendi.
+- Arşivleme için yeni IPC akışları ve renderer durumları eklendi.
+- Ay bazlı arşiv gruplama, kullanıcı mood seçimi, gerçek ay uzunluğu, Home ilk-5 görünümü, Ayarlar dişlisi ve tema uyumu için regression testleri eklendi.
+- Kaynak bütünlüğü, 125 achievement dağılımı, 665 Home repliği, tema istatistik düzeni ve gerçek Electron PNG üretimi otomatik testlerle doğrulandı.
+
 ## 4.1.0: Ana sayfa konuşma motoru
 
 ### Yeni
