@@ -32,46 +32,142 @@ jobs:
           gh release download $rel.tagName --pattern "Nero-Setup-4.0.4.exe" --dir base
           if (-not (Test-Path "base/Nero-Setup-4.0.4.exe")) { throw "Nero-Setup-4.0.4.exe release asset bulunamadı." }
 
-      - name: 4.0.4 installer içeriğini incele
+      - name: 4.0.4 installer içinden kaynakları ve setup assetlerini çıkar
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Force -Path base/nsis | Out-Null
           & 7z x "base/Nero-Setup-4.0.4.exe" "-obase/nsis" -y
-          Write-Host "=== NSIS EXTRACT FILES ==="
-          Get-ChildItem "base/nsis" -Recurse -Force | ForEach-Object { Write-Host $_.FullName }
-          Write-Host "=== IMAGE/ICON CANDIDATES ==="
-          Get-ChildItem "base/nsis" -Recurse -File | Where-Object { $_.Extension -match '\.(bmp|ico|png|jpg|jpeg)$' } | ForEach-Object { Write-Host "$($_.FullName) $($_.Length)" }
+          if ($LASTEXITCODE -ne 0) { throw "4.0.4 installer açılamadı." }
+
           $appArchive = Get-ChildItem "base/nsis" -Recurse -File | Where-Object { $_.Name -match '^app-.*\.7z$' } | Select-Object -First 1
           if (-not $appArchive) { throw "Installer içinde app-*.7z bulunamadı." }
+
+          $oldHeader = Get-ChildItem "base/nsis" -Recurse -File | Where-Object { $_.Name -eq 'modern-header.bmp' } | Select-Object -First 1
+          $oldWizard = Get-ChildItem "base/nsis" -Recurse -File | Where-Object { $_.Name -eq 'modern-wizard.bmp' } | Select-Object -First 1
+          $oldIcon = Get-ChildItem "base/nsis" -Recurse -File | Where-Object { $_.Name -eq 'uninstallerIcon.ico' } | Select-Object -First 1
+          if (-not $oldHeader -or -not $oldWizard -or -not $oldIcon) { throw "4.0.4 setup görsel assetleri çıkarılamadı." }
+
           New-Item -ItemType Directory -Force -Path base/app | Out-Null
           & 7z x $appArchive.FullName "-obase/app" -y
-          if (-not (Test-Path "base/app/resources/app.asar")) { throw "4.0.4 app.asar çıkarılamadı." }
+          if ($LASTEXITCODE -ne 0) { throw "4.0.4 uygulama payload'u açılamadı." }
+          if (-not (Test-Path "base/app/resources/app.asar")) { throw "4.0.4 app.asar bulunamadı." }
 
-      - name: Kaynakları çıkar ve patchleri uygula
-        shell: pwsh
-        run: |
           npm install --global @electron/asar
+          if ($LASTEXITCODE -ne 0) { throw "@electron/asar kurulamadı." }
           asar extract "base/app/resources/app.asar" "project"
+          if ($LASTEXITCODE -ne 0) { throw "app.asar kaynakları çıkarılamadı." }
+
           if (Test-Path "project/node_modules") { Remove-Item "project/node_modules" -Recurse -Force }
           if (Test-Path "project/themes") { Remove-Item "project/themes" -Recurse -Force }
           Copy-Item "base/app/resources/themes" "project/themes" -Recurse -Force
 
-          $raw = Get-Content "build-input/NERO_v4.0.4_to_v4.1.0.patch" -Raw
-          $raw = $raw.Replace("/tmp/nero404_orig/nero/","a/").Replace("/mnt/data/nero410_work/nero/","b/")
-          Set-Content "main-normalized.patch" $raw -NoNewline -Encoding utf8
-          Push-Location project
-          git apply --unsafe-paths "../main-normalized.patch"
-          git apply --unsafe-paths "../build-input/NERO_4.1.0_click_fix.patch"
-          Pop-Location
-          Write-Host "Patch uygulandı."
+          New-Item -ItemType Directory -Force -Path "project/build" | Out-Null
+          Copy-Item $oldIcon.FullName "project/build/icon.ico" -Force
+          Copy-Item $oldHeader.FullName "project/build/installerHeader.bmp" -Force
+          Copy-Item $oldWizard.FullName "project/build/installerSidebar.bmp" -Force
 
-      - name: Build asset kontrolü
+          $nsh = Get-Content "build-input/installer-4.0.4.nsh" -Raw
+          [IO.File]::WriteAllText((Resolve-Path "project/build").Path + "\\installer.nsh", [char]0xFEFF + $nsh, [Text.UTF8Encoding]::new($false))
+
+      - name: 4.1.0 patchlerini güvenli biçimde uygula
         shell: pwsh
         run: |
-          Write-Host "=== PROJECT BUILD DIR ==="
-          if (Test-Path "project/build") {
-            Get-ChildItem "project/build" -Recurse -Force | ForEach-Object { Write-Host "$($_.FullName) $($_.Length)" }
-          } else {
-            Write-Host "project/build yok"
-          }
-          throw "Asset keşif koşusu burada bilinçli olarak durduruldu."
+          $raw = Get-Content "build-input/NERO_v4.0.4_to_v4.1.0.patch" -Raw
+          $raw = $raw.Replace("/tmp/nero404_orig/nero/","a/").Replace("/mnt/data/nero410_work/nero/","b/")
+          [IO.File]::WriteAllText((Join-Path $PWD "main-normalized.patch"), $raw, [Text.UTF8Encoding]::new($false))
+
+          Push-Location project
+          git apply --recount --unsafe-paths --whitespace=nowarn "../main-normalized.patch"
+          if ($LASTEXITCODE -ne 0) { Pop-Location; throw "4.0.4 -> 4.1.0 ana patch uygulanamadı." }
+          git apply --recount --unsafe-paths --whitespace=nowarn "../build-input/NERO_4.1.0_click_fix.patch"
+          if ($LASTEXITCODE -ne 0) { Pop-Location; throw "Konuşma kartı click-fix patch'i uygulanamadı." }
+          Pop-Location
+
+      - name: Setup ve tema uyumluluğunu doğrula
+        shell: pwsh
+        run: |
+          $pkg = Get-Content "project/package.json" -Raw | ConvertFrom-Json
+          if ($pkg.version -ne "4.1.0") { throw "Sürüm 4.1.0 değil." }
+          if ($pkg.build.nsis.include -ne "build/installer.nsh") { throw "installer.nsh bağlantısı eksik." }
+          if ($pkg.build.nsis.installerSidebar -ne "build/installerSidebar.bmp") { throw "Eski sidebar kullanılmıyor." }
+          if ($pkg.build.nsis.uninstallerSidebar -ne "build/installerSidebar.bmp") { throw "Eski uninstaller sidebar kullanılmıyor." }
+          if ($pkg.build.nsis.installerHeader -ne "build/installerHeader.bmp") { throw "Eski header kullanılmıyor." }
+          if ([string]$pkg.build.nsis.language -ne "1055") { throw "Türkçe installer dili korunmamış." }
+          if ($pkg.build.nsis.installerLanguages -notcontains "tr_TR") { throw "tr_TR installer dili korunmamış." }
+
+          $oldHeader = Get-ChildItem "base/nsis" -Recurse -File | Where-Object { $_.Name -eq 'modern-header.bmp' } | Select-Object -First 1
+          $oldWizard = Get-ChildItem "base/nsis" -Recurse -File | Where-Object { $_.Name -eq 'modern-wizard.bmp' } | Select-Object -First 1
+          $oldIcon = Get-ChildItem "base/nsis" -Recurse -File | Where-Object { $_.Name -eq 'uninstallerIcon.ico' } | Select-Object -First 1
+
+          if ((Get-FileHash $oldHeader.FullName -Algorithm SHA256).Hash -ne (Get-FileHash "project/build/installerHeader.bmp" -Algorithm SHA256).Hash) { throw "Header birebir değil." }
+          if ((Get-FileHash $oldWizard.FullName -Algorithm SHA256).Hash -ne (Get-FileHash "project/build/installerSidebar.bmp" -Algorithm SHA256).Hash) { throw "Sidebar birebir değil." }
+          if ((Get-FileHash $oldIcon.FullName -Algorithm SHA256).Hash -ne (Get-FileHash "project/build/icon.ico" -Algorithm SHA256).Hash) { throw "Installer icon birebir değil." }
+
+          if (-not (Test-Path "project/themes")) { throw "Temalar klasörü eksik." }
+          if (-not (Get-ChildItem "project/themes" -Recurse -File | Select-Object -First 1)) { throw "Temalar klasörü boş." }
+
+          $panel = Get-Content "project/src/renderer/panel/panel.js" -Raw
+          if ($panel -match "home:dismiss") { throw "Eski home:dismiss davranışı hâlâ panel.js içinde." }
+          if ($panel -match "addEventListener\(['\"]click['\"].*home-jab") { throw "Konuşma kartı click davranışı hâlâ var." }
+
+      - name: Bağımlılıkları kur ve testleri çalıştır
+        shell: pwsh
+        working-directory: project
+        run: |
+          npm ci
+          if ($LASTEXITCODE -ne 0) { throw "npm ci başarısız." }
+          npm test
+          if ($LASTEXITCODE -ne 0) { throw "Testler başarısız." }
+
+      - name: 4.0.4 ile aynı Electron Builder + NSIS zincirinden setup üret
+        shell: pwsh
+        working-directory: project
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+        run: |
+          npm run dist
+          if ($LASTEXITCODE -ne 0) { throw "electron-builder / NSIS build başarısız." }
+          if (-not (Test-Path "dist/Nero-Setup-4.1.0.exe")) { throw "Nero-Setup-4.1.0.exe oluşmadı." }
+
+      - name: Oluşan setup'ın gerçek 4.0.4 tasarımını koruduğunu tekrar doğrula
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path verify/nsis | Out-Null
+          & 7z x "project/dist/Nero-Setup-4.1.0.exe" "-overify/nsis" -y
+          if ($LASTEXITCODE -ne 0) { throw "4.1.0 setup doğrulama için açılamadı." }
+
+          $newHeader = Get-ChildItem "verify/nsis" -Recurse -File | Where-Object { $_.Name -eq 'modern-header.bmp' } | Select-Object -First 1
+          $newWizard = Get-ChildItem "verify/nsis" -Recurse -File | Where-Object { $_.Name -eq 'modern-wizard.bmp' } | Select-Object -First 1
+          $newIcon = Get-ChildItem "verify/nsis" -Recurse -File | Where-Object { $_.Name -eq 'uninstallerIcon.ico' } | Select-Object -First 1
+          $oldHeader = Get-ChildItem "base/nsis" -Recurse -File | Where-Object { $_.Name -eq 'modern-header.bmp' } | Select-Object -First 1
+          $oldWizard = Get-ChildItem "base/nsis" -Recurse -File | Where-Object { $_.Name -eq 'modern-wizard.bmp' } | Select-Object -First 1
+          $oldIcon = Get-ChildItem "base/nsis" -Recurse -File | Where-Object { $_.Name -eq 'uninstallerIcon.ico' } | Select-Object -First 1
+
+          if (-not $newHeader -or -not $newWizard -or -not $newIcon) { throw "4.1.0 setup custom görselleri içermiyor." }
+          if ((Get-FileHash $newHeader.FullName -Algorithm SHA256).Hash -ne (Get-FileHash $oldHeader.FullName -Algorithm SHA256).Hash) { throw "4.1.0 header eski setup ile aynı değil." }
+          if ((Get-FileHash $newWizard.FullName -Algorithm SHA256).Hash -ne (Get-FileHash $oldWizard.FullName -Algorithm SHA256).Hash) { throw "4.1.0 sidebar eski setup ile aynı değil." }
+          if ((Get-FileHash $newIcon.FullName -Algorithm SHA256).Hash -ne (Get-FileHash $oldIcon.FullName -Algorithm SHA256).Hash) { throw "4.1.0 icon eski setup ile aynı değil." }
+
+          $newAppArchive = Get-ChildItem "verify/nsis" -Recurse -File | Where-Object { $_.Name -match '^app-.*\.7z$' } | Select-Object -First 1
+          if (-not $newAppArchive) { throw "4.1.0 payload bulunamadı." }
+          New-Item -ItemType Directory -Force -Path verify/app | Out-Null
+          & 7z x $newAppArchive.FullName "-overify/app" -y | Out-Null
+          if (-not (Test-Path "verify/app/resources/app.asar")) { throw "4.1.0 app.asar bulunamadı." }
+          asar extract "verify/app/resources/app.asar" "verify/project"
+          $vpkg = Get-Content "verify/project/package.json" -Raw | ConvertFrom-Json
+          if ($vpkg.version -ne "4.1.0") { throw "Setup içindeki uygulama 4.1.0 değil." }
+          $vpanel = Get-Content "verify/project/src/renderer/panel/panel.js" -Raw
+          if ($vpanel -match "home:dismiss") { throw "Setup payload'unda click-dismiss hatası geri gelmiş." }
+          if (-not (Test-Path "verify/project/src/data/home-dialogues.tr.json")) { throw "665 replik dosyası setup payload'unda yok." }
+          $dialogue = Get-Content "verify/project/src/data/home-dialogues.tr.json" -Raw | ConvertFrom-Json
+          if ($dialogue.dialogues.Count -ne 665) { throw "Setup payload'unda 665 repliğin tamamı yok." }
+
+      - name: Installer dosyalarını artifact olarak yükle
+        uses: actions/upload-artifact@v4
+        with:
+          name: Nero-4.1.0-real-installer
+          path: |
+            project/dist/Nero-Setup-4.1.0.exe
+            project/dist/Nero-Setup-4.1.0.exe.blockmap
+            project/dist/latest.yml
+          if-no-files-found: error
