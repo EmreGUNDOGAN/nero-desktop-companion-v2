@@ -769,6 +769,10 @@ main { overflow: hidden; position: relative; flex: 1 1 auto; min-height: 0; }
   .todo-add { grid-template-columns: minmax(90px, 1fr) minmax(90px, 1fr) 44px; }
   .todo-duration, .todo-time { width: 100%; }
   .todo-time input { width: 52px; }
+  .mood-calendar { grid-template-columns: repeat(7, 32px); row-gap: 8px; }
+  .mood-day { width: 32px; height: 32px; }
+  .mood-board-head > span { display: none; }
+  .moodboard-nav > span { min-width: 70px; font-size: 10.5px; }
 }
 
 /* ---------- Günün ritüeli ---------- */
@@ -798,23 +802,93 @@ main { overflow: hidden; position: relative; flex: 1 1 auto; min-height: 0; }
 
 /* ---------- Aylık moodboard'lar ---------- */
 .moodboards { margin: 0; overflow: visible; }
-.mood-board + .mood-board { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--line); }
-.mood-board-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin: 0 0 10px; }
+.moodboard-card-head { align-items: center; margin-bottom: 9px; }
+.moodboard-nav { display: flex; align-items: center; justify-content: flex-end; gap: 4px; min-width: 0; }
+.moodboard-nav > span {
+  min-width: 82px;
+  text-align: center;
+  font: 700 11.5px/1.1 var(--text);
+  color: var(--muted);
+}
+.mood-nav-btn, .mood-current-btn, .mood-history-toggle {
+  border: 1px solid color-mix(in srgb, var(--line) 88%, transparent);
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  color: var(--muted);
+  box-shadow: none;
+}
+.mood-nav-btn {
+  width: 24px; height: 24px; padding: 0; border-radius: 50%;
+  display: grid; place-items: center;
+  font: 800 16px/1 var(--text);
+}
+.mood-nav-btn:hover:not(:disabled), .mood-nav-btn:focus-visible,
+.mood-current-btn:hover, .mood-current-btn:focus-visible,
+.mood-history-toggle:hover:not(:disabled), .mood-history-toggle:focus-visible {
+  color: var(--ink); border-color: var(--accent);
+}
+.mood-nav-btn:disabled, .mood-history-toggle:disabled { opacity: .28; cursor: default; }
+.mood-current-btn {
+  height: 24px; padding: 0 8px; border-radius: 999px;
+  font: 800 9.5px/1 var(--text);
+}
+.mood-current-btn[hidden] { display: none; }
+
+.mood-board { position: relative; }
+.mood-board + .mood-board { margin-top: 11px; padding-top: 11px; border-top: 1px solid color-mix(in srgb, var(--line) 72%, transparent); }
+.mood-board-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 0 0 7px; }
+.mood-board-title { display: flex; align-items: center; gap: 6px; min-width: 0; }
 .mood-board-head strong { font-size: 12.5px; color: var(--ink); }
-.mood-board-head span { font-size: 10.5px; color: var(--muted); }
-.mood-calendar { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 7px 6px; overflow: visible; }
+.mood-board-head > span { font-size: 10px; color: var(--muted); }
+.mood-history-toggle {
+  width: 22px; height: 22px; padding: 0; border-radius: 50%;
+  display: grid; place-items: center;
+}
+.mood-history-toggle svg { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+
+.mood-history-popover {
+  position: absolute; z-index: 44; top: 27px; left: 0;
+  width: min(280px, calc(100% - 6px)); max-height: 240px; overflow: auto;
+  padding: 9px; border: 1px solid var(--line); border-radius: 13px;
+  background: var(--surface); box-shadow: var(--soft-shadow);
+}
+.mood-history-popover[hidden] { display: none; }
+.mood-history-years { display: flex; flex-direction: column; gap: 8px; }
+.mood-history-year { display: grid; grid-template-columns: 42px minmax(0, 1fr); gap: 7px; align-items: start; }
+.mood-history-year > strong { padding-top: 5px; color: var(--muted); font-size: 10.5px; }
+.mood-history-months { display: flex; flex-wrap: wrap; gap: 5px; }
+.mood-history-month {
+  border: 1px solid var(--line); border-radius: 999px; padding: 5px 8px;
+  background: var(--paper); color: var(--muted);
+  font: 750 10px/1 var(--text);
+}
+.mood-history-month:hover, .mood-history-month:focus-visible { color: var(--ink); border-color: var(--accent); }
+.mood-history-month.active { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+
+.mood-calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 36px);
+  justify-content: space-between;
+  column-gap: 5px;
+  row-gap: 10px;
+  overflow: visible;
+}
 .mood-day-wrap { position: relative; display: grid; place-items: center; min-width: 0; }
 .mood-day {
-  width: 32px; height: 32px; padding: 0; border-radius: 50%;
-  display: grid; place-items: center; border: 1.5px solid var(--line);
-  background: color-mix(in srgb, var(--surface) 82%, transparent);
+  width: 36px; height: 36px; padding: 0; border-radius: 50%;
+  display: grid; place-items: center; border: 1.5px solid color-mix(in srgb, var(--line) 86%, transparent);
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
   color: var(--muted); font-size: 9.5px; font-weight: 800; line-height: 1;
-  box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--paper) 60%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--paper) 54%, transparent);
 }
 button.mood-day { cursor: pointer; }
-button.mood-day:hover:not(:disabled), button.mood-day:focus-visible { transform: translateY(-1px); border-color: var(--ink); }
-button.mood-day:disabled { cursor: default; opacity: .28; }
-.mood-day.empty { background: transparent; border-style: dashed; }
+button.mood-day:hover, button.mood-day:focus-visible { transform: translateY(-1px); border-color: var(--ink); }
+.mood-day.future { opacity: .26; }
+.mood-day.empty {
+  background: color-mix(in srgb, var(--surface) 22%, transparent);
+  border-style: dashed;
+  border-color: color-mix(in srgb, var(--line) 55%, transparent);
+  box-shadow: none;
+}
 .mood-day.mood-green { background: #6FAF8F; border-color: #6FAF8F; color: #173D30; }
 .mood-day.mood-yellow { background: #D9C25A; border-color: #D9C25A; color: #493F10; }
 .mood-day.mood-red { background: #C46F5F; border-color: #C46F5F; color: #4A1D17; }
