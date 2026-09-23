@@ -247,7 +247,7 @@ class Stats {
     h.focus += m;
     this.data.totals.focusMin += m;
     this.data.sets.focusDays = addUnique(this.data.sets.focusDays, dayKey());
-    if (m >= 60) this.award('maraton');
+    // Görev kronometresi odak toplamına katkı yapar; timer tamamlanma/seri achievementlarını tetiklemez.
     this._save();
     this.evaluate();
     this.evaluateDesk();
