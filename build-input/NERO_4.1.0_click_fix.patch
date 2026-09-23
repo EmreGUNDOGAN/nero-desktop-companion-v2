@@ -1,0 +1,176 @@
+diff --git a/CHANGELOG.md b/CHANGELOG.md
+index f196601..a753eac 100644
+--- a/CHANGELOG.md
++++ b/CHANGELOG.md
+@@ -17,7 +17,7 @@ Her sürümde eklenenler, değişenler ve düzeltilenler burada. En yeni sürüm
+ - Ana sayfayı açmak/kapatmak veya sekme değiştirmek artık yeni replik üretmez.
+ - **↻ konuşma yenileme butonu kaldırıldı;** replikler manuel olarak spamlanamaz.
+ - Aktif odak seansında Home replik rotasyonu ertelenir; seans sonrasında doğal bir 1–3 dakikalık gecikmeyle devam eder.
+-- Konuşma kartına tıklayınca mevcut Home cümlesi gizlenebilir; bu işlem yeni replik üretmez.
++- Ana sayfadaki konuşma kartı yanlışlıkla boş kalmasın diye tıklayarak gizleme davranışı kaldırıldı; replikler yalnız 5–10 dakikalık doğal döngüyle değişir.
+ - Ana sayfa replik geçişine yumuşak fade eklendi.
+ - Günlük timer istatistikleri artık tamamlanan/yarıda bırakılan sayaç sayılarını da saklar.
+ 
+diff --git a/docs/4.1.0-HOME-DIALOGUE-INTEGRATION.md b/docs/4.1.0-HOME-DIALOGUE-INTEGRATION.md
+index d4cf8b8..2f325ec 100644
+--- a/docs/4.1.0-HOME-DIALOGUE-INTEGRATION.md
++++ b/docs/4.1.0-HOME-DIALOGUE-INTEGRATION.md
+@@ -14,9 +14,9 @@ Bu dosya 4.0.4 kaynak koduna 665 repliklik ana sayfa konuşma sisteminin **fiile
+ - `src/main/main.js`: Home context snapshot, scheduler, backup/import, timer history hook'ları, Home IPC'leri.
+ - `src/main/stats.js`: günlük `timersDone` / `timersQuit` sayaçları.
+ - `src/renderer/panel/index.html`: eski ↻ butonu kaldırıldı.
+-- `src/renderer/panel/panel.js`: fade, seen bildirimi ve karta tıklayarak dismiss.
+-- `src/renderer/panel/panel.css`: fade ve tıklanabilir kart davranışı.
+-- `src/preload/preload.js`: `home:seen`, `home:dismiss` ve debug IPC izinleri.
++- `src/renderer/panel/panel.js`: fade ve seen bildirimi; konuşma kartı tıklamayla boşaltılmaz.
++- `src/renderer/panel/panel.css`: fade davranışı; konuşma kartında manuel dismiss/click davranışı yoktur.
++- `src/preload/preload.js`: `home:seen` ve debug IPC izinleri; `home:dismiss` kullanılmaz.
+ 
+ ## Davranış garantileri
+ 
+diff --git a/docs/NERO-HOME-DIALOGUE-4.1.0.md b/docs/NERO-HOME-DIALOGUE-4.1.0.md
+index 3ec00a6..b3bedfb 100644
+--- a/docs/NERO-HOME-DIALOGUE-4.1.0.md
++++ b/docs/NERO-HOME-DIALOGUE-4.1.0.md
+@@ -58,7 +58,7 @@ Mevcut `dialogue.js` masaüstü konuşma balonları için çalışmaya devam etm
+ 7. Son **20 Home repliği global olarak tekrar seçilmeyecek.**
+ 8. Aynı kategori art arda en fazla **2 kez** seçilecek; başka uygun kategori yoksa sistem kilitlenmemek için bu kuralı esnetebilir.
+ 9. Kullanıcı aktif odak seansındayken Home konuşmaları dikkat dağıtmamalı. Öneri: scheduler yeni seçim zamanını erteleyebilir; mevcut Home repliği kalır. Masaüstündeki timer/event tepkileri bundan bağımsızdır.
+-10. Konuşma kartına tıklanarak mevcut metin görsel olarak kapatılabilir; bu işlem yeni replik seçmez ve scheduler'ı resetlemez.
++10. Konuşma kartı tıklamayla kapatılmaz veya boşaltılmaz; replik yalnız scheduler yeni seçim yaptığında değişir.
+ 11. Panelin açılıp kapanması, tab değiştirme veya Home'a tekrar dönme repliği değiştirmemelidir.
+ 12. `Günün sözü / QUOTES` sistemi Home Nero repliğinden ayrıdır. Yenile butonu kaldırılırken günlük sözün günlük deterministik davranışı korunabilir; `quoteOffset` artık gereksizse kaldırılabilir.
+ 
+@@ -427,7 +427,7 @@ Hiçbir durumda `undefined`, boş string veya exception UI'a gönderilmemelidir.
+ - Home kartında yalnızca güncel replik gösterilir.
+ - Yeni state geldiğinde text kısa bir fade-out → text update → fade-in ile değişebilir.
+ - Fade animasyonu scheduler'ı etkilemez.
+-- Kartı tıklayarak kapatma özelliği varsa `dismissedCurrentId` yalnızca görsel state olmalıdır; kullanıcı kartı yeniden açınca aynı current replik geri gelebilir veya bir sonraki scheduler'a kadar boş kalabilir. **Tıklama yeni replik seçmemelidir.**
++- Konuşma kartında manuel dismiss yoktur. Kart tıklaması Home repliğini değiştirmemeli, gizlememeli veya scheduler'ı resetlememelidir.
+ - Panel açılışı `buildHome()` üzerinden yeni random seçim tetiklememelidir.
+ 
+ ---
+diff --git a/src/main/home-dialogue.js b/src/main/home-dialogue.js
+index 87423d0..4631f5c 100644
+--- a/src/main/home-dialogue.js
++++ b/src/main/home-dialogue.js
+@@ -210,7 +210,6 @@ const DEFAULT_STATE = {
+   selectedAt: 0,
+   nextAt: 0,
+   currentSeen: false,
+-  dismissedCurrent: false,
+   recentIds: [],
+   recentCategories: [],
+   topicCooldowns: {},
+@@ -418,7 +417,6 @@ class HomeDialogueEngine {
+     this.state.currentId = item.id;
+     this.state.selectedAt = ctx.now;
+     this.state.currentSeen = !item.requiresSeen;
+-    this.state.dismissedCurrent = false;
+     this.state.pendingRareId = item.requiresSeen ? item.id : null;
+     if (!item.requiresSeen) this._commitConsumed(item, ctx);
+     this.scheduleNext(ctx.now);
+@@ -491,18 +489,9 @@ class HomeDialogueEngine {
+     return true;
+   }
+ 
+-  dismiss(id, ctx) {
+-    if (!id || id !== this.state.currentId) return false;
+-    this.markSeen(id, ctx);
+-    this.state.dismissedCurrent = true;
+-    this._save();
+-    this.onChange(this.publicState(ctx));
+-    return true;
+-  }
+-
+   publicState(ctx) {
+     const item = this.ensureCurrentNoSelect(ctx);
+-    const text = item && !this.state.dismissedCurrent ? this._render(item, ctx) : '';
++    const text = item ? this._render(item, ctx) : '';
+     return {
+       id: item?.id || null,
+       text: text || '',
+@@ -510,7 +499,7 @@ class HomeDialogueEngine {
+       rarity: item?.rarity || 'common',
+       selectedAt: this.state.selectedAt || 0,
+       nextAt: this.state.nextAt || 0,
+-      dismissed: !!this.state.dismissedCurrent,
++      dismissed: false,
+       pendingRare: !!(item?.requiresSeen && !this.state.currentSeen)
+     };
+   }
+@@ -528,7 +517,6 @@ class HomeDialogueEngine {
+     this.state.currentId = item.id;
+     this.state.selectedAt = ctx.now;
+     this.state.currentSeen = !item.requiresSeen;
+-    this.state.dismissedCurrent = false;
+     this.state.pendingRareId = item.requiresSeen ? item.id : null;
+     this.scheduleNext(ctx.now);
+     this._save();
+diff --git a/src/main/main.js b/src/main/main.js
+index 20975be..fa7b136 100644
+--- a/src/main/main.js
++++ b/src/main/main.js
+@@ -1321,12 +1321,6 @@ function registerIpc() {
+     applyHomeDialogueState(homeDialogue.publicState(ctx));
+     return true;
+   });
+-  ipcMain.handle('home:dismiss', (_e, id) => {
+-    const ctx = homeDialogueContext();
+-    homeDialogue.dismiss(String(id || ''), ctx);
+-    applyHomeDialogueState(homeDialogue.publicState(ctx));
+-    return fullState();
+-  });
+   // Yalnız NERO_HOME_DEBUG=1 veya --home-dialogue-debug ile çalışır. Normal sürümde false döner.
+   ipcMain.handle('home:debugSelect', (_e, id) => {
+     if (!homeDialogue.debug) return false;
+diff --git a/src/preload/preload.js b/src/preload/preload.js
+index 471ebeb..e856463 100644
+--- a/src/preload/preload.js
++++ b/src/preload/preload.js
+@@ -10,7 +10,7 @@ const INVOKE = new Set([
+   'update:check', 'update:install', 'update:onQuit', 'update:dismiss',
+   'timer:start', 'timer:pause', 'timer:resume', 'timer:cancel', 'timer:badge',
+   'settings:set', 'themes:reload', 'themes:openFolder', 'themes:openGuide',
+-  'mood:reset', 'home:seen', 'home:dismiss', 'home:debugSelect', 'home:debugContext', 'day:mode', 'rest:exit', 'rest:start', 'rest:goodnight', 'panel:hide', 'panel:minimize', 'panel:open', 'app:quit'
++  'mood:reset', 'home:seen', 'home:debugSelect', 'home:debugContext', 'day:mode', 'rest:exit', 'rest:start', 'rest:goodnight', 'panel:hide', 'panel:minimize', 'panel:open', 'app:quit'
+ ]);
+ 
+ const SEND = new Set([
+diff --git a/src/renderer/panel/panel.css b/src/renderer/panel/panel.css
+index 8493647..04002b1 100644
+--- a/src/renderer/panel/panel.css
++++ b/src/renderer/panel/panel.css
+@@ -493,7 +493,6 @@ main { overflow: hidden; position: relative; flex: 1 1 auto; min-height: 0; }
+   width: 16px; height: 16px; background: var(--surface);
+   rotate: 45deg; border-radius: 3px;
+ }
+-.nero-says { cursor: pointer; }
+ .nero-says p { margin: 0; font-weight: 600; line-height: 1.45; transition: opacity .28s ease, transform .28s ease; }
+ .nero-says p.home-jab-fade { opacity: 0; transform: translateY(3px); }
+ .refresh {
+diff --git a/src/renderer/panel/panel.js b/src/renderer/panel/panel.js
+index d816db6..8c7b8a7 100644
+--- a/src/renderer/panel/panel.js
++++ b/src/renderer/panel/panel.js
+@@ -903,7 +903,7 @@
+ 
+   function markHomeDialogueSeen() {
+     const id = state?.home?.dialogueId;
+-    if (currentTab !== 'home' || !id || state.home?.dialogueDismissed || !state.home?.jab) return;
++    if (currentTab !== 'home' || !id || !state.home?.jab) return;
+     if (lastSeenHomeDialogueId === id) return;
+     lastSeenHomeDialogueId = id;
+     api.invoke('home:seen', id).catch(() => {});
+@@ -975,11 +975,6 @@
+     $('q-focus').textContent = `${state.settings.lastTimerMinutes || 25} dk odaklan`;
+   }
+ 
+-  document.querySelector('.nero-says').addEventListener('click', async () => {
+-    const id = state?.home?.dialogueId;
+-    if (!id || state.home?.dialogueDismissed || !state.home?.jab) return;
+-    renderAll(await api.invoke('home:dismiss', id));
+-  });
+   $('q-focus').addEventListener('click', () => {
+     api.invoke('timer:start', state?.settings.lastTimerMinutes || 25, '');
+     selectTab('timer');
