@@ -1,0 +1,81 @@
+name: Validate Nero 4.3.0 stage 3
+
+on:
+  push:
+    branches:
+      - validate-v4.3.0-stage3
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: windows-latest
+    steps:
+      - name: Kaynak kodu al
+        uses: actions/checkout@v4
+
+      - name: Node.js kur
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Bağımlılıkları kur
+        shell: pwsh
+        run: |
+          npm ci
+          if ($LASTEXITCODE -ne 0) { throw "npm ci başarısız." }
+
+      - name: Sözdizimi kontrolleri
+        shell: pwsh
+        run: |
+          foreach ($path in @(
+            "src/main/main.js",
+            "src/main/stats.js",
+            "src/preload/preload.js",
+            "src/renderer/panel/panel.js"
+          )) {
+            node --check $path
+            if ($LASTEXITCODE -ne 0) { throw "Syntax hatası: $path" }
+          }
+
+      - name: Tüm testleri çalıştır
+        shell: pwsh
+        run: |
+          npm test
+          if ($LASTEXITCODE -ne 0) { throw "Testler başarısız." }
+
+      - name: 4.3.0 stage 3 kaynak kontrolü
+        shell: pwsh
+        run: |
+          $version = node -p "require('./package.json').version"
+          if ($version.Trim() -ne "4.3.0") { throw "Sürüm 4.3.0 değil." }
+
+          $html = Get-Content "src/renderer/panel/index.html" -Raw
+          $main = Get-Content "src/main/main.js" -Raw
+          $panel = Get-Content "src/renderer/panel/panel.js" -Raw
+          $css = Get-Content "src/renderer/panel/panel.css" -Raw
+          $skins = Get-Content "src/renderer/panel/skins.css" -Raw
+
+          $helpCount = ([regex]::Matches($html, 'class="section-help"')).Count
+          if ($helpCount -ne 7) { throw "Beklenen 7 yardım ikonu yerine $helpCount bulundu." }
+          if ($html -notmatch 'id="stats-reset-modal"') { throw "Stats reset modalı eksik." }
+          if ($main -notmatch "stats:resetDisplay") { throw "Stats reset IPC eksik." }
+          if ($panel -notmatch "st\.display") { throw "Renderer display baseline kullanmıyor." }
+          if ($css -notmatch 'align-items:\s*center') { throw "Nero konuşma hizası fixi eksik." }
+          if ($skins -notmatch '12px center / 22px 22px') { throw "Kar/yağmur konuşma ikonu merkezleme fixi eksik." }
+
+      - name: Checkpoint kaynak ZIP oluştur
+        shell: pwsh
+        run: |
+          if (Test-Path "node_modules") { Remove-Item "node_modules" -Recurse -Force }
+          if (Test-Path ".git") { Remove-Item ".git" -Recurse -Force }
+          if (Test-Path ".github/workflows") { Remove-Item ".github/workflows" -Recurse -Force }
+          Compress-Archive -Path "*" -DestinationPath "Nero-v4.3.0-checkpoint-03-home-help-reset.zip" -Force
+
+      - name: Checkpoint artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Nero-v4.3.0-checkpoint-03-home-help-reset
+          path: Nero-v4.3.0-checkpoint-03-home-help-reset.zip
+          if-no-files-found: error
