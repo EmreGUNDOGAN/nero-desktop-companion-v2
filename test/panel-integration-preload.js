@@ -92,14 +92,14 @@ const state = {
       { key: '2026-09', label: 'Eylül 2026' }
     ]
   },
-  update: { status: 'latest', version: '4.3.0', dismissed: false },
+  update: { status: 'latest', version: '4.3.1', dismissed: false },
   home: {
     jab: 'Bugün sakin ilerliyoruz. Panik yok; ben buradayım.',
     dialogueId: 'test-jab', quote: { t: 'Bir şeyler yavaşça da tamamlanabilir.', nero: 'Nero' },
     archive: { total: 6, recent: Array.from({ length: 6 }, (_, i) => ({ text: `Tamamlanan iş ${i + 1}` })) },
     letter: { week: '2026-W39', text: 'Bu hafta fena değildin. Bunu çok büyütmeyeceğim.' }
   },
-  version: '4.3.0'
+  version: '4.3.1'
 };
 
 const pastBoard = {
