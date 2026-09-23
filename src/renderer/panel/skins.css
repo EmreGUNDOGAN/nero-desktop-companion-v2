@@ -102,7 +102,7 @@
 [data-skin="latte"] #note-body { background-image: repeating-linear-gradient(transparent 0 27px, color-mix(in srgb, var(--muted) 18%, transparent) 27px 28px); line-height: 28px; }
 
 /* Yapılacaklar: spiralli bloknot */
-[data-skin="latte"] .todo-add input { border: 1.5px dashed var(--accent); box-shadow: none; }
+[data-skin="latte"] .todo-add > #todo-input, [data-skin="latte"] :is(.todo-duration, .todo-time) { border: 1.5px dashed var(--accent); box-shadow: none; }
 [data-skin="latte"] .list-card { position: relative; padding: 22px 18px 8px; border-radius: 10px 10px 16px 16px; }
 [data-skin="latte"] .rings { display: flex; justify-content: space-between; position: absolute; top: -9px; left: 22px; right: 22px; }
 [data-skin="latte"] .rings i {
@@ -127,6 +127,10 @@
 [data-skin="latte"] #view-settings h2 { font-weight: 400; font-variation-settings: normal; font-size: 17px; }
 [data-skin="latte"] .chip { border: 1.5px dashed color-mix(in srgb, var(--accent) 60%, var(--line)); }
 [data-skin="latte"] .version { font-weight: 400; }
+
+[data-skin="latte"] .todo-stopwatch { border: 1.5px dashed var(--accent); background: var(--surface); }
+[data-skin="latte"] .todo-stopwatch.running { background: var(--accent); color: var(--accent-ink); }
+[data-skin="latte"] .todo-meta { font-family: var(--text); }
 
 /* ==========================================================================
    PAZARTESİ SENDROMU
@@ -233,8 +237,8 @@
 [data-skin="pazartesi"] .save-state { font-weight: 400; color: var(--ink); }
 
 /* Yapılacaklar */
-[data-skin="pazartesi"] .todo-add input { border-radius: 12px; border: 2.5px solid var(--ink); box-shadow: none; }
-[data-skin="pazartesi"] .todo-add input:focus { box-shadow: 3px 3px 0 var(--ink); }
+[data-skin="pazartesi"] .todo-add > #todo-input, [data-skin="pazartesi"] :is(.todo-duration, .todo-time) { border-radius: 12px; border: 2.5px solid var(--ink); box-shadow: none; }
+[data-skin="pazartesi"] .todo-add > #todo-input:focus, [data-skin="pazartesi"] :is(.todo-duration, .todo-time):focus-within { box-shadow: 3px 3px 0 var(--ink); }
 [data-skin="pazartesi"] .add { border-radius: 12px; border: 2.5px solid var(--ink); background: var(--secondary); }
 [data-skin="pazartesi"] .list-title { font-weight: 800; font-size: 18px; padding-top: 8px; }
 [data-skin="pazartesi"] .list-title span { font: 400 18px/1 var(--hand); color: var(--muted); }
@@ -416,7 +420,7 @@
 [data-skin="gece"] #note-body { background-image: repeating-linear-gradient(transparent 0 25px, rgba(236, 232, 244, .07) 25px 26px); }
 
 /* Yapılacaklar */
-[data-skin="gece"] .todo-add input, [data-skin="gece"] .soft-input { background: #12152A; box-shadow: 0 0 0 1px var(--line); }
+[data-skin="gece"] .todo-add > #todo-input, [data-skin="gece"] :is(.todo-duration, .todo-time), [data-skin="gece"] .soft-input { background: #12152A; box-shadow: 0 0 0 1px var(--line); }
 [data-skin="gece"] .add { box-shadow: 0 0 18px rgba(242, 208, 138, .35); }
 [data-skin="gece"] .todos li + li { border-top: 1px solid var(--line); }
 [data-skin="gece"] .check { border: 1.5px solid var(--secondary); }
@@ -610,7 +614,7 @@
 [data-skin="disket"] .save-state { font-size: 17px; }
 
 /* Yapılacaklar */
-[data-skin="disket"] .todo-add input, [data-skin="disket"] .soft-input, [data-skin="disket"] .name-input, [data-skin="disket"] .row select {
+[data-skin="disket"] .todo-add > #todo-input, [data-skin="disket"] :is(.todo-duration, .todo-time), [data-skin="disket"] .soft-input, [data-skin="disket"] .name-input, [data-skin="disket"] .row select {
   border-radius: 0; border: 2px solid var(--ink); background: #fff; box-shadow: inset 2px 2px 0 #E1D8C1;
   font-family: "Space Mono", monospace;
 }
@@ -805,7 +809,7 @@
 [data-skin="kasaba"] #note-body { font: 400 14px/26px "Courier Prime", monospace; background-image: repeating-linear-gradient(transparent 0 25px, var(--line) 25px 26px); }
 
 /* Yapılacaklar: sipariş fişi */
-[data-skin="kasaba"] .todo-add input { border-radius: 999px; border: 1.5px solid var(--ink); box-shadow: none; font-family: "Courier Prime", monospace; }
+[data-skin="kasaba"] .todo-add > #todo-input, [data-skin="kasaba"] :is(.todo-duration, .todo-time) { border-radius: 999px; border: 1.5px solid var(--ink); box-shadow: none; font-family: "Courier Prime", monospace; }
 [data-skin="kasaba"] .add { background: var(--secondary); box-shadow: none; }
 [data-skin="kasaba"] .add svg { stroke: var(--surface); }
 [data-skin="kasaba"] .list-card { padding: 0 12px 4px; background: #FDFBF3; box-shadow: 3px 4px 0 rgba(42, 35, 32, .12); counter-reset: fis; }
@@ -1097,10 +1101,10 @@
 :is([data-skin="yagmur"], [data-skin="kar"]) .paper .tape { background: #E9B35F; opacity: .85; }
 
 /* Yapılacaklar */
-:is([data-skin="yagmur"], [data-skin="kar"]) .todo-add input, :is([data-skin="yagmur"], [data-skin="kar"]) .soft-input {
+:is([data-skin="yagmur"], [data-skin="kar"]) .todo-add > #todo-input, :is([data-skin="yagmur"], [data-skin="kar"]) .soft-input,
+:is([data-skin="yagmur"], [data-skin="kar"]) :is(.todo-duration, .todo-time) {
   border: 2px solid var(--ink); border-radius: 12px; box-shadow: none; font: 400 16px/1 var(--text);
 }
-:is([data-skin="yagmur"], [data-skin="kar"]) .todo-time { border: 2px solid var(--ink); box-shadow: none; border-radius: 12px; }
 :is([data-skin="yagmur"], [data-skin="kar"]) .add { border: 2px solid var(--ink); border-radius: 12px; background: var(--secondary); }
 :is([data-skin="yagmur"], [data-skin="kar"]) .add svg { stroke: #fff; }
 :is([data-skin="yagmur"], [data-skin="kar"]) .todos li + li { border-top: 2px dotted #C9C1B0; }
@@ -1335,7 +1339,7 @@
 :is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .paper .tape { display: none; }
 
 /* İşler */
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) :is(.todo-add input, .soft-input, .todo-time) {
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) :is(.todo-add > #todo-input, .soft-input, .todo-duration, .todo-time) {
   border: 2px solid var(--ink); border-radius: 12px; box-shadow: none; background: var(--glass); font: 400 16px/1 var(--text);
 }
 :is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .add { border: 2px solid var(--ink); border-radius: 12px; background: var(--accent); }
@@ -1507,6 +1511,45 @@
   background: url("deco/ege/lemon_glass.png") no-repeat center / contain; pointer-events: none;
 }
 [data-skin="ege"] .dial { position: relative; }
+
+/* --------------------------------------------------------------------------
+   4.3.0 Aşama 1: iş süresi + kronometre tema uyumu
+   -------------------------------------------------------------------------- */
+[data-skin="pazartesi"] .todo-stopwatch {
+  border: 2.5px solid var(--ink); border-radius: 9px; background: var(--surface); color: var(--ink); box-shadow: 2px 2px 0 var(--ink);
+}
+[data-skin="pazartesi"] .todo-stopwatch.running { background: var(--secondary); translate: 1px 1px; box-shadow: 1px 1px 0 var(--ink); }
+[data-skin="pazartesi"] .todo-meta { color: var(--ink); font-weight: 700; }
+
+[data-skin="gece"] .todo-stopwatch {
+  border: 1px solid var(--line); background: #12152A; color: var(--secondary); box-shadow: 0 0 12px rgba(169, 155, 232, .15);
+}
+[data-skin="gece"] .todo-stopwatch.running { background: var(--secondary); color: #12152A; box-shadow: 0 0 14px rgba(169, 155, 232, .45); }
+
+[data-skin="disket"] .todo-duration,
+[data-skin="disket"] .todo-time,
+[data-skin="disket"] .todo-stopwatch {
+  border-radius: 0; font-family: "Space Mono", monospace;
+}
+[data-skin="disket"] .todo-stopwatch { border: 2px solid var(--ink); background: #fff; box-shadow: var(--bevel); color: var(--ink); }
+[data-skin="disket"] .todo-stopwatch.running { background: var(--accent); color: #fff; }
+[data-skin="disket"] .todo-meta { font: 400 13px/1.2 "VT323", monospace; color: var(--ink); }
+
+[data-skin="kasaba"] .todo-stopwatch { border: 1.5px solid var(--ink); background: #FDFBF3; color: var(--ink); box-shadow: none; }
+[data-skin="kasaba"] .todo-stopwatch.running { background: var(--secondary); color: var(--surface); }
+[data-skin="kasaba"] .todo-meta { font: 400 10.5px/1.3 "Courier Prime", monospace; }
+
+:is([data-skin="yagmur"], [data-skin="kar"]) .todo-stopwatch {
+  border: 2px solid var(--ink); border-radius: 10px; background: var(--surface); color: var(--ink);
+}
+:is([data-skin="yagmur"], [data-skin="kar"]) .todo-stopwatch.running { background: var(--secondary); color: #fff; }
+:is([data-skin="yagmur"], [data-skin="kar"]) .todo-meta { color: var(--ink); }
+
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .todo-stopwatch {
+  border: 2px solid var(--ink); border-radius: 10px; background: var(--glass); color: var(--ink);
+}
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .todo-stopwatch.running { background: var(--accent); color: #fff; }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .todo-meta { color: var(--ink); }
 
 /* --------------------------------------------------------------------------
    4.2.0 UI polish: istatistik metin hizası + başlık kontrol hit-area'ları
