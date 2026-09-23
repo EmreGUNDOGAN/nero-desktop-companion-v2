@@ -2,6 +2,33 @@
 
 Her sürümde eklenenler, değişenler ve düzeltilenler burada. En yeni sürüm en üstte.
 
+## 4.3.1: Header tıklanabilirliği ve yardım ikonları
+
+### Düzeltildi
+- **Ayarlar / Sabitle / Küçült / Kapat kontrollerinin tıklanamaması giderildi.** Tüm header alanını draggable yapan yapı kaldırıldı; bunun yerine pencere kontrolleriyle fiziksel olarak çakışmayan ayrı bir drag zone kullanılıyor.
+- Header artık açık biçimde `no-drag`; yalnız güvenli sol üst şerit sürüklenebilir. Böylece Windows paketli uygulamada drag bölgesinin kontrol butonlarının mouse hit-area’sını yutması engellendi.
+- Window controls katmanı bağımsız `no-drag` / pointer-events alanı olarak güçlendirildi ve tema dekorasyonlarının üstünde tutuldu.
+- Düzeltme Latte, Pazartesi, Gece, Disket, Kasaba, Yağmur, Kar, Çilekli Piknik, Mum Işığı ve Ege Yazı temalarının tamamında doğrulandı.
+
+### UI polish
+- Ana sayfadaki büyük ve border’lı `?` yardım butonları kaldırıldı.
+- Yardım işareti artık **18 × 18 px hit-area içinde yaklaşık 12 px**, küçük ve bordersız bir mikro işaret olarak görünüyor.
+- `?` başlığın hemen sağında ve hafif sağ-üst hizasında konumlanıyor; ayrı bir buton/kutu gibi görünmüyor.
+- Varsayılan arka plan tamamen transparent; hover / focus / açık durumda yalnız renk ve çok hafif hareketle belirginleşiyor.
+- Tooltip maksimum genişliği, padding’i ve font boyutu küçültülerek daha hafif website tipi yardım balonuna dönüştürüldü.
+- Çilekli Piknik, Mum Işığı ve Ege Yazı gibi resimli temalarda yardım işaretinin kart border’larıyla görsel olarak çakışması giderildi.
+- Pazartesi, Disket ve Kasaba’da tema karakteri korunurken eski ağır tooltip/buton görünümü sadeleştirildi.
+
+### Teknik ve test
+- Header smoke testi 5 tema yerine **10 temanın tamamını** kapsayacak şekilde genişletildi.
+- Test artık drag zone ile window controls geometrisinin fiziksel olarak kesişmediğini, header’ın `no-drag`, özel alanın `drag` olduğunu ve dört pencere kontrolüne native click ulaştığını doğruluyor.
+- Cross-theme panel testi yardım ikonlarının computed style’da border’sız, transparent ve küçük kaldığını doğruluyor.
+- Tooltip’lerin kompakt ölçüde kaldığı ve panel dışına taşmadığı kontrol ediliyor.
+- **39/39 Node regression testi başarılı.**
+- **10/10 tema gerçek Electron header hit-test başarılı.**
+- **10/10 tema cross-theme panel/help smoke testi başarılı.**
+- Gerçek Electron ekran görüntüleriyle görsel QA gerçekleştirildi.
+
 ## 4.3.0: İş kronometresi, moodboard geçmişi ve ana sayfa yardım sistemi
 
 ### Yeni
