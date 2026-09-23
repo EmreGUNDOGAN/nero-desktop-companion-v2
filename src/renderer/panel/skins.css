@@ -1508,6 +1508,71 @@
 }
 [data-skin="ege"] .dial { position: relative; }
 
+/* --------------------------------------------------------------------------
+   4.2.0 UI polish: istatistik metin hizası + başlık kontrol hit-area'ları
+   -------------------------------------------------------------------------- */
+/* Resimli/hava temalarında sayılar Kasaba temasındaki gibi temiz, iki satırlı
+   ve dikey olarak dengeli dursun; tema ikonları solda korunur. */
+:is([data-skin="yagmur"], [data-skin="kar"], [data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .tile {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  grid-template-rows: max-content max-content;
+  align-content: center;
+  justify-content: stretch;
+  justify-items: stretch;
+  column-gap: 10px;
+  row-gap: 3px;
+  text-align: left;
+  padding: 10px 14px;
+}
+:is([data-skin="yagmur"], [data-skin="kar"], [data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .tile::before {
+  position: static;
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  align-self: center;
+  justify-self: center;
+  width: 27px;
+  height: 27px;
+  margin: 0;
+}
+:is([data-skin="yagmur"], [data-skin="kar"], [data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .tile strong {
+  grid-column: 2;
+  grid-row: 1;
+  align-self: end;
+  justify-self: start;
+  font-size: 28px;
+  line-height: 1;
+}
+:is([data-skin="yagmur"], [data-skin="kar"], [data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .tile span {
+  grid-column: 2;
+  grid-row: 2;
+  align-self: start;
+  justify-self: start;
+}
+
+/* Header kontrolları tema dekorlarının üstünde, tek bir tıklanabilir grupta. */
+[data-skin="disket"] .window-controls { top: 5px; right: 12px; gap: 4px; }
+[data-skin="disket"] .window-controls > .settings-btn { margin-right: 8px; }
+
+[data-skin="kasaba"] .window-controls { top: 8px; right: 16px; gap: 12px; }
+[data-skin="kasaba"] .window-controls > .settings-btn { margin-right: 8px; }
+
+:is([data-skin="yagmur"], [data-skin="kar"], [data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .window-controls {
+  top: 14px;
+  right: 16px;
+  z-index: 60;
+  gap: 6px;
+}
+:is([data-skin="yagmur"], [data-skin="kar"], [data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .window-controls > .settings-btn {
+  margin-right: 10px;
+}
+/* Başlık sahneleri yalnız görsel katmandır; hiçbir zaman mouse hit-test alamaz. */
+:is([data-skin="yagmur"], [data-skin="kar"], [data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .top::before,
+:is([data-skin="yagmur"], [data-skin="kar"], [data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .top::after {
+  pointer-events: none !important;
+}
+
+
 /* Sekmeler ve mikro hareket: hafif güneş parıltısı */
 [data-skin="ege"] .shell::after {
   content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
