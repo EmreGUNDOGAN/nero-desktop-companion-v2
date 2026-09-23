@@ -76,12 +76,10 @@ jobs:
           $raw = $raw.Replace("/tmp/nero404_orig/nero/","a/").Replace("/mnt/data/nero410_work/nero/","b/")
           [IO.File]::WriteAllText((Join-Path $PWD "main-normalized.patch"), $raw, [Text.UTF8Encoding]::new($false))
 
-          Push-Location project
-          git apply --recount --unsafe-paths --whitespace=nowarn "../main-normalized.patch"
-          if ($LASTEXITCODE -ne 0) { Pop-Location; throw "4.0.4 -> 4.1.0 ana patch uygulanamadı." }
-          git apply --recount --unsafe-paths --whitespace=nowarn "../build-input/NERO_4.1.0_click_fix.patch"
-          if ($LASTEXITCODE -ne 0) { Pop-Location; throw "Konuşma kartı click-fix patch'i uygulanamadı." }
-          Pop-Location
+          & "C:\Program Files\Git\bin\bash.exe" -lc "cd project && patch -p1 --batch --forward < ../main-normalized.patch"
+          if ($LASTEXITCODE -ne 0) { throw "4.0.4 -> 4.1.0 ana patch uygulanamadı." }
+          & "C:\Program Files\Git\bin\bash.exe" -lc "cd project && patch -p1 --batch --forward < ../build-input/NERO_4.1.0_click_fix.patch"
+          if ($LASTEXITCODE -ne 0) { throw "Konuşma kartı click-fix patch'i uygulanamadı." }
 
       - name: Setup ve tema uyumluluğunu doğrula
         shell: pwsh
