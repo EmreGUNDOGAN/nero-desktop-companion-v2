@@ -1460,23 +1460,93 @@
     $('q-focus').textContent = `${state.settings.lastTimerMinutes || 25} dk odaklan`;
   }
 
+  const sectionTooltipLayer = $('section-tooltip-layer');
+  let activeSectionHelp = null;
+  let pinnedSectionHelp = null;
+
+  function positionSectionTooltip(button) {
+    if (!button || sectionTooltipLayer.hidden) return;
+    const r = button.getBoundingClientRect();
+    const tip = sectionTooltipLayer.getBoundingClientRect();
+    const pad = 12;
+    const gap = 7;
+
+    let left = r.left + (r.width / 2) - (tip.width / 2);
+    left = Math.max(pad, Math.min(left, window.innerWidth - tip.width - pad));
+
+    let top = r.bottom + gap;
+    if (top + tip.height > window.innerHeight - pad) {
+      top = Math.max(pad, r.top - tip.height - gap);
+    }
+
+    sectionTooltipLayer.style.left = `${Math.round(left)}px`;
+    sectionTooltipLayer.style.top = `${Math.round(top)}px`;
+  }
+
+  function showSectionHelp(button, { pinned = false } = {}) {
+    const source = button?.querySelector('.section-tooltip');
+    if (!button || !source) return;
+
+    if (activeSectionHelp && activeSectionHelp !== button) {
+      activeSectionHelp.classList.remove('open');
+      activeSectionHelp.setAttribute('aria-expanded', 'false');
+    }
+
+    activeSectionHelp = button;
+    if (pinned) pinnedSectionHelp = button;
+    button.classList.add('open');
+    button.setAttribute('aria-expanded', 'true');
+
+    sectionTooltipLayer.textContent = source.textContent.trim();
+    sectionTooltipLayer.hidden = false;
+    sectionTooltipLayer.dataset.skin = document.documentElement.dataset.skin || '';
+    positionSectionTooltip(button);
+  }
+
   function closeSectionHelp(except = null) {
     for (const button of document.querySelectorAll('.section-help.open')) {
       if (button === except) continue;
       button.classList.remove('open');
       button.setAttribute('aria-expanded', 'false');
     }
+    if (!except || activeSectionHelp !== except) {
+      activeSectionHelp = except || null;
+    }
+    if (!except) {
+      pinnedSectionHelp = null;
+      sectionTooltipLayer.hidden = true;
+      sectionTooltipLayer.textContent = '';
+    }
   }
 
   for (const button of document.querySelectorAll('.section-help')) {
+    button.addEventListener('mouseenter', () => {
+      if (pinnedSectionHelp && pinnedSectionHelp !== button) return;
+      showSectionHelp(button);
+    });
+    button.addEventListener('mouseleave', () => {
+      if (pinnedSectionHelp === button) return;
+      if (activeSectionHelp === button) closeSectionHelp();
+    });
+    button.addEventListener('focus', () => {
+      if (pinnedSectionHelp && pinnedSectionHelp !== button) return;
+      showSectionHelp(button);
+    });
+    button.addEventListener('blur', () => {
+      if (pinnedSectionHelp === button) return;
+      if (activeSectionHelp === button) closeSectionHelp();
+    });
     button.addEventListener('click', (event) => {
       event.stopPropagation();
-      const opening = !button.classList.contains('open');
-      closeSectionHelp(button);
-      button.classList.toggle('open', opening);
-      button.setAttribute('aria-expanded', opening ? 'true' : 'false');
+      const wasPinned = pinnedSectionHelp === button;
+      closeSectionHelp();
+      if (!wasPinned) showSectionHelp(button, { pinned: true });
     });
   }
+
+  window.addEventListener('resize', () => {
+    if (activeSectionHelp && !sectionTooltipLayer.hidden) positionSectionTooltip(activeSectionHelp);
+  });
 
   function closeStatsResetModal() {
     $('stats-reset-modal').hidden = true;
