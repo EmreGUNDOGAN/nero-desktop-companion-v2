@@ -134,9 +134,29 @@
           </div>
 
           <div class="card moodboards" id="moodboards-card">
-            <div class="card-head"><h3>Moodboard</h3><span id="moodboard-month"></span></div>
+            <div class="card-head moodboard-card-head">
+              <h3>Moodboard</h3>
+              <div class="moodboard-nav" aria-label="Moodboard ayı">
+                <button class="mood-nav-btn" id="moodboard-prev" type="button" aria-label="Önceki dolu aya git">‹</button>
+                <span id="moodboard-month"></span>
+                <button class="mood-nav-btn" id="moodboard-next" type="button" aria-label="Sonraki dolu aya git">›</button>
+                <button class="mood-current-btn" id="moodboard-current" type="button" hidden>Bugün</button>
+              </div>
+            </div>
             <section class="mood-board user-mood-board" aria-labelledby="user-mood-title">
-              <div class="mood-board-head"><strong id="user-mood-title">Benim Moodboard’um</strong><span>güne dokun, rengini seç</span></div>
+              <div class="mood-board-head">
+                <div class="mood-board-title">
+                  <strong id="user-mood-title">Benim Moodboard’um</strong>
+                  <button class="mood-history-toggle" id="mood-history-toggle" type="button"
+                    aria-label="Geçmiş moodboard aylarını aç" aria-expanded="false" aria-controls="mood-history-popover">
+                    <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 3.5v2M15 3.5v2M3.5 7.5h13M5 5h10a1.5 1.5 0 0 1 1.5 1.5v9A1.5 1.5 0 0 1 15 17H5a1.5 1.5 0 0 1-1.5-1.5v-9A1.5 1.5 0 0 1 5 5zM7 10h2M11 10h2M7 13h2M11 13h2"/></svg>
+                  </button>
+                </div>
+                <span id="user-mood-hint">güne dokun, rengini seç</span>
+              </div>
+              <div class="mood-history-popover" id="mood-history-popover" hidden>
+                <div class="mood-history-years" id="mood-history-years"></div>
+              </div>
               <div class="mood-calendar" id="user-mood-calendar"></div>
             </section>
             <section class="mood-board nero-mood-board" aria-labelledby="nero-mood-title">
