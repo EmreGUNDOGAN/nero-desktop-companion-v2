@@ -64,8 +64,8 @@ app.whenReady().then(async () => {
         if (info.appRegion.trim() !== 'no-drag') throw new Error(`${skin}/${id}: buton no-drag değil: ${info.appRegion}`);
         if (info.groupRegion.trim() !== 'no-drag') throw new Error(`${skin}/${id}: grup no-drag değil: ${info.groupRegion}`);
 
-        win.webContents.sendInput({ type: 'mouseDown', x: info.x, y: info.y, button: 'left', clickCount: 1 });
-        win.webContents.sendInput({ type: 'mouseUp', x: info.x, y: info.y, button: 'left', clickCount: 1 });
+        win.webContents.sendInputEvent({ type: 'mouseDown', x: info.x, y: info.y, button: 'left', clickCount: 1 });
+        win.webContents.sendInputEvent({ type: 'mouseUp', x: info.x, y: info.y, button: 'left', clickCount: 1 });
         await wait(60);
         const clicked = await win.webContents.executeJavaScript('window.__headerClickHit === true');
         if (!clicked) throw new Error(`${skin}/${id}: native click event ulaşmadı.`);
