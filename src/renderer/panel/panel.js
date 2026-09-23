@@ -566,6 +566,36 @@
   // ---------------------------------------------------------------------------
   const CHECK_SVG = '<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 6.5l2.6 2.6L10 3.5"/></svg>';
   const ARCHIVE_SVG = '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 6h12v10H4zM3 3.5h14V7H3zM8 10h4"/></svg>';
+  const PLAY_SVG = '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 5l8 5-8 5z"/></svg>';
+  const PAUSE_SVG = '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 5v10M13 5v10"/></svg>';
+
+  function todoElapsedMs(todo, now = Date.now()) {
+    const base = Math.max(0, Number(todo?.actualDurationMs) || 0);
+    const started = Number(todo?.stopwatchStartedAt) || 0;
+    return started ? base + Math.max(0, now - started) : base;
+  }
+
+  function todoStopwatchText(ms) {
+    const totalSec = Math.max(0, Math.floor(Number(ms || 0) / 1000));
+    const h = Math.floor(totalSec / 3600);
+    const m = Math.floor((totalSec % 3600) / 60);
+    const s = totalSec % 60;
+    if (h) return `${h}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    return `${m}:${String(s).padStart(2, '0')}`;
+  }
+
+  function updateTodoStopwatchClocks() {
+    if (!state?.todos) return;
+    const byId = new Map(state.todos.map((todo) => [String(todo.id), todo]));
+    for (const el of document.querySelectorAll('[data-todo-elapsed]')) {
+      const todo = byId.get(el.dataset.todoElapsed);
+      if (!todo) continue;
+      const ms = todoElapsedMs(todo);
+      el.textContent = todo.stopwatchStartedAt ? `⏱ ${todoStopwatchText(ms)}` : `Gerçek: ${minutesText(Math.max(1, Math.round(ms / 60000)))}`;
+    }
+  }
+
+  setInterval(updateTodoStopwatchClocks, 1000);
 
   function renderTodos() {
     if (document.querySelector('.todo-text[contenteditable="true"]')) return;
@@ -607,11 +637,45 @@
       check.innerHTML = CHECK_SVG;
       check.addEventListener('click', () => api.invoke('todos:toggle', todo.id));
 
+      const main = document.createElement('div');
+      main.className = 'todo-main';
+
       const text = document.createElement('span');
       text.className = 'todo-text';
       text.textContent = todo.text;
       text.title = 'Düzenlemek için çift tıkla';
       text.addEventListener('dblclick', () => startRename(text, todo));
+      main.appendChild(text);
+
+      const elapsed = todoElapsedMs(todo);
+      if (todo.plannedDurationMin || elapsed > 0 || todo.stopwatchStartedAt) {
+        const meta = document.createElement('div');
+        meta.className = 'todo-meta';
+        if (todo.plannedDurationMin) {
+          const plan = document.createElement('span');
+          plan.textContent = `Plan: ${minutesText(todo.plannedDurationMin)}`;
+          meta.appendChild(plan);
+        }
+        if (elapsed > 0 || todo.stopwatchStartedAt) {
+          const actual = document.createElement('span');
+          actual.dataset.todoElapsed = String(todo.id);
+          actual.className = todo.stopwatchStartedAt ? 'todo-actual running' : 'todo-actual';
+          actual.textContent = todo.stopwatchStartedAt
+            ? `⏱ ${todoStopwatchText(elapsed)}`
+            : `Gerçek: ${minutesText(Math.max(1, Math.round(elapsed / 60000)))}`;
+          meta.appendChild(actual);
+        }
+        main.appendChild(meta);
+      }
+
+      const stopwatch = document.createElement('button');
+      stopwatch.type = 'button';
+      stopwatch.className = `todo-stopwatch${todo.stopwatchStartedAt ? ' running' : ''}`;
+      stopwatch.hidden = !!todo.done;
+      stopwatch.setAttribute('aria-label', todo.stopwatchStartedAt ? 'İş kronometresini duraklat' : (elapsed > 0 ? 'İş kronometresine devam et' : 'İş kronometresini başlat'));
+      stopwatch.title = todo.stopwatchStartedAt ? 'Kronometreyi duraklat' : (elapsed > 0 ? 'Kronometreye devam et' : 'Kronometreyi başlat');
+      stopwatch.innerHTML = todo.stopwatchStartedAt ? PAUSE_SVG : PLAY_SVG;
+      stopwatch.addEventListener('click', () => api.invoke(todo.stopwatchStartedAt ? 'todos:stopwatchPause' : 'todos:stopwatchStart', todo.id));
 
       const del = document.createElement('button');
       del.className = 'todo-del';
@@ -642,7 +706,7 @@
       bell.appendChild(tInput);
       if (todo.done) bell.hidden = true;
 
-      li.append(check, text, bell, archive, del);
+      li.append(check, main, stopwatch, bell, archive, del);
       if (todo.done) li.insertAdjacentHTML('beforeend', '<span class="stamp todo-stamp" aria-hidden="true">OLDU BU İŞ</span>');
       list.appendChild(li);
     }
@@ -661,7 +725,11 @@
           const title = document.createElement('strong');
           title.textContent = todo.text;
           const meta = document.createElement('span');
-          meta.textContent = new Date(todo.doneAt || todo.archivedAt).toLocaleDateString('tr-TR');
+          const parts = [new Date(todo.doneAt || todo.archivedAt).toLocaleDateString('tr-TR')];
+          if (todo.plannedDurationMin) parts.push(`Plan: ${minutesText(todo.plannedDurationMin)}`);
+          const actualMs = Math.max(0, Number(todo.actualDurationMs) || 0);
+          if (actualMs > 0) parts.push(`Gerçek: ${minutesText(Math.max(1, Math.round(actualMs / 60000)))}`);
+          meta.textContent = parts.join(' · ');
           main.append(title, meta);
           const restore = document.createElement('button');
           restore.type = 'button';
@@ -702,9 +770,11 @@
     const text = input.value.trim();
     if (!text) return;
     const time = $('todo-time').value;
+    const planned = $('todo-duration').value;
     input.value = '';
     $('todo-time').value = '';
-    await api.invoke('todos:add', text, time);
+    $('todo-duration').value = '';
+    await api.invoke('todos:add', text, time, planned);
   });
   $('todo-clear').addEventListener('click', () => api.invoke('todos:archiveDone'));
 
