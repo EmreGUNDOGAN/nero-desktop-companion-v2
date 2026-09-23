@@ -117,7 +117,11 @@ jobs:
       - name: Rozet rarity sekmelerini uygula
         shell: pwsh
         run: |
-          & "C:\Program Files\Git\bin\bash.exe" -lc "cd project && patch -p1 --batch --forward < ../build-input/badges-rarity-tabs.patch"
+          $b64 = Get-Content "build-input/badges-rarity-tabs.patch.b64" -Raw
+          [IO.File]::WriteAllBytes((Join-Path $PWD "badges-rarity-tabs.patch"), [Convert]::FromBase64String($b64))
+          $patchHash = (Get-FileHash "badges-rarity-tabs.patch" -Algorithm SHA256).Hash.ToLower()
+          if ($patchHash -ne "5292fb57f640f2f34ad604b7e14e32b51d8992ffc6cbc5d91842bed53c3d69b7") { throw "Rozet rarity patch checksum uyuşmuyor: $patchHash" }
+          & "C:\Program Files\Git\bin\bash.exe" -lc "cd project && patch -p1 --batch --forward < ../badges-rarity-tabs.patch"
           if ($LASTEXITCODE -ne 0) { throw "Rozet rarity sekmeleri patch'i uygulanamadı." }
 
       - name: Setup ve tema uyumluluğunu doğrula
