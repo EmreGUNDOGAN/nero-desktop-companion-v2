@@ -24,6 +24,14 @@ const { HomeDialogueEngine } = require('./home-dialogue');
 const { Journal, isoWeekKey } = require('./journal');
 const { monthKey: moodMonthKey, monthLabelTr, userMonth, setUserMood, closedDataMonths, renderMoodboardSvg } = require('./moodboard');
 const { svgToPng } = require('./moodboard-image');
+const {
+  finiteMin: todoFiniteMin,
+  normalizeTodoTiming,
+  start: startTodoStopwatch,
+  pause: pauseTodoStopwatch,
+  focusCredit: todoFocusCredit,
+  applyCredit: applyTodoFocusCredit
+} = require('./todo-stopwatch');
 const QUOTES = require('../data/quotes.tr.json');
 
 protocol.registerSchemesAsPrivileged([
@@ -1307,6 +1315,47 @@ function setSetting(key, value) {
 }
 
 // ---------------------------------------------------------------------------
+// İş bazlı kronometre
+// ---------------------------------------------------------------------------
+function commitTodoStopwatch(todo, todos, { now = Date.now(), final = false } = {}) {
+  if (!todo) return { todo: null, credited: 0 };
+  let next = pauseTodoStopwatch(todo, now);
+  const credited = todoFocusCredit(next, { final, now });
+  if (credited > 0) {
+    next = applyTodoFocusCredit(next, credited);
+    stats.addFocusMinutes(credited);
+  }
+  Object.assign(todo, next);
+  if (todos) todosStore.set(todos);
+  return { todo, credited };
+}
+
+function pauseOtherTodoStopwatches(todos, exceptId, now = Date.now()) {
+  let changed = false;
+  for (const other of todos) {
+    if (other.id === exceptId || !other.stopwatchStartedAt) continue;
+    commitTodoStopwatch(other, null, { now, final: false });
+    changed = true;
+  }
+  if (changed) todosStore.set(todos);
+  return changed;
+}
+
+function pauseAllTodoStopwatches({ final = false } = {}) {
+  if (!todosStore || !stats) return false;
+  const todos = todosStore.get();
+  const now = Date.now();
+  let changed = false;
+  for (const todo of todos) {
+    if (!todo.stopwatchStartedAt) continue;
+    commitTodoStopwatch(todo, null, { now, final });
+    changed = true;
+  }
+  if (changed) todosStore.set(todos);
+  return changed;
+}
+
+// ---------------------------------------------------------------------------
 // IPC
 // ---------------------------------------------------------------------------
 function registerIpc() {
@@ -1361,10 +1410,15 @@ function registerIpc() {
     setTimeout(() => { if (!mood.state.napping) startNap(); }, 2500);
     return true;
   });
-  ipcMain.handle('todos:add', (_e, text, time) => {
+  ipcMain.handle('todos:add', (_e, text, time, plannedDurationMin) => {
     const clean = String(text || '').trim().slice(0, 300);
     if (!clean) return null;
-    const todo = { id: uid(), text: clean, done: false, createdAt: Date.now(), doneAt: null, remindAt: parseRemindTime(time), reminded: false, archivedAt: null };
+    const todo = normalizeTodoTiming({
+      id: uid(), text: clean, done: false, createdAt: Date.now(), doneAt: null,
+      remindAt: parseRemindTime(time), reminded: false, archivedAt: null,
+      plannedDurationMin: todoFiniteMin(plannedDurationMin),
+      actualDurationMs: 0, stopwatchStartedAt: null, focusCreditedMin: 0
+    });
     todosStore.set([...todosStore.get(), todo]);
     stats.todoCreated({ scheduled: !!todo.remindAt });
     stats.scheduledTodoCount(todosStore.get().filter((t) => !t.done && t.remindAt).length);
@@ -1378,9 +1432,15 @@ function registerIpc() {
     const todos = todosStore.get();
     const todo = todos.find((t) => t.id === id);
     if (!todo) return null;
+    const now = Date.now();
     todo.done = !todo.done;
-    todo.doneAt = todo.done ? Date.now() : null;
-    if (!todo.done) todo.archivedAt = null;
+    todo.doneAt = todo.done ? now : null;
+    if (todo.done) {
+      // Çalışan kronometre işi bitirirken otomatik durur. Kalan saniyeler finalde en yakın dakikaya tamamlanır.
+      commitTodoStopwatch(todo, null, { now, final: true });
+    } else {
+      todo.archivedAt = null;
+    }
     todosStore.set(todos);
     stats.todoDone(todo.done ? 1 : -1, { createdAt: todo.createdAt });
     if (todo.done) {
@@ -1412,6 +1472,26 @@ function registerIpc() {
     broadcastState();
     return todo;
   });
+  ipcMain.handle('todos:stopwatchStart', (_e, id) => {
+    const todos = todosStore.get();
+    const todo = todos.find((t) => t.id === id);
+    if (!todo || todo.done || todo.archivedAt) return null;
+    const now = Date.now();
+    pauseOtherTodoStopwatches(todos, id, now);
+    Object.assign(todo, startTodoStopwatch(todo, now));
+    todosStore.set(todos);
+    broadcastState();
+    return todo;
+  });
+  ipcMain.handle('todos:stopwatchPause', (_e, id) => {
+    const todos = todosStore.get();
+    const todo = todos.find((t) => t.id === id);
+    if (!todo) return null;
+    commitTodoStopwatch(todo, todos, { now: Date.now(), final: false });
+    broadcastState();
+    return todo;
+  });
+
   ipcMain.handle('todos:setReminder', (_e, id, time) => {
     const todos = todosStore.get();
     const todo = todos.find((t) => t.id === id);
@@ -1445,7 +1525,10 @@ function registerIpc() {
     return changed;
   });
   ipcMain.handle('todos:delete', (_e, id) => {
-    todosStore.set(todosStore.get().filter((t) => t.id !== id));
+    const todos = todosStore.get();
+    const todo = todos.find((t) => t.id === id);
+    if (todo?.stopwatchStartedAt) commitTodoStopwatch(todo, null, { now: Date.now(), final: false });
+    todosStore.set(todos.filter((t) => t.id !== id));
     broadcastState();
     return true;
   });
@@ -2216,6 +2299,16 @@ app.whenReady().then(() => {
   settingsStore = new JsonStore(userData, 'settings', DEFAULT_SETTINGS);
   notesStore = new JsonStore(userData, 'notes', []);
   todosStore = new JsonStore(userData, 'todos', []);
+  // 4.3.0 timing migration: eski işler alanlar olmadan da çalışır.
+  // Önceki oturum beklenmedik kapandıysa çalışan kronometreyi çevrimdışı zamanı saymadan duraklat.
+  {
+    const migratedTodos = todosStore.get().map((todo) => {
+      const normalized = normalizeTodoTiming(todo);
+      normalized.stopwatchStartedAt = null;
+      return normalized;
+    });
+    todosStore.set(migratedTodos);
+  }
   moodStore = new JsonStore(userData, 'mood', {});
   statsStore = new JsonStore(userData, 'stats', {});
   stats = new Stats(statsStore);
@@ -2284,6 +2377,8 @@ app.on('second-instance', () => {
 
 app.on('before-quit', () => {
   isQuitting = true;
+  // Açık iş kronometresini son kez güvenle durdur; kapalı geçen süre bir sonraki açılışta sayılmaz.
+  try { pauseAllTodoStopwatches({ final: false }); } catch (err) { log('iş kronometresi kapatılırken durdurulamadı:', err); }
   try { globalShortcut.unregisterAll(); } catch (_) { /* yoksay */ }
   for (const store of [settingsStore, notesStore, todosStore, moodStore, statsStore, moodLogStore, archiveStore, jarStore, homeDialogueStore, userMoodStore]) store?.flush();
 });
