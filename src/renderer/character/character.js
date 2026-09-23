@@ -620,7 +620,10 @@
     charEl.classList.remove('dragging');
   }
 
-  window.addEventListener('pointermove', (e) => {
+  // Electron setIgnoreMouseEvents(..., { forward:true }) Windows'ta hareketi
+  // mousemove olarak forward eder. Bu nedenle karakterin click-through modundan
+  // kendi kendine çıkabilmesi için hareket/hit-test yolu mousemove dinler.
+  window.addEventListener('mousemove', (e) => {
     // Pointerup pencerenin dışında kaybolmuşsa sol tuşun artık basılı olmadığını
     // ilk harekette görüp eski gesture'ı kapat.
     if (press && (e.buttons & 1) === 0) {
