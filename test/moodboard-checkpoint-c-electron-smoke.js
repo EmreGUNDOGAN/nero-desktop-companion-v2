@@ -70,7 +70,7 @@ app.whenReady().then(async () => {
       ensure(result.count === 30, `${skin}: Eylül 30 gün değil.`);
       ensure(result.rowTops.length === 5, `${skin}: Eylül takvimi 5 düzenli satır üretmedi: ${JSON.stringify(result)}`);
       ensure(result.rowSteps.every(step => step >= result.dayHeight * .95), `${skin}: moodboard satırları üst üste biniyor: ${JSON.stringify(result)}`);
-      ensure(result.rowSteps.every(step => step <= result.dayHeight * 1.4), `${skin}: moodboard satırları hâlâ fazla açık: ${JSON.stringify(result)}`);
+      ensure(result.rowSteps.every(step => step <= 43), `${skin}: moodboard satırları hâlâ fazla açık: ${JSON.stringify(result)}`);
       ensure(result.calHeight <= 225, `${skin}: 30 günlük moodboard gereksiz uzuyor: ${JSON.stringify(result)}`);
       ensure(result.userBoardHeight <= 285, `${skin}: kullanıcı moodboard bölümü gereksiz yüksek: ${JSON.stringify(result)}`);
       ensure(result.neroBoardTop - result.userBoardBottom <= 24, `${skin}: iki moodboard arasında gereksiz boşluk var: ${JSON.stringify(result)}`);
