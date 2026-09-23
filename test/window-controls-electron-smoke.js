@@ -2,7 +2,7 @@ const { app, BrowserWindow } = require('electron');
 const path = require('node:path');
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-const skins = ['kar', 'yagmur', 'cilek', 'mum', 'ege'];
+const skins = ['latte','pazartesi','gece','disket','kasaba','yagmur','kar','cilek','mum','ege'];
 const ids = ['settings-button', 'pin', 'minimize', 'close'];
 
 app.whenReady().then(async () => {
