@@ -17,6 +17,7 @@ const INVOKE = new Set([
 const SEND = new Set([
   'char:ready', 'char:ignoreMouse', 'char:dragStart', 'char:dragEnd',
   'char:click', 'char:contextMenu', 'char:bubbleDone', 'char:pet', 'char:hoverStart', 'char:hoverEnd',
+  'panel:dragStart', 'panel:dragEnd',
   'panel:resizeStart', 'panel:resizeEnd'
 ]);
 
