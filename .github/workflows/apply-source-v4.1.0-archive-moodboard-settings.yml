@@ -1,0 +1,170 @@
+name: Apply Nero 4.1.0 archive moodboard settings source
+
+on:
+  push:
+    branches: [source-prep-v4.1.0]
+
+permissions:
+  contents: write
+
+jobs:
+  apply-test:
+    runs-on: windows-latest
+    steps:
+      - name: Hazırlık dalını al
+        uses: actions/checkout@v4
+
+      - name: Node.js kur
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Patch girdisini hazırla ve source-v4.1.0 dalına geç
+        shell: pwsh
+        run: |
+          Copy-Item "build-input/archive-moodboard-settings-final.patch.gz.b64" "update.patch.gz.b64" -Force
+          git fetch origin source-v4.1.0
+          git switch -C source-v4.1.0 origin/source-v4.1.0
+
+          $b64 = Get-Content "update.patch.gz.b64" -Raw
+          [IO.File]::WriteAllBytes((Join-Path $PWD "update.patch.gz"), [Convert]::FromBase64String($b64))
+          $hash = (Get-FileHash "update.patch.gz" -Algorithm SHA256).Hash.ToLower()
+          if ($hash -ne "5963ae3b1772e3eb3c6e139ca009b33228770c3f136af5076c0b83eda7b245c3") {
+            throw "Patch checksum uyuşmuyor: $hash"
+          }
+
+          & "C:\Program Files\Git\bin\bash.exe" -lc "gzip -dc update.patch.gz > update.raw.patch"
+          if ($LASTEXITCODE -ne 0) { throw "Patch gzip açılamadı." }
+
+          $raw = Get-Content "update.raw.patch" -Raw
+          $raw = $raw.Replace("nero_base/nero/","a/").Replace("nero_impl/nero/","b/")
+          [IO.File]::WriteAllText((Join-Path $PWD "update.patch"), $raw, [Text.UTF8Encoding]::new($false))
+
+          & "C:\Program Files\Git\bin\bash.exe" -lc "patch -p1 --batch --forward < update.patch"
+          if ($LASTEXITCODE -ne 0) { throw "Archive/moodboard/settings patch uygulanamadı." }
+
+          Remove-Item "update.patch.gz.b64","update.patch.gz","update.raw.patch","update.patch" -Force
+
+      - name: Kaynak bütünlüğü ve sözdizimi
+        shell: pwsh
+        run: |
+          $pkg = Get-Content "package.json" -Raw | ConvertFrom-Json
+          if ($pkg.version -ne "4.1.0") { throw "Sürüm 4.1.0 değil." }
+
+          node --check "src/main/main.js"
+          if ($LASTEXITCODE -ne 0) { throw "main.js sözdizimi hatası." }
+          node --check "src/main/journal.js"
+          if ($LASTEXITCODE -ne 0) { throw "journal.js sözdizimi hatası." }
+          node --check "src/main/moodboard.js"
+          if ($LASTEXITCODE -ne 0) { throw "moodboard.js sözdizimi hatası." }
+          node --check "src/preload/preload.js"
+          if ($LASTEXITCODE -ne 0) { throw "preload sözdizimi hatası." }
+          node --check "src/renderer/panel/panel.js"
+          if ($LASTEXITCODE -ne 0) { throw "panel.js sözdizimi hatası." }
+
+          $dialogues = Get-Content "src/data/home-dialogues.tr.json" -Raw | ConvertFrom-Json
+          if ($dialogues.dialogues.Count -ne 665) { throw "665 Home repliği korunmamış." }
+
+          node -e "const a=require('./src/data/achievements'); const c=r=>a.filter(x=>x.rarity===r).length; if(a.length!==125||new Set(a.map(x=>x.id)).size!==125||c('yaygin')!==25||c('siradisi')!==35||c('nadir')!==20||c('efsanevi')!==20||c('gizli')!==25) process.exit(1)"
+          if ($LASTEXITCODE -ne 0) { throw "125 achievement dağılımı bozulmuş." }
+
+      - name: Bağımlılıkları kur ve tüm testleri çalıştır
+        shell: pwsh
+        run: |
+          npm ci
+          if ($LASTEXITCODE -ne 0) { throw "npm ci başarısız." }
+          npm test
+          if ($LASTEXITCODE -ne 0) { throw "Testler başarısız." }
+
+      - name: Moodboard PNG akışını Electron ile smoke test et
+        shell: pwsh
+        run: |
+          @'
+const { app, BrowserWindow } = require('electron');
+const { renderMoodboardSvg } = require('./src/main/moodboard');
+
+app.whenReady().then(async () => {
+  let win;
+  try {
+    const svg = renderMoodboardSvg({
+      month: '2026-09',
+      userDays: [
+        { day: 1, value: 'green' },
+        { day: 2, value: 'yellow' },
+        { day: 3, value: 'red' }
+      ],
+      neroDays: [
+        { day: 1, value: 'green' },
+        { day: 2, value: 'lightgreen' },
+        { day: 3, value: 'yellow' }
+      ]
+    });
+    if (!svg.includes('Moodboard') || !svg.includes('Nero')) throw new Error('SVG moodboard içeriği eksik.');
+
+    win = new BrowserWindow({ width: 1200, height: 860, show: false, webPreferences: { sandbox: true } });
+    const dataUrl = 'data:image/svg+xml;base64,' + Buffer.from(svg, 'utf8').toString('base64');
+    await win.loadURL(dataUrl);
+    const image = await win.webContents.capturePage();
+    const png = image.toPNG();
+    if (!Buffer.isBuffer(png) || png.length < 5000) throw new Error('PNG capturePage çıktısı geçersiz.');
+    require('fs').writeFileSync('moodboard-smoke.png', png);
+    console.log('Moodboard PNG smoke test OK:', png.length, 'bytes');
+  } catch (err) {
+    console.error(err);
+    process.exitCode = 1;
+  } finally {
+    if (win && !win.isDestroyed()) win.destroy();
+    app.quit();
+  }
+});
+'@ | Set-Content "moodboard-smoke.js" -Encoding UTF8
+
+          npx electron "moodboard-smoke.js"
+          if ($LASTEXITCODE -ne 0) { throw "Electron moodboard PNG smoke test başarısız." }
+          if (-not (Test-Path "moodboard-smoke.png")) { throw "Smoke PNG oluşmadı." }
+          Remove-Item "moodboard-smoke.js","moodboard-smoke.png" -Force
+
+      - name: UI ve tema regresyon kontrolleri
+        shell: pwsh
+        run: |
+          if (Test-Path "dist") { throw "Bu işlem EXE/dist üretmemeliydi." }
+
+          $html = Get-Content "src/renderer/panel/index.html" -Raw
+          $js = Get-Content "src/renderer/panel/panel.js" -Raw
+          $skins = Get-Content "src/renderer/panel/skins.css" -Raw
+          if ($html -match 'data-tab="settings"') { throw "Ayarlar hâlâ navbar içinde." }
+          if ($html -notmatch 'id="settings-gear"') { throw "Tema uyumlu dişli eksik." }
+          if ($html -notmatch 'id="user-mood-grid"' -or $html -notmatch 'id="nero-mood-grid"') { throw "Çift moodboard UI eksik." }
+          if ($html -notmatch 'id="todos-archive-panel"' -or $html -notmatch 'id="notes-archive-panel"') { throw "Arşiv UI eksik." }
+          if ($js -notmatch "todos:archive" -or $js -notmatch "notes:archive" -or $js -notmatch "moodboard:set") { throw "Renderer IPC davranışları eksik." }
+          foreach ($skin in @("latte","pazartesi","gece","disket","kasaba","yagmur","kar","cilek","mum","ege")) {
+            if ($skins -notmatch $skin) { throw "Tema override eksik: $skin" }
+          }
+
+      - name: source-v4.1.0 dalını güncelle
+        shell: pwsh
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src test docs CHANGELOG.md package.json package-lock.json
+          if (git diff --cached --quiet) {
+            Write-Host "Kaynak dalında uygulanacak yeni değişiklik yok."
+          } else {
+            git commit -m "feat: add archives dual moodboards and themed settings gear"
+            git push origin source-v4.1.0
+          }
+
+      - name: Güncel kaynak zipini oluştur
+        shell: pwsh
+        run: |
+          if (Test-Path "node_modules") { Remove-Item "node_modules" -Recurse -Force }
+          if (Test-Path ".git") { Remove-Item ".git" -Recurse -Force }
+          if (Test-Path ".github/workflows") { Remove-Item ".github/workflows" -Recurse -Force }
+          Compress-Archive -Path "*" -DestinationPath "nero-v4.1.0-kaynak-final.zip" -Force
+
+      - name: Kaynak artifactini yükle
+        uses: actions/upload-artifact@v4
+        with:
+          name: nero-v4.1.0-kaynak-final
+          path: nero-v4.1.0-kaynak-final.zip
+          if-no-files-found: error
