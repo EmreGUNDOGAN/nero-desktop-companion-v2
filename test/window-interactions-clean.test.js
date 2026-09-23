@@ -49,3 +49,16 @@ test('kilit açıldığında drag engellenir ve aktif gesture kapanır', () => {
   assert.match(main, /case 'lockPosition':[\s\S]*?if \(value\)[\s\S]*?if \(drag\) stopDrag\(\);[\s\S]*?if \(panelDrag\) stopPanelDrag\(\)/);
   assert.match(panel, /state\?\.settings\?\.lockPosition/);
 });
+
+test('taskbar minimize/restore bütün etkileşim stateini sıfırlar', () => {
+  assert.match(main, /function resetWindowInteractionState\(/);
+  assert.match(main, /panelWin\.on\('minimize',[\s\S]*?resetWindowInteractionState\(\)/);
+  assert.match(main, /panelWin\.on\('restore',[\s\S]*?resetWindowInteractionState\(\{ restoreCharacterMouse: true \}\)/);
+  assert.match(main, /charWin\.setIgnoreMouseEvents\(false, \{ forward: true \}\)/);
+  assert.match(main, /sendTo\(panelWin, 'interaction:reset'\)/);
+  assert.match(main, /sendTo\(charWin, 'interaction:reset'\)/);
+  assert.match(panel, /api\.on\('interaction:reset',[\s\S]*?panelDragActive = false/);
+  assert.match(character, /api\.on\('interaction:reset',[\s\S]*?press = null[\s\S]*?ignoring = false[\s\S]*?char:ignoreMouse/);
+  assert.match(preload, /'interaction:reset'/);
+});
+
