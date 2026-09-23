@@ -434,11 +434,19 @@ function createPanelWindow() {
   });
   panelWin.on('restore', () => {
     resetWindowInteractionState({ restoreCharacterMouse: true });
-    revealCharacter();
+    revealCharacter({ moveTop: true });
     if (charWin) positionPanel();
+    setImmediate(() => {
+      if (!panelWin || panelWin.isDestroyed()) return;
+      try { panelWin.moveTop(); } catch (_) { /* platform fallback */ }
+      try { panelWin.focus(); } catch (_) { /* yoksay */ }
+    });
   });
   panelWin.on('show', () => revealCharacter());
-  panelWin.on('focus', () => revealCharacter());
+  panelWin.on('focus', () => {
+    revealCharacter({ moveTop: true });
+    try { panelWin.moveTop(); } catch (_) { /* platform fallback */ }
+  });
 }
 
 function panelSize() {
@@ -786,13 +794,30 @@ async function archiveClosedMoodboards() {
   }
 }
 
-// Panel öne gelince Nero da gelsin (görev çubuğundaki simgeye tıklandığında da).
-function revealCharacter() {
+// Nero'yu görünür yap; moveTop yalnız "şimdi öne getir" davranışıdır,
+// kullanıcının alwaysOnTop tercihini kalıcı olarak değiştirmez.
+function revealCharacter({ moveTop = false } = {}) {
   if (!charWin) return;
   if (settings().hidden) settingsStore.patch({ hidden: false });
   if (charWin.isMinimized()) charWin.restore();
   if (!charWin.isVisible()) charWin.showInactive();
   if (settings().alwaysOnTop) charWin.setAlwaysOnTop(true, 'floating');
+  if (moveTop) {
+    try { charWin.moveTop(); } catch (_) { /* platform fallback */ }
+  }
+}
+
+// Taskbar / ikinci instance üzerinden uygulama geri çağrıldığında:
+// panel gerçekten açıksa ikisini birlikte getir, panel kapalıysa yalnız Nero'yu getir.
+function bringRunningWindowsToFront() {
+  const bringPanel = !!(panelWin && settings().panelOpen);
+  revealCharacter({ moveTop: true });
+
+  if (!bringPanel) return;
+  if (panelWin.isMinimized()) panelWin.restore();
+  if (!panelWin.isVisible()) panelWin.show();
+  try { panelWin.moveTop(); } catch (_) { /* platform fallback */ }
+  try { panelWin.focus(); } catch (_) { /* yoksay */ }
 }
 
 function showPanel(tab) {
@@ -2510,7 +2535,13 @@ app.whenReady().then(() => {
 
 app.on('second-instance', () => {
   if (settings().hidden) setSetting('hidden', false);
-  showPanel();
+  bringRunningWindowsToFront();
+});
+
+app.on('activate', () => {
+  if (!settingsStore) return;
+  if (settings().hidden) setSetting('hidden', false);
+  bringRunningWindowsToFront();
 });
 
 app.on('before-quit', () => {
