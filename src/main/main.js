@@ -23,6 +23,7 @@ const { Stats, dayKey } = require('./stats');
 const { HomeDialogueEngine } = require('./home-dialogue');
 const { Journal, isoWeekKey } = require('./journal');
 const { monthKey: moodMonthKey, monthLabelTr, userMonth, setUserMood, closedDataMonths, renderMoodboardSvg } = require('./moodboard');
+const { svgToPng } = require('./moodboard-image');
 const QUOTES = require('../data/quotes.tr.json');
 
 protocol.registerSchemesAsPrivileged([
@@ -682,7 +683,7 @@ function moodboardFolder() {
   return path.join(app.getPath('pictures'), 'Nero Moodboards');
 }
 
-function exportMoodboardMonth(key) {
+async function exportMoodboardMonth(key) {
   if (!userMoodStore || !journal || !currentTheme) return false;
   const data = userMoodStore.get();
   const user = userMonth(data, key, new Date());
@@ -699,14 +700,17 @@ function exportMoodboardMonth(key) {
 
   try {
     const svg = renderMoodboardSvg({ key, userDays: user, neroDays: nero, ui: currentTheme.manifest.ui || {} });
-    const image = nativeImage.createFromDataURL(`data:image/svg+xml;base64,${Buffer.from(svg).toString('base64')}`);
-    if (!image || image.isEmpty()) throw new Error('Moodboard görseli oluşturulamadı.');
+    const png = await svgToPng(svg, { width: 1080, height: 900 });
     const dir = moodboardFolder();
     fs.mkdirSync(dir, { recursive: true });
     const file = path.join(dir, `Nero-Moodboard-${key}.png`);
-    fs.writeFileSync(file, image.toPNG());
-    exports[key] = { at: Date.now(), path: file };
-    userMoodStore.set({ ...data, exports });
+    fs.writeFileSync(file, png);
+    // Render sürerken mood seçimi değişmiş olabilir; son store'u baz alarak yalnız exports alanını güncelle.
+    const latest = userMoodStore.get();
+    userMoodStore.set({
+      ...latest,
+      exports: { ...(latest.exports || {}), [key]: { at: Date.now(), path: file } }
+    });
     return true;
   } catch (err) {
     log('moodboard png oluşturulamadı:', key, err);
@@ -714,12 +718,17 @@ function exportMoodboardMonth(key) {
   }
 }
 
-function archiveClosedMoodboards() {
-  if (!userMoodStore || !moodLogStore) return;
-  const data = userMoodStore.get();
-  const exported = data.exports || {};
-  for (const key of closedDataMonths(data, moodLogStore.get(), moodMonthKey())) {
-    if (!exported[key]) exportMoodboardMonth(key);
+let moodboardArchiving = false;
+async function archiveClosedMoodboards() {
+  if (moodboardArchiving || !userMoodStore || !moodLogStore) return;
+  moodboardArchiving = true;
+  try {
+    for (const key of closedDataMonths(userMoodStore.get(), moodLogStore.get(), moodMonthKey())) {
+      const exported = userMoodStore.get().exports || {};
+      if (!exported[key]) await exportMoodboardMonth(key);
+    }
+  } finally {
+    moodboardArchiving = false;
   }
 }
 
