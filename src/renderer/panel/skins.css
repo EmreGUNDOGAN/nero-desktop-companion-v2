@@ -1692,3 +1692,65 @@
 :is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .mood-day.empty { background: color-mix(in srgb, var(--glass) 78%, transparent); border-style: dashed; }
 :is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .mood-picker { background: var(--glass); border: 2px solid var(--ink); box-shadow: none; }
 :is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .archive-entry { background: color-mix(in srgb, var(--glass) 88%, transparent); }
+
+/* 4.3.0 — moodboard geçmiş seçici ve kompakt ay navigasyonu */
+[data-skin="latte"] :is(.mood-history-toggle, .mood-nav-btn, .mood-current-btn, .mood-history-popover, .mood-history-month) {
+  border-style: dashed;
+  border-color: color-mix(in srgb, var(--accent) 65%, var(--line));
+}
+[data-skin="latte"] .mood-history-popover { background: var(--surface); }
+
+[data-skin="pazartesi"] :is(.mood-history-toggle, .mood-nav-btn, .mood-current-btn, .mood-history-month) {
+  border: 2px solid var(--ink); border-radius: 8px; background: var(--surface); color: var(--ink); box-shadow: 2px 2px 0 var(--ink);
+}
+[data-skin="pazartesi"] .mood-history-popover {
+  border: 2.5px solid var(--ink); border-radius: 8px; background: var(--surface); box-shadow: 4px 4px 0 var(--ink);
+}
+[data-skin="pazartesi"] .mood-history-month.active { background: var(--secondary); color: var(--ink); }
+[data-skin="pazartesi"] .mood-nav-btn:active,
+[data-skin="pazartesi"] .mood-current-btn:active { translate: 1px 1px; box-shadow: 1px 1px 0 var(--ink); }
+
+[data-skin="gece"] :is(.mood-history-toggle, .mood-nav-btn, .mood-current-btn, .mood-history-month) {
+  background: #12152A; border-color: var(--line); color: var(--secondary);
+}
+[data-skin="gece"] .mood-history-popover {
+  background: #12152A; border-color: var(--line); box-shadow: 0 10px 28px rgba(0, 0, 0, .38);
+}
+[data-skin="gece"] .mood-history-month.active { background: var(--secondary); color: #12152A; }
+
+[data-skin="disket"] :is(.mood-history-toggle, .mood-nav-btn, .mood-current-btn, .mood-history-popover, .mood-history-month) {
+  border-radius: 0; border: 2px solid var(--ink); box-shadow: var(--bevel); font-family: "Pixelify Sans", monospace;
+}
+[data-skin="disket"] .mood-history-popover { background: #fff; box-shadow: var(--bevel); }
+[data-skin="disket"] .mood-history-month.active { background: var(--accent); color: #fff; }
+[data-skin="disket"] .moodboard-nav > span,
+[data-skin="disket"] .mood-history-year > strong { font-family: "VT323", monospace; }
+
+[data-skin="kasaba"] :is(.mood-history-toggle, .mood-nav-btn, .mood-current-btn, .mood-history-popover, .mood-history-month) {
+  border: 1px solid var(--ink); border-radius: 0; box-shadow: none; background: #FDFBF3; color: var(--ink);
+}
+[data-skin="kasaba"] .mood-history-popover { font-family: "Courier Prime", monospace; }
+[data-skin="kasaba"] .mood-history-month { font-family: "Courier Prime", monospace; }
+[data-skin="kasaba"] .mood-history-month.active { background: var(--secondary); color: var(--surface); }
+
+:is([data-skin="yagmur"], [data-skin="kar"]) :is(.mood-history-toggle, .mood-nav-btn, .mood-current-btn, .mood-history-month) {
+  border: 1.5px solid color-mix(in srgb, var(--ink) 45%, transparent);
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  color: var(--ink);
+}
+:is([data-skin="yagmur"], [data-skin="kar"]) .mood-history-popover {
+  background: color-mix(in srgb, var(--surface) 94%, transparent);
+  border: 1.5px solid color-mix(in srgb, var(--ink) 38%, transparent);
+  backdrop-filter: blur(8px);
+}
+:is([data-skin="yagmur"], [data-skin="kar"]) .mood-history-month.active { background: var(--secondary); color: #fff; }
+
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) :is(.mood-history-toggle, .mood-nav-btn, .mood-current-btn, .mood-history-month) {
+  border: 2px solid var(--ink); background: var(--glass); color: var(--ink);
+}
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .mood-history-popover {
+  background: var(--glass); border: 2px solid var(--ink); box-shadow: none; backdrop-filter: blur(8px);
+}
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .mood-history-month.active {
+  background: var(--accent); color: #fff;
+}
