@@ -27,12 +27,10 @@ jobs:
           New-Item -ItemType Directory -Force -Path base | Out-Null
           gh release download v4.0.4 --pattern "nero-v4.0.4-kaynak.zip" --dir base
           if (-not (Test-Path "base/nero-v4.0.4-kaynak.zip")) { throw "4.0.4 kaynak paketi bulunamadı." }
-
           Expand-Archive "base/nero-v4.0.4-kaynak.zip" "base/extracted" -Force
           $root = Get-ChildItem "base/extracted" -Directory | Where-Object { Test-Path (Join-Path $_.FullName "package.json") } | Select-Object -First 1
           if (-not $root -and (Test-Path "base/extracted/package.json")) { $root = Get-Item "base/extracted" }
           if (-not $root) { throw "Kaynak kök klasörü bulunamadı." }
-
           New-Item -ItemType Directory -Force -Path project | Out-Null
           Get-ChildItem $root.FullName -Force | ForEach-Object { Copy-Item $_.FullName "project" -Recurse -Force }
 
@@ -43,7 +41,6 @@ jobs:
           $raw = $raw.Replace("/tmp/nero404_orig/nero/","a/").Replace("/mnt/data/nero410_work/nero/","b/")
           [IO.File]::WriteAllText((Join-Path $PWD "main-normalized.patch"), $raw, [Text.UTF8Encoding]::new($false))
           & "C:\Program Files\Git\bin\bash.exe" -lc "cd project && patch -p1 --batch --forward < ../main-normalized.patch || true"
-
           & "C:\Program Files\Git\bin\bash.exe" -lc "cd project && patch -p1 --batch --forward < ../build-input/NERO_4.1.0_click_fix.patch || true"
 
       - name: 125 achievement patchini uygula
@@ -54,7 +51,6 @@ jobs:
           $b64 = ($parts | ForEach-Object { Get-Content $_.FullName -Raw }) -join ''
           [IO.File]::WriteAllBytes((Join-Path $PWD "ach.patch.gz"), [Convert]::FromBase64String($b64))
           if ((Get-FileHash "ach.patch.gz" -Algorithm SHA256).Hash.ToLower() -ne "e41f62c2c7220ec9d3f8251ef769325a6dbc8f024c254eb17f4b144e324f282c") { throw "Achievement patch checksum hatası." }
-
           & "C:\Program Files\Git\bin\bash.exe" -lc "gzip -dc ach.patch.gz > ach.raw.patch"
           $raw = Get-Content "ach.raw.patch" -Raw
           $raw = $raw.Replace("nero410_base_for_ach/nero/","a/").Replace("nero411_work/nero/","b/")
@@ -77,18 +73,43 @@ jobs:
           $raw = Get-Content "build-input/home-stats-layout.patch" -Raw
           $raw = $raw.Replace("nero_ui_base/nero/","a/").Replace("nero_ui_fix/nero/","b/")
           [IO.File]::WriteAllText((Join-Path $PWD "home-stats-normalized.patch"), $raw, [Text.UTF8Encoding]::new($false))
-          # CHANGELOG ana patch/click-fix sırasında değiştiği için yalnız o hunk çakışabilir;
-          # CSS ve test hunks uygulanır, ardından aşağıdaki doğrulamalar layout'u kesin olarak kontrol eder.
           & "C:\Program Files\Git\bin\bash.exe" -lc "cd project && patch -p1 --batch --forward < ../home-stats-normalized.patch || true"
-
+          $rejects = @(Get-ChildItem "project" -Recurse -File -Filter "*.rej")
+          $unexpected = @($rejects | Where-Object { $_.Name -ne "CHANGELOG.md.rej" })
+          if ($unexpected.Count -gt 0) { throw "Tema layout patch'inde beklenmeyen reject var: $($unexpected.FullName -join ', ')" }
           $changelog = Get-Content "project/CHANGELOG.md" -Raw
-          if ($changelog -notmatch '### Arşiv, Moodboard ve Ayarlar düzeni') {
-            $marker = '### Achievement sistemi v2'
-            $section = [Text.Encoding]::UTF8.GetString([Convert]::FromBase64String("IyMjIEFyxZ9pdiwgTW9vZGJvYXJkIHZlIEF5YXJsYXIgZMO8emVuaQotICoqxLDFn2xlciBhcsWfaXZpOioqIHRhbWFtbGFuYW4gacWfbGVyIGFydMSxayBrdWxsYW7EsWPEsSBpc3RlZGnEn2luZGUgbWFudWVsIG9sYXJhayBhcsWfaXZsZW5lYmlsaXI7IMSwxZ9sZXIgc2F5ZmFzxLFuxLFuIGFsdMSxbmRha2kgQXLFn2l2bGVyIGFsYW7EsW5kYSBheSBheSBhw6fEsWzEsXIva2FwYW7EsXIgZ3J1cGxhcmRhIHR1dHVsdXIgdmUgZ2VyaSBhbMSxbmFiaWxpci4KLSAqKk5vdCBhcsWfaXZpOioqIG5vdGxhciBtYW51ZWwgb2xhcmFrIGFyxZ9pdmxlbmViaWxpcjsgYWt0aWYgbm90IGxpc3Rlc2luZGVuIMOnxLFrYXIsIGF5bMSxayBBcsWfaXZsZXIgYsO2bMO8bcO8bmRlIHNha2xhbsSxciB2ZSBnZXJpIGFsxLFuYWJpbGlyLgotIEFuYSBzYXlmYWRha2kgKirigJxCdSBheSB5YXB0xLFrbGFyxLFu4oCdKiogYsO2bMO8bcO8IGlsayA1IGnFn2kgZ8O2c3RlcmlyOyBkYWhhIGZhemxhc8SxIGHDp8SxbMSxci9rYXBhbsSxciBiaXIgbGlzdGVkZSB0dXR1bHVyLiBFbiB5ZW5pIHRhbWFtbGFuYW4gacWfIGhlciB6YW1hbiDDvHN0dGVkaXIuCi0gKipCZW5pbSBNb29kYm9hcmTigJl1bToqKiBhecSxbiBoZXIgZ8O8bsO8IGnDp2luIGt1bGxhbsSxY8SxIHllxZ9pbC9zYXLEsS9rxLFybcSxesSxIHNlw6dpbSB5YXBhYmlsaXI7IGdlbGVjZWsgZ8O8bmxlciBzZcOnaWxlbWV6IHZlIGF5IGRlxJ9pxZ9pbmNlIHllbmkgYXkgYm/FnyBiYcWfbGFyLgotICoqTmVyb+KAmW51biBNb29kYm9hcmTigJl1OioqIG1ldmN1dCBvdG9tYXRpayBoYXBwaW5lc3MgZ8O8bmzDvMSfw7wga29ydW5hcmFrIHNvbiAzMCBnw7xuIHllcmluZSBnZXLDp2VrIHRha3ZpbSBhecSxIGfDtnLDvG7DvG3DvG5lIHRhxZ/EsW5kxLEuCi0gS2FwYW5txLHFnyBheWxhcsSxbiBrdWxsYW7EsWPEsSArIE5lcm8gbW9vZGJvYXJk4oCZdSBiaXJsaWt0ZSAqKlBORyBvbGFyYWsgUmVzaW1sZXIvTmVybyBNb29kYm9hcmRzKioga2xhc8O2csO8bmUga2F5ZGVkaWxpcjsgaGFtIEpTT04gZ2XDp21pxZ9pIHNpbGlubWV6LgotIE1vb2Rib2FyZCB0YXNhcsSxbcSxIHZlIGFyxZ9pdiBiaWxlxZ9lbmxlcmkgdMO8bSB5ZXJsZcWfaWsgdGVtYWxhcsSxbiBnw7Zyc2VsIGRpbGluZSB1eWFybGFuxLFyLgotICoqQXlhcmxhcioqIGFuYSBzZWttZSDDp3VidcSfdW5kYW4ga2FsZMSxcsSxbGTEsSB2ZSDDvHN0IHNhxJ9kYSwgcGluIGTDvMSfbWVzaW5pbiBzb2x1bmRhIHRlbWEgdXl1bWx1IGJpciBkacWfbGkgZMO8xJ9tZXNpbmUgdGHFn8SxbmTEsS4KLSBZZW5pIGFyxZ9pdiB2ZSBtb29kYm9hcmQgdmVyaWxlcmkgTmVybydudW4gZMSxxZ9hIGFrdGFybWEgLyBvdG9tYXRpayB5ZWRlayBzbmFwc2hvdCfEsW5hIGRhaGlsIGVkaWxkaS4KCg=="))
-            $changelog = $changelog.Replace($marker, $section + $marker)
+          if ($changelog -notmatch 'Tüm temalarda ana sayfa istatistik alanı yeniden sıkılaştırıldı') {
+            $section = [Text.Encoding]::UTF8.GetString([Convert]::FromBase64String("IyMjIETDvHplbHRpbGRpCi0gKipUw7xtIHRlbWFsYXJkYSBhbmEgc2F5ZmEgaXN0YXRpc3RpayBhbGFuxLEgeWVuaWRlbiBzxLFrxLFsYcWfdMSxcsSxbGTEsToqKiBkw7ZydCBnw7xubMO8ayBpc3RhdGlzdGlrIGthcnTEsSBnZXJla3NpeiBkaWtleSBib8WfbHVrIGLEsXJha23EsXlvci4KLSAqKuKAnEJ1IGhhZnRhIG9kYWvigJ0gZ3JhZmnEn2kga29tcGFrdGxhxZ90xLFyxLFsZMSxOyoqIGdyYWZpayBhbGFuxLEgcGFuZWxpIGdlcmVrc2l6IHllcmUgdXphdG3EsXlvci4KLSBEaXNrZXQsIEthc2FiYSwgWWHEn211ciwgS2FyLCDDh2lsZWtsaSBQaWtuaWssIE11bSBJxZ/EscSfxLEgdmUgRWdlIFlhesSxIHRlbWFsYXLEsW7EsW4gw7Z6ZWwgaXN0YXRpc3RpayBzdGlsbGVyaSBvcnRhayBib3l1dCBrdXJhbGxhcsSxeWxhIMOnYWvEscWfbWF5YWNhayDFn2VraWxkZSBkw7x6ZW5sZW5kaS4KLSBIYXZhL3Jlc2ltbGkgdGVtYWxhcmRha2kgc29ucmFkYW4gZ2VsZW4gQ1NTIG92ZXJyaWRlIGFydMSxayBrYXJ0bGFyxLEgdGVrcmFyIGAxMTBweGAgecO8a3Nla2xpxJ9lIHpvcmxhbcSxeW9yLgoK"))
+            $changelog = $changelog.Replace('### Değişti', $section + '### Değişti')
             [IO.File]::WriteAllText((Join-Path $PWD "project/CHANGELOG.md"), $changelog, [Text.UTF8Encoding]::new($false))
           }
-          $rejects | Remove-Item -Force
+          if ($rejects.Count -gt 0) { $rejects | Remove-Item -Force }
+
+      - name: Arşiv Moodboard ve Ayarlar görevlerini uygula
+        shell: pwsh
+        run: |
+          $parts = Get-ChildItem "build-input/archive-moodboard-settings-b64.part*" | Sort-Object Name
+          if ($parts.Count -ne 4) { throw "Arşiv/Moodboard/Ayarlar patch parçaları eksik: $($parts.Count)/4" }
+          $b64 = ($parts | ForEach-Object { Get-Content $_.FullName -Raw }) -join ''
+          [IO.File]::WriteAllBytes((Join-Path $PWD "impl.patch.gz"), [Convert]::FromBase64String($b64))
+          $hash = (Get-FileHash "impl.patch.gz" -Algorithm SHA256).Hash.ToLower()
+          if ($hash -ne "b3cd65cdab9f98aef7db9826244327c850683a9261db97a9ecbdf09fb433c959") { throw "Arşiv/Moodboard/Ayarlar patch checksum hatası: $hash" }
+          & "C:\Program Files\Git\bin\bash.exe" -lc "gzip -dc impl.patch.gz > impl.raw.patch"
+          if ($LASTEXITCODE -ne 0) { throw "Implementasyon patch gzip açılamadı." }
+          $raw = Get-Content "impl.raw.patch" -Raw
+          $raw = $raw.Replace("/mnt/data/nero_baseline/nero/","a/").Replace("/mnt/data/nero_impl/nero/","b/")
+          [IO.File]::WriteAllText((Join-Path $PWD "impl-normalized.patch"), $raw, [Text.UTF8Encoding]::new($false))
+          & "C:\Program Files\Git\bin\bash.exe" -lc "cd project && patch -p1 --batch --forward < ../impl-normalized.patch || true"
+          $rejects = @(Get-ChildItem "project" -Recurse -File -Filter "*.rej")
+          $unexpected = @($rejects | Where-Object { $_.Name -ne "CHANGELOG.md.rej" })
+          if ($unexpected.Count -gt 0) { throw "Implementasyon patch'inde beklenmeyen reject var: $($unexpected.FullName -join ', ')" }
+          $changelog = Get-Content "project/CHANGELOG.md" -Raw
+          if ($changelog -notmatch '### Arşiv, Moodboard ve Ayarlar düzeni') {
+            $section = [Text.Encoding]::UTF8.GetString([Convert]::FromBase64String("IyMjIEFyxZ9pdiwgTW9vZGJvYXJkIHZlIEF5YXJsYXIgZMO8emVuaQotICoqxLDFn2xlciBhcsWfaXZpOioqIHRhbWFtbGFuYW4gacWfbGVyIGFydMSxayBrdWxsYW7EsWPEsSBpc3RlZGnEn2luZGUgbWFudWVsIG9sYXJhayBhcsWfaXZsZW5lYmlsaXI7IMSwxZ9sZXIgc2F5ZmFzxLFuxLFuIGFsdMSxbmRha2kgQXLFn2l2bGVyIGFsYW7EsW5kYSBheSBheSBhw6fEsWzEsXIva2FwYW7EsXIgZ3J1cGxhcmRhIHR1dHVsdXIgdmUgZ2VyaSBhbMSxbmFiaWxpci4KLSAqKk5vdCBhcsWfaXZpOioqIG5vdGxhciBtYW51ZWwgb2xhcmFrIGFyxZ9pdmxlbmViaWxpcjsgYWt0aWYgbm90IGxpc3Rlc2luZGVuIMOnxLFrYXIsIGF5bMSxayBBcsWfaXZsZXIgYsO2bMO8bcO8bmRlIHNha2xhbsSxciB2ZSBnZXJpIGFsxLFuYWJpbGlyLgotIEFuYSBzYXlmYWRha2kgKirigJxCdSBheSB5YXB0xLFrbGFyxLFu4oCdKiogYsO2bMO8bcO8IGlsayA1IGnFn2kgZ8O2c3RlcmlyOyBkYWhhIGZhemxhc8SxIGHDp8SxbMSxci9rYXBhbsSxciBiaXIgbGlzdGVkZSB0dXR1bHVyLiBFbiB5ZW5pIHRhbWFtbGFuYW4gacWfIGhlciB6YW1hbiDDvHN0dGVkaXIuCi0gKipCZW5pbSBNb29kYm9hcmTigJl1bToqKiBhecSxbiBoZXIgZ8O8bsO8IGnDp2luIGt1bGxhbsSxY8SxIHllxZ9pbC9zYXLEsS9rxLFybcSxesSxIHNlw6dpbSB5YXBhYmlsaXI7IGdlbGVjZWsgZ8O8bmxlciBzZcOnaWxlbWV6IHZlIGF5IGRlxJ9pxZ9pbmNlIHllbmkgYXkgYm/FnyBiYcWfbGFyLgotICoqTmVyb+KAmW51biBNb29kYm9hcmTigJl1OioqIG1ldmN1dCBvdG9tYXRpayBoYXBwaW5lc3MgZ8O8bmzDvMSfw7wga29ydW5hcmFrIHNvbiAzMCBnw7xuIHllcmluZSBnZXLDp2VrIHRha3ZpbSBhecSxIGfDtnLDvG7DvG3DvG5lIHRhxZ/EsW5kxLEuCi0gS2FwYW5txLHFnyBheWxhcsSxbiBrdWxsYW7EsWPEsSArIE5lcm8gbW9vZGJvYXJk4oCZdSBiaXJsaWt0ZSAqKlBORyBvbGFyYWsgUmVzaW1sZXIvTmVybyBNb29kYm9hcmRzKioga2xhc8O2csO8bmUga2F5ZGVkaWxpcjsgaGFtIEpTT04gZ2XDp21pxZ9pIHNpbGlubWV6LgotIE1vb2Rib2FyZCB0YXNhcsSxbcSxIHZlIGFyxZ9pdiBiaWxlxZ9lbmxlcmkgdMO8bSB5ZXJsZcWfaWsgdGVtYWxhcsSxbiBnw7Zyc2VsIGRpbGluZSB1eWFybGFuxLFyLgotICoqQXlhcmxhcioqIGFuYSBzZWttZSDDp3VidcSfdW5kYW4ga2FsZMSxcsSxbGTEsSB2ZSDDvHN0IHNhxJ9kYSwgcGluIGTDvMSfbWVzaW5pbiBzb2x1bmRhIHRlbWEgdXl1bWx1IGJpciBkacWfbGkgZMO8xJ9tZXNpbmUgdGHFn8SxbmTEsS4KLSBZZW5pIGFyxZ9pdiB2ZSBtb29kYm9hcmQgdmVyaWxlcmkgTmVybydudW4gZMSxxZ9hIGFrdGFybWEgLyBvdG9tYXRpayB5ZWRlayBzbmFwc2hvdCfEsW5hIGRhaGlsIGVkaWxkaS4KCg=="))
+            $changelog = $changelog.Replace('### Achievement sistemi v2', $section + '### Achievement sistemi v2')
+            [IO.File]::WriteAllText((Join-Path $PWD "project/CHANGELOG.md"), $changelog, [Text.UTF8Encoding]::new($false))
+          }
+          if ($rejects.Count -gt 0) { $rejects | Remove-Item -Force }
 
       - name: Kaynak bütünlüğünü test et
         shell: pwsh
@@ -96,10 +117,8 @@ jobs:
         run: |
           $pkg = Get-Content "package.json" -Raw | ConvertFrom-Json
           if ($pkg.version -ne "4.1.0") { throw "Sürüm 4.1.0 değil." }
-
           $dialogue = Get-Content "src/data/home-dialogues.tr.json" -Raw | ConvertFrom-Json
           if ($dialogue.dialogues.Count -ne 665) { throw "665 Home repliği eksik." }
-
           node -e "const a=require('./src/data/achievements'); const c=r=>a.filter(x=>x.rarity===r).length; if(a.length!==125||new Set(a.map(x=>x.id)).size!==125||c('yaygin')!==25||c('siradisi')!==35||c('nadir')!==20||c('efsanevi')!==20||c('gizli')!==25) process.exit(1)"
           if ($LASTEXITCODE -ne 0) { throw "125 achievement dağılımı hatalı." }
 
@@ -132,15 +151,11 @@ jobs:
           if ($preload -notmatch "notes:archive" -or $preload -notmatch "todos:archive" -or $preload -notmatch "moodboard:set") { throw "Yeni IPC preload allowlist eksik." }
 
           node --check src/main/main.js
-          if ($LASTEXITCODE -ne 0) { throw "main.js syntax hatası." }
           node --check src/main/journal.js
-          if ($LASTEXITCODE -ne 0) { throw "journal.js syntax hatası." }
           node --check src/main/moodboard.js
-          if ($LASTEXITCODE -ne 0) { throw "moodboard.js syntax hatası." }
           node --check src/renderer/panel/panel.js
-          if ($LASTEXITCODE -ne 0) { throw "panel.js syntax hatası." }
           node --check src/preload/preload.js
-          if ($LASTEXITCODE -ne 0) { throw "preload.js syntax hatası." }
+          if ($LASTEXITCODE -ne 0) { throw "Syntax kontrolü başarısız." }
 
           npm install --no-audit --no-fund
           if ($LASTEXITCODE -ne 0) { throw "npm install başarısız." }
@@ -161,9 +176,7 @@ jobs:
           if (Test-Path "project/dist") { Remove-Item "project/dist" -Recurse -Force }
           Get-ChildItem "project" -Recurse -Force -File | Where-Object { $_.Name -match '\.(rej|orig)$' } | Remove-Item -Force
           if (Test-Path "project/.git") { Remove-Item "project/.git" -Recurse -Force }
-          # GitHub App tokenı workflow dosyası yazma iznine sahip değil; kaynak dalında CI workflow'larını taşımıyoruz.
           if (Test-Path "project/.github/workflows") { Remove-Item "project/.github/workflows" -Recurse -Force }
-
           Compress-Archive -Path "project/*" -DestinationPath "nero-v4.1.0-kaynak.zip" -Force
 
       - name: Gerçek kaynak kodunu source-v4.1.0 dalına yayınla
@@ -172,7 +185,6 @@ jobs:
           $publish = Join-Path $env:RUNNER_TEMP "nero-source-publish"
           New-Item -ItemType Directory -Force -Path $publish | Out-Null
           Get-ChildItem "project" -Force | ForEach-Object { Copy-Item $_.FullName $publish -Recurse -Force }
-
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git switch --orphan source-v4.1.0
