@@ -239,6 +239,39 @@
   $('minimize').addEventListener('click', () => api.invoke('panel:minimize'));
   $('pin').addEventListener('click', () => set('panelPinned', !(state && state.settings.panelPinned)));
 
+  // Panel sürükleme: Windows native app-region yerine açık pointer gesture.
+  // Kayıp pointerup olsa bile bir sonraki gesture eski state'i önce temizler.
+  const panelDragZone = document.querySelector('.panel-drag-zone');
+  let panelDragActive = false;
+
+  function endPanelDrag(pointerId = null) {
+    if (!panelDragActive) return;
+    panelDragActive = false;
+    panelDragZone.classList.remove('dragging');
+    if (pointerId != null) {
+      try { panelDragZone.releasePointerCapture(pointerId); } catch (_) { /* yoksay */ }
+    }
+    api.send('panel:dragEnd');
+  }
+
+  panelDragZone.addEventListener('pointerdown', (e) => {
+    if (e.button !== 0 || state?.settings?.lockPosition) return;
+    if (panelDragActive) endPanelDrag(e.pointerId);
+    panelDragActive = true;
+    panelDragZone.classList.add('dragging');
+    try { panelDragZone.setPointerCapture(e.pointerId); } catch (_) { /* yoksay */ }
+    api.send('panel:dragStart');
+  });
+  panelDragZone.addEventListener('pointermove', (e) => {
+    if (panelDragActive && (e.buttons & 1) === 0) endPanelDrag(e.pointerId);
+  });
+  panelDragZone.addEventListener('pointerup', (e) => {
+    if (e.button === 0) endPanelDrag(e.pointerId);
+  });
+  panelDragZone.addEventListener('pointercancel', (e) => endPanelDrag(e.pointerId));
+  panelDragZone.addEventListener('lostpointercapture', () => endPanelDrag());
+  window.addEventListener('blur', () => endPanelDrag());
+
   // Köşe tutamaçlarından boyutlandırma
   for (const grip of document.querySelectorAll('.grip')) {
     grip.addEventListener('pointerdown', (e) => {
