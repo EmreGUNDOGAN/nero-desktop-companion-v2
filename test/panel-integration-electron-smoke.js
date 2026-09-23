@@ -99,16 +99,26 @@ app.whenReady().then(async () => {
 
       const todos = await win.webContents.executeJavaScript(`
         (() => {
-          const ids = ['todo-input','todo-duration','todo-time'];
-          const rects = ids.map((id) => {
-            const r = document.getElementById(id).getBoundingClientRect();
+          const targets = [
+            ['todo-input', document.getElementById('todo-input')],
+            ['todo-duration-control', document.querySelector('.todo-duration')],
+            ['todo-time-control', document.querySelector('.todo-time')]
+          ];
+          const rects = targets.map(([id, el]) => {
+            const r = el.getBoundingClientRect();
             return { id, left:r.left, right:r.right, top:r.top, bottom:r.bottom, width:r.width, height:r.height };
           });
+          const durationInput = document.getElementById('todo-duration').getBoundingClientRect();
+          const timeInput = document.getElementById('todo-time').getBoundingClientRect();
           const add = document.querySelector('#todo-form .add').getBoundingClientRect();
           const composer = document.getElementById('todo-form').getBoundingClientRect();
           const stamp = [...document.querySelectorAll('.todo-meta')].map((el) => el.textContent.trim()).join(' | ');
           return {
             rects,
+            innerInputs:{
+              duration:{width:durationInput.width,height:durationInput.height},
+              time:{width:timeInput.width,height:timeInput.height}
+            },
             add:{left:add.left,right:add.right,top:add.top,bottom:add.bottom,width:add.width,height:add.height},
             composer:{left:composer.left,right:composer.right,width:composer.width},
             stamp,
@@ -118,7 +128,9 @@ app.whenReady().then(async () => {
         })()
       `);
 
-      ensure(todos.rects.every((r) => r.width > 40 && r.height > 20), `${skin}: todo timing alanlarından biri görünmüyor.`);
+      ensure(todos.rects.every((r) => r.width > 70 && r.height >= 40), `${skin}: todo süre/hatırlatma kontrol yüzeylerinden biri görünmüyor: ${JSON.stringify(todos.rects)}`);
+      ensure(todos.innerInputs.duration.width > 20 && todos.innerInputs.duration.height > 8, `${skin}: süre inputu kullanılamaz boyutta.`);
+      ensure(todos.innerInputs.time.width > 35 && todos.innerInputs.time.height > 8, `${skin}: hatırlatma inputu kullanılamaz boyutta.`);
       ensure(todos.add.width > 20 && todos.add.height > 20, `${skin}: Ekle butonu görünmüyor.`);
       ensure(todos.stamp.includes('Plan: 1 sa 5 dk'), `${skin}: planlanan süre damgası eksik: ${todos.stamp}`);
       ensure(todos.stamp.includes('Gerçek: 1 sa 2 dk'), `${skin}: gerçek süre damgası eksik: ${todos.stamp}`);
