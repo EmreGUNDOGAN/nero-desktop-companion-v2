@@ -98,6 +98,60 @@
 - Gerçek Electron moodboard PNG smoke testi başarılı: **55.847 byte PNG**.
 - EXE üretilmedi.
 
+## Aşama 3 — Ana sayfa yardım sistemi + güvenli “Şimdiye kadar” sıfırlama + konuşma ikon hizası
+
+### Yeni
+- Ana sayfadaki işlevsel ana başlıklara küçük, tema uyumlu **? yardım ikonları** eklendi.
+- Yardım ikonları şu bölümlerde bulunuyor:
+  - Bu hafta odak
+  - Şimdiye kadar
+  - Masa köşen
+  - Haftalık mektup
+  - Moodboard
+  - Kavanoz
+  - Bu ay yaptıkların
+- Yardım metinleri hover, klavye focus ve tıklama/tap ile açılabiliyor.
+- ESC veya dışarı tıklama ile açık yardım metinleri kapanıyor.
+- Karşılama başlığına ve Nero’nun konuşma kartına gereksiz yardım ikonu eklenmedi.
+
+### “Şimdiye kadar” güvenli sıfırlama
+- “Şimdiye kadar” kartına küçük reset ikonu eklendi.
+- Reset tek tıklamayla gerçekleşmiyor; Nero’nun dilinde özel onay penceresi açılıyor:
+  - “Yeni bir sayfa mı açıyoruz?”
+  - “Sıfırdan say”
+  - “Vazgeç”
+- Reset işlemi gerçek geçmiş veriyi **silmez**.
+- Lifetime istatistikler, achievement progress, desk unlock verileri ve geçmiş kayıtlar korunur.
+- Yeni bir `displayBaseline` snapshot’ı oluşturulur ve yalnız “Şimdiye kadar” kartının görünen değerleri bu noktadan itibaren yeniden sayılır.
+- Resetlenen görünür değerler:
+  - Biten iş
+  - Toplam odak
+  - Tamamlanan sayaç
+  - Yarıda bırakılan
+  - Alınan not
+  - En uzun seri
+  - Nero’yu sevdin
+- Lifetime achievement kontrolleri eski toplamları kullanmaya devam eder.
+- Reset sonrası “En uzun seri” ayrı bir post-reset seri olarak takip edilir; lifetime `bestStreak` bozulmaz.
+
+### Nero konuşma kartı
+- Genel konuşma kartı iç hizası dikey merkeze alındı.
+- Kar / Yağmur temalarındaki kar tanesi ve şemsiye ikonları metin bloğuna göre dikey ortalanacak şekilde düzeltildi.
+- Çilek / Mum / Ege temalarındaki konuşma ikonlarının background-position değeri de dikey merkeze alındı.
+- Kasaba temasının gazete tipi özel yerleşimi korunarak generic merkezleme davranışından ayrıldı.
+
+### Tema uyumu
+- Yardım ikonları, tooltip’ler, reset ikonu ve onay modalı Latte, Pazartesi, Gece, Disket, Kasaba, Yağmur, Kar, Çilek, Mum ve Ege temalarına ayrı görsel kurallarla uyarlandı.
+- Disket temasında kare/pixel yaklaşımı, Kasaba’da gazete/kağıt yaklaşımı, resimli temalarda glass/çerçeve dili korunuyor.
+
+### Test
+- Güvenli baseline resetin lifetime veriyi silmediği test edildi.
+- Reset sonrası görünür sayaçların bağımsız arttığı test edildi.
+- Reset sonrası en uzun serinin lifetime bestStreak’ten bağımsız izlendiği doğrulandı.
+- Yardım ikonlarının sayısı, reset modalı, renderer/IPC entegrasyonu ve konuşma ikon hizası test edildi.
+- Tüm regresyonlarla birlikte **36/36 test başarılı, 0 hata**.
+- EXE üretilmedi.
+
 ## Checkpoint politikası
 Her tamamlanan geliştirme bloğundan sonra:
 1. Unit/regression testleri çalıştırılır.
