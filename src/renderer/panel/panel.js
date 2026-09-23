@@ -1182,7 +1182,7 @@
         if (day.value) dot.classList.add(`mood-${day.value}`);
         else dot.classList.add('empty');
         if (day.future) dot.classList.add('future');
-        const moodName = day.value === 'green' ? 'iyi' : day.value === 'yellow' ? 'orta' : day.value === 'red' ? 'zor' : 'seçilmedi';
+        const moodName = day.value === 'green' ? 'muhteşem' : day.value === 'yellow' ? 'idare eder' : day.value === 'red' ? 'kötü' : 'seçilmedi';
         const stateLabel = day.future ? 'gelecek gün' : moodName;
         dot.title = `${moodDateLabel(day.date)}: ${stateLabel}`;
         dot.setAttribute('aria-label', `${moodDateLabel(day.date)} ruh hali: ${stateLabel}`);
@@ -1192,7 +1192,7 @@
           const picker = document.createElement('div');
           picker.className = 'mood-picker';
           picker.hidden = true;
-          for (const [value, label] of [['green', 'İyi'], ['yellow', 'Orta'], ['red', 'Zor']]) {
+          for (const [value, label] of [['green', 'Muhteşem'], ['yellow', 'İdare eder'], ['red', 'Kötü']]) {
             const choice = document.createElement('button');
             choice.type = 'button';
             choice.className = `mood-choice mood-${value}`;
