@@ -991,7 +991,7 @@ main { overflow: hidden; position: relative; flex: 1 1 auto; min-height: 0; }
   align-items: start;
   justify-content: stretch;
   column-gap: 6px;
-  row-gap: 10px;
+  row-gap: 6px;
   height: auto;
   min-height: 0;
   overflow: visible;
@@ -1115,7 +1115,7 @@ button.archive-entry-main { cursor: pointer; }
     grid-template-columns: repeat(7, minmax(0, 1fr));
     grid-auto-rows: 32px;
     column-gap: 4px;
-    row-gap: 8px;
+    row-gap: 5px;
     height: auto;
     min-height: 0;
     align-content: start;
