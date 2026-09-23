@@ -121,11 +121,19 @@ jobs:
           & "C:\Program Files\Git\bin\bash.exe" -lc "gzip -dc moodboard-png-fix.patch.gz > moodboard-png-fix.patch"
           if ($LASTEXITCODE -ne 0) { throw "Moodboard PNG fix açılamadı." }
 
-          # Fonksiyonel kaynak hunks uygulanır. Eski birleşik test dosyasındaki tek hunk,
-          # yeniden kurulan test dosyasıyla bağlam farkı yaşayabildiği için ayrı regression testi oluşturulur.
           & "C:\Program Files\Git\bin\bash.exe" -lc "cd project && patch -p1 --batch --forward < ../moodboard-png-fix.patch || true"
           $rejects = @(Get-ChildItem "project" -Recurse -File -Filter "*.rej")
-          $unexpected = @($rejects | Where-Object { $_.FullName -notmatch 'test[\\/]archive-moodboard-settings\.test\.js\.rej
+          $unexpected = @($rejects | Where-Object { $_.FullName -notmatch "test[\\/]archive-moodboard-settings\.test\.js\.rej$" })
+          if ($unexpected.Count -gt 0) { throw "Moodboard PNG fix içinde beklenmeyen reject var: $($unexpected.FullName -join ', ')" }
+
+          foreach ($path in @("project/src/main/main.js", "project/src/main/moodboard-image.js", "project/test/moodboard-electron-smoke.js")) {
+            if (-not (Test-Path $path)) { throw "Moodboard PNG fix kaynak dosyası eksik: $path" }
+          }
+
+          $regressionB64 = "Y29uc3QgdGVzdCA9IHJlcXVpcmUoJ25vZGU6dGVzdCcpOwpjb25zdCBhc3NlcnQgPSByZXF1aXJlKCdub2RlOmFzc2VydC9zdHJpY3QnKTsKY29uc3QgZnMgPSByZXF1aXJlKCdub2RlOmZzJyk7CmNvbnN0IHBhdGggPSByZXF1aXJlKCdub2RlOnBhdGgnKTsKCnRlc3QoJ2F5bMSxayBQTkcgZXhwb3J0IENocm9taXVtIGNhcHR1cmVQYWdlIHlhcmTEsW1jxLEgbW9kw7xsw7xuw7wga3VsbGFuxLFyJywgKCkgPT4gewogIGNvbnN0IG1haW4gPSBmcy5yZWFkRmlsZVN5bmMocGF0aC5qb2luKF9fZGlybmFtZSwgJy4uL3NyYy9tYWluL21haW4uanMnKSwgJ3V0ZjgnKTsKICBjb25zdCBpbWFnZSA9IGZzLnJlYWRGaWxlU3luYyhwYXRoLmpvaW4oX19kaXJuYW1lLCAnLi4vc3JjL21haW4vbW9vZGJvYXJkLWltYWdlLmpzJyksICd1dGY4Jyk7CiAgYXNzZXJ0Lm1hdGNoKG1haW4sIC9yZXF1aXJlXCgnXC5cL21vb2Rib2FyZC1pbWFnZSdcKS8pOwogIGFzc2VydC5tYXRjaChtYWluLCAvYXdhaXQgc3ZnVG9QbmdcKC8pOwogIGFzc2VydC5kb2VzTm90TWF0Y2gobWFpbiwgL25hdGl2ZUltYWdlXC5jcmVhdGVGcm9tRGF0YVVSTFwoYGRhdGE6aW1hZ2VcL3N2Z1wreG1sLyk7CiAgYXNzZXJ0Lm1hdGNoKGltYWdlLCAvbmV3IEJyb3dzZXJXaW5kb3dcKC8pOwogIGFzc2VydC5tYXRjaChpbWFnZSwgL2NhcHR1cmVQYWdlXCgvKTsKICBhc3NlcnQubWF0Y2goaW1hZ2UsIC90b1BOR1woXCkvKTsKfSk7Cg=="
+          [IO.File]::WriteAllBytes((Join-Path $PWD "project/test/moodboard-png-export.test.js"), [Convert]::FromBase64String($regressionB64))
+          if ($rejects.Count -gt 0) { $rejects | Remove-Item -Force }
+
       - name: Kaynak bütünlüğünü test et
         shell: pwsh
         working-directory: project
