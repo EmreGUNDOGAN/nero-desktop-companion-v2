@@ -109,6 +109,7 @@ let settingsStore, notesStore, todosStore, moodStore, statsStore, moodLogStore, 
 let themes, dialogue, mood, timer, stats, journal, homeDialogue;
 let homeCache = null;
 let resize = null;
+let panelDrag = null;
 let petTimes = [];
 let dizzyUntil = 0;
 let lastDesktopJokeAt = 0;
@@ -555,6 +556,7 @@ function applyQuickShortcut() {
 }
 
 function hidePanel() {
+  if (panelDrag) stopPanelDrag();
   if (panelWin) panelWin.hide();
   settingsStore.patch({ panelOpen: false });
 }
@@ -1061,7 +1063,9 @@ function broadcastState() {
 // Sürükleme
 // ---------------------------------------------------------------------------
 function startDrag() {
-  if (!charWin || drag || peek) return;
+  if (!charWin || peek || settings().lockPosition) return;
+  if (drag) stopDrag();
+  if (panelDrag) stopPanelDrag();
   markUserInteraction();
   stats.recordInteraction('drag', { stage: mood.stage });
   if (mood.state.napping) wakeNap('drag');
@@ -1292,6 +1296,13 @@ function setSetting(key, value) {
       break;
     case 'panelPinned':
       settingsStore.patch({ panelPinned: !!value });
+      break;
+    case 'lockPosition':
+      settingsStore.patch({ lockPosition: !!value });
+      if (value) {
+        if (drag) stopDrag();
+        if (panelDrag) stopPanelDrag();
+      }
       break;
     case 'userName':
       settingsStore.patch({ userName: String(value || '').trim().slice(0, 30) });
@@ -1666,9 +1677,15 @@ function registerIpc() {
     return homeDialogue.debugSelect(String(id || ''), ctx);
   });
   ipcMain.handle('home:debugContext', () => homeDialogue.debug ? homeDialogueContext() : null);
+  // Panel sürükleme: renderer yalnız gesture başlangıç/bitişini bildirir;
+  // gerçek konum cursor screen point üzerinden ana süreçte takip edilir.
+  ipcMain.on('panel:dragStart', () => startPanelDrag());
+  ipcMain.on('panel:dragEnd', () => stopPanelDrag());
+
   // Panel boyutlandırma: köşedeki tutamaçtan sürüklenir.
   ipcMain.on('panel:resizeStart', (_e, side) => {
     if (!panelWin || resize) return;
+    if (panelDrag) stopPanelDrag();
     const b = panelWin.getBounds();
     const c = screen.getCursorScreenPoint();
     resize = {
@@ -1777,6 +1794,63 @@ function registerIpc() {
       if (opened && chance(0.45)) say(chance(0.5) ? 'click' : 'panel_open');
     });
   });
+}
+
+function startPanelDrag() {
+  if (!panelWin || settings().lockPosition) return;
+  if (panelDrag) stopPanelDrag();
+  if (drag) stopDrag();
+  if (resize) stopResize();
+
+  const cursor = screen.getCursorScreenPoint();
+  const panelStart = panelWin.getBounds();
+  const charStart = charWin ? charWin.getBounds() : null;
+
+  panelDrag = {
+    cursor,
+    panelStart,
+    charStart,
+    interval: setInterval(() => {
+      if (!panelWin || !panelDrag) return stopPanelDrag();
+      const p = screen.getCursorScreenPoint();
+      const dx = p.x - panelDrag.cursor.x;
+      const dy = p.y - panelDrag.cursor.y;
+
+      const nextPanel = {
+        x: Math.round(panelDrag.panelStart.x + dx),
+        y: Math.round(panelDrag.panelStart.y + dy),
+        width: panelDrag.panelStart.width,
+        height: panelDrag.panelStart.height
+      };
+
+      syncingMove = true;
+      panelWin.setBounds(nextPanel);
+      syncingMove = false;
+
+      if (charWin && panelDrag.charStart) {
+        charWin.setBounds({
+          x: Math.round(panelDrag.charStart.x + dx),
+          y: Math.round(panelDrag.charStart.y + dy),
+          width: panelDrag.charStart.width,
+          height: panelDrag.charStart.height
+        });
+      }
+    }, 16),
+    safety: setTimeout(() => stopPanelDrag(), 30000)
+  };
+}
+
+function stopPanelDrag() {
+  if (!panelDrag) return;
+  clearInterval(panelDrag.interval);
+  clearTimeout(panelDrag.safety);
+  panelDrag = null;
+
+  if (charWin) {
+    const b = charWin.getBounds();
+    settingsStore.patch({ position: { x: b.x, y: b.y } });
+  }
+  captureLink();
 }
 
 function stopResize() {
