@@ -87,6 +87,7 @@ const DEFAULTS = {
   achievements: {},
   desk: {},
   doneStreak: 0,
+  displayBaseline: null,
   metrics: DEFAULT_METRICS,
   sets: DEFAULT_SETS
 };
@@ -170,6 +171,20 @@ class Stats {
       d.daysActive += 1;
       d.lastActiveDay = today;
     }
+
+    // "Şimdiye kadar" kartı sıfırlandıysa lifetime seriyi bozmadan
+    // yalnız reset sonrasındaki yeni aktif günlerin serisini ayrıca tut.
+    const baseline = d.displayBaseline;
+    if (baseline && Number(date) >= Number(baseline.at || 0)) {
+      if (!baseline.streak) baseline.streak = { lastActiveDay: null, current: 0, best: 0 };
+      if (baseline.streak.lastActiveDay !== today) {
+        const gap = baseline.streak.lastActiveDay ? daysBetween(baseline.streak.lastActiveDay, today) : null;
+        baseline.streak.current = gap === 1 ? baseline.streak.current + 1 : 1;
+        baseline.streak.best = Math.max(baseline.streak.best || 0, baseline.streak.current);
+        baseline.streak.lastActiveDay = today;
+      }
+    }
+
     const h = this._historyDay(today);
     h.active = true;
     d.sets.activeDays = addUnique(d.sets.activeDays, today);
@@ -466,6 +481,39 @@ class Stats {
 
   _save() { this.store.set(this.data); }
 
+  resetDisplayBaseline(now = Date.now()) {
+    const at = Number(now) || Date.now();
+    this.data.displayBaseline = {
+      at,
+      totals: { ...this.data.totals },
+      streak: { lastActiveDay: null, current: 0, best: 0 }
+    };
+    this._save();
+    return this.summary();
+  }
+
+  _displayStats() {
+    const d = this.data;
+    const baseline = d.displayBaseline;
+    if (!baseline || !baseline.totals) {
+      return {
+        baselineAt: null,
+        totals: { ...d.totals },
+        bestStreak: d.bestStreak || 0
+      };
+    }
+    const base = baseline.totals || {};
+    const diff = {};
+    for (const key of ['todos','todoCreated','focusMin','timersDone','timersQuit','notes','pets']) {
+      diff[key] = Math.max(0, (Number(d.totals[key]) || 0) - (Number(base[key]) || 0));
+    }
+    return {
+      baselineAt: baseline.at || null,
+      totals: diff,
+      bestStreak: Math.max(0, Number(baseline.streak?.best) || 0)
+    };
+  }
+
   summary() {
     const d = this.data;
     const rawToday = this.data.days[dayKey()] || {};
@@ -489,8 +537,9 @@ class Stats {
       safeActiveRun += 1;
     }
     const normalUnlockedCount = ACHIEVEMENTS.filter((a) => !a.hidden && a.id !== 'tum_normal' && d.achievements[a.id]).length;
+    const display = this._displayStats();
     return {
-      today, week, totals: d.totals,
+      today, week, totals: d.totals, display,
       streak: d.streak, bestStreak: d.bestStreak,
       daysActive: d.daysActive,
       activeDaysCount: Math.max(d.daysActive || 0, d.sets.activeDays.length),
