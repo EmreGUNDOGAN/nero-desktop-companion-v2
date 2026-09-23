@@ -22,7 +22,7 @@ const { Timer } = require('./timer');
 const { Stats, dayKey } = require('./stats');
 const { HomeDialogueEngine } = require('./home-dialogue');
 const { Journal, isoWeekKey } = require('./journal');
-const { monthKey: moodMonthKey, monthLabelTr, userMonth, setUserMood, closedDataMonths, renderMoodboardSvg } = require('./moodboard');
+const { monthKey: moodMonthKey, monthLabelTr, userMonth, setUserMood, dataMonths, closedDataMonths, renderMoodboardSvg } = require('./moodboard');
 const { svgToPng } = require('./moodboard-image');
 const {
   finiteMin: todoFiniteMin,
@@ -679,12 +679,24 @@ function tickHomeDialogue() {
 // ---------------------------------------------------------------------------
 // Aylık moodboard: kullanıcı seçimi + Nero'nun otomatik mood günlüğü
 // ---------------------------------------------------------------------------
-function moodboardState(now = new Date()) {
-  const key = moodMonthKey(now);
+function moodboardState(key = moodMonthKey(), now = new Date()) {
+  const currentKey = moodMonthKey(now);
+  const safeKey = /^\d{4}-(0[1-9]|1[0-2])$/.test(String(key || '')) ? String(key) : currentKey;
   const today = dayKey(now);
-  const user = userMoodStore ? userMonth(userMoodStore.get(), key, now) : [];
-  const nero = journal ? journal.month(key).map((d) => ({ ...d, future: d.date > today })) : [];
-  return { key, label: monthLabelTr(key), user, nero };
+  const userData = userMoodStore ? userMoodStore.get() : { days: {} };
+  const neroData = moodLogStore ? moodLogStore.get() : { days: {} };
+  const availableMonths = dataMonths(userData, neroData, currentKey);
+  const user = userMoodStore ? userMonth(userData, safeKey, now) : [];
+  const nero = journal ? journal.month(safeKey).map((d) => ({ ...d, future: d.date > today })) : [];
+  return {
+    key: safeKey,
+    label: monthLabelTr(safeKey),
+    user,
+    nero,
+    editable: safeKey === currentKey,
+    currentKey,
+    availableMonths: availableMonths.map((month) => ({ key: month, label: monthLabelTr(month) }))
+  };
 }
 
 function moodboardFolder() {
@@ -1031,7 +1043,7 @@ function fullState() {
     achievements: stats.achievementList(),
     desk: stats.deskList(),
     jarCount: journal.jarCount(),
-    moodboard: moodboardState(),
+    moodboard: moodboardState(moodMonthKey()),
     update: updateState,
     backupDir,
     home: homeCache,
@@ -1561,6 +1573,13 @@ function registerIpc() {
   ipcMain.handle('timer:cancel', () => { timer.cancel(); return timer.snapshot(); });
 
   // Kullanıcı moodboard'u
+  ipcMain.handle('moodboard:get', (_e, key) => {
+    const currentKey = moodMonthKey();
+    const months = dataMonths(userMoodStore?.get(), moodLogStore?.get(), currentKey);
+    const requested = String(key || '');
+    if (requested !== currentKey && !months.includes(requested)) return null;
+    return moodboardState(requested);
+  });
   ipcMain.handle('moodboard:set', (_e, date, value) => {
     if (!userMoodStore) return false;
     const today = dayKey();
