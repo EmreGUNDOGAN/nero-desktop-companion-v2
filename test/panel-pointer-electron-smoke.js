@@ -68,6 +68,38 @@ app.whenReady().then(async () => {
     ensure(result.ends === 5, `panel dragEnd 5 değil: ${JSON.stringify(result)}`);
     ensure(!result.active, 'panel drag state son gesture sonrasında açık kaldı');
 
+    // Taskbar benzeri minimize -> restore sonrasında pointer gesture tekrar çalışmalı.
+    win.minimize();
+    await wait(160);
+    win.restore();
+    win.show();
+    win.focus();
+    await wait(220);
+
+    for (let i = 0; i < 3; i++) {
+      win.webContents.sendInputEvent({ type:'mouseMove', x:point.x, y:point.y });
+      win.webContents.sendInputEvent({ type:'mouseDown', x:point.x, y:point.y, button:'left', clickCount:1 });
+      await wait(25);
+      win.webContents.sendInputEvent({ type:'mouseMove', x:point.x + 10, y:point.y + 2, button:'left' });
+      await wait(25);
+      win.webContents.sendInputEvent({ type:'mouseUp', x:point.x + 10, y:point.y + 2, button:'left', clickCount:1 });
+      await wait(45);
+    }
+
+    const restored = await win.webContents.executeJavaScript(`
+      (() => {
+        const calls = window.nero.__getCalls();
+        return {
+          starts:calls.filter(x => x.channel === 'panel:dragStart').length,
+          ends:calls.filter(x => x.channel === 'panel:dragEnd').length,
+          active:document.querySelector('.panel-drag-zone').classList.contains('dragging')
+        };
+      })()
+    `);
+    ensure(restored.starts === 8, `restore sonrası panel dragStart toplamı 8 değil: ${JSON.stringify(restored)}`);
+    ensure(restored.ends === 8, `restore sonrası panel dragEnd toplamı 8 değil: ${JSON.stringify(restored)}`);
+    ensure(!restored.active, 'restore sonrası panel drag state açık kaldı');
+
     console.log('panel-pointer-electron-smoke: ok');
   } catch (err) {
     console.error(err);
