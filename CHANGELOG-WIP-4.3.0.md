@@ -152,6 +152,47 @@
 - Tüm regresyonlarla birlikte **36/36 test başarılı, 0 hata**.
 - EXE üretilmedi.
 
+## Aşama 4 — Final entegrasyon / regresyon turu
+
+### Kapsam
+- 4.3.0’daki bütün checkpointler tek kaynak dalında birlikte doğrulandı.
+- Eski 4.2.x kullanıcı verisinin 4.3.0 veri modelinde kayıpsız açılması için ek migration/regression testleri eklendi.
+- Görev süreleri, moodboard geçmişi, güvenli stats reseti, yardım ikonları ve header kontrolleri aynı final durumda test edildi.
+- Paketleme öncesi eski NSIS setup konfigürasyonu ve gerekli installer assetleri statik olarak doğrulandı.
+- Bu aşamada **setup / EXE üretilmedi**.
+
+### Eski veri uyumluluğu
+- 4.2.x stats verisi `displayBaseline` alanı olmadan açıldığında lifetime toplamlar aynen korunuyor.
+- Eski todo objeleri timing alanları olmadan açıldığında `plannedDurationMin`, `actualDurationMs`, `stopwatchStartedAt` ve `focusCreditedMin` güvenli varsayılanlarla normalize ediliyor.
+- Eski kullanıcı moodboard günleri herhangi bir veri dönüşümü gerektirmeden dinamik 28/29/30/31 günlük takvim modelinde okunuyor.
+
+### Gerçek Electron regresyonları
+- Header Ayarlar / Sabitle / Küçült / Kapat native hit-test smoke testi başarılı.
+- Moodboard Chromium capturePage → PNG smoke testi başarılı (**55.847 byte**).
+- Yeni cross-theme panel entegrasyon smoke testi Latte, Pazartesi, Gece, Disket, Kasaba, Yağmur, Kar, Çilek, Mum ve Ege üzerinde başarılı.
+- Cross-theme testinde:
+  - iş süre / hatırlatma kontrol yüzeyleri,
+  - Plan / Gerçek süre damgaları,
+  - görev kronometre kontrolleri,
+  - yatay overflow,
+  - yardım tooltip görünürlüğü,
+  - güvenli reset modalı ve IPC çağrısı,
+  - moodboard geçmiş seçici,
+  - Ağustos 31 günlük geçmiş board,
+  - geçmiş board salt-okunur davranışı,
+  - Nero konuşma ikonlarının dikey hizası
+  birlikte doğrulandı.
+- Renderer console error bulunmadı.
+
+### Test sonucu
+- **39/39 Node regression testi başarılı, 0 hata.**
+- Header gerçek Electron smoke: başarılı.
+- Moodboard PNG gerçek Electron smoke: başarılı.
+- Cross-theme panel gerçek Electron smoke: başarılı.
+- Release/NSIS statik doğrulama: başarılı.
+- İlk cross-theme smoke koşusunda test, içteki `input` satır yüksekliğini tüm kontrol yüzeyi sanarak yanlış bir negatif verdi; assertion gerçek tıklanabilir kontrol yüzeyini ölçecek şekilde düzeltildi. Ürün kodunda buna bağlı bir hata yoktu.
+- Final tekrar koşusu tamamen temiz geçti.
+
 ## Checkpoint politikası
 Her tamamlanan geliştirme bloğundan sonra:
 1. Unit/regression testleri çalıştırılır.
