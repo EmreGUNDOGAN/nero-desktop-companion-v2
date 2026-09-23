@@ -92,6 +92,21 @@ jobs:
           New-Item -ItemType Directory -Force -Path "project/test" | Out-Null
           Copy-Item "build-input/home-dialogue.test.js" "project/test/home-dialogue.test.js" -Force
 
+      - name: Achievement v2 (125 rozet) patchini uygula
+        shell: pwsh
+        run: |
+          $b64 = Get-Content "build-input/achievements-4.1.0-runtime.patch.gz.b64" -Raw
+          [IO.File]::WriteAllBytes((Join-Path $PWD "ach.patch.gz"), [Convert]::FromBase64String($b64))
+          & "C:\Program Files\Git\bin\bash.exe" -lc "gzip -dc ach.patch.gz > ach.raw.patch"
+          if ($LASTEXITCODE -ne 0) { throw "Achievement patch arşivi açılamadı." }
+
+          $raw = Get-Content "ach.raw.patch" -Raw
+          $raw = $raw.Replace("nero410_base_for_ach/nero/","a/").Replace("nero411_work/nero/","b/")
+          [IO.File]::WriteAllText((Join-Path $PWD "ach-normalized.patch"), $raw, [Text.UTF8Encoding]::new($false))
+
+          & "C:\Program Files\Git\bin\bash.exe" -lc "cd project && patch -p1 --batch --forward < ../ach-normalized.patch"
+          if ($LASTEXITCODE -ne 0) { throw "125 achievement patch'i uygulanamadı." }
+
       - name: Setup ve tema uyumluluğunu doğrula
         shell: pwsh
         run: |
@@ -138,6 +153,14 @@ jobs:
 
           $dialogue = Get-Content "src/data/home-dialogues.tr.json" -Raw | ConvertFrom-Json
           if ($dialogue.dialogues.Count -ne 665) { throw "665 repliğin tamamı uygulanmamış." }
+
+          node -e "const a=require('./src/data/achievements'); const c=r=>a.filter(x=>x.rarity===r).length; if(a.length!==125||new Set(a.map(x=>x.id)).size!==125||c('yaygin')!==25||c('siradisi')!==35||c('nadir')!==20||c('efsanevi')!==20||c('gizli')!==25) process.exit(1)"
+          if ($LASTEXITCODE -ne 0) { throw "125 achievement veri dağılımı doğrulanamadı." }
+
+          $panelHtml = Get-Content "src/renderer/panel/index.html" -Raw
+          if ($panelHtml.IndexOf('data-tab="timer"') -gt $panelHtml.IndexOf('data-tab="badges"')) { throw "Sekme sırası Sayaç -> Rozetler değil." }
+          $panelJs = Get-Content "src/renderer/panel/panel.js" -Raw
+          if ($panelJs -notmatch "completedDesc" -or $panelJs -notmatch "badge-tooltip") { throw "Tamamlanan rozet hover açıklaması eksik." }
 
           node --check "src/main/home-dialogue.js"
           if ($LASTEXITCODE -ne 0) { throw "home-dialogue.js syntax hatası." }
@@ -197,6 +220,14 @@ jobs:
           if (-not (Test-Path "verify/project/src/data/home-dialogues.tr.json")) { throw "665 replik dosyası setup payload'unda yok." }
           $dialogue = Get-Content "verify/project/src/data/home-dialogues.tr.json" -Raw | ConvertFrom-Json
           if ($dialogue.dialogues.Count -ne 665) { throw "Setup payload'unda 665 repliğin tamamı yok." }
+
+          Push-Location "verify/project"
+          node -e "const a=require('./src/data/achievements'); if(a.length!==125||new Set(a.map(x=>x.id)).size!==125) process.exit(1)"
+          if ($LASTEXITCODE -ne 0) { Pop-Location; throw "Setup payload'unda 125 achievement yok." }
+          Pop-Location
+          $vpanelHtml = Get-Content "verify/project/src/renderer/panel/index.html" -Raw
+          if ($vpanelHtml.IndexOf('data-tab="timer"') -gt $vpanelHtml.IndexOf('data-tab="badges"')) { throw "Setup payload'unda sekme sırası yanlış." }
+          if ($vpanel -notmatch "completedDesc" -or $vpanel -notmatch "badge-tooltip") { throw "Setup payload'unda achievement tooltip sistemi eksik." }
 
       - name: Installer dosyalarını artifact olarak yükle
         uses: actions/upload-artifact@v4
