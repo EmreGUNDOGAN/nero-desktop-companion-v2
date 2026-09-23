@@ -11,7 +11,7 @@ const INVOKE = new Set([
   'update:check', 'update:install', 'update:onQuit', 'update:dismiss',
   'timer:start', 'timer:pause', 'timer:resume', 'timer:cancel', 'timer:badge',
   'settings:set', 'themes:reload', 'themes:openFolder', 'themes:openGuide',
-  'mood:reset', 'home:seen', 'home:debugSelect', 'home:debugContext', 'day:mode', 'rest:exit', 'rest:start', 'rest:goodnight', 'panel:hide', 'panel:minimize', 'panel:open', 'app:quit'
+  'mood:reset', 'stats:resetDisplay', 'home:seen', 'home:debugSelect', 'home:debugContext', 'day:mode', 'rest:exit', 'rest:start', 'rest:goodnight', 'panel:hide', 'panel:minimize', 'panel:open', 'app:quit'
 ]);
 
 const SEND = new Set([
