@@ -84,71 +84,8 @@ jobs:
 
           # app.asar içindeki package.json üretim için budanmış olabilir; build konfigürasyonunu
           # 4.1.0 final kaynakla birebir ve deterministik olarak yeniden yaz.
-          $pkgJson = @'
-{
-  "name": "nero",
-  "productName": "Nero",
-  "version": "4.1.0",
-  "description": "Nero - huysuz ama seni seven masaüstü arkadaşın",
-  "main": "src/main/main.js",
-  "author": { "name": "Stenwick" },
-  "license": "UNLICENSED",
-  "private": true,
-  "scripts": {
-    "start": "electron .",
-    "dist": "electron-builder --win --x64 --publish never",
-    "dist:dir": "electron-builder --win --x64 --dir --publish never",
-    "test": "node --test test/*.test.js"
-  },
-  "devDependencies": {
-    "electron": "^44.4.3",
-    "electron-builder": "^26.15.3"
-  },
-  "build": {
-    "appId": "com.stenwick.nero",
-    "productName": "Nero",
-    "copyright": "Copyright © 2026 Stenwick",
-    "directories": { "output": "dist", "buildResources": "build" },
-    "files": ["src/**/*", "docs/**/*", "build/icon.png", "package.json"],
-    "extraResources": [{ "from": "themes", "to": "themes" }],
-    "win": {
-      "target": [{ "target": "nsis", "arch": ["x64"] }],
-      "icon": "build/icon.ico",
-      "legalTrademarks": "Stenwick"
-    },
-    "nsis": {
-      "oneClick": false,
-      "perMachine": false,
-      "allowToChangeInstallationDirectory": true,
-      "createDesktopShortcut": true,
-      "createStartMenuShortcut": true,
-      "shortcutName": "Nero",
-      "uninstallDisplayName": "Nero",
-      "installerIcon": "build/icon.ico",
-      "uninstallerIcon": "build/icon.ico",
-      "include": "build/installer.nsh",
-      "warningsAsErrors": false,
-      "runAfterFinish": true,
-      "artifactName": "Nero-Setup-${version}.exe",
-      "installerSidebar": "build/installerSidebar.bmp",
-      "uninstallerSidebar": "build/installerSidebar.bmp",
-      "installerHeader": "build/installerHeader.bmp",
-      "installerLanguages": ["tr_TR"],
-      "language": "1055"
-    },
-    "publish": [{
-      "provider": "github",
-      "owner": "EmreGUNDOGAN",
-      "repo": "nero-desktop-companion-v2",
-      "releaseType": "release"
-    }]
-  },
-  "dependencies": {
-    "electron-updater": "^6.8.9"
-  }
-}
-'@
-          [IO.File]::WriteAllText((Join-Path $PWD "project/package.json"), $pkgJson, [Text.UTF8Encoding]::new($false))
+          $pkgB64 = "ewogICJuYW1lIjogIm5lcm8iLAogICJwcm9kdWN0TmFtZSI6ICJOZXJvIiwKICAidmVyc2lvbiI6ICI0LjEuMCIsCiAgImRlc2NyaXB0aW9uIjogIk5lcm8gLSBodXlzdXogYW1hIHNlbmkgc2V2ZW4gbWFzYcO8c3TDvCBhcmthZGHFn8SxbiIsCiAgIm1haW4iOiAic3JjL21haW4vbWFpbi5qcyIsCiAgImF1dGhvciI6IHsKICAgICJuYW1lIjogIlN0ZW53aWNrIgogIH0sCiAgImxpY2Vuc2UiOiAiVU5MSUNFTlNFRCIsCiAgInByaXZhdGUiOiB0cnVlLAogICJzY3JpcHRzIjogewogICAgInN0YXJ0IjogImVsZWN0cm9uIC4iLAogICAgImRpc3QiOiAiZWxlY3Ryb24tYnVpbGRlciAtLXdpbiAtLXg2NCAtLXB1Ymxpc2ggbmV2ZXIiLAogICAgImRpc3Q6ZGlyIjogImVsZWN0cm9uLWJ1aWxkZXIgLS13aW4gLS14NjQgLS1kaXIgLS1wdWJsaXNoIG5ldmVyIiwKICAgICJ0ZXN0IjogIm5vZGUgLS10ZXN0IHRlc3QvKi50ZXN0LmpzIgogIH0sCiAgImRldkRlcGVuZGVuY2llcyI6IHsKICAgICJlbGVjdHJvbiI6ICJeNDQuNC4zIiwKICAgICJlbGVjdHJvbi1idWlsZGVyIjogIl4yNi4xNS4zIgogIH0sCiAgImJ1aWxkIjogewogICAgImFwcElkIjogImNvbS5zdGVud2ljay5uZXJvIiwKICAgICJwcm9kdWN0TmFtZSI6ICJOZXJvIiwKICAgICJjb3B5cmlnaHQiOiAiQ29weXJpZ2h0IMKpIDIwMjYgU3RlbndpY2siLAogICAgImRpcmVjdG9yaWVzIjogewogICAgICAib3V0cHV0IjogImRpc3QiLAogICAgICAiYnVpbGRSZXNvdXJjZXMiOiAiYnVpbGQiCiAgICB9LAogICAgImZpbGVzIjogWwogICAgICAic3JjLyoqLyoiLAogICAgICAiZG9jcy8qKi8qIiwKICAgICAgImJ1aWxkL2ljb24ucG5nIiwKICAgICAgInBhY2thZ2UuanNvbiIKICAgIF0sCiAgICAiZXh0cmFSZXNvdXJjZXMiOiBbCiAgICAgIHsKICAgICAgICAiZnJvbSI6ICJ0aGVtZXMiLAogICAgICAgICJ0byI6ICJ0aGVtZXMiCiAgICAgIH0KICAgIF0sCiAgICAid2luIjogewogICAgICAidGFyZ2V0IjogWwogICAgICAgIHsKICAgICAgICAgICJ0YXJnZXQiOiAibnNpcyIsCiAgICAgICAgICAiYXJjaCI6IFsKICAgICAgICAgICAgIng2NCIKICAgICAgICAgIF0KICAgICAgICB9CiAgICAgIF0sCiAgICAgICJpY29uIjogImJ1aWxkL2ljb24uaWNvIiwKICAgICAgImxlZ2FsVHJhZGVtYXJrcyI6ICJTdGVud2ljayIKICAgIH0sCiAgICAibnNpcyI6IHsKICAgICAgIm9uZUNsaWNrIjogZmFsc2UsCiAgICAgICJwZXJNYWNoaW5lIjogZmFsc2UsCiAgICAgICJhbGxvd1RvQ2hhbmdlSW5zdGFsbGF0aW9uRGlyZWN0b3J5IjogdHJ1ZSwKICAgICAgImNyZWF0ZURlc2t0b3BTaG9ydGN1dCI6IHRydWUsCiAgICAgICJjcmVhdGVTdGFydE1lbnVTaG9ydGN1dCI6IHRydWUsCiAgICAgICJzaG9ydGN1dE5hbWUiOiAiTmVybyIsCiAgICAgICJ1bmluc3RhbGxEaXNwbGF5TmFtZSI6ICJOZXJvIiwKICAgICAgImluc3RhbGxlckljb24iOiAiYnVpbGQvaWNvbi5pY28iLAogICAgICAidW5pbnN0YWxsZXJJY29uIjogImJ1aWxkL2ljb24uaWNvIiwKICAgICAgImluY2x1ZGUiOiAiYnVpbGQvaW5zdGFsbGVyLm5zaCIsCiAgICAgICJ3YXJuaW5nc0FzRXJyb3JzIjogZmFsc2UsCiAgICAgICJydW5BZnRlckZpbmlzaCI6IHRydWUsCiAgICAgICJhcnRpZmFjdE5hbWUiOiAiTmVyby1TZXR1cC0ke3ZlcnNpb259LmV4ZSIsCiAgICAgICJpbnN0YWxsZXJTaWRlYmFyIjogImJ1aWxkL2luc3RhbGxlclNpZGViYXIuYm1wIiwKICAgICAgInVuaW5zdGFsbGVyU2lkZWJhciI6ICJidWlsZC9pbnN0YWxsZXJTaWRlYmFyLmJtcCIsCiAgICAgICJpbnN0YWxsZXJIZWFkZXIiOiAiYnVpbGQvaW5zdGFsbGVySGVhZGVyLmJtcCIsCiAgICAgICJpbnN0YWxsZXJMYW5ndWFnZXMiOiBbCiAgICAgICAgInRyX1RSIgogICAgICBdLAogICAgICAibGFuZ3VhZ2UiOiAiMTA1NSIKICAgIH0sCiAgICAicHVibGlzaCI6IFsKICAgICAgewogICAgICAgICJwcm92aWRlciI6ICJnaXRodWIiLAogICAgICAgICJvd25lciI6ICJFbXJlR1VORE9HQU4iLAogICAgICAgICJyZXBvIjogIm5lcm8tZGVza3RvcC1jb21wYW5pb24tdjIiLAogICAgICAgICJyZWxlYXNlVHlwZSI6ICJyZWxlYXNlIgogICAgICB9CiAgICBdCiAgfSwKICAiZGVwZW5kZW5jaWVzIjogewogICAgImVsZWN0cm9uLXVwZGF0ZXIiOiAiXjYuOC45IgogIH0KfQo="
+          [IO.File]::WriteAllBytes((Join-Path $PWD "project/package.json"), [Convert]::FromBase64String($pkgB64))
           if (Test-Path "project/package-lock.json") { Remove-Item "project/package-lock.json" -Force }
 
       - name: Setup ve tema uyumluluğunu doğrula
