@@ -95,10 +95,17 @@ jobs:
       - name: Achievement v2 (125 rozet) patchini uygula
         shell: pwsh
         run: |
-          $b64 = Get-Content "build-input/achievements-4.1.0-runtime.patch.gz.b64" -Raw
+          $parts = Get-ChildItem "build-input/achievements-runtime-b64.part*" | Sort-Object Name
+          if ($parts.Count -ne 7) { throw "Achievement patch parçaları eksik: $($parts.Count)/7" }
+          $b64 = ($parts | ForEach-Object { Get-Content $_.FullName -Raw }) -join ''
           [IO.File]::WriteAllBytes((Join-Path $PWD "ach.patch.gz"), [Convert]::FromBase64String($b64))
+          $gzHash = (Get-FileHash "ach.patch.gz" -Algorithm SHA256).Hash.ToLower()
+          if ($gzHash -ne "e41f62c2c7220ec9d3f8251ef769325a6dbc8f024c254eb17f4b144e324f282c") { throw "Achievement patch gzip checksum uyuşmuyor: $gzHash" }
+
           & "C:\Program Files\Git\bin\bash.exe" -lc "gzip -dc ach.patch.gz > ach.raw.patch"
           if ($LASTEXITCODE -ne 0) { throw "Achievement patch arşivi açılamadı." }
+          $rawHash = (Get-FileHash "ach.raw.patch" -Algorithm SHA256).Hash.ToLower()
+          if ($rawHash -ne "7c245e004f7766269c7f93438ae17a8cd39167d26970958f7aa79f41d57f26cf") { throw "Achievement runtime patch checksum uyuşmuyor: $rawHash" }
 
           $raw = Get-Content "ach.raw.patch" -Raw
           $raw = $raw.Replace("nero410_base_for_ach/nero/","a/").Replace("nero411_work/nero/","b/")
