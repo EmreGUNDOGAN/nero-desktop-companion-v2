@@ -237,6 +237,23 @@ class Stats {
     this._save(); this.evaluate();
   }
 
+  addFocusMinutes(minutes) {
+    const m = Math.max(0, Math.round(Number(minutes) || 0));
+    if (!m) return 0;
+    this.productiveAction();
+    const t = this._today();
+    const h = this._historyDay();
+    t.focus += m;
+    h.focus += m;
+    this.data.totals.focusMin += m;
+    this.data.sets.focusDays = addUnique(this.data.sets.focusDays, dayKey());
+    if (m >= 60) this.award('maraton');
+    this._save();
+    this.evaluate();
+    this.evaluateDesk();
+    return m;
+  }
+
   focus(minutes, completed, meta = {}) {
     this.productiveAction();
     const m = Math.max(0, Math.round(minutes));
