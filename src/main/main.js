@@ -1208,6 +1208,8 @@ function timerMenuItem() {
 
 function startTimer(minutes, label = '') {
   const m = Math.max(1, Math.min(600, Math.round(Number(minutes) || 25)));
+  // Aynı anda iki odak sayacı çalışıp süreyi iki kez yazmasın.
+  pauseAllTodoStopwatches({ final: false });
   settingsStore.patch({ lastTimerMinutes: m });
   timerPauseResumeCount = 0;
   stats.productiveAction();
@@ -1477,6 +1479,8 @@ function registerIpc() {
     const todo = todos.find((t) => t.id === id);
     if (!todo || todo.done || todo.archivedAt) return null;
     const now = Date.now();
+    // Genel odak sayacı çalışıyorsa görev kronometresiyle üst üste binmesin.
+    if (timer?.snapshot().status === 'running') timer.pause();
     pauseOtherTodoStopwatches(todos, id, now);
     Object.assign(todo, startTodoStopwatch(todo, now));
     todosStore.set(todos);
