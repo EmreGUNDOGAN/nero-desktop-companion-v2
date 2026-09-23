@@ -70,3 +70,16 @@ test('Nero click-through başlangıcından forwarded mousemove ile kendi kendine
   assert.doesNotMatch(character, /window\.addEventListener\('pointermove',[\s\S]*?const target = hitWhat/);
 });
 
+test('taskbar geri çağırma panel kapalıysa yalnız Nero, açıksa iki pencereyi öne getirir', () => {
+  assert.match(main, /function revealCharacter\(\{ moveTop = false \} = \{\}\)/);
+  assert.match(main, /if \(moveTop\)[\s\S]*?charWin\.moveTop\(\)/);
+  assert.match(main, /function bringRunningWindowsToFront\(\)[\s\S]*?const bringPanel = !!\(panelWin && settings\(\)\.panelOpen\)/);
+  assert.match(main, /if \(!bringPanel\) return;/);
+  assert.match(main, /if \(panelWin\.isMinimized\(\)\) panelWin\.restore\(\)/);
+  assert.match(main, /if \(!panelWin\.isVisible\(\)\) panelWin\.show\(\)/);
+  assert.match(main, /panelWin\.moveTop\(\)/);
+  assert.match(main, /app\.on\('second-instance',[\s\S]*?bringRunningWindowsToFront\(\)/);
+  assert.doesNotMatch(main, /app\.on\('second-instance',[\s\S]{0,180}?showPanel\(\)/);
+  assert.match(main, /app\.on\('activate',[\s\S]*?bringRunningWindowsToFront\(\)/);
+});
+
