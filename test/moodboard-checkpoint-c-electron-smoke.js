@@ -47,14 +47,21 @@ app.whenReady().then(async () => {
             aria:x.getAttribute('aria-label')
           }));
 
+          const calRect = cal.getBoundingClientRect();
+          const userBoardRect = document.querySelector('.user-mood-board').getBoundingClientRect();
+          const neroBoardRect = document.querySelector('.nero-mood-board').getBoundingClientRect();
           return {
             count:days.length,
             rowTops,
             rowSteps,
             dayHeight,
             first14:rects.slice(0,14),
-            calWidth:cal.getBoundingClientRect().width,
+            calWidth:calRect.width,
+            calHeight:calRect.height,
             scrollWidth:cal.scrollWidth,
+            userBoardHeight:userBoardRect.height,
+            neroBoardTop:neroBoardRect.top,
+            userBoardBottom:userBoardRect.bottom,
             labels
           };
         })()
@@ -64,6 +71,9 @@ app.whenReady().then(async () => {
       ensure(result.rowTops.length === 5, `${skin}: Eylül takvimi 5 düzenli satır üretmedi: ${JSON.stringify(result)}`);
       ensure(result.rowSteps.every(step => step >= result.dayHeight * .95), `${skin}: moodboard satırları üst üste biniyor: ${JSON.stringify(result)}`);
       ensure(result.rowSteps.every(step => step <= result.dayHeight * 1.4), `${skin}: moodboard satırları hâlâ fazla açık: ${JSON.stringify(result)}`);
+      ensure(result.calHeight <= 225, `${skin}: 30 günlük moodboard gereksiz uzuyor: ${JSON.stringify(result)}`);
+      ensure(result.userBoardHeight <= 270, `${skin}: kullanıcı moodboard bölümü gereksiz yüksek: ${JSON.stringify(result)}`);
+      ensure(result.neroBoardTop - result.userBoardBottom <= 24, `${skin}: iki moodboard arasında gereksiz boşluk var: ${JSON.stringify(result)}`);
       ensure(result.scrollWidth <= result.calWidth + 2, `${skin}: moodboard yatay taşıyor.`);
       ensure(result.labels.map(x => x.title).join('|') === 'Muhteşem|İdare eder|Kötü',
         `${skin}: mood picker dili yanlış: ${JSON.stringify(result.labels)}`);
