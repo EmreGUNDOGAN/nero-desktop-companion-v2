@@ -1296,9 +1296,14 @@
   $('moodboard-current').addEventListener('click', () => showMoodboardMonth(state?.moodboard?.currentKey));
   document.addEventListener('click', (event) => {
     if (!event.target.closest('.user-mood-board')) closeMoodHistory();
+    if (!event.target.closest('.section-help')) closeSectionHelp();
   });
   document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape') closeMoodHistory();
+    if (event.key === 'Escape') {
+      closeMoodHistory();
+      closeSectionHelp();
+      if (!$('stats-reset-modal').hidden) closeStatsResetModal();
+    }
   });
 
   function renderArchive() {
@@ -1404,15 +1409,62 @@
     });
     $('week-total').textContent = minutesText(st.week.reduce((a, d) => a + d.focus, 0));
 
-    $('tt-todos').textContent = st.totals.todos;
-    $('tt-focus').textContent = minutesText(st.totals.focusMin);
-    $('tt-done').textContent = st.totals.timersDone;
-    $('tt-quit').textContent = st.totals.timersQuit;
-    $('tt-notes').textContent = st.totals.notes;
-    $('tt-best').textContent = `${st.bestStreak} gün`;
-    $('tt-pets').textContent = `${st.totals.pets || 0} kere`;
+    const display = st.display || { totals: st.totals, bestStreak: st.bestStreak, baselineAt: null };
+    const totals = display.totals || st.totals;
+    $('tt-todos').textContent = totals.todos || 0;
+    $('tt-focus').textContent = minutesText(totals.focusMin || 0);
+    $('tt-done').textContent = totals.timersDone || 0;
+    $('tt-quit').textContent = totals.timersQuit || 0;
+    $('tt-notes').textContent = totals.notes || 0;
+    $('tt-best').textContent = `${display.bestStreak || 0} gün`;
+    $('tt-pets').textContent = `${totals.pets || 0} kere`;
+    $('stats-reset').classList.toggle('has-baseline', !!display.baselineAt);
+    $('stats-reset').title = display.baselineAt ? 'Bu başlangıç noktasını yeniden sıfırla' : 'Yeni bir başlangıç';
     $('q-focus').textContent = `${state.settings.lastTimerMinutes || 25} dk odaklan`;
   }
+
+  function closeSectionHelp(except = null) {
+    for (const button of document.querySelectorAll('.section-help.open')) {
+      if (button === except) continue;
+      button.classList.remove('open');
+      button.setAttribute('aria-expanded', 'false');
+    }
+  }
+
+  for (const button of document.querySelectorAll('.section-help')) {
+    button.addEventListener('click', (event) => {
+      event.stopPropagation();
+      const opening = !button.classList.contains('open');
+      closeSectionHelp(button);
+      button.classList.toggle('open', opening);
+      button.setAttribute('aria-expanded', opening ? 'true' : 'false');
+    });
+  }
+
+  function closeStatsResetModal() {
+    $('stats-reset-modal').hidden = true;
+    $('stats-reset').focus();
+  }
+
+  $('stats-reset').addEventListener('click', () => {
+    closeSectionHelp();
+    $('stats-reset-modal').hidden = false;
+    requestAnimationFrame(() => $('stats-reset-cancel').focus());
+  });
+  $('stats-reset-cancel').addEventListener('click', closeStatsResetModal);
+  $('stats-reset-confirm').addEventListener('click', async () => {
+    $('stats-reset-confirm').disabled = true;
+    try {
+      await api.invoke('stats:resetDisplay');
+      $('stats-reset-modal').hidden = true;
+    } finally {
+      $('stats-reset-confirm').disabled = false;
+      $('stats-reset').focus();
+    }
+  });
+  $('stats-reset-modal').addEventListener('click', (event) => {
+    if (event.target === $('stats-reset-modal')) closeStatsResetModal();
+  });
 
   $('q-focus').addEventListener('click', () => {
     api.invoke('timer:start', state?.settings.lastTimerMinutes || 25, '');
