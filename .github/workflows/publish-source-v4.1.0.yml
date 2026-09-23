@@ -111,6 +111,18 @@ jobs:
           }
           if ($rejects.Count -gt 0) { $rejects | Remove-Item -Force }
 
+      - name: Moodboard PNG export düzeltmesini uygula
+        shell: pwsh
+        run: |
+          $b64 = Get-Content "build-input/moodboard-png-fix.patch.b64" -Raw
+          [IO.File]::WriteAllBytes((Join-Path $PWD "moodboard-png-fix.patch.gz"), [Convert]::FromBase64String($b64))
+          $hash = (Get-FileHash "moodboard-png-fix.patch.gz" -Algorithm SHA256).Hash.ToLower()
+          if ($hash -ne "e55b42a4e1bc4eb4257ccf28c40ac7231af638c67bb2ada83f83a42d8b130b01") { throw "Moodboard PNG fix checksum hatası: $hash" }
+          & "C:\Program Files\Git\bin\bash.exe" -lc "gzip -dc moodboard-png-fix.patch.gz > moodboard-png-fix.patch"
+          if ($LASTEXITCODE -ne 0) { throw "Moodboard PNG fix açılamadı." }
+          & "C:\Program Files\Git\bin\bash.exe" -lc "cd project && patch -p1 --batch --forward < ../moodboard-png-fix.patch"
+          if ($LASTEXITCODE -ne 0) { throw "Moodboard PNG fix uygulanamadı." }
+
       - name: Kaynak bütünlüğünü test et
         shell: pwsh
         working-directory: project
@@ -130,6 +142,7 @@ jobs:
 
           foreach ($path in @(
             "src/main/moodboard.js",
+            "src/main/moodboard-image.js",
             "docs/NERO-v4.1.0-ARCHIVE-MOODBOARD-SETTINGS.md",
             "test/archive-moodboard-settings.test.js",
             "test/moodboard-electron-smoke.js"
@@ -166,8 +179,11 @@ jobs:
         shell: pwsh
         working-directory: project
         run: |
-          npx electron test/moodboard-electron-smoke.js
-          if ($LASTEXITCODE -ne 0) { throw "Electron moodboard PNG smoke testi başarısız." }
+          $smoke = @(npx electron test/moodboard-electron-smoke.js 2>&1)
+          $code = $LASTEXITCODE
+          $smoke | ForEach-Object { Write-Host $_ }
+          if ($code -ne 0) { throw "Electron moodboard PNG smoke testi exit code ile başarısız: $code" }
+          if (($smoke -join [Environment]::NewLine) -notmatch 'moodboard-electron-smoke: ok') { throw "Electron moodboard PNG smoke testi başarı işareti üretmedi." }
 
       - name: Kaynak ağacını temizle
         shell: pwsh
