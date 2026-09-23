@@ -754,6 +754,15 @@
       charEl.classList.remove('dragging');
     }
   });
+  api.on('interaction:reset', () => {
+    dragging = false;
+    press = null;
+    charEl.classList.remove('dragging');
+    // Taskbar restore sonrası Windows'ta ignoreMouseEvents forward state'i takılı
+    // kalabildiği için renderer ve main-process state'ini tekrar eşle.
+    ignoring = false;
+    api.send('char:ignoreMouse', false);
+  });
 
   requestAnimationFrame(frame);
   scheduleBlink();
