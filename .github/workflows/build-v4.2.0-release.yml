@@ -32,8 +32,8 @@ jobs:
           $pkg = Get-Content "package.json" -Raw | ConvertFrom-Json
           if ($pkg.version -ne "4.2.0") { throw "Beklenen sürüm 4.2.0, bulunan: $($pkg.version)" }
 
-          $lock = Get-Content "package-lock.json" -Raw | ConvertFrom-Json
-          if ($lock.version -ne "4.2.0") { throw "package-lock sürümü 4.2.0 değil." }
+          $lockVersion = node -p "require('./package-lock.json').version"
+          if ($lockVersion.Trim() -ne "4.2.0") { throw "package-lock sürümü 4.2.0 değil." }
 
           $dialogue = Get-Content "src/data/home-dialogues.tr.json" -Raw | ConvertFrom-Json
           if ($dialogue.dialogues.Count -ne 665) { throw "665 Home repliği eksik." }
