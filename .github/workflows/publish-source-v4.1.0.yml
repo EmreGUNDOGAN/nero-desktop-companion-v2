@@ -84,14 +84,15 @@ jobs:
           $changelog = Get-Content "project/CHANGELOG.md" -Raw
           if ($changelog -notmatch 'Tüm temalarda ana sayfa istatistik alanı yeniden sıkılaştırıldı') {
             $marker = "### Değişti"
-            $note = @"
-### Düzeltildi
-- **Tüm temalarda ana sayfa istatistik alanı yeniden sıkılaştırıldı:** dört günlük istatistik kartı gereksiz dikey boşluk bırakmıyor.
-- **“Bu hafta odak” grafiği kompaktlaştırıldı;** grafik alanı paneli gereksiz yere uzatmıyor.
-- Disket, Kasaba, Yağmur, Kar, Çilekli Piknik, Mum Işığı ve Ege Yazı temalarının özel istatistik stilleri ortak boyut kurallarıyla çakışmayacak şekilde düzenlendi.
-- Hava/resimli temalardaki sonradan gelen CSS override artık kartları tekrar `110px` yüksekliğe zorlamıyor.
-
-"@
+            $lines = @(
+              "### Düzeltildi",
+              "- **Tüm temalarda ana sayfa istatistik alanı yeniden sıkılaştırıldı:** dört günlük istatistik kartı gereksiz dikey boşluk bırakmıyor.",
+              "- **“Bu hafta odak” grafiği kompaktlaştırıldı;** grafik alanı paneli gereksiz yere uzatmıyor.",
+              "- Disket, Kasaba, Yağmur, Kar, Çilekli Piknik, Mum Işığı ve Ege Yazı temalarının özel istatistik stilleri ortak boyut kurallarıyla çakışmayacak şekilde düzenlendi.",
+              "- Hava/resimli temalardaki sonradan gelen CSS override artık kartları tekrar 110px yüksekliğe zorlamıyor.",
+              ""
+            )
+            $note = ($lines -join [Environment]::NewLine) + [Environment]::NewLine
             $changelog = $changelog.Replace($marker, $note + $marker)
           }
           $changelog = $changelog.Replace("- Konuşma kartına tıklayınca mevcut Home cümlesi gizlenebilir; bu işlem yeni replik üretmez.", "- Konuşma kartına tıklamak mevcut Home cümlesini artık gizlemez; replik yalnızca otomatik zamanlayıcıyla değişir.")
