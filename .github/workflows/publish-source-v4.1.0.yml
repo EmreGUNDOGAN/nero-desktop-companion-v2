@@ -131,6 +131,8 @@ jobs:
           if (Test-Path "project/dist") { Remove-Item "project/dist" -Recurse -Force }
           Get-ChildItem "project" -Recurse -Force -File | Where-Object { $_.Name -match '\.(rej|orig)$' } | Remove-Item -Force
           if (Test-Path "project/.git") { Remove-Item "project/.git" -Recurse -Force }
+          # GitHub App tokenı workflow dosyası yazma iznine sahip değil; kaynak dalında CI workflow'larını taşımıyoruz.
+          if (Test-Path "project/.github/workflows") { Remove-Item "project/.github/workflows" -Recurse -Force }
 
           Compress-Archive -Path "project/*" -DestinationPath "nero-v4.1.0-kaynak.zip" -Force
 
