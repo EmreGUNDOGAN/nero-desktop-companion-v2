@@ -55,6 +55,7 @@ test('taskbar minimize/restore bütün etkileşim stateini sıfırlar', () => {
   assert.match(main, /panelWin\.on\('minimize',[\s\S]*?resetWindowInteractionState\(\)/);
   assert.match(main, /panelWin\.on\('restore',[\s\S]*?resetWindowInteractionState\(\{ restoreCharacterMouse: true \}\)/);
   assert.match(main, /charWin\.setIgnoreMouseEvents\(false, \{ forward: true \}\)/);
+  assert.match(main, /const b = charWin\.getBounds\(\);[\s\S]*?charWin\.setBounds\(\{ x: b\.x \+ 1,[\s\S]*?charWin\.setBounds\(b\)/);
   assert.match(main, /sendTo\(panelWin, 'interaction:reset'\)/);
   assert.match(main, /sendTo\(charWin, 'interaction:reset'\)/);
   assert.match(panel, /api\.on\('interaction:reset',[\s\S]*?panelDragActive = false/);
