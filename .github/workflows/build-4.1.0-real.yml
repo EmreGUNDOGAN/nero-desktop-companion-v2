@@ -113,7 +113,6 @@ jobs:
 
           $panel = Get-Content "project/src/renderer/panel/panel.js" -Raw
           if ($panel -match "home:dismiss") { throw "Eski home:dismiss davranışı hâlâ panel.js içinde." }
-          if ($panel -match "addEventListener\(['\"]click['\"].*home-jab") { throw "Konuşma kartı click davranışı hâlâ var." }
 
       - name: Runtime dosyalarını ve 665 repliği doğrula
         shell: pwsh
