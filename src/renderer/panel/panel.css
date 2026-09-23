@@ -48,10 +48,27 @@ button { cursor: pointer; }
 
 /* ---------- Başlık ---------- */
 .top {
-  -webkit-app-region: drag;
+  -webkit-app-region: no-drag;
   position: relative;
   padding: 20px 22px 6px;
 }
+
+/* 4.3.1 test: Windows native drag-region yerine kontrollü pointer drag.
+   Sağdaki pencere butonlarının hit-area'sı bu yüzeyle fiziksel olarak çakışmaz. */
+.panel-drag-zone {
+  -webkit-app-region: no-drag;
+  position: absolute;
+  z-index: 900;
+  top: 0;
+  left: 0;
+  right: 205px;
+  height: 100px;
+  pointer-events: auto;
+  cursor: move;
+  touch-action: none;
+  user-select: none;
+}
+.panel-drag-zone.dragging { cursor: grabbing; }
 .brand { display: flex; align-items: baseline; gap: 12px; }
 h1 {
   margin: 0;
@@ -93,7 +110,7 @@ h1 {
   position: absolute;
   top: 16px;
   right: 16px;
-  z-index: 50;
+  z-index: 1000 !important;
   display: flex;
   align-items: center;
   gap: 8px;
