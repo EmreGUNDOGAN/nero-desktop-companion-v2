@@ -9,6 +9,7 @@
   let lastHomeDialogueId = null;
   let lastSeenHomeDialogueId = null;
   let homeJabFadeTimer = null;
+  let viewedMoodboard = null;
 
   // ---------------------------------------------------------------------------
   // Tema renkleri
@@ -1124,12 +1125,18 @@
     return new Date(`${date}T12:00:00`).toLocaleDateString('tr-TR', { day: 'numeric', month: 'short' });
   }
 
-  function renderMoodCalendar(container, days, mode) {
+  function renderMoodCalendar(container, days, mode, editable = false) {
     container.textContent = '';
     for (const day of days || []) {
       const wrap = document.createElement('div');
       wrap.className = 'mood-day-wrap';
-      const dot = document.createElement(mode === 'user' ? 'button' : 'span');
+      if (day.day === 1 && day.date) {
+        const weekday = new Date(`${day.date}T12:00:00`).getDay();
+        wrap.style.gridColumnStart = String(((weekday + 6) % 7) + 1);
+      }
+
+      const interactive = mode === 'user' && editable && !day.future;
+      const dot = document.createElement(interactive ? 'button' : 'span');
       dot.className = `mood-day ${mode === 'user' ? 'user-day' : 'nero-day'}`;
       dot.textContent = day.day;
       dot.dataset.date = day.date;
@@ -1137,12 +1144,14 @@
       if (mode === 'user') {
         if (day.value) dot.classList.add(`mood-${day.value}`);
         else dot.classList.add('empty');
-        dot.type = 'button';
-        dot.disabled = !!day.future;
+        if (day.future) dot.classList.add('future');
         const moodName = day.value === 'green' ? 'iyi' : day.value === 'yellow' ? 'orta' : day.value === 'red' ? 'zor' : 'seçilmedi';
-        dot.title = `${moodDateLabel(day.date)}: ${day.future ? 'gelecek gün' : moodName}`;
-        dot.setAttribute('aria-label', `${moodDateLabel(day.date)} ruh hali: ${day.future ? 'gelecek gün' : moodName}`);
-        if (!day.future) {
+        const stateLabel = day.future ? 'gelecek gün' : moodName;
+        dot.title = `${moodDateLabel(day.date)}: ${stateLabel}`;
+        dot.setAttribute('aria-label', `${moodDateLabel(day.date)} ruh hali: ${stateLabel}`);
+
+        if (interactive) {
+          dot.type = 'button';
           const picker = document.createElement('div');
           picker.className = 'mood-picker';
           picker.hidden = true;
@@ -1171,21 +1180,126 @@
       } else {
         if (day.cls) dot.classList.add(day.cls);
         else dot.classList.add('empty');
+        if (day.future) dot.classList.add('future');
         dot.title = `${moodDateLabel(day.date)}: ${day.label || 'kayıt yok'}`;
         dot.setAttribute('aria-label', `${moodDateLabel(day.date)} Nero ruh hali: ${day.label || 'kayıt yok'}`);
       }
+
       wrap.appendChild(dot);
       container.appendChild(wrap);
     }
   }
 
+  function closeMoodHistory() {
+    $('mood-history-popover').hidden = true;
+    $('mood-history-toggle').setAttribute('aria-expanded', 'false');
+  }
+
+  async function showMoodboardMonth(key) {
+    const currentKey = state?.moodboard?.currentKey;
+    if (!key || !currentKey) return;
+    closeMoodHistory();
+    if (key === currentKey) {
+      viewedMoodboard = null;
+      renderMoodboards();
+      return;
+    }
+    const board = await api.invoke('moodboard:get', key);
+    if (!board) return;
+    viewedMoodboard = board;
+    renderMoodboards();
+  }
+
+  function renderMoodHistory(board) {
+    const current = state?.moodboard;
+    const months = current?.availableMonths || board.availableMonths || [];
+    const years = new Map();
+    for (const month of [...months].sort((a, b) => b.key.localeCompare(a.key))) {
+      const year = month.key.slice(0, 4);
+      if (!years.has(year)) years.set(year, []);
+      years.get(year).push(month);
+    }
+
+    const root = $('mood-history-years');
+    root.textContent = '';
+    for (const [year, items] of years) {
+      const group = document.createElement('div');
+      group.className = 'mood-history-year';
+      const title = document.createElement('strong');
+      title.textContent = year;
+      const buttons = document.createElement('div');
+      buttons.className = 'mood-history-months';
+      for (const item of items) {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.dataset.monthKey = item.key;
+        button.className = 'mood-history-month';
+        if (item.key === board.key) button.classList.add('active');
+        button.textContent = item.label.replace(/\s+\d{4}$/, '');
+        button.addEventListener('click', () => showMoodboardMonth(item.key));
+        buttons.appendChild(button);
+      }
+      group.append(title, buttons);
+      root.appendChild(group);
+    }
+
+    const pastCount = months.filter((month) => month.key !== current?.currentKey).length;
+    const toggle = $('mood-history-toggle');
+    toggle.disabled = pastCount === 0;
+    toggle.title = pastCount ? 'Geçmiş moodboard ayları' : 'Henüz geçmiş moodboard kaydı yok';
+  }
+
+  function renderMoodboardNav(board) {
+    const months = state?.moodboard?.availableMonths || board.availableMonths || [];
+    const keys = months.map((month) => month.key).sort();
+    const currentKey = state?.moodboard?.currentKey || board.currentKey;
+    const index = keys.indexOf(board.key);
+    let prevKey = null;
+    let nextKey = null;
+
+    if (index >= 0) {
+      prevKey = keys[index - 1] || null;
+      nextKey = keys[index + 1] || null;
+    } else if (board.key === currentKey && keys.length) {
+      prevKey = keys[keys.length - 1];
+    }
+
+    const prev = $('moodboard-prev');
+    const next = $('moodboard-next');
+    prev.disabled = !prevKey;
+    next.disabled = !nextKey;
+    prev.dataset.monthKey = prevKey || '';
+    next.dataset.monthKey = nextKey || '';
+    $('moodboard-current').hidden = board.key === currentKey;
+  }
+
   function renderMoodboards() {
-    const board = state.moodboard;
+    const board = viewedMoodboard || state.moodboard;
     if (!board) return;
     $('moodboard-month').textContent = board.label || '';
-    renderMoodCalendar($('user-mood-calendar'), board.user, 'user');
-    renderMoodCalendar($('nero-mood-calendar'), board.nero, 'nero');
+    $('user-mood-hint').textContent = board.editable ? 'güne dokun, rengini seç' : 'geçmiş kayıt · salt okunur';
+    renderMoodCalendar($('user-mood-calendar'), board.user, 'user', !!board.editable);
+    renderMoodCalendar($('nero-mood-calendar'), board.nero, 'nero', false);
+    renderMoodHistory(board);
+    renderMoodboardNav(board);
   }
+
+  $('mood-history-toggle').addEventListener('click', (event) => {
+    event.stopPropagation();
+    const popover = $('mood-history-popover');
+    if ($('mood-history-toggle').disabled) return;
+    popover.hidden = !popover.hidden;
+    $('mood-history-toggle').setAttribute('aria-expanded', popover.hidden ? 'false' : 'true');
+  });
+  $('moodboard-prev').addEventListener('click', () => showMoodboardMonth($('moodboard-prev').dataset.monthKey));
+  $('moodboard-next').addEventListener('click', () => showMoodboardMonth($('moodboard-next').dataset.monthKey));
+  $('moodboard-current').addEventListener('click', () => showMoodboardMonth(state?.moodboard?.currentKey));
+  document.addEventListener('click', (event) => {
+    if (!event.target.closest('.user-mood-board')) closeMoodHistory();
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') closeMoodHistory();
+  });
 
   function renderArchive() {
     const a = state.home?.archive;
