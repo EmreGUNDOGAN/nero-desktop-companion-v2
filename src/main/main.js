@@ -373,6 +373,14 @@ function resetWindowInteractionState({ restoreCharacterMouse = false } = {}) {
 
   if (restoreCharacterMouse && charWin) {
     try { charWin.setIgnoreMouseEvents(false, { forward: true }); } catch (_) { /* yoksay */ }
+    try {
+      // Windows'ta transparent frameless pencerenin hit-test alanı taskbar restore
+      // sonrasında stale kalabiliyor. Paneli sürükleyince karakter setBounds aldığı için
+      // sorun kendiliğinden düzeliyordu; aynı yenilemeyi görünmez 1px nudge ile burada yap.
+      const b = charWin.getBounds();
+      charWin.setBounds({ x: b.x + 1, y: b.y, width: b.width, height: b.height });
+      charWin.setBounds(b);
+    } catch (_) { /* yoksay */ }
     try { charWin.webContents.invalidate(); } catch (_) { /* yoksay */ }
   }
   if (panelWin) {
