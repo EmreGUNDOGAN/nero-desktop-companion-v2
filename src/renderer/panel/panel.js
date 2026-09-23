@@ -271,6 +271,10 @@
   panelDragZone.addEventListener('pointercancel', (e) => endPanelDrag(e.pointerId));
   panelDragZone.addEventListener('lostpointercapture', () => endPanelDrag());
   window.addEventListener('blur', () => endPanelDrag());
+  api.on('interaction:reset', () => {
+    panelDragActive = false;
+    panelDragZone.classList.remove('dragging');
+  });
 
   // Köşe tutamaçlarından boyutlandırma
   for (const grip of document.querySelectorAll('.grip')) {
