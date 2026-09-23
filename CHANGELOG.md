@@ -2,6 +2,59 @@
 
 Her sürümde eklenenler, değişenler ve düzeltilenler burada. En yeni sürüm en üstte.
 
+## 4.3.0: İş kronometresi, moodboard geçmişi ve ana sayfa yardım sistemi
+
+### Yeni
+- **İş bazlı kronometre:** her aktif iş için başlat / duraklat / devam et kontrolü eklendi. Süre birikimli tutuluyor ve uygulama normal şekilde kapanırken çalışan görev kronometresi güvenle duraklatılıyor.
+- **Planlanan süre:** iş eklerken dakika bazında isteğe bağlı planlanan süre girilebiliyor. Preset zorunluluğu yok; 65, 120 veya 185 dakika gibi değerler destekleniyor.
+- **Plan / Gerçek süre takibi:** tamamlanan ve arşivlenen işlerde planlanan süre ile gerçek çalışma süresi korunuyor ve gösteriliyor.
+- **Moodboard geçmişi:** Benim Moodboard’um başlığındaki geçmiş/takvim kontrolü yalnız gerçekten veri bulunan ayları ve yılları listeliyor.
+- **Moodboard ay navigasyonu:** önceki / sonraki kontroller yalnız veri bulunan aylara geçiyor; geçmiş görünümden güncel aya dönmek için “Bugün” kontrolü eklendi.
+- **Bağlamsal yardım:** Bu hafta odak, Şimdiye kadar, Masa köşen, Haftalık mektup, Moodboard, Kavanoz ve Bu ay yaptıkların bölümlerine küçük tema uyumlu yardım ikonları eklendi.
+- **“Şimdiye kadar” için güvenli yeni başlangıç:** karttaki reset kontrolü yalnız görünen istatistik başlangıç noktasını yeniliyor. İşler, notlar, rozetler, moodboard geçmişi ve lifetime sayaçlar silinmiyor.
+
+### Değişti
+- İş kronometresi çalışırken iş tamamlanırsa kronometre otomatik duruyor ve geçen süre ayrıca onay istemeden kaydediliyor.
+- Tamamlanan iş yeniden açılırsa eski gerçek süre korunuyor; yeni çalışma süresi mevcut toplamın üzerine ekleniyor.
+- Aynı anda yalnız bir görev kronometresi çalışıyor. Genel Nero odak sayacı ile görev kronometresi üst üste bindirilmiyor; odak süresinin iki kez sayılması engelleniyor.
+- Görev kronometresi odak toplamlarına katkı yapıyor fakat normal timer tamamlanma / yarıda bırakma sayaçlarını ve timer achievement serilerini yapay biçimde tetiklemiyor.
+- Moodboard 7 sütunlu gerçek takvim akışına geçirildi; ayın ilk günü doğru haftalık kolondan başlıyor ve 28 / 29 / 30 / 31 günlük aylar otomatik destekleniyor.
+- Geçmiş moodboard ayları salt okunur açılıyor; hem kullanıcı moodboard’u hem Nero moodboard’u aynı aya birlikte geçiyor.
+- Moodboard alanındaki gereksiz dikey boşluk azaltıldı; boş günlerin görsel ağırlığı düşürüldü ve dar panelde 7 sütun korunuyor.
+- “Şimdiye kadar” resetinden sonra Biten iş, Toplam odak, Tamamlanan sayaç, Yarıda bırakılan, Alınan not, En uzun seri ve Nero’yu sevdin değerleri yeni başlangıç noktasından sayılıyor.
+- Reset sonrası görünen “En uzun seri” lifetime best streak’ten bağımsız tutuluyor; lifetime achievement ve ilerleme verileri değişmiyor.
+- Yardım tooltip’leri hover, klavye focus ve tıklama/tap ile açılıyor; ESC veya dışarı tıklama ile kapanıyor.
+- Nero konuşma kartındaki tema ikonları çok satırlı metin bloğuna göre dikey ortalanıyor. Kasaba temasının özel gazete yerleşimi korunuyor.
+
+### Düzeltildi
+- **Ayarlar / Sabitle / Küçült / Kapat tıklanabilirliği:** başlık kontrol grubu draggable header alanının dışına taşındı ve bağımsız no-drag hit-area olarak yapılandırıldı. Özellikle Kar, Yağmur, Çilekli Piknik, Mum Işığı ve Ege Yazı temalarında native click hit-test sorunu kalıcı olarak giderildi.
+- İş ekleme satırında süre alanının iç içe kutu gibi görünmesine yol açan ortak input selector’ı kaldırıldı; süre ve hatırlatma kontrolleri tek parça kompakt yüzeylere dönüştürüldü.
+- Beklenmedik kapanıştan kalan görev kronometresi başlangıç zamanı, uygulama yeniden açıldığında çevrimdışı geçen süreyi çalışma süresine eklemeyecek şekilde temizleniyor.
+- Moodboard geçmiş menüsüne boş ayların, boş yılların veya gelecek tarihli kayıtların girmesi engellendi.
+- Nero konuşma kartı ikonlarının ilk satıra yapışık görünmesi düzeltildi.
+
+### Tema uyumu
+- İş süresi / kronometre kontrolleri, moodboard geçmiş seçici, yardım ikonları, tooltip’ler ve güvenli reset modalı **Latte, Pazartesi, Gece, Disket, Kasaba, Yağmur, Kar, Çilekli Piknik, Mum Işığı ve Ege Yazı** temalarının görsel diline ayrı kurallarla uyarlandı.
+- Disket temasının kare/pixel yaklaşımı, Kasaba’nın gazete/kağıt düzeni ve resimli temaların glass/çerçeve dili korunuyor.
+
+### Veri güvenliği ve geriye uyumluluk
+- 4.2.x stats verisi yeni `displayBaseline` alanı olmadan açıldığında mevcut lifetime toplamları aynen korunuyor.
+- Eski todo kayıtları yeni timing alanları olmadan da güvenli biçimde normalize ediliyor. Yeni alanlar: `plannedDurationMin`, `actualDurationMs`, `stopwatchStartedAt`, `focusCreditedMin`.
+- Eski kullanıcı moodboard günleri veri dönüşümü gerektirmeden yeni dinamik ay modelinde okunuyor.
+- “Şimdiye kadar” reseti fiziksel veri silmez; yalnız ayrı bir display baseline snapshot’ı oluşturur.
+- Mevcut günlük yedek, dışa aktarma ve iki aşamalı kurulum/kaldırma veri güvenliği davranışları korunuyor.
+
+### Teknik ve test
+- Görev kronometresi için ayrı, test edilebilir timing yardımcı katmanı eklendi.
+- Moodboard geçmişi için yalnız veri bulunan ayları döndüren ortak `dataMonths()` yardımcı fonksiyonu eklendi.
+- Güvenli stats reseti için `displayBaseline` modeli ve IPC akışı eklendi.
+- 4.2.x → 4.3.0 migration/regression testleri eklendi.
+- **39/39 Node regression testi başarılı.**
+- Gerçek Electron header native hit-test smoke testi başarılı.
+- Gerçek Electron moodboard Chromium `capturePage()` → PNG smoke testi başarılı.
+- 10 temanın tamamında cross-theme panel entegrasyon smoke testi başarılı; renderer console error bulunmadı.
+- Eski assisted NSIS setup ayarları, Türkçe kurulum dili ve installer assetleri paketleme öncesinde doğrulandı.
+
 ## 4.2.0: Arşivler, çift moodboard ve arayüz iyileştirmeleri
 
 ### Yeni
