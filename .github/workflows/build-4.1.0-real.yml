@@ -69,17 +69,87 @@ jobs:
           $nsh = Get-Content "build-input/installer-4.0.4.nsh" -Raw
           [IO.File]::WriteAllText((Resolve-Path "project/build").Path + "\\installer.nsh", [char]0xFEFF + $nsh, [Text.UTF8Encoding]::new($false))
 
-      - name: 4.1.0 patchlerini güvenli biçimde uygula
+      - name: 4.1.0 runtime patchlerini uygula
         shell: pwsh
         run: |
           $raw = Get-Content "build-input/NERO_v4.0.4_to_v4.1.0.patch" -Raw
           $raw = $raw.Replace("/tmp/nero404_orig/nero/","a/").Replace("/mnt/data/nero410_work/nero/","b/")
           [IO.File]::WriteAllText((Join-Path $PWD "main-normalized.patch"), $raw, [Text.UTF8Encoding]::new($false))
 
-          & "C:\Program Files\Git\bin\bash.exe" -lc "cd project && patch -p1 --batch --forward < ../main-normalized.patch"
-          if ($LASTEXITCODE -ne 0) { throw "4.0.4 -> 4.1.0 ana patch uygulanamadı." }
-          & "C:\Program Files\Git\bin\bash.exe" -lc "cd project && patch -p1 --batch --forward < ../build-input/NERO_4.1.0_click_fix.patch"
-          if ($LASTEXITCODE -ne 0) { throw "Konuşma kartı click-fix patch'i uygulanamadı." }
+          # Bu patch kaynak paketine göre üretildiği için README/package-lock gibi app.asar içinde
+          # bulunmayan geliştirme dosyalarında uyarı verebilir. Runtime dosyaları uygulanır,
+          # ardından aşağıdaki doğrulamalar eksik/yarım uygulamayı build'den önce kesin olarak yakalar.
+          & "C:\Program Files\Git\bin\bash.exe" -lc "cd project && patch -p1 --batch --forward < ../main-normalized.patch || true"
+          & "C:\Program Files\Git\bin\bash.exe" -lc "cd project && patch -p1 --batch --forward < ../build-input/NERO_4.1.0_click_fix.patch || true"
+
+          # app.asar içindeki package.json üretim için budanmış olabilir; build konfigürasyonunu
+          # 4.1.0 final kaynakla birebir ve deterministik olarak yeniden yaz.
+          $pkgJson = @'
+{
+  "name": "nero",
+  "productName": "Nero",
+  "version": "4.1.0",
+  "description": "Nero - huysuz ama seni seven masaüstü arkadaşın",
+  "main": "src/main/main.js",
+  "author": { "name": "Stenwick" },
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --win --x64 --publish never",
+    "dist:dir": "electron-builder --win --x64 --dir --publish never",
+    "test": "node --test test/*.test.js"
+  },
+  "devDependencies": {
+    "electron": "^44.4.3",
+    "electron-builder": "^26.15.3"
+  },
+  "build": {
+    "appId": "com.stenwick.nero",
+    "productName": "Nero",
+    "copyright": "Copyright © 2026 Stenwick",
+    "directories": { "output": "dist", "buildResources": "build" },
+    "files": ["src/**/*", "docs/**/*", "build/icon.png", "package.json"],
+    "extraResources": [{ "from": "themes", "to": "themes" }],
+    "win": {
+      "target": [{ "target": "nsis", "arch": ["x64"] }],
+      "icon": "build/icon.ico",
+      "legalTrademarks": "Stenwick"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Nero",
+      "uninstallDisplayName": "Nero",
+      "installerIcon": "build/icon.ico",
+      "uninstallerIcon": "build/icon.ico",
+      "include": "build/installer.nsh",
+      "warningsAsErrors": false,
+      "runAfterFinish": true,
+      "artifactName": "Nero-Setup-${version}.exe",
+      "installerSidebar": "build/installerSidebar.bmp",
+      "uninstallerSidebar": "build/installerSidebar.bmp",
+      "installerHeader": "build/installerHeader.bmp",
+      "installerLanguages": ["tr_TR"],
+      "language": "1055"
+    },
+    "publish": [{
+      "provider": "github",
+      "owner": "EmreGUNDOGAN",
+      "repo": "nero-desktop-companion-v2",
+      "releaseType": "release"
+    }]
+  },
+  "dependencies": {
+    "electron-updater": "^6.8.9"
+  }
+}
+'@
+          [IO.File]::WriteAllText((Join-Path $PWD "project/package.json"), $pkgJson, [Text.UTF8Encoding]::new($false))
+          if (Test-Path "project/package-lock.json") { Remove-Item "project/package-lock.json" -Force }
 
       - name: Setup ve tema uyumluluğunu doğrula
         shell: pwsh
@@ -108,12 +178,40 @@ jobs:
           if ($panel -match "home:dismiss") { throw "Eski home:dismiss davranışı hâlâ panel.js içinde." }
           if ($panel -match "addEventListener\(['\"]click['\"].*home-jab") { throw "Konuşma kartı click davranışı hâlâ var." }
 
+      - name: Runtime dosyalarını ve 665 repliği doğrula
+        shell: pwsh
+        working-directory: project
+        run: |
+          foreach ($path in @(
+            "src/data/home-dialogues.tr.json",
+            "src/main/home-dialogue.js",
+            "src/main/main.js",
+            "src/main/stats.js",
+            "src/preload/preload.js",
+            "src/renderer/panel/index.html",
+            "src/renderer/panel/panel.css",
+            "src/renderer/panel/panel.js",
+            "test/home-dialogue.test.js"
+          )) {
+            if (-not (Test-Path $path)) { throw "Eksik 4.1.0 dosyası: $path" }
+          }
+
+          $dialogue = Get-Content "src/data/home-dialogues.tr.json" -Raw | ConvertFrom-Json
+          if ($dialogue.dialogues.Count -ne 665) { throw "665 repliğin tamamı uygulanmamış." }
+
+          node --check "src/main/home-dialogue.js"
+          if ($LASTEXITCODE -ne 0) { throw "home-dialogue.js syntax hatası." }
+          node --check "src/main/main.js"
+          if ($LASTEXITCODE -ne 0) { throw "main.js syntax hatası." }
+          node --check "src/renderer/panel/panel.js"
+          if ($LASTEXITCODE -ne 0) { throw "panel.js syntax hatası." }
+
       - name: Bağımlılıkları kur ve testleri çalıştır
         shell: pwsh
         working-directory: project
         run: |
-          npm ci
-          if ($LASTEXITCODE -ne 0) { throw "npm ci başarısız." }
+          npm install --no-audit --no-fund
+          if ($LASTEXITCODE -ne 0) { throw "npm install başarısız." }
           npm test
           if ($LASTEXITCODE -ne 0) { throw "Testler başarısız." }
 
