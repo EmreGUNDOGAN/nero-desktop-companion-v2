@@ -20,6 +20,8 @@ Her sürümde eklenenler, değişenler ve düzeltilenler burada. En yeni sürüm
 - Arşiv, moodboard ve yeni Ayarlar kontrolü tüm mevcut temalarda özel stil kurallarıyla uyumlu hale getirildi.
 
 ### Düzeltildi
+- **Resimli ve hava temalarında istatistik kartlarının içerik hizası yeniden düzenlendi:** sayı ve açıklamalar Kasaba temasındaki temiz iki satırlı yerleşime yaklaştırıldı; tema ikonları solda korunarak dikey merkez ve okunabilirlik iyileştirildi.
+- **Kışta Huzur başlığındaki Ayarlar / Sabitle / Küçült / Kapat düğmelerinin tıklanmaması düzeltildi.** Başlık kontrolleri artık dekor katmanlarından bağımsız, yüksek öncelikli bir `no-drag` hit-area içinde çalışıyor. Aynı koruma Yağmur, Çilekli Piknik, Mum Işığı ve Ege Yazı temalarına da uygulandı.
 - Tüm temalarda ana sayfa istatistik kartlarının gereksiz büyük görünmesine neden olan ortak yükseklik çakışmaları giderildi.
 - Disket, Kasaba, Yağmur, Kar, Çilekli Piknik, Mum Işığı ve Ege Yazı temalarında istatistik kartlarının ve “Bu hafta odak” alanının aşırı büyümesine neden olan override kuralları düzeltildi.
 - Moodboard aylık PNG üretiminde güvenilir olmayan SVG → image dönüşüm yolu kaldırıldı; gerçek Chromium render/capture akışına geçirildi.
