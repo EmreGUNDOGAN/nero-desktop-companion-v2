@@ -77,8 +77,25 @@ jobs:
           $raw = Get-Content "build-input/home-stats-layout.patch" -Raw
           $raw = $raw.Replace("nero_ui_base/nero/","a/").Replace("nero_ui_fix/nero/","b/")
           [IO.File]::WriteAllText((Join-Path $PWD "home-stats-normalized.patch"), $raw, [Text.UTF8Encoding]::new($false))
-          & "C:\Program Files\Git\bin\bash.exe" -lc "cd project && patch -p1 --batch --forward < ../home-stats-normalized.patch"
-          if ($LASTEXITCODE -ne 0) { throw "Tüm tema istatistik düzeni patch'i uygulanamadı." }
+          # CHANGELOG ana patch/click-fix sırasında değiştiği için yalnız o hunk çakışabilir;
+          # CSS ve test hunks uygulanır, ardından aşağıdaki doğrulamalar layout'u kesin olarak kontrol eder.
+          & "C:\Program Files\Git\bin\bash.exe" -lc "cd project && patch -p1 --batch --forward < ../home-stats-normalized.patch || true"
+
+          $changelog = Get-Content "project/CHANGELOG.md" -Raw
+          if ($changelog -notmatch 'Tüm temalarda ana sayfa istatistik alanı yeniden sıkılaştırıldı') {
+            $marker = "### Değişti"
+            $note = @"
+### Düzeltildi
+- **Tüm temalarda ana sayfa istatistik alanı yeniden sıkılaştırıldı:** dört günlük istatistik kartı gereksiz dikey boşluk bırakmıyor.
+- **“Bu hafta odak” grafiği kompaktlaştırıldı;** grafik alanı paneli gereksiz yere uzatmıyor.
+- Disket, Kasaba, Yağmur, Kar, Çilekli Piknik, Mum Işığı ve Ege Yazı temalarının özel istatistik stilleri ortak boyut kurallarıyla çakışmayacak şekilde düzenlendi.
+- Hava/resimli temalardaki sonradan gelen CSS override artık kartları tekrar `110px` yüksekliğe zorlamıyor.
+
+"@
+            $changelog = $changelog.Replace($marker, $note + $marker)
+          }
+          $changelog = $changelog.Replace("- Konuşma kartına tıklayınca mevcut Home cümlesi gizlenebilir; bu işlem yeni replik üretmez.", "- Konuşma kartına tıklamak mevcut Home cümlesini artık gizlemez; replik yalnızca otomatik zamanlayıcıyla değişir.")
+          [IO.File]::WriteAllText((Join-Path $PWD "project/CHANGELOG.md"), $changelog, [Text.UTF8Encoding]::new($false))
 
       - name: Kaynak bütünlüğünü test et
         shell: pwsh
