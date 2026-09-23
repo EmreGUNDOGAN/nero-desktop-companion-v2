@@ -11,6 +11,10 @@ test('moodboard 7 eşit sütun ve sabit kompakt satır yüksekliği kullanır', 
   assert.match(css, /\.mood-day-wrap\s*\{[\s\S]*?height:\s*36px;/);
 });
 
+test('geniş panelde moodboard yarım sütuna sıkışmaz', () => {
+  assert.match(css, /@container \(min-width: 600px\)[\s\S]*?\.hello, \.nero-says, \.quick, \.quote, \.moodboards \{ grid-column: 1 \/ -1; \}/);
+});
+
 test('dar panelde moodboard 32px hücre ve 5px satır aralığına iner', () => {
   assert.match(css, /@container \(max-width: 420px\)[\s\S]*?\.mood-calendar \{[\s\S]*?grid-auto-rows:\s*32px;[\s\S]*?row-gap:\s*5px;/);
 });
