@@ -125,7 +125,7 @@ contextBridge.exposeInMainWorld('nero', {
     if (channel === 'todos:stopwatchStart' || channel === 'todos:stopwatchPause') return state.todos[0];
     return true;
   },
-  send: () => {},
+  send: (channel, ...args) => { calls.push({ channel, args }); },
   on: () => () => {},
   __getCalls: () => structuredClone(calls)
 });
