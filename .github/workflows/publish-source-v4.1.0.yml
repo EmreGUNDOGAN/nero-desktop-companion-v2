@@ -1,0 +1,138 @@
+name: Publish Nero 4.1.0 source branch
+
+on:
+  push:
+    branches: [source-prep-v4.1.0]
+
+permissions:
+  contents: write
+
+jobs:
+  source:
+    runs-on: windows-latest
+    steps:
+      - name: Hazırlık dalını al
+        uses: actions/checkout@v4
+
+      - name: Node.js kur
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: 4.0.4 tam kaynak paketini indir
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          New-Item -ItemType Directory -Force -Path base | Out-Null
+          gh release download v4.0.4 --pattern "nero-v4.0.4-kaynak.zip" --dir base
+          if (-not (Test-Path "base/nero-v4.0.4-kaynak.zip")) { throw "4.0.4 kaynak paketi bulunamadı." }
+
+          Expand-Archive "base/nero-v4.0.4-kaynak.zip" "base/extracted" -Force
+          $root = Get-ChildItem "base/extracted" -Directory | Where-Object { Test-Path (Join-Path $_.FullName "package.json") } | Select-Object -First 1
+          if (-not $root -and (Test-Path "base/extracted/package.json")) { $root = Get-Item "base/extracted" }
+          if (-not $root) { throw "Kaynak kök klasörü bulunamadı." }
+
+          New-Item -ItemType Directory -Force -Path project | Out-Null
+          Get-ChildItem $root.FullName -Force | ForEach-Object { Copy-Item $_.FullName "project" -Recurse -Force }
+
+      - name: 4.1.0 Home Dialogue patchlerini uygula
+        shell: pwsh
+        run: |
+          $raw = Get-Content "build-input/NERO_v4.0.4_to_v4.1.0.patch" -Raw
+          $raw = $raw.Replace("/tmp/nero404_orig/nero/","a/").Replace("/mnt/data/nero410_work/nero/","b/")
+          [IO.File]::WriteAllText((Join-Path $PWD "main-normalized.patch"), $raw, [Text.UTF8Encoding]::new($false))
+          & "C:\Program Files\Git\bin\bash.exe" -lc "cd project && patch -p1 --batch --forward < ../main-normalized.patch || true"
+
+          & "C:\Program Files\Git\bin\bash.exe" -lc "cd project && patch -p1 --batch --forward < ../build-input/NERO_4.1.0_click_fix.patch || true"
+
+      - name: 125 achievement patchini uygula
+        shell: pwsh
+        run: |
+          $parts = Get-ChildItem "build-input/achievements-runtime-b64.part*" | Sort-Object Name
+          if ($parts.Count -ne 7) { throw "Achievement patch parçaları eksik." }
+          $b64 = ($parts | ForEach-Object { Get-Content $_.FullName -Raw }) -join ''
+          [IO.File]::WriteAllBytes((Join-Path $PWD "ach.patch.gz"), [Convert]::FromBase64String($b64))
+          if ((Get-FileHash "ach.patch.gz" -Algorithm SHA256).Hash.ToLower() -ne "e41f62c2c7220ec9d3f8251ef769325a6dbc8f024c254eb17f4b144e324f282c") { throw "Achievement patch checksum hatası." }
+
+          & "C:\Program Files\Git\bin\bash.exe" -lc "gzip -dc ach.patch.gz > ach.raw.patch"
+          $raw = Get-Content "ach.raw.patch" -Raw
+          $raw = $raw.Replace("nero410_base_for_ach/nero/","a/").Replace("nero411_work/nero/","b/")
+          [IO.File]::WriteAllText((Join-Path $PWD "ach-normalized.patch"), $raw, [Text.UTF8Encoding]::new($false))
+          & "C:\Program Files\Git\bin\bash.exe" -lc "cd project && patch -p1 --batch --forward < ../ach-normalized.patch"
+          if ($LASTEXITCODE -ne 0) { throw "Achievement patch uygulanamadı." }
+
+      - name: Rozet nadirlik sekmelerini uygula
+        shell: pwsh
+        run: |
+          $b64 = Get-Content "build-input/badges-rarity-tabs.patch.b64" -Raw
+          [IO.File]::WriteAllBytes((Join-Path $PWD "badges-rarity-tabs.patch"), [Convert]::FromBase64String($b64))
+          if ((Get-FileHash "badges-rarity-tabs.patch" -Algorithm SHA256).Hash.ToLower() -ne "5292fb57f640f2f34ad604b7e14e32b51d8992ffc6cbc5d91842bed53c3d69b7") { throw "Rarity patch checksum hatası." }
+          & "C:\Program Files\Git\bin\bash.exe" -lc "cd project && patch -p1 --batch --forward < ../badges-rarity-tabs.patch"
+          if ($LASTEXITCODE -ne 0) { throw "Rarity sekmeleri uygulanamadı." }
+
+      - name: Tüm tema istatistik düzenini uygula
+        shell: pwsh
+        run: |
+          $raw = Get-Content "build-input/home-stats-layout.patch" -Raw
+          $raw = $raw.Replace("nero_ui_base/nero/","a/").Replace("nero_ui_fix/nero/","b/")
+          [IO.File]::WriteAllText((Join-Path $PWD "home-stats-normalized.patch"), $raw, [Text.UTF8Encoding]::new($false))
+          & "C:\Program Files\Git\bin\bash.exe" -lc "cd project && patch -p1 --batch --forward < ../home-stats-normalized.patch"
+          if ($LASTEXITCODE -ne 0) { throw "Tüm tema istatistik düzeni patch'i uygulanamadı." }
+
+      - name: Kaynak bütünlüğünü test et
+        shell: pwsh
+        working-directory: project
+        run: |
+          $pkg = Get-Content "package.json" -Raw | ConvertFrom-Json
+          if ($pkg.version -ne "4.1.0") { throw "Sürüm 4.1.0 değil." }
+
+          $dialogue = Get-Content "src/data/home-dialogues.tr.json" -Raw | ConvertFrom-Json
+          if ($dialogue.dialogues.Count -ne 665) { throw "665 Home repliği eksik." }
+
+          node -e "const a=require('./src/data/achievements'); const c=r=>a.filter(x=>x.rarity===r).length; if(a.length!==125||new Set(a.map(x=>x.id)).size!==125||c('yaygin')!==25||c('siradisi')!==35||c('nadir')!==20||c('efsanevi')!==20||c('gizli')!==25) process.exit(1)"
+          if ($LASTEXITCODE -ne 0) { throw "125 achievement dağılımı hatalı." }
+
+          $css = Get-Content "src/renderer/panel/panel.css" -Raw
+          $skins = Get-Content "src/renderer/panel/skins.css" -Raw
+          if ($css -notmatch 'min-height:\s*86px' -or $css -notmatch 'height:\s*76px') { throw "Kompakt ortak istatistik layout'u eksik." }
+          if ($skins -match 'min-height:\s*150px' -or $skins -match 'min-height:\s*128px') { throw "Eski büyük tema ölçüleri hâlâ mevcut." }
+          if ($skins -match 'grid-template-rows:\s*28px auto auto;\s*align-content:\s*start;\s*min-height:\s*110px') { throw "110px override geri gelmiş." }
+
+          npm install --no-audit --no-fund
+          if ($LASTEXITCODE -ne 0) { throw "npm install başarısız." }
+          npm test
+          if ($LASTEXITCODE -ne 0) { throw "Testler başarısız." }
+
+      - name: Kaynak ağacını temizle
+        shell: pwsh
+        run: |
+          if (Test-Path "project/node_modules") { Remove-Item "project/node_modules" -Recurse -Force }
+          if (Test-Path "project/dist") { Remove-Item "project/dist" -Recurse -Force }
+          Get-ChildItem "project" -Recurse -Force -File | Where-Object { $_.Name -match '\.(rej|orig)$' } | Remove-Item -Force
+          if (Test-Path "project/.git") { Remove-Item "project/.git" -Recurse -Force }
+
+          Compress-Archive -Path "project/*" -DestinationPath "nero-v4.1.0-kaynak.zip" -Force
+
+      - name: Gerçek kaynak kodunu source-v4.1.0 dalına yayınla
+        shell: pwsh
+        run: |
+          $publish = Join-Path $env:RUNNER_TEMP "nero-source-publish"
+          New-Item -ItemType Directory -Force -Path $publish | Out-Null
+          Get-ChildItem "project" -Force | ForEach-Object { Copy-Item $_.FullName $publish -Recurse -Force }
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch --orphan source-v4.1.0
+          git rm -rf . | Out-Null
+          Get-ChildItem $publish -Force | ForEach-Object { Copy-Item $_.FullName "." -Recurse -Force }
+          git add -A
+          git commit -m "source: Nero 4.1.0 complete source with achievements and theme stats fix"
+          git push --force origin source-v4.1.0
+
+      - name: Kaynak zipini build artifact olarak sakla
+        uses: actions/upload-artifact@v4
+        with:
+          name: nero-v4.1.0-kaynak
+          path: nero-v4.1.0-kaynak.zip
+          if-no-files-found: error
