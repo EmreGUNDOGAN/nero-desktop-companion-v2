@@ -94,7 +94,8 @@ test('ana sayfa yardım ikonları, reset modalı ve IPC entegrasyonu vardır', (
   assert.match(panel, /closeSectionHelp/);
   assert.match(main, /ipcMain\.handle\('stats:resetDisplay'/);
   assert.match(preload, /'stats:resetDisplay'/);
-  assert.match(css, /\.section-tooltip/);
+  assert.match(css, /\.section-help\s*\{[\s\S]*?width:\s*18px;[\s\S]*?height:\s*18px;[\s\S]*?border:\s*0;[\s\S]*?background:\s*transparent;/);
+  assert.match(css, /\.section-tooltip\s*\{[\s\S]*?max-width:\s*min\(220px, 66vw\);[\s\S]*?padding:\s*6px 8px;/);
   assert.match(css, /\.confirm-backdrop/);
   assert.match(css, /\.nero-says\s*\{[\s\S]*?align-items:\s*center/);
 
@@ -103,6 +104,7 @@ test('ana sayfa yardım ikonları, reset modalı ve IPC entegrasyonu vardır', (
   for (const skin of ['latte','pazartesi','gece','disket','kasaba','yagmur','kar','cilek','mum','ege']) {
     assert.match(skins, new RegExp('data-skin="' + skin + '"'));
   }
-  assert.match(skins, /section-help/);
+  assert.match(skins, /4\.3\.1 — küçük, border'sız yardım işaretleri/);
+  assert.match(skins, /\[data-skin\] \.section-help\s*\{[\s\S]*?border:\s*0;[\s\S]*?background:\s*transparent;/);
   assert.match(skins, /confirm-card/);
 });
