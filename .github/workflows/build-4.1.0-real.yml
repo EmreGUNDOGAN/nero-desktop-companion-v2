@@ -114,6 +114,12 @@ jobs:
           & "C:\Program Files\Git\bin\bash.exe" -lc "cd project && patch -p1 --batch --forward < ../ach-normalized.patch"
           if ($LASTEXITCODE -ne 0) { throw "125 achievement patch'i uygulanamadı." }
 
+      - name: Rozet rarity sekmelerini uygula
+        shell: pwsh
+        run: |
+          & "C:\Program Files\Git\bin\bash.exe" -lc "cd project && patch -p1 --batch --forward < ../build-input/badges-rarity-tabs.patch"
+          if ($LASTEXITCODE -ne 0) { throw "Rozet rarity sekmeleri patch'i uygulanamadı." }
+
       - name: Setup ve tema uyumluluğunu doğrula
         shell: pwsh
         run: |
@@ -168,6 +174,9 @@ jobs:
           if ($panelHtml.IndexOf('data-tab="timer"') -gt $panelHtml.IndexOf('data-tab="badges"')) { throw "Sekme sırası Sayaç -> Rozetler değil." }
           $panelJs = Get-Content "src/renderer/panel/panel.js" -Raw
           if ($panelJs -notmatch "completedDesc" -or $panelJs -notmatch "badge-tooltip") { throw "Tamamlanan rozet hover açıklaması eksik." }
+          if ($panelHtml -notmatch 'data-rarity="yaygin"' -or $panelHtml -notmatch 'data-rarity="siradisi"' -or $panelHtml -notmatch 'data-rarity="nadir"' -or $panelHtml -notmatch 'data-rarity="efsanevi"') { throw "Rozet rarity sekmeleri HTML içinde eksik." }
+          if ($panelJs -notmatch "activeBadgeRarity" -or $panelJs -notmatch "discoveredHidden") { throw "Rozet rarity filtreleme davranışı eksik." }
+          if ($panelHtml -match 'badges-more') { throw "Eski tek liste / daha fazla rozet butonu hâlâ mevcut." }
 
           node --check "src/main/home-dialogue.js"
           if ($LASTEXITCODE -ne 0) { throw "home-dialogue.js syntax hatası." }
@@ -235,6 +244,9 @@ jobs:
           $vpanelHtml = Get-Content "verify/project/src/renderer/panel/index.html" -Raw
           if ($vpanelHtml.IndexOf('data-tab="timer"') -gt $vpanelHtml.IndexOf('data-tab="badges"')) { throw "Setup payload'unda sekme sırası yanlış." }
           if ($vpanel -notmatch "completedDesc" -or $vpanel -notmatch "badge-tooltip") { throw "Setup payload'unda achievement tooltip sistemi eksik." }
+          if ($vpanelHtml -notmatch 'data-rarity="yaygin"' -or $vpanelHtml -notmatch 'data-rarity="siradisi"' -or $vpanelHtml -notmatch 'data-rarity="nadir"' -or $vpanelHtml -notmatch 'data-rarity="efsanevi"') { throw "Setup payload'unda rozet rarity sekmeleri eksik." }
+          if ($vpanel -notmatch "activeBadgeRarity" -or $vpanel -notmatch "discoveredHidden") { throw "Setup payload'unda rarity filtreleme eksik." }
+          if ($vpanelHtml -match 'badges-more') { throw "Setup payload'unda eski tek liste görünümü kalmış." }
 
       - name: Installer dosyalarını artifact olarak yükle
         uses: actions/upload-artifact@v4
