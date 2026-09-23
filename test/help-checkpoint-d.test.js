@@ -10,8 +10,7 @@ const panel = fs.readFileSync(path.join(__dirname, '../src/renderer/panel/panel.
 
 test('yardım tooltipi shell dışında body seviyesinde tek root katmandadır', () => {
   assert.match(html, /<div class="section-tooltip-layer" id="section-tooltip-layer" role="tooltip" hidden><\/div>/);
-  const shellClose = html.indexOf('</div>\n\n  <div class="section-tooltip-layer"');
-  assert.ok(shellClose > 0, 'tooltip layer shell kapandıktan sonra gelmeli');
+  assert.match(html, /<\/div>\s*<div class="section-tooltip-layer" id="section-tooltip-layer"/);
   assert.match(css, /\.section-tooltip-layer\s*\{[\s\S]*?position:\s*fixed;[\s\S]*?z-index:\s*10000;/);
   assert.match(css, /max-width:\s*min\(220px, calc\(100vw - 24px\)\)/);
 });
