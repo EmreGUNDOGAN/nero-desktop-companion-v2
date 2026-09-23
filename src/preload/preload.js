@@ -22,7 +22,7 @@ const SEND = new Set([
 ]);
 
 const ON = new Set([
-  'cursor', 'say', 'baseline', 'theme', 'settings', 'timer', 'state', 'panel:tab', 'sound', 'dragging', 'peek'
+  'cursor', 'say', 'baseline', 'theme', 'settings', 'timer', 'state', 'panel:tab', 'sound', 'dragging', 'interaction:reset', 'peek'
 ]);
 
 contextBridge.exposeInMainWorld('nero', {
