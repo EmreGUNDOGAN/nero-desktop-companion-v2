@@ -156,6 +156,10 @@
     "nap_wake_self": {
       "count": 100,
       "status": "approved"
+    },
+    "rest_start": {
+      "count": 100,
+      "status": "approved"
     }
   },
   "pending_reconcile": {},
