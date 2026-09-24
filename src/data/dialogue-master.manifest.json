@@ -124,6 +124,10 @@
     "nap_woken_timer": {
       "count": 75,
       "status": "approved"
+    },
+    "fall_asleep": {
+      "count": 100,
+      "status": "approved"
     }
   },
   "pending_reconcile": {},
