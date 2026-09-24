@@ -1,0 +1,323 @@
+:root {
+  --ink: #4A3A22;
+  --muted: #8A7A5E;
+  --card: #FFFBF1;
+  --card2: #F6ECD2;
+  --amber: #F2B33D;
+  --amber-d: #D08E1E;
+  --green: #3E8F52;
+  --red: #C9574C;
+  --shadow: 0 6px 18px rgba(74, 58, 34, .18);
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; overflow: hidden; font-family: "Nunito", "Segoe UI", sans-serif; color: var(--ink); user-select: none; }
+body { background: linear-gradient(180deg, #BFE3F5 0%, #E6F4FB 55%, #F7EEDC 100%); }
+#scene { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+button { font-family: inherit; color: inherit; cursor: pointer; }
+
+.card { background: var(--card); border-radius: 18px; box-shadow: var(--shadow); }
+
+/* ---------- Üst bar ---------- */
+.hud-top { position: fixed; top: 14px; left: 14px; right: 14px; display: flex; align-items: flex-start; justify-content: space-between; pointer-events: none; z-index: 5; }
+.hud-top > * { pointer-events: auto; }
+.hud-left, .hud-right { display: flex; gap: 8px; }
+.chip { display: flex; align-items: center; gap: 8px; background: var(--card); padding: 8px 16px 8px 8px; border-radius: 999px; box-shadow: var(--shadow); font-size: 17px; }
+.chip small { color: var(--muted); font-weight: 700; font-size: 12px; }
+.ico { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: #FBE3A6; position: relative; }
+.ico.coin::after { content: ""; width: 16px; height: 16px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #FFE58A, #E9A91F); box-shadow: inset 0 0 0 2px #C98A12; }
+.ico.jar::after { content: ""; width: 13px; height: 16px; border-radius: 4px 4px 5px 5px; background: linear-gradient(#F7B53B, #E08D14); box-shadow: inset 0 3px 0 #FFF3D0, inset 0 0 0 1.6px #9A5F0F; }
+
+.season { display: flex; align-items: center; gap: 12px; padding: 8px 10px 8px 8px; }
+.season-ico { width: 42px; height: 42px; border-radius: 12px; background: #FDEBC7; display: grid; place-items: center; font-size: 22px; }
+.season-text { display: flex; flex-direction: column; min-width: 120px; }
+.season-text b { font-family: "Fraunces", Georgia, serif; font-size: 17px; line-height: 1.1; }
+.season-text small { color: var(--muted); font-weight: 700; font-size: 12px; }
+.day-bar { margin-top: 5px; height: 5px; border-radius: 3px; background: #EFE3C6; overflow: hidden; }
+.day-bar i { display: block; height: 100%; width: 0; background: var(--amber); border-radius: 3px; transition: width .9s linear; }
+.speeds { display: flex; gap: 3px; background: var(--card2); padding: 3px; border-radius: 12px; }
+.speeds button { border: 0; background: transparent; width: 38px; height: 30px; border-radius: 9px; font-weight: 800; font-size: 13px; }
+.speeds button.on { background: var(--amber); color: #fff; box-shadow: 0 2px 0 var(--amber-d); }
+
+.round { width: 42px; height: 42px; border-radius: 50%; border: 0; background: var(--card); box-shadow: var(--shadow); font-size: 20px; font-weight: 800; }
+.round.small { width: 34px; height: 34px; font-size: 14px; box-shadow: none; background: var(--card2); }
+
+.notice { position: fixed; top: 84px; left: 50%; transform: translateX(-50%); z-index: 5; background: #FFF4D6; border: 2px solid var(--amber); padding: 8px 16px; border-radius: 12px; font-weight: 700; font-size: 13px; }
+.notice[hidden] { display: none; }
+
+/* ---------- Alt bar ---------- */
+.hud-bottom { position: fixed; left: 50%; bottom: 16px; transform: translateX(-50%); display: flex; align-items: flex-end; gap: 12px; z-index: 5; }
+.hexbtn {
+  width: 86px; height: 78px; border: 0; padding-top: 6px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+  background: var(--card); font-weight: 800; font-size: 12px;
+  clip-path: polygon(25% 3%, 75% 3%, 100% 50%, 75% 97%, 25% 97%, 0 50%);
+  filter: drop-shadow(0 4px 6px rgba(74, 58, 34, .22));
+  transition: transform .12s ease;
+}
+.hexbtn span { font-size: 24px; line-height: 1; }
+.hexbtn:hover { transform: translateY(-2px); }
+.hexbtn.big { width: 110px; height: 96px; background: #FFD66B; font-size: 12.5px; }
+.hexbtn.big span { font-size: 30px; }
+
+/* ---------- Kovan doluluk etiketleri ---------- */
+#labels { position: fixed; inset: 0; pointer-events: none; z-index: 3; }
+.hive-tag {
+  position: absolute; transform: translate(-50%, -100%);
+  background: var(--card); border-radius: 10px; padding: 3px 8px 5px; font-size: 11px; font-weight: 800;
+  box-shadow: 0 3px 8px rgba(74, 58, 34, .25); text-align: center; min-width: 44px;
+}
+.hive-tag i { display: block; height: 4px; margin-top: 3px; border-radius: 2px; background: #EFE3C6; overflow: hidden; }
+.hive-tag i b { display: block; height: 100%; background: var(--amber); }
+.hive-tag.full { background: #FFD66B; }
+
+/* ---------- Açılır menü ---------- */
+.popup { position: fixed; z-index: 8; width: 250px; padding: 14px; }
+.popup[hidden] { display: none; }
+.popup h3 { margin: 0 0 2px; font-family: "Fraunces", Georgia, serif; font-size: 17px; }
+.popup .sub { margin: 0 0 10px; color: var(--muted); font-size: 12px; font-weight: 700; }
+.popup .row { display: flex; justify-content: space-between; font-size: 13px; padding: 4px 0; }
+.popup .row b { font-weight: 800; }
+.popup .bar { height: 7px; border-radius: 4px; background: #EFE3C6; overflow: hidden; margin: 4px 0 8px; }
+.popup .bar b { display: block; height: 100%; background: var(--amber); }
+.popup .chips { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 10px; }
+.popup .chips span { background: var(--card2); border-radius: 999px; padding: 3px 9px; font-size: 11.5px; font-weight: 700; }
+.act { width: 100%; border: 0; border-radius: 12px; padding: 11px; font-weight: 800; font-size: 14px; margin-top: 6px; background: var(--card2); box-shadow: 0 3px 0 rgba(74, 58, 34, .12); display: flex; justify-content: space-between; align-items: center; }
+.act.primary { background: var(--amber); color: #fff; box-shadow: 0 3px 0 var(--amber-d); }
+.act.danger { background: #F7DAD6; }
+.act:disabled { opacity: .45; cursor: not-allowed; }
+.act small { font-weight: 800; opacity: .9; }
+
+/* ---------- Tohum seçici ---------- */
+.modal-bg { position: fixed; inset: 0; z-index: 9; background: rgba(74, 58, 34, .28); display: grid; place-items: center; }
+.modal-bg[hidden] { display: none; }
+.modal { width: min(560px, 92vw); max-height: 86vh; overflow: auto; padding: 20px; }
+.modal-head { display: flex; align-items: center; justify-content: space-between; }
+.modal h2 { margin: 0; font-family: "Fraunces", Georgia, serif; font-size: 21px; }
+.modal-sub { margin: 4px 0 12px; color: var(--muted); font-size: 12.5px; font-weight: 700; }
+.seed-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.seed { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 14px; background: var(--card2); }
+.seed .dot { width: 34px; height: 34px; border-radius: 50%; border: 2px solid var(--ink); flex: none; }
+.seed .info { flex: 1; min-width: 0; }
+.seed .info b { display: block; font-size: 15px; }
+.seed .info small { color: var(--muted); font-weight: 700; font-size: 11.5px; }
+.seed .buff { color: var(--green); font-weight: 800; font-size: 13px; width: 130px; }
+.seed .buff.zero { color: var(--muted); }
+.seed .buy { border: 0; border-radius: 10px; padding: 9px 14px; font-weight: 800; background: var(--amber); color: #fff; box-shadow: 0 3px 0 var(--amber-d); white-space: nowrap; }
+.seed .buy:disabled { opacity: .45; cursor: not-allowed; }
+.seed .insz, .seed .outsz { display: block; margin-top: 1px; font-size: 10.5px; font-weight: 800; }
+.seed .insz { color: var(--green); }
+.seed .outsz { color: var(--red); }
+.seed .info small { display: block; }
+
+/* ---------- Bildirimler ---------- */
+.toasts { position: fixed; left: 16px; bottom: 16px; z-index: 10; display: flex; flex-direction: column; gap: 8px; align-items: flex-start; }
+.toast { background: var(--card); box-shadow: var(--shadow); border-radius: 12px; padding: 10px 14px; font-weight: 800; font-size: 13px; animation: toast-in .25s ease-out; }
+.toast.err { background: #FBE2DE; }
+@keyframes toast-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+/* ---------- Kovanın içi ---------- */
+.hive-card { width: min(1040px, 96vw); height: min(640px, 92vh); display: flex; overflow: hidden; padding: 0; }
+.comb-wrap { position: relative; flex: 1 1 55%; background: #A77A45; min-width: 0; }
+.comb-wrap canvas { width: 100%; height: 100%; display: block; }
+.comb-tag { position: absolute; left: 14px; top: 14px; background: var(--card); border-radius: 999px; padding: 5px 12px; font-weight: 800; font-size: 13px; box-shadow: var(--shadow); }
+.hive-side { flex: 1 1 45%; padding: 18px 18px 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+.hive-head { display: flex; align-items: center; gap: 10px; }
+.hive-head > div { flex: 1; }
+.hive-head h2 { margin: 0; font-family: "Fraunces", Georgia, serif; font-size: 23px; }
+.hive-head .sub { margin: 0; color: var(--muted); font-size: 12.5px; font-weight: 700; }
+.hex-badge { width: 30px; height: 30px; background: #F6B77A; clip-path: polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0 50%); }
+.stat-row { display: flex; gap: 10px; }
+.stat { flex: 1; background: #fff; border-radius: 14px; padding: 10px 12px; box-shadow: 0 2px 6px rgba(74, 58, 34, .08); }
+.stat small { display: block; color: var(--muted); font-weight: 800; font-size: 12px; }
+.stat b { font-size: 20px; }
+.stat .bar { height: 8px; border-radius: 4px; background: #EFE3C6; overflow: hidden; margin: 6px 0 8px; }
+.stat .bar b { display: block; height: 100%; background: var(--amber); font-size: 0; }
+.stat .chips { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 4px; }
+.stat .chips span { background: var(--card2); border-radius: 999px; padding: 3px 10px; font-size: 12px; font-weight: 800; }
+.harvest-btn { border: 0; border-radius: 16px; padding: 14px; font-weight: 800; font-size: 17px; background: var(--amber); color: #fff; box-shadow: 0 4px 0 var(--amber-d); }
+.harvest-btn:disabled { background: #F1DFB5; color: #A58A5A; box-shadow: 0 4px 0 #D9C595; cursor: default; }
+.grid-acts { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.gact { border: 0; text-align: left; border-radius: 14px; padding: 10px 12px; background: #F8EBCB; box-shadow: 0 3px 0 rgba(74, 58, 34, .12); font-weight: 800; font-size: 14px; }
+.gact small { display: block; font-weight: 700; font-size: 12px; color: var(--muted); margin-top: 2px; }
+.gact:disabled { opacity: .5; cursor: not-allowed; }
+.gact.danger { background: #F7D5CF; }
+
+/* ---------- Pazar ve Depo ---------- */
+.chip.clickable { cursor: pointer; }
+.market-card { width: min(1000px, 96vw); height: min(620px, 92vh); display: flex; padding: 0; overflow: hidden; }
+.market { flex: 1 1 64%; padding: 20px; overflow-y: auto; }
+.depot { flex: 0 0 300px; padding: 20px; background: #FBF1DA; display: flex; flex-direction: column; gap: 8px; overflow-y: auto; }
+.season-tag { background: var(--card2); border-radius: 999px; padding: 5px 12px; font-weight: 800; font-size: 12.5px; }
+.festival { background: #FFE3A3; border: 2px dashed var(--amber-d); border-radius: 12px; padding: 8px 12px; font-weight: 800; font-size: 13px; margin-bottom: 10px; }
+.festival[hidden] { display: none; }
+.market-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.mrow { display: grid; grid-template-columns: 34px 1fr 90px 70px auto; align-items: center; gap: 10px; background: #fff; border-radius: 14px; padding: 10px 12px; box-shadow: 0 2px 6px rgba(74, 58, 34, .07); }
+.mrow.fest { box-shadow: 0 0 0 2px var(--amber) inset; }
+.mrow .dot { width: 30px; height: 30px; border-radius: 50%; border: 2px solid var(--ink); }
+.mrow .nm b { display: block; font-size: 14.5px; }
+.mrow .nm small { color: var(--muted); font-weight: 700; font-size: 11.5px; }
+.mrow .pr { text-align: right; }
+.mrow .pr b { display: block; font-size: 16px; }
+.mrow .pr small { font-weight: 800; font-size: 11.5px; }
+.mrow .up { color: var(--green); }
+.mrow .down { color: var(--red); }
+.mrow .flat { color: var(--muted); }
+.mrow svg { width: 70px; height: 28px; }
+.mrow .sell { display: flex; gap: 4px; }
+.mrow .sell button { border: 0; border-radius: 9px; padding: 7px 9px; font-weight: 800; font-size: 12px; background: var(--card2); }
+.mrow .sell button.all { background: var(--amber); color: #fff; box-shadow: 0 2px 0 var(--amber-d); }
+.mrow .sell button:disabled { opacity: .4; cursor: not-allowed; }
+.depot-kg { font-size: 22px; }
+.depot .bar { height: 9px; border-radius: 5px; background: #EFE3C6; overflow: hidden; }
+.depot .bar b { display: block; height: 100%; background: var(--amber); }
+.depot-list { list-style: none; margin: 6px 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.depot-list li { display: flex; align-items: center; gap: 8px; font-size: 13.5px; font-weight: 700; }
+.depot-list li i { width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid var(--ink); flex: none; }
+.depot-list li span { flex: 1; }
+.depot-list li.empty { color: var(--muted); }
+.depot-note { margin: auto 0 0; color: var(--muted); font-size: 12px; font-weight: 700; }
+
+/* ---------- Siparişler ---------- */
+.hexbtn { position: relative; }
+.badge-n { position: absolute; top: 6px; right: 18px; min-width: 20px; height: 20px; border-radius: 10px; background: var(--red); color: #fff; font-style: normal; font-size: 11.5px; font-weight: 800; display: grid; place-items: center; padding: 0 5px; }
+.badge-n[hidden] { display: none; }
+.orders-card { width: min(640px, 94vw); }
+.orders-meta { display: flex; justify-content: space-between; font-size: 12.5px; font-weight: 800; color: var(--muted); margin-bottom: 10px; }
+.order-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.order { background: #fff; border-radius: 16px; padding: 12px 14px; box-shadow: 0 2px 8px rgba(74, 58, 34, .08); }
+.order.accepted { box-shadow: 0 0 0 2px var(--amber) inset; }
+.order.late { box-shadow: 0 0 0 2px var(--red) inset; }
+.order-top { display: flex; align-items: center; gap: 12px; }
+.order .avatar { width: 46px; height: 46px; border-radius: 14px; display: grid; place-items: center; font-size: 22px; flex: none; clip-path: polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0 50%); }
+.order .who { flex: 1; min-width: 0; }
+.order .who b { display: block; font-size: 16px; }
+.order .who span { font-size: 13px; font-weight: 700; color: var(--muted); }
+.order .reward { font-weight: 800; font-size: 16px; background: var(--card2); border-radius: 999px; padding: 6px 12px; white-space: nowrap; }
+.order .tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 0 58px; }
+.order .tags span { background: var(--card2); border-radius: 999px; padding: 3px 10px; font-size: 12px; font-weight: 800; }
+.order .tags span.ok { background: #DDF0D8; color: #2F6E3E; }
+.order .tags span.warn { background: #FBE2DE; color: #9E3D33; }
+.order .note { margin: 6px 0 0 58px; font-size: 11.5px; font-weight: 700; color: var(--muted); }
+.order .btns { display: flex; gap: 6px; margin: 10px 0 0 58px; }
+.order .btns button { border: 0; border-radius: 10px; padding: 8px 12px; font-weight: 800; font-size: 13px; background: var(--card2); box-shadow: 0 2px 0 rgba(74, 58, 34, .12); }
+.order .btns button.primary { background: var(--amber); color: #fff; box-shadow: 0 2px 0 var(--amber-d); }
+.order .btns button.danger { background: #F7D5CF; }
+.order .btns button:disabled { opacity: .45; cursor: not-allowed; }
+.order-empty { text-align: center; color: var(--muted); font-weight: 700; padding: 30px 10px; }
+
+/* ---------- Liderlik ---------- */
+.board-card { width: min(560px, 94vw); }
+.board-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.brow { display: grid; grid-template-columns: 34px 44px 1fr 80px 92px; align-items: center; gap: 10px; background: #fff; border-radius: 14px; padding: 10px 12px; box-shadow: 0 2px 6px rgba(74, 58, 34, .07); }
+.brow.me { background: #FFF1CC; box-shadow: 0 0 0 2px var(--amber) inset; }
+.brow .rk { font-family: "Fraunces", Georgia, serif; font-size: 22px; text-align: center; }
+.brow .av { width: 40px; height: 40px; display: grid; place-items: center; font-size: 22px; background: var(--card2); clip-path: polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0 50%); }
+.brow .nm b { display: block; font-size: 15px; }
+.brow .nm small { color: var(--muted); font-weight: 700; font-size: 12px; }
+.brow svg { width: 80px; height: 30px; }
+.brow .nw { text-align: right; }
+.brow .nw b { display: block; font-size: 16px; }
+.brow .nw small { font-weight: 800; font-size: 11.5px; }
+.brow .up { color: var(--green); }
+.brow .down { color: var(--red); }
+.brow .flat { color: var(--muted); }
+
+/* ---------- Mağaza ---------- */
+.shop-card { width: min(640px, 94vw); }
+.shop-tabs { display: flex; gap: 6px; margin-bottom: 12px; }
+.shop-tabs button { border: 0; border-radius: 12px; padding: 9px 16px; font-weight: 800; background: var(--card2); }
+.shop-tabs button.on { background: var(--amber); color: #fff; box-shadow: 0 3px 0 var(--amber-d); }
+.shop-body { display: flex; flex-direction: column; gap: 8px; }
+.shop-item { display: flex; align-items: center; gap: 12px; background: #fff; border-radius: 14px; padding: 12px 14px; box-shadow: 0 2px 6px rgba(74, 58, 34, .07); }
+.shop-item .big { font-size: 30px; width: 44px; text-align: center; }
+.shop-item .info { flex: 1; }
+.shop-item .info b { display: block; font-size: 15px; }
+.shop-item .info small { color: var(--muted); font-weight: 700; font-size: 12px; }
+.shop-item button { border: 0; border-radius: 10px; padding: 9px 14px; font-weight: 800; background: var(--amber); color: #fff; box-shadow: 0 3px 0 var(--amber-d); white-space: nowrap; }
+.shop-item button:disabled { opacity: .45; cursor: not-allowed; }
+.place-bar { position: fixed; top: 84px; left: 50%; transform: translateX(-50%); z-index: 7; background: var(--ink); color: #FFF6E0; border-radius: 999px; padding: 8px 8px 8px 18px; display: flex; align-items: center; gap: 12px; font-weight: 800; font-size: 14px; box-shadow: var(--shadow); }
+.place-bar[hidden] { display: none; }
+.place-bar button { border: 0; border-radius: 999px; padding: 6px 14px; font-weight: 800; background: #FFF6E0; }
+
+/* ---------- Rehber ---------- */
+.guide-card { width: min(620px, 94vw); }
+.guide h3 { margin: 14px 0 4px; font-family: "Fraunces", Georgia, serif; font-size: 16px; }
+.guide h3:first-child { margin-top: 4px; }
+.guide p { margin: 0; font-size: 13.5px; line-height: 1.5; }
+
+/* ---------- Nero ---------- */
+.nero { position: fixed; right: 18px; bottom: 16px; z-index: 6; width: 110px; cursor: pointer; }
+.nero-body { width: 110px; height: auto; display: block; filter: drop-shadow(0 6px 8px rgba(74, 58, 34, .25)); transition: transform .2s ease; }
+.nero:hover .nero-body { transform: translateY(-3px) rotate(-2deg); }
+.nero.talk .nero-body { animation: nero-bob .5s ease-in-out 3; }
+@keyframes nero-bob { 50% { transform: translateY(-5px); } }
+.nero-bubble { position: absolute; right: 70px; bottom: 118px; width: max-content; max-width: 250px; background: var(--card); border-radius: 16px; padding: 10px 14px; font-size: 13px; font-weight: 700; line-height: 1.4; box-shadow: var(--shadow); animation: toast-in .25s ease-out; }
+.nero-bubble::after { content: ""; position: absolute; right: 18px; bottom: -8px; width: 16px; height: 16px; background: var(--card); transform: rotate(45deg); border-radius: 3px; }
+.nero-bubble[hidden] { display: none; }
+
+/* ---------- Kar ---------- */
+#snow { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2; }
+#snow[hidden] { display: none; }
+body.season-yaz { background: linear-gradient(180deg, #A9DCF7 0%, #E4F5FF 55%, #FBF0D6 100%); }
+body.season-sonbahar { background: linear-gradient(180deg, #F2D7B0 0%, #F7E9D3 55%, #F3DFC0 100%); }
+body.season-kis { background: linear-gradient(180deg, #C9D8E8 0%, #EAF1F8 55%, #F4F6F9 100%); }
+
+/* ---------- Hasta kovan ---------- */
+.sick-banner { display: flex; align-items: center; gap: 10px; background: #FBE2DE; border-radius: 14px; padding: 10px 12px; font-size: 13px; font-weight: 800; color: #8E3A31; }
+.sick-banner[hidden] { display: none; }
+.sick-banner span { flex: 1; }
+.sick-banner button { border: 0; border-radius: 10px; padding: 8px 12px; font-weight: 800; background: var(--red); color: #fff; white-space: nowrap; }
+.sick-banner button:disabled { opacity: .5; }
+.hive-tag.sick { background: #FBE2DE; }
+
+/* ---------- Sen yokken ---------- */
+.away-card { width: min(420px, 92vw); text-align: left; }
+.away-card h2 { margin: 0; font-family: "Fraunces", Georgia, serif; font-size: 22px; }
+.away-list { list-style: none; margin: 8px 0 14px; padding: 0; display: flex; flex-direction: column; gap: 7px; }
+.away-list li { background: var(--card2); border-radius: 12px; padding: 9px 12px; font-weight: 800; font-size: 14px; }
+.away-list li.bad { background: #FBE2DE; }
+
+/* ---------- Tanıtım ---------- */
+.tour { position: fixed; inset: 0; z-index: 11; background: rgba(74, 58, 34, .25); pointer-events: auto; }
+.tour[hidden] { display: none; }
+.tour-card { position: fixed; right: 140px; bottom: 120px; width: min(360px, 80vw); padding: 18px 18px 14px; }
+.tour-step { margin: 0; color: var(--muted); font-weight: 800; font-size: 12px; }
+.tour-text { margin: 6px 0 14px; font-size: 15px; font-weight: 700; line-height: 1.5; }
+.tour-btns { display: flex; justify-content: flex-end; gap: 8px; }
+.tour-btns button { border: 0; border-radius: 10px; padding: 9px 16px; font-weight: 800; background: var(--card2); }
+.tour-btns button.primary { background: var(--amber); color: #fff; box-shadow: 0 3px 0 var(--amber-d); }
+.season-text small b { font-weight: 800; color: var(--ink); }
+
+/* ---------- Odak bonusu ---------- */
+.chip.boost { background: #FFE3B0; }
+.chip.boost[hidden] { display: none; }
+
+/* ---------- Arı ırkı ---------- */
+.breed-box b { font-size: 16px; }
+.breed-desc { margin: 2px 0 8px; font-size: 12px; font-weight: 700; color: var(--muted); }
+.breed-opts { display: flex; gap: 6px; flex-wrap: wrap; }
+.breed-opts button { border: 0; border-radius: 10px; padding: 6px 10px; font-weight: 800; font-size: 12px; background: var(--card2); }
+.breed-opts button.on { background: var(--amber); color: #fff; }
+.breed-opts button:disabled:not(.on) { opacity: .45; }
+
+/* ---------- Balmumu ---------- */
+.wax-box { margin-top: 10px; background: #fff; border-radius: 14px; padding: 12px; display: flex; flex-direction: column; gap: 4px; }
+.wax-box p { margin: 0 0 4px; font-size: 12.5px; font-weight: 700; color: var(--muted); }
+
+/* ---------- Festival ---------- */
+.fest-box { background: #FFF1CC; border: 2px solid var(--amber); border-radius: 14px; padding: 12px; margin-bottom: 10px; font-size: 13px; font-weight: 700; }
+.fest-box[hidden] { display: none; }
+.fest-box b { font-size: 14.5px; }
+.fest-row { display: flex; gap: 6px; align-items: center; margin-top: 8px; flex-wrap: wrap; }
+.fest-row select, .fest-row input { border: 0; border-radius: 10px; padding: 7px 10px; font: inherit; font-weight: 800; background: #fff; }
+.fest-row input { width: 70px; }
+.fest-row button { border: 0; border-radius: 10px; padding: 8px 12px; font-weight: 800; background: var(--amber); color: #fff; box-shadow: 0 2px 0 var(--amber-d); }
+
+/* ---------- Köylüler ---------- */
+.villagers { margin-top: 14px; }
+.villagers h3 { margin: 0 0 6px; font-family: "Fraunces", Georgia, serif; font-size: 15px; }
+.villagers ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.villagers li { background: var(--card2); border-radius: 999px; padding: 4px 10px; font-size: 12px; font-weight: 800; }
+.hearts { color: #E0626A; letter-spacing: 1px; }
+.order .who .hearts { font-size: 12px; margin-left: 4px; }
+.gift { color: var(--green); font-weight: 800; font-size: 11px; }
