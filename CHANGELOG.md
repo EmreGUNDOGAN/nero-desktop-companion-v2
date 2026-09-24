@@ -2,6 +2,46 @@
 
 Her sürümde eklenenler, değişenler ve düzeltilenler burada. En yeni sürüm en üstte.
 
+## 5.0.0: Diyalog sistemi ve Arıcılık oyunu
+
+### Yeni
+- **Arıcılık oyunu:** Nero içine ayrı pencerede çalışan, Three.js tabanlı 3D arıcılık çiftliği eklendi.
+- Kovan kurma, çiçek ekme, bal üretimi ve hasat, depo, Pazar, siparişler, köylüler, arı ırkları, şurup, hastalık, dekorlar, balmumu/mum, rakipler ve yıllık Bal Festivali destekleniyor.
+- Oyun kaydı `%APPDATA%\Nero\bee.json` altında tutuluyor; Nero açıkken oyun penceresi kapalı olsa da çiftlik ilerlemeye devam ediyor.
+- Panel başlığına **🐝 Arıcılık** düğmesi ve Nero sağ tık menüsüne **Arıcılık oyunu** girişi eklendi.
+- Nero'nun odak sayacı tamamlanınca arıcılık üretim bonusu; yapılacak iş tamamlanınca **+10 jeton** bağlantısı eklendi.
+- Dolu/hasta kovan, yaklaşan sipariş, kış erzağı ve rakip uyarıları masaüstü Nero repliklerine bağlandı.
+- Arıcılık kaydı Nero'nun genel yedek/dışa aktarma sistemine dahil edildi; ayrıca yalnız çiftliği dışa/içe aktarma desteği eklendi.
+- **Oyunu sıfırla** seçeneği Ayarlar > Yedekler'e eklendi. İki onay ister ve sıfırlamadan önce mevcut çiftliği otomatik yedekler.
+
+### Arıcılık zamanı ve rehber
+- Oyun takviminde her mevsim/oyun ayı **15 gün**; bir oyun yılı toplam **60 gün**.
+- Festival artık sabit gün numarasına değil, yılın otomatik olarak son 3 gününe bağlı.
+- Oyun penceresi önde değilken simülasyon hızı en fazla **2x**; 4x seçiliyse pencere tekrar öne geldiğinde 4x devam eder.
+- Oyun içi Rehber genişletildi: ilk adımlar, zaman/hız, üretim, kovanlar, kış/hastalık, hasat/depo, Pazar/siparişler, köylüler, Nero bonusları, festival/rakipler ve kayıt/sıfırlama ayrı başlıklarda anlatılıyor.
+
+### Diyalog sistemi
+- Diyaloglar için **canonical master + generated runtime + manifest** yapısı eklendi.
+- `dialogue.master.tr.json`, `dialogue.tr.json` ve `dialogue-master.manifest.json` senkron doğrulama akışına geçirildi.
+- Diyalog build/check/import araçları eklendi.
+- Güncel masterda **106 kategori ve 7.998 replik** bulunuyor.
+- Fiziksel etkileşim, sayaç, uyku/şekerleme, selamlaşma/dönüş ve masaüstü geri dönüş kategorileri genişletildi; exact duplicate ve placeholder doğrulamaları uygulanıyor.
+- Eski kategorilerdeki ifade/efekt metadata nesneleri korunuyor.
+
+### Veri ve geriye uyumluluk
+- 4.3.1'deki notlar, işler, arşivler, moodboard kayıtları, istatistikler, rozetler, temalar ve ayarlar korunuyor.
+- Arıcılık genel Nero snapshot/yedek yapısına eklendi.
+- Arıcılık içe aktarması ve oyun sıfırlaması mevcut çiftliğin üzerine yazmadan önce ayrı güvenlik yedeği alıyor.
+- `appId` değişmedi: `com.stenwick.nero`.
+
+### Doğrulama
+- **60/60 Node regression testi başarılı.**
+- Diyalog master/runtime senkronizasyon kontrolü başarılı.
+- Üst pencere kontrolleri gerçek Electron hit-test smoke testiyle doğrulandı.
+- Panel sürükleme ve minimize/restore etkileşimleri Electron smoke testiyle doğrulandı.
+- Arıcılık penceresi, preload köprüsü ve Three.js sahnesi gerçek Electron smoke testiyle doğrulandı.
+- Windows x64 NSIS **Nero-Setup-5.0.0.exe** üretimi başarılı.
+
 ## 4.3.1: Pencere etkileşimleri, görev çubuğu, Moodboard ve yardım polish
 
 ### Düzeltildi
