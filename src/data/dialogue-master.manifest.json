@@ -176,6 +176,10 @@
     "pajama_on": {
       "count": 100,
       "status": "approved"
+    },
+    "pajama_off": {
+      "count": 100,
+      "status": "approved"
     }
   },
   "pending_reconcile": {},
