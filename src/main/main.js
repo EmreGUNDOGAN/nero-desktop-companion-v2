@@ -105,7 +105,7 @@ const builtinThemesDir = app.isPackaged
 const userThemesDir = path.join(userData, 'themes');
 const iconPath = path.join(app.getAppPath(), 'build', 'icon.png');
 
-let settingsStore, notesStore, todosStore, moodStore, statsStore, moodLogStore, archiveStore, jarStore, homeDialogueStore, userMoodStore;
+let settingsStore, notesStore, todosStore, moodStore, statsStore, moodLogStore, archiveStore, jarStore, homeDialogueStore, userMoodStore, dialogueHistoryStore;
 let themes, dialogue, mood, timer, stats, journal, homeDialogue;
 let homeCache = null;
 let resize = null;
@@ -2431,7 +2431,7 @@ function checkForUpdates(manual) {
 function installUpdateNow() {
   if (!updater || updateState.status === 'idle') return false;
   isQuitting = true;
-  for (const store of [settingsStore, notesStore, todosStore, moodStore, statsStore, moodLogStore, archiveStore, jarStore, homeDialogueStore, userMoodStore]) store?.flush();
+  for (const store of [settingsStore, notesStore, todosStore, moodStore, statsStore, moodLogStore, archiveStore, jarStore, homeDialogueStore, userMoodStore, dialogueHistoryStore]) store?.flush();
   setImmediate(() => updater.quitAndInstall(true, true));
   return true;
 }
@@ -2517,6 +2517,7 @@ app.whenReady().then(() => {
   jarStore = new JsonStore(userData, 'jar', {});
   homeDialogueStore = new JsonStore(userData, 'home-dialogue-state', {});
   userMoodStore = new JsonStore(userData, 'user-moodboard', { days: {}, exports: {} });
+  dialogueHistoryStore = new JsonStore(userData, 'dialogue-history', { recent: {} });
   journal = new Journal({ moodStore: moodLogStore, archiveStore, jarStore });
   // Migration sırasında mevcut saatli görevler sayılır; onUnlock henüz bağlı olmadığı için eski
   // kullanıcı verileri için toplu Windows bildirimi spamı oluşmaz.
@@ -2532,7 +2533,7 @@ app.whenReady().then(() => {
 
   themes = new ThemeManager({ builtinDir: builtinThemesDir, userDir: userThemesDir });
   themes.scan();
-  dialogue = new Dialogue();
+  dialogue = new Dialogue({ historyStore: dialogueHistoryStore });
   loadTheme(settings().themeId);
   if (currentTheme.id !== settings().themeId) settingsStore.patch({ themeId: currentTheme.id });
 
