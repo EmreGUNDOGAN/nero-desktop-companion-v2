@@ -952,6 +952,15 @@ function exitRest() {
   broadcastState();
 }
 
+// Son görev kapandığında önce todo_all_done repliğinin görünmesine izin ver,
+// ardından otomatik "Bugünlük yeter" moduna geç. Replik sessize alınmışsa
+// kısa bir gecikmeyle devam eder; konuşuyorsa main-process konuşma süresini bekler.
+function scheduleRestAfterAllDone() {
+  if (settings().restMode === false || settings().restDay === todayKey()) return;
+  const delay = Math.max(800, speakingUntil - Date.now() + 500);
+  setTimeout(() => enterRest(true), delay);
+}
+
 function currentOutfit(date = new Date()) {
   const h = date.getHours();
   if (h >= 21 || h < 6) return 'pajama';
@@ -1070,13 +1079,19 @@ function greet() {
 }
 
 // Etkileşim sonrası: ihmal edilmişse sitem eder, uyuyorsa uyanır.
-function reactToInteraction(kind, fallback) {
+function reactToInteraction(kind, fallback, { preferFallback = false } = {}) {
   markUserInteraction();
   stats.recordInteraction(kind, { stage: mood.stage });
   const result = mood.interact(kind);
   maybeRareEvent();
   updateBaseline();
   broadcastState();
+  // Bazı yüksek öncelikli olaylar (örn. bütün görevlerin bitmesi) kendi
+  // tepkisini her durumda göstermeli; wake/returned bu özel tepkiyi ezmesin.
+  if (preferFallback) {
+    if (fallback) fallback();
+    return false;
+  }
   if (result.wasAsleep) { say('wake'); return true; }
   if (result.wasNeglected) { say('returned'); return true; }
   if (fallback) fallback();
@@ -1536,11 +1551,11 @@ function registerIpc() {
       reactToInteraction('todo_done', () => {
         if (allDone) {
           stats.award('hepsi_bitti');
-          if (settings().restMode !== false && settings().restDay !== todayKey()) setTimeout(() => enterRest(true), 1500);
-          else say('todo_all_done');
+          say('todo_all_done');
+          scheduleRestAfterAllDone();
         }
         else if (chance(0.7)) say('todo_done', { label: truncate(todo.text, 40) });
-      });
+      }, { preferFallback: allDone });
     } else {
       broadcastState();
     }
