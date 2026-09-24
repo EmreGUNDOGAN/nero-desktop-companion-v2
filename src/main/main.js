@@ -1277,6 +1277,7 @@ function buildMenu() {
     { label: 'Notlar', click: () => showPanel('notes') },
     { label: 'Yapılacaklar', click: () => showPanel('todos') },
     { label: 'Zamanlayıcı', click: () => showPanel('timer') },
+    { label: 'Arıcılık oyunu', click: () => openBeeWindow() },
     { label: 'Ayarlar', click: () => showPanel('settings') },
     { type: 'separator' },
     { label: s.hidden ? 'Nero\'yu göster' : 'Nero\'yu gizle', click: () => setSetting('hidden', !s.hidden) },
