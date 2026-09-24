@@ -212,6 +212,10 @@
     "return_days": {
       "count": 150,
       "status": "approved"
+    },
+    "desktop_return": {
+      "count": 250,
+      "status": "approved"
     }
   },
   "pending_reconcile": {},
