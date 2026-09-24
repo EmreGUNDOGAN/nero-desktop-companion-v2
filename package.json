@@ -15,7 +15,8 @@
     "dist:dir": "electron-builder --win --x64 --dir --publish never",
     "test": "node --test test/*.test.js",
     "dialogue:build": "node scripts/dialogue-master.js",
-    "dialogue:check": "node scripts/dialogue-master.js --check"
+    "dialogue:check": "node scripts/dialogue-master.js --check",
+    "dialogue:import": "node scripts/dialogue-import.js"
   },
   "devDependencies": {
     "electron": "^44.4.3",
