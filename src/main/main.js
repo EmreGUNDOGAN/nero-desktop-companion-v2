@@ -24,7 +24,7 @@ const { Timer } = require('./timer');
 const { Stats, dayKey } = require('./stats');
 const { HomeDialogueEngine } = require('./home-dialogue');
 const { Journal, isoWeekKey } = require('./journal');
-const { BeeGame } = require('./bee');
+const { BeeGame, freshState } = require('./bee');
 const { monthKey: moodMonthKey, monthLabelTr, userMonth, setUserMood, dataMonths, closedDataMonths, renderMoodboardSvg } = require('./moodboard');
 const { svgToPng } = require('./moodboard-image');
 const {
@@ -1511,6 +1511,7 @@ function registerIpc() {
   ipcMain.handle('bee:summary', () => (bee ? bee.takeAwaySummary() : null));
   ipcMain.handle('bee:export', () => exportBee());
   ipcMain.handle('bee:import', () => importBee());
+  ipcMain.handle('bee:reset', () => resetBee());
   ipcMain.handle('bee:action', (_e, action, arg1, arg2) => {
     if (!bee) return { res: { ok: false, msg: 'Arıcılık henüz hazır değil.' }, view: null, events: [] };
     bee.markSeen();
@@ -2103,7 +2104,7 @@ function startLoops() {
     if (!bee) return;
     const gameInFront = beeWin && !beeWin.isDestroyed() && beeWin.isVisible() && beeWin.isFocused();
     if (gameInFront) bee.markSeen();
-    if (bee.tick()) {
+    if (bee.tick(Date.now(), gameInFront ? null : 2)) {
       sendBee();
       if (Math.random() < 0.1) bee.save();
     }
@@ -2453,6 +2454,45 @@ async function importBee() {
   fs.writeFileSync(path.join(backupDir, `nero-aricilik-ice-aktarma-oncesi-${Date.now()}.json`),
     JSON.stringify({ app: 'Nero', type: 'bee', createdAt: new Date().toISOString(), bee: beeStore.get() }, null, 2), 'utf8');
   beeStore.set(data.bee);
+  bee = new BeeGame(beeStore);
+  bee.markSeen();
+  sendBee();
+  return { ok: true };
+}
+
+async function resetBee() {
+  const parent = panelWin || beeWin;
+  const first = await dialog.showMessageBox(parent, {
+    type: 'warning',
+    buttons: ['Devam et', 'Vazgeç'],
+    defaultId: 1,
+    cancelId: 1,
+    title: 'Arıcılık oyununu sıfırla',
+    message: 'Çiftliğini sıfırlamak istediğine emin misin?',
+    detail: 'Jetonlar, kovanlar, çiçekler, siparişler, rakip ilerlemesi ve tüm arıcılık kaydı başlangıç durumuna döner. Önce otomatik yedek alınacak.'
+  });
+  if (first.response !== 0) return { ok: false, cancelled: true };
+
+  const second = await dialog.showMessageBox(parent, {
+    type: 'warning',
+    buttons: ['Evet, sıfırla', 'Hayır'],
+    defaultId: 1,
+    cancelId: 1,
+    title: 'Son onay',
+    message: 'Bu işlem mevcut çiftliğin yerine yeni bir çiftlik oluşturacak.',
+    detail: 'Devam edersen oyun 200 jeton, ilk kovan ve başlangıç tarhlarıyla yeniden başlar.'
+  });
+  if (second.response !== 0) return { ok: false, cancelled: true };
+
+  fs.mkdirSync(backupDir, { recursive: true });
+  bee.save();
+  fs.writeFileSync(
+    path.join(backupDir, `nero-aricilik-sifirlama-oncesi-${Date.now()}.json`),
+    JSON.stringify({ app: 'Nero', type: 'bee', createdAt: new Date().toISOString(), bee: beeStore.get() }, null, 2),
+    'utf8'
+  );
+
+  beeStore.set(freshState());
   bee = new BeeGame(beeStore);
   bee.markSeen();
   sendBee();

@@ -23,7 +23,7 @@
       <div class="season-ico" id="season-ico"></div>
       <div class="season-text">
         <b id="season-name">İlkbahar</b>
-        <small id="season-day">Gün 1 · Yıl 1</small>
+        <small id="season-day">Gün 1 / 15 · Yıl 1</small>
         <div class="day-bar"><i id="day-fill"></i></div>
       </div>
       <div class="speeds" role="group" aria-label="Oyun hızı">
@@ -210,29 +210,87 @@
         <button class="round small" id="guide-close" type="button" aria-label="Kapat">✕</button>
       </div>
       <div class="guide">
-        <h3>🐝 Bal nasıl üretilir?</h3>
-        <p>Kovanlar sadece <b>yanındaki 6 karede</b> ekili çiçeklerden bal yapar. Kovanın etrafına çiçek ek. Her arı saatte yaklaşık 0.5 kg bal üretir; kaliteli çiçekler bu miktara kendi yüzdesini ekler ve balları daha pahalı satılır. Çiçekler 30 gün (3 mevsim) yaşar, sonra solar; solan tarha tıklayıp yeniden ekebilirsin.</p>
-        <h3>🧺 Hasat</h3>
-        <p>Kovan dolunca üretim durur. Kovana tıklayıp "Hasat Et" de ya da alttaki "Hepsini Hasat Et"e bas: arıcı yürüyüp balı depoya taşır.</p>
-        <h3>👑 Kovanı büyütmek</h3>
-        <p>Önce kraliçeyi yükselt (arı kapasitesi artar), sonra kovanı büyüt (bal kapasitesi artar), sonra yine kraliçe. En fazla 20 arı. Arılar kış dışında, çiçek varsa kendiliğinden de çoğalır.</p>
-        <h3>❄️ Kış</h3>
-        <p>Kışın çiçekler neredeyse hiç üretmez. Şurup vermezsen kovan her gün bir arı kaybeder. Ama kışın bal %35 daha değerli: yazdan bal biriktir!</p>
-        <h3>🍯 Pazar ve siparişler</h3>
-        <p>Pazarda fiyatlar her gün değişir, festivalleri kaçırma. Siparişler piyasadan çok daha iyi öder, ama kabul edip süresinde teslim edemezsen ödemenin %20'si kesilir.</p>
-        <h3>⏳ Sen yokken</h3>
-        <p>Nero açık olduğu sürece üretim devam eder, ama 2 saat bakmazsan durur. Nero kapalıyken zaman da durur.</p>
-        <h3>🔥 Nero ile birlikte</h3>
-        <p>Nero'nun sayacıyla odaklandığında arılar da coşar: 25 dakikalık bir seans kovanları 1 saat boyunca %25 hızlandırır (üst üste en fazla 4 saat). Nero'da bitirdiğin her iş de +10 jeton getirir.</p>
-        <h3>💛 Köylüler ve hediyeler</h3>
-        <p>Aynı köylüye teslim ettikçe aranızda kalp birikir; her kalp siparişlerini %6 daha iyi ödetir, 2. ve 4. kalpte hediye tohum gönderirler.</p>
-        <h3>🪑 Dekor, 🧬 ırklar, 🕯️ mum</h3>
-        <p>Mağaza'dan çit, bank, fener, kemer ya da çeşme alabilirsin (çeşmenin yanındaki tarhlar +%5 üretir). Kovanın ırkını değiştirebilirsin: Anadolu çalışkan, Kafkas soğuğa dayanıklı, İtalyan hızlı çoğalır. Hasattan çıkan balmumuyla mum yapıp satabilirsin; kışın daha değerli.</p>
-        <h3>🎪 Yıllık Bal Festivali</h3>
-        <p>Kışın son 3 günü Pazar'dan festivale en değerli balını gönder. Yeni yılda sonuç açıklanır; ilk üçe ödül ve evinin yanında sergilenen kupa.</p>
-        <h3>🏆 Rakipler</h3>
-        <p>Temkinli Ali, Riskçi Kaya ve Dengeli Nur da arıcılık yapıyor. Net değerinle onları geçmeye çalış!</p>
-      </div>
+        <div class="guide-intro">
+          <b>Bu oyun uzun vadeli ilerler.</b>
+          <span>Kovan kur, yanına çiçek ek, balı hasat et; pazarda sat veya daha kârlı siparişlere yetiştir. Nero açıkken çiftliğin arka planda da yaşamaya devam eder.</span>
+        </div>
+
+        <details class="guide-topic" open>
+          <summary>🚀 İlk 10 dakikada ne yapmalıyım?</summary>
+          <ol>
+            <li>İlk kovanın yanındaki boş karelerden birine <b>yonca</b> ek. Kovan yalnızca komşu 6 karedeki çiçeklerden üretir.</li>
+            <li>Kovan dolmaya başladığında kovana tıkla ve üretim hızını kontrol et.</li>
+            <li><b>Hasat Et</b> ile arıcıyı gönder. Bal önce depoya gelir.</li>
+            <li>Balı hemen Pazar'da satabilir ya da Siparişler'de daha yüksek ödeme bekleyebilirsin.</li>
+            <li>İlk yatırımlarda önce çiçek sayısını, sonra arı/kraliçe kapasitesini artırmak daha verimlidir.</li>
+          </ol>
+        </details>
+
+        <details class="guide-topic">
+          <summary>🗓️ Zaman, aylar, mevsimler ve hız</summary>
+          <p><b>1 oyun günü = 1x hızda 15 gerçek dakika.</b> Takvimde her mevsim bir oyun ayı gibi işler ve <b>15 gün</b> sürer. İlkbahar → Yaz → Sonbahar → Kış; bir yıl toplam <b>60 gün</b>.</p>
+          <p>❚❚, 1x, 2x ve 4x hızlarını kullanabilirsin. <b>4x yalnız oyun penceresi öndeyken çalışır.</b> Oyun arka plandaysa seçimin 4x olsa bile simülasyon en fazla <b>2x</b> ilerler; tekrar oyuna dönünce seçtiğin 4x devam eder.</p>
+          <p>Oyuna 2 saat hiç bakmazsan <b>bal üretimi durur</b>, fakat takvim ve süreli olaylar ilerlemeye devam eder. Nero tamamen kapalıyken oyun zamanı ilerlemez.</p>
+        </details>
+
+        <details class="guide-topic">
+          <summary>🌼 Çiçek → bal üretimi nasıl çalışır?</summary>
+          <p>Her kovan yalnızca çevresindeki <b>6 komşu kareyi</b> kullanır. Menzilde birden fazla çiçek varsa arıların emeği tarhlar arasında bölünür. Her çiçek kendi bal türünü üretir; ballar birbirine karışmaz.</p>
+          <p>Üretimi birlikte etkileyen şeyler: arı sayısı, çiçek türü, mevsim, hava, arı ırkı, hastalık, 3'lü tarh bonusu, çeşme ve Nero odak bonusu.</p>
+          <p>Aynı türden en az <b>3 bitişik tarh +%15</b>; çeşme yakını <b>+%5</b>. Mevsim dışı çiçekler yalnız %25 verimlidir. Çiçekler <b>30 gün</b> yaşar; yeni takvimde bu yaklaşık iki oyun ayıdır.</p>
+        </details>
+
+        <details class="guide-topic">
+          <summary>🐝 Kovanlar, arılar ve yükseltmeler</summary>
+          <p>Kovana tıklayınca arı sayısı, bal kapasitesi, saatlik üretim, menzildeki tarhlar ve kraliçe seviyesi görünür. Kovan dolarsa üretim tamamen durur.</p>
+          <p>Gelişim sırası kraliçe → kovan kapasitesi → kraliçe şeklinde ilerler. Arı alımı üretimi artırır ama yeterli çiçek yoksa yeni arıların getirisi düşer.</p>
+          <p><b>Anadolu:</b> +%10 üretim ama daha kolay hastalanır. <b>Kafkas:</b> kış kaybına dayanıklı. <b>İtalyan:</b> hızlı çoğalır, üretimi biraz düşüktür.</p>
+        </details>
+
+        <details class="guide-topic">
+          <summary>❄️ Kış, şurup ve hastalık</summary>
+          <p>Kışın üretim çok düşer. Şurupsuz kovan arı kaybedebilir; <b>60 jetonluk şurup 6 kg erzak</b> verir ve her oyun gününde tüketilir. Kıştan önce her kovana erzak koymak güvenlidir.</p>
+          <p>Kış dışında kovanlar hastalanabilir. Hasta kovan %30 daha az üretir ve tedavi edilmezse arı kaybeder. <b>İlaç 120 jeton</b> ve anında iyileştirir.</p>
+        </details>
+
+        <details class="guide-topic">
+          <summary>🧺 Hasat ve depo</summary>
+          <p>Hasat dediğinde arıcı evden kovana yürür, 5 saniye çalışır ve balı depoya taşır. “Hepsini Hasat Et” kovanları sıraya koyar. Depo doluysa hasat başlayamaz.</p>
+          <p>Depo 50 kg ile başlar; 100, 200 ve 400 kg'a yükseltilebilir. Hasatta ayrıca balmumu çıkar; 500 g balmumundan bir mum yapılabilir.</p>
+        </details>
+
+        <details class="guide-topic">
+          <summary>🍯 Pazar mı, sipariş mi?</summary>
+          <p>Pazar fiyatları her gün değişir. Yazın bal daha ucuz, kışın daha pahalıdır. Acil jeton gerekiyorsa Pazar hızlıdır.</p>
+          <p>Siparişler genellikle daha çok kazandırır ve köylülerle kalp biriktirir. Ancak kabul ettikten sonra süre başlar; yetiştiremezsen ödülün %20'si kadar ceza ödersin. Kabul etmeden önce depodaki miktarı kontrol et.</p>
+        </details>
+
+        <details class="guide-topic">
+          <summary>💛 Köylüler, dekorlar ve uzun vadeli bonuslar</summary>
+          <p>Aynı köylüye her 2 teslimde bir kalp kazanırsın. Her kalp o köylünün sipariş ödemesini %6 artırır; 2. ve 4. kalpte hediye tohum gelebilir.</p>
+          <p>Dekorların çoğu görseldir. <b>Çeşme</b> bulunduğu kare ve komşu tarhlara +%5 üretim verir; stratejik yerleştirmek değerlidir.</p>
+        </details>
+
+        <details class="guide-topic">
+          <summary>🔥 Nero ile birlikte çalışmak</summary>
+          <p>Nero'da en az 10 dakikalık odak seansını tamamlamak kovanlara geçici <b>+%25 üretim</b> verir. 25 dakikalık seans yaklaşık 1 saatlik bonus üretir ve bonuslar en fazla 4 saate kadar eklenir.</p>
+          <p>Nero yapılacaklar listesinde bir işi bitirdiğinde çiftliğe <b>+10 jeton</b> gelir. Oyun penceresi önde değilken Nero; dolu/hasta kovan, yaklaşan sipariş, kışta erzak ve rakip uyarılarını masaüstünde söyleyebilir.</p>
+        </details>
+
+        <details class="guide-topic">
+          <summary>🎪 Festival ve rakipler</summary>
+          <p>Yılın son 3 gününde Bal Festivali açılır. En fazla 10 kg bal gönderirsin; balın değeri ve çiçek bonusu puanı etkiler. Yeni yılın ilk günü sonuçlanır ve ilk üç kupa kazanır.</p>
+          <p>Temkinli Ali, Riskçi Kaya ve Dengeli Nur arka planda büyür. Liderlik yalnız jetona değil; bal, kovanlar, arılar, arazi ve mumların toplam değerine bakar.</p>
+        </details>
+
+        <details class="guide-topic">
+          <summary>💾 Kayıt, yedek ve sıfırlama</summary>
+          <p>Oyun otomatik kaydedilir ve Nero'nun genel yedeğine dahildir. Ayarlar → Yedekler bölümünden yalnız arıcılık kaydını dışa/içe aktarabilirsin.</p>
+          <p><b>Oyunu sıfırla</b> da aynı bölümde bulunur. İki kez onay ister ve sıfırlamadan hemen önce mevcut çiftliğinin ayrı bir yedeğini alır.</p>
+        </details>
+
+        <div class="guide-tip"><b>Nero'nun kısa kuralı:</b> Çiçeğin yoksa arı işe yaramaz; depo doluysa hasat olmaz; kovan doluysa üretim olmaz. Geri kalanın çoğu pahalı ayrıntı.</div>
+      </div>      </div>
     </div>
   </div>
 

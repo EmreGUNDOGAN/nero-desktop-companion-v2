@@ -1110,6 +1110,7 @@
   $('data-backups').addEventListener('click', () => api.invoke('data:openBackups'));
   $('bee-export').addEventListener('click', () => api.invoke('bee:export'));
   $('bee-import').addEventListener('click', () => api.invoke('bee:import'));
+  $('bee-reset').addEventListener('click', () => api.invoke('bee:reset'));
 
   function renderRitual() {
     const done = !!state.dayMode;

@@ -4,14 +4,14 @@
 
 const HOUR_MS = 60 * 60 * 1000;
 const DAY_GAME_MS = 15 * 60 * 1000;      // 1 oyun günü = 1x hızda 15 gerçek dakika
-const DAYS_PER_SEASON = 10;
+const DAYS_PER_SEASON = 15;               // bir oyun ayı/mevsim dönemi = 15 gün
 const SEASONS = ['ilkbahar', 'yaz', 'sonbahar', 'kis'];
 const SEASON_NAMES = { ilkbahar: 'İlkbahar', yaz: 'Yaz', sonbahar: 'Sonbahar', kis: 'Kış' };
 const UNATTENDED_CAP_MS = 2 * HOUR_MS;   // oyuna bakılmazsa en fazla 2 saatlik üretim birikir
 const BASE_KG_PER_BEE_HOUR = 0.5;        // 1 arı, +%0 çiçekle saatte 0.5 kg (uzun vadeli tempo)
 const HIVE_COST = 1200;
 const START_COINS = 200;
-const FLOWER_LIFE_DAYS = 30;             // çiçekler 3 mevsim sonra solar, yeniden ekilmeli
+const FLOWER_LIFE_DAYS = 30;             // çiçekler 2 oyun ayı/mevsim dönemi sonra solar
 const OUT_OF_SEASON = 0.25;              // mevsimi dışındaki çiçek
 const WINTER_FACTOR = 0.1;               // kışın (şurup 2. aşamada)
 const ISLAND_RADIUS = 5;
@@ -79,7 +79,7 @@ const DECOR = {
 };
 
 // 4) Yıllık bal festivali: kışın son 3 günü başvuru açık, yeni yılda sonuç
-const FESTIVAL_OPEN_DAY = 37;             // yılın 40 gününden 37-39 arası
+const FESTIVAL_OPEN_DAY = DAYS_PER_SEASON * 4 - 3; // yılın son 3 günü
 const FESTIVAL_MAX_KG = 10;
 const FESTIVAL_PRIZES = [{ coins: 1500, cup: 'altın' }, { coins: 800, cup: 'gümüş' }, { coins: 400, cup: 'bronz' }];
 
@@ -241,6 +241,8 @@ class BeeGame {
     const season = SEASONS[seasonIdx];
     return {
       day: (day % DAYS_PER_SEASON) + 1,
+      daysPerMonth: DAYS_PER_SEASON,
+      yearDays: DAYS_PER_SEASON * 4,
       year: Math.floor(day / (DAYS_PER_SEASON * 4)) + 1,
       season,
       seasonName: SEASON_NAMES[season],
@@ -323,11 +325,12 @@ class BeeGame {
   hiveTotal(hive) { return Object.values(hive.honey).reduce((a, b) => a + b, 0); }
 
   // Gerçek zaman ilerledikçe çağrılır
-  tick(now = Date.now()) {
+  tick(now = Date.now(), speedCap = null) {
     const realDt = Math.max(0, Math.min(now - this.lastTickAt, 60 * 1000));
     this.lastTickAt = now;
     const keeperChanged = this.processKeeper(now);
-    const speed = this.state.speed;
+    const selectedSpeed = this.state.speed;
+    const speed = speedCap == null ? selectedSpeed : Math.min(selectedSpeed, speedCap);
     if (!speed || !realDt) return keeperChanged;
 
     const gameDt = realDt * speed;

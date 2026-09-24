@@ -57,7 +57,7 @@ test('Nero 5.0.0 contains the complete beekeeping integration wiring', () => {
   assert.match(main, /async function importBee\(/);
   assert.match(main, /Arıcılık oyunu/);
 
-  for (const channel of ['bee:open', 'bee:export', 'bee:import']) {
+  for (const channel of ['bee:open', 'bee:export', 'bee:import', 'bee:reset']) {
     assert.ok(preload.includes(`'${channel}'`), `${channel} panel preload izin listesinde yok`);
   }
 
@@ -70,4 +70,44 @@ test('Nero 5.0.0 contains the complete beekeeping integration wiring', () => {
   for (const placeholder of ['hive', 'who', 'rival']) {
     assert.ok(manifest.rules.allowed_placeholders.includes(placeholder));
   }
+});
+
+
+test('beekeeping calendar uses a 15-day game month/season period', () => {
+  const bee = new BeeGame(new MemoryStore({}));
+  bee.state.gameMs = 14 * 15 * 60 * 1000;
+  assert.equal(bee.calendar().day, 15);
+  assert.equal(bee.calendar().daysPerMonth, 15);
+  bee.state.gameMs = 15 * 15 * 60 * 1000;
+  assert.equal(bee.calendar().day, 1);
+  assert.equal(bee.calendar().season, 'yaz');
+  assert.equal(bee.calendar().yearDays, 60);
+});
+
+test('beekeeping background simulation caps selected 4x speed at 2x', () => {
+  const bee = new BeeGame(new MemoryStore({}));
+  bee.state.speed = 4;
+  bee.state.lastSeenAt = Date.now();
+  bee.state.gameMs = 0;
+  bee.lastDay = 0;
+  bee.lastTickAt = 1000;
+  bee.tick(2000, 2);
+  assert.equal(bee.state.gameMs, 2000);
+
+  bee.lastTickAt = 2000;
+  bee.tick(3000, null);
+  assert.equal(bee.state.gameMs, 6000);
+});
+
+test('beekeeping reset is exposed in Nero settings with a backup-first flow', () => {
+  const root = path.join(__dirname, '..');
+  const main = fs.readFileSync(path.join(root, 'src/main/main.js'), 'utf8');
+  const preload = fs.readFileSync(path.join(root, 'src/preload/preload.js'), 'utf8');
+  const panel = fs.readFileSync(path.join(root, 'src/renderer/panel/index.html'), 'utf8');
+
+  assert.match(main, /async function resetBee\(/);
+  assert.match(main, /nero-aricilik-sifirlama-oncesi-/);
+  assert.match(main, /beeStore\.set\(freshState\(\)\)/);
+  assert.ok(preload.includes("'bee:reset'"));
+  assert.ok(panel.includes('id="bee-reset"'));
 });

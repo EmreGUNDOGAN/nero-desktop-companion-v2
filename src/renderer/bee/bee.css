@@ -240,10 +240,18 @@ button { font-family: inherit; color: inherit; cursor: pointer; }
 .place-bar button { border: 0; border-radius: 999px; padding: 6px 14px; font-weight: 800; background: #FFF6E0; }
 
 /* ---------- Rehber ---------- */
-.guide-card { width: min(620px, 94vw); }
-.guide h3 { margin: 14px 0 4px; font-family: "Fraunces", Georgia, serif; font-size: 16px; }
-.guide h3:first-child { margin-top: 4px; }
-.guide p { margin: 0; font-size: 13.5px; line-height: 1.5; }
+.guide-card { width: min(720px, 94vw); max-height: min(82vh, 760px); }
+.guide { display: grid; gap: 8px; }
+.guide-intro, .guide-tip { display: grid; gap: 4px; padding: 12px 14px; border-radius: 14px; background: rgba(255,255,255,.45); font-size: 13.5px; line-height: 1.45; }
+.guide-topic { border: 1px solid rgba(74,58,54,.12); border-radius: 14px; background: rgba(255,255,255,.38); overflow: hidden; }
+.guide-topic summary { cursor: pointer; list-style: none; padding: 11px 14px; font: 700 15px/1.25 "Fraunces", Georgia, serif; user-select: none; }
+.guide-topic summary::-webkit-details-marker { display: none; }
+.guide-topic summary::after { content: "＋"; float: right; font-family: "Nunito", sans-serif; }
+.guide-topic[open] summary::after { content: "−"; }
+.guide-topic p, .guide-topic ol { margin: 0; padding: 0 14px 12px; font-size: 13.5px; line-height: 1.5; }
+.guide-topic ol { padding-left: 32px; }
+.guide-topic li + li { margin-top: 5px; }
+.guide-tip { background: #FFF4CF; }
 
 /* ---------- Nero ---------- */
 .nero { position: fixed; right: 18px; bottom: 16px; z-index: 6; width: 110px; cursor: pointer; }
