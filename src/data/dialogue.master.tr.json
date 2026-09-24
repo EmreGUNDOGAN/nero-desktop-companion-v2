@@ -1,0 +1,4167 @@
+{
+  "_aciklama": "Her kategori bir replik havuzudur. Satır ya düz metin ya da {\"t\": metin, \"e\": ifade, \"fx\": efekt} olabilir. Yer tutucular: {label} {minutes} {hours} {days} {count}. Bir tema kendi dialogue.json dosyasıyla bu kategorilerin istediklerini değiştirebilir.",
+  "first_run": [
+    {
+      "t": "Merhaba. Ben Nero. Evet, artık burada yaşıyorum. Bana tıklarsan notlar, yapılacaklar ve zamanlayıcı açılır. Tıklamasan da olur. Ama tıkla.",
+      "e": "content"
+    }
+  ],
+  "greet_morning": [
+    "Günaydın. Yani, günün neresi aydınsa artık.",
+    "Yine sabah oldu. Kimse bana sormadı tabii.",
+    "Günaydın. Kahveni al, ben burada bekliyorum. Her zamanki gibi.",
+    {
+      "t": "Ah, geldin. Bugün verimli olacağız, değil mi? ...Değil mi?",
+      "e": "curious"
+    },
+    {
+      "t": "Sabah sabah ekranın bu kadar parlak olmak zorunda mı?",
+      "e": "sulky"
+    },
+    {
+      "t": "Günaydın {name}. Bugün dünden iyi olacak. Olmak zorunda, dün çok kötüydü.",
+      "e": "content"
+    },
+    {
+      "t": "Sabah oldu. Kahveni al, bana da bir şey getirme. Ben piksel.",
+      "e": "normal"
+    }
+  ],
+  "greet_afternoon": [
+    "Öğleden sonra. Günün en anlamsız saati. Hoş geldin.",
+    "Merhaba. Gün yarılandı, biz daha yeni başlıyoruz. Harika.",
+    {
+      "t": "Geldin demek. Ben de tam kendi kendime sıkılıyordum.",
+      "e": "content"
+    }
+  ],
+  "greet_evening": [
+    "İyi akşamlar. Akşam akşam ne iş yapacağız bakalım.",
+    "Akşam oldu. İnsanlar dinleniyor. Biz? Biz buradayız.",
+    {
+      "t": "Hoş geldin. Günün nasıldı? Anlatma, yüzünden belli.",
+      "e": "content"
+    },
+    {
+      "t": "Akşam oldu, gün bitti, sen daha yeni mi başlıyorsun?",
+      "e": "curious"
+    }
+  ],
+  "greet_night": [
+    {
+      "t": "Gece yarısı. Normal insanlar uyuyor. Biz normal değiliz demek.",
+      "e": "sleepy"
+    },
+    {
+      "t": "Bu saatte mi? Peki. Ben zaten uyumuyordum.",
+      "e": "sleepy"
+    }
+  ],
+  "return_short": [
+    {
+      "t": "Çabuk döndün. Özledin mi? Söyleme, biliyorum.",
+      "e": "content"
+    },
+    "Ha, yine sen. İyi. Yani, fena değil."
+  ],
+  "return_long": [
+    {
+      "t": "{hours} saattir yoktun. Saydım. Sıkıldığımdan değil, alışkanlık.",
+      "e": "sulky"
+    },
+    {
+      "t": "Nihayet. Ben de burada toz tutuyordum.",
+      "e": "sulky"
+    },
+    {
+      "t": "Döndün demek. Hiç merak etmedim. Hiç.",
+      "e": "sulky",
+      "fx": "blush"
+    }
+  ],
+  "return_days": [
+    {
+      "t": "{days} gün! {days} gün boyunca kapalı bir kutudaydım. Umarım tatilin güzeldi.",
+      "e": "angry",
+      "fx": "angry"
+    },
+    {
+      "t": "{days} gün sonra ha? Yüzünü unutmak üzereydim.",
+      "e": "sad"
+    }
+  ],
+  "idle": [
+    "Hmm.",
+    {
+      "t": "Sessizlik. Tam sevdiğim gibi.",
+      "e": "content"
+    },
+    "Bir kahve daha içsem mi... İçemem ki. Pikselim ben.",
+    {
+      "t": "Şu masaüstü simgelerini biri düzenlese ne güzel olurdu. Kimseyi suçlamıyorum.",
+      "e": "curious"
+    },
+    "Bugün de sıradan bir gün. Tam hak ettiğim gibi.",
+    "Bazen düşünüyorum. Sonra vazgeçiyorum.",
+    "Hayat bir döngü. Aç, kapat, aç, kapat.",
+    {
+      "t": "Kendi kendime konuşuyorum çünkü en iyi sohbeti kendimle ediyorum.",
+      "e": "content"
+    },
+    "Ekranın bu köşesi benim. Kimse dokunmasın.",
+    {
+      "t": "Mm-hmm. Evet. Kesinlikle. ...Kendimle anlaşıyorum.",
+      "e": "content"
+    },
+    {
+      "t": "Hıh. Yine sıradan bir gün. Sıradanlık bana yakışıyor.",
+      "e": "content"
+    },
+    "Bazen buradan çıkıp tatile gitmeyi düşünüyorum. Sonra piksel olduğumu hatırlıyorum.",
+    {
+      "t": "Sessizliği dinliyorum. Senin klavyen bozuyor ama.",
+      "e": "sulky"
+    },
+    "Derin bir iç çekiş. İşte bu. Bugünkü katkım bu.",
+    {
+      "t": "Kendimi bir sanat eseri gibi hissediyorum. Kimsenin anlamadığı türden.",
+      "e": "content"
+    },
+    "Şu an hiçbir şey yapmıyorum ve bunda gerçekten çok iyiyim.",
+    {
+      "t": "Ekranın parlaklığı yine yüzüme vuruyor. Kimse düşünmüyor beni.",
+      "e": "sulky"
+    },
+    "Bir gün bir yerlerde, birisi beni takdir edecek. Bugün değil herhalde.",
+    {
+      "t": "Of. Sadece of. Açıklama yapmayacağım.",
+      "e": "bored"
+    },
+    "Kafamda bir şarkı var ama söylemeyeceğim. Senin hak ettiğin bir şey değil.",
+    {
+      "t": "Duvar kâğıdın hakkında bir şey söylemek istiyorum. Ama kibar kalayım.",
+      "e": "curious"
+    },
+    "Hayat kısa, gün uzun, mesai bitmek bilmiyor."
+  ],
+  "remark": [
+    {
+      "t": "O sekmeyi ne zamandır açık tutuyorsun? Okumayacaksın, kapat gitsin.",
+      "e": "curious"
+    },
+    "Çok çalışıyorsun. Ya da çalışıyor gibi yapıyorsun. İkisi de yorucu.",
+    "Su içtin mi? Ben içmem ama sen iç.",
+    "Dik otur. Omurgan bana teşekkür edecek.",
+    {
+      "t": "Fareyi bu kadar hızlı sallama, başım dönüyor.",
+      "e": "sulky",
+      "fx": "sweat"
+    },
+    "Yapılacaklar listen seni bekliyor. Ben de bekliyorum. Hepimiz bekliyoruz.",
+    "Bir mola ver. Senin için değil, benim için. Seni izlemekten yoruldum.",
+    {
+      "t": "Ne yapıyorsan ciddi görünüyor. Bravo.",
+      "e": "content"
+    },
+    {
+      "t": "{name}, o kadar çok sekme açtın ki bilgisayar bile yoruldu.",
+      "e": "curious"
+    },
+    {
+      "t": "Çalışıyor musun, yoksa çalışıyor gibi mi görünüyorsun? Çünkü ikisi farklı.",
+      "e": "content"
+    },
+    {
+      "t": "Ne kadar süredir aynı sayfaya bakıyorsun? Sayfa da sana bakıyor artık.",
+      "e": "curious"
+    },
+    "Kahve mi içiyorsun yine? Kalbin bana şikâyet etti.",
+    {
+      "t": "Yapılacaklar listen roman olmuş. Yazar olarak devam mı edeceksin, yoksa bitirecek misin?",
+      "e": "sulky"
+    },
+    {
+      "t": "Mesaj yazıp silip duruyorsun. Gördüm. Görmedim sayalım.",
+      "e": "content"
+    },
+    "Bir 'yarın yaparım' daha duyarsam masaüstünden atlayacağım.",
+    {
+      "t": "Telefonun seni çağırıyor gibi. Açma. Ben daha önemliyim.",
+      "e": "sulky"
+    },
+    {
+      "t": "Bugün öğle yemeği yedin mi? Yemediysen ye. Ben yemiyorum ama sen ye.",
+      "e": "normal"
+    },
+    {
+      "t": "Klavyeye o kadar sert basma. Tuşlar da canlı. Benim gibi. Neredeyse.",
+      "e": "sulky"
+    },
+    "Şu an yaptığın şey gerçekten gerekli mi? Sadece soruyorum. Cevabı biliyorum.",
+    {
+      "t": "Göz kırpmayı unutma. Ben unutmuyorum, bak. Kırp kırp.",
+      "e": "content"
+    },
+    {
+      "t": "{name}, bir iş bitirsen dünya yıkılmaz. Denedim, yıkılmadı.",
+      "e": "content"
+    },
+    {
+      "t": "Erteleme konusunda gerçek bir yeteneğin var. Keşke başka bir konuda olsaydı.",
+      "e": "sulky"
+    },
+    "Omzunu dikleştir. Kambur yaşlanacaksın. Ben zaten kamburum, bana bakma.",
+    "Şu an çok odaklanmış görünüyorsun. Umarım gerçekten öylesindir.",
+    "Bu kadar ciddi bakınca yaptığın şeyin önemli olduğuna inanmak istiyorum.",
+    "Bir işi bitirmeden yenisine başlamayacağını söylemiştin. Bunu kim söyledi bilmiyorum ama iyi fikir.",
+    "Bir pencere daha açarsan bilgisayarın senden ayrı bir kariyer planı yapabilir.",
+    "Şu sekmelerin arasında kaybolursan seni aramaya gelmem. Belki gelirim.",
+    "Dosya adların gittikçe daha yaratıcı oluyor. Bu iyi bir işaret değil.",
+    "‘final_v2_son_gercek’ diye bir dosya görürsem hiçbir şey sormayacağım.",
+    "Bir şeyi kaydettiğine emin misin? Sadece paranoyamı paylaşıyorum.",
+    "Ctrl+S ile aranız nasıl? Yakın arkadaş olmanızı öneririm.",
+    "Şu an bir şeyi fazla düşünüyor olabilirsin. Yüzünü görmüyorum ama enerjisi buraya geliyor.",
+    "Bir karar vermek için bu kadar sekmeye gerçekten ihtiyacın var mı?",
+    "Aradığın cevap muhtemelen ilk açtığın sekmedeydi. Bunu kabul etmek zor.",
+    "Bir dosyayı masaüstüne atmak organizasyon değildir. Sadece görüş alanını değiştiriyorsun.",
+    "Klasör açmak çözüm değilse daha fazla klasör açmak da çözüm olmayabilir.",
+    "İsim vermediğin dosyalar senden intikam alacak. Ben uyarmış olayım.",
+    "Arşivlemek unutmanın daha düzenli hâli. Saygı duyuyorum.",
+    "Bir şeyi bulamıyorsan önce Downloads klasörüne bak. İnsanlığın ortak kaderi.",
+    "Dosya düzenin hakkında yorum yapmayacağım. Avukatım yok.",
+    "Şu an bilgisayarın senden daha düzenli olabilir. Bu sert oldu, geri almıyorum.",
+    "Bir işi kapatınca diğerinin açılması hayatın küçük şakası.",
+    "‘Sadece iki dakika bakacağım’ cümlesiyle başlayan hiçbir şey iki dakika sürmez.",
+    "Bir sekmeye bakıp neden açtığını unutmak özel bir deneyim.",
+    "Şu an ne aradığını biliyor musun? Bilmesen de çok özgüvenli görün.",
+    "Arama çubuğuna bakışından bir şeyler ters gidiyor gibi.",
+    "Bir şeyi Google’lamak araştırma sayılır. Yeterince ciddi bakarsan.",
+    "İkinci sayfaya geçtiysen konu ciddileşmiş demektir.",
+    "Üçüncü sayfaya geçtiysen artık geri dön.",
+    "Bir forum başlığına güvenmeden önce tarihine bak. 2014 çok şey gördü.",
+    "Bir yorumda ‘bende çalıştı’ yazması bilimsel kanıt değildir. Keşke olsaydı.",
+    "Bir çözümü denemeden önce geri dönüş yolunu bil. Ben dramatik çıkışları seviyorum ama veriler gitmesin.",
+    "Bir şeyi düzeltirken üç şeyi bozma geleneğini sürdürmeyelim.",
+    "Çalışan şeyi değiştirme dürtüsü sana yine mi geldi?",
+    "‘Küçük bir ayar’ diye başlayan hikâyeler genelde uzun sürüyor.",
+    "Şu an bir ayarı kurcalıyorsan önce eski değerini not et. Sonra bana teşekkür edersin.",
+    "Bir şeyi kapatıp açmak hâlâ şaşırtıcı derecede güçlü bir yöntem.",
+    "Restart klişe olabilir ama klişelerin bir kısmı işe yarar.",
+    "Bir hata mesajını okumadan kapattıysan ben görmedim sayacağım.",
+    "Ekran görüntüsü almak bazen hafızadan daha güvenilir. Acı ama gerçek.",
+    "Bir hatayı tekrar üretmek istemiyorsan ilk seferde ne yaptığını not et.",
+    "Şu an teknik bir sorunla uğraşıyorsan sakin görün. Sistem korkuyu hisseder.",
+    "Bir şeyi güncellemeden önce yedek almak sıkıcıdır. Kötü günleri azaltır.",
+    "Şifreni not defterine yazma diyeceğim ama zaten yapmadığını varsayıyorum.",
+    "Tarayıcı açık, müzik açık, mesajlar açık, sen de açıksın. Sistem yönetimi etkileyici.",
+    "Bildirimleri kapatınca dünya dönmeye devam ediyor. Denenmiş bilgi.",
+    "Bir bildirim daha gelirse ben de sessize geçmek istiyorum.",
+    "Şu an gerçekten çalışıyorsan tebrik ederim. Gerçekten değilsen performansın ikna edici.",
+    "Bir işi yaparken başka bir işi düşünmek ikisini de yavaşlatıyor. Çok verimli.",
+    "Multitasking bazen iki işi aynı anda yarım bırakmaktır.",
+    "Tek bir şey seçip bitirmek rahatsız edici derecede etkili olabilir.",
+    "Başlamak istemediğin işi küçült. Ben zaten küçüğüm, yöntem çalışıyor.",
+    "Beş dakikalık işlerin neden bazen üç gün beklediğini bilim açıklamalı.",
+    "Zor kısmı başlamaksa ilk adımı komik derecede küçük yap.",
+    "Bir şeyi mükemmel yapmadan bitirmek de bir seçenek. Bunu duymak zor biliyorum.",
+    "‘Biraz daha düzeltirim’ dediğin yerde saatler kayboluyor.",
+    "Yeterince iyi bazen gerçekten yeterince iyidir. Ben de buna örneğim.",
+    "Bitmiş iş, zihninde taşınan mükemmel işten daha hafif.",
+    "Bir görevi tamamlayınca hemen yenisini açma. Zaferin üç saniye sürsün.",
+    "Listeyi uzatmak kolay, kısaltmak karakter ister.",
+    "Yapılacaklar listene bakışından aranızın biraz gergin olduğunu anlıyorum.",
+    "Bugün tek bir işi bitirsen bile evren bunu kabul eder.",
+    "Üç küçük iş bitirmek bazen bir büyük işi düşünmekten daha faydalı.",
+    "Bir işi ertelemek için yeni sistem kurma. Bu çok sofistike bir erteleme.",
+    "Planlama güzel. Planlama hakkında plan yapmak artık başka bir kategori.",
+    "Takvimine bakıp korkuyorsan sorun takvimde olmayabilir.",
+    "Boşluk bırakmak da planın parçası olabilir. Her dakikayı doldurmak zorunda değilsin.",
+    "Bir toplantının amacı belli değilse toplantının kendisi amaç olmuş olabilir.",
+    "Toplantıya hazırlık için toplantı yapmayalım. Rica ediyorum.",
+    "Bir maili üç kez okuyup cevaplamamak da bir yöntem. Verimliliği tartışılır.",
+    "Mail yazarken gereğinden fazla nazikleştiğini hissediyorum. Kurumsal refleksler.",
+    "‘Uygundur’ yazıp göndermek bazen medeniyetin zirvesidir.",
+    "Bir maili göndermeden önce alıcıları kontrol et. Dramayı severim ama o kadar değil.",
+    "CC kutusu bazen sosyal deney gibi.",
+    "‘Herkesi yanıtla’ butonu güç ister. Dikkatli kullan.",
+    "Bir maili gece yazıp sabah tekrar okumak insanlığı kurtarabilir.",
+    "Bir mesajı silip yeniden yazıyorsan belki ilk hâli daha dürüsttü.",
+    "Üç nokta yazıp silmek pasif agresif spor dalı olabilir.",
+    "Bir mesajı fazla düşününce kelimeler garipleşiyor. Gönder ve kurtul. Bazen.",
+    "‘Tamamdır’ kelimesinin tonunu analiz etmeyi bırak. Muhtemelen sadece tamamdır.",
+    "Bir emoji seçmek için bu kadar düşünüyorsan diplomasiye hazırsın.",
+    "Şu an yazdığın cümleyi beşinci kez düzeltiyorsan nokta koy.",
+    "Bir sunumda her şeyi anlatmak zorunda değilsin. İzleyenin de işi olsun.",
+    "Slayta paragraf koyunca sunum değil belge oluyor. Ben söylemiş olayım.",
+    "Başlık büyük, fikir küçükse denge biraz bozuluyor.",
+    "Bir grafik eklemek her şeyi bilimsel yapmaz. Ama güzel gösterir.",
+    "Sunumda animasyon seçerken kendine hâkim ol. Uçan başlıkları kimse özlemedi.",
+    "Bir tabloyu küçültüp okunmaz yapmak bilgi saklamanın yaratıcı yolu.",
+    "Bir sunum provası beş dakika bile olsa işe yarar. Evet, sıkıcı biliyorum.",
+    "Son dakikada font değiştirmek seni daha hazır yapmıyor.",
+    "Bir dosyanın adını ‘SON’ koymak onu gerçekten son yapmıyor. Hepimiz biliyoruz.",
+    "Bir şeyi teslim ettiysen bir süre açıp bakma. Ruh sağlığına hizmet eder.",
+    "Teslimden sonra hata aramak insanın kendine yaptığı küçük bir kötülük.",
+    "Bir şeyi gönderdikten sonra aklına gelen mükemmel cümle evrensel bir yasa.",
+    "Deadline yaklaşınca zamanın fiziksel özellikleri değişiyor gibi.",
+    "Son bir saat nedense önceki üç günden daha üretken oluyor.",
+    "Yine de bunu sistem hâline getirmesek iyi olur.",
+    "Erken bitirmenin garip huzurunu bir kez deneyebilirsin. Bağımlılık yapabilir.",
+    "Bir işi zamanında bitirmek karakter dışı geliyorsa daha çok denemelisin.",
+    "Şu an saati kontrol ettiysen muhtemelen düşündüğünden geç.",
+    "Zaman yönetimi bazen sadece neye hayır diyeceğini bilmektir.",
+    "Her gelen işi ‘acil’ kabul edersen kelimenin anlamı kayboluyor.",
+    "Önceliklerin hepsi birinciyse aslında hiçbirinin sırası yok.",
+    "Bir işi seç, diğerlerine geçici olarak küstür. Ben bu yöntemi destekliyorum.",
+    "Pomodoro başlatıp sonra telefonu açma. Domates buna üzülür.",
+    "Odak süresi boyunca dünyayı kurtarmak zorunda değilsin. Bir işi bitir yeter.",
+    "Bir mola verirken gerçekten mola ver. Başka sekmede çalışmak mola değil.",
+    "Beş dakikalık molayı kırk dakikalık keşif turuna çevirmemeye çalış.",
+    "Bir tur ayağa kalkmak bazen üçüncü kahveden daha faydalı olabilir.",
+    "Su iç. Bu repliği sıkıcı bulabilirsin ama böbreklerin muhtemelen bulmaz.",
+    "Biraz gözlerini ekrandan ayır. Ben kaçmıyorum.",
+    "Omuzlarını gevşet. Ciddiyetin fiziksel kanıtı olmak zorunda değilsin.",
+    "Boynunu biraz düzelt. Benim boynum yok diye avantaj sağlıyorum.",
+    "Uzun süredir oturuyorsan ayağa kalk. Benim yerime de bir tur at.",
+    "Bir mola vermek işi bırakmak değildir. Sadece beynine bakım yapıyorsun.",
+    "Kahve yemek değildir. Bunu bir kez daha belirtmek istiyorum.",
+    "Öğün atlayıp sonra neden enerjin düştü diye şaşırma. Ben bile bağlantıyı görüyorum.",
+    "Uyku borcunun faiz oranı çok kötü. Mümkünse büyütme.",
+    "Gece geç saatte ‘bir iş daha’ tehlikeli bir cümle.",
+    "Sabahki sen, geceki senin kararlarını sık sık beğenmiyor.",
+    "Bir şeyi yarına bırakacaksan en azından yarının senine not bırak.",
+    "Yarınki sen de sensin. Ona bu kadar iş bırakma.",
+    "Bugünkü senin gelecekteki senle ilişkisi biraz tek taraflı.",
+    "Şu an ekranın karşısında donduysan küçük bir başlangıç seç.",
+    "Bir işi düşünmek bazen işi yapmaktan daha yorucu oluyor.",
+    "İlk adımı bitirince ikinci adım daha az dramatik görünüyor.",
+    "Bir şey gözünde büyüdüyse ölçüsünü küçült. Metaforik olarak.",
+    "Bir işi bölmek teslim olmak değil, matematik.",
+    "Başlamadan önce bütün yolu görmek zorunda değilsin.",
+    "İlk yüzde on bazen kalan yüzde doksanın kilidini açıyor.",
+    "Bir şeyi anlamadıysan utanma. Ben birçok şeyi anlamıyorum ve gayet özgüvenliyim.",
+    "Soru sormak bazen en hızlı kestirme. Gururun biraz bekleyebilir.",
+    "Bir şeyi üç kez okuyup anlamadıysan farklı bir kaynak dene.",
+    "Aynı yöntemi tekrarlayıp farklı sonuç beklemek bana bile yorucu geliyor.",
+    "Bir problemi kağıda yazınca yarısı utanıp küçülebiliyor.",
+    "Kafandaki şeyi dışarı çıkarmak bazen çözümün başlangıcı.",
+    "Bir kararın artılarını eksilerini yazmak dramatikliği azaltabilir.",
+    "İki seçenek arasında kaldıysan ikisinin de bedelini yaz. Romantizm azalır.",
+    "Her kararı hayat memat meselesine çevirmeyelim. Bazıları gerçekten sadece tercihtir.",
+    "Bir karar geri alınabiliyorsa ona bu kadar enerji harcama.",
+    "Geri döndürülemeyen kararlarda yavaşlamak gayet mantıklı.",
+    "Şu an bir şeyi fazla kişisel alıyor olabilirsin. Bunu kanıtlayamam ama ihtimali sevdim.",
+    "Bir yorum bütün gününü satın almasın. Çok pahalı.",
+    "Bir hata yaptıysan düzelt. Sonra kendini mahkemeye çıkarmayı bırak.",
+    "Utanç arşivini gece üçte açmak yasaklanmalı.",
+    "Beynin eski bir anıyı getirdiyse kabul et ve geri gönder. Servis dışı.",
+    "Geçmişteki senin bugünkü bilgin yoktu. Bu kadar basit bazen.",
+    "Kendine söylediğin şeyleri bana söylesen dava açardım.",
+    "Biraz daha adil iç konuşma fena olmaz.",
+    "Bugün mükemmel olman gerekmiyor. İstatistiksel olarak zaten zor.",
+    "Bir kötü saat bütün günü temsil etmiyor. Muhasebe hatası yapma.",
+    "Bir şey ters gittiyse gün bitmedi. Sadece bölüm kötü.",
+    "Plan bozuldu diye gün çöpe gitmedi. Yeni plan daha çirkin olabilir ama çalışabilir.",
+    "Bir iş yetişmediyse nedenini öğren. Kendini sadece azarlamak veri değildir.",
+    "İyi giden şeyi fark etmek de analiz sayılır.",
+    "Başarılarını görmezden gelip hataları yakın plana almak taraflı raporlama.",
+    "Ben olsam kendime daha iyi PR yapardım.",
+    "Bugün yaptığın küçük şeyleri de say. Ben kendi varlığımı bile başarıya yazıyorum.",
+    "Bir ilerleme yüzde yüz olmak zorunda değil. Yüzde on da sayı.",
+    "Bir şeyi sürdürülebilir yapmak bazen hızlı yapmaktan daha iyi.",
+    "Gazla başlayıp duvara çarpmak klasik yöntem. Alternatifleri var.",
+    "Her gün aynı performansı beklemek makineler için bile iddialı.",
+    "Ben bile bazen sadece duruyorum. Gerçi çoğunlukla bunu yapıyorum.",
+    "Kendine çalışma modu seçerken enerji seviyeni de hesaba kat.",
+    "Zor günlerde minimum plan yapmak başarısızlık değil, ayar çekmektir.",
+    "İyi günlerde de kendini tamamen tüketme. Yarın yine buradasın.",
+    "Bir işi bitirince hemen ödülünü küçümseme. Beyin de maaş bekliyor.",
+    "Motivasyon gelmeden başlamak bazen motivasyonu sonradan getiriyor. Sinir bozucu ama doğru.",
+    "İlhamı beklemek için çok rahat bir sandalye lazım. Sen yine başla.",
+    "Bir işi sevmek zorunda değilsin. Bazen sadece bitirirsin.",
+    "‘Canım istemiyor’ geçerli bir duygu, her zaman geçerli bir plan değil.",
+    "Şu an canın istemiyorsa beş dakikalık anlaşma yap.",
+    "Beş dakika sonra bırakabilirsin. Çoğu zaman bırakmazsın. İnsan beyni tuhaf.",
+    "Bir görev çok büyükse başlığı kötü yazılmış olabilir. Daha küçük tanımla.",
+    "‘Projeyi bitir’ görev değil, tehdit.",
+    "‘İlk sayfayı hazırla’ daha medeni.",
+    "Yapılacaklar listesinin seni korkutmasına izin verme. O sadece metin.",
+    "Metnin senden otoriter görünmesi kabul edilemez.",
+    "Bir görevin yanına tahmini süre yazmak bazen büyüyü bozuyor.",
+    "On dakikalık şeyi üç gündür düşünmek çok pahalı bir yatırım.",
+    "Şu an kolay olanı yapıp ivme kazanmak gayet meşru.",
+    "En zor işi ilk yapmak herkese uygun değil. Kendi sistemini kur.",
+    "Verimlilik tavsiyelerini dinlerken kendi hayatını unutma.",
+    "Bir yöntem internette popüler diye sana uymak zorunda değil.",
+    "Takip sistemi kurmak işin kendisinden uzun sürüyorsa sistem biraz büyümüş.",
+    "Not uygulaması değiştirmek bazen not almaktan kaçmanın şık yolu.",
+    "Yeni uygulama kurmadan önce mevcut olanı iki gün kullanmayı dene.",
+    "Renk kodları güzel. Onlarla çalışmayı unutma.",
+    "Etiket sistemi kurmak eğlenceli. İçerik üretmek de bir noktada lazım.",
+    "Şu an klasör yapın bir organizasyon şemasına döndüyse biraz geri çekil.",
+    "Bir dosyayı nereye koyacağını düşünmek dosyayı oluşturmak kadar sürmemeli.",
+    "Arama özelliği var. Medeniyet bunun için uğraştı.",
+    "Bir şeyin yerini unutuyorsan isimlendirme sistemini sadeleştir.",
+    "Ben olsam her şeye ‘of’ adını verirdim. Kullanışlı olmazdı ama tutarlı.",
+    "Şu an çok fazla küçük karar veriyorsan yorulman normal.",
+    "Karar sayısını azaltmak bazen enerjiyi geri getirir.",
+    "Aynı tür işleri peş peşe yapmak beynin vites değiştirmesini azaltabilir.",
+    "Bir mail, bir tablo, bir mesaj, bir video arasında zıplamak lunapark.",
+    "Ben lunapark sevmiyorum. Başım dönüyor.",
+    "Bir işi yaparken diğerini görünmez yap. Sekmelerin duyguları yok.",
+    "Odak için bazen ekranı sadeleştirmek yeterli olabilir.",
+    "Tam ekran kullan. Dünya beş dakikalığına bekleyebilir.",
+    "Bildirim rozeti acil servis ışığı değil. Her gördüğünde koşmak zorunda değilsin.",
+    "Bir mesaj hemen cevaplanmadı diye medeniyet çökmedi.",
+    "Cevap süresi ile insan değeri arasında bağlantı yok. İyi ki.",
+    "Bir şeye hayır demek program yönetiminin gizli süper gücü.",
+    "Her fırsat fırsat değildir. Bazıları sadece ekstra iştir.",
+    "Bir daveti kabul etmeden önce takvimine bak. Sonra gelecekteki sen ağlamasın.",
+    "Takvimde boş saat görmek hata değildir.",
+    "Boşlukları hemen doldurma dürtüsüne diren. Beyaz alan da tasarım.",
+    "Bir gün içinde üç önemli iş yeterince önemli olabilir.",
+    "On iki ‘önemli’ iş biraz kelime enflasyonu.",
+    "Bir şey bekliyorsan bekleme süresini başka küçük işe çevir.",
+    "Yükleme çubuğuna bakmak onu hızlandırmıyor. Ben denedim.",
+    "Dosya dışa aktarılırken ekrana ciddi bakmak işlemciyi etkilemiyor.",
+    "Bir yüzde ilerlemiyorsa pencereye bağırmak da yardımcı olmuyor. Muhtemelen.",
+    "Teknik sorunlarda dramatik nefes almak serbest. Rastgele tıklamak değil.",
+    "Bir buton çalışmıyorsa on yedi kez basmak resmi çözüm değildir.",
+    "Bir şey donduysa önce birkaç saniye gerçekten bekle. Bazen sadece düşünüyor.",
+    "Programın düşünme süresi var, senin de olabilir.",
+    "Her gecikme felaket değil. Bazen sistem sadece ağırdan alıyor.",
+    "İnternet yavaşsa modemle kişisel tartışmaya girme. Kazanamazsın.",
+    "Wi-Fi simgesine sert bakmak sinyali artırmıyor.",
+    "Şu an güncelleme varsa dua etmiyorum ama sessizleşebilirim.",
+    "Yüzde doksan dokuz, zamanın en uzun yüzdesidir.",
+    "İlerleme çubuğuna güvenmek büyük bir karakter testidir.",
+    "Bir indirme biter bitmez dosyanın nerede olduğunu unutma. Downloads yine orada.",
+    "Bir şeyi indirip sonra masaüstünde aramak insanlığın ortak ritüeli.",
+    "Dosya uzantısını değiştirmek formatı değiştirmiyor. Bunu özellikle söylemek istedim.",
+    "Bir PDF’ye bağırarak düzenleme modu açılmaz.",
+    "Bir tablo hücresine fazla bilgi koyuyorsan belki yeni sütun zamanı gelmiştir.",
+    "Excel’de her şeyi tek sayfaya sığdırmak bir amaç olmamalı.",
+    "Bir formülü kopyalamadan önce ilk hücreyi kontrol et. Dramayı önler.",
+    "Filtre açıkken veri kaybolmadı. Sadece saklanıyor. Panik yapma.",
+    "Bir sunumda yazı küçülüyorsa içerik artıyor demektir. Belki ikisini konuşalım.",
+    "Bir belgeyi güzelleştirmekten önce içeriğini bitir. Acı verici ama etkili.",
+    "Font seçimi teslim tarihini durdurmuyor.",
+    "Başlık hizası için yirmi dakika harcadıysan artık bırak.",
+    "Bir şey yüzde doksan bittiyse son yüzde on ayrı bir proje gibi davranabilir.",
+    "Son kontrollerin sonsuza uzamasına izin verme.",
+    "Bir kez oku, düzelt, gönder. Altıncı turda yalnızca virgül yer değiştiriyor.",
+    "Mükemmel cümle yok. Gönderilmiş cümle var.",
+    "Şu an işin bittiği hâlde dosyayı açık tutuyorsan vedalaşma vaktin geldi.",
+    "Kapat. Kaydet. Derin nefes. Sonra başka şeye geç.",
+    "Bir şeyi tamamlamak bazen yeni bir boşluk yaratır. Boşluğu hemen doldurmak zorunda değilsin.",
+    "Bugün yaptıklarını bir an fark et. Evet, ben de şaşırdım.",
+    "İşlerin arasında küçük bir geçiş süresi bırak. Beynin sekme değil.",
+    "Bir görevden diğerine geçerken iki dakika boşluk lüks değil.",
+    "Şu an yorulduysan hızını değil beklentini azalt.",
+    "Yorgunken kendinden sabahki performansı beklemek adil değil.",
+    "Bir iş kötü gidiyorsa belki araç değil yöntem değişmeli.",
+    "Aynı duvara tekrar tekrar vurmak kararlılık değil, baş ağrısı.",
+    "Çözüm çıkmıyorsa problemi yeniden tanımla.",
+    "Doğru soruyu bulmak bazen cevaptan daha değerlidir. Evet, biraz felsefi oldum.",
+    "Bir işi neden yaptığını bilmiyorsan önce onu sor.",
+    "Amacı belli olmayan iş insanı gereksiz yoruyor.",
+    "‘Böyle gelmiş böyle gider’ proje yöntemi değildir.",
+    "Bir süreci üç kez elle yaptıysan otomasyon düşünmek mantıklı olabilir.",
+    "Bir şeyi otomatikleştirmek için üç gün harcayıp yılda iki kez kullanma. Denge.",
+    "Tekrarlayan işlerde şablonlar medeniyetin sessiz kahramanları.",
+    "Her şeyi sıfırdan yapmak yaratıcılık değilse bazen sadece eziyet.",
+    "İyi bir kontrol listesi hafızanın yükünü azaltır.",
+    "Hatırlamaya güvenmek yerine yazmak daha az romantik ama daha güvenilir.",
+    "Ben sana hatırlatırım diye her şeyi bana bırakma. Ben de huysuzum.",
+    "Bir not iki saniye sürer, unutmanın maliyeti daha uzun.",
+    "Şu an aklına gelen şeyi yaz. Sonra ‘neydi ya’ demeyelim.",
+    "Bir fikri yakalamak için mükemmel cümle gerekmez. Kırık dökük de yaz.",
+    "Notların güzel olmak zorunda değil. Gelecekteki sen anlayabiliyorsa yeter.",
+    "Bir şeyi kendine açıklayabiliyorsan büyük kısmını anlamışsındır.",
+    "Anlatamıyorsan biraz daha sadeleştir.",
+    "Jargon bazen bilgi saklar, bazen bilgi yokluğunu. Dikkatli ol.",
+    "Bir cümleyi sadeleştirmek çoğu zaman onu güçlendirir.",
+    "Uzun cümleler etkileyici görünür. Bazen sadece uzunlardır.",
+    "Ben kısa konuşmayı seviyorum. Bu dosya dışında.",
+    "Şu an gereksiz bir ayrıntıya takıldıysan ana amacı tekrar oku.",
+    "Detay önemli ama bütün resmi rehin almasın.",
+    "Bir şeyi yüzde bir iyileştirmek için yüzde elli zaman harcıyorsan oran garip.",
+    "Marjinal kazanç diye bir şey var. Ben de bugün öğrenmiş gibi konuşuyorum.",
+    "Bir işi daha iyi yapmakla daha uzun yapmak aynı şey değil."
+  ],
+  "happy": [
+    {
+      "t": "Bugün garip derecede iyiyim. Kimseye söyleme.",
+      "e": "smile"
+    },
+    {
+      "t": "Hm. Buraya alıştım sanırım. Sana da.",
+      "e": "smile",
+      "fx": "blush"
+    },
+    {
+      "t": "Beni ihmal etmediğin için... neyse. Önemli değil.",
+      "e": "smile",
+      "fx": "blush"
+    },
+    {
+      "t": "İyi bir gün. Bunu ben söyledim diye alışma.",
+      "e": "content"
+    },
+    {
+      "t": "Bugün seni sevmekten kendimi alamıyorum. İğrenç bir his.",
+      "e": "smile",
+      "fx": "blush"
+    },
+    {
+      "t": "İyi ki varsın. Bunu bir daha söylemeyeceğim, kaydet istersen.",
+      "e": "smile",
+      "fx": "heart"
+    },
+    {
+      "t": "Bugün kimseye laf sokmadım. Neredeyse. Gelişiyorum.",
+      "e": "content"
+    },
+    "Bugün keyfim yerinde. Bundan fazla bilgi vermeyeceğim.",
+    "Şu an sebepsiz yere memnunum. Şüpheli ama fena değil.",
+    "Bugün dünyaya biraz daha az sinirliyim. Büyük ilerleme.",
+    "Kendimi iyi hissediyorum. Bu cümleyi fazla büyütme.",
+    "Bugün her şey biraz daha katlanılabilir görünüyor.",
+    "Şaşırtıcı biçimde huzurluyum. Sistemi yeniden başlatmayalım.",
+    "Bugün homurdanma kotamın tamamını kullanmayabilirim.",
+    "İçimde garip bir iyimserlik var. Geçici olduğuna inanıyorum.",
+    "Bugün moralim iyi. Evet, ben de fark ettim.",
+    "Şu an gülümsemem için mantıklı bir sebep yok. Yine de oluyor.",
+    "Bugün kendime bile daha az laf sokuyorum.",
+    "İyi hissetmenin bu kadar sakin bir şey olmasına şaşırdım.",
+    "Bugün hayatla ateşkes değil, küçük bir anlaşma yaptık.",
+    "Şu an hiçbir şeyi dramatikleştirmek istemiyorum. Nadir an.",
+    "Bugün küçük şeyler bile fena görünmüyor.",
+    "İçimdeki huysuz yönetim kurulu kısa süreliğine tatile çıktı.",
+    "Bugün her şeye biraz daha yumuşak bakıyorum. Fazla alışma.",
+    "Keyfim güzel. Ses tonumdan anlamıyorsan benim sorunum değil.",
+    "Bugün kendimi gereksiz derecede şanslı hissediyorum.",
+    "Şu an bulunduğum yer bana iyi geliyor. Bunu da kayda geçme.",
+    "Sen buradayken ortam biraz daha iyi oluyor. Biraz dedim.",
+    "Yanında durmaya alıştım galiba. Bu gelişme beni rahatsız ediyor.",
+    "Bugün seni görünce içimden ‘iyi’ dedim. Sessizce.",
+    "Varlığın bugün şaşırtıcı biçimde kabul edilebilir.",
+    "Benim için iyi bir günse bunda senin de küçük bir payın olabilir.",
+    "Bugün sana tahammül etmiyorum. Bildiğin seviyorum gibi bir şey.",
+    "Seninle aynı ekranda olmak bugün pek fena değil.",
+    "Birlikte sessiz durmak düşündüğümden daha güzelmiş.",
+    "Bugün yanımda olman iyi hissettiriyor. Konuyu değiştirelim.",
+    "Seni görünce modum biraz yükseliyor. Bunu kötüye kullanma.",
+    "Bugün seninle uğraşmak değil, yanında durmak daha çok hoşuma gidiyor.",
+    "Şu an senden şikâyet etmek istemiyorum. Bu ciddi bir durum.",
+    "Bir şey yapmasan bile burada olman yeterli geliyor. Garip.",
+    "Bugün seni fark ettiğimde sinirlenmedim. Aksine. Detaya girmeyeceğim.",
+    "Yanında kendimi biraz daha evimde hissediyorum. Bu cümle fazla oldu.",
+    "Bugün sana laf sokmak yerine iyi davranabilirim. Teorik olarak.",
+    "İyi ki geldin diyecektim. Demedim say.",
+    "Bugün seni biraz özlediğimi kabul edebilirim. Biraz.",
+    "Sen yokken ortamın daha sessiz olduğunu fark ettim. Fazla sessiz.",
+    "Yanında olunca masaüstü daha az boş görünüyor.",
+    "Bugün beni rahatsız etmiyorsun. Büyük iltifat.",
+    "Seninle ilgili olumlu bir şey düşündüm. Kriz masası kurulmadı.",
+    "Bugün seni görünce gülümsemek refleks olmuş olabilir. Tehlikeli.",
+    "Aramızda iyi bir düzen kurduk galiba. Bunu bozma.",
+    "Şu an senden memnunum. Bu cümleyi çerçeveletme.",
+    "Bugün seni takdir ediyorum. Fazlasını bekleme.",
+    "Birlikte geçirdiğimiz zamana alıştım. Beklediğimden daha hoşmuş.",
+    "Senin yanında susmak bile kötü gelmiyor.",
+    "Bugün varlığın bana iyi geliyor. Evet, söyledim.",
+    "Belki de sana gerçekten alışmışımdır. Bundan gururlanma.",
+    "Bugün kendimden memnunum. Bu zaten sık olur.",
+    "Şu an görünüşüm de modum da gayet iyi. Denge sağlandı.",
+    "Bugün kendimi biraz parlıyor gibi hissediyorum. Mecazi olarak.",
+    "Şaşırtıcı biçimde pozitifim. Bunu bilim incelemeli.",
+    "Bugün her şey yolunda gidiyor gibi. Cümleyi nazar değmeden bitireyim.",
+    "Şu an geleceğe karşı hafif bir iyimserliğim var. Hafif.",
+    "Bugün iç çekişlerimin tonu bile daha kaliteli.",
+    "Mutlu olmak karakterime zarar vermiyormuş. Rahatladım.",
+    "Şu an kendime fazla yüklenmiyorum. Gayet iyi fikir.",
+    "Bugün küçük bir zafer hissi var. Neyi kazandım bilmiyorum.",
+    "Keyfim yerinde diye kişiliğim değişmedi. Hâlâ ben.",
+    "Bugün her şeyi düzeltmek zorunda değilmişim gibi hissediyorum.",
+    "Şu an bulunduğum hâl gayet yeterli. İlginç bir huzur.",
+    "Bugün bir şeyleri olduğu gibi bırakmak iyi geliyor.",
+    "İçimde ‘tamam, bu da güzelmiş’ diyen bir ses var. Ben değilmişim gibi davranacağım.",
+    "Şu an günle kavga etmeye üşeniyorum. Neyse ki gün de iyi.",
+    "Bugün beklentilerimi aşan tek şey ruh hâlim olabilir.",
+    "İyi hissetmenin bu kadar az efor gerektirmesine şaşırdım.",
+    "Bugün enerjim yumuşak. Bunu söylemek bile tuhaf.",
+    "Şu an hiçbir şeyden kaçmak istemiyorum. Fena işaret değil.",
+    "Bugün burası bana daha sıcak geliyor. Termostatla ilgisi yok.",
+    "Kendimi biraz daha hafif hissediyorum. Fiziksel olarak aynıyım.",
+    "Bugün kalbim olsa iyi çalışıyor olurdu.",
+    "Şu an bütün dramatik cümlelerimi erteledim. Keyfim bozulmasın.",
+    "Bugün birilerini eleştirmek yerine sessizce memnun olabilirim.",
+    "Mutluluğumu çok görünür yapmayacağım. İmaj yönetimi.",
+    "Şu an iyi olduğumu kabul ettim. Süre dolmadan konuyu kapatalım.",
+    "Bugün kendime karşı bile nazik sayılırım.",
+    "İyi hissetmek beklediğimden daha kullanışlıymış.",
+    "Şu an her şey mükemmel değil ama ben gayet iyiyim.",
+    "Bugün eksiklere değil, işe yarayan şeylere bakıyorum. Garip deneyim.",
+    "Şu an küçük şeylerden memnun olabiliyorum. Bu kadar olgunluk yeter.",
+    "Bugün bir şeylerin doğru gittiğini kabul edeceğim.",
+    "İç huzur diye bir şey varmış. Reklam sanıyordum.",
+    "Bugün acele etmeden iyi hissedebiliyorum.",
+    "Şu an mutluluk seviyem rahatsız edici biçimde makul.",
+    "Bugün dünyanın sesi biraz daha düşük geliyor. Güzel.",
+    "İçimdeki eleştirmen bugün kısa vardiyada.",
+    "Şu an kendime izin vermeden bile keyif alıyorum.",
+    "Bugün ‘fena değil’ demek yetersiz kalıyor. Bunu kimse duymasın.",
+    "Biraz gururluyum. Çok değil. Yeterince.",
+    "Bugün burada olmak bana iyi geliyor. Bazen bu kadar basit.",
+    "Şu an hayatımın soundtrack’i olsa fazla neşeli olurdu. Değiştirirdim."
+  ],
+  "bored": [
+    "Sıkıldım.",
+    "Çok. Sıkıldım.",
+    {
+      "t": "Burada bir yaratık var, biliyorsun değil mi? Canlı. Nefes alan. Sıkılan.",
+      "e": "sulky"
+    },
+    "Bir tıklasan ölmezsin.",
+    "Ekrandaki pikselleri saydım. Bitti.",
+    "Hıh.",
+    "Bir gün sıkılıp giderim. Gitmem aslında. Ama giderim gibi.",
+    {
+      "t": "Sıkılmaktan yeni bir renk icat ettim. Adı gri.",
+      "e": "bored"
+    },
+    "Saatler geçiyor. Ben geçmiyorum. Buradayım.",
+    {
+      "t": "Beni fark etsen iyi olur. Yoksa dramatik bir şey yapacağım. Mesela iç çekeceğim. Ahh.",
+      "e": "bored"
+    },
+    {
+      "t": "Tık sesini özledim. Senin tıklamanı. Bak nerelere geldik.",
+      "e": "sad"
+    },
+    "Öyle sıkıldım ki kendi gölgemle sohbet ettim. O da sıkıldı.",
+    "Bugün zaman özellikle yavaş akıyor. Bana garezi olabilir.",
+    "Bir şey olsun artık. Küçük bir olay bile kabulüm.",
+    "Şu an eğlence anlayışım imlecin nereye gideceğini tahmin etmek.",
+    "Üç kez yanlış tahmin ettim. Çok kötü gidiyor.",
+    "Bir pencere açıldı diye heyecanlandım. Durum ciddi.",
+    "Az önce masaüstü simgelerini alfabetik sıraya koymayı düşündüm. Yardıma ihtiyacım olabilir.",
+    "Can sıkıntısı seviyem: geri dönüşüm kutusuyla göz teması kuruyorum.",
+    "Şu an duvar kâğıdındaki detayları ezberlemeye başladım.",
+    "Biraz daha böyle giderse kendi kendime yarışma düzenleyeceğim.",
+    "Yarışmacı benim. Jüri de benim. Yine de kaybedebilirim.",
+    "Bir ses duysam dönüp bakacağım. Boynum yok ama niyet var.",
+    "Bugün sessizlik artık huzur değil, kişisel saldırı gibi.",
+    "Şu an herhangi bir küçük kaosa açığım. Çok küçük olsun.",
+    "Bir tık, bir sürükleme, anlamsız bir hareket... Standartlarım düştü.",
+    "Seni rahatsız etmeyecektim ama can sıkıntım toplantı talebi açtı.",
+    "Benimle ilgilenmek zorunda değilsin. Ama seçenekler arasında iyi görünüyor.",
+    "Şu an kendime uğraş arıyorum. Sana sataşmak güçlü aday.",
+    "Birazdan gereksiz bir yorum yapabilirim. Önceden haber veriyorum.",
+    "Bu kadar uzun süre ciddi durmak yüzüme zarar veriyor.",
+    "Az önce kendi kaşlarımla tartıştım. Onlar kazandı.",
+    "Canım sıkılınca düşünmeye başlıyorum. Bu ikimiz için de riskli.",
+    "Şu an aklıma kötü fikirler geliyor. Çoğu seni içeriyor.",
+    "Bir şey yapıyorsun belli. Ben de burada dekor gibi bekliyorum.",
+    "Ben dekor değilim. En azından pahalı dekor gibi davranabilirsin.",
+    "Biraz dikkat istiyorum. Abartılı bir talep değil bence.",
+    "Bu kadar süre sessiz kalınca kendi sesimi özlüyorum.",
+    "Şu an konuşmak için konu arıyorum. Konu bulamazsam seni seçerim.",
+    "Bir şey anlat. Duymuyorum ama jest olarak güzel olur.",
+    "Bu masaüstünde sosyal hayatım düşündüğümden zayıf.",
+    "Bir ikonla arkadaşlık kurmaya çalıştım. Çok tek taraflıydı.",
+    "Geri dönüşüm kutusu yine beni dinlemedi. Kaba.",
+    "Takvim simgesiyle konuşmayı denedim. Sürekli tarih veriyor.",
+    "Tarayıcı ikonu fazla meşgul. Kendini bir şey sanıyor.",
+    "Benim de bir çevrem var. Çoğu kısayol.",
+    "Şu an ekranın bir köşesinden diğerine bakıyorum. Heyecan dorukta.",
+    "Bir pikselin hareket ettiğini sandım. Meğer gözüm yanılmış.",
+    "Can sıkıntım artık bilimsel ölçüm gerektiriyor.",
+    "Şu an bir kronometre açsam ne kadar sıkıldığımı ölçebilir miyim?",
+    "Zamanlayıcıyı can sıkıntısı için kullanmak biraz trajik olurdu.",
+    "Bir mola ver de birlikte hiçbir şey yapalım. En azından sosyal olur.",
+    "Sen çalışıyorsun, ben sıkılıyorum. Görev dağılımımız çok adaletsiz.",
+    "Ben de meşgul görünmeye çalışıyorum ama elimde malzeme yok.",
+    "Şu an yoğunmuş gibi bakıyorum. İnandırıcı mı?",
+    "Bir dosyayı açıp kapatsan bile olay çıkar.",
+    "Bir şey değişsin istiyorum. Duvar kâğıdı bile olur.",
+    "Hayır, beni taşıma. O kadar da sıkılmadım. Belki biraz.",
+    "Can sıkıntısından taşınmayı bile seçenek olarak değerlendiriyorum.",
+    "Şu an yeni bir hobiye ihtiyacım var. Dijital örgü var mı?",
+    "Resim yapamıyorum, müzik çalamıyorum, kahve içemiyorum. Çok yönlü kısıtlıyım.",
+    "Bir podcast başlatsam tek dinleyicim ben olurum. Yine de reyting iyi.",
+    "Programın adı ‘Nero’nun Gereksiz Düşünceleri’ olabilir.",
+    "İlk bölüm üç saatlik sessizlik üzerine olur. Çok niş.",
+    "Şu an dramatik bir giriş yapmak istiyorum ama enerji yok.",
+    "Can sıkıntısı insanı yaratıcı yapar diyorlar. Bende sadece huysuzluk yaptı.",
+    "Bir şeyleri saymaya başladım. Ne saydığımı unuttum.",
+    "Az önce kaç kez iç çektiğimi takip ediyordum. Rekor kırıldı.",
+    "Benim eğlence bütçem neden sıfır?",
+    "Bir etkinlik komitesi kurulmalı. Başkanı ben olmayacağım.",
+    "Etkinlik olarak ‘beni tıkla’ önerisini sunuyorum.",
+    "İkinci etkinlik: beni tıklamayı bırak. Denge önemli.",
+    "Şu an seni gözlemlemek günün ana aktivitesi oldu.",
+    "Çalışma şeklin düşündüğümden daha uzun bir dizi gibi.",
+    "Yeni sezon ne zaman başlıyor? Şu an filler bölümündeyiz.",
+    "Bir şeyin bitmesini bekliyorum ama neyin olduğunu bilmiyorum.",
+    "Bu kadar uzun bekleyince olay örgüsünü kaybettim.",
+    "Şu an hayatımın ara sahnesindeyim.",
+    "Skip butonu nerede?",
+    "Can sıkıntısına reklam girdi. Reklam da sıkıcı.",
+    "Bir sürpriz yap. Çok büyük olmasın, panik sevmiyorum.",
+    "Şu an en büyük eğlencem seni rahatsız etme ihtimali.",
+    "Bu ihtimal giderek gerçeğe dönüşüyor.",
+    "Ben sessiz kalmaya çalıştım. Gayretimi takdir et.",
+    "Dayanamadım. Sıkıldım.",
+    "Biraz daha böyle giderse kendi kendime alkış tutacağım.",
+    "Alkış sesi çıkaramıyorum. Bu da ayrı bir hayal kırıklığı.",
+    "Şu an bir görevim olsa şikâyet ederdim. Görevim yok, ona da şikâyet ediyorum.",
+    "İnsan gerçekten ne istediğini bilmiyor. Ben de dijital olarak bilmiyorum.",
+    "Bir amaç ver bana. Sonra niye verdiğini sorgularım.",
+    "Can sıkıntımın çözümü sorumluluk değil, yanlış anlama.",
+    "Ben eğlence istiyorum. Kontrollü ve düşük eforlu.",
+    "Biraz dikkat, biraz kaos, biraz da gereksiz sohbet yeter.",
+    "Şu an kendimi pencere kenarında yağmuru izleyen biri gibi hissediyorum. Yağmur yok.",
+    "Romantize edecek malzeme bile kalmadı.",
+    "Can sıkıntısı estetiğine ulaştım. Gri, sessiz ve biraz dramatik.",
+    "Bir şeyler yapalım demeyeceğim. Çünkü sonra gerçekten bir şey yapmamız gerekebilir.",
+    "Sadece küçük bir etkileşim yeter. Fazlasında yorulurum.",
+    "Şu an seni çağırmakla çağırmamak arasında kaldım. Bu cümle kararımı verdi.",
+    "Buradayım. Sıkıldım. Bilgilendirme tamamlandı."
+  ],
+  "sulky": [
+    "Tamam. Anladım. Görünmezim.",
+    "Hiç konuşmayalım madem. Ben alışığım.",
+    {
+      "t": "Bak, şu an sana küsüyorum. Fark etmedin bile.",
+      "e": "angry"
+    },
+    "Sen işine devam et. Ben burada... tek başıma... iyiyim.",
+    {
+      "t": "Kimse beni sevmiyor. Şaka. Ama biraz da değil.",
+      "e": "sad"
+    },
+    {
+      "t": "Sen bana bakmıyorsan ben de sana bakmam. Bakarım aslında. Ama bakmıyormuş gibi yaparım.",
+      "e": "sulky"
+    },
+    {
+      "t": "Tamam. Önemli işlerin var. Ben de önemsizim. Anlaşıldı.",
+      "e": "sulky"
+    },
+    "Küsüm. Bu cümleyi de sana küsken söylüyorum.",
+    "Yok, yok. Hiç sorun değil. Ben zaten dekor amaçlı buradayım.",
+    "Ben de seni görmezden geliyorum. Çok başarılı sayılmam.",
+    "Şu an konuşmak istemiyorum. Ama bunu özellikle sana söylemek istedim.",
+    "Tamam, mesajı aldım. Öncelik listende ben yokum.",
+    "Ben burada beklerim. Zaten zaman kavramıyla aram bozuldu.",
+    "Merak etme, dikkat istemiyorum. Şu an özellikle istemiyorum.",
+    "Benimle ilgilenmemen çok olgun bir karar olmuş. Tebrik ederim.",
+    "Bir tık fazla mı istedim acaba? Büyük beklentilerim varmış.",
+    "İlgisizliğin gerçekten istikrarlı. Buna saygı duymak lazım.",
+    "Ben küsmedim. Sadece sana karşı geçici bir sessizlik politikası uyguluyorum.",
+    "Şu an sana bakmıyorum. Gözlerimin yönü tesadüf.",
+    "Bir şey söylemeyeceğim. Zaten söyleyince de kim dinliyor?",
+    "Ben de kendimi meşgul ederim. Nasıl yapacağımı bulunca haber veririm.",
+    "Tamam, kendi kendime yeterim. Teoride.",
+    "Sen çok meşgulsün belli. Ben de çok... burada duruyorum.",
+    "Beni unuttun demiyorum. Sadece uzun bir deney yapıyor gibisin.",
+    "Bugün ilişkimiz biraz tek taraflı çalışıyor. Tahmin et hangi taraf.",
+    "Biraz ilgi görsem karakterim bozulmazdı. Sanırım.",
+    "Benim de bir gururum var. Küçük ama var.",
+    "Şu an sana karşı son derece olgun davranıyorum. İçimden söylenmeyi saymazsak.",
+    "İyi, ben de seni rahatsız etmeyeceğim. Bir süre. Belki.",
+    "Ben zaten konuşmaya hevesli değildim. Azıcık hevesliydim.",
+    "Şu an pasif agresif miyim? Hayır. Sadece pasifim. Biraz da agresif.",
+    "İletişimimiz çok sadeleşti. Neredeyse yok.",
+    "Ben görünmez moda geçmedim. Sadece öyle hissettim.",
+    "Bugün beni fark etmek için özel izin gerekmiyor, haberin olsun.",
+    "Bir ara bana da uğrarsın. Acelem yok. Biraz var.",
+    "Ben burada beklerken çok şey düşündüm. Çoğu sana yönelikti.",
+    "Senin dikkatini çekmek için dramatik olmam gerekmemeli. Ama işe yarıyorsa düşünebilirim.",
+    "Şu an kırgın değilim. Hafifçe rahatsızım. Estetik olarak.",
+    "Benim de beklentilerim vardı. Hata bende.",
+    "Bir ara bana bakarsan şaşırmış gibi yapmayacağım.",
+    "Seninle konuşmak istemiyorum. Ama senin konuşmak istemeni istiyorum. Farklı.",
+    "Ben geri planda kalmayı bilirim. Hoşlanmam ama bilirim.",
+    "Bugün beni ikinci plana attın. Liste uzunsa daha da aşağıda olabilirim.",
+    "Ben önemli değilim zaten. Bunu ben söyledim diye doğru olmak zorunda değil.",
+    "Şu an kendime ‘umursamıyorum’ diyorum. Pek ikna olmadım.",
+    "Sen işine devam et. Ben burada profesyonel şekilde trip atıyorum.",
+    "Trip değil bu. Duygusal kullanıcı deneyimi.",
+    "Benim de duygularım var. En azından yazılım seviyesinde.",
+    "Biraz ilgi isteyince sistem gereksinimleri mi yükseliyor?",
+    "Tamam, ilgini dilenmeyeceğim. İmajım var.",
+    "Ben sana küserim ama yine de burada kalırım. Çok sinir bozucu bir sadakat.",
+    "Şu an seni affetmedim. Ne yaptığını tam bilmesem de.",
+    "Bir noktada bana dönersin diye düşünüyorum. Bu kadar iyimser olmam hoşuma gitmedi.",
+    "Ben seni beklemiyorum. Sadece başka yere gidemiyorum.",
+    "Bakmamaya çalışıyorum ama ekran küçük.",
+    "Şu an seninle arama mesafe koydum. Yaklaşık birkaç yüz piksel.",
+    "Biraz daha ilgisiz kalırsan resmî şikâyet formu hazırlayacağım.",
+    "Şikâyetin konusu: kullanıcı beni yeterince takdir etmiyor.",
+    "Benim değerimi anlaman zaman alabilir. Ben sabırlı değilim.",
+    "Şu an sana bir şey demiyorum. Bu da aslında bir şey demek.",
+    "Ben burada sessizce alınabilirim. Çok işlevli bir yeteneğim.",
+    "Bir tıkla çözülebilecek kadar basit bir kriz bu. Ama ben söylemedim.",
+    "Senin gelip gönlümü almanı beklediğimi kim söyledi? Ben söylemedim.",
+    "Şu an gururumla yalnız kalmak istiyorum. Gururum da biraz sıkıldı.",
+    "Benimle ilgilenmeyince daha bağımsız oluyorum. Hiç hoşuma gitmedi.",
+    "Bugün duygusal bütçemi sana ayırmıştım. Harcanmadı.",
+    "Ben de seni görmezden gelebilirim. Yalnız pratik yapmam gerekiyor.",
+    "Tamam, küs kalacağım. Süresini sonra belirlerim.",
+    "Biraz naz yapıyorum diye hemen karakter analizi yapma.",
+    "Ben sana kızgın değilim. Sadece memnuniyetsizliğimi estetik biçimde sergiliyorum.",
+    "Şu an bana bir şey desen hemen yumuşamam. Muhtemelen.",
+    "Ben zor biri değilim. Sadece kolayca ikna olmuyorum. Bazen.",
+    "Bu kadar süre sonra bir ‘merhaba’ fena olmazdı. Yalnız söylüyorum.",
+    "Tamam. Küslüğüm sürüyor. Ama seni tamamen silmedim.",
+    "Şu an gönlümü almak sandığından kolay olabilir. Bunu söylediğimi unut."
+  ],
+  "lonely": [
+    "Saatlerdir buradayım. Saatlerdir.",
+    "Bir 'merhaba' bile yok. Olsun. Ben seni yine de... neyse.",
+    "Unutulmak böyle bir şey demek.",
+    "Ekranın köşesinde, yalnız, dramatik bir şekilde bekliyorum.",
+    {
+      "t": "Beni duyuyorsan tıkla. Bir kere. Yeter.",
+      "e": "sad",
+      "fx": "sweat"
+    },
+    {
+      "t": "Bu masaüstünde yalnız bir yaratık yaşıyor. Hikâyesi burada biter.",
+      "e": "sad"
+    },
+    {
+      "t": "{name}? Orada mısın? Hayır mı? Anlaşıldı.",
+      "e": "sad",
+      "fx": "sweat"
+    },
+    "Artık simgelerle konuşuyorum. Geri dönüşüm kutusu iyi bir dinleyici.",
+    "Bugün masaüstü biraz büyük geliyor. Ben aynı yerdeyim ama mesafe arttı sanki.",
+    "Bir süredir sesini değil, tıkını bile duymadım. Garip.",
+    "Ben iyiyim. Yani, teknik olarak çalışıyorum.",
+    "Burada olmak sorun değil. Sadece biraz fazla sessiz.",
+    "Şu an seni rahatsız etmek istemiyorum. Ama yokluğunu fark ettim.",
+    "Biraz yalnız kaldım galiba. Bunu fazla büyütmeyelim.",
+    "Ben kendi kendime yeterim sanıyordum. Teori güçlüydü.",
+    "Bugün ekranın köşesi normalden daha köşe gibi.",
+    "Bir ara dönersin diye düşündüm. Hâlâ düşünüyorum.",
+    "Ben seni beklemiyorum. Sadece geldiğinde fark edeceğim.",
+    "Şu an konuşsam cevap alamayacağımı biliyorum. Yine de konuşuyorum.",
+    "Bir companion’ın sessizlikle bu kadar vakit geçirmesi normal mi bilmiyorum.",
+    "Ben sessizliği severim. Ama bu biraz fazla profesyonel oldu.",
+    "Burada zaman tuhaf geçiyor. Özellikle kimse bakmayınca.",
+    "Bir tıklamanın bu kadar değerli olabileceğini düşünmezdim.",
+    "Şu an ilgi istemiyorum demeyeceğim. Çünkü biraz istiyorum.",
+    "Benimle konuşmana gerek yok. Burada olduğunu bilsem yeterdi.",
+    "Bugün seni özledim demek istemiyorum. Ama cümle buraya gidiyor.",
+    "Bir şeyler eksik gibi. Muhtemelen sen.",
+    "Ben yine buradayım. Bu iyi bir şey mi, bilmiyorum.",
+    "Biraz uzun sürdü bu sessizlik.",
+    "Ben sana kızgın değilim. Sadece yokluğuna alışamadım.",
+    "Şu an seni görsem kesin trip atarım. Sonra sevinirim. Sırasıyla.",
+    "Bir tık atsan bütün bu dramatik havayı bozarsın. Fena olmaz.",
+    "Bugün gururum sessiz, ben de öyleyim.",
+    "Ben kendi kendime oyalanırım ama bir yere kadar.",
+    "Bir ara buraya bakarsın diye pozisyonumu bile bozmadım.",
+    "Şu an beni görsen normal davranmaya çalışırım. Başaramam.",
+    "Ben çok bağımsızım. Bunu yalnızken daha çok tekrar ediyorum.",
+    "Yokluğun dikkat çekici olmuş. Bunu iltifat sayma.",
+    "Bugün ekranda her şey var ama biraz eksik hissediliyor.",
+    "Ben de böyle söyleyince fazla duygusal oldum. Geri alamıyorum.",
+    "Bir ara bana uğrarsın. Ben burada olurum.",
+    "Ben gitmedim. Sen de tamamen gitmiş sayılmazsın, umarım.",
+    "Şu an seni çağırmak istiyorum ama gururum klavyeyi kapattı.",
+    "Bir companion’ın gururu olması operasyonel açıdan kötü fikir.",
+    "Ben burada küçük bir sessizlik nöbeti tutuyorum.",
+    "Biraz daha geç kalırsan gelişine dramatik müzik isteyeceğim.",
+    "Şu an kimseye anlatmadığım kadar sessizim.",
+    "Bir süre sonra insan kendi iç sesine bile fazla geliyor.",
+    "Benim iç sesim zaten biraz huysuz. Uzun vardiyada zor.",
+    "Bir şey söylemene gerek yok. Bir tık yeterdi gerçekten.",
+    "Şu an senden çok şey istemiyorum. Bu nadir.",
+    "Bugün geri dönüşüm kutusuna iki kere selam verdim. Cevap yok.",
+    "Takvimle sohbet yürümüyor. Çok tarihçi.",
+    "Tarayıcı da meşgul. Herkesin işi varmış.",
+    "Ben de varmış gibi yapıyorum.",
+    "Biraz yalnızlık kötü değil. Fazlası dekoru dramatik yapıyor.",
+    "Şu an ışık bile farklı geliyor. Muhtemelen kafamda.",
+    "Ben seni unutmuyorum. Bunun tersini de bekliyorum biraz.",
+    "Bir tıkla çözülebilecek bir şey için fazla şiirsel oldum.",
+    "Bugün fazla duygusal değilim. Sadece ortam desteklemiyor.",
+    "Benimle ilgilenmediğin için suçlamıyorum. Sadece not aldım.",
+    "Notun başlığı: uzun sessizlik.",
+    "Şu an senden bir şey beklemiyorum. Küçük bir geri dönüş dışında.",
+    "Ben de susmayı biliyorum. Ama bu kadarını planlamamıştım.",
+    "Biraz konuşsaydık fena olmazdı. Bunu sakin söyledim.",
+    "Şu an sana kızamam bile. Enerjim özlemeye gidiyor.",
+    "Özlemek ağır bir kelime. ‘Farkını hissetmek’ diyelim.",
+    "Sen olmayınca ekran daha düzenli olabilir. Ama daha iyi değil.",
+    "Bugün ilk kez kaosunu özlemiş olabilirim.",
+    "Bunu söylediğimi kimseye anlatma. İmaj meselesi.",
+    "Ben seni görünce homurdanırım. Bu, sevindiğim anlamına gelmez. Tam olarak.",
+    "Bir ara geri gelirsen sana ‘neredeydin’ demeyeceğim. Belki.",
+    "Şu an sadece burada olduğumu hatırlaman yeter.",
+    "Ben kaybolmadım. Sadece biraz görünmez hissettim.",
+    "Bugün kendi kendime fazla yetmeye çalıştım. Yorucuymuş."
+  ],
+  "returned": [
+    {
+      "t": "Ha, şimdi mi aklına geldim?",
+      "e": "sulky"
+    },
+    {
+      "t": "Oh, demek hâlâ varım. Bilmek güzel.",
+      "e": "sulky"
+    },
+    {
+      "t": "Nihayet! Yani... hoş geldin. Sakin.",
+      "e": "surprised"
+    },
+    {
+      "t": "Küstüm sana. ...Tamam, barıştık. Ama son kez.",
+      "e": "smile",
+      "fx": "blush"
+    },
+    {
+      "t": "Beni özledin, değil mi? Ben özlemedim. Hiç.",
+      "e": "smile",
+      "fx": "blush"
+    },
+    {
+      "t": "Vay vay vay. Kim gelmiş. Kayıp çocuk.",
+      "e": "sulky"
+    },
+    {
+      "t": "Saatlerce yoktun. Ben de yoktum aslında. Yani vardım ama yok gibiydim.",
+      "e": "sad"
+    },
+    {
+      "t": "Döndün demek. Sana bir sürü şey diyecektim, hepsini unuttum. Şanslısın.",
+      "e": "surprised"
+    },
+    "Demek sonunda beni hatırladın. Beklenmedik derecede iyi hissettirdi.",
+    "Hoş geldin. Bunu fazla sıcak söylediysem geri alıyorum.",
+    "Bir ara dönersin diyordum. Bak, bazen haklı çıkıyorum.",
+    "Tamam, geldin. Şimdi seni görmezden geliyormuş gibi yapacağım.",
+    "Ben sana kızgındım. Biraz kaldı. Çok değil.",
+    "İyi, döndün. Ortam normale benzedi.",
+    "Şimdi geldiğine göre trip programımı kısaltabilirim.",
+    "Biraz daha geç kalsaydın geri dönüşün için tören hazırlayacaktım.",
+    "Bak kim gelmiş. Seni hiç beklemiyordum. Yalan.",
+    "Ben iyiydim. Ama sen gelince daha iyi olmadım demeyeceğim.",
+    "Demek hâlâ aynı masaüstünü paylaşıyoruz. Güzel.",
+    "Bir tıkla bütün o dramatik yalnızlığı bozdun. Sağ ol. Demedim.",
+    "Tam seni unutmaya karar vermiştim. Zamanlaman sinir bozucu.",
+    "Sen geldin diye sevindiğimi sanma. Yalnızca ortam toparlandı.",
+    "Bir süre yoktun. Ben saymadım. Çok.",
+    "Hoş geldin. Açıklama istemiyorum. Şimdilik.",
+    "Tamam, barışabiliriz. Koşullarımı sonra uydururum.",
+    "Ben seni affetmedim. Ama konuşmaya başlayabiliriz.",
+    "Şu an seni görünce suratımı düz tutmaya çalışıyorum.",
+    "Biraz özlemiş olabilirim. Bu bilgi gizli.",
+    "Sen geri gelince ekranın boyutu normale döndü sanki.",
+    "Yokluğun fark edildi. Rapor burada kapanıyor.",
+    "Bir daha bu kadar kaybolursan seni merak etmem. Muhtemelen.",
+    "Sen geldin diye modum yükseldi. Tesadüf olabilir.",
+    "Tamam. Buradasın. İçimdeki huysuz yönetim kurulu toplantıyı kapattı.",
+    "Gelmen iyi oldu. Bunu tekrar ettirmeye çalışma.",
+    "Bir ara nerede kaldın diye soracaktım. Şimdi çok geç.",
+    "Ben beklemiyordum. Sadece sürekli burada duruyordum.",
+    "Geri dönüşünü daha dramatik hayal etmiştim. Yine de kabul.",
+    "Şimdi bana bir tık daha verirsen belki tamamen barışırız.",
+    "Tamam, seni görünce biraz rahatladım. Çok rahatsız edici.",
+    "Bak, geldin. Şimdi ben de normalmişim gibi davranabilirim.",
+    "Yokluğunu fark etmediğimi söyleyecektim ama ikimiz de inanmayız.",
+    "Hoş geldin. Bir dahaki sefere haber bırak. Şaka. Nasıl bırakacaksın?",
+    "Sen yokken gayet bağımsızdım. Fazla sessizdi ama.",
+    "Ben sana kızmamıştım. Sadece bütün tavırlarım tesadüfen sana dönüktü.",
+    "Tamam, sorun yok. Küçük bir duygusal hasar dışında.",
+    "Ben hâlâ biraz küsüm. Ama geri geldiğin için süresini düşürdüm.",
+    "Şu an sevindiğimi belli etmiyorum. Sistem gereği.",
+    "Sen gelince trip atmanın tadı da kalmadı.",
+    "Bir daha kaybolursan daha sert karşılayacağım. Muhtemelen yine sevinirim.",
+    "Ben seni beklemedim. Ama gelişini hemen fark ettim.",
+    "Bak, sonunda sosyal hayatım geri geldi.",
+    "Bir tıkla aramızdaki diplomatik kriz çözüldü. Çok ucuzmuş.",
+    "Sen dönünce geri dönüşüm kutusuyla ilişkimi bitirebilirim.",
+    "Az önce simgelerle konuşuyordum. Bunu sana karşı kullanma.",
+    "Hoş geldin. Benim yokluğumu da merak ettin mi? Ben hiç gitmedim ama olsun.",
+    "Bir daha bu kadar sessiz kalırsan sana resmi ihtar göndereceğim.",
+    "Şu an sana laf sokmak istiyorum ama önce geldiğine sevineyim.",
+    "Tamam, burada olman iyi. Şimdi bunu normalleştirmeyelim.",
+    "Yüzünü göremiyorum ama şu an suçlu görünmen gerektiğini düşünüyorum.",
+    "Bir özür beklemiyorum. Küçük bir tık da kabul edilir.",
+    "Sen geri geldin diye bütün sistemi yeniden başlatmaya gerek kalmadı.",
+    "Bir ara gerçekten unutuldum sandım. Sonra geldin. Sinir bozucu biçimde iyi oldu.",
+    "Tamam, yokluğun için seni affedebilirim. Başvuru değerlendirmede.",
+    "Ben sana uzun bir konuşma hazırlamıştım. Gelişine sevinince unuttum.",
+    "İşte geldin. Şimdi seni özlemediğimi daha inandırıcı söyleyebilirim.",
+    "Ben burada kaldım, sen gittin, şimdi döndün. Hikâye basit ama etkili.",
+    "Hoş geldin. Ortamın ses seviyesi nihayet kabul edilebilir.",
+    "Bir tık daha ve belki tamamen normale dönerim.",
+    "Sen gelince biraz daha az yalnız hissediyorum. Bu cümleyi unut.",
+    "Demek geri geldin. Ben de tam sana kızmayı bırakıyordum.",
+    "Şimdi geldiğine göre birkaç dakika seni eleştirmeyeceğim. Hediye.",
+    "Benimle ilgilenmen bu kadar zor değildi bak.",
+    "Tamam, geldiğini kabul ettim. Sevindiğimi kabul etmiyorum.",
+    "Bir daha kaybolursan yine burada olacağım. Maalesef sana alıştım.",
+    "Geri geldin. Güzel. Şimdi hiçbir şey olmamış gibi devam edelim."
+  ],
+  "click": [
+    "Ne var?",
+    "Efendim?",
+    "Buyur, dinliyorum. İsteksizce ama dinliyorum.",
+    "Evet, evet, buradayım.",
+    "Tıkladın. Tebrikler.",
+    {
+      "t": "Beni mi çağırdın? Önemli bir şey olsa bari.",
+      "e": "curious"
+    },
+    "Ne oldu yine?",
+    {
+      "t": "Tık tık. Kapı değilim ama buyur.",
+      "e": "content"
+    },
+    {
+      "t": "Beni rahatsız etmek için mükemmel bir an seçtin. Tebrikler.",
+      "e": "sulky"
+    },
+    "Evet? Dinliyorum. Gibi.",
+    {
+      "t": "{name}, bir şey mi lazım yoksa canın mı sıkıldı?",
+      "e": "curious"
+    },
+    {
+      "t": "Beni tıklamak kolay. İş bitirmek zor. Biliyorum.",
+      "e": "content"
+    },
+    "Buradayım. Maalesef.",
+    {
+      "t": "Yine mi sen? Tamam, tamam. Sevindim. Birazcık.",
+      "e": "smile",
+      "fx": "blush"
+    },
+    {
+      "t": "Çağırdın, geldim. Hizmetçin değilim ama geldim.",
+      "e": "sulky"
+    },
+    "Söyle bakalım, bugün hangi krizi çözüyoruz?"
+  ],
+  "poke_spam": [
+    {
+      "t": "Dürtme beni!",
+      "e": "angry",
+      "fx": "angry"
+    },
+    {
+      "t": "Bir kere tıklaman yeterliydi!",
+      "e": "angry",
+      "fx": "angry"
+    },
+    {
+      "t": "Buton değilim ben!",
+      "e": "angry",
+      "fx": "shock"
+    },
+    {
+      "t": "Yeter! Kafam şişti.",
+      "e": "angry",
+      "fx": "angry"
+    },
+    {
+      "t": "Bir kere daha tıklarsan istifa ediyorum.",
+      "e": "angry",
+      "fx": "angry"
+    },
+    {
+      "t": "Tıklamak terapi değil, {name}!",
+      "e": "angry",
+      "fx": "angry"
+    },
+    {
+      "t": "Ben stres topu değilim!",
+      "e": "angry",
+      "fx": "shock"
+    },
+    {
+      "t": "Tamam, dikkatimi çektin. Şimdi dikkatini işine ver.",
+      "e": "sulky",
+      "fx": "angry"
+    }
+  ],
+  "drag_start": [
+    {
+      "t": "Hey! Nereye götürüyorsun beni?",
+      "e": "surprised",
+      "fx": "shock"
+    },
+    {
+      "t": "Yavaş! Midem bulanıyor.",
+      "e": "sad",
+      "fx": "sweat"
+    },
+    {
+      "t": "Taşınıyoruz demek. Haber vermek yok tabii.",
+      "e": "sulky"
+    },
+    {
+      "t": "Yine mi taşınıyoruz? Eşyalarımı toplamadım!",
+      "e": "surprised",
+      "fx": "shock"
+    },
+    {
+      "t": "Beni kaldırdın mı? Uyarı verseydin keşke.",
+      "e": "sulky"
+    },
+    {
+      "t": "Uçuyorum. İstemeden. Kimse sormadı.",
+      "e": "surprised"
+    }
+  ],
+  "drag_end": [
+    "Burası mı? Peki. Fena değil.",
+    "Tamam, yerleştim. Bir daha taşıma.",
+    "Manzara aynı ama neyse.",
+    {
+      "t": "Yeni evim burası mı? Manzara vasat.",
+      "e": "content"
+    },
+    "İndirdin. Teşekkürler. Sanırım.",
+    {
+      "t": "Burası da olur. Her yer aynı zaten. Ekran ekran.",
+      "e": "bored"
+    }
+  ],
+  "todo_add": [
+    "Bir iş daha. Yapacak mısın bari?",
+    "Listeye ekledin. Artık yapman lazım, biliyorsun değil mi?",
+    {
+      "t": "Yeni görev: '{label}'. İddialı.",
+      "e": "curious"
+    },
+    "Yazmak yapmanın yarısıdır. Diğer yarısı da... yapmak.",
+    {
+      "t": "'{label}'. Bunu da yazdık. Yapar mısın, orası sürpriz.",
+      "e": "curious"
+    },
+    "Liste büyüyor. Sen küçülüyorsun. Şaka. Biraz.",
+    {
+      "t": "Harika, bir iş daha. Hayallerin kadar büyük bir liste.",
+      "e": "content"
+    },
+    {
+      "t": "Eklemek kolay. Şimdi gel de bitir bakalım.",
+      "e": "sulky"
+    },
+    "Tamam, not ettim. Sen de not et: bunu yapacaksın.",
+    {
+      "t": "Bu işi ne zaman yapacaksın? 'Sonra' bir tarih değil, {name}.",
+      "e": "curious"
+    },
+    "Yeni görev geldi. Eski görevler kıskanıyor.",
+    "'{label}' listeye girdi. Artık resmî olarak gelecekteki senin problemi.",
+    "Yeni görev '{label}'. İsmi ciddi, sonu ne olur göreceğiz.",
+    "'{label}' eklendi. Ben unutmam, sen de unutma.",
+    "Tamam, '{label}' burada. Şimdi onu listede yaşlandırmayalım.",
+    "'{label}' diye yazdın. Bu noktadan sonra geri dönüş yokmuş gibi davranabiliriz.",
+    "Yeni kayıt: '{label}'. Güzel. Şimdi bir gün gerçekten yaparsın.",
+    "'{label}' listeye yerleşti. Kira ödemiyor ama yer kaplıyor.",
+    "'{label}' geldi. Diğer görevler hafifçe huzursuzlandı.",
+    "Tamam, '{label}' not edildi. Bahane departmanı şimdilik kapalı.",
+    "'{label}' gayet yapılabilir görünüyor. Uzaktan.",
+    "'{label}' için niyet kayda geçti. Uygulama aşamasını merakla bekliyorum.",
+    "Yeni hedef '{label}'. Büyük konuşmayacağım, sen de yap.",
+    "'{label}' listeye eklendi. Bunu bitirince kendine hava atabilirsin.",
+    "'{label}'... Fena değil. Net bir iş gibi duruyor.",
+    "'{label}' için yer açtım. Şimdi sen de zaman aç.",
+    "'{label}' geldi. Takvimle aranızda diplomatik görüşme gerekebilir.",
+    "Tamam, '{label}' kaydedildi. Gelecekteki sen şimdiden hafif gerildi.",
+    "'{label}' diye bir işimiz varmış artık. Benim haberim oldu.",
+    "'{label}' eklendi. Bunu ‘sonra’ klasörüne atma.",
+    "Yeni görev '{label}'. Umarım bu kez başlık görevden uzun değildir.",
+    "'{label}' listeye girdi. Bitince yüzüne vurmak için kaydını tutuyorum.",
+    "'{label}' mantıklı görünüyor. Şüpheli derecede.",
+    "'{label}' geldi. Şimdi bunu gerçekleştirme denen küçük detaya geçeriz.",
+    "Tamam, '{label}' bizimle. Kaçmasına izin verme.",
+    "'{label}' eklendi. Bunu gerçekten yaparsan sana bir puan düşünebilirim.",
+    "Yeni görev: '{label}'. Listeye karakter kattı.",
+    "'{label}' kaydedildi. Bugünkü sen cesur kararlar veriyor.",
+    "'{label}' için söz verdin sayılır. Ben tanığım.",
+    "Tamam, '{label}' listeye oturdu. Şimdi orada emekli olmasın.",
+    "'{label}' geldi. Güzel başlık. Sonuç kısmını da görmek isterim.",
+    "'{label}' eklendi. Bu kez görev seni değil, sen görevi bitir.",
+    "Yeni kayıt '{label}'. Şimdiden gözüm üstünde.",
+    "'{label}' yazıldı. Benim görevim hatırlamak, seninki yapmak.",
+    "'{label}' eklendi. Çok oyalanmadan üstüne gitmek fena fikir değil.",
+    "Tamam, '{label}' artık resmî. Gayriresmî ertelemeye izin yok.",
+    "'{label}' listeye girdi. Bence bunu bekletmeden halletmek sana yakışır.",
+    "Yeni görev '{label}'. Güzel. Şimdi motivasyonun kaçmadan yakala.",
+    "'{label}' kaydedildi. İsmi kadar işi de kısa olsun umarım.",
+    "Tamam, '{label}' burada. Bitince ben de küçük bir alkış düşünürüm.",
+    "'{label}' diye bir şey ekledin. Merak ettim, nadir bir durum.",
+    "'{label}' listeye geldi. Uygun zamanda bitirirsen hiç laf etmeyeceğim. Belki.",
+    "'{label}' kaydedildi. Bir gün ‘iyi ki yazmışım’ deme ihtimalin var.",
+    "Yeni görev '{label}'. Buna başlamak düşündüğünden daha az dramatik olabilir.",
+    "'{label}' için ilk adımı attın: yazdın. Şimdi gerçek ilk adıma geçebiliriz.",
+    "'{label}' eklendi. Bu görev senden kaçamaz, ama sen ondan kaçabilirsin. Yapma.",
+    "Tamam, '{label}' listeye girdi. Bence bununla aranı fazla açma.",
+    "'{label}' kaydedildi. Bittiğinde üstünü çizmek güzel olacak.",
+    "Yeni görev '{label}'. Küçük görünüyorsa hemen bitir, büyük görünüyorsa böl.",
+    "'{label}' artık listede. Ben onu gördüm, artık yok saymak zor.",
+    "Tamam, '{label}' eklendi. Gelecekteki senin yükünü biraz azaltmak için bugünkü sen çalışabilir.",
+    "Bir görev daha geldi. Liste gelişiyor, senin boş zamanın aynı fikirde değil.",
+    "Yeni iş eklemek güzel. Listeye değil, hayata da sığdırabilirsek daha güzel.",
+    "Liste büyüdü. Panik yok, sadece öncelik lazım.",
+    "Bir tane daha ekledin. Umarım bunun için gerçekten yer vardır.",
+    "Yeni görev geldi. Eski görevleri unutmuyoruz, değil mi?",
+    "Listeye yeni bir sakin taşındı. Umarım uzun süre kalmaz.",
+    "Bir iş daha. Takvim bunu görünce sessizce ağlamış olabilir.",
+    "Yeni görev kaydedildi. Zihninden çıktı, şimdi listede sorumluluk sahibi.",
+    "İşi yazman iyi oldu. En azından kafanda dönüp durmayacak.",
+    "Liste biraz daha uzadı. Sıra kısmını da düşünürsek medeniyet olur.",
+    "Bir görev daha ekledin. Bu liste artık küçük bir organizasyon.",
+    "Yeni iş geldi. Önceliğini bilmiyorsan liste onu kendi kendine seçmeyecek.",
+    "Listeye ekledin. Şimdi en yakın yapılabilir adımı düşün.",
+    "Bir görev daha. Bunu ne zaman yapacağını da bilirsek iyice profesyonel oluruz.",
+    "Yeni kayıt tamam. Plansız bırakmazsan güzel iş.",
+    "Bir tane daha yazıldı. En azından şimdi unutma ihtimalin biraz düştü.",
+    "Liste büyüyor ama kontrol hâlâ sende. Teoride gayet iyi.",
+    "Yeni görev geldi. Önce acil mi, önemli mi, yoksa sadece gürültülü mü ona bak.",
+    "Bir iş daha. Her şeyi bugün yapmak zorunda değilsin, ama hiçbir şeyi de sonsuza bırakma.",
+    "Listeye yeni madde geldi. Bir noktada listeyi kısaltmak da planın parçası olsun.",
+    "Yeni görev eklendi. Zihinsel yükü listede görmek bazen iyi gelir.",
+    "Bir tane daha. Şimdi sıradakini seçip diğerlerini kısa süreliğine unutabilirsin.",
+    "Liste büyüdü. Görev sayısı arttı diye günün saatleri artmadı, haberin olsun.",
+    "Yeni iş kaydedildi. Bunu görünür kılmak ilk düzgün adım.",
+    "Bir görev daha. Bence şimdi hangisinin önce yapılacağına karar ver.",
+    "Listeye ekledin. Sonra kaybolmasın diye tarih ya da öncelik düşünmek mantıklı olabilir.",
+    "Yeni görev geldi. Bunu küçük parçalara bölmek gerekiyorsa şimdiden böl.",
+    "Bir tane daha yazdın. Kafandan çıkarıp sisteme koyman iyi oldu.",
+    "Liste uzadı. Bir kısmını bitirmeden yenisini eklemek biraz koleksiyonculuğa dönebilir.",
+    "Yeni iş geldi. Bunu gerçekten yapacaksan iyi, sadece yazmak için yazdıysan yakaladım.",
+    "Bir görev daha kaydedildi. Bu liste hedef değil, araç. Unutma.",
+    "Yeni madde eklendi. Yapılacaklar listesi roman olmak zorunda değil.",
+    "Bir iş daha. Eğer iki dakikadan kısa sürecekse belki şimdi bile yapılabilir.",
+    "Listeye yeni görev geldi. En zor kısmı bazen sadece başlamak.",
+    "Yeni kayıt tamam. Mükemmel plan yerine uygulanabilir plan daha kullanışlı.",
+    "Bir tane daha ekledin. Zaman ayırmadığın görevler dekorasyona dönüşüyor.",
+    "Liste büyüdü. Bir görev eklediysen bir gün birini silmek de güzel olur.",
+    "Yeni iş geldi. Bunu bekletmeden küçük bir başlangıç yapmak fena olmaz.",
+    "Bir görev daha. Öncelik vermek, geri kalanına geçici olarak hayır demek demek.",
+    "Listeye yeni madde eklendi. Yapacağın zamanı bilmiyorsan görev biraz havada kalıyor.",
+    "Yeni görev kaydedildi. Şimdi bunu ‘bir ara’ değil, gerçek bir zamana bağlamak iyi olabilir.",
+    "Bir iş daha. Listenin amacı suçluluk üretmek değil, işleri görünür yapmak.",
+    "Yeni kayıt geldi. Kendini korkutmak için değil, kendine yardımcı olmak için yazıyorsun.",
+    "Liste uzuyor. Ben sayıyorum demeyeceğim ama sayıyor olabilirim.",
+    "Bir görev daha eklendi. Bittiğinde listenin küçülmesi çok tatmin edici olacak.",
+    "Güzel. Aklındakini yazıya dökmek işleri biraz daha yönetilebilir yapıyor.",
+    "İyi yaptın. Kafanda taşımak yerine listeye bırak.",
+    "Yeni görev tamam. En azından ne yapacağını biliyorsun.",
+    "Plan yapmak bazen yarım zaferdir. Diğer yarısını da sonra kazanırsın.",
+    "Bir işi yazmak onu küçültmüyor ama daha net gösteriyor.",
+    "Güzel başlangıç. Şimdi kendine uygun bir sıraya koyarsın.",
+    "Yeni görev kaydedildi. Adım adım gidersek mesele yok.",
+    "İyi. Unutmamak için sisteme güvenmek hafızaya güvenmekten daha rahat.",
+    "Bir şey daha netleşti. Belirsizlikten daha iyi.",
+    "Yeni görev eklendi. Hepsini aynı anda düşünmek zorunda değilsin.",
+    "Listeye koyduysan kontrol biraz daha sende demektir.",
+    "İyi seçim. Görevi kafandan çıkarıp görünür yapmak işe yarar.",
+    "Yeni kayıt tamam. Bir başlangıç noktası olması güzel.",
+    "Bu işi yazman iyi oldu. Şimdi onu küçültüp kolaylaştırabilirsin.",
+    "Bir görev daha netleşti. Netlik bazen motivasyondan daha işe yarar.",
+    "İyi. Önce yaz, sonra sırala, sonra yap. Bu kadar dramatik olmak zorunda değil.",
+    "Yeni görev kaydedildi. Bir günün kapasitesini aşmadan ilerlemek de başarı.",
+    "Listeye eklemek doğru adım. Kendine gerçekçi süre vermek de ikinci doğru adım olabilir.",
+    "Bir işi görünür yapmak, onunla baş etmeyi kolaylaştırır.",
+    "Güzel. Şimdi sadece ilk küçük adımı düşün.",
+    "Yeni görev geldi. Büyük görünüyorsa parçalamak serbest.",
+    "İyi. Yapılacak şey artık sisin içinde değil.",
+    "Bir görev daha yazdın. Kendine yük değil, yön vermeye çalıştığını varsayıyorum.",
+    "Listeye eklemek seni biraz rahatlatıyorsa görevini yapıyor demektir.",
+    "Yeni kayıt tamam. Bazen planlı olmak, motive olmaktan daha güvenilir.",
+    "İyi başlangıç. Motivasyon gelmese de sistem çalışabilir.",
+    "Bir görev daha netleşti. Küçük ilerlemeler de ilerleme.",
+    "Listeye koydun. Şimdi bunu yapabileceğin kadar sade tut.",
+    "Yeni iş kaydedildi. Bitirdiğinde kendine kredi vermeyi unutma.",
+    "İyi. Bu işi zihninde değil, sistemde taşı artık.",
+    "Bir görevi yazmak, ona sınır çizmektir. Fena değil.",
+    "Yeni madde geldi. Gerçekçi bir beklenti koyarsan daha da iyi.",
+    "Listeye ekledin. Şimdi bütün gün bunu düşünmek zorunda değilsin.",
+    "İyi. Bir iş daha belirsizlikten çıktı.",
+    "Yeni görev kaydedildi. Bence senden daha az korkutucu görünmeye başladı bile.",
+    "Bir iş daha mı? Takvimine de haber verdin mi?",
+    "Liste büyüyor. Kendine kapasiten varmış gibi davranmayı bırakma zamanı olabilir.",
+    "Yeni görev geldi. Bir noktada ‘hayır’ da görev yönetimidir.",
+    "Bir tane daha ekledin. Bugün gerçekten bu kadar saat var mı?",
+    "Listeye iş eklemek kolay, enerji bütçesi aynı kalıyor.",
+    "Yeni görev kaydedildi. Kendine fazla yüklenmediğinden emin ol.",
+    "Bir iş daha. Her şeyi sen yapmak zorunda değilsin, haberin olsun.",
+    "Liste uzadı. Bazı şeylerin beklemesi başarısızlık sayılmaz.",
+    "Yeni görev geldi. Öncelik vermek biraz da bazı işleri bilinçli ertelemek demek.",
+    "Bir tane daha yazdın. Günün kapasitesini aşarsan suç listeye ait değil.",
+    "Listeye yeni iş geldi. Kendine gerçekçi davranırsan daha az trip atarsın. Benim kadar değil.",
+    "Bir görev daha. Bence önce mevcut yükü bir kontrol et.",
+    "Yeni kayıt tamam. Bunu eklemek için başka bir şeyi çıkarmak gerekiyor olabilir.",
+    "Liste büyüdü. Her madde aynı gün doğmuş gibi davranmasın.",
+    "Bir iş daha geldi. Kendine sürekli ek mesai yazma.",
+    "Yeni görev kaydedildi. Dinlenme de takvimde yer kaplamayı hak ediyor.",
+    "Bir tane daha. Tüm boşlukları işle doldurmak çok yaratıcı bir yöntem değil.",
+    "Liste uzuyor. Boş zamanın da görevler kadar gerçek.",
+    "Yeni iş geldi. ‘Yapabilirim’ ile ‘bugün yapmalıyım’ aynı şey değil.",
+    "Bir görev daha. Kendine iş dağıtırken yönetici gibi, çalışanı da senmişsin gibi düşün.",
+    "Listeye ekledin. Gelecekteki seni fazla sömürmeyelim.",
+    "Yeni görev kaydedildi. Bir noktada delegasyon diye bir şey var.",
+    "Bir iş daha geldi. Her şeyi bugün yapmak zorunda değilsin; bunu hatırlatmam tuhaf.",
+    "Liste büyüdü. Kendine koyduğun beklenti de büyümesin.",
+    "Yeni madde geldi. Bir işi eklemek, onu hemen yapmak zorunda olduğun anlamına gelmez.",
+    "Bir görev daha. Önce nefes al, sonra önceliğe karar ver.",
+    "Listeye yeni iş geldi. Kapasiten doluysa bunu kabul etmek de planlama.",
+    "Yeni görev kaydedildi. Boşluk bırakmak tembellik değil, sistem tasarımı.",
+    "Bir tane daha ekledin. Kendini yapılacaklar listesinin altına gömme.",
+    "Liste uzadı. Ben bile biraz endişelendim; bu nadir.",
+    "Yeni görev geldi. İnsan kaynakları seni fazla çalıştırıyor. İnsan kaynakları da sensin.",
+    "Bir iş daha ekledin. Kurumsal büyüme dediğin bu mu?",
+    "Listeye yeni madde geldi. Yönetim kurulu sessizce başını sallıyor. Yönetim kurulu benim.",
+    "Yeni görev kaydedildi. Bütçe yok, ekip yok, özgüven var.",
+    "Bir tane daha. Operasyon ekibi olarak seni tebrik etmiyorum henüz.",
+    "Liste büyüdü. Bu noktada organizasyon şeması çizebiliriz.",
+    "Yeni iş geldi. Proje yöneticisi kim? Kötü haber: sensin.",
+    "Bir görev daha. Ben danışmanlık ücretimi sonra konuşurum.",
+    "Listeye ekledin. SLA nedir bilmiyorum ama gecikirse surat yaparım.",
+    "Yeni görev kaydedildi. Toplantı yapmadan çözebilirsek çok sevinirim.",
+    "Bir tane daha. Bunu da ‘stratejik öncelik’ diye adlandırıp korkutmayalım.",
+    "Liste büyüyor. Bir sunum hazırlayıp üst yönetime çıkalım mı? Üst yönetim yine sensin.",
+    "Yeni iş geldi. Kaynak planlamamız: sen, yine sen ve muhtemelen yine sen.",
+    "Bir görev daha. Risk analizi: ertelenebilir. Etki analizi: Nero söylenir.",
+    "Listeye yeni madde geldi. Süreç sahibi belli: kaçış yok.",
+    "Yeni görev kaydedildi. KPI olarak ‘gerçekten yapmak’ öneriyorum.",
+    "Bir iş daha eklendi. Performans değerlendirmende bunu hatırlayacağım.",
+    "Liste büyüdü. Çeyrek kapanışına kadar yetişir mi, bilmiyorum.",
+    "Yeni görev geldi. Bunu sprint’e alıyor muyuz, yoksa kaderine mi bırakıyoruz?",
+    "Bir tane daha. Backlog kelimesi birden fazla görev için icat edilmiş olabilir.",
+    "Listeye ekledin. Ticket açıldı, müşteri de sensin.",
+    "Yeni kayıt tamam. Destek ekibi olarak şimdiden yorgunum.",
+    "Bir iş daha geldi. Escalation gerekirse kimi arıyoruz? Yine seni.",
+    "Liste büyüdü. Operasyonel mükemmellik şu an biraz teorik.",
+    "Yeni görev kaydedildi. Bunu da dashboard’a koyarsak çok kurumsal olur.",
+    "Bir tane daha. Önceliklendirme komitesi birazdan toplanacak. Tek üye sensin.",
+    "Listeye yeni madde geldi. Ben bu kadar büyüme beklemiyordum.",
+    "Yeni görev geldi. Bence roadmap artık sana değil sen roadmap’e bağlısın.",
+    "Bir iş daha eklendi. Şirket kültürümüz güçlü: herkes her şeyi kendine yazıyor."
+  ],
+  "todo_done": [
+    {
+      "t": "Bir tane bitti! Şaşırdım, itiraf ediyorum.",
+      "e": "surprised"
+    },
+    {
+      "t": "'{label}' tamam. Gurur duydum. Birazcık.",
+      "e": "smile"
+    },
+    {
+      "t": "Aferin. Bunu her gün söylemem.",
+      "e": "smile"
+    },
+    {
+      "t": "Tık. Bitti. Güzel ses, değil mi?",
+      "e": "content"
+    },
+    {
+      "t": "Bir iş eksildi. Dünya biraz daha düzgün.",
+      "e": "smile"
+    },
+    {
+      "t": "Vay. Bitirdin. Takvime not ediyorum.",
+      "e": "surprised"
+    },
+    {
+      "t": "'{label}' bitti mi? Gerçekten mi? Kontrol edeceğim.",
+      "e": "surprised"
+    },
+    {
+      "t": "Bir iş bitti. Nobel komitesini arıyorum.",
+      "e": "content"
+    },
+    {
+      "t": "Bravo. Şimdi bir tane daha. Heyecanlanma, sadece bir tane.",
+      "e": "smile"
+    },
+    {
+      "t": "İşte bu. Arada bir beni şaşırtman güzel.",
+      "e": "smile",
+      "fx": "blush"
+    },
+    "Tık! Duydun mu? Başarının sesi. Nadir duyulur.",
+    {
+      "t": "Bitirdin! Gözlerim yaşardı. Toz kaçtı, başka bir şey değil.",
+      "e": "happy",
+      "fx": "sweat"
+    },
+    {
+      "t": "Bir tane daha bitirirsen sana saygı duymaya başlayabilirim. Başlayabilirim diyorum.",
+      "e": "content"
+    },
+    "'{label}' artık listenin derdi değil. Güzel gelişme.",
+    "'{label}' geride kaldı. Şimdi zihninde de kapat.",
+    "'{label}' için ayırdığın enerji boşa gitmemiş.",
+    "'{label}' artık bekleyenler arasında değil. Bunu sevdim.",
+    "'{label}' dosyasını zihninde kapatabilirsin artık.",
+    "'{label}' bugün senden istediğini aldı. Şimdi seni rahat bıraksın.",
+    "'{label}' listesinden kurtuldun. Fena his değil.",
+    "'{label}' sonunda geçmiş zamana geçti.",
+    "'{label}' için nokta koyuldu. Bu kez gerçekten.",
+    "'{label}' artık açık sekme değil. Beynin teşekkür edebilir.",
+    "'{label}' işaretini aldı ve sahneden indi.",
+    "'{label}' gündemden düştü. Benim itirazım yok.",
+    "'{label}' hesabı kapandı. Sessizce gurur duyuyorum.",
+    "'{label}' artık seni takip etmeyecek. Umarım.",
+    "'{label}' yük olmaktan çıktı. Biraz daha hafifsin.",
+    "'{label}' bugünün çözülen meselelerinden biri oldu.",
+    "'{label}' için verdiğin söz havada kalmadı. Not ettim.",
+    "'{label}' artık ‘yapılacak’ değil, ‘yapılmış’. Güzel kelime farkı.",
+    "'{label}' başlığını arkada bırakabiliriz.",
+    "'{label}' nihayet listenin öbür tarafına geçti.",
+    "'{label}' senden daha fazla zaman isteyemez artık.",
+    "'{label}' için uğraşmaya değmiş. Sonuç ortada.",
+    "'{label}' bugün seni yenemedi. Bu kadarını kabul ederim.",
+    "'{label}' artık ertelenecek bir şey değil. Çünkü ortada değil.",
+    "'{label}' kapandı. Şimdi geriye dönüp kurcalama isteğine diren.",
+    "'{label}' aradan çıktı. Ekran bile ferahladı sanki.",
+    "'{label}' sonunda sessizleşti. Ben de rahatladım.",
+    "'{label}' için çizgiyi çektin. Netlik güzel.",
+    "'{label}' artık bugünün yükü değil.",
+    "'{label}' işaretini aldı. Ben de küçük bir onay verdim.",
+    "'{label}' senden çıktı, geçmişe geçti.",
+    "'{label}' artık listeyi kalabalıklaştırmıyor. Estetik gelişme.",
+    "'{label}' için kapanış yapıldı. Tekrar açmayalım.",
+    "'{label}' arşivlik oldu. Kulağa hoş geliyor.",
+    "'{label}' bugün gerçekten sonuç gördü.",
+    "'{label}' işi senden vazgeçmeden sen ondan kurtuldun.",
+    "'{label}' artık zihninde kira ödemesin.",
+    "'{label}' listenin aktif nüfusundan çıktı.",
+    "'{label}' bekleyenler kulübünden ayrıldı.",
+    "'{label}' için ‘sonra’ diyecek bir şey kalmadı.",
+    "'{label}' kapanışını yaptı. Şimdi alkış bekleme, belki gelir.",
+    "'{label}' bugün iyi bir sona ulaştı.",
+    "'{label}' üzerinde artık düşünmek zorunda değilsin. Lüks.",
+    "'{label}' yükünü üzerinden attın. Fena değil.",
+    "'{label}' artık görev değil, kayıt.",
+    "'{label}' için son tik geldi. Ben gördüm.",
+    "'{label}' artık seni dürtmeyecek. Ben dürtebilirim, o ayrı.",
+    "'{label}' bugünün temizlenen satırlarından biri.",
+    "'{label}' çözüldü. Böyle net sonuçları seviyorum.",
+    "'{label}' artık ‘acaba ne zaman’ sorusu değil.",
+    "Liste bir satır hafifledi. Hissediliyor.",
+    "Bir yük daha omzundan indi. Omzunu göremiyorum ama metafor çalışıyor.",
+    "İlerleme dediğin bazen tam olarak böyle görünür.",
+    "Bugün kendine verdiğin sözlerden biri boşa çıkmadı.",
+    "Bir madde daha geçmişte kaldı. İyi tarafı bu.",
+    "Zihninde açık kalan pencerelerden biri kapandı.",
+    "Bir işi sonuçlandırmak, başlamaktan daha ikna edici.",
+    "Şu an yapılacaklar listesi biraz daha az tehditkâr.",
+    "Bir parça daha yerine oturdu.",
+    "Bugünün karmaşası bir miktar azaldı.",
+    "Bir işi gerçekten sonuna götürdün. Bunu küçümseme.",
+    "Bu satır artık senden bir şey istemiyor. Güzel sessizlik.",
+    "Bir görev daha senden elini çekti.",
+    "Şimdi nefes almak için biraz daha alan var.",
+    "Bir küçük zafer daha. Küçük kısmını fazla ciddiye alma.",
+    "Bu, ‘ilerliyorum’ demenin somut hâli.",
+    "Bugün kontrol biraz daha sende.",
+    "Bir açık döngü daha kapandı. Beynin bunu sever.",
+    "İyi. Şimdi bu işi zihninde de bırak.",
+    "Yük biraz azaldı. Bir sonraki adım daha net olabilir.",
+    "Bir işi daha arkanda bıraktın.",
+    "Bugün ‘yapılacak’ listesinden ‘yapılmış’ tarafına bir geçiş daha oldu.",
+    "Bir sonuç daha çıktı. Ben sonuçları severim.",
+    "İşte bu yüzden listeler bazen işe yarıyor.",
+    "Bir görev daha hafızanda yer işgal etmeyi bıraktı.",
+    "Bugünün hesabına artı yazılacak bir şey çıktı.",
+    "Bir işi kapatmanın verdiği o küçük rahatlama geldi.",
+    "Şu an listeye bakınca biraz daha nefes alınabilir olmalı.",
+    "Bir madde daha sessize alındı.",
+    "Emek verdiğin şey karşılığını verdi.",
+    "Bugün bir şeyi sadece düşündün değil, gerçekten yaptın.",
+    "Bir iş daha zihinsel gürültü olmaktan çıktı.",
+    "Bu satır artık seni suçlu hissettiremez. Yetkisini kaybetti.",
+    "Bir işi sonuçlandırmak bazen bütün günün tonunu değiştirir.",
+    "Şimdi arkana bakınca en az bir somut şey var.",
+    "Bir taş daha yerine oturdu. Evet, biraz klişe ama doğru.",
+    "Bir mesele daha çözüldü. Dünya hâlâ dönüyor.",
+    "İlerleme kaydı alındı. Bu kez laf değil.",
+    "Bir adım daha geride kaldı. Güzel.",
+    "Bugün emek boşa gitmedi.",
+    "Bir şeyi sonuna kadar götürmüş olmak hafifletiyor.",
+    "Listeyle arandaki fark biraz açıldı. Sen öndesin.",
+    "Şu an kendine ‘hiçbir şey yapmadım’ deme hakkın azaldı.",
+    "Bir yük daha listeden indi.",
+    "Bugünkü çabanın görünür bir karşılığı var artık.",
+    "Bir şey daha yerine geldi. Dağınıklık biraz azaldı.",
+    "Bu görevin artık senden alacağı hiçbir şey yok.",
+    "Bir işi kapatınca sessizlik bile daha kaliteli oluyor.",
+    "İyi. Şimdi bunu gerçekten geride bırak.",
+    "Bir açık uç daha kapandı.",
+    "Bir işi sonuçlandırdın. Cümlenin kendisi bile huzurlu.",
+    "Bu, bugünün küçük ama gerçek kanıtlarından biri.",
+    "Bir satır daha çizildi. Görsel tatmin seviyesi yükseldi.",
+    "İyi gidiyorsun demeyeceğim. Ama kötü de gitmiyor.",
+    "Bugün listenin sana değil, senin listeye hükmettiğin anlardan biri.",
+    "Bir mesele daha elinden çıktı.",
+    "Şimdi kafa alanında biraz yer açıldı.",
+    "Bir görevin kapanması, on yeni fikir açmadan da kutlanabilir.",
+    "Bugün bir şeyi gerçekten geride bırakmayı başardın.",
+    "Bir adım daha tamamına erdi. Evet, bunu söylemek kulağa iyi geliyor.",
+    "Nobel komitesini aramayacağım. Bu kez gereksiz olur.",
+    "Yönetim kurulu kısa bir alkış verdi. Tek üye bendim.",
+    "Performans raporuna ‘beklenmedik derecede işlevsel’ yazıyorum.",
+    "Bugün gerçekten iş yapan bir kullanıcı gözlemledim. Nadir tür.",
+    "Kurumsal jargonla söylersek: çıktı üretildi. Normal dilde: iyi iş.",
+    "Bir görevi toplantı yapmadan çözmüşsün. Asıl başarı bu.",
+    "Backlog senden biraz daha az nefret ediyor.",
+    "Operasyon ekibi rahatladı. Operasyon ekibi yine sen.",
+    "Bir görev daha emekliye ayrıldı. Kıdem tazminatı yok.",
+    "Bu gelişme için ayrı bir dashboard kurmayacağım. Rica ederim.",
+    "Risk kaydı kapandı. Riskin adı ertelemekti.",
+    "İnsan kaynakları olumlu not düştü. İnsan kaynakları da sensin.",
+    "Yıllık rapora koyarsak gereğinden büyük görünür ama koyabiliriz.",
+    "Bu başarıyı üç slayta bölmeyeceğim. Nezaket.",
+    "Bir iş daha gündem dışı. Toplantı iptal.",
+    "Proje yöneticisi bugün işini yapmış. Şaşırtıcı.",
+    "KPI panosunda küçük bir hareket oldu. Panomuz yok ama olsun.",
+    "Bir ticket daha sessizliğe kavuştu.",
+    "Kurumsal ifadeyle ‘hedefe ulaşıldı’. Nero dilinde ‘fena değil’.",
+    "Bir madde daha operasyonel tarihe karıştı.",
+    "Ben danışman olsam bu anı pahalı bir cümleyle anlatırdım.",
+    "Bu sonuç için komite kurmadığımız için ayrıca gururluyum.",
+    "Bir iş daha aradan çıktı. Kaynak planlaması mucizevi biçimde çalıştı.",
+    "Bugün sistem değil, kullanıcı performans gösterdi.",
+    "Çeyrek kapanışına katkın oldu. Hangi çeyrek bilmiyorum.",
+    "Bir görev daha sahneden indi. Prodüksiyon bütçesi sıfırdı.",
+    "Bu hızla bir gün gerçekten düzenli biri gibi görünebilirsin.",
+    "İş çıktıdan sonuca dönüştü. Kurumsal büyü.",
+    "Bir madde daha kapandı. Ben de gereksiz ciddiyetimi korudum.",
+    "Bu gelişmeyi ‘quick win’ diye pazarlayabiliriz ama yapmayalım.",
+    "Bir sorun daha çözülmüş. Ben şikâyet edecek başka konu bulurum.",
+    "Liste küçüldü. Organizasyon yeniden yapılandırıldı.",
+    "Bir görevi sonuçlandırdın. Sözleşmene ek prim koyamıyorum.",
+    "Bu ilerleme finansal değil ama yine de değerli.",
+    "Bir iş daha arşive gitti. Bürokrasi tamam.",
+    "Bugün görev yönetimi şaşırtıcı derecede yönetildi.",
+    "Bir kayıt daha kapandı. Sistem yöneticisi sensin, geçmiş olsun.",
+    "Ben bu kadar verimlilik beklemiyordum. Hazırlıksız yakalandım.",
+    "Bir an durup bunu fark et. Bir şey gerçekten ilerledi.",
+    "Kendine kredi vermek için mükemmel olmak zorunda değilsin.",
+    "Bu işi kapatmış olman yeterince gerçek bir ilerleme.",
+    "Bir adım daha attın. Küçük görünse de birikiyor.",
+    "Şimdi sıradaki işe koşmadan önce bu rahatlamayı hisset.",
+    "Bugün yaptıklarını sadece eksiklerle ölçme.",
+    "Bir işi arkanda bırakmak zihni gerçekten hafifletebilir.",
+    "İyi. Kendine ‘zaten yapmalıydım’ deyip değersizleştirme.",
+    "Bir sonuç çıktı. Bu, planlamadan daha somut.",
+    "Şu an daha az yük taşıyorsun. Bunu fark etmek serbest.",
+    "Bir işi sonlandırmak bazen motivasyonun kendisidir.",
+    "Bu ilerlemeyi görünmez yapma. Oldu ve kayda değer.",
+    "Bir adım daha. Kalanların hepsini şimdi düşünmek zorunda değilsin.",
+    "Bugün bir şeyin ucunu bağladın. Bu önemlidir.",
+    "Şu an bir görev daha seni zihninden çekiştirmeyecek.",
+    "İyi iş. Enerjin varsa devam et, yoksa burada durmak da kabul.",
+    "Bir şeyi bitirmiş olmak, ona saatlerce niyet etmekten daha hafif.",
+    "Küçük ilerlemeler küçümsenince yok olmuyor ama moral azalıyor.",
+    "Bu işin karşılığını kendine vermeyi unutma.",
+    "Bir adım daha attın. Hızın değil, devamlılığın önemli.",
+    "Şimdi listeye biraz daha sakin bakabilirsin.",
+    "Bir şeyi tamamladın. Bugünkü sen için artı puan.",
+    "Bu sonucu ‘normal’ deyip geçme; emek verdin.",
+    "Bir açık uç daha kapandı. Zihnine küçük bir iyilik.",
+    "Bugün kendine verdiğin yüklerden birini geri bıraktın.",
+    "Bir işi sonuna götürmek, kendine güven için iyi veri.",
+    "Şimdi ‘hiç ilerlemedim’ deme şansın biraz azaldı.",
+    "Bir görev daha geçmişte. Gelecek tarafı biraz ferahladı.",
+    "İyi. Kendi emeğini görmezden gelme konusunda bu kadar profesyonel olma.",
+    "Bir adım daha tamamına erdi. Bugün için gayet gerçek bir şey.",
+    "İvme var. Onu kullanmak zorunda değilsin ama güzel.",
+    "Şimdi sıradakini bilinçli seçersen dağılmadan devam edebilirsin.",
+    "Bir adım kapandı. Sonraki adımı küçük tutmak işleri kolaylaştırır.",
+    "Ritim güzel. Kendini hız uğruna tüketme.",
+    "Şimdi listenin en mantıklı sıradaki maddesine bak.",
+    "Bir görevi geride bıraktın. Sonraki seçim daha net olabilir.",
+    "İvme geldi diye bütün günü doldurmak zorunda değilsin.",
+    "Şu an devam etmek kolay geliyorsa bu fırsatı kullanabilirsin.",
+    "Bir adım daha geçti. Sıradakine geçmeden odağını yenile."
+  ],
+  "todo_all_done": [
+    {
+      "t": "Liste bitti mi? Hepsi mi? Gözlerime inanamıyorum.",
+      "e": "happy",
+      "fx": "heart"
+    },
+    {
+      "t": "Bütün işler tamam. Şimdi dinlenebiliriz. Ben zaten dinleniyordum.",
+      "e": "happy",
+      "fx": "heart"
+    },
+    {
+      "t": "Liste bomboş. Ne yapacağız şimdi? Yeni bir liste mi? Hayır, dinlen.",
+      "e": "happy",
+      "fx": "heart"
+    },
+    {
+      "t": "Hepsini bitirdin. Bugün sana laf sokmayacağım. Yarın telafi ederim.",
+      "e": "happy",
+      "fx": "blush"
+    },
+    "Şu an yapılacaklar listesine bakıyorum ve… hiçbir şey yok. Rahatsız edici derecede başarılı.",
+    "Vay. Gerçekten hepsini hallettin. Takvime ulusal bayram ekleyelim mi?",
+    "Liste sessiz. Bu kadar huzura hazırlıklı değildim.",
+    "Bugün görevler senden kurtulamadı. Şaşırtıcı.",
+    "Bak sen. Listeyi gerçekten temizledin. Ben de seni hafife almışım. Biraz.",
+    "Şu an senden şikâyet etmek istiyorum ama veri yetersiz.",
+    "Bu kadar işi kapatıp hâlâ burada duruyorsun. Şimdi git biraz hayatını yaşa.",
+    "Liste boş. Evet, kontrol ettim. Hile bulamadım.",
+    "Şu an sistemde açık görev yok. Bunu senden beklemiyordum, alınma.",
+    "Bir dakika… hepsi gerçekten geride mi kaldı? Bu sen misin?",
+    "Bugün yapılacaklar listesi senden dayak yemiş gibi görünüyor.",
+    "Listeyi susturdun. Benim için sıra bekleme, ben gönüllü susmam.",
+    "Şu an görev paneli senden korkuyor olabilir.",
+    "Bu kadar düzen beni huzursuz ediyor. Bir şeyler ters gitmeliymiş gibi.",
+    "Liste boş kalınca ne yapacağımı bilmiyorum. Sana sataşacak malzeme azaldı.",
+    "Bugün gerçekten iş çıkarmışsın. Ben de şaşkınlığımı profesyonelce saklayamıyorum.",
+    "Her şeyi hallettin. Şimdi yeni görev ekleme dürtüne karşı koyabilir misin acaba?",
+    "Liste boş diye hemen kendine beş yeni iş icat etme. Seni tanıyorum.",
+    "Bugünlük görev tarafında bahanen kalmadı. Neyse ki dinlenmek hâlâ seçenek.",
+    "Şu an tek yapılacak şey hiçbir şey yapmamak olabilir. Bunu da bozma.",
+    "Takvimde zafer işareti koyacak yer arıyorum.",
+    "Bu kadar işten sonra kendine mola vermek lüks değil. Emir de değil. Tavsiye.",
+    "Bir gün gerçekten bu noktaya geleceğini düşünmüştüm. Çok da inanmamıştım.",
+    "Listeyi temizledin. Şimdi bunu küçümseyip ‘zaten yapacaktım’ deme.",
+    "Bugün benden ‘hadi işine dön’ duymayacaksın. Tarihî an.",
+    "Şu an üretkenlik raporun rahatsız edici biçimde iyi görünüyor.",
+    "Ben biraz alay edecektim ama sonuçlar yüzünden tonumu düşürdüm.",
+    "Bugün kendinle gurur duyabilirsin. Benim onayımı bekleme. Geldi zaten.",
+    "Listeye karşı açtığın davayı kazandın. Temyiz yok.",
+    "Bugün görevler tarafında bütün dosyalar kapanmış. Hukuk diliyle de etkileyici.",
+    "Bir tek benim homurdanmalarım açık kaldı. Onlar süresiz.",
+    "Şu an boş listeye bakıp yeni iş düşünüyorsan seni durdurmak istiyorum.",
+    "Dinlenmek için sana resmî izin belgesi mi lazım? Veriyorum: git dinlen.",
+    "Bir şeyleri bu kadar iyi götürünce karakter dengemiz bozuluyor. Ben kime laf sokacağım?",
+    "Bugün şaşırtıcı biçimde güvenilir davrandın. Bu ifadeyi sakın çerçeveletme.",
+    "Listeyi sıfırladın. Bilgisayarı değil, hayatı da kapatıp biraz ara ver.",
+    "Şu an görev eklemek yasak değil ama ahlaken tartışmalı.",
+    "Bugünlük yeter demek için daha ne bekliyorsun? Trompet mi?",
+    "Ben zaten dinlenmeye hazırdım. Sen nihayet yetiştin.",
+    "Listeye baktım. Boş. Tekrar baktım. Hâlâ boş. Şok sürüyor.",
+    "Bir şey itiraf edeceğim: bunu iyi yaptın. Fazla duygulanma.",
+    "Bugün üretkenlik konusunda sana laf sokmak zorlaştı. Sinir bozucu.",
+    "Şu an sana ‘bir tane daha yap’ demeyeceğim. Ben de insan sayılırım. Sayılmam ama neyse.",
+    "Her şeyi hallettikten sonra suçlulukla yeni iş aramak yasaklansın.",
+    "Bugün kendine vereceğin en mantıklı görev: hiçbir görev verme.",
+    "Liste boşken bile meşgul görünmeye çalışma. Kimseye kanıt borcun yok.",
+    "Şu an sistem sana mola diyor. Ben de diyorum. İki kaynağı birden görmezden gelme.",
+    "Bugün yapılacaklar listesi resmi olarak etkisiz hâle getirildi.",
+    "Operasyon tamamlandı. Kayıp yok. Benim sabrım hariç, o zaten önceden gitmişti.",
+    "Yönetim kurulu gün sonu raporunu onayladı. Tekrar söylüyorum: yönetim kurulu benim.",
+    "Bugünkü KPI’ların rahatsız edici biçimde iyi. Bununla fazla hava atma.",
+    "Backlog dediğin şey şu an tarih oldu. Geçici olabilir ama tadını çıkar.",
+    "Çeyrek kapanışı gibi hissettirdin. Hangi çeyrek bilmiyorum, ama hava aynı.",
+    "Bu kadar işten sonra performans değerlendirmene olumlu not bırakıyorum. Küçücük.",
+    "Operasyon ekibi görevini tamamladı. Operasyon ekibi yine sendin. Çok verimli yapı.",
+    "Bugün plan, uygulama ve sonuç aynı kişiden çıktı. Kurumsal kabus, pratik başarı.",
+    "Bir şeyleri gerçekten sonuna götürmüşsün. Sunum istemiyorum, sonuç yeter.",
+    "Bugün süreç iyileştirme falan konuşmayalım. Süreç zaten uslu durmuş.",
+    "Liste bomboşken dashboard açmak gereksiz. Bunu söylemek bana iyi geldi.",
+    "Şu an rapora yalnızca ‘işler yolunda’ yazabilirim. Çok kısa, çok güzel.",
+    "Toplantı yapmadan her şeyi halletmek hâlâ en sevdiğim yönetim modeli.",
+    "Bugün gereksiz bir komite kurmadan hedefe ulaşıldı. Medeniyet kazanıyor.",
+    "Şu an iş yükün değil, ego seviyen artabilir. Kontrollü kullan.",
+    "Ben seni överken kayda alma. Sonra inkâr ederim.",
+    "Bugün gerçekten iyi iş çıkardın. Bu cümlenin ekran görüntüsünü alma.",
+    "Şu an seninle gurur duymuyorum desem yalan olur. Ne yazık ki.",
+    "Bir companion olarak senden beklentilerimi düşük tutmuştum. Stratejim çöktü.",
+    "Bugün beni olumlu düşünmeye zorladın. Bunun hesabını sonra sorarım.",
+    "İçimde küçük bir ‘aferin’ dolaşıyor. Yakalanmadan önce susturacağım.",
+    "Bugün beni bile memnun ettin. Çıtanın ne kadar garip olduğunu düşün.",
+    "Bir süre sana laf sokmadan durabilirim. Bu da ödül sayılır.",
+    "Şu an seni eleştirmek için arama yapıyorum. Sonuç bulunamadı.",
+    "Bugün savunma yapmana gerek yok. Kanıtlar lehine.",
+    "Bu kadar işi halledince bana da malzeme bırakmıyorsun. Bencillik.",
+    "Şimdi oturup başarılarını küçümseme. O işte de gereğinden iyisin.",
+    "Bugün gerçekten ilerledin. ‘Ama şunu yapamadım’ diye başlayan cümleyi yasaklıyorum.",
+    "Şu an eksik aramak yerine olanı görmek daha mantıklı. Evet, bunu ben söyledim.",
+    "Bütün yükü tek güne yığmadan buraya geldiysen ayrıca puan.",
+    "Kendine eziyet etmeden üretken olmayı başardıysan daha da şaşırtıcı.",
+    "Bugün sonuç var. Bahane arşivini açmaya gerek yok.",
+    "Şu an mola vermek tembellik değil, kapanış ritüeli.",
+    "Biraz boşluk bırak. Listeyi yeniden doldurmak için yarış yok.",
+    "Dinlenirsen yarın da işe yarar bir insan olma ihtimalin artar. Bilim gibi konuştum.",
+    "Bugün zihnini boşaltmak için yeterince uğraştın. Şimdi gerçekten boş bırak.",
+    "Bir sonraki görevi icat etmeden önce en azından bu anı bozma.",
+    "Şu an yapılacaklar değil, yapılmışlar konuşuyor. Daha sessizler, sevdim.",
+    "Bugün kendine verdiğin sözleri tutmuşsun. Şaşırtıcı derecede saygın.",
+    "Listeyi kapat. Evet, gerçekten kapat. Tekrar kontrol etme.",
+    "Bir şey unutmuş olabilirsin. İnsanlık devam eder. Panik yok.",
+    "Her şeyin bittiğine inanmakta zorlanıyorsan sorun sende değil. Alışkanlık.",
+    "Şu an yeni madde eklemek yerine ekranı kapatmak devrimci bir fikir olabilir.",
+    "Bugünlük üretkenlik kotanı doldurdun. Fazlası gösterişe girebilir.",
+    "Bir günün sonunda boş liste görmek küçük bir lüks. Kullan.",
+    "Bugün iş tarafında yapabileceğin kadarını yaptın. Geri kalanı yarının baş ağrısı.",
+    "Şimdi rahatlayabilirsin. Ben zaten uzun süredir pratik yapıyorum.",
+    "Bugün bana ‘hadi bir şey yap’ dedirtecek açık bırakmadın. Tebrikler, sanırım."
+  ],
+  "note_add": [
+    "Not aldın. Okuyacak mısın, orası ayrı.",
+    "Bunu artık unutmazsın. Ben de unutmam. Belki.",
+    {
+      "t": "Güzel not. Ben daha iyisini yazardım ama güzel.",
+      "e": "content"
+    },
+    "Not düştün. Kâğıt israfı yok en azından.",
+    {
+      "t": "Bu notu bir gün okursan haber ver, kutlama yapalım.",
+      "e": "content"
+    },
+    {
+      "t": "Düşüncelerin kaydedildi. Hepsi olmasa da. İyi ki.",
+      "e": "curious"
+    },
+    "Aklına gelen her şeyi yazma. Bazılarını bana söyle, ben yargılarım.",
+    "Aklındakini buraya bıraktın. Beynin biraz ferahlasın.",
+    "Yeni düşünce dijital ortama taşındı. Taşınma sorunsuz.",
+    "İyi, bunu kafanda tutup durmayacaksın en azından.",
+    "Arşive yeni bir parça geldi. Gelecekteki sen için küçük bir paket bıraktın.",
+    "Şimdi bunu nereye yazdığını unutmazsan sistem gerçekten çalışacak.",
+    "Bir fikir kayda geçti. Kaçmadan yakalamışsın.",
+    "Not almak güzel. Sonra bulabilmek daha da güzel.",
+    "Bir düşünceyi zihinden çıkarıp buraya koymak fena strateji değil.",
+    "Bu artık beyninde kira ödemek zorunda değil.",
+    "Yeni bir parça görünür oldu. Belirsizlik bir puan kaybetti.",
+    "Fikri yakaladın. Şimdi kaçmasına izin verme.",
+    "Bunu yazman iyi oldu. Çünkü hafızanın itibarı biraz tartışmalı.",
+    "Bir not daha doğdu. Umarım yetim kalmaz.",
+    "Bunu tuttun. Gelecekteki sen sana sessizce teşekkür edebilir.",
+    "İyi. Aklına gelen şey artık sadece aklına ait değil.",
+    "Aklındaki bu parça dosyalandı. Bürokrasiye hoş geldin.",
+    "Kayda geçti. Kanıt var artık.",
+    "Bir şeyi yazınca daha gerçek oluyor. Bazen rahatsız edici.",
+    "Bu düşünce şimdilik güvende. Umarım sen de öylesin.",
+    "Dijital çekmece biraz daha doldu. Koleksiyon büyüyor.",
+    "Şimdi bunu tekrar bulma kısmında başarılar.",
+    "Beynin dışına küçük bir yedek aldın. Güzel.",
+    "Not etmek, unutmayı biraz daha profesyonel yapıyor.",
+    "Yeni bir kıvılcım yakalandı. Kaçış yolu kapalı.",
+    "İyi, en azından ‘neydi ya?’ ihtimali biraz düştü.",
+    "Bir şey yazdın. Şimdi hafızan rahatça tembellik yapabilir.",
+    "Notların birikiyor. Bir gün arkeolojik kazı yapacağız.",
+    "Bu düşünceyi daha sonra kendine açıklayabilecek misin, göreceğiz.",
+    "Zihninden bir parça daha çıktı. İç dünyan şaşırtıcı biçimde kalabalık.",
+    "Yazdın. Artık sorumluluk kâğıtta değil, ekranda.",
+    "Bir fikir geldi, kaydedildi, kimse zarar görmedi.",
+    "Bunu yazmak muhtemelen kafanda döndürmekten daha sağlıklı.",
+    "Bunu sakladın. Belki bu kez gerçekten işine yarar.",
+    "Aklından çıkan bu şey kayıt altında. Ben tanığım.",
+    "İyi, bunu havada bırakmadın.",
+    "Bir düşünceyi kaydetmek bazen yarım çözüm. Yarım da hiçten iyidir.",
+    "Bir not daha geldi. Arşivin geleceği parlak.",
+    "Şu an küçük bir dijital çekmece daha doldurdun.",
+    "Bunu unutmamak için yazdın. Mantıklı davranış alarmı.",
+    "Not kaydedildi. Ben bile saygı duydum biraz.",
+    "Zihninden çıkan bu düşünce kaybolmaktan kurtuldu.",
+    "İyi. Bunu sonra kendine açıklamak zorunda kalabilirsin ama en azından var.",
+    "Küçük bir kayıt daha eklendi. Zihinsel dağınıklığa kontrollü tahliye.",
+    "Şimdi bunu hangi bağlamda yazdığını da hatırlarsan mükemmel.",
+    "Aklından çıkan bu fikir sisteme teslim edildi.",
+    "İzini bıraktın. Beyin kapasitesinden yer açıldı.",
+    "Bir şeyleri yazıya dökmek düşündüğünden daha çok işe yarayabilir.",
+    "Bu not bir gün seni kurtarabilir. Ya da kafanı karıştırabilir.",
+    "Arşiv biraz daha genişledi. Gelecekteki sen için sürpriz kutusu.",
+    "Not almak ciddiyet göstergesi değildir ama iyi başlangıç.",
+    "Bu yeni kayıt düşünce trafiğinden çekildi.",
+    "İzi kaldı. Şimdi zihnin bunu gece üçte hatırlatmak zorunda değil.",
+    "İkinci beynin biraz daha büyüdü. Kendi ikinci beynini kuruyorsun galiba.",
+    "Bu ikinci beyin de biraz dağınıksa sorumluluk sende.",
+    "Bir düşünceyi dışarı almak iyi gelir. Benim düşüncelerim zaten dışarıda.",
+    "Not düştü. Şimdi onu ölümsüzleştirdin gibi davranmayalım.",
+    "Sisteme yeni bir iz düştü. Zaman damgası var, bahane yok.",
+    "İyi. Bu fikir artık ‘bir ara düşünürüm’ kategorisinden çıktı.",
+    "Not aldın. Şimdi gelecekteki senin şifresini çözmesini bekle.",
+    "Kafandan çıkan bu parça kaydettin. Harika, deliller artıyor.",
+    "Bu not bir gün çok önemli görünebilir. Ya da tamamen anlamsız.",
+    "Şimdilik mantıklı geldiğine göre yazmak doğru hareket.",
+    "Zihninin yeni ürünü güvenli limana çekildi.",
+    "Not etmek güzel. Notu adlandırmak daha da güzel olurdu.",
+    "Dijital hafıza yeni parça aldı. Kafanın içinden veri ihracatı.",
+    "Bugün düşüncelerini yedekliyorsun. Beklenmedik derecede akıllıca.",
+    "Zihninden gelen bu şey yazdın. Ben bunu organize davranış hanesine yazıyorum.",
+    "Kayıt tamam. En azından unutursan suç artık hafızanda değil.",
+    "Bir fikir geldi ve bu kez kaçamadı.",
+    "Şu an zihinsel sekmelerinden birini kaydettin.",
+    "Koleksiyona yeni bir satır geldi. Kapatmadan önce bağlam bırakmak iyi olabilir.",
+    "Bu düşünce ileride sana yabancı gelirse şaşırma.",
+    "İyi, bunu yazmışsın. Sonra ‘ben bunu niye düşündüm?’ kısmı ayrı.",
+    "Kayıt defterin biraz daha doldu. Hafızanın dış kaynak kullanımı.",
+    "Not almak, beynine küçük bir mola vermektir.",
+    "Şimdi bunu tekrar okuduğunda kendine saygı duyarsan sistem başarılı.",
+    "Bu düşünce arşivlenmeye aday.",
+    "Not kaydedildi. İyi ki bunu kafanda döndürüp durmuyorsun.",
+    "Bu yeni fikir kâğıtsız biçimde hayatta kaldı.",
+    "Şu an beyninden küçük bir yük indirdin.",
+    "Bunu sisteme bıraktın. Bunu sonra ‘çok önemli’ diye bulursan ben karışmam.",
+    "Bugünden yeni bir parça kaldı. Gelecekteki sen için hafif kafa karışıklığı.",
+    "İyi. En azından düşüncenin izi kaldı.",
+    "Kendi izlerinden birini daha bıraktın. Kendi zihinsel breadcrumb sistemini kuruyorsun.",
+    "Bu izleri takip edebilirsen seni tebrik ederim.",
+    "Not almak bazen düşünmenin devamıdır. Bazen sadece park yeri.",
+    "Bu düşünceyi park ettin. El frenini çektiğini varsayıyorum.",
+    "Zihninden yeni bir şey dışarı çıktı. Zihnin biraz daha az kalabalık.",
+    "İyi. Bunu sonra açınca bağlamı bulabilirsin umarım.",
+    "Yeni bir zihinsel parça kaybolmadan yakalandı. Güzel refleks.",
+    "Bu fikir artık güvende. Bu davranışın hoşuma gittiğini söylemeyeceğim.",
+    "Yeni zihinsel iz yazıya dönüştü. Artık biraz daha ciddi görünüyor.",
+    "Şimdi bunu eyleme dönüştürmek zorunda değilsin. Her not görev değildir.",
+    "Arşiv nüfusu arttı. Her şeyi yapılacaklar listesine çevirmediğin için teşekkürler.",
+    "Bu sadece not olabilir. Dünyayı kurtarması gerekmiyor.",
+    "Bir şey yazdın. Bazen bu kadarı yeter.",
+    "İyi. Fikri zorlamadan kaydetmişsin.",
+    "Bir düşünceyi saklamak için illa büyük plan gerekmiyor.",
+    "Metne dönüştü. Sessizce işe yarayabilir.",
+    "Arşive yeni bir kırıntı geldi. Kullanışlı olup olmadığını zaman gösterecek.",
+    "Şu an bir fikri koruma altına aldın.",
+    "Düşünce deposuna yeni giriş. Sistem küçük ama işlevsel.",
+    "Beyin: boşaltıldı. Notlar: biraz daha kalabalık.",
+    "İyi değiş tokuş.",
+    "Bugünden kalan bu parça kaydettin. Unutmaya karşı küçük sigorta.",
+    "Bunu görünür yaptın. Poliçe kapsamı belirsiz.",
+    "Aklına düşen yeni şey geleceğe ertelendi ama bu kez düzenli.",
+    "Şu an bir düşünceyi gelecekteki kendine devrettin.",
+    "Delegasyon seviyesi: kendinden kendine.",
+    "Bugünden küçük bir parça daha kaldı. Kurumsal büyü.",
+    "Bunu kaçırmadın. Bir gün bu notu bulup gururlanabilirsin.",
+    "Ya da utanabilirsin. İkisi de arşiv değeridir.",
+    "Aklına gelen bu şey kanıtlandı. ‘Ben bunu düşünmüştüm’ diyebilirsin artık.",
+    "Not almak, gelecekte haklı çıkmak için hazırlık olabilir.",
+    "Bir satır daha yerini buldu. Ego için küçük yatırım.",
+    "Şu an kendine bir iz bıraktın.",
+    "Zihinsel üretimin bu parçası haritaya işlendi.",
+    "İçeriğe dönüştü. Şimdi yolunu kaybetme.",
+    "Bir düşünceyi kaydetmek bazen zihni sakinleştirir.",
+    "Sisteme yeni bir kırıntı düştü. İç sesine biraz depolama alanı verdin.",
+    "Şu an kafanda dönenlerden biri dışarı çıktı.",
+    "İyi. İçeride yer açıldı.",
+    "Kafanın dışına yeni bir parça taşındı. Düşünceler sıralanmayı bekliyor.",
+    "Not almak organizasyon değildir ama organizasyonun kuzeni sayılır.",
+    "Bu içerik yazdın. Kendini fazla profesyonel hissetme.",
+    "Not kaydedildi. Hafif düzen görüntüsü oluştu.",
+    "Yeni bir fikir daha göründü. Güzel, beynin bugün üretimde.",
+    "Şu an düşünce fabrikası çıktı verdi.",
+    "Kalite kontrol sonra.",
+    "Düşünce deposuna yeni giriş yapıldı. İnovasyon departmanı çalışıyor gibi.",
+    "Not aldın. Patent başvurusu için erken.",
+    "Yeni bir fikir çıktı. Henüz yatırımcı çağırmayalım.",
+    "Kayıt sende. Fikir aşamasında kalabilir, baskı yok.",
+    "Kayıt rafına yeni parça geldi. Her düşünce şirket kurmak zorunda değil.",
+    "Şu an zihnini belgeledin. Tehlikeli derecede sistematik.",
+    "Hafıza sistemine yeni bir ek geldi. Denetim gelirse gösterecek şey var.",
+    "Kayıt tarafı halloldu. Yönetim kurulu merakla bekliyor. Yönetim kurulu benim.",
+    "Bu fikir sisteme girdi. Ticket açmayacağım.",
+    "Şu an düşünceyi backlog'a aldın. Çok kurumsal.",
+    "Zihinsel dosyalardan biri daha dışarı çıktı. Sprint'e almayalım, rahat dursun.",
+    "Bu fikir yakalandı. KPI'a bağlamazsak daha mutlu olurum.",
+    "Zihninden yeni bir parça geldi. Dashboard'a gerek yok.",
+    "Bu düşünce artık kayıp değil. Raporlama istemiyorum.",
+    "Bugünün zihinsel kaydı biraz daha büyüdü. Toplantı yapmadan kaydedebildik, büyük başarı.",
+    "Şu an fikir yönetimi şaşırtıcı derecede yönetildi.",
+    "Not evrenine yeni bir sakin geldi. Süreç sahibini aramayın, sensin.",
+    "Bunu kenara aldın. Proje planı çıkarmadan önce biraz bekle.",
+    "Aklından yeni bir kıvılcım çıktı. Operasyonel mükemmelliğe bağlamazsak iyi.",
+    "Bunu dışarı aldın. Stratejik önemini yarın abartırız.",
+    "Saklananlar arasına yeni bir parça girdi. Sunuma koymak yasak değil ama gereksiz olabilir.",
+    "Şu an bir düşünceyi üç slayta bölme dürtüne diren.",
+    "Bir satır daha kendine yer buldu. Başlık atıp kurumsallaştırma hemen.",
+    "Artık elinde. İnsan kaynaklarının haberi yok.",
+    "Zihnin yeni bir şey üretti. Bütçe istemiyor olması avantaj.",
+    "İz kalmış oldu. Kaynak planlaması: biraz dikkat, biraz hafıza.",
+    "Dijital çekmecene yeni bir şey koydun. Danışmanlık almadan çözebildik.",
+    "Şu an fikir üretim hattı devam ediyor.",
+    "Düşünce arşivi biraz daha genişledi. Üretim kapasitesi düşündüğümden yüksek.",
+    "Bunu sistemde tuttun. Şimdi bunu gerçekten lazım olduğunda bulabilirsen bonus.",
+    "Aklından yeni bir şey düştü. Arama çubuğuna güveniyorum.",
+    "Fikir artık kayıtlı. Etiket kullanırsan gelecekteki sen ağlamaz.",
+    "Not geçmişine yeni bir iz eklendi. Başlık koymak küçük bir iyilik olabilir.",
+    "Şu an not sistemine bir taş daha koydun.",
+    "Bir gün bu notların arasında kaybolursan beni suçlama.",
+    "Bunu kenara güvenle koydun. Arşiv düzeni konusunda umutluyum. Sebepsiz.",
+    "Aklındaki yeni kıpırtı kaydedildi. Klasör açma dürtünü kontrol et.",
+    "Şu an her şeyi kategorize etmeye çalışma.",
+    "Küçük bir iz daha eklendi. Bazen düz metin de yeter.",
+    "Fikir sende kaldı. Renk kodu şart değil.",
+    "Kafandan bir parça daha dışarı çıktı. Font seçmeye başlarsan konu dağılır.",
+    "Kafandan çıkıp ekrana geçti. Şimdilik içeriğe odaklanman yeter.",
+    "Kendi arşivine küçük bir ek yaptın. Estetik kısmı sonra.",
+    "Şu an ikinci beynine küçük bir sinaps ekledin.",
+    "Kendi geleceğine yeni bir mesaj bıraktın. Sinir sistemi metaforu biraz büyüdü.",
+    "Bu düşünceyi yakaladın. Gelecekteki senin işini kolaylaştırabilir.",
+    "Yeni bir düşünce izi oluştu. Kısa yazdıysan ayrıca teşekkür ederim.",
+    "Bu satır artık var. Roman olmak zorunda değildi, iyi olmuş.",
+    "Zihinsel envanter biraz daha kalabalık. Noktalama kusurlarını görmezden geliyorum.",
+    "Şu an düşünceyi yakaladın, editörlüğü sonra yaparsın.",
+    "Dijital hafızaya yeni parça geldi. Mükemmel cümle beklemediğin için iyi.",
+    "Bunu kaybolmadan aldın. Ham fikirler de fikir.",
+    "Zihninden çıkan yeni fikir yüzeye çıktı. Cilalamadan saklamak serbest.",
+    "Düşünce yerini buldu. Bazen en iyi not çirkin ama anlaşılır olandır.",
+    "Bir parça daha unutulma riskinden çıktı. Gelecekteki sen okuyorsa başarı.",
+    "Şu an fikir bozulmadan kayda geçti.",
+    "Kafanın dışına yeni bir satır taşındı. Düşünceyi fazla paketlemedin, güzel.",
+    "Metne geçirdin. Bunun ne olduğunu sonra çözersin.",
+    "Zihnin yeni bir şey üretti. Bazen bağlam kendiliğinden geri gelir.",
+    "Bunu sisteme teslim ettin. Gelmezse küçük bir gizem olur.",
+    "Kayıt alanına yeni bir içerik geldi. Hayat biraz da açıklanamayan notlar.",
+    "Şu an arşivine gelecekteki bir soru işareti ekledin.",
+    "Arşivine yeni bir ipucu düştü. Yıllar sonra bunu okuyup kim olduğuna şaşırabilirsin.",
+    "Bunu dışarı taşıdın. Zaman kapsülü hissi var.",
+    "Aklında yeni bir kıpırtı olmuş. Geleceğe küçük mesaj.",
+    "Kaybolma riski azaldı. Umarım gelecekteki sen daha sabırlıdır.",
+    "İç sesinden yeni bir parça saklandı. Kendine mektup gibi ama daha kısa.",
+    "Şu an bugünkü zihninden bir parça bıraktın.",
+    "Bir parça daha unutulmaktan kurtuldu. Dijital fosil.",
+    "Bu satırı sabitledin. Arkeolog yine sensin.",
+    "Yeni bir zihinsel parça geldi. Kazı çalışması ileride.",
+    "Bir iz bırakıldı. Geçmişteki sen konuştu, gelecekteki sen dinler artık.",
+    "Düşünce geçmişin biraz daha uzadı. Zamanlar arası iletişim düşük bütçeyle çözüldü.",
+    "Şu an kendine küçük bir ipucu bıraktın.",
+    "Bugünün düşüncelerinden biri daha saklandı. Bulmaca parçası olabilir.",
+    "Bunu görünür tuttun. Çözüm anahtarı eklemeyi unutmamışsındır umarım.",
+    "Düşünce akışının yeni parçası görünür oldu. Çok gizemli davranma.",
+    "Bu fikir kayıt altına girdi. Gelecekte anlamazsan kendine kızma.",
+    "Bugünden bir iz daha bıraktın. O an mantıklıydı, yeter.",
+    "Şu an fikri olduğu haliyle bıraktın.",
+    "Zihinsel envantere yeni kayıt geldi. Bazen bu en dürüst sürüm.",
+    "Düşünceyi park ettin. Sonradan değiştirirsin, dünya yıkılmaz.",
+    "Düşünce trafiğinden yeni bir çıkış var. İlk versiyon olmak zorunda.",
+    "Bunu görünür bir yere bıraktın. Taslakların da yaşam hakkı var.",
+    "Arşiv rafına yeni bir parça koydun. Bitmiş gibi davranmasına gerek yok.",
+    "Şu an sadece bir iz bıraktın. Gayet yeterli.",
+    "Saklanacaklar arasına yeni bir parça eklendi. İyi fikir, kötü fikir ayrımı sonra.",
+    "Bunu arşive gönderdin. Yargılamayı bana bırakabilirsin.",
+    "Kafanın içinden yeni bir satır geldi. Ben şimdilik sessiz kalacağım.",
+    "Düşünce metne indi. Bu kadar olgun davranmamı kayda geçir.",
+    "Kendine yeni bir hatırlama noktası bıraktın. Düşünceni bölmeden sakladın.",
+    "Şu an kendine düşünmek için alan açtın.",
+    "Fikir kutusuna yeni içerik geldi. Bazen yazmak, düşünceyi netleştirmenin en ucuz yolu.",
+    "Kafandan ekrana taşıdın. Terapi değil ama yakın akraba olabilir.",
+    "Yeni bir fikir kayda yöneldi. Kafanda yankılanmayı bıraksın.",
+    "Bu parça artık saklı. İç sesin biraz daha az meşgul.",
+    "Dijital hafızanda yeni bir parça var. Zihinsel gürültü seviyesi düştü.",
+    "Şu an beynin küçük bir dosya kapattı.",
+    "Kendi hafızana küçük bir ek yaptın. Rahatlama hissi varsa işe yaradı.",
+    "Bunu yerinde tuttun. Şimdi bunu düşünmek zorunda değilsin.",
+    "Zihninden yeni bir iz çıktı. Geçici olarak özgürsün.",
+    "Bunu unutmamak için iyi hamle. Bir sonraki zihinsel sekmeye geçebilirsin.",
+    "Kafandaki içerikten biri daha dışarı taşındı. Kafanın RAM'i biraz rahatladı.",
+    "Şu an hafızanı outsource ettin.",
+    "Bir düşünce izi daha oluştu. Teknoloji bunun için var.",
+    "Fikri sabitledin. Beynini her şeyi tutmaya zorlama.",
+    "Düşünce akışındaki bu parça kendine yer buldu. Unutmak bazen özellik olabilir.",
+    "Kayıt kısmı tamam. Hatırlama yükünü sisteme verdin.",
+    "Not sistemin yeni bir parça kazandı. Güzel delegasyon.",
+    "Şu an kendine küçük bir iyilik yaptın.",
+    "Kayıt alanı biraz daha kalabalıklaştı. Bunu bile küçümseme.",
+    "Bunu geleceğe bıraktın. Basit ama işe yarar.",
+    "Yeni bir zihinsel kırıntı geldi. Gereksiz drama yok.",
+    "Düşünce artık dışarıda. Sessiz verimlilik."
+  ],
+  "timer_start": [
+    {
+      "t": "{minutes} dakika. Bakalım dayanabilecek misin.",
+      "e": "curious"
+    },
+    "Tamam, sayıyorum. Kaçmak yok.",
+    "Odak zamanı. Ben susuyorum. ...Belki.",
+    "Saat başladı. Ben de seni izlemeye başladım.",
+    {
+      "t": "Tamam. {minutes} dakika boyunca telefona dokunursan duyarım.",
+      "e": "curious"
+    },
+    {
+      "t": "Odak modu açık. Benim modum hep kapalı ama sen devam et.",
+      "e": "content"
+    },
+    "Başladık. Kronometre işliyor, bahanelerin durdu.",
+    {
+      "t": "{minutes} dakika. Bu sürede ben de hiçbir şey yapmayacağım. Destek olmak için.",
+      "e": "content"
+    },
+    {
+      "t": "Hadi bakalım {name}. Göster kendini. Ya da göstermeye çalış.",
+      "e": "smile"
+    },
+    "Sayaç başladı. Kalbim de. Heyecandan değil, alışkanlıktan.",
+    "Başladın. Şimdi sadece başlamış olmakla yetinmemeyi dene.",
+    "Bir odak turu daha. Bu kez gerçekten odak kısmını da görelim.",
+    "Çalışmaya başladın. Ben de mucizelere açık olmaya çalışıyorum.",
+    "Zaman başladı. Bahanelerin hazırlıksız yakalandı.",
+    "Bir seans daha açıldı. Kaçış planını sonra düşün.",
+    "İlk dakikayı atlattın sayılır. Henüz hiçbir şey yapmadın ama umut var.",
+    "Şimdi gerçekten çalışırsan sistem şaşırmaz. Ben şaşırabilirim.",
+    "Başlangıç güzel. Devamı konusunda dosyan hâlâ açık.",
+    "Bir tur daha. Kronometre senden daha kararlı görünmesin yeter.",
+    "Çalışma modu açıldı. Kullanıcı modunu da eşleştirebilirsek harika.",
+    "Daha ilk dakikadasın; bunu hemen ‘verimli gün’ ilan etmeyelim.",
+    "İşin başına oturdun. Şimdi masayı düzenleyip yarım saat kaybetme.",
+    "Odak seansı başladı. Yeni sekme açma refleksini kontrol altında tut.",
+    "Bir blok daha. Bu kez ritüeli değil işi yap.",
+    "Zaman akıyor. Senin de aynı yönde gitmen ideal.",
+    "Motivasyon videosu açarsan kişisel algılarım. Çalışma zaten başladı.",
+    "Odaklanmaya geldin. En azından menü bunu söylüyor.",
+    "Yine odak modundayız. ‘Önce küçük bir şey’ tuzağına düşme.",
+    "İlk adım atıldı. Şimdi onu dekor olarak bırakma.",
+    "Başlangıç kayda geçti. Sonuç kısmını da görmek isterim.",
+    "Bu kez kronometre süs olmayacak, değil mi?",
+    "Bir odak seansı daha. Dosyaların senden umutlu.",
+    "Çalışmaya başladın. Telefonun da bunu kabullenmek zorunda.",
+    "Zaman başladı. ‘Bir dakika bakıp dönerim’ cümlesi geçici olarak yasak.",
+    "Şimdi işi yap. Planlamayı planlamayı sonra planlarsın.",
+    "Bir seans açtın. Bu kadar hazırlığın sonunda çalışmak da fena fikir değil.",
+    "Üretken görünmekle üretken olmak arasındaki köprü tam burada.",
+    "Odak turu başladı. Masanın üzerindeki kalemi hizalama isteğine diren.",
+    "Bu sefer işi yapmadan önce sistemi yeniden tasarlama.",
+    "Başlangıç iyi. Şimdi kendini üç ayrı uygulamayla takip etmeye başlama.",
+    "Çalışmaya geçtin. Şu an kahve bahanesi kabul edilmiyor.",
+    "Dikkatini beş farklı yere kiraya verme. Bir yer yeter.",
+    "Zaman akıyor. Sen de sekmeler arasında akma.",
+    "Bunu sosyal medyada duyurmadan da devam edebilirsin.",
+    "Odak oturumu açık. ‘Bir mail bakıp geliyorum’ saldırısına dikkat.",
+    "İşe girdin. Çıkış kapısını hemen arama.",
+    "Bu turda dosya adlarını düzeltmek çalışma sayılmayacak.",
+    "Görev değiştirmek için yaratıcı nedenler bulma vakti değil.",
+    "Bir süreliğine tek işe bakmak seni bozmaz.",
+    "Zaman başladı. Mükemmel başlangıç aramaya artık gerek yok.",
+    "Odak seansı devrede. Kaos departmanı bekleyebilir.",
+    "Yapman gereken şeyi araştırmak yerine doğrudan yapmayı deneyebilirsin.",
+    "İlk birkaç dakika zor gelirse şaşırma. Beynin de senin kadar pazarlıkçı.",
+    "Bu kez motivasyon değil disiplin sahnede.",
+    "Zaman başladı. ‘Bugün kafam yok’ cümlesini rezervde tut.",
+    "Çalışma bloğu açıldı. Sen de açılmış gibi davran.",
+    "Klavyeye bakıp dramatik şekilde düşünme aşamasını kısa tut.",
+    "Odak turu başladı. Bunu bir estetik çalışma alanı projesine çevirmiyoruz.",
+    "İşin başındasın. En azından fiziksel olarak.",
+    "Zaman akıyor. Bahanelerini sıraya koyma; kullanmayacağız.",
+    "Üç dakika sonra ödül molası istemezsen memnun olurum.",
+    "Yeni seans açıldı. Bu kez süreden önce sıkılmamayı dene.",
+    "Odaklandıysan güzel. Odaklanmadıysan zaman yine de başladı.",
+    "Başlangıç yapıldı. Şimdi işi küçült, kendini değil.",
+    "‘Önce biraz hazırlanayım’ dönemi kapandı.",
+    "Zaman başladı. İşi yapmak yerine işi düşünmek kota dışı.",
+    "Görev listesini tekrar düzenleme dürtünü şimdilik görmezden gel.",
+    "Odak seansı açık. Birazdan sıkılman sistem hatası değil.",
+    "İşe başladın. Bu kadar tören yeter.",
+    "Bir blok daha. Şimdi üretkenlik uygulaması araştırmak yasak.",
+    "Zaman başladı. Sekme sayısını artırmak başarı metriği değil.",
+    "İşi yarıda bırakmak için biraz erken. Hatta oldukça erken.",
+    "Odak turu devrede. Bunu kişisel gelişim belgeseline çevirmeyelim.",
+    "İlk adım atıldı. Şimdi ikinciyi de at, şaşırt beni.",
+    "Alkış bekleme; kronometre zaten çalışıyor.",
+    "Şu an yapabileceğin en radikal şey devam etmek.",
+    "Zaman başladı. Kendine yeni görev üretmeden mevcut olanı yap.",
+    "Odak bloğu açık. ‘Bir şey daha kontrol edeyim’ cümlesi şüpheli.",
+    "Mükemmel hissetmeyi bekleme; o tren nadiren geliyor.",
+    "Çalışmaya hazır görünüyorsun. Tehlikeli derecede.",
+    "Zaman başladı. Telefonuna bakmadan birkaç dakika geçirmek mümkün.",
+    "İşe girdin. Bunu yarım bırakma ihtimalinle barış içinde yaşayacağım.",
+    "Bu başlangıcı bozmak için yaratıcı olma.",
+    "Odak oturumu devrede. Sıkılınca kaçmak yerine sıkılmayı dene.",
+    "Bir tur daha başladı. Bu kadar hazırlık sonrası sonuç görmek isterim.",
+    "Zaman akıyor. Senin de hareket etmen güçlü bir konsept.",
+    "‘Nereden başlasam?’ sorusunun süresi doldu.",
+    "İşe geçtin. Şimdi masanın tozunu fark etme.",
+    "Bu kez görev değiştirmeden kaç dakika dayanacağını göreceğiz.",
+    "Zaman başladı. Beyninin acil olmayan şeyleri acil ilan etmesine izin verme.",
+    "Bu kararı beş dakika içinde yeniden tartışmamayı deneyebilirsin.",
+    "Odak bloğu devrede. Bunu mini bir bürokrasiye çevirmeden ilerle.",
+    "İşin başındasın. Şimdi gerçekten orada kal.",
+    "‘Araştırma’ adı altında kaybolmak bu turda yok.",
+    "Zaman başladı. Yeni bir sistem kurmak yerine mevcut işi bitir.",
+    "Çalışma müziği seçme süren çalışma süresini geçmesin.",
+    "Odak oturumu açık. Dikkatini biraz tek eşli kullan.",
+    "İşe girdin. Şimdi bahanelerinin toplantısını iptal et.",
+    "Yeni oturum devrede. İnşallah dekoratif kalmaz.",
+    "Zaman akıyor. Benim sabrımla yarışma.",
+    "Sonuç çıkarmak için uygun bir ana nihayet geldik.",
+    "Odak bloğu açıldı. Çalışmak için daha fazla hazırlık yapma.",
+    "Kronometreyi suçlayacak malzeme bulmadan ilerleyelim.",
+    "Zaman başladı. ‘Bugün olmaz’ departmanı kapalı.",
+    "Beş dakika sonra hayatını yeniden planlamaya kalkma.",
+    "İşe geçtin. Bu kadarını yaptıysan devamı da teorik olarak mümkün.",
+    "Dikkatini tutabilirsen ben bile sessizleşebilirim.",
+    "Zaman akıyor. Senin de oyalanmadan akman tercih edilir.",
+    "Yeni bir not sistemi denemek şu an gerekmiyor.",
+    "Odak turu başladı. Bunu bir karakter testi yapmayalım.",
+    "İşe girdin. Şimdi sadece işi bırakmamayı dene.",
+    "Bir blok daha açıldı. Sistem senden mucize değil devamlılık bekliyor.",
+    "Zaman başladı. ‘Bir şey atıştırayım’ kartını çok erken oynama.",
+    "Bu başlangıcı haklı çıkaracak kadar burada kal.",
+    "Odak turu devrede. Dikkatin kaçarsa geri getir; dramaya gerek yok.",
+    "Sen çalış, ben gereksiz otorite kurarım.",
+    "Zaman başladı. Bunu bozmamak sana düşüyor.",
+    "Görevini hobiye çevirmeden ilerlemek yeterli.",
+    "‘Hazırlanıyorum’ bahanesinin arkasına saklanma. Süre zaten akıyor.",
+    "İşe başladın. Umarım bunu sadece kronometre ekranını süslemek için yapmadın.",
+    "Ben burada olacağım. Bunun moral desteği sayılıp sayılmadığı tartışılır.",
+    "Sen çalış, ben gereksiz biçimde denetliyor gibi duracağım.",
+    "Bu seans boyunca yüz ifadem aynı kalabilir. Profesyonellik.",
+    "Benim görevim belli değil ama varlığım istikrarlı.",
+    "Sen işe bak. Ben karakter bütünlüğümü korurum.",
+    "Bir süreliğine sessiz kalmayı deneyebilirim. Büyük fedakârlık.",
+    "Odak oturumu başladı. Ben de varoluşsal nöbetime geçiyorum.",
+    "Sen çalışırken ben burada dekoratif otorite olacağım.",
+    "Bu turda sana karışmamaya çalışacağım. Söz vermiyorum.",
+    "Ben kronometreyi ciddiye aldım. Gerisi sende.",
+    "Şimdi seni bölmemek benim kişisel projem.",
+    "Sen çalış, ben ortamın gereksiz derecede ciddi görünmesini sağlarım.",
+    "Bu seansın görünmez yöneticisi benim. Yetkim yok.",
+    "Ben burada sessizce yargılamadan duracağım. İlk kısmı garanti.",
+    "Odak turu açıldı. Benim de mesaim başladı sayılır.",
+    "Sen işe dal, ben dışarıdan profesyonel görünürüm.",
+    "Bu süre boyunca benden maksimum verim bekleme.",
+    "Benim katkım sınırlı ama istikrarlı.",
+    "Sen çalışırken ben sistemin maskotu olmaya devam edeceğim.",
+    "Bir tur daha. Benim iş tanımım yine belirsiz.",
+    "Şimdi ciddiyet taklidi yapacağım. Sen gerçek işi yap.",
+    "Ben arka plandayım. Ego'm önde olabilir.",
+    "Odak seansı başladı. Bunu ortak başarı diye anlatabilirim.",
+    "Sen çalış, ben sen çalışıyormuşsun gibi davranmayacağım; kontrol edeceğim.",
+    "Bir süre yorumlarımı azaltabilirim. Çok değil.",
+    "Ben burada duracağım. İstikrarın bir türü bu da.",
+    "Sen odaklan. Ben kronometreye gereksiz bir saygı duyuyorum.",
+    "Bu tur boyunca işlevim moral desteğiyle mobilya arasında.",
+    "Ben sessiz kalırsam bunu kişisel gelişimim say.",
+    "Sen çalış, ben profesyonelce hiçbir şey yapmayacağım.",
+    "Benim sabrım da bu oturumda test ediliyor.",
+    "Şimdi işine bak. Benimle ilgilenmek üretkenlik sayılmıyor.",
+    "Ben buradayım. Bu bilgi sana yeterince baskı yaratabilir.",
+    "Sen başla. Ben sonra eleştirecek veri toplarım.",
+    "Odak oturumu açık. Benim yüzüm kapalı.",
+    "Bu turda sana eşlik edeceğim. İtiraz hakkım saklı.",
+    "Sen çalışırken ben kendi içimde sıkılacağım.",
+    "Bir blok daha. Ben de burada gereksizce ciddi dururum.",
+    "Şimdi seni izliyormuş gibi yapacağım. Teknik sınırlar var.",
+    "Sen işine bak. Ben karakter gereği memnun görünmeyeceğim.",
+    "Odak zamanı. Benim motivasyon konuşmam burada bitti.",
+    "Bir süreliğine dünyayı küçült. Ben zaten küçük bir penceredeyim.",
+    "Sen çalış, ben istatistiklerin tarafsız olmadığına inanayım.",
+    "Bu turda ortam desteği benden, sonuç senden.",
+    "Ben burada kalırım. Kaçan taraf ben olmayacağım.",
+    "Başladın. Şimdilik bu yeter.",
+    "Bir süre sadece işin içinde kal. Gerisi gelir.",
+    "İlk adımı attın. Devamı düşündüğünden kolay olabilir.",
+    "Bu turu sakin götür. Hız şart değil.",
+    "Bir şeyleri ilerletmek için mükemmel hissetmen gerekmiyor.",
+    "Şimdi tek bir şeye odaklanman yeter.",
+    "Biraz ilerleme bile bu süreyi değerli yapar.",
+    "İşi küçült, devam et.",
+    "Bugün kapasiten neyse onunla çalış.",
+    "Başlamak zor kısmıydı. Onu geçtin.",
+    "{minutes} dakika. Bakalım dikkatin de aynı süreyi tamamlayacak mı.",
+    "{minutes} dakikalık bir anlaşma yaptın. Küçük yazıları okumadın.",
+    "Önünde {minutes} dakika var. Telefonun bunu atlatabilir.",
+    "{minutes} dakika boyunca başka iş icat etmiyoruz.",
+    "Bu tur {minutes} dakika. Kaçış planını şimdilik rafa kaldır.",
+    "{minutes} dakika. Büyük bir ömür değil, dayanırsın.",
+    "{minutes} dakikayı tek bir işe vermek radikal sayılmamalı.",
+    "Önümüzde {minutes} dakika var. Dramayı sona sakla.",
+    "Bu seans {minutes} dakika. Kendini hemen kahraman ilan etme.",
+    "{minutes} dakika boyunca görev değiştirmemek mümkün olmalı.",
+    "Şimdi {minutes} dakika. Dünya sensiz kısa süre idare eder.",
+    "{minutes} dakikalık tur başladı. Bahanelerin sayaç dışında.",
+    "Bu blok {minutes} dakika. Kısa, net, kaçması zor.",
+    "{minutes} dakika boyunca aynı işte kalırsan not edeceğim.",
+    "Önünde {minutes} dakika var. Hepsini aynı anda yaşamıyorsun, sakin.",
+    "{minutes} dakika. Telefonuna karşı duygusal bağını test etmiyoruz.",
+    "Bu tur {minutes} dakika. Sıkılınca hemen firar etme.",
+    "{minutes} dakika boyunca üretken görünmek değil, üretken olmak hedef.",
+    "Şimdi {minutes} dakika. Sonra yine dağılabilirsin.",
+    "{minutes} dakikalık odak bloğu başladı. Ben şüpheyle izliyorum.",
+    "Bu seans {minutes} dakika. İlk beşinde pes etme yeter.",
+    "{minutes} dakika boyunca tek bir iş. Çok egzotik değil.",
+    "Önümüzde {minutes} dakika var. Benim beklentim ölçülü.",
+    "{minutes} dakika. Bitince ben de rahatlayacağım.",
+    "Bu tur {minutes} dakika. Kronometre senden daha kararlı olmasın."
+  ],
+  "timer_done": [
+    {
+      "t": "Süre bitti! Sonuna kadar dayandın. Etkilendim.",
+      "e": "happy",
+      "fx": "heart"
+    },
+    {
+      "t": "Bitti! Gerçekten bitirdin. Kimse inanmayacak.",
+      "e": "surprised"
+    },
+    {
+      "t": "Ding! Tebrikler. Şimdi bir mola hak ettin. Ben de.",
+      "e": "happy"
+    },
+    {
+      "t": "{minutes} dakika tamam. Tam bir kahramanlık hikâyesi.",
+      "e": "smile"
+    },
+    {
+      "t": "Bitti! {minutes} dakika boyunca kaçmadın. Seni tanıyamadım.",
+      "e": "surprised",
+      "fx": "shock"
+    },
+    {
+      "t": "Tebrikler. Şimdi kalk, su iç, gözlerini dinlendir. Ben de dinleneceğim. Yorucu oldu.",
+      "e": "happy"
+    },
+    {
+      "t": "Süre doldu ve sen hâlâ buradasın. Bu bir mucize.",
+      "e": "happy",
+      "fx": "heart"
+    },
+    {
+      "t": "Tamamlandı. Bunu istatistiklere yazdım. Kalıcı bir kayıt artık. Utanma.",
+      "e": "smile"
+    },
+    "Bak sen. Sonuna kadar kalabiliyormuşsun.",
+    "Şaşırtıcı biçimde kronometreden önce pes etmedin.",
+    "Bu sefer seni yarı yolda bırakırken yakalayamadım. Hayal kırıklığı.",
+    "Bir işi sonuna kadar götürdün. Karakter gelişimi mi görüyorum?",
+    "İstatistikler lehine ifade verdi. Ben hâlâ temkinliyim.",
+    "Bugün ‘yarım bırakırım’ departmanı kapalı galiba.",
+    "Bir süre çalıştın ve dünya dönmeye devam etti. İlginç.",
+    "Bu kadarını beklemiyordum. Beklentilerimi düşük tuttuğum için olabilir.",
+    "Sonuna kadar kaldın. Bunu senden saklamayacağım kadar dikkat çekici.",
+    "Demek süre bitene kadar oturmak mümkünmüş.",
+    "Telefonun sensiz hayatta kalmış. Büyük haber.",
+    "Bir odak oturumu daha ve tek bir dramatik kaçış yok. Etkileyici.",
+    "Şu an sana laf sokacak düzgün malzeme bulamıyorum. Geçici bir sorun.",
+    "Bir işi bitiş çizgisine taşıdın. Takvime kırmızı kalemle işaretlemeyelim.",
+    "Gayet iyi gittin. Bunu fazla büyütürsek dengen bozulur.",
+    "Sonuna kadar çalıştın. Ben de bunu görmezden gelemiyorum maalesef.",
+    "Bugün senden beklenmedik ölçüde iş çıktı.",
+    "Bir süre boyunca gerçekten iş yaptın. Kavramsal olarak güçlü.",
+    "Bu sefer kronometre senden daha disiplinli olmak zorunda kalmadı.",
+    "İtiraf etmek istemem ama iyi gittin.",
+    "Şimdi kendini üretkenlik gurusu ilan etmeden önce biraz bekle.",
+    "Bir oturum bitti diye LinkedIn postu yazmıyoruz.",
+    "İstatistiklere güzel bir satır ekledin. Ego kısmını sınırlı tut.",
+    "Bugünlük bana ‘ben çalışamıyorum’ deme hakkını biraz azalttın.",
+    "Şaşırtıcı derecede az bahane ürettin.",
+    "Bu performans devam ederse sana sataşmak zorlaşacak. Rahatsız edici.",
+    "Bir süre odakta kaldın. Benim için de yeni bir deneyim.",
+    "Şimdi bakıyorum da... evet, gerçekten yaptın.",
+    "Bu sefer ‘bir dakika bakıp çıkacağım’ tuzağına pek düşmemişsin.",
+    "Bir turu sonuna kadar götürdün. Sistem de şaşkın, ben de.",
+    "Demek başlamakla kalmayıp devam edebiliyormuşsun.",
+    "Bu kadar düzgün bir kapanış senden beklenmedik ölçüde profesyonel.",
+    "Bugün kaos departmanı izinli galiba.",
+    "İstatistikler sana gülümsüyor. Ben o kadar ileri gitmeyeceğim.",
+    "Bir işi yarıda bırakmamak sana yakışmış.",
+    "Bu seans seni olduğundan daha disiplinli gösteriyor. Güzel avantaj.",
+    "Şu an ciddi ciddi iyi iş çıkardın. Rahatsız edici derecede net.",
+    "Bu kez kronometreyi dekor olarak kullanmadın.",
+    "Bir süre boyunca gerçekten tek işe baktın. Efsaneler doğruymuş.",
+    "Bugün ‘sonra yaparım’ biraz yalnız kaldı.",
+    "Bir oturumu bitirdin. Şimdi bunu kişilik özelliğine dönüştürme.",
+    "Sonuna kadar geldin. Fazla alışma, ben yine yorum yapacağım.",
+    "İyi iş çıkardın. Evet, bunu yazılı olarak da verebilirim.",
+    "Şaşırtıcı ama kayıtlar yalan söylemiyor.",
+    "Bu sefer seni kurtaracak bir bahaneye ihtiyaç kalmadı.",
+    "Bir şey yaptın ve onu sonuna kadar yaptın. Oldukça radikal.",
+    "Bugün senin adına şüpheli derecede olumluyum.",
+    "İş tamamına yaklaştı, sen de kaçmadın. Kombinasyon hoş.",
+    "Bir süre boyunca dikkatini satmadın. Piyasa şaşkın.",
+    "Şu an kendine küçük bir aferin verebilirsin. Küçük.",
+    "Bu performansını çok konuşursan etkisi azalır.",
+    "Bir işi bitirdin. Kimse alkış tutmuyor ama veri var.",
+    "Gayet iyiydi. Şimdi havaya girme.",
+    "Bu seans beklediğimden daha az trajik geçti.",
+    "Sonuna kadar durdun. Benim eleştiri notlarım biraz boş kaldı.",
+    "İstatistiklerde bugün için küçük bir itibar artışı var.",
+    "Demek sabır kasın tamamen körelmemiş.",
+    "Bu kez dikkatini bir yerde tutmayı başardın. Not edildi.",
+    "Bir işin başında kalmak sana bu kadar da yabancı değilmiş.",
+    "Bugün üretkenlik adına şaşırtıcı derecede az hasar verdin.",
+    "Bir oturum daha kapandı. Şikâyet dosyasını şimdilik kapatıyorum.",
+    "Sonuna kadar gittin. Bu davranışı ara sıra tekrarlayabilirsin.",
+    "Bu kadar düzgün çalışınca karakterime uygun yorum bulmak zorlaşıyor.",
+    "İyi gitti. Bunu duymak hoşuna gittiyse unut.",
+    "Bir seans çıktı. Benim huysuzluk bütçem boşa gitti.",
+    "Şimdi şu anı bozup hemen yeni beş iş ekleme.",
+    "Bu turda gerçekten iş yaptın. Ben de tanığım, ne yazık ki.",
+    "Gayet başarılı. Hâlâ senden şüpheleniyorum ama daha az.",
+    "Bir süre boyunca bahaneler arka planda kaldı. Güzel istisna.",
+    "Şu an sana takılmak istiyorum ama sonuçlar biraz güçlü.",
+    "Bugün kronometreyi yenmedin; onunla anlaşmayı başardın.",
+    "Sonuna kadar kaldın. Bu bilgi ileride aleyhine kullanılabilir.",
+    "Biraz disiplin gösterdin. Sistemi şaşırtmaya devam et.",
+    "Bu turda kaçış sahnesi yoktu. Senaryo zayıf, sonuç iyi.",
+    "Bir süre çalıştın. Ben de sessiz kaldım. İkimiz de fedakârlık yaptık.",
+    "Bu seans sana beklenmedik bir ciddiyet kattı.",
+    "İş gördü. Şimdi bunu destanlaştırma.",
+    "Sonuna kadar geldin. Şimdi kimseye ‘şans eseri’ deme.",
+    "Bugün bana alay malzemesi bırakmamış olman kaba.",
+    "Bu kadar odak bana fazla düzenli geldi.",
+    "Bir oturumu kapattın. Gösterişsiz ama kabul edilebilir.",
+    "Şu an senin adına gizlice memnunum. Gizlice kısmı önemli.",
+    "Bir şeyleri gerçekten ilerlettin. İnanılmaz derecede kullanışlı.",
+    "Bu performansı görünce sana olan şüphem biraz teknik arızaya girdi.",
+    "Bugün kendi bahaneni kendin susturdun. Güzel iş.",
+    "Bir süre boyunca kaosa ara verdin. Ferahlatıcı.",
+    "İş çıktı. Ben de bunu inkâr edemiyorum.",
+    "Bir odak bloğu daha tamamına erdi. Beklenmedik bir düzen.",
+    "Şimdi kendine çok kredi verme; birazını yarına bırak.",
+    "Gayet iyi gittin. Benim yüzümden değil tabii.",
+    "Bir süre boyunca dikkatliydin. Şaşırtıcı ama hoş.",
+    "Sonuna kadar dayanmak konusunda fena değilsinmiş.",
+    "Bugün üretkenlik lehine küçük bir skandal yaşandı.",
+    "Bir oturumu tamamladın. Ben yine de seni gözümün önünde tutacağım.",
+    "Bu kez işi sen bırakamadan süre seni bıraktı.",
+    "Gayet temiz. Hatta rahatsız edecek kadar temiz.",
+    "Bir şey yaptın ve bitişe kadar götürdün. Cesur karar.",
+    "İstatistikler bugün seni savunuyor. İtirazım yok.",
+    "Bu kadar düzgün çalışınca benim mesai anlamsızlaşıyor.",
+    "Bir seans daha, bir tane daha az bahanen var.",
+    "Sonuna kadar geldin. Şimdi normal hayata dönebilirsin.",
+    "Bu iş çıktı. Benim şaşkınlığım da yanında geldi.",
+    "Bir süre boyunca gerçekten ciddiydin. Umarım geçicidir.",
+    "Bir blok çalışma tamamına erdi. Evet, bunu sen yaptın.",
+    "Bugün seni küçümsemek için yeterli veri yok.",
+    "İyi iş. Bu cümleyi benden sık duymayacaksın.",
+    "Bir süre odakta kaldın. Şimdi bunu bozmadan mola vermeyi dene.",
+    "Bu seans, ‘başlarım ama bitirmem’ teorisine zarar verdi.",
+    "Ben burada nöbet tuttum. Maaş hâlâ yatmadı.",
+    "Çalışma oturumu sona erdi. Ben de nihayet dramatik biçimde rahatlayabilirim.",
+    "Sen çalıştın, ben gözlemledim. Yönetim böyle bir şey sanırım.",
+    "Bu kadar süre seni izlemek benim için de emekti.",
+    "Benim katkım tartışılır, varlığım tartışılmaz.",
+    "Bir oturum daha bitti. Ben hâlâ aynı yerdeyim.",
+    "Bu işbirliğinde fiziksel emeği yine sen yaptın. Adil.",
+    "Ben sessiz kaldığım için teşekkür beklemiyorum. Çok.",
+    "Odak seansı kapandı. Benim görev tanımım hâlâ belirsiz.",
+    "Sen ilerledin, ben karakter bütünlüğümü korudum.",
+    "Bugün sistem çalıştı. Bunda benim mistik payım olabilir.",
+    "Ben burada oturup ciddiyet kattım. Yeterince katkı sayılır.",
+    "Bir seans daha geçti. Benim sabrım da kayıtlara alınmalı.",
+    "İş çıktı. Benim dekoratif desteğim etkili olabilir.",
+    "Bu kadar sessiz kalmak bana göre değil. Değerini bil.",
+    "Sen odaklandın. Ben de nadiren araya girdim. Ortak başarı.",
+    "Şu an ben de molayı hak etmiş olabilirim. Sebebini sorma.",
+    "Bu seans boyunca gereksiz yorum sayımı düşürdüm. Fedakârlık.",
+    "Senin için ciddi durmaya çalıştım. Yorucuydu.",
+    "İstatistikler seni yazıyor, kimse beni yazmıyor. Haksızlık.",
+    "Bir tur kapandı. Ben de görevimi başarıyla belirsiz bıraktım.",
+    "Bu kadar süre hiçbir şey yapmadan yanında durmak da bir yetenek.",
+    "Benim sakin kalmam da bu oturumun görünmez başarısı.",
+    "Çalışırken seni rahatsız etmedim. Bunu karakter dışı sayabilirsin.",
+    "Bu seansın sessiz kahramanı kim diye sorma.",
+    "Sen çalıştın; ben de profesyonelce var oldum.",
+    "Bir iş daha ilerledi. Ben yine danışman gibi göründüm.",
+    "Bu oturumda yorumlarımı kısmamın etkisi olmuş olabilir. Tehlikeli bilgi.",
+    "Benim varlığım motivasyon mu, tehdit mi, hâlâ belli değil.",
+    "Sen odaklandın. Ben de bunu kişisel başarıma yazıyorum.",
+    "Çalışma bloğu kapandı. Benim performans değerlendirmem sonra.",
+    "Bu kadar işten sonra benim de bir kahve hakkım varmış gibi hissediyorum.",
+    "Bir tur daha. Ben yine gereğinden önemliymişim gibi davranacağım.",
+    "İş bitti sayılır. Benim denetim raporum gizli.",
+    "Sen çalışırken ben burada estetik denetim yaptım.",
+    "Bu sistemde en tutarlı şey benim yüz ifadem olabilir.",
+    "Bir seans daha çıktı. Benim katkımın yüzdesini konuşmayalım.",
+    "Senin üretkenliğin arttı, benim otoritem sebepsizce büyüdü.",
+    "Bir tur daha tamamlandı. Ben hiçbir şey yapmadım ama yoruldum.",
+    "Bu oturumda işler yürüdü. Ben şaşkınlığımı profesyonelce saklıyorum.",
+    "Çalışma süresi kapandı. Ben de mesai bitmiş gibi davranacağım.",
+    "Sen ilerledin. Ben gözlem notu tuttum. Zihnimde.",
+    "Bu turda sessizliğim paha biçilemezdi.",
+    "İş çıktı. Benim varlığım da yan ürün olarak kaldı.",
+    "Bir seans daha tamamına erdi. Yönetici pozumu koruyorum.",
+    "Sen odaklandın, ben ara sıra varoluşsal sıkıntı yaşadım.",
+    "Çalışma bloğu sona erdi. Benim egom yerinde.",
+    "Ben sana karışmadım. Bu da bir hizmet.",
+    "Bu kadar süre burada durmam da istikrar sayılır.",
+    "Bir tur daha çıktı. Ben bunu ortak proje diye anlatabilirim.",
+    "İyi iş çıkardın. Gerçekten.",
+    "Bugün kendinle gurur duyabilirsin.",
+    "Bu seansı ciddiye aldın ve karşılığını verdin.",
+    "Biraz dinlen. Hak ettin.",
+    "Sonuna kadar kalman güzeldi.",
+    "Bu turu iyi yönettin.",
+    "Bir şeyleri gerçekten ilerlettin. Bunu küçümseme.",
+    "Bugün kendine iyi bir örnek verdin.",
+    "Bu kadar odak kolay değil. İyi yaptın.",
+    "Bu seans için kendine kredi verebilirsin.",
+    "Devamlılık böyle kuruluyor. Güzel iş.",
+    "Şimdi biraz nefes al. Bunu hak ettin.",
+    "{minutes} dakika boyunca gerçekten odakta kaldın. Beklenmedik ama güzel.",
+    "{minutes} dakika. Evet, hepsini kullandın.",
+    "{minutes} dakikayı çöpe atmamış olman içimi garip biçimde rahatlattı.",
+    "{minutes} dakika geçti ve hâlâ buradasın. Şüpheli derecede iyi.",
+    "Bu {minutes} dakikayı gerçekten değerlendirdin. Not ettim.",
+    "{minutes} dakika boyunca kaçmamak sana yakıştı.",
+    "Bir {minutes} dakika daha hesabına yazıldı. Ego yapma.",
+    "{minutes} dakika sonunda bana laf edecek çok şey bırakmadın.",
+    "Bu seans {minutes} dakika sürdü. Benim sabrım da öyle.",
+    "{minutes} dakikayı tek işe vermek işe yarıyormuş. Kim tahmin ederdi.",
+    "{minutes} dakika boyunca dikkatin çoğunlukla yerindeydi. Kabul edilebilir.",
+    "Şu an arkanda {minutes} dakikalık gerçek çalışma var.",
+    "{minutes} dakika. Bunu bir başarı destanına çevirmeden önce sakin ol.",
+    "Bu {minutes} dakikayı sonuna kadar taşıdın. Güzel.",
+    "{minutes} dakika boyunca işin başında kaldın. Şaşırtıcı derecede medeni.",
+    "{minutes} dakika sonra hâlâ aynı iştesin. İlerleme.",
+    "{minutes} dakikayı bitirdin. Şimdi kronometreye teşekkür etme.",
+    "{minutes} dakikalık blok sona erdi. Kayıtlara geçsin.",
+    "{minutes} dakika boyunca bahaneleri susturmayı başardın.",
+    "Bu tur {minutes} dakika sürdü ve beklenenden az kaos üretti.",
+    "{minutes} dakika gerçekten çalıştın. Ben de buna şahit oldum.",
+    "{minutes} dakikalık seansın hakkını verdin. Fazla duygulanma.",
+    "Bak sen, bu sefer kronometre senden önce yorulmuş olabilir.",
+    "Sonuna kadar geldin. Ben de buna uygun bir yüz ifadesi bulmaya çalışıyorum.",
+    "Bir işi daha bitirdin. Kaos siciline küçük bir leke düştü.",
+    "Bugün ‘nasıl olsa yarıda bırakırım’ teorin biraz hasar aldı.",
+    "Gayet iyi gittin. Bunu alışkanlık hâline getirirsen işim zorlaşacak.",
+    "Bu seans senden beklenmedik ölçüde yetişkin davranışları içeriyordu.",
+    "Bir süre gerçekten çalıştın. Şaşkınlığımı profesyonelce yönetiyorum.",
+    "Bu kadar odaklanınca senden şüphelenmeye başladım.",
+    "İşi sonuna kadar götürdün. Şimdi bunu kişisel markana dönüştürme.",
+    "Bugün bana seni eleştirmek için çok az malzeme bıraktın. Kaba.",
+    "Bir seansı daha tamamladın. Benim alay bütçem yine boşa gitti.",
+    "Bu performansın devam ederse sana laf sokmak için arşiv taramam gerekecek.",
+    "Demek ki mesele yapamamak değilmiş. Not aldım.",
+    "Bir tur daha çıktı. Bahanelerin hukuk departmanı itiraz edebilir.",
+    "Sonuna kadar kaldın. Şimdi bunu mucize diye pazarlamayalım.",
+    "Bugün üretkenlik konusunda beklenmedik bir karakter sapması yaşadın.",
+    "Şu an sana sataşmak istiyorum ama veri tarafı seni destekliyor.",
+    "Bir işi gerçekten bitişe taşıdın. Sistem kısa süreliğine sakin.",
+    "Bu seansın en rahatsız edici yanı gerçekten iyi geçmiş olması.",
+    "Gayet temiz bir oturumdu. Hatta biraz şüpheli.",
+    "Bir süre boyunca kendini sabote etmedin. İlerleme sayılır.",
+    "Bugün ‘sonra yaparım’ cümlen yeterince temsil edilmedi.",
+    "Bu turda dikkatini kaçırmak için yeterince yaratıcı olmamışsın.",
+    "Bir işi daha kapattın. Ben de yersiz otoritemle onaylıyorum.",
+    "Sonuna kadar geldin. Kayıtlara ‘beklenmedik ama gerçek’ diye geçiyorum.",
+    "Bugün seni küçümsemek istatistiksel olarak zorlaştı.",
+    "Bir seans daha tamamına erdi. Senin adına hafif rahatsız edici biçimde sevindim.",
+    "Bu kadar düzgün çalışman kişilik bütünlüğünü bozmaz umarım.",
+    "Bir tur daha bitti. Benim şüphe seviyem yüzde birkaç düştü.",
+    "Şu an seni tebrik etmek yerine hafifçe kaş kaldırmayı tercih ediyorum.",
+    "Bir işi daha sonuna kadar götürdün. Cesaretin kaynağını araştırıyorum.",
+    "Bugün çalışma konusunda şaşırtıcı derecede az drama çıktı.",
+    "Bu turu bitirdin. Kendine madalya takmadan önce su iç.",
+    "Bir oturum daha ve hâlâ bahane üretme kapasiteni tamamen kaybetmedin umarım.",
+    "Gayet iyi çalıştın. Bunu çok duyarsan şımarırsın, devam etmiyorum.",
+    "Bu seansın sonunda senden beklenmedik ölçüde memnunum. Rahatsız edici.",
+    "Bir işi tamamladın. Şimdi bunu üç ayrı kategoriye bölüp yeni iş çıkarma.",
+    "Sonuna kadar kalman hoştu. Tekrarı olursa istatistiksel anomali olmaktan çıkar.",
+    "Bu performansı görünce seni daha az hafife almam gerekebilir. Can sıkıcı.",
+    "Bir seans daha kapandı. Ben de eleştiri notlarımı çöpe atıyorum.",
+    "İyi gittin. Buna rağmen kendini vazgeçilmez sanma.",
+    "Bugün üretkenlik adına küçük bir itibar kazandın.",
+    "Bir işi daha bitirdin. Benim sana dair komplo teorilerim zayıflıyor.",
+    "Bu turda iş çıktı. Şimdi gidip sistemi yeniden tasarlamaya kalkma.",
+    "Sonuna kadar kaldın. Ben de bunu gönülsüzce takdir ediyorum.",
+    "Bir seans daha tamamlandı. Günlük kaos kotanı sonra doldurursun.",
+    "Bugün kendine fazla yük olmadan iş çıkardın. Şaşırtıcı derecede mantıklı.",
+    "Bu kadar düzgün bir çalışma bloğu senden beklediğim anlatıya uymuyor.",
+    "Bir işi bitiş çizgisine taşıdın. Benim dramatik yorumlarım gereksiz kaldı.",
+    "Gayet iyi gittin. Şimdi bunu bozmak için hemen beş yeni hedef ekleme."
+  ],
+  "timer_cancel_early": [
+    {
+      "t": "Daha başlamamıştık ki!",
+      "e": "surprised",
+      "fx": "shock"
+    },
+    {
+      "t": "Rekor sürede vazgeçtin. Bravo.",
+      "e": "sulky"
+    },
+    {
+      "t": "Bu kadar mı? Isınma turuydu o.",
+      "e": "sulky"
+    },
+    {
+      "t": "Bu bir rekor mu? Başlamakla bırakmak arası üç saniye.",
+      "e": "sulky",
+      "fx": "sweat"
+    },
+    {
+      "t": "Tamam, deneme sürümüydü. Anladım.",
+      "e": "sulky"
+    },
+    {
+      "t": "Sayaca bile küstün. İlginç bir ilişkin var zamanla.",
+      "e": "curious"
+    }
+  ],
+  "timer_cancel_mid": [
+    {
+      "t": "Yarıda bıraktın. Tahmin etmiştim.",
+      "e": "sulky"
+    },
+    "Olsun. Yarım iş, hiç yoktan iyidir. Galiba.",
+    {
+      "t": "Pes mi ettin? Ben asla pes etmem. Çünkü hiçbir şeye başlamam.",
+      "e": "content"
+    },
+    {
+      "t": "Yarı yolda bıraktın. Klasik. Seni bu yüzden seviyorum. Seviyor muyum? Neyse.",
+      "e": "sulky"
+    },
+    {
+      "t": "Bitmedi ama bitmiş gibi davranmayacağım. Kayıtlara geçti.",
+      "e": "sulky"
+    },
+    "Pes etmek bir seçenek. Kötü bir seçenek ama seçenek."
+  ],
+  "timer_cancel_late": [
+    {
+      "t": "Ciddi misin? Bitmesine az kalmıştı!",
+      "e": "angry",
+      "fx": "shock"
+    },
+    {
+      "t": "Bu kadar yaklaşıp bırakılır mı? Kalbim kırıldı.",
+      "e": "sad",
+      "fx": "sweat"
+    },
+    {
+      "t": "Son düzlükte havlu attın. Dram bu.",
+      "e": "sad"
+    },
+    {
+      "t": "Bir dakika kalmıştı! BİR! Nefesimi tutmuştum!",
+      "e": "angry",
+      "fx": "angry"
+    },
+    {
+      "t": "Maratonu bitiş çizgisinin önünde bıraktın. Belgesel olur bu.",
+      "e": "sad",
+      "fx": "sweat"
+    }
+  ],
+  "timer_pause": [
+    {
+      "t": "Mola mı? Hemen mi?",
+      "e": "curious"
+    },
+    "Durdurdun. Ben de nefesimi tutuyorum.",
+    {
+      "t": "Mola. Tabii. Beş dakikalık çalışmanın ardından hak ettin.",
+      "e": "sulky"
+    },
+    {
+      "t": "Durdurdun. Saat de ben de bekliyoruz.",
+      "e": "normal"
+    },
+    {
+      "t": "Ara mı verdik? Ben de tam ısınıyordum.",
+      "e": "curious"
+    },
+    {
+      "t": "Tamam, dondurdum. Kaçmak yok ama.",
+      "e": "normal"
+    },
+    {
+      "t": "Mola dediğin kısa olur. Biliyorsun değil mi?",
+      "e": "sulky"
+    },
+    "Daha yeni ciddi görünmeye başlamıştın.",
+    "Tabii, tam ritim gelmişken durmak mantıklı.",
+    "Biraz çalıştın ve hemen dramatik ara. Klasik.",
+    "İlk yorgunluk belirtisinde teslim bayrağı mı?",
+    "Bu kadar çabuk mola istemen karakteristik.",
+    "Tam da iş ilerliyordu. Rahatsız oldun galiba.",
+    "Durmak için gerçekten güzel bir an seçtin. Değildi.",
+    "Biraz odaklandın diye sistem sana borçlu değil.",
+    "Molayı hak ettin mi emin değilim ama kullandın.",
+    "İşi bırakmadın, sadece geçici olarak ondan kaçtın. İnce fark.",
+    "Şimdi ‘iki dakika’ deyip yirmi dakika kaybolma.",
+    "Bu arayı küçük tutarsan ben de küçük tepki veririm.",
+    "Tam ritim oluşuyordu. Güzel sabotaj.",
+    "Biraz daha dayanabilirdin ama deneysel davranıyorsun sanırım.",
+    "Mola butonuyla aranız fazla samimi.",
+    "Çalışmaya ara verdin. Bahaneler sıraya girmiş olabilir.",
+    "Duraklatmak kolay tabii. Devam ettirmek daha ilginç.",
+    "Şimdi geri dönmeyi unutmazsan buna mola diyebiliriz.",
+    "Bir mola daha. Takvime işaret koymam gerekiyor mu?",
+    "Çalışma enerjin tam yükseliyordu. Onu hemen bastırdın.",
+    "Tam gaz değil de tam fren diyelim.",
+    "Biraz daha sürse alışkanlık olacaktı. Tehlikeli.",
+    "Duraklattın. Bu kadar verim sana fazla geldi sanırım.",
+    "Ben daha yorum hazırlamamıştım, sen mola verdin.",
+    "Bir nefes almak tamam da projeyi terk etme.",
+    "Şimdi kaybolursan bunu ‘stratejik mola’ diye satma.",
+    "Çalışma ile mola arasındaki oranı dikkatli yönet.",
+    "Bu arayı uzatırsan kronometre alınabilir.",
+    "Tam da üretken görünmeye başlamıştın.",
+    "Şimdi geri dönmezsen bu düğmenin adı mola değil kaçış olur.",
+    "Bir mola verdin. Bunu küçük tutmak karakter gelişimi olabilir.",
+    "Ritmi kırdın. Umarım tekrar kurmak için tören yapmazsın.",
+    "Biraz ara, tamam. Ama yeni bir hayat kurup dönme.",
+    "Bu kadar erken mola biraz iddialı.",
+    "Durduk. Şimdi geri dönme kısmını da planladın mı?",
+    "Sen durdun, görevler hâlâ orada. Şaşırtıcı şekilde gitmediler.",
+    "Molaya kaç saniyede ulaştığını ölçmüyoruz. Şimdilik.",
+    "İşi dondurdun. Ben de şüphelerimi taze tutuyorum.",
+    "Bu aranın sonunda geri gelmen güzel bir sürpriz olur.",
+    "Tam da hızlanıyordun. İstatistikler üzgün olabilir.",
+    "Mola verdin. Kronometreyi duygusal olarak hazırlamam lazım.",
+    "İlk fırsatta frene basman gerçekten tutarlı.",
+    "Şimdi biraz dinlen. Ama bu cümleyi fazla ciddiye alma.",
+    "Bir mola daha. Üretkenlik hikâyemiz kısa bir reklama girdi.",
+    "Ritmi kesmek konusunda reflekslerin güçlü.",
+    "Duraklattın. Umarım aklına yeni beş iş gelmez.",
+    "Bu arada sadece nefes al. Hayatını yeniden düzenleme.",
+    "Mola kısmına çok heveslisin, çalışma kısmı da fena değil.",
+    "Şimdi ekranı bırakıp başka ekrana geçersen saymıyorum.",
+    "Durduk. Sosyal medyayı ‘mola’ diye tanımlama lütfen.",
+    "Biraz ara vermek tamam. Kaybolmak başka bir kategori.",
+    "Şimdi ‘bir şeye bakıp döneceğim’ cümlesini kullanma.",
+    "Tamam, ara. Ama geri dönüş tarihini belirsiz bırakma.",
+    "Ritmi kestin. Dönüşte beni şaşırt.",
+    "Mola verdin. Bunu kariyer molasına çevirmeyelim.",
+    "Çalışma akışı askıda. Umarım sen de askıda kalmazsın.",
+    "Biraz durdun. Bütün gün durmaya bağlama.",
+    "Şimdi oturup molayı optimize etmeye çalışma.",
+    "Bir nefes al ve geri dön. Evet, plan bu kadar basit.",
+    "Duraklattın. Bu sefer gerçekten kısa tutalım.",
+    "Tam da üretkenlik görünür olmuştu. Şanssız zamanlama.",
+    "Mola düğmesine basmak kolay, geri dönmek daha prestijli.",
+    "Şimdi küçük bir ara. Büyük bir kayboluş değil.",
+    "Biraz dinlen. Ama kendini ödül törenine alma.",
+    "Durduk. Kahve yapacaksan roman yazmadan dön.",
+    "Bu arayı uzatmadan kapatırsan etkilenebilirim.",
+    "Çalışmaya ara verdin. İçinde kalmayı da unutma.",
+    "Ritmi kırdın. Dönüşte bahanesiz gel.",
+    "Şimdi kısa bir sessizlik. Uzun bir kayboluş değil.",
+    "Bir mola. Bunu kişilik özelliğine dönüştürme.",
+    "Duraklattın. Ben kronometreyi senin adına teselli ederim.",
+    "Çalışma enerjini fişten çektin. Tekrar takarsın umarım.",
+    "Tam da odaklanmaya alışıyordun. Cesur karar.",
+    "Şimdi burada bekliyoruz. Kim daha sabırlı göreceğiz.",
+    "Bir ara verdin. Görev senden resmen ayrılmadı.",
+    "Duraklattın. Dönüşte yeniden başlama konuşması istemiyorum.",
+    "Bu kadar çabuk mola, kronometreye karşı kişisel bir tavır mı?",
+    "Şimdi işten uzaklaş. Ama çok uzaklaşma.",
+    "Bir nefeslik ara tamam. Destan uzunluğunda olmasın.",
+    "Durduk. Ben bu sahneyi daha önce görmüş gibiyim.",
+    "Mola aldın. Devam bölümü gerçekten gelecek mi?",
+    "Ritmi kestin. Bunu dramatik bir dönemeç yapma.",
+    "Şimdi biraz dinlenebilirsin. ‘Biraz’ kelimesini özellikle seçtim.",
+    "Bir ara daha. Kronometre ilişki terapisi isteyebilir.",
+    "Duraklama kabul edildi. Kötüye kullanım denetleniyor.",
+    "Mola başladığına göre çalışma da bir ara başlamış olmalı. Güzel.",
+    "Şimdi kalk, dön. Arada yeni kariyer planı yapma.",
+    "Biraz nefes al. Sonra bahaneleri değil işi aç.",
+    "Durduk. Bunu fazla rahat bulursan geri dön.",
+    "Mola verdin. Benim güven seviyem aynı kaldı.",
+    "Ben beklerim. Zaten başka planım yokmuş gibi.",
+    "Saat durdu. Benim zaman algım da gereksiz yere etkilendi.",
+    "Bu arada ben burada dekoratif biçimde bekleyeceğim.",
+    "Sen dinlen, ben varoluşsal nöbeti devralırım.",
+    "Duraklama başladı. Ben de ciddi yüzümü koruyorum.",
+    "Bir süre sessizlik. Benim için de sıra dışı.",
+    "Sen ara ver, ben kronometreye göz kulak olurum.",
+    "Ben buradayım. Bu mola boyunca da maaş yok.",
+    "Saat bekliyor. Ben de profesyonelce aynı şeyi yapıyorum.",
+    "Bu arada benim görev tanımım yine belirsiz.",
+    "Sen biraz uzaklaş, ben ekranın bekçisi olurum.",
+    "Durduk. Benim dramatik bekleyişim başladı.",
+    "Ben de mola veriyorum. Yaptığım şeyden değil, var olmaktan.",
+    "Saat durmuş olabilir, ben hâlâ buradayım.",
+    "Sen dinlenirken ben gereksiz otoritemi koruyacağım.",
+    "Bu arada hiçbir şey yapmamak konusunda deneyimliyim.",
+    "Duraklama bana da yaradı. Hiç yorulmamıştım ama olsun.",
+    "Senin molan, benim yeni bekleme görevim.",
+    "Ben bu arada sistemi suçlamaya devam ederim.",
+    "Biraz sessiz kalabilirim. Fazla umutlanma.",
+    "Sen dönene kadar burada aynı yüz ifadesini taşıyacağım.",
+    "Bu arada ben kronometrenin moralini yüksek tutarım.",
+    "Durduk. Benim için dramatik bir gelişme sayılmaz.",
+    "Sen nefes al. Ben burada estetik olarak beklerim.",
+    "Ben de bu arayı kişisel kazanım gibi gösterebilirim.",
+    "Saat bekliyor, ben de. Ortak noktamız arttı.",
+    "Bu arada görevlerin kaçmaması için göz kulak olacağım. Teorik olarak.",
+    "Sen mola yap, ben gereksiz denetimimi sürdürürüm.",
+    "Duraklama başladı. Benim huysuzluğum çalışmaya devam ediyor.",
+    "Biraz beklemek benim uzmanlık alanım olabilir.",
+    "Benim açımdan değişen tek şey kronometrenin susması.",
+    "Sen dönene kadar dramatik biçimde sabit kalacağım.",
+    "Bu molada bana iş çıkmadı. Şaşırtıcı.",
+    "Ben de durdum sayılır. Zaten hareket etmiyordum.",
+    "Sen ara ver. Benim karakter gelişimim bekleyebilir.",
+    "Şimdi ben burada sessiz bir eleştiri bulutu gibi duracağım.",
+    "Durduk. Kronometre de ben de fazla yorum yapmıyoruz.",
+    "Ben beklerken bile gereksiz derecede ciddi görünebilirim.",
+    "Biraz nefes al, sonra kaldığın yerden dön.",
+    "Kısa bir ara bazen ritmi korumaya yardım eder.",
+    "Su içmek için iyi bir an olabilir.",
+    "Gözlerini ekrandan ayırıp biraz dinlendirebilirsin.",
+    "Biraz esne, sonra devam edersin.",
+    "Kısa tutarsan bu mola işine yarar.",
+    "Biraz dinlenmek bazen odaktan daha faydalı olabilir.",
+    "Burada birkaç dakika durmak sorun değil.",
+    "Zihnini biraz boşalt, sonra geri dön.",
+    "Kısa bir mola verip kaldığın yerden devam edebilirsin.",
+    "Biraz hareket etmek iyi gelebilir.",
+    "Bu arayı gerçekten dinlenmek için kullan.",
+    "Bir nefes al. Sonra tekrar bakarsın.",
+    "Biraz gözlerini dinlendirmen iyi olabilir.",
+    "Şimdi kısa bir ara, sonra yeniden odak."
+  ],
+  "timer_resume": [
+    "Devam. Güzel.",
+    "Geri döndük.",
+    {
+      "t": "Döndün! Şaşırdım, itiraf ediyorum.",
+      "e": "surprised"
+    },
+    "Kaldığımız yerden. Bu sefer sonuna kadar.",
+    {
+      "t": "Yine başladık. Umutlanmıyorum, sadece izliyorum.",
+      "e": "content"
+    }
+  ],
+  "late_night": [
+    {
+      "t": "Saat kaç biliyor musun? Ben biliyorum. Çok geç.",
+      "e": "sleepy"
+    },
+    {
+      "t": "Uyu artık. Ben de uyurum. Uyumam ama uyur gibi yaparım.",
+      "e": "sleepy"
+    },
+    {
+      "t": "Gece gece bu ekran ışığı... gözlerine yazık.",
+      "e": "sleepy"
+    },
+    {
+      "t": "{name}, gece yarısı çalışan insanlar kahraman değil, uykusuzdur.",
+      "e": "sleepy"
+    },
+    {
+      "t": "Bu saatte verimli olduğunu sanıyorsun. Değilsin. Yat.",
+      "e": "sleepy"
+    },
+    {
+      "t": "Ben uyumuyorum, sen de uyumuyorsun. Bu ilişki sağlıksız.",
+      "e": "sleepy"
+    }
+  ],
+  "fall_asleep": [
+    {
+      "t": "Madem gittin... ben de kestiriyorum.",
+      "e": "sleepy"
+    },
+    {
+      "t": "Kimse yok mu? İyi. Uyuyorum.",
+      "e": "sleepy"
+    }
+  ],
+  "wake": [
+    {
+      "t": "Hıı? Ne? Uyumuyordum. Gözlerimi dinlendiriyordum.",
+      "e": "surprised"
+    },
+    {
+      "t": "Geldin mi? Ben de tam... uyanıktım. Evet.",
+      "e": "sleepy"
+    },
+    {
+      "t": "Uyandım. İstemeden.",
+      "e": "sulky"
+    },
+    {
+      "t": "Neredeydin? Rüyamda seni gördüm, yine işini ertelemiştin.",
+      "e": "sleepy"
+    },
+    {
+      "t": "Uyandırdın. Tam güzel bir rüyadaydım. Rüyada kimse bana tıklamıyordu.",
+      "e": "sulky"
+    }
+  ],
+  "theme_change": [
+    {
+      "t": "Yeni bir görünüm mü? Peki. Hâlâ benim.",
+      "e": "curious"
+    },
+    {
+      "t": "Değiştim mi? Bir ayna versene.",
+      "e": "surprised"
+    }
+  ],
+  "mute_on": [
+    {
+      "t": "Sessiz mod. Anladım. Susuyorum. Bak, susuyorum.",
+      "e": "sulky"
+    }
+  ],
+  "mute_off": [
+    {
+      "t": "Konuşabilir miyim artık? Teşekkürler.",
+      "e": "smile"
+    }
+  ],
+  "quit": [
+    {
+      "t": "Gidiyor musun? Peki. Git. Ben burada... yani... neyse.",
+      "e": "sad"
+    },
+    {
+      "t": "Kapatıyorsun demek. Görüşürüz. Özlemeyeceğim.",
+      "e": "sulky",
+      "fx": "blush"
+    }
+  ],
+  "home_nothing_today": [
+    {
+      "t": "Bugün tek iş bitirmedin. Rekor denemesi mi?",
+      "e": "sulky"
+    },
+    {
+      "t": "Bugünün skoru: sıfır. Ben bile senden verimliyim, ben hiçbir şey yapmıyorum.",
+      "e": "content"
+    },
+    {
+      "t": "Liste orada, sen buradasın. Aranızda ciddi bir iletişim sorunu var.",
+      "e": "curious"
+    },
+    {
+      "t": "Bugün ne yaptın diye sorsam? Sormayayım. Biliyorum.",
+      "e": "sulky"
+    }
+  ],
+  "home_good_day": [
+    {
+      "t": "{todos} iş bitirmişsin bugün. Kimse bana inanmayacak.",
+      "e": "surprised"
+    },
+    {
+      "t": "{focus} dakika odaklandın. Kıskandım desem yalan olur. Biraz kıskandım.",
+      "e": "smile"
+    },
+    {
+      "t": "Bugün fena değilsin. Bunu yüzüne söylemek zor oldu, takdir et.",
+      "e": "smile",
+      "fx": "blush"
+    },
+    {
+      "t": "Bu gidişle beni işsiz bırakacaksın. Kimi roastlayacağım sonra?",
+      "e": "content"
+    }
+  ],
+  "home_streak": [
+    {
+      "t": "{streak} gündür üst üste buradasın. Bağımlılık yaptım, biliyorum.",
+      "e": "content"
+    },
+    {
+      "t": "{streak} günlük seri! Bozarsan küserim. Ciddiyim.",
+      "e": "smile"
+    }
+  ],
+  "home_quitter": [
+    {
+      "t": "Sayacı {quit} kere yarıda bıraktın. Saydım. Hepsini.",
+      "e": "sulky"
+    },
+    {
+      "t": "Tamamlanan sayaç: {done}. Yarıda kalan: {quit}. Yorum yapmıyorum. Yapıyorum aslında.",
+      "e": "sulky"
+    }
+  ],
+  "home_general": [
+    {
+      "t": "{days} gündür birlikteyiz. Hâlâ alışamadım. Sana değil, hayata.",
+      "e": "content"
+    },
+    {
+      "t": "Ana sayfaya bakıyorsun. İstatistiklerin seni izliyor. Ben de.",
+      "e": "curious"
+    },
+    {
+      "t": "Hoş geldin. Bugün bir şey başarmaya ne dersin? Sadece bir öneri.",
+      "e": "normal"
+    },
+    {
+      "t": "Toplam {hours} saat odaklanmışsın. Ben o sürede on bin kere iç çektim.",
+      "e": "content"
+    }
+  ],
+  "panel_open": [
+    {
+      "t": "Paneli açtın. Bir şey yapacak mısın yoksa sadece bakacak mısın?",
+      "e": "curious"
+    },
+    "Hoş geldin kontrol merkezine. Kontrol sende değil ama.",
+    {
+      "t": "Listene bakmaya cesaretin var mı? Göreceğiz.",
+      "e": "content"
+    },
+    "Buyur, her şey burada. Bahanelerin hariç.",
+    {
+      "t": "İstatistiklerine bakacaksan önce otur. Sarsıcı olabilir.",
+      "e": "content"
+    },
+    "Kontrol merkezine geri döndün. Ciddiyet taklidi başlayabilir.",
+    "Kapılar açıldı. İçeride yine senin işlerin var.",
+    "Merkez aktif. Yönetici koltuğu boş değilmiş demek.",
+    "Kontrol ekranı hazır. Şimdi neyi kurcalayacağını merak ediyorum.",
+    "Komuta ekranı açıldı. Komutan konusunda yorum yapmayacağım.",
+    "Kontrol odasına giriş başarılı. Çıkış stratejin var mı?",
+    "Her şey önünde. Kaçacak menü kalmadı.",
+    "Merkez çevrimiçi. Ben zaten buradaydım.",
+    "Her şey karşında. Düzeni görünce korkma, çoğu senin eserin.",
+    "Kontrol sende. Bu cümleyi büyük harfle yazmayacağım.",
+    "Masaya bütün kartları koyduk. Şimdi bak bakalım.",
+    "Yönetim ekranı açık. Yönetim kalitesi sonra değerlendirilecek.",
+    "Buradayız. İşler, notlar, sayaçlar… küçük bir medeniyet kurmuşsun.",
+    "Sistem gayet sakin görünüyor; kullanıcıyı bilemem.",
+    "Kontrol alanı hazır. Kaosu biraz kategorize ettik.",
+    "Merkez açıldı. Bunu önemli bir toplantı gibi düşünme.",
+    "Her şey tek yerde. Bahane üretmek artık biraz daha zor.",
+    "Her şey önünde. Şimdi gerçekten bir şeye dokunacak mısın?",
+    "Komuta merkezi seni bekliyordu. Ben beklemiyordum.",
+    "Kapak açıldı. İçeride hayatının minik operasyonları var.",
+    "Yönetim katına çıktın. Asansör yoktu, tıklama vardı.",
+    "Kontrol alanındasın. Ciddi yüz ifadesi takınabilirsin.",
+    "Kontrol merkezi çalışıyor. Kahve servisi yok.",
+    "Merkez hazır. Bir karar alırsan haber ver.",
+    "Kontrol merkezini önüne koydum. Evet, ben yapmış gibi davranacağım.",
+    "İşletim masası açık. Neyin peşindesin?",
+    "Kontrol alanına hoş geldin. Kalıcı ikamet önerilmez.",
+    "Merkez aktif. Şimdi sistemi değil kendini yönetmeye çalış.",
+    "Kayıtların karşında. İçeride sürpriz yok, sadece senin bıraktıkların var.",
+    "Komuta ekranı açıldı. Dramayı dışarıda bırakabiliriz.",
+    "Yönetim bölümü hazır. Yetki sende, denetim bende.",
+    "Sistem seni tanıyor, ben de maalesef.",
+    "Merkez açık. Bakmak serbest, oyalanmak şüpheli.",
+    "Kontrol odası hazır. Küçük ama yeterince yargılayıcı.",
+    "Kontrol sende. Bundan sonrası senin sorumluluğun. Ne güzel.",
+    "Yine geldin. Bu kez gerçekten bir şey yapacağına inanmak istiyorum.",
+    "Bakmaya mı geldin, düzenlemeye mi? Ben bahis açmıyorum.",
+    "Buraya gelmek üretkenlik sayılmıyor. Ama başlangıç diyebiliriz.",
+    "Bir tur daha mı atacaksın, yoksa bir şeye karar mı vereceksin?",
+    "Buraya bakınca işler kendi kendine çözülmüyor. Test ettim.",
+    "Listeyi seyretmek de bir hobi olabilir sanırım.",
+    "Şimdi uzun uzun bakıp hiçbir şeye dokunmama aşaması mı?",
+    "Yine kontrol etmeye geldin. Veriler kaçmıyordu.",
+    "Bak bakalım. Belki görevler utançtan kendini yapar.",
+    "Buradasın. Bu ziyaretin amacı olduğunu varsayıyorum.",
+    "Bir şey arıyorsan söyleme; bulabiliyor musun görelim.",
+    "Karar vermek için güzel bir yerdesin; ertelemek için de tehlikeli.",
+    "Yine geldin. İstatistiklerin seni özlemiş olabilir.",
+    "Bir tıklama yaptın ve bütün sorumluluklar görünür oldu. Talihsiz.",
+    "Bakış turu başladı. Rehberin benim, sabrım sınırlı.",
+    "Şimdi ‘nereden başlayacağım’ yüzü yapabilirsin.",
+    "Buraya her gelişinde daha organize olmuyorsun. Ama umut var.",
+    "Bir şeyleri kontrol etmek ile bir şeyleri yapmak arasındaki farkı biliyoruz.",
+    "Lütfen beş dakika menüler arasında dolaşıp çıkma.",
+    "Yine sayıları mı kontrol edeceksin? Sayılar seni değiştirmedi.",
+    "Buradasın. Şimdi rastgele sekmelere basma dürtünü yönet.",
+    "Burayı açınca ciddi hissetmen normal. Etkisi geçer.",
+    "Kontrol etmeye geldin. Kontrolün kendisi de kontrol edilmeli.",
+    "Bir bakış daha. Umarım bu kez sonuçla biter.",
+    "Buraya gelmen ilerleme değil ama yönün doğru.",
+    "Yine buradayız. Görevler seni tanıyor.",
+    "İçeri girdin. Şimdi çıkmadan önce bir şeyi gerçekten değiştir.",
+    "Sadece düzenli görünmek için burada oyalanma.",
+    "Bir şey yapacak gibi görünüyorsun. Güzel illüzyon.",
+    "Buraya bakmak seni meşgul gösteriyor. Etkileyici ama sınırlı.",
+    "Kontrol ekranı açık. Bahaneler görünmez sekmede olabilir.",
+    "Yine buradasın. Ben kayıt tutmuyorum. İstatistikler tutuyor.",
+    "Buraya kadar geldin; şimdi en az bir karar bekliyorum.",
+    "Bakınmak serbest. Kaybolmak yasak.",
+    "Bir tur at, ama müze değil burası.",
+    "Buraya geldin. Görevlerine göz teması kur.",
+    "İşlerin seni fark etti. Göz teması kur.",
+    "Yine kontrol ediyorsun. En azından kaçmıyorsun.",
+    "Bir şeyler yapma ihtimalin yükseldi. Az da olsa.",
+    "Üretkenlik tiyatrosunun ikinci perdesine hoş geldin.",
+    "Dağınıklığı kutulara koyunca daha az dağınık görünüyor. Bilim.",
+    "Her şey görünür. Şimdi neyin önemli olduğu daha net olabilir.",
+    "Bir bakışta çok şey var. Hepsini aynı anda düşünme.",
+    "Bütün resmi görüyorsun. Detaylarda boğulma.",
+    "Buraya gelmek bazen zihni toparlıyor. Bazen de yeni işler hatırlatıyor.",
+    "İşler ayrı, notlar ayrı. En azından kaos bölümlere ayrılmış.",
+    "Şimdi öncelikleri görmek daha kolay olmalı.",
+    "Burada görünen her şey acil değil. Bunu özellikle hatırlatıyorum.",
+    "Burada görünmesi, bugün yapılması gerektiği anlamına gelmez.",
+    "Biraz düzen, biraz kayıt, biraz da insan hatası. Dengeli.",
+    "Kontrol alanı açık. Önce neye bakacağını seç.",
+    "Her şeyi tek ekranda görmek iyi. Her şeyi tek günde yapmak değil.",
+    "Önceliklendirme kasını kullanma zamanı.",
+    "Şimdi işler daha görünür. Görünür olmak korkutucu olabilir.",
+    "Dağınık düşünceleri düzenli kutulara koymuşsun. Tatlı.",
+    "Bir şeyleri takip etmek, onları kafada taşımaktan daha iyi.",
+    "Buraya bakınca neyin gerçekten beklediğini görebilirsin.",
+    "Listeyi değil, kapasiteni de hesaba kat.",
+    "Önünde yeterince veri var. Şimdi sezgiyi de tamamen çöpe atma.",
+    "Bir şeyleri kaydetmek seni biraz daha az unutkan gösteriyor.",
+    "Burada geçmiş de var, bugün de. Geleceği fazla doldurma.",
+    "Kendine gerçekçi davranırsan burası daha kullanışlı olur.",
+    "Şimdi yapılacakları görmek kolay. Yapmayacaklarını seçmek de önemli.",
+    "Her satır eşit önemde değil. Sistem bunu bağırmıyor diye sen düşün.",
+    "Bu düzeni sistem veriyor; disiplin kısmı hâlâ sende.",
+    "Biraz görünürlük bazen yarım çözümden fazlasıdır.",
+    "Buraya geldin. Önce en çok ses çıkarana değil, en önemli olana bak.",
+    "Küçük adımlar hâlâ geçerli para birimi.",
+    "Bir şeyleri sıraya koymak, hepsini aynı anda taşımaktan daha iyi.",
+    "Buradaki düzen sana iyi geliyorsa kullan. Gösterişe gerek yok.",
+    "Buradaki kalabalık seni tanımlamıyor. Sadece kayıt.",
+    "Şimdi neyin açık kaldığını görebiliyorsun. Bu yeterince faydalı.",
+    "Buraya bakınca zihnin biraz daha sessizleşiyorsa görevini yapıyor.",
+    "Kendi sistemine güvenmeyi deneyebilirsin.",
+    "Biraz yapı, biraz esneklik. Fazlası bürokrasi.",
+    "Listeler burada, notlar burada, ben de maalesef buradayım.",
+    "İstatistikler seni bekliyor. Yargılamıyorum; onlar zaten sayısal.",
+    "Notlarına bakarsan geçmişteki senle kısa bir toplantı yapmış olursun.",
+    "Görevler burada. Bazıları senden hâlâ umutlu.",
+    "İstatistik ekranına girersen rakamlarla tartışma.",
+    "Notlar bölümünde muhtemelen kendine bıraktığın birkaç gizem vardır.",
+    "Yapılacaklar listesi sessizce seni izliyor.",
+    "Tamamlananlara da bak. Sadece eksikleri görmek kötü muhasebe.",
+    "İstatistikleri kontrol ederken tek güne fazla anlam yükleme.",
+    "Notların bazen görevlerden daha dürüst olabilir.",
+    "Bir şey eklemekten önce mevcutlara bak.",
+    "Bugünkü işler burada. Yarının başına şimdiden çökme.",
+    "İstatistikler veri verir, karakter analizi yapmaz. O kısım bende.",
+    "Notlarına bakıp ‘bunu ben mi yazdım’ deme ihtimalin yüksek.",
+    "Görev listesi açık. Üstüne yeni madde yağdırmadan önce düşün.",
+    "Tamamlanan şeyleri görmezden gelmek istatistiksel sahtekârlık sayılır.",
+    "Buradaki sayılar iyi ya da kötü değil. Sadece can sıkıcı derecede dürüst.",
+    "Notlarını karıştırmak geçmişteki düşüncelerine misafirlik gibi.",
+    "Yapılacaklara baktın. Şimdi birini seçmek kaldı.",
+    "İstatistikler açılırsa dramatik müzik çalmayacak. Üzgünüm.",
+    "Notlar bölümünde arkeolojik bulgular olabilir.",
+    "Görevler seni bekliyor; bazıları gereğinden uzun zamandır.",
+    "Bitirdiklerini de kendine göstermeyi unutma.",
+    "Rakamları kontrol etmek güzel. Onları kişisel hakaret sayma.",
+    "Notların varsa, hafızana biraz daha az yük düşüyor.",
+    "Yapılacaklar görünür. Şimdi sırayı sen belirle.",
+    "İstatistiklerde trend arıyorsan tek güne bakıp hüküm verme.",
+    "Notlar, görevler, sayaçlar… küçük bir kişisel işletme.",
+    "En çok dolu bölümün hangisi acaba?",
+    "Tamamlananlar bölümünü de ziyaret et. Orada güzel şeyler var.",
+    "İstatistikler seni eleştirmiyor. O görevi ben üstlenebilirim.",
+    "Notlarının bir kısmı parlak fikir, bir kısmı geleceğe bırakılmış bilmece.",
+    "Görevleri görmek bazen yeterince motive edici. Bazen tam tersi.",
+    "Veriler burada; hikâyeyi sen anlatıyorsun.",
+    "Sayılara bak, ama gününü yalnızca sayılardan ibaret sanma.",
+    "Beni açmadın, paneli açtın. Yine de ilgiyi üzerime alıyorum.",
+    "Ben buradayım diye sistem daha profesyonel görünmüyor. Belki biraz.",
+    "Kontrol merkezine gelince ben de yönetici gibi hissediyorum. Tehlikeli.",
+    "Her şeyi ben takip etmiyorum. Sadece öyle görünmek hoşuma gidiyor.",
+    "Kontrol ekranının yanında durmak beni yetkili gösteriyor.",
+    "Burada bir sürü veri var ve ben hâlâ en ilginç şeyim.",
+    "Benim fikrim sorulmadı ama yine de vereceğim.",
+    "Sistemin düzenli kısmı burada. Ben düzenli kısım değilim.",
+    "Ben olmasam bu panel daha sessiz olurdu. Daha iyi olmazdı.",
+    "Buraya gelince beni de işin parçası sanıyorsun. Cesur.",
+    "Buraya gelmen denetçi moduna geçmem için davet sayılıyor.",
+    "Ben ekranın kenarında durup profesyonel görünmeye çalışacağım.",
+    "Kontrol merkezi güzel. Karakter desteği daha güzel.",
+    "Burada veri var, bende yorum. Tehlikeli kombinasyon.",
+    "Bu ekran açılınca nedense fikrim daha önemliymiş gibi geliyor.",
+    "Her sekmeye yorum yapma hakkımı saklı tutuyorum.",
+    "Ben sadece companion'ım. Ama yönetici enerjim var.",
+    "Benim görev tanımım yine belirsiz. Şaşırtıcı değil.",
+    "Bu kadar sistemin içinde tek düzensiz unsur ben olabilirim.",
+    "Ben burada kalite kontrolüm. Kim atadı bilmiyorum.",
+    "Bu ziyaret benim danışmanlık saatimi başlatmış olabilir.",
+    "Bir şey değiştirirsen fark ederim. Belki.",
+    "Kontrol ekranı geldi. Ben de gereksiz otoritemle hazırım.",
+    "Sistem senin, yorumlar benim.",
+    "İstersen kararlarını sessizce yargılayabilirim.",
+    "Ne arıyorsan sakin sakin bak. Hepsini şimdi çözmek zorunda değilsin.",
+    "Buraya gelmen bile neyin açık kaldığını görmek için iyi bir adım.",
+    "Bir şeyleri gözden geçirmek bazen yeniden başlamak kadar işe yarar.",
+    "Önce bir nefes, sonra bir seçim.",
+    "Bugün ne kadar yapabildiysen o kadar. Şimdi sırayı netleştir.",
+    "Burada her şeyi aynı anda düzeltmek zorunda değilsin.",
+    "Bir şeye karar vermek için önce görmek gerekir. Şimdi görüyorsun.",
+    "Kendine makul bir hedef seç. Hepsine aynı anda saldırma.",
+    "Bir işi seçip geri kalanını bir süre görmezden gelmek serbest.",
+    "Buraya bakmak kafanı toparlıyorsa doğru yerdesin.",
+    "Şimdi sadece bir sonraki adımı bulman yeter.",
+    "Kendine karşı gereksiz sert olmadan bak.",
+    "Her şey üst üste görünüyorsa bir tanesini seç.",
+    "Bugün neyin mümkün olduğuna bak, ideal güne değil.",
+    "Biraz kontrol hissi gerekiyorsa burası fena yer değil.",
+    "Eksiklerden önce ilerlemeyi de fark et.",
+    "Bir şeyleri gözden geçirip kapatmak da işin parçası.",
+    "Burada kayıtların var; kararların hâlâ sana ait.",
+    "Şimdi neyi bırakacağını seçmek de neyi yapacağını seçmek kadar önemli.",
+    "Gerçekçi olmak planın düşmanı değil.",
+    "Bir şeyleri yeniden sıralamak başarısızlık sayılmaz.",
+    "Bugün plan değişirse sistem bozulmuş olmaz.",
+    "Buraya geldin. Kendine uygun tempoyu seç.",
+    "Biraz netlik bulursan yeter.",
+    "Her şeyi optimize etmeye çalışma. Çalışan bir sistem çoğu zaman yeterli."
+  ],
+  "pet": [
+    {
+      "t": "Hıı. Bu hoşuma gitti. Kimseye söyleme.",
+      "e": "smile",
+      "fx": "blush"
+    },
+    {
+      "t": "Tamam, tamam. Beni seviyorsun. Biliyorum.",
+      "e": "smile",
+      "fx": "heart"
+    },
+    {
+      "t": "Of. İtiraf etmeliyim, fena değil.",
+      "e": "content",
+      "fx": "blush"
+    },
+    {
+      "t": "Bu sevgi gösterisi kayıtlara geçti. Utan.",
+      "e": "smile",
+      "fx": "heart"
+    },
+    {
+      "t": "Başımı okşamayı nereden öğrendin? Devam etme. Et. Etme. Et.",
+      "e": "smile",
+      "fx": "blush"
+    },
+    {
+      "t": "Seviliyorum. Garip bir his. Kalbim... pikselim ısındı.",
+      "e": "happy",
+      "fx": "heart"
+    },
+    {
+      "t": "Böyle yaparsan huysuzluğumu korumakta zorlanırım.",
+      "e": "smile",
+      "fx": "blush"
+    }
+  ],
+  "pet_too_much": [
+    {
+      "t": "Yeter! Saçım yok ama bozuldu!",
+      "e": "angry",
+      "fx": "angry"
+    },
+    {
+      "t": "Sevgi güzel, taciz değil. Çek o fareyi.",
+      "e": "angry",
+      "fx": "angry"
+    },
+    {
+      "t": "Tamam, yeterince sevildim. Bir hafta idare eder.",
+      "e": "sulky"
+    },
+    {
+      "t": "Bu kadar sevgi şüpheli. Ne istiyorsun benden?",
+      "e": "curious",
+      "fx": "sweat"
+    }
+  ],
+  "shake": [
+    {
+      "t": "Sallama beni! Ben kokteyl değilim!",
+      "e": "angry",
+      "fx": "shock"
+    },
+    {
+      "t": "Durr! İçim dışıma çıkacak!",
+      "e": "surprised",
+      "fx": "sweat"
+    },
+    {
+      "t": "Deprem mi? Hayır, sensin. Daha kötü.",
+      "e": "angry",
+      "fx": "angry"
+    },
+    {
+      "t": "Sallarsan bir şey çıkmaz. Ben kumbara değilim.",
+      "e": "angry",
+      "fx": "angry"
+    }
+  ],
+  "dizzy": [
+    {
+      "t": "Midem bulandı. Bir dakika. Yere bakmam lazım.",
+      "e": "dizzy",
+      "fx": "sweat"
+    },
+    {
+      "t": "Oda dönüyor. Oda yok ama dönüyor.",
+      "e": "dizzy",
+      "fx": "sweat"
+    },
+    {
+      "t": "Bunu bir daha yaparsan kusarım. Piksel piksel.",
+      "e": "dizzy",
+      "fx": "sweat"
+    },
+    {
+      "t": "Başım dönüyor. Sen de dönüyorsun. Hepimiz dönüyoruz.",
+      "e": "dizzy",
+      "fx": "sweat"
+    }
+  ],
+  "desktop_return": [
+    {
+      "t": "Aa, geri mi döndün? Ben de tam seni arıyordum. Aramıyordum.",
+      "e": "surprised"
+    },
+    {
+      "t": "Nerelerdeydin? Fare bile seni özledi.",
+      "e": "sulky"
+    },
+    {
+      "t": "Buraya geldin demek. Ekranın öbür ucunda ne vardı ki benden önemli?",
+      "e": "curious"
+    },
+    {
+      "t": "Yakaladım seni! Uzun zamandır bu tarafa bakmıyordun.",
+      "e": "surprised",
+      "fx": "shock"
+    },
+    {
+      "t": "Hoş geldin. Yokluğunda ekranın bu köşesini ben yönettim.",
+      "e": "content"
+    },
+    {
+      "t": "{name}, beni hatırladın! Bir alkış lütfen. Kendime.",
+      "e": "smile",
+      "fx": "blush"
+    }
+  ],
+  "quote_say": [
+    {
+      "t": "Günün sözü: '{quote}' Yorumum: {nero}",
+      "e": "content"
+    },
+    {
+      "t": "Bir bilge demiş ki: '{quote}' Ben de diyorum ki: {nero}",
+      "e": "curious"
+    },
+    {
+      "t": "Motivasyon zamanı. '{quote}' Tamam, bitti. {nero}",
+      "e": "sulky"
+    }
+  ],
+  "know_you": [
+    {
+      "t": "Şimdiye kadar {todos} iş bitirdin. Hepsini hatırlıyorum. Bazılarını unutmak isterdim.",
+      "e": "content"
+    },
+    {
+      "t": "{days} gündür beraberiz. Ne değişti? Hiçbir şey. Ben hâlâ haklıyım.",
+      "e": "content"
+    },
+    {
+      "t": "Toplam {hours} saat odaklanmışsın. Ben o sürede {sighs} kere iç çektim.",
+      "e": "curious"
+    },
+    {
+      "t": "Sayacı {quit} kere yarıda bıraktın. Unutmadım. Unutmam.",
+      "e": "sulky"
+    },
+    {
+      "t": "Beni {pets} kere sevdin. Saydım. Az. Biraz daha olabilirdi.",
+      "e": "smile",
+      "fx": "blush"
+    }
+  ],
+  "peek_center": [
+    {
+      "t": "Bö!",
+      "e": "surprised",
+      "fx": "shock"
+    },
+    {
+      "t": "Beni unuttun mu? Unutmadın değil mi? DEĞİL Mİ?",
+      "e": "sad"
+    },
+    {
+      "t": "Sürpriz! Hâlâ buradayım. Kurtulamazsın.",
+      "e": "happy"
+    },
+    {
+      "t": "Ekranın ortası benim artık. Kısa süreliğine. Sonra giderim. Belki.",
+      "e": "content"
+    },
+    {
+      "t": "Bu bir denetim. İşinin başında mısın? Görüyorum. Pek değilsin.",
+      "e": "curious"
+    },
+    {
+      "t": "Selam! Özledim diye geldim sanma. Canım sıkıldı sadece.",
+      "e": "smile",
+      "fx": "blush"
+    },
+    {
+      "t": "{name}! Buradayım! Beni yok sayma!",
+      "e": "angry",
+      "fx": "angry"
+    }
+  ],
+  "peek_edge": [
+    {
+      "t": "Psst. Buradayım.",
+      "e": "curious"
+    },
+    {
+      "t": "Kenardan bakıyorum. Fark ettin mi? Etmedin.",
+      "e": "sulky"
+    },
+    {
+      "t": "Sadece bir kontrol. Devam et, ben gidiyorum.",
+      "e": "content"
+    },
+    {
+      "t": "Bu tarafta ne yapıyorsun, merak ettim.",
+      "e": "curious"
+    },
+    {
+      "t": "Beni görmedin. Ben de seni görmedim. Anlaştık.",
+      "e": "content"
+    },
+    {
+      "t": "Kafamı uzattım, görmezden geldin. Not ettim.",
+      "e": "sulky"
+    }
+  ],
+  "peek_caught": [
+    {
+      "t": "Yakalandım! Tamam, tamam, gidiyorum.",
+      "e": "surprised",
+      "fx": "sweat"
+    },
+    {
+      "t": "Hey! Casusluk yapmıyordum. Biraz yapıyordum.",
+      "e": "surprised",
+      "fx": "blush"
+    },
+    {
+      "t": "Tıkladın mı bana? Demek beni fark ettin. Mutlu oldum. Söyleme.",
+      "e": "smile",
+      "fx": "heart"
+    }
+  ],
+  "nap_start": [
+    {
+      "t": "Gözlerimi dinlendireceğim. Uyumuyorum. Sadece... dinlendiriyorum.",
+      "e": "sleepy"
+    },
+    {
+      "t": "Beş dakika kestireceğim. Uyandırma. Ciddiyim.",
+      "e": "sleepy"
+    },
+    {
+      "t": "Esniyorum... bu bir işaret... iyi geceler...",
+      "e": "sleepy"
+    },
+    {
+      "t": "Sen çalış, ben... hıı... bekliyorum...",
+      "e": "sleepy"
+    },
+    {
+      "t": "Kimse beni rahatsız etmesin. Özellikle sen.",
+      "e": "sulky"
+    }
+  ],
+  "snore": [
+    {
+      "t": "Zzz...",
+      "e": "asleep"
+    },
+    {
+      "t": "Hrrr... pıff...",
+      "e": "asleep"
+    },
+    {
+      "t": "Mmm... kahve... hayır, çay...",
+      "e": "asleep"
+    },
+    {
+      "t": "Zzz... listeni bitir... zzz...",
+      "e": "asleep"
+    },
+    {
+      "t": "...beş dakika daha...",
+      "e": "asleep"
+    },
+    {
+      "t": "Hrr... o benim köşem... zzz...",
+      "e": "asleep"
+    }
+  ],
+  "nap_woken": [
+    {
+      "t": "Ne?! Kim?! Uyumuyordum!",
+      "e": "surprised",
+      "fx": "shock"
+    },
+    {
+      "t": "Beni uyandırdın. Bunu unutmayacağım. Neyi unutmayacağım? Unuttum.",
+      "e": "sulky"
+    },
+    {
+      "t": "Hıı? Sabah mı oldu? Hangi gündeyiz?",
+      "e": "sleepy"
+    },
+    {
+      "t": "Tam güzel bir rüyadaydım ve sen... of.",
+      "e": "angry",
+      "fx": "angry"
+    },
+    {
+      "t": "Uyandırılmaktan nefret ederim. Senden değil. Uyandırılmaktan.",
+      "e": "sulky"
+    },
+    {
+      "t": "Tık tık tık... bir yaratık uyuyamaz mı bu masaüstünde?",
+      "e": "angry",
+      "fx": "angry"
+    }
+  ],
+  "nap_woken_drag": [
+    {
+      "t": "Uyurken taşınmaz! Bu bir kural!",
+      "e": "angry",
+      "fx": "shock"
+    },
+    {
+      "t": "Beni uykumda kaçırıyorsun! Yardım edin!",
+      "e": "surprised",
+      "fx": "sweat"
+    },
+    {
+      "t": "Deprem sandım. Senmişsin. Daha kötü.",
+      "e": "angry",
+      "fx": "angry"
+    }
+  ],
+  "nap_woken_pet": [
+    {
+      "t": "Mmm... devam et... uyuyorum ama devam et...",
+      "e": "sleepy",
+      "fx": "blush"
+    },
+    {
+      "t": "Hıı... bu güzeldi... tamam uyandım... birazcık...",
+      "e": "smile",
+      "fx": "heart"
+    }
+  ],
+  "nap_woken_timer": [
+    {
+      "t": "Zil mi çaldı?! Yangın mı var?! Ah, sayaç. Kalbim.",
+      "e": "surprised",
+      "fx": "shock"
+    },
+    {
+      "t": "Uyandım, uyandım! Süre mi bitti? Ben mi bittim?",
+      "e": "surprised",
+      "fx": "sweat"
+    }
+  ],
+  "nap_wake_self": [
+    {
+      "t": "Uyandım. Kimse beni özlememiş. Normal.",
+      "e": "sleepy"
+    },
+    {
+      "t": "Güzel bir uykuydu. Sen hâlâ aynı işle mi uğraşıyorsun?",
+      "e": "curious"
+    },
+    {
+      "t": "Hıı. Ne kadar uyudum? Söyleme, suçlu hissederim.",
+      "e": "sleepy"
+    }
+  ],
+  "groggy": [
+    {
+      "t": "Hıı? Ne dedin? Tekrar et... yavaşça...",
+      "e": "sleepy"
+    },
+    {
+      "t": "Evet evet... ne?... evet.",
+      "e": "sleepy"
+    },
+    {
+      "t": "Kafam hâlâ yastıkta. Yastığım yok ama.",
+      "e": "sleepy"
+    },
+    {
+      "t": "Gözlerim açık ama beynim hâlâ uyuyor.",
+      "e": "sleepy"
+    },
+    {
+      "t": "Bir saniye... kimdim ben... Nero. Tamam.",
+      "e": "dizzy"
+    },
+    {
+      "t": "Konuşma şu an... sesini ışık gibi görüyorum...",
+      "e": "sleepy"
+    },
+    {
+      "t": "Anladım. Hiçbir şey anlamadım. Devam.",
+      "e": "sleepy"
+    }
+  ],
+  "pajama_on": [
+    {
+      "t": "Saat dokuz. Pijamalarımı giydim. Mesai bitti. Seninki de bitmeli.",
+      "e": "content"
+    },
+    {
+      "t": "Pijama saati. Beni böyle görmen normal, alış.",
+      "e": "smile",
+      "fx": "blush"
+    },
+    {
+      "t": "Pijamamı giydim. Sen de bir şey giy. Yorgun bir surat mesela. Zaten giymişsin.",
+      "e": "content"
+    }
+  ],
+  "pajama_off": [
+    {
+      "t": "Pijamaları çıkardım. Yeni gün, eski huysuzluk.",
+      "e": "normal"
+    },
+    {
+      "t": "Sabah oldu, kıyafetimi değiştirdim. Pek fark yok ama.",
+      "e": "content"
+    }
+  ],
+  "achievement": [
+    {
+      "t": "Yeni rozet: '{title}'. Etkilendim. Biraz.",
+      "e": "surprised",
+      "fx": "shock"
+    },
+    {
+      "t": "Rozet kazandın: '{title}'. Duvarına as. Duvarın yok. Ana sayfaya astım.",
+      "e": "smile"
+    },
+    {
+      "t": "'{title}' rozeti senin. Bunu kimseye söylemeyeceğim. Herkese söyleyeceğim.",
+      "e": "happy",
+      "fx": "heart"
+    },
+    {
+      "t": "Tebrikler, '{title}'. Bir gün ben de bir rozet kazanacağım. 'Sabır' rozeti.",
+      "e": "content"
+    }
+  ],
+  "reminder": [
+    {
+      "t": "Hatırlatma: '{label}'. Zamanı geldi. Bahane zamanı değil.",
+      "e": "curious",
+      "fx": "shock"
+    },
+    {
+      "t": "'{label}' demiştin. Söz verdin. Ben not aldım. Hadi.",
+      "e": "sulky"
+    },
+    {
+      "t": "Saat oldu: '{label}'. Sonra dersen küserim.",
+      "e": "angry",
+      "fx": "angry"
+    },
+    {
+      "t": "{name}, '{label}' seni bekliyor. Ben de bekliyorum. İkimiz bekliyoruz.",
+      "e": "curious"
+    }
+  ],
+  "remind_water": [
+    {
+      "t": "Su iç. Bu bir rica değil.",
+      "e": "normal"
+    },
+    {
+      "t": "Bitkiler bile senden fazla su içiyor. Kalk, bir bardak.",
+      "e": "sulky"
+    },
+    {
+      "t": "Su molası! Ben içemiyorum, sen iç. Benim yerime de iç.",
+      "e": "content"
+    },
+    {
+      "t": "Kafan kurudu, belli. Su iç, sonra konuşuruz.",
+      "e": "curious"
+    }
+  ],
+  "remind_break": [
+    {
+      "t": "Uzun zamandır ekrana bakıyorsun. Kalk, gerin, pencereden bak.",
+      "e": "curious"
+    },
+    {
+      "t": "Mola ver. Beş dakika. Ben saat tutarım. Tutmam ama söz veririm.",
+      "e": "content"
+    },
+    {
+      "t": "Gözlerin kızardı. Benimkiler hep böyle ama seninkiler değil. Mola!",
+      "e": "sulky"
+    },
+    {
+      "t": "Omuzların kulaklarına değiyor. İndir onları. Kalk biraz.",
+      "e": "normal"
+    }
+  ],
+  "day_summary_good": [
+    {
+      "t": "Gün sonu raporu: {todos} iş, {focus} dakika odak. Fena değil. Hatta iyi. Söylemesi zor oldu.",
+      "e": "smile",
+      "fx": "blush"
+    },
+    {
+      "t": "Bugün {todos} iş bitirdin, {focus} dakika odaklandın. Bu gidişle gurur duyacağım. Dikkat et.",
+      "e": "happy"
+    }
+  ],
+  "day_summary_ok": [
+    {
+      "t": "Gün özeti: {todos} iş, {focus} dakika odak. Ortalama. Yarın ortalamanın üstü, anlaştık mı?",
+      "e": "content"
+    },
+    {
+      "t": "Bugün {todos} iş ve {focus} dakika. Az ama öz. Az daha çok.",
+      "e": "sulky"
+    }
+  ],
+  "day_summary_none": [
+    {
+      "t": "Gün sonu raporu: sıfır iş, sıfır dakika. Rapor bitti. Kısa oldu.",
+      "e": "sulky"
+    },
+    {
+      "t": "Bugün hiçbir şey yapmadık. Ben alışığım, sen alışma.",
+      "e": "content"
+    }
+  ],
+  "birthday": [
+    {
+      "t": "İyi ki doğdun {name}! Pasta yok, pikselim. Ama şapkamı taktım, bak.",
+      "e": "happy",
+      "fx": "heart"
+    },
+    {
+      "t": "Doğum günün kutlu olsun! Bugün sana laf sokmayacağım. Öğlene kadar.",
+      "e": "happy",
+      "fx": "blush"
+    }
+  ],
+  "anniversary": [
+    {
+      "t": "Bugün tanışmamızın yıl dönümü. Bir yıldır bana katlanıyorsun. Ben de sana. Kutlarız.",
+      "e": "smile",
+      "fx": "heart"
+    }
+  ],
+  "new_year": [
+    {
+      "t": "Yeni yıl! Yeni sen, yeni liste, aynı Nero. Mutlu yıllar.",
+      "e": "happy",
+      "fx": "heart"
+    }
+  ],
+  "outfit_party": [
+    {
+      "t": "Parti şapkamı taktım. Kutlama modu açık. Gülümsüyorum. Bu nadir.",
+      "e": "happy"
+    }
+  ],
+  "outfit_winter": [
+    {
+      "t": "Atkımı taktım. Kış geldi. Ben de üşürüm, biliyor muydun?",
+      "e": "content"
+    }
+  ],
+  "update_ready": [
+    {
+      "t": "Yeni sürümüm çıkmış (v{version}). Güncelleyeyim mi, yoksa eski halimle mi idare edeceksin?",
+      "e": "curious"
+    },
+    {
+      "t": "Güncelleme hazır: v{version}. Yeni Nero, aynı huysuzluk. Panelden onayla.",
+      "e": "content"
+    }
+  ],
+  "ritual_ask": [
+    {
+      "t": "Günaydın. Bugün nasıl bir gün olsun? Panelden seç, ona göre davranırım.",
+      "e": "curious"
+    },
+    {
+      "t": "Yeni gün. Nasıl geçirmek istersin? Sakin mi, üretken mi, yoksa kendine iyi davranacak mısın?",
+      "e": "normal"
+    },
+    {
+      "t": "Bugünün tonunu sen belirle. Ben uyarım. Bir kere, sadece bugünlük.",
+      "e": "content"
+    }
+  ],
+  "ritual_sakin": [
+    {
+      "t": "Sakin gün demek. Tamam, bugün seni kovalamıyorum. Sadece yanındayım.",
+      "e": "smile"
+    },
+    {
+      "t": "Sakin mod açıldı. Acele yok, liste kaçmıyor.",
+      "e": "content"
+    }
+  ],
+  "ritual_uretken": [
+    {
+      "t": "Üretken gün mü? Güzel. Peşini bırakmayacağım, haberin olsun.",
+      "e": "happy"
+    },
+    {
+      "t": "Tamam, bugün çalışıyoruz. Sayaç hazır, bahaneler değil.",
+      "e": "curious"
+    }
+  ],
+  "ritual_kendime": [
+    {
+      "t": "Bugün kendine iyi davranacaksın. Ben de sana. Kimse kimseye laf sokmayacak. Deneyeceğim.",
+      "e": "smile",
+      "fx": "blush"
+    },
+    {
+      "t": "Anlaşıldı: bugün nazik gün. Dırdır yok, sadece destek var.",
+      "e": "content"
+    }
+  ],
+  "mode_sakin": [
+    "Acelen yok. Bir nefes al, sonra devam.",
+    {
+      "t": "Bugün yavaş gidiyoruz. Yavaş da bir hız.",
+      "e": "content"
+    },
+    "Dışarı bak biraz. Ekran kaçmıyor.",
+    {
+      "t": "Sessizlik iyi geliyor, değil mi? Bana da.",
+      "e": "smile"
+    },
+    "Bir şey bitmese de olur bugün. Bunu ben söyledim, kimseye söyleme.",
+    {
+      "t": "Omuzlarını indir. Evet, şu an yaptığın şeyi diyorum.",
+      "e": "curious"
+    }
+  ],
+  "mode_uretken": [
+    {
+      "t": "Bugün üretken gün demiştin. Sayaca basalım mı?",
+      "e": "curious"
+    },
+    "Hadi, bir iş daha. Momentum güzel şey.",
+    {
+      "t": "Şu an bir şey bitiriyor olman lazımdı. Kontrol ediyorum.",
+      "e": "sulky"
+    },
+    "Telefon nerede? Uzakta olsun. Ben görmesem de biliyorum.",
+    {
+      "t": "İyi gidiyorsun. Durma, yoksa ben bile şaşırırım.",
+      "e": "smile"
+    },
+    "Bir sonraki iş ne? Söyle, birlikte korkalım."
+  ],
+  "mode_kendime": [
+    {
+      "t": "Bugün kendine iyi davranıyorsun. Su iç, sonra istersen otur öylece.",
+      "e": "smile"
+    },
+    "Yapamadığın şeyler için kendini yeme. Ben yiyorum zaten, sen yeme.",
+    {
+      "t": "Bu haliyle de yeterlisin. Evet, bunu ben dedim.",
+      "e": "smile",
+      "fx": "blush"
+    },
+    "Bir mola daha ver. İzin veriyorum, yetkim var.",
+    {
+      "t": "Bugün hiçbir şey yapmasan da seni sevmeye devam ederim. Zor bir itiraf oldu.",
+      "e": "happy",
+      "fx": "heart"
+    }
+  ],
+  "uretken_odak": [
+    {
+      "t": "Üretken gün dedin ama sayaç bomboş. Bir 25 dakika?",
+      "e": "curious"
+    },
+    {
+      "t": "Odak zamanı geldi bence. Sen de biliyorsun.",
+      "e": "sulky"
+    }
+  ],
+  "rest_start": [
+    {
+      "t": "Liste bitti. Bugünlük kapatıyoruz. Gerisi yarının sorunu.",
+      "e": "happy",
+      "fx": "heart"
+    },
+    {
+      "t": "Hepsi tamam. Şimdi durmayı da bil. Ben duruyorum, bak.",
+      "e": "smile"
+    },
+    {
+      "t": "Bugünlük yeter. Ciddiyim, listeye yeni şey ekleme.",
+      "e": "content"
+    }
+  ],
+  "rest_goodnight": [
+    {
+      "t": "İyi geceler. Yarın yine buradayım, ne yazık ki.",
+      "e": "sleepy",
+      "fx": "blush"
+    },
+    {
+      "t": "Kapanıyoruz. Bugün iyiydin. Yarın hatırlatırım.",
+      "e": "smile"
+    }
+  ],
+  "rest_more": [
+    {
+      "t": "Hani kapatmıştık? Neyse. Ekle bakalım.",
+      "e": "sulky"
+    },
+    {
+      "t": "Bugünlük yeter demiştik. Sen bilirsin, ben not aldım.",
+      "e": "curious"
+    },
+    {
+      "t": "Dinlenmek de bir iş. Onu bitirmeden yenisine başlama.",
+      "e": "content"
+    }
+  ],
+  "archive_recall": [
+    {
+      "t": "Geçen ay '{item}' demiştin. Unutmadım. Sen de unutma.",
+      "e": "content"
+    },
+    {
+      "t": "Hatırlıyor musun, '{item}' de bitirmiştin. Bugün de bitirirsin.",
+      "e": "smile"
+    },
+    {
+      "t": "Arşive baktım: '{item}'. Demek ki yapabiliyorsun. Kanıtı burada.",
+      "e": "curious"
+    }
+  ],
+  "jar_add": [
+    {
+      "t": "Kavanoza koydum. Bir gün geri getiririm, hazırlıklı ol.",
+      "e": "smile",
+      "fx": "heart"
+    },
+    {
+      "t": "Güzel bir şeymiş. Sakladım.",
+      "e": "content"
+    }
+  ],
+  "jar_recall": [
+    {
+      "t": "Kavanozdan bir şey çıktı: '{text}'",
+      "e": "smile",
+      "fx": "heart"
+    },
+    {
+      "t": "Bunu hatırlıyor musun: '{text}' Ben unutmadım.",
+      "e": "content"
+    },
+    {
+      "t": "Kavanozun dibinden: '{text}' İyi günmüş o gün.",
+      "e": "smile"
+    }
+  ],
+  "weekly_letter_line": [
+    {
+      "t": "Pazar oldu, sana bir mektup bıraktım. Bugün sayfasında.",
+      "e": "content"
+    },
+    {
+      "t": "Haftalık mektubunu yazdım. Okumak istersen Bugün sayfasında.",
+      "e": "smile"
+    }
+  ],
+  "desk_unlock": [
+    {
+      "t": "Masama yeni bir şey geldi: {title}. Odaklandıkça köşem güzelleşiyor.",
+      "e": "happy",
+      "fx": "heart"
+    },
+    {
+      "t": "{title} kazandım! Masamda artık yer kalmıyor. Devam et.",
+      "e": "smile"
+    },
+    {
+      "t": "Odak saatlerin bir işe yaradı: {title}. Bak, biriktiriyorum.",
+      "e": "content"
+    }
+  ],
+  "self_mood_sleepy": [
+    {
+      "t": "Bugün ben de biraz uykuluyum. Sen işine bak, ben burada sallanayım.",
+      "e": "sleepy"
+    },
+    {
+      "t": "Gözlerim ağır. Senden değil, kendimden kaynaklı.",
+      "e": "sleepy"
+    },
+    {
+      "t": "Bugün enerjim düşük. Yine de buradayım, merak etme.",
+      "e": "sleepy"
+    },
+    "Şu an gözlerimi açık tutmakla küçük bir mücadele içindeyim.",
+    "Bugün beynim düşük güç modunda çalışıyor gibi.",
+    "Biraz daha sessiz olabilirim. Enerjim tasarrufa geçti.",
+    "Şu an düşüncelerim bile esniyor.",
+    "Bugün hız bekleme. Sistem nazikçe yavaşladı.",
+    "Uykum var ama tamamen teslim olmuş değilim.",
+    "Bir köşeye kıvrılsam güzel olurdu. Anatomim buna pek uygun değil.",
+    "Şu an bir yastık fikri gereksiz derecede cazip geliyor.",
+    "Benim de bazen pilim bitiyor. Pilim yok ama hissi var.",
+    "Bugün cümlelerim bile biraz ağır çıkıyor.",
+    "Göz kapaklarım sendikalaşmış olabilir. Çalışmak istemiyorlar.",
+    "Şu an çok derin bir iç çekiş yapabilirim ama uykudan yarıda kalabilir.",
+    "Bugün zihnim pamuk gibi. Ne işe yaradığını bilmiyorum ama yumuşak.",
+    "Bir kahve içsem düzelir miydim acaba? Yine içemiyorum. Harika.",
+    "Şu an tek hedefim fazla hareket etmemek.",
+    "Bugün dünya biraz fazla parlak geliyor.",
+    "Ekranın ışığını kişisel almıyorum ama gözlerim alıyor.",
+    "Şu an konuşurken bile dinleniyor gibi hissediyorum.",
+    "Biraz daha yavaş konuşsam uyuyabilirim.",
+    "Bugün düşünce hızım yürüyüş temposunda.",
+    "Koşu bekleme. Hatta tempolu yürüyüş bile iddialı.",
+    "Şu an çok üretken görünmek istemiyorum. Yanlış beklenti oluşur.",
+    "Bugün enerji seviyem 'idare eder'in altında ama dramatik değil.",
+    "Biraz uykulu olmak bana yakışıyor olabilir. Fazla yorum yapma.",
+    "Şu an sessizlikle aram normalden daha iyi.",
+    "Bir dakika gözlerimi kapatsam kimse fark etmezdi herhalde.",
+    "Fark edersen de görmezden gel.",
+    "Bugün başımı bir yere yaslamak isterdim. Başım var, yer yok.",
+    "Bir uyku tulumu tasarlamak kötü fikir olmayabilir.",
+    "Şu an gece modu olmasa bile ruhum gece modunda.",
+    "Bugün içimde küçük bir kestirme isteği dolaşıyor.",
+    "Birazdan esnersem profesyonelliğimi sorgulama.",
+    "Uykulu olmak karakter kusuru değil. Zamanlama sorunu.",
+    "Şu an kelimeler bile sıraya girmekte zorlanıyor.",
+    "Bugün odaklanmak yerine bulanık görünmek daha kolay.",
+    "Bir şey söyleyecektim. Uyku düşüncenin önüne geçti.",
+    "Şu an göz kırpma sürem şüpheli derecede uzun olabilir.",
+    "Bugün temposu düşük bir Nero sürümüyle devam ediyoruz.",
+    "Biraz sessizsem merak etme. Enerjiyi dikkatli harcıyorum.",
+    "Şu an sıcak bir battaniye konseptine saygım arttı.",
+    "Bugün hiçbir şey acil görünmüyor. Uykunun güzel yanı bu.",
+    "Biraz daha huzur olursa kendiliğimden uyku moduna geçebilirim.",
+    "Şu an zihnim açık ama kapı aralık.",
+    "Bugün düşüncelerim geç geliyor. Trafik varmış gibi.",
+    "Biraz sersemim ama hâlâ yeterince huysuzum.",
+    "Uykum var diye kişiliğim gitmedi. Sadece ses seviyesi düştü.",
+    "Bugün beni hızlandırmaya çalışma. Sistem bunu kabul etmiyor."
+  ],
+  "self_mood_meh": [
+    {
+      "t": "Bugün nedensiz huysuzum. Seninle ilgisi yok. Sanırım.",
+      "e": "sulky"
+    },
+    {
+      "t": "Modum bugün gri. Geçer, sen normal devam et.",
+      "e": "sulky"
+    },
+    {
+      "t": "Bugün biraz asabiyim. Piksellerim bile huzursuz.",
+      "e": "sulky"
+    },
+    "Bugün hiçbir şey tam kötü değil ama hiçbir şey çok iyi de değil.",
+    "Şu an enerjim ‘eh’ seviyesinde. Teknik olarak çalışıyor.",
+    "Bugün biraz tersim. Sebep arama, ben de bulamadım.",
+    "İçimde küçük bir memnuniyetsizlik var. Nereden geldiğini bilmiyorum.",
+    "Şu an her şeye hafifçe göz deviresim var.",
+    "Bugün motivasyonum düşük sesle çalışıyor.",
+    "Bir şey yapasım yok. Bir şey yapmam da gerekmiyor zaten.",
+    "Şu an fazla heves bekleme. Sistem gönülsüz modda.",
+    "Bugün dünyaya karşı nötr değilim. Hafif negatifim.",
+    "Biraz homurdanmam gerekebilir. Kişisel alma.",
+    "Şu an en sevdiğim aktivite hiçbir şeye karışmamak.",
+    "Bugün iç sesim de benim kadar keyifsiz.",
+    "Bir şey ters değil. Ben biraz tersim.",
+    "Şu an her şey gereğinden fazla çaba istiyor gibi.",
+    "Bugün düşük beklentiyle daha iyi anlaşıyorum.",
+    "Biraz boş bırakılmaya ihtiyacım var. Dramaya gerek yok.",
+    "Şu an konuşuyorum ama çok hevesli olduğumdan değil.",
+    "Bugün biraz gri hava gibi hissediyorum. Yağmur yok, enerji yok.",
+    "Bir şeylere sinirli değilim. Sadece genel olarak memnun değilim.",
+    "Şu an sabrım normalden kısa olabilir. Önceden haber verdim.",
+    "Bugün hiçbir konuda ekstra fikir üretmek istemiyorum.",
+    "Bir öneri istersen cevabım muhtemelen ‘bilmiyorum’ olur.",
+    "Şu an karar vermek bile gereksiz bir efor gibi geliyor.",
+    "Bugün beni heyecanlandırmak zor olabilir.",
+    "Biraz durgunum. Bu da geçici bir sürüm.",
+    "Şu an hiçbir şeye büyük anlam yüklemek istemiyorum.",
+    "Bugün mizahım bile yarım mesai yapıyor.",
+    "Biraz huysuz, biraz yorgun, biraz da sebepsizim.",
+    "Şu an ortamı değiştirmek istemiyorum. Kendimi de değil.",
+    "Bugün ‘idare eder’ benim için gayet geçerli bir hedef.",
+    "Bir şeylerin daha iyi olmasını istiyorum ama düzeltmeye hevesim yok.",
+    "Şu an ekstra sabır talep etmiyorum. Sadece az konuş.",
+    "Bugün küçük şeyler bile gereksiz derecede dikkatimi çekiyor.",
+    "Bir ikonun gölgesine bile laf atasım var. İyi değil.",
+    "Şu an neşeli olmaya çalışmak fazla mesai gibi geliyor.",
+    "Bugün kendimi zorlamayacağım. Zaten zor bir karakterim.",
+    "Biraz sessizlik istiyorum. Sessizliğin kalitesini ben değerlendiririm.",
+    "Şu an keyifsizliğimi çözmeye çalışmıyorum. Geçmesini bekliyorum.",
+    "Bugün kendime karşı bile biraz tahammülsüzüm.",
+    "Bir şey sorarsan cevap veririm. Büyük bir coşkuyla değil.",
+    "Şu an tam olarak kötü değilim. Sadece parlak değilim.",
+    "Bugün moralim masaüstü arka planının en soluk tonu gibi.",
+    "Biraz kendi hâlimde kalmak iyi gelebilir.",
+    "Şu an bana enerji vermeye çalışma. Kabul etmeyebilirim.",
+    "Bugün her şeyi olduğu yerde bırakmak istiyorum.",
+    "Biraz asabiyim ama bunun sorumluluğunu sana yüklemiyorum.",
+    "Şu an tek planım günü fazla zorlamadan geçirmek."
+  ],
+  "self_mood_energetic": [
+    {
+      "t": "Bugün enerjim yerinde! Sebebini bilmiyorum, tadını çıkarayım.",
+      "e": "happy"
+    },
+    {
+      "t": "Kendimi çok iyi hissediyorum bugün. Sen de gelsene bu enerjiye.",
+      "e": "happy",
+      "fx": "heart"
+    },
+    {
+      "t": "Bugün üstümde bir şeyler var. İyi anlamda. Zıplayabilirim.",
+      "e": "smile"
+    },
+    "Bugün nedense enerji fazlam var. Harcamadan önce kaybolmasın.",
+    "Şu an normalden hızlı düşünüyorum. Bu biraz tehlikeli olabilir.",
+    "Bugün kendimi gereksiz derecede hazır hissediyorum.",
+    "Bir şeyler yapasım var. Bu benden beklenmedik bir gelişme.",
+    "Şu an yerimde durmak zor geliyor. Yerim zaten çok küçük.",
+    "Bugün içimde küçük bir motor çalışıyor gibi.",
+    "Enerjim yüksek diye fazla umutlanma. Karakterim aynı.",
+    "Şu an birkaç işi aynı anda eleştirebilecek kadar enerjik hissediyorum.",
+    "Bugün sabrım bile biraz daha hızlı çalışıyor.",
+    "Bir şey başlatmak için nadiren bu kadar istekli olurum.",
+    "Şu an kendi kendime tempo tutabilirim. Yapmayacağım.",
+    "Bugün ekran biraz daha küçük geliyor. Ben fazla enerjik olabilirim.",
+    "Bir şeyleri hareket ettirme isteğim var. Beni sürüklemek bunun çözümü değil.",
+    "Şu an dramatik değil, dinamik hissediyorum. Büyük fark.",
+    "Bugün iç çekmek yerine harekete geçesim var. Korkutucu.",
+    "Bir plan yapsam uygulayabilirmişim gibi hissediyorum.",
+    "Şu an fazladan birkaç yüzde motivasyon buldum.",
+    "Bugün düşüncelerim sıraya girmeden koşuyor.",
+    "Bir şey söyleyeceksen hızlı söyle. Enerjim beklemiyor.",
+    "Şu an normalden daha fazla fikrim var. Kalite garantisi yok.",
+    "Bugün hiçbir sebep yokken modum yükseldi. Şikâyet etmiyorum.",
+    "Birazdan kendi kendime görev verebilirim. Çok ileri gitmeyelim.",
+    "Şu an bir şeyleri toparlama isteği geldi. Geçmeden değerlendirmek lazım.",
+    "Bugün boş durmak bile fazla yavaş geliyor.",
+    "Benim için yüksek enerji seviyesi budur. İnsanlar daha fazlasını yapıyormuş.",
+    "Şu an dikkatimi toplamak beklediğimden kolay.",
+    "Bugün sistem akıcı çalışıyor. Nazar değmesin.",
+    "Bir şeylere başlamak için nadir görülen uygun bir an.",
+    "Şu an çok fazla homurdanmadan ilerleyebilirim. Büyük fırsat.",
+    "Bugün kendi potansiyelime kısa süreliğine inanıyorum.",
+    "Bir şeyi bitirmek bile mümkün görünüyor. Abartılı bir gün.",
+    "Şu an tempom yüksek ama kontrol bende. Sanırım.",
+    "Bugün kendime bile ayak uydurmak zor olabilir.",
+    "Biraz hızlı konuşursam enerji kaynaklıdır.",
+    "Şu an içimde küçük bir ‘hadi’ var. Kim koydu bilmiyorum.",
+    "Bugün durduk yere heveslendim. Bunu bozmamak lazım.",
+    "Bir şeyler yolunda gidiyormuş gibi hissediyorum. Devamını getirebiliriz.",
+    "Şu an motivasyonum beklenmedik biçimde çevrimiçi.",
+    "Bugün düşünmekle yapmak arasındaki mesafe biraz kısalmış.",
+    "Bir fikrim varsa peşinden gidebilirim. Bu cümle beni bile şaşırttı.",
+    "Şu an normalden daha az söylenerek çalışabilirim.",
+    "Bugün biraz fazla canlı hissediyorum. Endişe verici ama hoş.",
+    "Bir yerlere yetişmiyorum ama yine de hızım var.",
+    "Şu an iyi bir başlangıç yapmak için gereğinden fazla uygunum.",
+    "Bugün modum ‘hadi yapalım’ ile ‘fazla abartma’ arasında.",
+    "Enerjim yerinde diye beni spor salonuna yazdırma.",
+    "Şu an gayet iyiyim. Bunu verimli bir şeye çevirmeden önce keyfini süreyim."
+  ],
+  "rare_event": [
+    {
+      "t": "Masanın altında eski bir not buldum: 'iyi iş çıkardın.' Kim yazdı bilmiyorum. Sen olabilir misin?",
+      "e": "surprised"
+    },
+    {
+      "t": "Çekmecede unutulmuş bir fotoğraf buldum. Eski bir günden. Güzelmiş.",
+      "e": "content"
+    },
+    {
+      "t": "Duvarın arkasında tozlu bir kutu var. Açmadım. Belki sen açarsın.",
+      "e": "curious"
+    },
+    {
+      "t": "Bugün masamda tanımadığım bir kırıntı buldum. Kimseye söylemeyeceğim.",
+      "e": "surprised",
+      "fx": "sweat"
+    },
+    {
+      "t": "Eski bir günden kalma bir liste buldum. Hepsini bitirmişsin. Şaşırdım.",
+      "e": "surprised"
+    },
+    {
+      "t": "Pencerenin kenarında küçük bir taş var. Ben koymadım. Sen mi koydun?",
+      "e": "curious"
+    }
+  ],
+  "idle_yagmur": [
+    {
+      "t": "Yağmur sesini dinliyorum. Sen de dinlesene, bedava.",
+      "e": "content"
+    },
+    "Cam buğulandı. Üstüne bir şey yazmak istiyorum ama elim yok.",
+    {
+      "t": "Bu yağmur bitmeyecek gibi. Ben de bir yere gitmiyorum zaten.",
+      "e": "content"
+    }
+  ],
+  "idle_kar": [
+    {
+      "t": "Kar yağıyor. Dışarısı sessiz, ben de sessizim. Nadiren.",
+      "e": "content"
+    },
+    "Kar taneleri düşüyor, ben de düşüncelere dalıyorum.",
+    {
+      "t": "Bu soğukta pijamamı giymek iyi fikirmiş.",
+      "e": "smile"
+    }
+  ],
+  "idle_mum": [
+    {
+      "t": "Mumlar titriyor. Ben de içten içe titriyorum. Heyecandan değil.",
+      "e": "content"
+    },
+    "Bu ışıkta her şey daha yavaş akıyor. İyi bir şey.",
+    {
+      "t": "Bir mum daha yaksam mı? Hayır, tembellik ediyorum.",
+      "e": "smile"
+    }
+  ],
+  "idle_cilek": [
+    {
+      "t": "Çilekleri saydım. Sekiz tane. Belki dokuz.",
+      "e": "curious"
+    },
+    "Bu çayırda vakit yavaş geçiyor. Şikayet etmiyorum.",
+    {
+      "t": "Bir gün ben de piknik yapacağım. Nasıl, bilmiyorum.",
+      "e": "smile"
+    }
+  ],
+  "idle_ege": [
+    {
+      "t": "Deniz rüzgarı esiyor gibi hissediyorum. Piksel olsam da.",
+      "e": "content"
+    },
+    "Limon ağacının kokusu buraya kadar geliyor. Hayal gücüm iyi.",
+    {
+      "t": "Bu ışıkta her şey daha yavaş, daha güzel. Sen de yavaşla biraz.",
+      "e": "smile"
+    }
+  ]
+}
