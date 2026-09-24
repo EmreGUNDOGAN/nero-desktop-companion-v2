@@ -100,15 +100,14 @@
     "idle": {
       "count": 300,
       "status": "approved_reconciled_old_22_plus_278_new"
+    },
+    "click": {
+      "count": 150,
+      "status": "approved"
     }
   },
   "pending_reconcile": {},
   "pending_recovery": {
-    "click": {
-      "current_count": 16,
-      "target_count": 150,
-      "status": "approved_in_chat_but_full_final_text_not_in_recovery_bundle"
-    },
     "poke_spam": {
       "current_count": 8,
       "target_count": 100,
