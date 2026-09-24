@@ -188,6 +188,10 @@
     "greet_morning": {
       "count": 150,
       "status": "approved"
+    },
+    "greet_afternoon": {
+      "count": 150,
+      "status": "approved"
     }
   },
   "pending_reconcile": {},
