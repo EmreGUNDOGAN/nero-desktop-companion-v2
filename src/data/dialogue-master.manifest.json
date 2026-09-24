@@ -120,6 +120,10 @@
     "timer_cancel_late": {
       "count": 150,
       "status": "approved"
+    },
+    "nap_woken_timer": {
+      "count": 75,
+      "status": "approved"
     }
   },
   "pending_reconcile": {},
@@ -175,12 +179,7 @@
       "status": "approved_in_chat_but_full_final_text_not_in_recovery_bundle"
     }
   },
-  "not_yet_expanded": {
-    "nap_woken_timer": {
-      "current_count": 2,
-      "status": "queued"
-    }
-  },
+  "not_yet_expanded": {},
   "recovery_notes": {
     "idle": "Canonical old 22 entries preserved first, including their expression metadata; 278 approved new lines appended. 22 new draft lines with the strongest overlap to the canonical old pool were omitted to keep the final target at 300."
   }
