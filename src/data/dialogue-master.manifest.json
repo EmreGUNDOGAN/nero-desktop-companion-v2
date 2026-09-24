@@ -208,6 +208,10 @@
     "return_long": {
       "count": 150,
       "status": "approved"
+    },
+    "return_days": {
+      "count": 150,
+      "status": "approved"
     }
   },
   "pending_reconcile": {},
