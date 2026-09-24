@@ -164,6 +164,7 @@ let quickWin = null;
 let beeWin = null;
 let beeStore = null;
 let bee = null;
+let lastBeeAlertAt = 0;
 let tray = null;
 let quickShortcutOn = false;
 let currentTheme = null;
@@ -1629,6 +1630,7 @@ function registerIpc() {
     todosStore.set(todos);
     stats.todoDone(todo.done ? 1 : -1, { createdAt: todo.createdAt });
     if (todo.done) {
+      if (bee) { bee.todoCompleted(); sendBee(); }
       journal.archiveDone(todo.text);
       if (settings().sound) sendTo(charWin, 'sound', 'pop');
       const activeTodos = todos.filter((t) => !t.archivedAt);
@@ -2059,6 +2061,7 @@ function wireTimer() {
     stats.focus(minutes, true, { pajama: currentOutfit() === 'pajama', pauseResumeCount: timerPauseResumeCount });
     stats.recordInteraction('timer_done', { stage: mood.stage });
     timerPauseResumeCount = 0;
+    if (bee && bee.focusCompleted(minutes)) sendBee();
     homeDialogue.recordTimerResult(true);
     const woke = wakeNap('timer');
     mood.interact('timer_done');
@@ -2100,6 +2103,16 @@ function startLoops() {
     if (bee.tick()) {
       sendBee();
       if (Math.random() < 0.1) bee.save();
+    }
+
+    // Oyun penceresi önde değilken Nero, önemli arıcılık durumlarını haber verir.
+    const alerts = bee.pendingAlerts();
+    if (alerts.length && !gameInFront && Date.now() - lastBeeAlertAt > 90 * 1000) {
+      const s = settings();
+      if (!s.muted && !s.hidden && !mood.state.asleep && !mood.state.napping) {
+        lastBeeAlertAt = Date.now();
+        say(alerts[0].kind, alerts[0].vars, { interrupt: false });
+      }
     }
   }, 1000);
 

@@ -9398,5 +9398,61 @@
       "t": "Bu ışıkta her şey daha yavaş, daha güzel. Sen de yavaşla biraz.",
       "e": "smile"
     }
+  ],
+  "bee_hive_full": [
+    {
+      "t": "{hive} doldu! Arılar boşta oturuyor, hasat et.",
+      "e": "curious"
+    },
+    {
+      "t": "Arılardan haber var: {hive} tıka basa bal dolu.",
+      "e": "surprised"
+    },
+    {
+      "t": "{hive} doldu. Bal kendiliğinden depoya yürümüyor.",
+      "e": "sulky"
+    }
+  ],
+  "bee_order_due": [
+    {
+      "t": "{who} siparişini bekliyor, 1 günden az kaldı!",
+      "e": "surprised",
+      "fx": "sweat"
+    },
+    {
+      "t": "{who} kapıda bekliyor. Süre dolmak üzere.",
+      "e": "curious"
+    }
+  ],
+  "bee_winter": [
+    {
+      "t": "Kış geldi, kovanlarda erzak yok. Şurup ver yoksa arılar üşür.",
+      "e": "sad"
+    },
+    {
+      "t": "Arılar üşüyor. Oyuna bir bak, şurup lazım.",
+      "e": "curious"
+    }
+  ],
+  "bee_overtaken": [
+    {
+      "t": "{rival} seni liderlikte geçti. Bunu hazmedemedim.",
+      "e": "angry",
+      "fx": "angry"
+    },
+    {
+      "t": "Haber kötü: {rival} öne geçti. Kovanlara dönme vakti.",
+      "e": "sulky"
+    }
+  ],
+  "bee_sick": [
+    {
+      "t": "{hive} hastalanmış. İlaç vermezsen arılar azalacak.",
+      "e": "sad"
+    },
+    {
+      "t": "Arıcılıktan acil haber: {hive} hasta.",
+      "e": "surprised"
+    }
   ]
 }

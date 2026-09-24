@@ -25,7 +25,10 @@
       "title",
       "version",
       "item",
-      "text"
+      "text",
+      "hive",
+      "who",
+      "rival"
     ]
   },
   "approved_expanded": {
@@ -259,6 +262,26 @@
     },
     "peek_caught": {
       "count": 100,
+      "status": "approved"
+    },
+    "bee_hive_full": {
+      "count": 3,
+      "status": "approved"
+    },
+    "bee_order_due": {
+      "count": 2,
+      "status": "approved"
+    },
+    "bee_winter": {
+      "count": 2,
+      "status": "approved"
+    },
+    "bee_overtaken": {
+      "count": 2,
+      "status": "approved"
+    },
+    "bee_sick": {
+      "count": 2,
       "status": "approved"
     }
   },
