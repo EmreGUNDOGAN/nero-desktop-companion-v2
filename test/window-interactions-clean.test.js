@@ -11,7 +11,7 @@ const preload = fs.readFileSync(path.join(__dirname, '../src/preload/preload.js'
 
 test('panel drag native app-region kullanmaz ve window controls ile çakışmaz', () => {
   assert.match(css, /\.top\s*\{[\s\S]*?-webkit-app-region:\s*no-drag;/);
-  assert.match(css, /\.panel-drag-zone\s*\{[\s\S]*?-webkit-app-region:\s*no-drag;[\s\S]*?right:\s*205px;/);
+  assert.match(css, /\.panel-drag-zone\s*\{[\s\S]*?-webkit-app-region:\s*no-drag;[\s\S]*?right:\s*290px;/);
   assert.match(css, /\.window-controls\s*\{[\s\S]*?z-index:\s*1000\s*!important;/);
 });
 
