@@ -136,6 +136,10 @@
     "nap_start": {
       "count": 150,
       "status": "approved"
+    },
+    "snore": {
+      "count": 150,
+      "status": "approved"
     }
   },
   "pending_reconcile": {},
