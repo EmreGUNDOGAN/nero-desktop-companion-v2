@@ -18,7 +18,7 @@ test('başlık kontrolleri manual drag yüzeyinden ayrıdır ve tıklanabilir ka
     assert.match(html, new RegExp(`id="${id}"`));
   }
   assert.match(panelCss, /\.top\s*\{[\s\S]*?-webkit-app-region:\s*no-drag;/);
-  assert.match(panelCss, /\.panel-drag-zone\s*\{[\s\S]*?-webkit-app-region:\s*no-drag;[\s\S]*?right:\s*205px;[\s\S]*?cursor:\s*move;/);
+  assert.match(panelCss, /\.panel-drag-zone\s*\{[\s\S]*?-webkit-app-region:\s*no-drag;[\s\S]*?right:\s*290px;[\s\S]*?cursor:\s*move;/);
   assert.match(panelCss, /\.window-controls\s*\{[\s\S]*?-webkit-app-region:\s*no-drag;[\s\S]*?z-index:\s*1000\s*!important;/);
   assert.match(panelCss, /\.window-controls,\s*\n\.window-controls \*\s*\{[\s\S]*?pointer-events:\s*auto;/);
   assert.match(panelCss, /\.window-controls > \.close\s*\{[\s\S]*?position:\s*static\s*!important;/);
