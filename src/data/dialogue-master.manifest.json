@@ -180,6 +180,10 @@
     "pajama_off": {
       "count": 100,
       "status": "approved"
+    },
+    "first_run": {
+      "count": 15,
+      "status": "approved"
     }
   },
   "pending_reconcile": {},
