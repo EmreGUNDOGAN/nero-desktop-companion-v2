@@ -164,6 +164,10 @@
     "rest_goodnight": {
       "count": 100,
       "status": "approved"
+    },
+    "rest_more": {
+      "count": 100,
+      "status": "approved"
     }
   },
   "pending_reconcile": {},
