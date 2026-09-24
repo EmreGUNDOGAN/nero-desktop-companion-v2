@@ -55,9 +55,9 @@ const PANEL_MIN = { width: 380, height: 540 };
 const PANEL_MAX = { width: 960, height: 1100 };
 
 const TALK_INTERVALS = { // dakika [min, max]
-  az: [30, 55],
-  normal: [14, 28],
-  cok: [6, 14]
+  az: [20, 35],
+  normal: [8, 15],
+  cok: [4, 8]
 };
 
 const DEFAULT_SETTINGS = {
@@ -114,7 +114,7 @@ let petTimes = [];
 let dizzyUntil = 0;
 let lastDesktopJokeAt = 0;
 let peek = null;              // sürpriz ziyaret sürerken { home, done }
-let nextPeekAt = Date.now() + 20 * 60 * 1000;
+let nextPeekAt = Date.now() + (25 + Math.random() * 20) * MIN;
 // Kestirme (rastgele uyku) ve uyku sersemliği
 let napUntil = 0;
 let nextNapAt = 0; // ilk kestirme zamanı başlangıçta hesaplanır
@@ -1273,11 +1273,12 @@ function petNero() {
   stats.pet({ stage: preStage, ignoredMs, dizzy: Date.now() < dizzyUntil });
   if (woke) { mood.interact('pet'); broadcastState(); return; }
   petTimes = [...petTimes.filter((t) => now - t < 2 * MIN), now];
-  if (petTimes.length > 6) {
+  if (petTimes.length >= 3) {
     mood.interact('pet_too_much');
     updateBaseline();
     say('pet_too_much');
-    petTimes = petTimes.slice(-3);
+    // Üçüncü algılanan pet olayı tepkiyi tetikler; sonraki tetik için üç yeni pet gerekir.
+    petTimes = [];
   } else {
     const r = mood.interact('pet');
     updateBaseline();
@@ -2057,7 +2058,7 @@ function startLoops() {
     maybeShiftSelfMood();
     checkDaySummary();
     if (Date.now() >= nextPeekAt && !mood.state.napping) {
-      nextPeekAt = Date.now() + rand(45, 100) * MIN;
+      nextPeekAt = Date.now() + rand(25, 45) * MIN;
       if (settings().peekVisits !== false) doPeek();
     }
     if (Date.now() < nextTalkAt) return;
@@ -2162,16 +2163,31 @@ async function doPeek() {
 
   let cut;
   const cutPromise = new Promise((r) => { cut = r; });
+  const restoreAlwaysOnTop = s.alwaysOnTop !== false;
+  const visibleMs = rand(4500, 6500);
   peek = { home: { x: b.x, y: b.y }, cut };
+
+  // Peek sırasında normal masaüstü pencerelerinin üzerinde kalır, ancak focus çalmaz.
+  try {
+    charWin.setAlwaysOnTop(true, 'screen-saver');
+    charWin.showInactive();
+    charWin.moveTop();
+  } catch (_) { /* platform fallback */ }
+
   sendTo(charWin, 'peek', { mode, side, visible });
   await animateBounds(b, { ...b, ...target }, mode === 'center' ? 220 : 520);
   say(mode === 'center' ? 'peek_center' : 'peek_edge', {}, { force: false });
-  await Promise.race([new Promise((r) => setTimeout(r, 5200)), cutPromise]);
+  await Promise.race([new Promise((r) => setTimeout(r, visibleMs)), cutPromise]);
   if (!charWin) { peek = null; return; }
-  await new Promise((r) => setTimeout(r, 900));
   const now = charWin.getBounds();
   await animateBounds(now, { ...now, ...peek.home }, 480);
   sendTo(charWin, 'peek', null);
+
+  // Kullanıcının peek öncesindeki topmost tercihine geri dön.
+  try {
+    if (restoreAlwaysOnTop) charWin.setAlwaysOnTop(true, 'floating');
+    else charWin.setAlwaysOnTop(false);
+  } catch (_) { /* platform fallback */ }
   peek = null;
 }
 
