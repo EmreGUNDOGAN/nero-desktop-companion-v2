@@ -1,0 +1,188 @@
+{
+  "schema_version": 1,
+  "release": "5.0.0",
+  "canonical_source": "src/data/dialogue.master.tr.json",
+  "generated_output": "src/data/dialogue.tr.json",
+  "rules": {
+    "random_selection": true,
+    "standalone_entries": true,
+    "exact_duplicates_forbidden_within_category": true,
+    "allowed_placeholders": [
+      "name",
+      "hours",
+      "days",
+      "label",
+      "minutes",
+      "focus",
+      "todos",
+      "streak",
+      "done",
+      "quit",
+      "nero",
+      "quote",
+      "pets",
+      "sighs",
+      "title",
+      "version",
+      "item",
+      "text"
+    ]
+  },
+  "approved_expanded": {
+    "remark": {
+      "count": 300,
+      "status": "approved"
+    },
+    "happy": {
+      "count": 100,
+      "status": "approved"
+    },
+    "bored": {
+      "count": 100,
+      "status": "approved"
+    },
+    "sulky": {
+      "count": 75,
+      "status": "approved"
+    },
+    "lonely": {
+      "count": 75,
+      "status": "approved"
+    },
+    "returned": {
+      "count": 75,
+      "status": "approved"
+    },
+    "self_mood_sleepy": {
+      "count": 50,
+      "status": "approved"
+    },
+    "self_mood_meh": {
+      "count": 50,
+      "status": "approved"
+    },
+    "self_mood_energetic": {
+      "count": 50,
+      "status": "approved"
+    },
+    "todo_add": {
+      "count": 200,
+      "status": "approved"
+    },
+    "todo_done": {
+      "count": 200,
+      "status": "approved"
+    },
+    "todo_all_done": {
+      "count": 100,
+      "status": "approved"
+    },
+    "note_add": {
+      "count": 250,
+      "status": "approved"
+    },
+    "panel_open": {
+      "count": 200,
+      "status": "approved"
+    },
+    "timer_start": {
+      "count": 200,
+      "status": "approved"
+    },
+    "timer_done": {
+      "count": 250,
+      "status": "approved"
+    },
+    "timer_pause": {
+      "count": 150,
+      "status": "approved"
+    }
+  },
+  "pending_reconcile": {
+    "idle": {
+      "current_count": 22,
+      "target_count": 300,
+      "status": "needs_old_22_plus_new_reconciliation",
+      "note": "Do not overwrite automatically until the approved 300 pool is reconciled with the canonical old 22."
+    }
+  },
+  "pending_recovery": {
+    "click": {
+      "current_count": 16,
+      "target_count": 150,
+      "status": "approved_in_chat_but_full_final_text_not_in_recovery_bundle"
+    },
+    "poke_spam": {
+      "current_count": 8,
+      "target_count": 100,
+      "status": "approved_in_chat_but_full_final_text_not_in_recovery_bundle"
+    },
+    "drag_start": {
+      "current_count": 6,
+      "target_count": 100,
+      "status": "approved_in_chat_but_full_final_text_not_in_recovery_bundle"
+    },
+    "drag_end": {
+      "current_count": 6,
+      "target_count": 100,
+      "status": "approved_in_chat_but_full_final_text_not_in_recovery_bundle"
+    },
+    "pet": {
+      "current_count": 7,
+      "target_count": 150,
+      "status": "approved_in_chat_but_full_final_text_not_in_recovery_bundle"
+    },
+    "pet_too_much": {
+      "current_count": 4,
+      "target_count": 100,
+      "status": "approved_in_chat_but_full_final_text_not_in_recovery_bundle"
+    },
+    "shake": {
+      "current_count": 4,
+      "target_count": 100,
+      "status": "approved_in_chat_but_full_final_text_not_in_recovery_bundle"
+    },
+    "dizzy": {
+      "current_count": 4,
+      "target_count": 100,
+      "status": "approved_in_chat_but_full_final_text_not_in_recovery_bundle"
+    },
+    "peek_center": {
+      "current_count": 7,
+      "target_count": 100,
+      "status": "approved_in_chat_but_full_final_text_not_in_recovery_bundle"
+    },
+    "peek_edge": {
+      "current_count": 6,
+      "target_count": 100,
+      "status": "approved_in_chat_but_full_final_text_not_in_recovery_bundle"
+    },
+    "peek_caught": {
+      "current_count": 3,
+      "target_count": 100,
+      "status": "approved_in_chat_but_full_final_text_not_in_recovery_bundle"
+    }
+  },
+  "not_yet_expanded": {
+    "timer_resume": {
+      "current_count": 5,
+      "status": "next"
+    },
+    "timer_cancel_early": {
+      "current_count": 6,
+      "status": "queued"
+    },
+    "timer_cancel_mid": {
+      "current_count": 6,
+      "status": "queued"
+    },
+    "timer_cancel_late": {
+      "current_count": 5,
+      "status": "queued"
+    },
+    "nap_woken_timer": {
+      "current_count": 2,
+      "status": "queued"
+    }
+  }
+}
