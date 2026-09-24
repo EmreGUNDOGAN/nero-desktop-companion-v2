@@ -112,6 +112,10 @@
     "timer_cancel_early": {
       "count": 150,
       "status": "approved"
+    },
+    "timer_cancel_mid": {
+      "count": 150,
+      "status": "approved"
     }
   },
   "pending_reconcile": {},
@@ -168,10 +172,6 @@
     }
   },
   "not_yet_expanded": {
-    "timer_cancel_mid": {
-      "current_count": 6,
-      "status": "queued"
-    },
     "timer_cancel_late": {
       "current_count": 5,
       "status": "queued"
