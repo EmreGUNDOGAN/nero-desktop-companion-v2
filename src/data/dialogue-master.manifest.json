@@ -96,16 +96,13 @@
     "timer_pause": {
       "count": 150,
       "status": "approved"
-    }
-  },
-  "pending_reconcile": {
+    },
     "idle": {
-      "current_count": 22,
-      "target_count": 300,
-      "status": "needs_old_22_plus_new_reconciliation",
-      "note": "Do not overwrite automatically until the approved 300 pool is reconciled with the canonical old 22."
+      "count": 300,
+      "status": "approved_reconciled_old_22_plus_278_new"
     }
   },
+  "pending_reconcile": {},
   "pending_recovery": {
     "click": {
       "current_count": 16,
@@ -184,5 +181,8 @@
       "current_count": 2,
       "status": "queued"
     }
+  },
+  "recovery_notes": {
+    "idle": "Canonical old 22 entries preserved first, including their expression metadata; 278 approved new lines appended. 22 new draft lines with the strongest overlap to the canonical old pool were omitted to keep the final target at 300."
   }
 }
