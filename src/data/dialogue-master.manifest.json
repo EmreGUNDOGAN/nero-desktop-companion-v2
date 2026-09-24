@@ -140,6 +140,10 @@
     "snore": {
       "count": 150,
       "status": "approved"
+    },
+    "nap_woken": {
+      "count": 150,
+      "status": "approved"
     }
   },
   "pending_reconcile": {},
