@@ -192,6 +192,10 @@
     "greet_afternoon": {
       "count": 150,
       "status": "approved"
+    },
+    "greet_evening": {
+      "count": 150,
+      "status": "approved"
     }
   },
   "pending_reconcile": {},
