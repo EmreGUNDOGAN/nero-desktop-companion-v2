@@ -13,6 +13,8 @@ const {
 // Veriler her zaman %APPDATA%\Nero altında dursun (kurulum betiği de burayı temizler).
 app.setPath('userData', path.join(app.getPath('appData'), 'Nero'));
 app.setAppUserModelId('com.stenwick.nero');
+// Arıcılık 3D sahnesi ekran kartı olmayan sistemlerde de yazılımla çizilebilsin.
+app.commandLine.appendSwitch('enable-unsafe-swiftshader');
 
 const { JsonStore } = require('./store');
 const { ThemeManager, SCHEME } = require('./themes');
@@ -22,6 +24,7 @@ const { Timer } = require('./timer');
 const { Stats, dayKey } = require('./stats');
 const { HomeDialogueEngine } = require('./home-dialogue');
 const { Journal, isoWeekKey } = require('./journal');
+const { BeeGame } = require('./bee');
 const { monthKey: moodMonthKey, monthLabelTr, userMonth, setUserMood, dataMonths, closedDataMonths, renderMoodboardSvg } = require('./moodboard');
 const { svgToPng } = require('./moodboard-image');
 const {
@@ -158,6 +161,9 @@ function watchWindow(win, name) {
 let charWin = null;
 let panelWin = null;
 let quickWin = null;
+let beeWin = null;
+let beeStore = null;
+let bee = null;
 let tray = null;
 let quickShortcutOn = false;
 let currentTheme = null;
@@ -173,6 +179,43 @@ let lastPanelToggleAt = 0;
 let screenLocked = false;
 let panelLink = null;         // panelin karaktere göre konumu { dx, dy }
 let syncingMove = false;
+
+function openBeeWindow() {
+  if (!bee) return false;
+  if (beeWin && !beeWin.isDestroyed()) {
+    if (beeWin.isMinimized()) beeWin.restore();
+    beeWin.show();
+    beeWin.focus();
+    return true;
+  }
+
+  beeWin = new BrowserWindow({
+    width: 1100, height: 720, minWidth: 820, minHeight: 560,
+    title: 'Nero · Arıcılık', backgroundColor: '#CFE9F7',
+    autoHideMenuBar: true, show: false,
+    icon: iconPath,
+    webPreferences: {
+      preload: path.join(__dirname, '..', 'preload', 'bee-preload.js'),
+      contextIsolation: true, nodeIntegration: false, sandbox: true
+    }
+  });
+  beeWin.loadFile(path.join(__dirname, '..', 'renderer', 'bee', 'index.html'));
+  beeWin.once('ready-to-show', () => { if (beeWin && !beeWin.isDestroyed()) beeWin.show(); });
+  beeWin.on('closed', () => {
+    beeWin = null;
+    if (bee) bee.markAway();
+  });
+  watchWindow(beeWin, 'arıcılık');
+  return true;
+}
+
+function sendBee() {
+  if (!bee) return;
+  const events = bee.drainEvents();
+  if (!beeWin || beeWin.isDestroyed()) return;
+  beeWin.webContents.send('bee:state', bee.view());
+  if (events.length) beeWin.webContents.send('bee:events', events);
+}
 
 // Achievement v2 kısa süreli etkileşim durumu (kalıcı metrikler Stats içinde tutulur).
 let lastSpeechEndedAt = 0;
@@ -1457,6 +1500,50 @@ function pauseAllTodoStopwatches({ final = false } = {}) {
 // IPC
 // ---------------------------------------------------------------------------
 function registerIpc() {
+  ipcMain.handle('bee:open', () => openBeeWindow());
+  ipcMain.handle('bee:state', () => {
+    if (!bee) return null;
+    bee.markSeen();
+    return bee.view();
+  });
+  ipcMain.handle('bee:summary', () => (bee ? bee.takeAwaySummary() : null));
+  ipcMain.handle('bee:action', (_e, action, arg1, arg2) => {
+    if (!bee) return { res: { ok: false, msg: 'Arıcılık henüz hazır değil.' }, view: null, events: [] };
+    bee.markSeen();
+    const map = {
+      buyTile: () => bee.buyTile(arg1),
+      placeHive: () => bee.placeHive(arg1),
+      plantSeed: () => bee.plantSeed(arg1, arg2),
+      removeFlower: () => bee.removeFlower(arg1),
+      replant: () => bee.replant(arg1),
+      harvest: () => bee.requestHarvest(arg1),
+      harvestAll: () => bee.harvestAll(),
+      buyBee: () => bee.buyBee(arg1),
+      sellBee: () => bee.sellBee(arg1),
+      upgrade: () => bee.upgrade(arg1),
+      syrup: () => bee.giveSyrup(arg1),
+      sellHive: () => bee.sellHive(arg1),
+      sellHoney: () => bee.sellHoney(arg1, arg2),
+      upgradeStorage: () => bee.upgradeStorage(),
+      acceptOrder: () => bee.acceptOrder(arg1),
+      deliverOrder: () => bee.deliverOrder(arg1),
+      rejectOrder: () => bee.rejectOrder(arg1),
+      swapOrder: () => bee.swapOrder(arg1),
+      speed: () => bee.setSpeed(Number(arg1)),
+      medicine: () => bee.giveMedicine(arg1),
+      placeDecor: () => bee.placeDecor(arg1, arg2),
+      removeDecor: () => bee.removeDecor(arg1),
+      enterFestival: () => bee.enterFestival(arg1, arg2),
+      changeBreed: () => bee.changeBreed(arg1, arg2),
+      makeCandle: () => bee.makeCandle(),
+      sellCandles: () => bee.sellCandles(),
+      finishTutorial: () => bee.finishTutorial()
+    };
+    const fn = map[action];
+    const res = fn ? fn() : { ok: false, msg: 'Bilinmeyen işlem.' };
+    return { res, view: bee.view(), events: bee.drainEvents() };
+  });
+
   ipcMain.handle('state:get', () => fullState());
   ipcMain.handle('theme:get', () => themePayload());
 
@@ -2005,6 +2092,17 @@ function wireTimer() {
 // Döngüler
 // ---------------------------------------------------------------------------
 function startLoops() {
+  // Arıcılık ana süreçte ilerler; oyun penceresi kapalıyken de üretim sürer.
+  setInterval(() => {
+    if (!bee) return;
+    const gameInFront = beeWin && !beeWin.isDestroyed() && beeWin.isVisible() && beeWin.isFocused();
+    if (gameInFront) bee.markSeen();
+    if (bee.tick()) {
+      sendBee();
+      if (Math.random() < 0.1) bee.save();
+    }
+  }, 1000);
+
   // Göz takibi için fare konumu (~30 fps). Sadece değiştiğinde gönderilir.
   setInterval(() => {
     if (!charWin || !charWin.isVisible()) return;
@@ -2431,7 +2529,7 @@ function checkForUpdates(manual) {
 function installUpdateNow() {
   if (!updater || updateState.status === 'idle') return false;
   isQuitting = true;
-  for (const store of [settingsStore, notesStore, todosStore, moodStore, statsStore, moodLogStore, archiveStore, jarStore, homeDialogueStore, userMoodStore, dialogueHistoryStore]) store?.flush();
+  for (const store of [settingsStore, notesStore, todosStore, moodStore, statsStore, moodLogStore, archiveStore, jarStore, homeDialogueStore, userMoodStore, dialogueHistoryStore, beeStore]) store?.flush();
   setImmediate(() => updater.quitAndInstall(true, true));
   return true;
 }
@@ -2518,6 +2616,9 @@ app.whenReady().then(() => {
   homeDialogueStore = new JsonStore(userData, 'home-dialogue-state', {});
   userMoodStore = new JsonStore(userData, 'user-moodboard', { days: {}, exports: {} });
   dialogueHistoryStore = new JsonStore(userData, 'dialogue-history', { recent: {} });
+  beeStore = new JsonStore(userData, 'bee', {});
+  bee = new BeeGame(beeStore);
+  bee.markAway();
   journal = new Journal({ moodStore: moodLogStore, archiveStore, jarStore });
   // Migration sırasında mevcut saatli görevler sayılır; onUnlock henüz bağlı olmadığı için eski
   // kullanıcı verileri için toplu Windows bildirimi spamı oluşmaz.
@@ -2587,7 +2688,7 @@ app.on('before-quit', () => {
   // Açık iş kronometresini son kez güvenle durdur; kapalı geçen süre bir sonraki açılışta sayılmaz.
   try { pauseAllTodoStopwatches({ final: false }); } catch (err) { log('iş kronometresi kapatılırken durdurulamadı:', err); }
   try { globalShortcut.unregisterAll(); } catch (_) { /* yoksay */ }
-  for (const store of [settingsStore, notesStore, todosStore, moodStore, statsStore, moodLogStore, archiveStore, jarStore, homeDialogueStore, userMoodStore]) store?.flush();
+  for (const store of [settingsStore, notesStore, todosStore, moodStore, statsStore, moodLogStore, archiveStore, jarStore, homeDialogueStore, userMoodStore, beeStore]) store?.flush();
 });
 
 app.on('window-all-closed', (e) => {
