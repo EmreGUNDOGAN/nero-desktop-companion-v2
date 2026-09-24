@@ -1508,6 +1508,8 @@ function registerIpc() {
     return bee.view();
   });
   ipcMain.handle('bee:summary', () => (bee ? bee.takeAwaySummary() : null));
+  ipcMain.handle('bee:export', () => exportBee());
+  ipcMain.handle('bee:import', () => importBee());
   ipcMain.handle('bee:action', (_e, action, arg1, arg2) => {
     if (!bee) return { res: { ok: false, msg: 'Arıcılık henüz hazır değil.' }, view: null, events: [] };
     bee.markSeen();
@@ -2408,6 +2410,54 @@ function checkDaySummary() {
 // ---------------------------------------------------------------------------
 const backupDir = path.join(app.getPath('userData'), 'yedekler');
 
+async function exportBee() {
+  const d = new Date();
+  const stamp = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  const res = await dialog.showSaveDialog(panelWin || beeWin, {
+    title: 'Arıcılık kaydını dışa aktar',
+    defaultPath: path.join(app.getPath('documents'), `nero-aricilik-${stamp}.json`),
+    filters: [{ name: 'Nero arıcılık kaydı', extensions: ['json'] }]
+  });
+  if (res.canceled || !res.filePath) return { ok: false };
+  bee.save();
+  const data = { app: 'Nero', type: 'bee', version: app.getVersion(), createdAt: d.toISOString(), bee: beeStore.get() };
+  fs.writeFileSync(res.filePath, JSON.stringify(data, null, 2), 'utf8');
+  return { ok: true, path: res.filePath };
+}
+
+async function importBee() {
+  const parent = panelWin || beeWin;
+  const res = await dialog.showOpenDialog(parent, {
+    title: 'Arıcılık kaydını içe aktar',
+    filters: [{ name: 'Nero arıcılık kaydı', extensions: ['json'] }],
+    properties: ['openFile']
+  });
+  if (res.canceled || !res.filePaths[0]) return { ok: false };
+  let data;
+  try {
+    data = JSON.parse(fs.readFileSync(res.filePaths[0], 'utf8'));
+    if (!data || data.app !== 'Nero' || !data.bee || !data.bee.tiles || !data.bee.hives) throw new Error('Bu dosya bir Nero arıcılık kaydı değil.');
+  } catch (err) {
+    await dialog.showMessageBox(parent, { type: 'error', title: 'İçe aktarılamadı', message: err.message });
+    return { ok: false };
+  }
+  const answer = await dialog.showMessageBox(parent, {
+    type: 'warning', buttons: ['İçe aktar', 'Vazgeç'], defaultId: 1, cancelId: 1,
+    title: 'Arıcılık kaydını içe aktar',
+    message: 'Şu anki çiftliğin bu kayıtla değiştirilecek.',
+    detail: `Kayıttaki çiftlik: ${Math.floor(data.bee.coins || 0)} jeton, ${Object.keys(data.bee.hives).length} kovan.\nŞu anki çiftliğin önce yedeklenecek (${path.join(backupDir)}).`
+  });
+  if (answer.response !== 0) return { ok: false };
+  fs.mkdirSync(backupDir, { recursive: true });
+  fs.writeFileSync(path.join(backupDir, `nero-aricilik-ice-aktarma-oncesi-${Date.now()}.json`),
+    JSON.stringify({ app: 'Nero', type: 'bee', createdAt: new Date().toISOString(), bee: beeStore.get() }, null, 2), 'utf8');
+  beeStore.set(data.bee);
+  bee = new BeeGame(beeStore);
+  bee.markSeen();
+  sendBee();
+  return { ok: true };
+}
+
 function snapshotData() {
   const { position, ...cleanSettings } = settings();
   return {
@@ -2415,7 +2465,8 @@ function snapshotData() {
     notes: notesStore.get(), todos: todosStore.get(), stats: statsStore.get(), settings: cleanSettings,
     moodLog: moodLogStore?.get() || null, archive: archiveStore?.get() || null, jar: jarStore?.get() || null,
     userMoodboard: userMoodStore?.get() || null,
-    homeDialogue: homeDialogueStore?.get() || null
+    homeDialogue: homeDialogueStore?.get() || null,
+    bee: beeStore ? beeStore.get() : null
   };
 }
 
@@ -2475,6 +2526,11 @@ async function importData() {
   if (data.archive && typeof data.archive === 'object') archiveStore.set(data.archive);
   if (data.jar && typeof data.jar === 'object') jarStore.set(data.jar);
   if (data.userMoodboard && typeof data.userMoodboard === 'object') userMoodStore.set(data.userMoodboard);
+  if (data.bee && typeof data.bee === 'object' && data.bee.tiles && data.bee.hives) {
+    beeStore.set(data.bee);
+    bee = new BeeGame(beeStore);
+    sendBee();
+  }
   if (data.stats && typeof data.stats === 'object') {
     statsStore.set(data.stats); stats = new Stats(statsStore); stats.onUnlock = handleUnlock;
     stats.onDeskUnlock = (item) => { setTimeout(() => say('desk_unlock', { title: item.title }, { force: true }), 1500); };
