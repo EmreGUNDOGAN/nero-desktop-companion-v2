@@ -148,6 +148,10 @@
     "nap_woken_drag": {
       "count": 100,
       "status": "approved"
+    },
+    "nap_woken_pet": {
+      "count": 100,
+      "status": "approved"
     }
   },
   "pending_reconcile": {},
