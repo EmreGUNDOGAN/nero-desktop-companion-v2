@@ -220,61 +220,50 @@
     "late_night": {
       "count": 150,
       "status": "approved"
+    },
+    "poke_spam": {
+      "count": 100,
+      "status": "approved"
+    },
+    "drag_start": {
+      "count": 100,
+      "status": "approved"
+    },
+    "drag_end": {
+      "count": 100,
+      "status": "approved"
+    },
+    "pet": {
+      "count": 150,
+      "status": "approved"
+    },
+    "pet_too_much": {
+      "count": 100,
+      "status": "approved"
+    },
+    "shake": {
+      "count": 100,
+      "status": "approved"
+    },
+    "dizzy": {
+      "count": 100,
+      "status": "approved"
+    },
+    "peek_center": {
+      "count": 100,
+      "status": "approved"
+    },
+    "peek_edge": {
+      "count": 100,
+      "status": "approved"
+    },
+    "peek_caught": {
+      "count": 100,
+      "status": "approved"
     }
   },
   "pending_reconcile": {},
-  "pending_recovery": {
-    "poke_spam": {
-      "current_count": 8,
-      "target_count": 100,
-      "status": "approved_in_chat_but_full_final_text_not_in_recovery_bundle"
-    },
-    "drag_start": {
-      "current_count": 6,
-      "target_count": 100,
-      "status": "approved_in_chat_but_full_final_text_not_in_recovery_bundle"
-    },
-    "drag_end": {
-      "current_count": 6,
-      "target_count": 100,
-      "status": "approved_in_chat_but_full_final_text_not_in_recovery_bundle"
-    },
-    "pet": {
-      "current_count": 7,
-      "target_count": 150,
-      "status": "approved_in_chat_but_full_final_text_not_in_recovery_bundle"
-    },
-    "pet_too_much": {
-      "current_count": 4,
-      "target_count": 100,
-      "status": "approved_in_chat_but_full_final_text_not_in_recovery_bundle"
-    },
-    "shake": {
-      "current_count": 4,
-      "target_count": 100,
-      "status": "approved_in_chat_but_full_final_text_not_in_recovery_bundle"
-    },
-    "dizzy": {
-      "current_count": 4,
-      "target_count": 100,
-      "status": "approved_in_chat_but_full_final_text_not_in_recovery_bundle"
-    },
-    "peek_center": {
-      "current_count": 7,
-      "target_count": 100,
-      "status": "approved_in_chat_but_full_final_text_not_in_recovery_bundle"
-    },
-    "peek_edge": {
-      "current_count": 6,
-      "target_count": 100,
-      "status": "approved_in_chat_but_full_final_text_not_in_recovery_bundle"
-    },
-    "peek_caught": {
-      "current_count": 3,
-      "target_count": 100,
-      "status": "approved_in_chat_but_full_final_text_not_in_recovery_bundle"
-    }
-  },
+  "pending_recovery": {},
   "not_yet_expanded": {},
   "recovery_notes": {
     "idle": "Canonical old 22 entries preserved first, including their expression metadata; 278 approved new lines appended. 22 new draft lines with the strongest overlap to the canonical old pool were omitted to keep the final target at 300."
