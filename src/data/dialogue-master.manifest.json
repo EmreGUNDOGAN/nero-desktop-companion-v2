@@ -172,6 +172,10 @@
     "groggy": {
       "count": 200,
       "status": "approved"
+    },
+    "pajama_on": {
+      "count": 100,
+      "status": "approved"
     }
   },
   "pending_reconcile": {},
