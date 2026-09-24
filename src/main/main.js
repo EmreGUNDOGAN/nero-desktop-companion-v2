@@ -1713,7 +1713,13 @@ function registerIpc() {
   });
   ipcMain.handle('quick:addNote', async (_e, text) => {
     const body = String(text || '').trim().slice(0, 20000);
-    if (body) { notesStore.set([{ id: uid(), body, createdAt: Date.now(), updatedAt: Date.now(), archivedAt: null }, ...notesStore.get()]); stats.noteCreated(); }
+    if (body) {
+      notesStore.set([{ id: uid(), body, createdAt: Date.now(), updatedAt: Date.now(), archivedAt: null }, ...notesStore.get()]);
+      stats.noteCreated();
+      // Hızlı not da normal yeni notla aynı Nero etkileşimini üretir.
+      // Böylece quick add, karakter davranışı ve istatistik mantığı açısından ayrıksı kalmaz.
+      reactToInteraction('note_add', () => { if (chance(0.35)) say('note_add'); });
+    }
     broadcastState();
     return true;
   });
