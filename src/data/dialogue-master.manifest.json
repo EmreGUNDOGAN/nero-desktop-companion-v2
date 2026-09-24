@@ -160,6 +160,10 @@
     "rest_start": {
       "count": 100,
       "status": "approved"
+    },
+    "rest_goodnight": {
+      "count": 100,
+      "status": "approved"
     }
   },
   "pending_reconcile": {},
