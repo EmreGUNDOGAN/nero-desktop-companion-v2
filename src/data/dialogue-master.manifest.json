@@ -184,6 +184,10 @@
     "first_run": {
       "count": 15,
       "status": "approved"
+    },
+    "greet_morning": {
+      "count": 150,
+      "status": "approved"
     }
   },
   "pending_reconcile": {},
