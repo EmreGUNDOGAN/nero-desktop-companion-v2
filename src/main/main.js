@@ -1475,7 +1475,7 @@ function registerIpc() {
       saved = { id: uid(), body, createdAt: now, updatedAt: now, archivedAt: null };
       stats.noteCreated();
       notesStore.set([saved, ...notes]);
-      reactToInteraction('note_add', () => { if (body.trim() && chance(0.35)) say('note_add'); });
+      reactToInteraction('note_add', () => { if (body.trim() && chance(0.70)) say('note_add'); });
     }
     broadcastState();
     return saved;
@@ -1718,7 +1718,7 @@ function registerIpc() {
       stats.noteCreated();
       // Hızlı not da normal yeni notla aynı Nero etkileşimini üretir.
       // Böylece quick add, karakter davranışı ve istatistik mantığı açısından ayrıksı kalmaz.
-      reactToInteraction('note_add', () => { if (chance(0.35)) say('note_add'); });
+      reactToInteraction('note_add', () => { if (chance(0.70)) say('note_add'); });
     }
     broadcastState();
     return true;
