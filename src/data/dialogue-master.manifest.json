@@ -104,6 +104,10 @@
     "click": {
       "count": 150,
       "status": "approved"
+    },
+    "timer_resume": {
+      "count": 250,
+      "status": "approved"
     }
   },
   "pending_reconcile": {},
@@ -160,10 +164,6 @@
     }
   },
   "not_yet_expanded": {
-    "timer_resume": {
-      "current_count": 5,
-      "status": "next"
-    },
     "timer_cancel_early": {
       "current_count": 6,
       "status": "queued"
