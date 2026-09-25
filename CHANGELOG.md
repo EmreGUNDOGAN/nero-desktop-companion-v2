@@ -2,6 +2,29 @@
 
 Her sürümde eklenenler, değişenler ve düzeltilenler burada. En yeni sürüm en üstte.
 
+
+## 5.5.2: Arıcılık yaşam kalitesi ve denge
+
+### Yeni
+- Kovanlarda **🌾 Erzak: X gün** göstergesi ve aktif Ballı Şurup etkisi.
+- Sol altta, zilin yanında açılır **📋 günlük görev ikonu**.
+- Ayarlar → Ses altında tek tek seçilebilir **İleri Ses Ayarları**.
+- **50 kg toplam üretimde Çiçekçi Ezgi** açılışı, tek seferlik hoş geldin tohumu ve günlük **Ezgi'nin Seçimi**.
+
+### Değişti
+- Standart şurup **15 kg** verir; günlük temel tüketim kovan başına **1 kg**.
+- Eksik günlük erzak artık tamamen tüketilir ve kovan beslenmiş sayılmaz.
+- Seyyah Yakup ürün fiyatları satın alma düğmelerinde görünür; hedefe bağlı fiyatlar canlı güncellenir.
+- **Kışlık Şurup Fıçısı: 105 🪙 → 45 kg**.
+- Arıcılık son görülmeden **3 gerçek saat** sonra üretimle birlikte takvim ve bütün oyun simülasyonu tamamen durur; dönüşte geriye dönük ilerleme yapılmaz.
+- Oyun/ortam sesleri yalnız Arıcılık görünürken; bildirim sesleri ise oyun penceresi kapalıyken de Nero üzerinden çalışabilir.
+
+### Korunanlar
+- 5.5.1 ses paketi ile 5.5.0'ın **57 topic / 2.133 repliği** korunur.
+- Genişletilmiş mektup sistemi bu patch'e dahil değildir.
+
+Ayrıntılar: `CHANGELOG-5.5.2.md`
+
 ## 5.5.1: Arıcılık ses entegrasyonu
 
 ### Yeni
