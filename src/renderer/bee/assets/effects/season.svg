@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<ns0:svg xmlns:ns0="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="96" height="96"><ns0:g stroke="#705139" stroke-width="2.3" stroke-linejoin="round">
+    <ns0:circle cx="48" cy="48" r="30" fill="#d9e9b5" /><ns0:path d="M48 74V49" fill="none" stroke="#477650" stroke-width="3" />
+    <ns0:path d="M48 62Q32 56 33 49q11-1 15 13zM48 68q12-13 17-12-3 13-17 12z" fill="#5d9d63" stroke="#477650" />
+    <ns0:g fill="#f9f1ff" stroke="#a980b8"><ns0:ellipse cx="48" cy="34" rx="9" ry="15" /><ns0:ellipse cx="48" cy="34" rx="9" ry="15" transform="rotate(60 48 34)" /><ns0:ellipse cx="48" cy="34" rx="9" ry="15" transform="rotate(120 48 34)" /></ns0:g>
+    <ns0:circle cx="48" cy="34" r="6" fill="#f2b33d" stroke="#c99127" />
+  </ns0:g></ns0:svg>
