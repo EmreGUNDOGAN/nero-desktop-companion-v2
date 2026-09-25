@@ -1779,7 +1779,9 @@ class BeeGame {
   myRank() { const me = this.leaderboard().find((r) => r.me); return me ? me.rank : 1; }
 
   markAway() {
-    this.state.away = { at: Date.now(), ...this.state.counters, rank: this.myRank() };
+    const now = Date.now();
+    this.state.lastSeenAt = now;
+    this.state.away = { at: now, ...this.state.counters, rank: this.myRank() };
     this.save();
   }
 
