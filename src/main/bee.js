@@ -63,7 +63,14 @@ const WEATHER_ODDS = {
 };
 
 // Günlük görevler (gerçek güne bağlı, her gün 3 görev)
-const QUEST_TYPES = ['harvest', 'harvestFlower', 'sell', 'deliver', 'candle', 'plant'];
+const QUEST_TYPES = [
+  'harvest', 'harvestFlower', 'sell', 'deliver', 'candle', 'plant',
+  'harvest2Hives', 'harvest3Hives', 'harvestSingle10', 'harvest2Types', 'harvest3Types', 'harvestPremium',
+  'sell2Transactions', 'sell2Types', 'sellFlower', 'saleIncome', 'winterSell',
+  'acceptOrder', 'deliver2', 'deliverNoPenalty', 'deliverPerson', 'deliverRegular',
+  'buyBee', 'buy3Bees', 'syrup1', 'syrup2Hives', 'cureHive', 'changeBreed', 'queenUpgrade', 'hiveUpgrade', 'placeHive',
+  'plant2', 'plantFlower', 'reviveFlower', 'plant2Types', 'sellCandles', 'candle2', 'claim2', 'merchantBuy', 'merchantSell'
+];
 const LABEL_DESIGNS = { klasik: 'Klasik', cicekli: 'Çiçekli', petek: 'Petek', sade: 'Sade' };
 const LABEL_BONUS = 0.05;          // etiketli kavanoz: müdavimler %5 fazla öder
 const HISTORY_KEEP = 20;
@@ -149,7 +156,7 @@ const STORIES = [
     steps: [{ t: 'deliverTo', n: 3, text: 'Ona 3 sipariş teslim et' }, { t: 'deliverKg', f: 'ihlamur', n: 5, text: '5 kg ıhlamur balı teslim et' }, { t: 'relation', n: 80, text: 'Onunla %80 ilişkiye ulaş' }] }
 ];
 const CLUSTER_BONUS = 0.15;        // aynı türden en az 3 tarh yan yanaysa
-const AWAY_SUMMARY_MS = 3 * 60 * 1000;
+const AWAY_SUMMARY_MS = 20 * 60 * 1000; // 5.5.0: dönüş özeti 20 gerçek dakikadan sonra
 
 // 1) Odak bonusu: Nero'da odaklandıkça arılar da coşar
 const FOCUS_BOOST = 0.25;                 // +%25 üretim
@@ -159,7 +166,7 @@ const TODO_REWARD = 10;                   // Nero'da bitirilen her iş: +10 jeto
 // 2) Müdavim köylüler
 const HEART_EVERY = 2;                    // her 2 teslimde +1 kalp
 const HEART_MAX = 5;
-const HEART_BONUS = 0.06;                 // kalp başına +%6 ödeme
+const HEART_BONUS = 0.02;                 // 5.5.0: kalp başına +%2 ödeme
 
 // 3) Dekorlar (kare kaplamaz, karenin kenarına konur)
 const DECOR = {
@@ -282,6 +289,10 @@ function freshState() {
     counters: { produced: 0, born: 0, ordersIn: 0, died: 0 },
     away: null,
     focusBoostUntil: 0,
+    focusDaily: { day: '', earnedMs: 0 },
+    questRefresh: null,
+    merchantEffects: {},
+    marketLocks: {},
     customers: {},
     vouchers: {},
     wax: 0,
@@ -313,9 +324,13 @@ class BeeGame {
       if (t.item && t.item.type === 'flower' && t.item.plantedDay === undefined) t.item.plantedDay = this.dayIndex();
     }
     Object.assign(this.state, {
-      focusBoostUntil: 0, customers: {}, vouchers: {}, wax: 0, candles: 0,
+      focusBoostUntil: 0, focusDaily: { day: '', earnedMs: 0 }, questRefresh: null, merchantEffects: {}, marketLocks: {},
+      customers: {}, vouchers: {}, wax: 0, candles: 0,
       festival: { entry: null, cups: [], lastYear: 0 }, ...this.state
     });
+    this.state.focusDaily = this.state.focusDaily || { day: '', earnedMs: 0 };
+    this.state.merchantEffects = this.state.merchantEffects || {};
+    this.state.marketLocks = this.state.marketLocks || {};
     for (const h of Object.values(this.state.hives)) if (!h.breed) h.breed = 'anadolu';
     Object.assign(this.state, {
       farmName: 'Nero Çiftliği', quests: null, questsDone: 0, milestones: {}, history: [],
@@ -602,9 +617,9 @@ class BeeGame {
   }
 
   // --- 2) Müdavim köylüler --------------------------------------------------------
-  bond(who) {
+  bond(who, extraRelationPoints = 0) {
     const c = this.state.customers[who] || { delivered: 0, hearts: 0 };
-    c.delivered += 1;
+    c.delivered += 1 + Math.max(0, Number(extraRelationPoints) || 0) / 10;
     let hearts = Math.min(HEART_MAX, Math.floor(c.delivered / HEART_EVERY));
     if (this.fx('firstHeart') && c.delivered >= 1) hearts = Math.max(1, hearts);
     if (hearts > c.hearts) {
@@ -1505,10 +1520,12 @@ class BeeGame {
     const planted = this.plantedFlowers();
     if (!planted.length) return null;
     // Sipariş veren: köyde yaşayanlar (tanıdıklar biraz daha sık)
-    const pool = this.villagePeople();
+    const used = new Set(this.state.orders.list.filter((x) => !x.special && (x.status === 'open' || x.status === 'accepted')).map((x) => x.who));
+    const pool = this.villagePeople().filter((p) => !used.has(p.name));
+    if (!pool.length) return null;
     const known = pool.filter((p) => ((this.state.customers[p.name] || {}).hearts || 0) > 0);
     const person = known.length && Math.random() < 0.45 ? known[Math.floor(Math.random() * known.length)] : pool[Math.floor(Math.random() * pool.length)];
-    const who = person ? person.name : CUSTOMERS[Math.floor(Math.random() * CUSTOMERS.length)];
+    const who = person.name;
     let f = planted[Math.floor(Math.random() * planted.length)];
     let fav = false;
     if (person && person.fav && planted.includes(person.fav) && Math.random() < 0.6) { f = person.fav; fav = true; }
