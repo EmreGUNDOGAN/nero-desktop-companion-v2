@@ -1678,7 +1678,7 @@ function sparkline(values) {
 let marketSig = '';
 function renderMarket(force = false) {
   if (!marketOpen || !view) return;
-  const sig = JSON.stringify([view.market, view.storage, Math.floor(view.coins), view.storageCap, view.marketEvent, view.calendar.season, view.wax, view.candles, view.festival]);
+  const sig = JSON.stringify([view.market, view.marketForecast, view.storage, Math.floor(view.coins), view.storageCap, view.marketEvent, view.calendar.season, view.wax, view.candles, view.festival]);
   if (!force && sig === marketSig) return;
   marketSig = sig;
   const season = view.calendar.season;
@@ -1688,6 +1688,12 @@ function renderMarket(force = false) {
   const ev = view.marketEvent;
   $('m-festival').hidden = !ev;
   if (ev) $('m-festival').textContent = `🎉 Festival: ${view.flowers[ev.flower].name} balı %${ev.pct} daha değerli!`;
+
+  const fc = view.marketForecast;
+  $('m-forecast').hidden = !fc;
+  if (fc) {
+    $('m-forecast').textContent = '🔮 Yarın: ' + fc.rows.map((x) => `${view.flowers[x.flower].name} ${x.direction === 'up' ? '↑ yükselebilir' : '↓ düşebilir'}`).join(' · ');
+  }
 
   let entries = Object.entries(view.flowers);
   if ($('market-mine').checked) entries = entries.filter(([f]) => (view.storage[f] || 0) >= 0.05);
