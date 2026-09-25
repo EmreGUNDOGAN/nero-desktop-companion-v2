@@ -2161,16 +2161,17 @@ function startLoops() {
   // Arıcılık ana süreçte ilerler; oyun penceresi kapalıyken de üretim sürer.
   setInterval(() => {
     if (!bee) return;
-    const gameInFront = beeWin && !beeWin.isDestroyed() && beeWin.isVisible() && beeWin.isFocused();
+    const gameVisible = beeWin && !beeWin.isDestroyed() && beeWin.isVisible() && !beeWin.isMinimized();
+    const gameInFront = gameVisible && beeWin.isFocused();
     if (gameInFront) bee.markSeen();
     if (bee.tick(Date.now(), gameInFront ? null : 2)) {
       sendBee();
       if (Math.random() < 0.1) bee.save();
     }
 
-    // Oyun penceresi önde değilken Nero, önemli arıcılık durumlarını haber verir.
+    // Arıcılık görünür değilken Nero önemli durumları haber verir; böylece çift ses çıkmaz.
     const alerts = bee.pendingAlerts();
-    if (alerts.length && !gameInFront && Date.now() - lastBeeAlertAt > 90 * 1000) {
+    if (alerts.length && !gameVisible && Date.now() - lastBeeAlertAt > 90 * 1000) {
       const s = settings();
       if (!s.muted && !s.hidden && !mood.state.asleep && !mood.state.napping) {
         lastBeeAlertAt = Date.now();
