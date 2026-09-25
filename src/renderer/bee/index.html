@@ -54,9 +54,13 @@
   <div class="notice" id="notice" hidden>Uzun süredir bakmadığın için üretim durmuştu. Tekrar başladı!</div>
 
   <!-- Alt bar -->
-  <!-- Günlük görevler -->
-  <section class="quests card" id="quests">
-    <button class="quests-head" id="quests-toggle" type="button"><span>📋 Bugünün görevleri</span><b id="quests-count"></b></button>
+  <!-- Günlük görevler: varsayılan olarak yalnız ikon görünür -->
+  <button class="task-bell" id="quests-icon" type="button" aria-label="Bugünün görevleri" title="Bugünün görevleri">📋</button>
+  <section class="quests card" id="quests" hidden>
+    <button class="quests-head" id="quests-toggle" type="button" aria-label="Görevleri kapat">
+      <span>📋 Bugünün görevleri</span>
+      <span class="quests-head-right"><b id="quests-count"></b><i aria-hidden="true">✕</i></span>
+    </button>
     <ul class="quest-list" id="quest-list"></ul>
   </section>
 
@@ -462,8 +466,13 @@
       </section>
       <section class="gs-sec">
         <h3>🔊 Ses</h3>
-        <label class="gs-row"><span>Efekt sesleri</span><input type="checkbox" id="gs-sfx"></label>
-        <label class="gs-row"><span>Ortam sesleri<small>Kuşlar, arılar, cırcır böcekleri, yağmur</small></span><input type="checkbox" id="gs-ambient"></label>
+        <label class="gs-row"><span>Oyun sesleri<small>Hasat, jeton, ekim ve diğer oyun efektleri</small></span><input type="checkbox" id="gs-sfx"></label>
+        <label class="gs-row"><span>Ortam sesleri<small>Kuşlar, arılar, cırcır böcekleri, yağmur ve rüzgâr</small></span><input type="checkbox" id="gs-ambient"></label>
+        <label class="gs-row"><span>Bildirim sesleri<small>Arıcılık penceresi kapalıyken de önemli bildirimler duyulur</small></span><input type="checkbox" id="gs-notification-sound"></label>
+        <details class="gs-advanced" id="gs-advanced-audio">
+          <summary>İleri Ses Ayarları</summary>
+          <div class="gs-audio-groups" id="gs-audio"></div>
+        </details>
       </section>
       <section class="gs-sec">
         <h3>🔔 Masaüstündeki Nero haber versin</h3>
