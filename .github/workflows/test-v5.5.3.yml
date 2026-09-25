@@ -2,7 +2,7 @@ name: Test Nero 5.5.3
 
 on:
   push:
-    branches: [feature/v5.5.3-aricilik]
+    branches: [feature/v5.5.3-release]
   pull_request:
     branches: [main]
   workflow_dispatch:
