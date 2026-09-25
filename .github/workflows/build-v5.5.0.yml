@@ -62,6 +62,13 @@ jobs:
       - name: Build Windows installer
         run: npm run dist
 
+      - name: Verify packaged sound assets
+        shell: pwsh
+        run: |
+          $asar = "dist/win-unpacked/resources/app.asar"
+          if (-not (Test-Path $asar)) { throw "app.asar not found" }
+          node -e "const asar=require('@electron/asar');const list=asar.listPackage(process.argv[1]);const need=['/src/renderer/bee/sounds/loop_bees.ogg','/src/renderer/bee/sounds/birds_1.ogg','/src/renderer/bee/sounds/KAYNAKLAR.md'];for(const p of need){if(!list.includes(p))throw new Error('Missing from app.asar: '+p)}console.log('Packaged sound assets OK')" $asar
+
       - name: Prepare guide, changelog and source package
         shell: pwsh
         run: |
