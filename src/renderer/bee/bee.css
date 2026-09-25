@@ -252,6 +252,24 @@ button { font-family: inherit; color: inherit; cursor: pointer; }
 .guide-topic ol { padding-left: 32px; }
 .guide-topic li + li { margin-top: 5px; }
 .guide-tip { background: #FFF4CF; }
+.guide-release-btn { justify-self: start; margin-top: 6px; border: 0; border-radius: 10px; padding: 8px 12px; background: var(--card2); color: var(--ink); font-weight: 900; box-shadow: 0 2px 0 #DCCFB2; }
+
+/* ---------- Sürüm yenilikleri ---------- */
+.whats-new-bg { background: rgba(74,58,34,.34); backdrop-filter: blur(2px); }
+.whats-new-card { width: min(610px, 92vw); max-height: min(82vh, 720px); overflow-y: auto; position: relative; padding: 22px; background: linear-gradient(180deg, #FFF8E7 0%, var(--card) 100%); border: 1px solid rgba(117,83,52,.16); }
+.whats-new-decor { position: absolute; right: 18px; top: 15px; color: #C9A55B; opacity: .55; font-size: 15px; letter-spacing: 3px; pointer-events: none; }
+.whats-new-head { display: flex; gap: 14px; align-items: flex-start; padding: 3px 4px 16px; border-bottom: 1px solid #E9DCC0; }
+.whats-new-mark { width: 58px; height: 58px; flex: 0 0 58px; display: grid; place-items: center; border-radius: 18px; background: #FFE6A8; font-size: 28px; box-shadow: inset 0 -3px 0 rgba(184,126,32,.13); }
+.whats-new-head small { display: block; color: #9B7950; font-weight: 900; letter-spacing: .04em; text-transform: uppercase; font-size: 11px; margin-bottom: 3px; }
+.whats-new-head h2 { margin: 0; font: 800 24px/1.15 "Fraunces", Georgia, serif; color: var(--ink); }
+.whats-new-head p { margin: 6px 0 0; color: var(--muted); font-size: 13px; font-weight: 700; line-height: 1.45; max-width: 455px; }
+.whats-new-list { display: grid; gap: 9px; margin: 14px 0 16px; }
+.whats-new-item { display: grid; grid-template-columns: 42px 1fr; gap: 10px; align-items: start; padding: 11px 12px; border-radius: 14px; background: rgba(255,255,255,.68); border: 1px solid #EADFCA; }
+.whats-new-item .ico { width: 38px; height: 38px; display: grid; place-items: center; border-radius: 12px; background: #FFF1CC; font-size: 20px; }
+.whats-new-item b { display: block; margin: 1px 0 2px; font-size: 14px; }
+.whats-new-item p { margin: 0; color: var(--muted); font-size: 12.5px; font-weight: 700; line-height: 1.4; }
+.whats-new-foot { display: flex; justify-content: flex-end; padding-top: 2px; }
+.whats-new-foot .act { min-width: 145px; }
 
 /* ---------- Nero ---------- */
 .nero { position: fixed; right: 18px; bottom: 16px; z-index: 6; width: 110px; cursor: pointer; }
@@ -365,6 +383,8 @@ body.night .hud-top .card, body.night .chip { box-shadow: 0 6px 18px rgba(0, 0, 
 .quest-actions button[data-refresh]:disabled { opacity: .45; box-shadow: none; cursor: default; }
 .quest.claimed { opacity: .55; }
 .quest.claimed .qtop span::before { content: "✓ "; color: var(--green); }
+.task-bell.done { background: #F2E8C9; }
+.task-bell.done::after { content: "✓"; position: absolute; right: -2px; top: -3px; width: 20px; height: 20px; display: grid; place-items: center; border-radius: 50%; background: var(--green); color: #fff; font-size: 12px; font-weight: 900; box-shadow: 0 2px 5px rgba(74,58,34,.18); }
 
 /* ---------- İsim düzenleme ---------- */
 .rename { cursor: text; }
