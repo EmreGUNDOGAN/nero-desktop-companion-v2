@@ -734,6 +734,16 @@ function onTileClick(k, x, y) {
 }
 
 popup.addEventListener('click', async (e) => {
+  const welcome = e.target.closest('[data-ezgi-welcome]');
+  if (welcome) { await doAct('claimEzgiWelcome'); closePopup(); return; }
+  const ezgiShop = e.target.closest('[data-ezgi-shop]');
+  if (ezgiShop) {
+    closePopup();
+    shopTab = 'seeds';
+    for (const x of document.querySelectorAll('.shop-tabs button')) x.classList.toggle('on', x.dataset.tab === 'seeds');
+    openShop();
+    return;
+  }
   const b = e.target.closest('[data-act]');
   if (!b || b.disabled) return;
   const act = b.dataset.act;
@@ -867,7 +877,8 @@ window.addEventListener('keydown', (e) => {
 // Günlük görevler
 // ---------------------------------------------------------------------------
 let questsSig = '';
-$('quests-toggle').addEventListener('click', () => $('quests').classList.toggle('closed'));
+$('quests-icon').addEventListener('click', () => { $('quests').hidden = false; });
+$('quests-toggle').addEventListener('click', () => { $('quests').hidden = true; });
 function renderQuests() {
   const list = view.quests || [];
   const R = view.questRefresh || { free: 0, paidUsed: true, paidCost: 100 };
@@ -1171,7 +1182,7 @@ for (const b of document.querySelectorAll('.shop-tabs button')) {
 
 function renderShop(force = false) {
   if (!shopOpen || !view) return;
-  const sig = JSON.stringify([shopTab, Math.floor(view.coins), view.tilePrice, view.calendar.season]);
+  const sig = JSON.stringify([shopTab, Math.floor(view.coins), view.tilePrice, view.calendar.season, view.ezgi]);
   if (!force && sig === shopSig) return;
   shopSig = sig;
   const c = view.coins;
@@ -1180,9 +1191,11 @@ function renderShop(force = false) {
     const season = view.calendar.season;
     html = Object.entries(view.flowers).map(([id, f]) => {
       const inS = season !== 'kis' && f.seasons.includes(season);
-      return `<div class="shop-item"><span class="big" style="color:${f.color}">✿</span>
+      const ezgiPick = !!(view.ezgi && view.ezgi.unlocked && view.ezgi.choice === id);
+      return `<div class="shop-item${ezgiPick ? ' ezgi-choice' : ''}"><span class="big" style="color:${f.color}">✿</span>
         <span class="info"><b>${esc(f.name)} tohumu · +%${Math.round(f.buff * 100)} bal üretimi</b>
-        <small>${f.seasons.map((s) => seasonsTr[s]).join(' · ')} · ${inS ? 'şu an mevsiminde' : 'şu an mevsimi dışında'}</small></span>
+        <small>${f.seasons.map((s) => seasonsTr[s]).join(' · ')} · ${inS ? 'şu an mevsiminde' : 'şu an mevsimi dışında'}</small>
+        ${ezgiPick ? '<small class="choice-note">🌷 Ezgi’nin Seçimi · bugün ek %15 indirimli</small>' : ''}</span>
         <button type="button" data-buy="seed" data-flower="${id}" ${c < f.seed && !(view.vouchers[id] > 0) ? 'disabled' : ''}>${view.vouchers[id] > 0 ? `🎁 Hediye ×${view.vouchers[id]}` : `${f.seed} 🪙`}</button></div>`;
     }).join('');
   } else if (shopTab === 'hive') {
@@ -2005,7 +2018,8 @@ function renderHive() {
   if (!h) return;
   const names = view.flowers;
   $('h-name').textContent = h.name;
-  $('h-sub').textContent = `Seviye ${h.level + 1} · 👑 ${h.queenName}${h.syrup > 0 ? ` · 💧 ${h.syrup.toFixed(0)} kg erzak` : ''}${h.immuneDays > 0 && !h.sick ? ` · 🛡️ ${h.immuneDays} gün bağışık` : ''}`;
+  const feedClass = h.feedDays >= 15 ? 'feed-ok' : h.feedDays >= 7 ? 'feed-warn' : 'feed-low';
+  $('h-sub').innerHTML = `Seviye ${h.level + 1} · 👑 ${esc(h.queenName)} · <span class="${feedClass}">🌾 Erzak: ${h.feedDays} gün</span>${h.boostDays > 0 ? ` · 🍯 +%50 üretim · ${h.boostDays} gün` : ''}${h.immuneDays > 0 && !h.sick ? ` · 🛡️ ${h.immuneDays} gün bağışık` : ''}`;
   $('h-bees').textContent = `${h.bees} / ${h.capBees}`;
   $('h-rate').textContent = `${h.ratePerHour.toFixed(1)} kg/sa`;
   $('h-honey').textContent = `${h.total.toFixed(1)} kg / ${h.capKg} kg`;
@@ -2532,6 +2546,14 @@ function openVillagerPopup(n, x, y) {
   const kind = { koylu: 'Köylü', dukkan: 'Dükkân', bina: 'Köy binası' }[r.type];
   const relName = r.type === 'koylu' ? r.name : r.owner;
   const rel = relName ? (view.relations[relName] || 0) : null;
+  const isEzgi = Number(r.n) === 7;
+  const choice = isEzgi && view.ezgi && view.ezgi.choice ? view.ezgi.choice : null;
+  const choiceInfo = choice && view.flowers[choice]
+    ? `<div class="ezgi-welcome"><b>🌷 Ezgi’nin Seçimi</b><span>${esc(view.flowers[choice].name)} tohumu · bugün ek %15 indirimli · ${view.flowers[choice].seed} 🪙</span><div><button type="button" class="act primary small-act" data-ezgi-shop>Tohumları gör</button></div></div>`
+    : '';
+  const welcome = isEzgi && view.ezgi && view.ezgi.welcomePending
+    ? `<div class="ezgi-welcome"><b>🌷 Çiçekçi Ezgi</b><p class="sub">Merhaba! Buradaki arıları uzaktan beri izliyordum. Bu kadar çok bal üretildiğini görünce dükkânımı burada açmaya karar verdim. Sanırım bundan sonra çiçeklerle biraz daha fazla ilgileneceğiz.</p><b>🎁 Hoş Geldin Hediyesi</b><small>1 ücretsiz mevsimlik tohum paketi</small><div><button type="button" class="act primary small-act" data-ezgi-welcome>Hediyeyi Al</button></div></div>`
+    : '';
   openPopupAt(x, y, `
     <h3>${esc(r.name)}${hearts}</h3>
     <p class="sub">${kind} · ${esc(r.role)}</p>
@@ -2539,6 +2561,8 @@ function openVillagerPopup(n, x, y) {
     ${r.type === 'koylu'
       ? `<div class="row"><span>❤️ Sevdiği bal</span><b>${esc(view.flowers[r.fav].name)}</b></div><p class="sub">Bu bal ekiliyse siparişlerinde sık sık onu ister ve %15 daha iyi öder.</p>`
       : `<p class="sub">✨ ${esc(r.effectText)}</p>`}
+    ${welcome}
+    ${isEzgi && !welcome ? choiceInfo : ''}
     ${storyHtml(r.type === 'koylu' ? r.name : null, rel)}`);
 }
 
@@ -2608,6 +2632,32 @@ function targetOptions(kind, itemId = null) {
   return opts.length ? opts.join('') : null;
 }
 
+async function refreshMerchantQuote(id) {
+  const button = document.querySelector(`[data-mbuy="${id}"]`);
+  if (!button || button.dataset.locked === '1') return;
+  const sel = document.querySelector(`[data-target-for="${id}"]`);
+  try {
+    const pack = await window.bee.act('merchantQuote', id, sel ? sel.value : null);
+    const price = pack && pack.res && pack.res.ok ? pack.res.price : null;
+    if (price == null) {
+      button.textContent = 'Uygun hedef yok';
+      button.disabled = true;
+      return;
+    }
+    button.textContent = `Satın al · ${price} 🪙`;
+    button.disabled = view.coins < price;
+  } catch (_) {
+    button.textContent = 'Fiyat alınamadı';
+    button.disabled = true;
+  }
+}
+
+function refreshMerchantQuotes() {
+  document.querySelectorAll('[data-mbuy]').forEach((b) => {
+    if (b.dataset.locked !== '1') refreshMerchantQuote(b.dataset.mbuy);
+  });
+}
+
 function renderMerchant(force = false) {
   const M = view && view.merchant;
   $('merchant-chip').hidden = !M || !M.active;
@@ -2622,19 +2672,28 @@ function renderMerchant(force = false) {
   $('merchant-list').innerHTML = M.stock.map((it) => {
     const opts = it.target ? targetOptions(it.target, it.id) : '';
     const noTarget = it.target && !opts;
+    const locked = it.sold || full || noTarget;
+    const priceText = it.basePrice != null ? `Satın al · ${it.basePrice} 🪙` : 'Satın al · …';
+    const buttonText = it.sold ? 'Alındı' : full ? 'Limit doldu' : noTarget ? 'Uygun hedef yok' : priceText;
     return `<li class="mitem${it.sold ? ' sold' : ''}">
       <span class="ic">${it.icon}</span>
       <span class="info"><b>${esc(it.name)}</b><small>${esc(it.desc)}</small>
         ${it.contents && it.contents.length ? `<small>İçerik: ${it.contents.map(esc).join(' · ')}</small>` : ''}${it.target && !it.sold && opts ? `<select data-target-for="${it.id}">${opts}</select>` : ''}
         ${noTarget && !it.sold ? '<small>Şu an uygun bir hedef yok.</small>' : ''}</span>
-      <button type="button" data-mbuy="${it.id}" ${it.sold || full || noTarget ? 'disabled' : ''}>${it.sold ? 'Alındı' : it.basePrice != null && !['kralice', 'dortMevsim', 'suru'].includes(it.id) ? `${it.basePrice} 🪙` : 'Satın al'}</button>
+      <button type="button" data-mbuy="${it.id}" data-locked="${locked ? '1' : '0'}" ${locked ? 'disabled' : ''}>${buttonText}</button>
     </li>`;
   }).join('');
+  queueMicrotask(refreshMerchantQuotes);
   const have = view.storage[M.wants] || 0;
   const f = view.flowers[M.wants];
-  $('merchant-buy').innerHTML = `🍯 Seyyah Yakup <b>${esc(f.name)} balı</b> arıyor: kilosuna <b>${M.wantsPrice} 🪙</b> (pazarın %40 üstü). Kalan: ${M.wantsLeft} kg · Depoda: ${have.toFixed(1)} kg
+  const ticket = M.salesTicketKg > 0 ? ` · 💎 Satış Fişi aktif: kalan ${M.salesTicketKg.toFixed(1)} kg’a +%10` : '';
+  $('merchant-buy').innerHTML = `🍯 Seyyah Yakup <b>${esc(f.name)} balı</b> arıyor: kilosuna <b>${M.wantsPrice} 🪙</b> (pazarın %40 üstü). Kalan: ${M.wantsLeft} kg · Depoda: ${have.toFixed(1)} kg${ticket}
     <div class="fest-row"><button type="button" data-msell="1" ${have < 1 || M.wantsLeft < 1 ? 'disabled' : ''}>1 kg sat</button><button type="button" data-msell="all" ${have < 0.05 || M.wantsLeft < 0.05 ? 'disabled' : ''}>Hepsini sat</button></div>`;
 }
+$('merchant-list').addEventListener('change', (e) => {
+  const sel = e.target.closest('[data-target-for]');
+  if (sel) refreshMerchantQuote(sel.dataset.targetFor);
+});
 $('merchant-list').addEventListener('click', (e) => {
   const b = e.target.closest('[data-mbuy]');
   if (!b || b.disabled) return;
@@ -2784,7 +2843,7 @@ function renderHives() {
   const hives = Object.values(view.hives);
   $('hives-list').innerHTML = hives.map((h) => {
     const pct = Math.min(100, (h.total / h.capKg) * 100);
-    const tags = [h.sick ? '🤒 hasta' : '', h.immuneDays > 0 && !h.sick ? `🛡️ ${h.immuneDays}g` : '', h.syrup > 0 ? `💧 ${h.syrup.toFixed(0)} kg` : '💧 yok', h.queued ? '🧺 yolda' : ''].filter(Boolean).join(' · ');
+    const tags = [h.sick ? '🤒 hasta' : '', h.immuneDays > 0 && !h.sick ? `🛡️ ${h.immuneDays}g` : '', `🌾 ${h.feedDays} gün`, h.boostDays > 0 ? `🍯 +%50 · ${h.boostDays}g` : '', h.queued ? '🧺 yolda' : ''].filter(Boolean).join(' · ');
     return `<li class="hrow" data-hive="${h.id}"><span><b>${esc(h.name)}</b><br><small>${h.ratePerHour.toFixed(1)} kg/sa · 👑 ${esc(h.queenName)}</small></span>
       <span><div class="bar"><i style="width:${pct}%"></i></div><small>${h.total.toFixed(1)} / ${h.capKg} kg${pct >= 100 ? ' · Dolu!' : ''}</small></span>
       <span>🐝 ${h.bees}/${h.capBees}</span><span class="tags">${tags}</span></li>`;
