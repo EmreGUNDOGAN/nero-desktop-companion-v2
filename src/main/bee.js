@@ -605,7 +605,7 @@ class BeeGame {
           this.events.push({ msg: `${h.name}: hasta kovanda bir arı öldü.`, err: true });
           if (h.bees <= SICK_MIN_BEES || h.sickDeaths >= limit) this.recoverHive(h, dayIdx);
         }
-      } else if (season !== 'kis' && h.bees > SICK_MIN_BEES && dayIdx >= (h.immuneUntil || 0) && Math.random() < SICK_CHANCE * (BREEDS[h.breed] || BREEDS.anadolu).sick * (1 - this.fx('sickReduce') - this.storyFx('sick'))) {
+      } else if (season !== 'kis' && h.bees > SICK_MIN_BEES && dayIdx >= (h.immuneUntil || 0) && Math.random() < SICK_CHANCE * (BREEDS[h.breed] || BREEDS.anadolu).sick * (1 - this.fx('sickReduce') - this.storyFx('sick')) * (dayIdx < (h.propolisUntilDay || 0) ? 0.5 : 1)) {
         h.sick = true;
         h.sickSince = dayIdx;
         h.sickStartBees = h.bees;
@@ -614,14 +614,14 @@ class BeeGame {
         this.events.push({ msg: `🤒 ${h.name} hastalandı! Üretim düştü, ilaç ver.`, err: true });
       }
       if (season === 'kis') {
-        if (h.syrup >= 1) h.syrup -= 1;
+        const insulated = dayIdx >= (h.insulationFromDay || Infinity) && dayIdx < (h.insulationUntilDay || -Infinity);
+        const need = insulated ? 0.5 : 1;
+        if (h.syrup >= need) h.syrup = Math.max(0, h.syrup - need);
         else if (h.bees > 1 && dayIdx % (BREEDS[h.breed] || BREEDS.anadolu).winter === 0) {
-          h.bees -= 1;
-          this.state.counters.died += 1;
-          this.state.winterDeaths = (this.state.winterDeaths || 0) + 1;
-          this.events.push({ msg: `${h.name}: kışın aç kalan bir arı öldü. Şurup ver!`, err: true });
+          if (h.winterShield) { h.winterShield = 0; this.events.push({ msg: `🧯 ${h.name}: Acil Kış Paketi bir arı kaybını engelledi.` }); }
+          else { h.bees -= 1; this.state.counters.died += 1; this.state.winterDeaths = (this.state.winterDeaths || 0) + 1; this.events.push({ msg: `${h.name}: kışın aç kalan bir arı öldü. Şurup ver!`, err: true }); }
         }
-      } else if (!wasSick && h.bees < h.capBees && this.flowersNear(k).length && dayIdx - h.breedDay >= (BREEDS[h.breed] || BREEDS.anadolu).breedDays) {
+      } else if (!wasSick && h.bees < h.capBees && this.flowersNear(k).length && dayIdx - h.breedDay >= Math.max(1, (BREEDS[h.breed] || BREEDS.anadolu).breedDays * (dayIdx < (h.pollenCakeUntilDay || 0) ? 0.5 : 1))) {
         h.bees += 1;
         h.breedDay = dayIdx;
         this.state.counters.born += 1;
@@ -1806,7 +1806,11 @@ class BeeGame {
     if (have < 0.05) return this.fail(`Depoda ${FLOWERS[f].name} balı yok.`);
     const kg = amount === 'all' ? have : Math.min(have, Number(amount) || 0);
     if (kg < 0.05) return this.fail('Satılacak miktar yok.');
-    const gain = Math.round(kg * this.price(f));
+    const fx = this.state.merchantEffects || {};
+    const unit = this.price(f);
+    const sealKg = Math.min(kg, fx.marketSealKg || 0);
+    const gain = Math.round(kg * unit + sealKg * unit * 0.15);
+    fx.marketSealKg = Math.max(0, (fx.marketSealKg || 0) - sealKg);
     this.state.storage[f] = have - kg;
     if (this.state.storage[f] < 0.001) delete this.state.storage[f];
     this.state.coins += gain;
@@ -1828,12 +1832,16 @@ class BeeGame {
   upgradeStorage() {
     const u = this.nextStorage();
     if (!u) return this.fail('Depo en büyük boyutta.');
-    if (this.state.coins < u.cost) return this.fail(`Yeterli jeton yok (${u.cost} gerekli).`);
-    this.state.coins -= u.cost;
+    const fx = this.state.merchantEffects || {};
+    const coupon = !!fx.storageCoupon;
+    const cost = Math.round(u.cost * (coupon ? 0.8 : 1));
+    if (this.state.coins < cost) return this.fail(`Yeterli jeton yok (${cost} gerekli).`);
+    this.state.coins -= cost;
+    if (coupon) fx.storageCoupon = false;
     this.state.storageBaseCap = u.cap;
     this.state.storageCap = u.cap + ((this.state.merchant && this.state.merchant.sandik) || 0) * 10;
     this.save();
-    return { ok: true, msg: `Depo büyüdü: artık ${this.state.storageCap} kg alıyor.` };
+    return { ok: true, msg: `Depo büyüdü: artık ${this.state.storageCap} kg alıyor${coupon ? ` · kuponla ${u.cost - cost} 🪙 tasarruf` : ''}.` };
   }
 
   // --- Siparişler ------------------------------------------------------------
@@ -1923,11 +1931,16 @@ class BeeGame {
     if (this.state.storage[ord.flower] < 0.001) delete this.state.storage[ord.flower];
     const known = ((this.state.customers[ord.who] || {}).hearts || 0) > 0;
     const wasRegular = known;
+    const fx = this.state.merchantEffects || {};
+    const seal = ord.merchantPayBonus ? Math.round(ord.reward * ord.merchantPayBonus) : 0;
     const extra = known && this.state.label ? Math.round(ord.reward * LABEL_BONUS) : 0;
-    this.state.coins += ord.reward + extra;
-    this.state.counters.earned += ord.reward + extra;
+    this.state.coins += ord.reward + seal + extra;
+    this.state.counters.earned += ord.reward + seal + extra;
     this.state.orders.list = this.state.orders.list.filter((x) => x.id !== id);
-    this.bond(ord.who);
+    const relationExtra = (fx.friendToken || 0) + (fx.priorityCard || 0);
+    this.bond(ord.who, relationExtra);
+    fx.friendToken = 0;
+    fx.priorityCard = 0;
     this.state.ledger.ordersDone += 1;
     const LD = this.state.ledger;
     LD.deliveredKgBy[ord.flower] = (LD.deliveredKgBy[ord.flower] || 0) + ord.kg;
@@ -1938,7 +1951,7 @@ class BeeGame {
     this.state.village.deliveredKg += ord.kg;
     this.checkVillage();
     this.save();
-    return { ok: true, msg: `${ord.who} çok memnun kaldı! +${ord.reward} 🪙${extra ? ` (+${extra} etiket bahşişi)` : ''}` };
+    return { ok: true, msg: `${ord.who} çok memnun kaldı! +${ord.reward} 🪙${seal ? ` (+${seal} Sipariş Mührü)` : ''}${extra ? ` (+${extra} etiket bahşişi)` : ''}${relationExtra ? ` · +${relationExtra} ilişki puanı` : ''}` };
   }
 
   // Reddetmek o kişiyle ilişkiyi %2 azaltır (1 teslim = %10; en az %0)
@@ -2339,7 +2352,10 @@ class BeeGame {
       if (hive.honey[f] < 0.001) delete hive.honey[f];
       moved += take;
     }
-    const wax = moved * WAX_PER_KG;
+    const fx = this.state.merchantEffects || {};
+    const glove = moved > 0.01 && (fx.waxGloveHarvests || 0) > 0;
+    const wax = moved * WAX_PER_KG * (glove ? 1.5 : 1);
+    if (glove) fx.waxGloveHarvests -= 1;
     this.state.wax += wax;
     this.recordHarvest(hive, moved, scale);
     this.save();
