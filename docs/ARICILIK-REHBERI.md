@@ -55,7 +55,11 @@ Oyun ayrı bir pencerede açılır. Pencereyi kapatsan da Nero açık kaldığı
 - Hız: **❚❚** duraklat, **1x**, **2x**, **4x**.
 
 **Üst sağ**
-- 🔊 ses aç/kapat, 🏆 liderlik tablosu, ＋ / － yakınlaştırma.
+- 📖 **Bal Defteri** · 📊 **İstatistikler** · 📷 **Fotoğraf** · 🐝 **Kovanlar** · ⌖ **Adaya dön** · ⚙️ **Ayarlar** · 🏆 **Liderlik** · ＋ / － yakınlaştırma.
+- Ses ve ortam sesi düğmeleri oyun içi Ayarlar'daki tercihlere göre yönetilir.
+
+**Sol taraf**
+- 📋 **Bugünün görevleri:** her gerçek gün 3 küçük görev; başlığa tıklayıp katlayabilirsin.
 
 **Alt çubuk**
 - 🛒 **Mağaza** · 🍯 **Pazar** · 🧺 **Hepsini Hasat Et** · 📜 **Siparişler** (kırmızı sayı: bekleyen sipariş) · 📖 **Rehber**
@@ -154,8 +158,8 @@ Bir kovana tıklayınca **kovanın içi** açılır: solda canlı petek (ortada 
 **Üretim:** her arı saatte yaklaşık **0.5 kg** bal üretir; çiçek bonusu, hava, mevsim, ırk ve diğer etkilerle çarpılır. Kovanın üretimi menzilindeki tarhlar arasında eşit bölünür. **Kovan dolunca üretim durur**, hasat etmelisin.
 
 **İşlemler**
-- 🐝 **Arı Al:** 34 jetondan başlar, o kovana her alımda +7 artar. Kapasite doluysa alınamaz.
-- 🐝 **Arı Sat:** alış fiyatının yarısı. Kovanda en az 1 arı kalır.
+- 🐝 **Arı Al:** fiyat artık satın alma geçmişine değil **arı sırasına** bağlıdır. İlk kovanda 7. arı 34 jetondur; sonraki her sıra +7 jeton (8. arı 41, 9. arı 48 … 20. arı 125). Yeni kovan 4 arıyla geldiği için 5. ve 6. arının sabit fiyatları sırasıyla 20 ve 27 jetondur. Arı ölürse sonraki alım fiyatı mevcut arı sayısına göre geri düşer. Kapasite doluysa alınamaz.
+- 🐝 **Arı Sat:** satılan sıradaki arının sabit alış fiyatının **%50'si** (aşağı yuvarlanır). Kovanda en az 1 arı kalır.
 - 👑 **Kraliçe** ve 📦 **Kovanı Büyüt:** sırayla ilerler (aşağıdaki tablo). Sırası gelmeyen düğme ne yapman gerektiğini söyler.
 - 💧 **Şurup Ver:** 45 jeton = 6 kg kış erzakı; kışın günde 1 kg tüketilir.
 - 💊 **İlaç ver:** kovan hastaysa görünür, 90 jeton.
@@ -180,7 +184,7 @@ Bir kovana tıklayınca **kovanın içi** açılır: solda canlı petek (ortada 
 
 **Kış:** şurubu olmayan kovan **her gün 1 arı** kaybeder. Şurubu olan kovan kışın biraz daha fazla üretir.
 
-**Hastalık:** kış dışında her kovan her gün küçük bir ihtimalle (%3) hastalanır. Hasta kovan **%30 az** üretir ve **2 günde bir arı** kaybeder. İlaç anında iyileştirir. **Bir kez hastalanan kovan sonraki 3 oyun yılı bağışıktır** (kovan ekranında 🛡️ kalan gün); sonra yeniden hastalanabilir.
+**Hastalık:** kış dışında, 4 arıdan kalabalık her kovan her gün küçük bir ihtimalle (%3) hastalanır. Hasta kovan **%30 az** üretir ve tedavi edilmezse **2 günde bir arı** kaybedebilir. Bir hastalık vakasında, hastalık başladığındaki arı sayısının en fazla yaklaşık **üçte biri** ölür (en yakın tam sayıya yuvarlanır: 5→1, 6→2, 7→2, 8→3, 9→3, 10→3). Kovan **4 arıya düşerse hastalık o gün otomatik biter**. İlaç anında iyileştirir. Hastalık ister doğal olarak bitsin ister ilaçla iyileştirilsin, ardından **1 oyun yılı bağışıklık** başlar (kovan ekranında 🛡️ kalan gün).
 
 **Arı ırkları** (kovan ekranında, değiştirmek 225 jeton)
 
@@ -205,7 +209,7 @@ Bir kovana tıklayınca **kovanın içi** açılır: solda canlı petek (ortada 
 
 ## 9. Depo ve Pazar
 
-**Depo:** 50 kg ile başlar. Büyütme: 100 kg (340), 200 kg (900), 400 kg (2.250). Ballar türüne göre ayrı listelenir.
+**Depo:** 50 kg ile başlar. Büyütme: 100 kg (340), 200 kg (900), 400 kg (2.250), **800 kg (4.000), 1.500 kg (7.500), 2.500 kg (12.000), 4.000 kg (20.000), 6.000 kg (30.000), 10.000 kg (50.000)**. Seyyah Yakup'tan alınan depo sandıkları bu kapasiteye ayrıca kalıcı +10 kg ekler (en fazla 3). Ballar türüne göre ayrı listelenir.
 
 **Pazar**
 - Fiyatlar her gün taban fiyatın **%80'i ile %130'u** arasında, yumuşak şekilde dalgalanır.
@@ -217,7 +221,7 @@ Bir kovana tıklayınca **kovanın içi** açılır: solda canlı petek (ortada 
 ---
 
 ## 10. Siparişler ve köylüler
-- **Gerçek zamanla 20 dakikada bir** yeni sipariş gelir (oyun hızından bağımsız; oyun duraklatılmışsa gelmez); aynı anda en fazla **5**.
+- **Gerçek zamanla 5 dakikada bir** yeni sipariş gelir (oyun hızından bağımsız; oyun duraklatılmışsa gelmez). Uzun süre bakmadıysan geri döndüğünde tek seferde en fazla **3 yeni normal sipariş** birikir; aynı anda toplam sipariş sınırı yine **5** (Pazar Yeri varsa 6).
 - **Sadece şu an ekili (solmamış) çiçeklerin balı istenir.** Hiç ıhlamurun yoksa ıhlamur siparişi gelmez.
 - Siparişler piyasadan **çok daha iyi öder** (piyasanın 1.4–1.8 katı).
 - Kartta: kim, ne kadar ve hangi bal, ödül, süre, depodaki miktar (yetiyorsa yeşil).
@@ -311,6 +315,8 @@ Oyun Nero'nun asıl amacıyla bağlantılı: **sen çalıştıkça çiftlik büy
 - **Ballar:** her bal türünün sayfası: ilk kavanozun ne zaman olduğu, toplam hasat, satılan miktar, kazanç ve en iyi kg fiyatı. Henüz üretmediğin ballar kilitli görünür.
 - **Kayıtlar:** toplam hasat, bal türü sayısı, hasat/sipariş/mum/görev sayıları, en kalabalık kovan, en büyük satış ve kupaların.
 - **Etiket:** çiftliğinin adı ve kavanoz etiketin. 4 desen (Klasik, Çiçekli, Petek, Sade) ve 6 renkten seç. **Etiketin varsa müdavim köylüler** (en az 1 kalp) siparişlerde **%5 bahşiş** verir.
+
+**✨ Etkilerim:** Bal Defteri içindeki bu sekmede bütün bonuslarını tek yerde görürsün. **Odak Bonusu her zaman en üsttedir** ve aktifse kalan gerçek süreyi gösterir. Altında tamamlanan köylü hikâyelerinin kalıcı ödülleri, köy bina/dükkân etkileri, Seyyah Yakup'tan gelen aktif Ballı Şurup / Arı Sütü / Dört Mevsim etkileri, kovan bağışıklıkları ve depo sandığı kapasite bonusları kaynakları ve kalan süreleriyle listelenir.
 
 **İsimler:** kovan ekranında kovanın adına tıklayıp değiştir (ör. "Papatya Konağı"). Çiftliğinin adını Bal Defteri'nin başında adına tıklayarak değiştirirsin.
 
@@ -505,13 +511,14 @@ Oyun Nero'nun asıl amacıyla bağlantılı: **sen çalıştıkça çiftlik büy
 | Başlangıç jetonu | 200 |
 | Arı başına üretim | 0.5 kg/sa (+ etkiler) |
 | Yeni kovan | 900 (4 arıyla) |
+| Depo üst sınırı | 10.000 kg (+ en fazla 30 kg depo sandığı) |
 | Yeni kare | 60, sonra her biri ×1.4 |
-| Arı alış / satış | 34 + 7×(alınan) / alışın yarısı |
+| Arı alış / satış | sıradaki arı numarasına göre: 7. arı 34, her sıra +7 / ilgili sıra fiyatının %50’si |
 | Şurup | 45 jeton = 6 kg |
-| İlaç | 90 jeton · sonrasında 3 yıl bağışıklık |
+| İlaç | 90 jeton · hastalık bitince 1 yıl bağışıklık |
 | Irk değiştirme | 225 jeton |
 | Çiçek ömrü | 30 gün · canlandırma tohumun %10'u |
-| Sipariş sıklığı / en fazla | gerçek zamanla 20 dk / 5 |
+| Sipariş sıklığı / en fazla | gerçek zamanla 5 dk / 5 (uzun aradan sonra en fazla 3 birikir) |
 | Sipariş değiştirme | 19 jeton · Reddetmek: ilişki −%2 |
 | Ceza | ödemenin %20'si |
 | Mum | 500 g balmumu, ~45 jeton (kışın ×1.4) |
