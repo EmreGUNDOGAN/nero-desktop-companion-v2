@@ -940,7 +940,7 @@ let labelDraft = null;
 
 function renderLedger(force = false) {
   if (!ledgerOpen || !view) return;
-  const sig = JSON.stringify([ledgerTab, view.ledger, view.farmName, view.label, view.questsDone, view.festival.cups, labelDraft, view.stories, view.village.residents.length, view.letters]);
+  const sig = JSON.stringify([ledgerTab, view.ledger, view.farmName, view.label, view.questsDone, view.festival.cups, labelDraft, view.stories, view.effects, view.village.residents.length, view.letters]);
   if (!force && sig === ledgerSig) return;
   ledgerSig = sig;
   $('farm-name').textContent = `🏡 ${view.farmName}`;
@@ -954,6 +954,20 @@ function renderLedger(force = false) {
         ${l.gift ? `<small>${l.claimed ? '🎁 Hediye alındı' : '🎁 İçinde küçük bir hediye var'}</small>` : ''}
         ${!l.read ? `<div><button type="button" class="act primary small-act" data-read="${l.id}">${l.gift ? 'Oku ve hediyeyi al' : 'Okundu'}</button></div>` : ''}</div>`).join('')
       : '<div class="page locked"><b>Henüz mektup yok</b><small>Köylüler birkaç günde bir sana mektup yazar.</small></div>';
+  } else if (ledgerTab === 'effects') {
+    const E = view.effects || { focus: { active: false, icon: 'focus', title: 'Odak Bonusu', text: '+%25 bal üretimi', leftMs: 0 }, list: [] };
+    const allowed = new Set(['focus', 'story', 'building', 'syrup', 'milk', 'season', 'immunity', 'storage']);
+    const icon = (id) => `./assets/effects/${allowed.has(id) ? id : 'story'}.svg`;
+    const focusLeft = E.focus.active ? `${Math.max(1, Math.ceil(E.focus.leftMs / 60000))} dk kaldı` : 'Şu an aktif değil';
+    const rows = (E.list || []).map((x) => {
+      const duration = x.permanent ? 'Kalıcı' : x.daysLeft ? `${x.daysLeft} oyun günü kaldı` : '';
+      return `<div class="effect-card"><img class="effect-icon" src="${icon(x.icon)}" alt=""><div><b>${esc(x.title)}</b><small>${esc(x.source)}</small>${duration ? `<span>${esc(duration)}</span>` : ''}</div></div>`;
+    }).join('');
+    html = `<div class="effects-wrap">
+      <div class="effect-focus${E.focus.active ? ' active' : ''}"><img class="effect-icon big" src="${icon('focus')}" alt=""><div><b>Odak Bonusu</b><small>Nero ile odaklandıkça bal üretimi hızlanır.</small><span>${E.focus.active ? `${esc(E.focus.text)} · ${focusLeft}` : focusLeft}</span></div></div>
+      <h3 class="effects-title">Diğer etkiler</h3>
+      <div class="effects-grid">${rows || '<div class="page locked"><b>Henüz başka etkin yok</b><small>Hikâyeler, köy binaları ve Seyyah Yakup ilerledikçe burada görünür.</small></div>'}</div>
+    </div>`;
   } else if (ledgerTab === 'village') {
     const V = view.village;
     const pct = V.nextKg ? Math.min(100, (V.deliveredKg / V.nextKg) * 100) : 100;
@@ -1803,6 +1817,7 @@ function renderHive() {
     : `<button type="button" data-breed="${id}" ${view.coins < view.breedChangeCost ? 'disabled' : ''}>${esc(b.name)} · ${view.breedChangeCost} 🪙</button>`).join('');
   $('h-sick').hidden = !h.sick;
   if (h.sick) {
+    $('h-sick-text').textContent = `🤒 Bu kovan hasta: üretim %30 düştü. Bu vakada ${h.sickDeaths}/${h.sickDeathLimit} arı kaybedildi; 4 arıya düşerse hastalık biter.`;
     const mb = $('h-medicine');
     mb.textContent = `💊 İlaç ver · ${view.medicineCost} 🪙`;
     mb.disabled = view.coins < view.medicineCost;
