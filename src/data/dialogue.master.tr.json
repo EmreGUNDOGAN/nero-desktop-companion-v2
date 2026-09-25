@@ -9454,5 +9454,19 @@
       "t": "Arıcılıktan acil haber: {hive} hasta.",
       "e": "surprised"
     }
+  ],
+  "bee_merchant": [
+    {
+      "t": "Gezgin satıcı Seyyah Yakup köye geldi! Kaçırmadan bir bak.",
+      "e": "surprised"
+    },
+    {
+      "t": "Köyde bir at arabası var. Seyyah Yakup yine ilginç şeyler getirmiş.",
+      "e": "curious"
+    },
+    {
+      "t": "Seyyah Yakup geldi. İki gün kalacakmış, sonra gidiyor.",
+      "e": "happy"
+    }
   ]
 }

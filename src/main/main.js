@@ -1512,6 +1512,19 @@ function registerIpc() {
   ipcMain.handle('bee:export', () => exportBee());
   ipcMain.handle('bee:import', () => importBee());
   ipcMain.handle('bee:reset', () => resetBee());
+  // Fotoğraf modu: arayüz gizliyken pencerenin görüntüsünü Resimler\Nero Arıcılık klasörüne kaydeder
+  ipcMain.handle('bee:photo', async () => {
+    if (!beeWin || beeWin.isDestroyed()) return { ok: false };
+    const img = await beeWin.webContents.capturePage();
+    const dir = path.join(app.getPath('pictures'), 'Nero Arıcılık');
+    fs.mkdirSync(dir, { recursive: true });
+    const d = new Date();
+    const pad = (n) => String(n).padStart(2, '0');
+    const file = path.join(dir, `ada-${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}-${pad(d.getHours())}${pad(d.getMinutes())}${pad(d.getSeconds())}.png`);
+    fs.writeFileSync(file, img.toPNG());
+    return { ok: true, file };
+  });
+  ipcMain.handle('bee:openPhotos', () => shell.openPath(path.join(app.getPath('pictures'), 'Nero Arıcılık')));
   ipcMain.handle('bee:action', (_e, action, arg1, arg2) => {
     if (!bee) return { res: { ok: false, msg: 'Arıcılık henüz hazır değil.' }, view: null, events: [] };
     bee.markSeen();
@@ -1536,12 +1549,19 @@ function registerIpc() {
       swapOrder: () => bee.swapOrder(arg1),
       speed: () => bee.setSpeed(Number(arg1)),
       medicine: () => bee.giveMedicine(arg1),
+      readNotifs: () => bee.readNotifs(),
+      merchantBuy: () => bee.merchantBuy(arg1, arg2),
+      merchantSell: () => bee.merchantSell(arg1),
       placeDecor: () => bee.placeDecor(arg1, arg2),
       removeDecor: () => bee.removeDecor(arg1),
       enterFestival: () => bee.enterFestival(arg1, arg2),
       changeBreed: () => bee.changeBreed(arg1, arg2),
       makeCandle: () => bee.makeCandle(),
       sellCandles: () => bee.sellCandles(),
+      claimQuest: () => bee.claimQuest(arg1),
+      renameHive: () => bee.renameHive(arg1, arg2),
+      setFarmName: () => bee.setFarmName(arg1),
+      setLabel: () => bee.setLabel(arg1, arg2),
       finishTutorial: () => bee.finishTutorial()
     };
     const fn = map[action];
