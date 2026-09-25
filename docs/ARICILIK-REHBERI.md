@@ -135,8 +135,8 @@ Başlangıçta elinde:
 
 | Çiçek | Tohum | Üretime etkisi | Balın taban fiyatı (kg) | Mevsim |
 |---|---|---|---|---|
-| Yonca | 45 | +%0 | 8 | İlkbahar, Yaz |
-| Papatya | 90 | +%8 | 12 | İlkbahar, Yaz |
+| Yonca | 45 | +%5 | 8 | İlkbahar, Yaz |
+| Papatya | 90 | +%10 | 12 | İlkbahar, Yaz |
 | Ayçiçeği | 190 | +%18 | 18 | Yaz |
 | Kekik | 340 | +%30 | 26 | İlkbahar, Yaz |
 | Lavanta | 600 | +%45 | 38 | Yaz |
@@ -148,7 +148,7 @@ Başlangıçta elinde:
 - **Ömür:** her çiçek **30 gün (iki oyun ayı)** yaşar. Tarha tıklayınca kalan ömrü görürsün. Solan tarh 🥀 bal vermez, arılar oraya uçmaz ve o baldan sipariş gelmez. Solmuş tarha tıklayıp tohum fiyatının **%10'una canlandır** ya da temizle.
 - **Yan yana bonusu:** aynı çiçekten **en az 3 tarh birbirine değiyorsa** (zincir hâlinde), her biri **+%15** üretir. Çiçeğe tıklayınca bonus varsa görünür.
 - **Çeşme bonusu:** çeşmenin olduğu karede ve yanındaki karelerde bulunan tarhlar **+%5** üretir (§12).
-- **Hediye tohum:** müdavim köylüler bazen tohum hediye eder (§10). Tohum listesinde **🎁 Hediye ×1** yazar, ücretsiz ekersin.
+- **Tohum envanteri:** Mağaza'dan satın aldığın tohum doğrudan envantere eklenir. Boş bir tarha ekerken önce envanterdeki hak kullanılır; mağazada ödediğin tohum için ikinci kez jeton ödemezsin. Köylü, görev ve diğer sistemlerden gelen ücretsiz tohumlar da aynı envantere eklenir.
 
 ---
 
