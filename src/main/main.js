@@ -1538,6 +1538,19 @@ function registerIpc() {
     return { ok: true, file };
   });
   ipcMain.handle('bee:openPhotos', () => shell.openPath(path.join(app.getPath('pictures'), 'Nero Arıcılık')));
+  // Arıcılık gerçek ses kayıtları: renderer Web Audio ile decode eder.
+  ipcMain.handle('bee:sounds', () => {
+    const dir = path.join(__dirname, '..', 'renderer', 'bee', 'sounds');
+    const out = {};
+    try {
+      for (const f of fs.readdirSync(dir)) {
+        if (f.toLowerCase().endsWith('.ogg')) out[f.slice(0, -4)] = fs.readFileSync(path.join(dir, f));
+      }
+    } catch (err) {
+      log(`HATA (arıcılık sesleri): ${err.message}`);
+    }
+    return out;
+  });
   ipcMain.handle('bee:action', (_e, action, arg1, arg2) => {
     if (!bee) return { res: { ok: false, msg: 'Arıcılık henüz hazır değil.' }, view: null, events: [] };
     bee.markSeen();
