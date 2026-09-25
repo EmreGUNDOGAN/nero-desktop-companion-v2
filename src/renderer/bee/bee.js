@@ -1216,45 +1216,131 @@ $('guide-close').addEventListener('click', () => { $('guide-modal').hidden = tru
 $('guide-modal').addEventListener('click', (e) => { if (e.target === $('guide-modal')) $('guide-modal').hidden = true; });
 
 // ---------------------------------------------------------------------------
-// Sesler: dosya yok, küçük sentezlenmiş efektler
+// Sesler: gerçek OGG kayıtları + sentez fallback
 // ---------------------------------------------------------------------------
 let soundOn = true;
 try { soundOn = localStorage.getItem('bee-sound') !== 'off'; } catch (_) { /* yoksay */ }
 let actx = null;
-function tone(freq, dur, type = 'sine', gain = 0.08, delay = 0, glide = null) {
-  if (!soundOn) return;
+
+function ensureAudioContext() {
   try {
     actx = actx || new AudioContext();
-    const t0 = actx.currentTime + delay;
-    const o = actx.createOscillator();
-    const g = actx.createGain();
+    if (actx.state === 'suspended') actx.resume().catch(() => {});
+    return actx;
+  } catch (_) { return null; }
+}
+
+function tone(freq, dur, type = 'sine', gain = 0.08, delay = 0, glide = null, force = false) {
+  if (!soundOn && !force) return;
+  try {
+    const ctx = ensureAudioContext();
+    if (!ctx) return;
+    const t0 = ctx.currentTime + delay;
+    const o = ctx.createOscillator();
+    const g = ctx.createGain();
     o.type = type;
     o.frequency.setValueAtTime(freq, t0);
     if (glide) o.frequency.exponentialRampToValueAtTime(glide, t0 + dur);
     g.gain.setValueAtTime(0.0001, t0);
     g.gain.exponentialRampToValueAtTime(gain, t0 + 0.012);
     g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
-    o.connect(g).connect(actx.destination);
+    o.connect(g).connect(ctx.destination);
     o.start(t0);
     o.stop(t0 + dur + 0.03);
   } catch (_) { /* ses yoksa sessiz geç */ }
 }
+
+const SAMPLES = {};
+let samplesReady = false;
+async function loadSamples() {
+  try {
+    if (!window.bee || typeof window.bee.sounds !== 'function') return;
+    const files = await window.bee.sounds();
+    const ctx = ensureAudioContext();
+    if (!ctx) return;
+    await Promise.all(Object.entries(files || {}).map(async ([name, data]) => {
+      const u8 = data instanceof Uint8Array ? data : new Uint8Array(data);
+      const copy = u8.buffer.slice(u8.byteOffset, u8.byteOffset + u8.byteLength);
+      SAMPLES[name] = await ctx.decodeAudioData(copy);
+    }));
+    samplesReady = Object.keys(SAMPLES).length > 0;
+  } catch (_) {
+    samplesReady = false;
+  }
+}
+loadSamples();
+
+function sampleNames(base) {
+  return Object.keys(SAMPLES).filter((n) => n === base || n.startsWith(`${base}_`));
+}
+
+function play(base, { gain = 0.5, pan = 0, rate = 1, jitter = 0.05, delay = 0 } = {}) {
+  if (!soundOn || !samplesReady) return false;
+  const names = sampleNames(base);
+  if (!names.length) return false;
+  try {
+    const ctx = ensureAudioContext();
+    if (!ctx) return false;
+    const src = ctx.createBufferSource();
+    src.buffer = SAMPLES[names[Math.floor(Math.random() * names.length)]];
+    src.playbackRate.value = rate * (1 + (Math.random() * 2 - 1) * jitter);
+    const g = ctx.createGain();
+    g.gain.value = gain * (1 + (Math.random() * 2 - 1) * 0.1);
+    const p = ctx.createStereoPanner();
+    p.pan.value = Math.max(-1, Math.min(1, pan));
+    src.connect(g).connect(p).connect(ctx.destination);
+    src.start(ctx.currentTime + delay);
+    return true;
+  } catch (_) { return false; }
+}
+
+function playSlice(name, gain, dur) {
+  try {
+    if (!soundOn || !SAMPLES[name]) return false;
+    const ctx = ensureAudioContext();
+    if (!ctx) return false;
+    const src = ctx.createBufferSource();
+    src.buffer = SAMPLES[name];
+    const g = ctx.createGain();
+    const t = ctx.currentTime;
+    const actualDur = Math.min(dur, Math.max(0.1, src.buffer.duration - 0.05));
+    const maxOffset = Math.max(0, src.buffer.duration - actualDur - 0.05);
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(gain, t + 0.08);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + actualDur);
+    src.connect(g).connect(ctx.destination);
+    src.start(t, Math.random() * maxOffset, actualDur);
+    return true;
+  } catch (_) { return false; }
+}
+
 const SFX = {
-  coin: () => { tone(880, 0.09, 'triangle', 0.08); tone(1320, 0.12, 'triangle', 0.07, 0.07); },
-  harvest: () => { tone(520, 0.1, 'triangle', 0.09, 0, 780); tone(780, 0.14, 'sine', 0.07, 0.09); },
-  bell: () => { tone(988, 0.35, 'sine', 0.06); tone(1480, 0.3, 'sine', 0.04, 0.05); },
-  buzz: () => { tone(220, 0.25, 'sawtooth', 0.025, 0, 260); },
-  place: () => { tone(330, 0.08, 'square', 0.04); tone(495, 0.1, 'triangle', 0.05, 0.06); },
-  err: () => { tone(200, 0.18, 'sine', 0.06, 0, 140); }
+  coin: () => play('coin', { gain: 0.45 }) || (tone(880, 0.09, 'triangle', 0.08), tone(1320, 0.12, 'triangle', 0.07, 0.07)),
+  harvest: () => play('harvest', { gain: 0.5 }) || (tone(520, 0.1, 'triangle', 0.09, 0, 780), tone(780, 0.14, 'sine', 0.07, 0.09)),
+  bell: () => play('bell', { gain: 0.4, jitter: 0.02 }) || (tone(988, 0.35, 'sine', 0.06), tone(1480, 0.3, 'sine', 0.04, 0.05)),
+  buzz: () => (SAMPLES.loop_bees && soundOn ? playSlice('loop_bees', 0.25, 0.6) : (tone(220, 0.25, 'sawtooth', 0.025, 0, 260), true)),
+  place: () => play('place', { gain: 0.5 }) || (tone(330, 0.08, 'square', 0.04), tone(495, 0.1, 'triangle', 0.05, 0.06)),
+  plant: () => play('plant', { gain: 0.45, jitter: 0.08 }) || (SFX.place(), true),
+  paper: () => play('paper', { gain: 0.55 }) || (SFX.place(), true),
+  success: () => play('success', { gain: 0.45, jitter: 0.02 }) || (SFX.bell(), true),
+  err: () => play('error', { gain: 0.4, jitter: 0.02 }) || (tone(200, 0.18, 'sine', 0.06, 0, 140), true)
 };
-function updateSoundBtn() { $('sound-btn').textContent = soundOn ? '🔊' : '🔇'; if ($('ambient-btn')) $('ambient-btn').style.opacity = soundOn ? '1' : '.45'; }
+
+function updateSoundBtn() {
+  $('sound-btn').textContent = soundOn ? '🔊' : '🔇';
+}
 $('sound-btn').addEventListener('click', () => {
   soundOn = !soundOn;
+  ensureAudioContext();
   try { localStorage.setItem('bee-sound', soundOn ? 'on' : 'off'); } catch (_) { /* yoksay */ }
   updateSoundBtn();
 });
+window.addEventListener('pointerdown', ensureAudioContext, { once: true, capture: true });
+window.addEventListener('keydown', ensureAudioContext, { once: true, capture: true });
 updateSoundBtn();
 
+// ---------------------------------------------------------------------------
+// Nero: köşeden laf atar
 // ---------------------------------------------------------------------------
 // Nero: köşeden laf atar
 // ---------------------------------------------------------------------------
@@ -1341,9 +1427,13 @@ function react(action, res, a, b) {
     medicine: 'bee_disease_recovered_medicine'
   };
   const topic = topicByAction[action];
-  if (action === 'sellHoney' || action === 'deliverOrder' || action === 'sellCandles' || action === 'merchantSell') SFX.coin();
-  else if (action === 'upgrade' || action === 'upgradeStorage' || action === 'enterFestival') SFX.bell();
-  else if (['placeHive', 'plantSeed', 'buyTile', 'buyBee', 'syrup', 'acceptOrder', 'swapOrder', 'merchantBuy'].includes(action)) SFX.place();
+
+  if (['sellHoney', 'deliverOrder', 'sellCandles', 'merchantSell', 'claimQuest'].includes(action)) SFX.coin();
+  else if (['upgrade', 'upgradeStorage', 'enterFestival'].includes(action)) SFX.success();
+  else if (['plantSeed', 'replant'].includes(action)) SFX.plant();
+  else if (action === 'readLetter') SFX.paper();
+  else if (['placeHive', 'buyTile', 'placeDecor', 'buyBee', 'syrup', 'syrupAll', 'acceptOrder', 'swapOrder', 'merchantBuy', 'medicine', 'changeBreed', 'makeCandle'].includes(action)) SFX.place();
+
   if (topic) {
     if (action === 'medicine' && Math.random() < 0.25) sayTopic('bee_immunity_started', vars);
     else sayTopic(topic, vars);
@@ -1363,11 +1453,11 @@ function reactEvent(e) {
   else if (!topic && m.startsWith('🛡️') && m.includes('hastalığı atlattı')) { topic = Math.random() < 0.7 ? 'bee_disease_recovered_natural' : 'bee_immunity_started'; vars = { hive }; }
   else if (!topic && m.includes('kışın aç kalan bir arı öldü')) { topic = 'bee_winter_loss'; vars = { hive }; }
   else if (!topic && m.includes('yeni bir arı doğdu')) { topic = 'bee_born'; vars = { hive }; }
-  else if (!topic && m.includes('depoya eklendi')) { topic = 'honey_harvest'; vars = { hive }; SFX.harvest(); }
+  else if (!topic && m.includes('depoya eklendi')) { topic = 'honey_harvest'; vars = { hive }; }
   else if (!topic && m.startsWith('📖 Bal Defteri')) topic = 'honey_journal_unlocked';
   else if (!topic && m.startsWith('✅ Günlük görev tamamlandı')) topic = 'daily_task_completed';
-  else if (!topic && m.startsWith('📜 Yeni sipariş')) { topic = 'order_arrived'; SFX.bell(); }
-  else if (!topic && m.includes('Sipariş yetişmedi')) { topic = 'order_failed'; SFX.err(); }
+  else if (!topic && m.startsWith('📜 Yeni sipariş')) { topic = 'order_arrived'; }
+  else if (!topic && m.includes('Sipariş yetişmedi')) { topic = 'order_failed'; }
   else if (!topic && m.startsWith('🏘️ Köye yeni biri taşındı:')) topic = 'villager_arrived';
   else if (!topic && /^(🏪|🏛️) Köyde/u.test(m)) topic = 'village_building_unlocked';
   else if (!topic && m.includes('Köyün ilk halkası doldu')) topic = 'village_ring_completed';
@@ -1393,6 +1483,12 @@ function reactEvent(e) {
   else if (!topic && (m.startsWith('🏆 Bal festivalinde') || m.startsWith('🎪 Bal festivalinde'))) topic = 'honey_festival_result';
   else if (!topic && /Temkinli Ali|Riskçi Kaya|Dengeli Nur/.test(m)) topic = 'rival_event';
   else if (!topic && m.includes("Nero'da bir iş bitirdin")) topic = 'nero_todo_coin_reward';
+
+  if (m.includes('depoya eklendi')) SFX.harvest();
+  else if (m.includes('yeni bir arı doğdu')) SFX.buzz();
+  else if (m.includes('Sipariş yetişmedi') || m.includes('öldü')) SFX.err();
+  else if (m.startsWith('📜 Yeni sipariş') || m.startsWith('✉️') || m.startsWith('🛒 Gezgin') || m.startsWith('🎉 Festival!')) SFX.bell();
+  else if (m.startsWith('🌟') || m.startsWith('🏆') || m.startsWith('🏘️') || /^(🏪|🏛️) Köyde/u.test(m)) SFX.success();
 
   if (topic) sayTopic(topic, vars);
 }
@@ -2169,14 +2265,18 @@ function animateFireflies(t) {
 }
 
 // ---------------------------------------------------------------------------
-// Ortam sesleri: gündüz kuşlar ve arılar, gece cırcır böcekleri, yağmurda yağmur
+// Ortam sesleri: gerçek kayıtlar; kayıtlar yoksa mevcut sentez fallback
 // ---------------------------------------------------------------------------
 let ambientOn = true;
 try { ambientOn = localStorage.getItem('bee-ambient') !== 'off'; } catch (_) { /* yoksay */ }
 const amb = { started: false, buzz: null, rain: null };
-function updateAmbientBtn() { $('ambient-btn').style.opacity = ambientOn && soundOn ? '1' : '.45'; }
+
+function updateAmbientBtn() {
+  $('ambient-btn').style.opacity = ambientOn ? '1' : '.45';
+}
 $('ambient-btn').addEventListener('click', () => {
   ambientOn = !ambientOn;
+  ensureAudioContext();
   try { localStorage.setItem('bee-ambient', ambientOn ? 'on' : 'off'); } catch (_) { /* yoksay */ }
   updateAmbientBtn();
   toast(ambientOn ? '🎵 Ortam sesleri açık' : '🎵 Ortam sesleri kapalı');
@@ -2186,50 +2286,196 @@ updateAmbientBtn();
 function ambientStart() {
   if (amb.started) return;
   try {
-    actx = actx || new AudioContext();
-    // Arı vızıltısı: çok kısık, hafifçe dalgalanan alçak bir ton
-    const buzz = actx.createOscillator(); buzz.type = 'sawtooth'; buzz.frequency.value = 176;
-    const bf = actx.createBiquadFilter(); bf.type = 'lowpass'; bf.frequency.value = 420;
-    const bg = actx.createGain(); bg.gain.value = 0;
-    const lfo = actx.createOscillator(); lfo.frequency.value = 0.35;
-    const lg = actx.createGain(); lg.gain.value = 6;
+    const ctx = ensureAudioContext();
+    if (!ctx) return;
+    const buzz = ctx.createOscillator(); buzz.type = 'sawtooth'; buzz.frequency.value = 176;
+    const bf = ctx.createBiquadFilter(); bf.type = 'lowpass'; bf.frequency.value = 420;
+    const bg = ctx.createGain(); bg.gain.value = 0;
+    const lfo = ctx.createOscillator(); lfo.frequency.value = 0.35;
+    const lg = ctx.createGain(); lg.gain.value = 6;
     lfo.connect(lg).connect(buzz.frequency);
-    buzz.connect(bf).connect(bg).connect(actx.destination);
+    buzz.connect(bf).connect(bg).connect(ctx.destination);
     buzz.start(); lfo.start();
-    // Yağmur: filtrelenmiş beyaz gürültü
-    const buf = actx.createBuffer(1, actx.sampleRate * 2, actx.sampleRate);
+
+    const buf = ctx.createBuffer(1, ctx.sampleRate * 2, ctx.sampleRate);
     const d = buf.getChannelData(0);
     for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
-    const noise = actx.createBufferSource(); noise.buffer = buf; noise.loop = true;
-    const nf = actx.createBiquadFilter(); nf.type = 'bandpass'; nf.frequency.value = 1800; nf.Q.value = 0.6;
-    const ng = actx.createGain(); ng.gain.value = 0;
-    noise.connect(nf).connect(ng).connect(actx.destination);
+    const noise = ctx.createBufferSource(); noise.buffer = buf; noise.loop = true;
+    const nf = ctx.createBiquadFilter(); nf.type = 'bandpass'; nf.frequency.value = 1800; nf.Q.value = 0.6;
+    const ng = ctx.createGain(); ng.gain.value = 0;
+    noise.connect(nf).connect(ng).connect(ctx.destination);
     noise.start();
     amb.buzz = bg; amb.rain = ng; amb.started = true;
-  } catch (_) { /* ses altyapısı yoksa sessiz geç */ }
+  } catch (_) { /* yoksay */ }
+}
+
+const loops = {};
+function startLoop(name) {
+  if (loops[name] || !SAMPLES[`loop_${name}`]) return loops[name];
+  try {
+    const ctx = ensureAudioContext();
+    if (!ctx) return null;
+    const src = ctx.createBufferSource();
+    src.buffer = SAMPLES[`loop_${name}`];
+    src.loop = true;
+    const filter = ctx.createBiquadFilter();
+    filter.type = 'lowpass';
+    filter.frequency.value = 12000;
+    const g = ctx.createGain();
+    g.gain.value = 0;
+    const p = ctx.createStereoPanner();
+    src.connect(filter).connect(g).connect(p).connect(ctx.destination);
+    src.start(0, Math.random() * src.buffer.duration);
+    loops[name] = { src, g, p, filter };
+    return loops[name];
+  } catch (_) { return null; }
+}
+
+function setLoop(name, gain, pan = 0, cutoff = 12000) {
+  const l = startLoop(name);
+  if (!l || !actx) return;
+  const t = actx.currentTime;
+  l.g.gain.setTargetAtTime(gain, t, 1.2);
+  l.p.pan.setTargetAtTime(pan, t, 0.6);
+  l.filter.frequency.setTargetAtTime(cutoff, t, 0.6);
+}
+
+function hiveListening() {
+  let x = 0; let n = 0;
+  for (const { pos } of hiveObjects.values()) {
+    const p = pos.clone().project(camera);
+    if (Math.abs(p.x) < 1.4 && Math.abs(p.y) < 1.4) { x += p.x; n += 1; }
+  }
+  return { pan: n ? Math.max(-0.8, Math.min(0.8, x / n)) : 0, visible: n };
+}
+
+const rnd = (a, b) => a + Math.random() * (b - a);
+const AMB_S = {
+  birds: { on: false, until: Date.now() + rnd(20, 60) * 1000, node: null },
+  bees: { on: false, until: Date.now() + rnd(30, 90) * 1000 },
+  crickets: { on: false, until: Date.now() + rnd(20, 60) * 1000 }
+};
+const BIRD_GAIN = 0.07;
+
+function playSession(name, gain, dur) {
+  const buf = SAMPLES[name];
+  if (!buf || !actx) return null;
+  try {
+    const src = actx.createBufferSource();
+    src.buffer = buf;
+    src.loop = buf.duration < dur + 1;
+    const g = actx.createGain();
+    const p = actx.createStereoPanner();
+    p.pan.value = rnd(-0.35, 0.35);
+    const t = actx.currentTime;
+    const actual = Math.max(8, Math.min(dur, src.loop ? dur : buf.duration - 0.2));
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.linearRampToValueAtTime(gain, t + Math.min(6, actual * 0.25));
+    if (actual > 14) g.gain.setValueAtTime(gain, t + actual - 8);
+    g.gain.linearRampToValueAtTime(0.0001, t + actual);
+    src.connect(g).connect(p).connect(actx.destination);
+    const maxOffset = Math.max(0, buf.duration - actual - 0.1);
+    src.start(t, src.loop ? 0 : rnd(0, maxOffset));
+    src.stop(t + actual + 0.2);
+    return { src, g };
+  } catch (_) { return null; }
+}
+
+function stopSession(node) {
+  if (!node || !actx) return;
+  try {
+    const t = actx.currentTime;
+    node.g.gain.cancelScheduledValues(t);
+    node.g.gain.setTargetAtTime(0.0001, t, 1.2);
+    node.src.stop(t + 5);
+  } catch (_) { /* yoksay */ }
+}
+
+function cycle(st, allowed, onRange, offRange) {
+  const now = Date.now();
+  if (!allowed) {
+    if (st.on) { st.on = false; st.until = now + rnd(...offRange) * 1000; }
+    return false;
+  }
+  if (now >= st.until) {
+    st.on = !st.on;
+    st.until = now + rnd(...(st.on ? onRange : offRange)) * 1000;
+  }
+  return st.on;
+}
+
+function ambientTickSamples(on) {
+  if (!view) return;
+  const w = view.weather.id;
+  const season = view.calendar.season;
+  const dayLight = 1 - night;
+  const raining = w === 'yagmurlu';
+  const snowy = w === 'karli';
+  const winter = season === 'kis';
+  const insideHive = typeof openHiveId !== 'undefined' && openHiveId && view.hives[openHiveId];
+
+  const birdsNow = cycle(AMB_S.birds, on && dayLight > 0.5 && !raining && !insideHive, [90, 180], winter ? [450, 1200] : [180, 480]);
+  if (birdsNow && !AMB_S.birds.node) {
+    const names = sampleNames('birds');
+    if (names.length) {
+      const dur = Math.max(8, (AMB_S.birds.until - Date.now()) / 1000);
+      AMB_S.birds.node = playSession(names[Math.floor(Math.random() * names.length)], BIRD_GAIN * (winter ? 0.6 : 1), dur);
+    }
+  } else if (!birdsNow && AMB_S.birds.node) {
+    stopSession(AMB_S.birds.node);
+    AMB_S.birds.node = null;
+  }
+  if (AMB_S.birds.node && Date.now() >= AMB_S.birds.until) AMB_S.birds.node = null;
+
+  if (insideHive) {
+    const fullness = Math.min(1, 0.35 + insideHive.bees / 20);
+    setLoop('bees', on ? 0.28 * fullness * (winter ? 0.5 : 1) : 0, 0, 1800);
+  } else {
+    const beesNow = cycle(AMB_S.bees, on && dayLight > 0.5 && !raining && !winter, [60, 150], [150, 360]);
+    const bees = Object.values(view.hives).reduce((a, h) => a + h.bees, 0);
+    const { pan, visible } = hiveListening();
+    const closeness = Math.max(0, Math.min(1, (zoom - 0.6) / 1.6));
+    const activity = Math.min(1, 0.25 + bees / 40) * (visible ? 1 : 0.35);
+    setLoop('bees', beesNow ? 0.08 * activity * (0.45 + closeness * 0.8) : 0, pan, 1200 + closeness * 9000);
+  }
+
+  setLoop('rain', on && raining ? 0.18 * (insideHive ? 0.4 : 1) : 0);
+  setLoop('wind', on ? (snowy ? 0.18 : winter ? 0.11 : season === 'sonbahar' ? 0.07 : 0) * (insideHive ? 0.4 : 1) : 0);
+
+  const cricketsNow = cycle(AMB_S.crickets, on && night >= 0.5 && !raining && !winter, [60, 150], [120, 300]);
+  if (cricketsNow && Math.random() < 0.6) {
+    for (let i = 0; i < 3; i++) tone(4300, 0.035, 'triangle', 0.004, i * 0.06, null, true);
+  }
 }
 
 function ambientTick() {
-  const on = ambientOn && soundOn && view && document.visibilityState === 'visible';
+  const onAmbient = ambientOn && view && document.visibilityState === 'visible';
+  if (samplesReady && view) {
+    ensureAudioContext();
+    ambientTickSamples(onAmbient);
+    return;
+  }
+
+  const on = ambientOn && view && document.visibilityState === 'visible';
   if (on) ambientStart();
-  if (!amb.started) return;
+  if (!amb.started || !actx) return;
   const now = actx.currentTime;
   const raining = view && view.weather.id === 'yagmurlu';
   amb.buzz.gain.setTargetAtTime(on && night < 0.5 && !raining ? 0.006 : 0, now, 0.8);
   amb.rain.gain.setTargetAtTime(on && raining ? 0.035 : 0, now, 0.8);
   if (!on) return;
   if (night < 0.5 && !raining && Math.random() < 0.35) {
-    // Kuş cıvıltısı: kısa, hızlı iki üç nota
     const base = 2200 + Math.random() * 1400;
     const n = 2 + Math.floor(Math.random() * 3);
-    for (let i = 0; i < n; i++) tone(base + Math.random() * 500, 0.07, 'sine', 0.012, i * 0.09, base * 1.25);
+    for (let i = 0; i < n; i++) tone(base + Math.random() * 500, 0.07, 'sine', 0.012, i * 0.09, base * 1.25, true);
   } else if (night >= 0.5 && Math.random() < 0.7) {
-    // Cırcır böceği: yüksek, titrek kısa darbeler
-    for (let i = 0; i < 3; i++) tone(4300, 0.035, 'triangle', 0.006, i * 0.06);
+    for (let i = 0; i < 3; i++) tone(4300, 0.035, 'triangle', 0.006, i * 0.06, null, true);
   }
 }
 setInterval(ambientTick, 1100);
 
+// ---------------------------------------------------------------------------
+// Köy:
 // ---------------------------------------------------------------------------
 // Köy: adayı çevreleyen iki halka (yalnızca köylüler yerleşir)
 // ---------------------------------------------------------------------------
