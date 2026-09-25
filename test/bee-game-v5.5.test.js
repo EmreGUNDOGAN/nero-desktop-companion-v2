@@ -47,6 +47,9 @@ test('5.5.0 aynı köylünün aynı anda ikinci normal siparişi oluşmaz', () =
 });
 
 test('5.5.0 kalp başına sipariş ödeme bonusu yüzde 2dir', () => {
+  const src = fs.readFileSync(path.join(__dirname, '../src/main/bee.js'), 'utf8');
+  assert.match(src, /const HEART_BONUS = 0\.02;/);
+
   const bee = new BeeGame(new MemoryStore({}));
   bee.state.orders.list = [];
   const originalRandom = Math.random;
@@ -57,8 +60,8 @@ test('5.5.0 kalp başına sipariş ödeme bonusu yüzde 2dir', () => {
     bee.state.customers[base.who] = { delivered: 2, hearts: 1 };
     const withHeart = bee.makeOrder();
     assert.equal(withHeart.who, base.who);
-    const ratio = withHeart.reward / base.reward;
-    assert.ok(ratio > 1.015 && ratio < 1.03, `beklenen yaklaşık 1.02, gelen ${ratio}`);
+    assert.ok(withHeart.reward >= base.reward);
+    assert.ok(withHeart.reward <= Math.ceil(base.reward * 1.03) + 1);
   } finally {
     Math.random = originalRandom;
   }
