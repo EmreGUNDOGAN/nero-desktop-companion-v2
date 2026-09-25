@@ -25,9 +25,14 @@ const WORK_MS = 5000;                    // arıcının kovanda çalışma süre
 const WALK_MS_PER_TILE = 700;
 
 const SEASON_PRICE = { ilkbahar: 1, yaz: 0.85, sonbahar: 1, kis: 1.35 };
-const STORAGE_UPGRADES = [{ cap: 100, cost: 340 }, { cap: 200, cost: 900 }, { cap: 400, cost: 2250 }];
+const STORAGE_UPGRADES = [
+  { cap: 100, cost: 340 }, { cap: 200, cost: 900 }, { cap: 400, cost: 2250 },
+  { cap: 800, cost: 4000 }, { cap: 1500, cost: 7500 }, { cap: 2500, cost: 12000 },
+  { cap: 4000, cost: 20000 }, { cap: 6000, cost: 30000 }, { cap: 10000, cost: 50000 }
+];
 const HISTORY_DAYS = 7;
-const ORDER_EVERY_REAL_MS = 20 * 60 * 1000; // gerçek zamanla 20 dakikada bir sipariş (oyun hızından bağımsız)
+const ORDER_EVERY_REAL_MS = 5 * 60 * 1000; // gerçek zamanla 5 dakikada bir sipariş (oyun hızından bağımsız)
+const ORDER_CATCHUP_MAX = 3;              // uzun aradan sonra tek açılışta en fazla 3 normal sipariş birikir
 const ORDER_EVERY_MS = ORDER_EVERY_REAL_MS;
 const ORDER_MAX = 5;
 const ORDER_SWAP_COST = 19;
@@ -65,7 +70,12 @@ const HISTORY_KEEP = 20;
 const SICK_CHANCE = 0.03;          // kış dışında, kovan başına günlük hastalanma ihtimali
 const SICK_MULT = 0.7;             // hasta kovan %30 daha az üretir
 const MEDICINE_COST = 90;
-const SICK_IMMUNE_YEARS = 3;              // hastalanan kovan sonraki 3 oyun yılı hastalanmaz
+const SICK_IMMUNE_YEARS = 1;              // hastalık bittiğinde 1 oyun yılı bağışıklık başlar
+const SICK_MIN_BEES = 4;                   // hastalık kovanı 4 arının altına düşüremez
+const SICK_DEATH_DIVISOR = 3;              // vaka başına başlangıç arılarının yaklaşık üçte biri ölebilir
+const BEE_PRICE_BASE_NUMBER = 7;           // ilk kovanda satın alınan ilk arı: 7. arı
+const BEE_PRICE_BASE = 34;
+const BEE_PRICE_STEP = 7;
 const REVIVE_RATE = 0.1;                  // solan çiçeği canlandırmak: tohum fiyatının %10'u
 const REJECT_REL = 0.2;                   // reddetmek ilişkiyi %2 azaltır (1 teslim = %10)
 const NOTIF_KEEP = 20;
@@ -238,7 +248,7 @@ function makeIsland() {
 }
 
 function newHive(id, name, bees, invested) {
-  return { breed: 'anadolu', id, name, bees, capBees: 10, capKg: 20, honey: {}, level: 0, queens: 0, syrup: 0, beesBought: 0, invested, breedDay: 0 };
+  return { breed: 'anadolu', id, name, bees, capBees: 10, capKg: 20, honey: {}, level: 0, queens: 0, syrup: 0, beesBought: 0, invested, breedDay: 0, sickDeaths: 0 };
 }
 
 function freshState() {
@@ -260,6 +270,7 @@ function freshState() {
       [hiveId]: newHive(hiveId, 'Kovan 1', 6, 0)
     },
     storage: {},           // bal türü -> kg
+    storageBaseCap: 50,
     storageCap: 50,
     keeper: { queue: [], job: null },
     market: null,
@@ -286,7 +297,14 @@ class BeeGame {
     this.state = s && s.v === 1 && s.tiles ? s : freshState();
     this.state.keeper = this.state.keeper || { queue: [], job: null };
     for (const h of Object.values(this.state.hives)) {
-      Object.assign(h, { level: 0, queens: 0, syrup: 0, beesBought: 0, invested: 0, breedDay: 0, ...h });
+      Object.assign(h, { level: 0, queens: 0, syrup: 0, beesBought: 0, invested: 0, breedDay: 0, sickDeaths: 0, ...h });
+      if (h.sick) {
+        h.sickStartBees = h.sickStartBees || h.bees;
+        h.sickDeaths = h.sickDeaths || 0;
+        h.immuneUntil = 0;
+      } else if (h.immuneUntil) {
+        h.immuneUntil = Math.min(h.immuneUntil, this.dayIndex() + DAYS_PER_SEASON * 4 * SICK_IMMUNE_YEARS);
+      }
     }
     this.state.weather = this.state.weather || 'gunesli';
     this.state.counters = this.state.counters || { produced: 0, born: 0, ordersIn: 0, died: 0 };
@@ -312,6 +330,9 @@ class BeeGame {
     }
     this.checkVillage(true);
     if (!this.state.merchant) this.state.merchant = { nextDay: this.dayIndex() + 3, active: false, stock: [], bought: [], sandik: 0 };
+    const crateBonus = (this.state.merchant.sandik || 0) * 10;
+    if (this.state.storageBaseCap == null) this.state.storageBaseCap = Math.max(50, (this.state.storageCap || 50) - crateBonus);
+    this.state.storageCap = this.state.storageBaseCap + crateBonus;
     if (!this.state.stories) this.state.stories = {};
     if (!this.state.letters) this.state.letters = [];
     if (this.state.nextLetterDay == null) this.state.nextLetterDay = this.dayIndex() + 2;
@@ -329,6 +350,7 @@ class BeeGame {
     this.lastDay = this.dayIndex();
     if (!this.state.market) this.state.market = this.newMarket();
     if (!this.state.orders) this.state.orders = { list: [], nextAt: this.state.gameMs + ORDER_EVERY_MS };
+    if (this.state.orders.nextAtReal && this.state.orders.nextAtReal > Date.now() + ORDER_EVERY_REAL_MS) this.state.orders.nextAtReal = Date.now() + ORDER_EVERY_REAL_MS;
     if (!this.state.rivals) {
       const base = this.netWorth();
       this.state.rivals = RIVALS.map((r, i) => ({ id: r.id, nw: Math.round(base * (0.85 + i * 0.12)), history: [], last: 0 }));
@@ -471,6 +493,21 @@ class BeeGame {
 
   markSeen() { this.state.lastSeenAt = Date.now(); }
 
+  // --- Hastalık ---------------------------------------------------------------
+  sicknessDeathLimit(h) {
+    const start = Math.max(SICK_MIN_BEES, Number(h.sickStartBees) || h.bees || SICK_MIN_BEES);
+    return Math.max(1, Math.round(start / SICK_DEATH_DIVISOR));
+  }
+
+  recoverHive(h, dayIdx, notify = true) {
+    h.sick = false;
+    h.immuneUntil = dayIdx + DAYS_PER_SEASON * 4 * SICK_IMMUNE_YEARS;
+    h.sickSince = null;
+    h.sickStartBees = null;
+    h.sickDeaths = 0;
+    if (notify) this.events.push({ msg: `🛡️ ${h.name} hastalığı atlattı. 1 oyun yılı bağışık.` });
+  }
+
   // --- Günlük olaylar: üreme, kış kaybı -------------------------------------
   onNewDay(dayIdx) {
     this.merchantDay(dayIdx);
@@ -506,17 +543,25 @@ class BeeGame {
     for (const h of Object.values(this.state.hives)) {
       const k = this.hiveTileKey(h.id);
       if (!k) continue;
-      // Hastalık: yakalanır, ilgilenilmezse 2 günde bir arı kaybettirir
+      const wasSick = !!h.sick;
+      // Hastalık: 2 günde bir kayıp olabilir; tek vakada en fazla başlangıç nüfusunun yaklaşık üçte biri ölür.
       if (h.sick) {
-        if ((dayIdx - h.sickSince) % 2 === 1 && h.bees > 1) {
+        const limit = this.sicknessDeathLimit(h);
+        if (h.bees <= SICK_MIN_BEES || (h.sickDeaths || 0) >= limit) {
+          this.recoverHive(h, dayIdx);
+        } else if ((dayIdx - h.sickSince) % 2 === 1 && h.bees > SICK_MIN_BEES) {
           h.bees -= 1;
+          h.sickDeaths = (h.sickDeaths || 0) + 1;
           this.state.counters.died += 1;
-          this.events.push({ msg: `${h.name}: hasta kovanda bir arı öldü. İlaç ver!`, err: true });
+          this.events.push({ msg: `${h.name}: hasta kovanda bir arı öldü.`, err: true });
+          if (h.bees <= SICK_MIN_BEES || h.sickDeaths >= limit) this.recoverHive(h, dayIdx);
         }
-      } else if (season !== 'kis' && dayIdx >= (h.immuneUntil || 0) && Math.random() < SICK_CHANCE * (BREEDS[h.breed] || BREEDS.anadolu).sick * (1 - this.fx('sickReduce') - this.storyFx('sick'))) {
+      } else if (season !== 'kis' && h.bees > SICK_MIN_BEES && dayIdx >= (h.immuneUntil || 0) && Math.random() < SICK_CHANCE * (BREEDS[h.breed] || BREEDS.anadolu).sick * (1 - this.fx('sickReduce') - this.storyFx('sick'))) {
         h.sick = true;
         h.sickSince = dayIdx;
-        h.immuneUntil = dayIdx + DAYS_PER_SEASON * 4 * SICK_IMMUNE_YEARS; // bir kez hastalanan kovan 3 yıl bağışık
+        h.sickStartBees = h.bees;
+        h.sickDeaths = 0;
+        h.immuneUntil = 0;
         this.events.push({ msg: `🤒 ${h.name} hastalandı! Üretim düştü, ilaç ver.`, err: true });
       }
       if (season === 'kis') {
@@ -527,7 +572,7 @@ class BeeGame {
           this.state.winterDeaths = (this.state.winterDeaths || 0) + 1;
           this.events.push({ msg: `${h.name}: kışın aç kalan bir arı öldü. Şurup ver!`, err: true });
         }
-      } else if (h.bees < h.capBees && this.flowersNear(k).length && dayIdx - h.breedDay >= (BREEDS[h.breed] || BREEDS.anadolu).breedDays) {
+      } else if (!wasSick && h.bees < h.capBees && this.flowersNear(k).length && dayIdx - h.breedDay >= (BREEDS[h.breed] || BREEDS.anadolu).breedDays) {
         h.bees += 1;
         h.breedDay = dayIdx;
         this.state.counters.born += 1;
@@ -859,8 +904,8 @@ class BeeGame {
     if (id === 'dortMevsim') { this.state.tiles[target].item.allSeasonUntil = day + 30; msg = 'Tarh 30 gün boyunca mevsim dışı cezası almayacak.'; }
     if (id === 'suru') { const add = Math.min(3, h.capBees - h.bees); h.bees += add; msg = `${h.name}: +${add} arı.`; }
     if (id === 'sut') { h.milkDays = 3; msg = `${h.name} 3 gün boyunca her gün yeni bir arı doğuracak.`; }
-    if (id === 'kit') { h.sick = false; h.immuneUntil = day + DAYS_PER_SEASON * 4 * SICK_IMMUNE_YEARS; this.state.ledger.cured += 1; msg = `${h.name} iyileşti ve bağışık oldu.`; }
-    if (id === 'sandik') { m.sandik = (m.sandik || 0) + 1; this.state.storageCap += 10; msg = 'Depo kalıcı olarak +10 kg büyüdü.'; }
+    if (id === 'kit') { this.recoverHive(h, day, false); this.state.ledger.cured += 1; msg = `${h.name} iyileşti ve 1 oyun yılı bağışık oldu.`; }
+    if (id === 'sandik') { m.sandik = (m.sandik || 0) + 1; this.state.storageCap = this.state.storageBaseCap + m.sandik * 10; msg = 'Depo kalıcı olarak +10 kg büyüdü.'; }
     if (id === 'mum') { this.state.wax += 1; msg = '+1 kg balmumu.'; }
     this.save();
     return { ok: true, msg: `🛒 ${def.name} alındı (-${price} 🪙). ${msg}` };
@@ -989,6 +1034,35 @@ class BeeGame {
         steps: s.steps.map((x) => ({ text: x.text, n: x.n }))
       };
     });
+  }
+
+  effectsView() {
+    const day = this.dayIndex();
+    const effects = [];
+    for (const s of STORIES) {
+      const st = this.state.stories[s.id];
+      if (st && st.done) effects.push({ id: `story:${s.id}`, icon: 'story', title: s.bonusText, source: `${s.who} · ${s.title}`, permanent: true });
+    }
+    for (const n of this.state.village.arrived) {
+      const e = VILLAGE[n - 1];
+      if (e.effect && e.effectText) effects.push({ id: `village:${e.n}`, icon: 'building', title: e.effectText, source: e.name, permanent: true });
+    }
+    for (const h of Object.values(this.state.hives)) {
+      if (day < (h.boostUntilDay || 0)) effects.push({ id: `syrup:${h.id}`, icon: 'syrup', title: '+%50 bal üretimi', source: `${h.name} · Ballı şurup`, daysLeft: h.boostUntilDay - day });
+      if ((h.milkDays || 0) > 0) effects.push({ id: `milk:${h.id}`, icon: 'milk', title: 'Her gün +1 arı', source: `${h.name} · Arı sütü`, daysLeft: h.milkDays });
+      if (!h.sick && day < (h.immuneUntil || 0)) effects.push({ id: `immune:${h.id}`, icon: 'immunity', title: 'Hastalığa karşı bağışık', source: h.name, daysLeft: h.immuneUntil - day });
+    }
+    for (const [k, t] of Object.entries(this.state.tiles)) {
+      if (t.item && t.item.type === 'flower' && day < (t.item.allSeasonUntil || 0)) {
+        effects.push({ id: `season:${k}`, icon: 'season', title: 'Mevsim dışı üretim cezası yok', source: `${FLOWERS[t.item.flower].name} tarhı · Dört mevsim`, daysLeft: t.item.allSeasonUntil - day });
+      }
+    }
+    const crates = (this.state.merchant && this.state.merchant.sandik) || 0;
+    if (crates) effects.push({ id: 'storage:crates', icon: 'storage', title: `+${crates * 10} kg depo kapasitesi`, source: `Seyyah Yakup · ${crates} depo sandığı`, permanent: true });
+    return {
+      focus: { active: Date.now() < (this.state.focusBoostUntil || 0), icon: 'focus', title: 'Odak Bonusu', text: `+%${Math.round(FOCUS_BOOST * 100)} bal üretimi`, leftMs: Math.max(0, (this.state.focusBoostUntil || 0) - Date.now()) },
+      list: effects
+    };
   }
 
   // --- Köy ------------------------------------------------------------------------
@@ -1254,7 +1328,7 @@ class BeeGame {
     const medCost = this.medicineCost();
     if (this.state.coins < medCost) return this.fail(`Yeterli jeton yok (${medCost} gerekli).`);
     this.state.coins -= medCost;
-    h.sick = false;
+    this.recoverHive(h, this.dayIndex(), false);
     this.state.ledger.cured += 1;
     this.save();
     return { ok: true, msg: `${h.name} iyileşti 💊` };
@@ -1406,16 +1480,17 @@ class BeeGame {
     return { ok: true, msg: `${kg.toFixed(1)} kg ${FLOWERS[f].name} balı satıldı (+${gain} 🪙).` };
   }
 
-  nextStorage() { return STORAGE_UPGRADES.find((u) => u.cap > this.state.storageCap) || null; }
+  nextStorage() { return STORAGE_UPGRADES.find((u) => u.cap > (this.state.storageBaseCap || 50)) || null; }
 
   upgradeStorage() {
     const u = this.nextStorage();
     if (!u) return this.fail('Depo en büyük boyutta.');
     if (this.state.coins < u.cost) return this.fail(`Yeterli jeton yok (${u.cost} gerekli).`);
     this.state.coins -= u.cost;
-    this.state.storageCap = u.cap;
+    this.state.storageBaseCap = u.cap;
+    this.state.storageCap = u.cap + ((this.state.merchant && this.state.merchant.sandik) || 0) * 10;
     this.save();
-    return { ok: true, msg: `Depo büyüdü: artık ${u.cap} kg alıyor.` };
+    return { ok: true, msg: `Depo büyüdü: artık ${this.state.storageCap} kg alıyor.` };
   }
 
   // --- Siparişler ------------------------------------------------------------
@@ -1463,14 +1538,18 @@ class BeeGame {
       }
     }
     this.specialOrders();
-    // Yeni sipariş
+    // Yeni sipariş: gerçek zamanda 5 dakikada bir. Uzun aradan sonra tek seferde en fazla 3 tane birikir.
     const real = Date.now();
     if (!o.nextAtReal) o.nextAtReal = real + ORDER_EVERY_REAL_MS;
-    if (o.list.filter((x) => !x.special).length >= this.orderMax()) { o.nextAtReal = real + ORDER_EVERY_REAL_MS; return; }
+    const normalCount = o.list.filter((x) => !x.special).length;
+    if (normalCount >= this.orderMax()) { o.nextAtReal = real + ORDER_EVERY_REAL_MS; return; }
     if (real >= o.nextAtReal) {
-      const ord = this.makeOrder();
-      o.nextAtReal = real + ORDER_EVERY_REAL_MS;
-      if (ord) {
+      const elapsedSlots = Math.floor((real - o.nextAtReal) / ORDER_EVERY_REAL_MS) + 1;
+      const addCount = Math.min(elapsedSlots, ORDER_CATCHUP_MAX, this.orderMax() - normalCount);
+      o.nextAtReal += elapsedSlots * ORDER_EVERY_REAL_MS;
+      for (let i = 0; i < addCount; i++) {
+        const ord = this.makeOrder();
+        if (!ord) break;
         o.list.push(ord);
         this.state.counters.ordersIn += 1;
         this.events.push({ msg: `📜 Yeni sipariş: ${ord.who} ${ord.kg} kg ${FLOWERS[ord.flower].name} balı istiyor.` });
@@ -1726,8 +1805,12 @@ class BeeGame {
   }
 
   // --- Arı alım/satım -----------------------------------------------------
-  beePrice(h) { return 34 + h.beesBought * 7; }
-  beeSellPrice(h) { return Math.floor(this.beePrice(h) / 2); }
+  beeNumberPrice(number) {
+    return Math.max(1, BEE_PRICE_BASE + (Number(number) - BEE_PRICE_BASE_NUMBER) * BEE_PRICE_STEP);
+  }
+
+  beePrice(h) { return this.beeNumberPrice(h.bees + 1); }
+  beeSellPrice(h) { return Math.floor(this.beeNumberPrice(h.bees) / 2); }
 
   buyBee(hiveId) {
     const h = this.state.hives[hiveId];
@@ -1939,6 +2022,8 @@ class BeeGame {
       hives[h.id] = {
         ...h,
         immuneDays: Math.max(0, (h.immuneUntil || 0) - this.dayIndex()),
+        sickDeaths: h.sickDeaths || 0,
+        sickDeathLimit: h.sick ? this.sicknessDeathLimit(h) : 0,
         total: this.hiveTotal(h),
         ratePerHour: Object.values(rates).reduce((a, b) => a + b, 0),
         near: this.flowersNear(this.hiveTileKey(h.id) || '0,0'),
@@ -2009,6 +2094,7 @@ class BeeGame {
       syrupAllCost: this.syrupAllCost(),
       hints: this.hints(),
       stories: this.storiesView(),
+      effects: this.effectsView(),
       notifs: (this.state.notifs || []).slice().reverse(),
       notifsUnread: this.state.notifsUnread || 0,
       reviveRate: REVIVE_RATE,
