@@ -220,7 +220,7 @@
         <h2>🛒 Mağaza</h2>
         <button class="round small" id="shop-close" type="button" aria-label="Kapat">✕</button>
       </div>
-      <p class="modal-sub">Satın al, sonra adada yerleştirmek istediğin kareye tıkla. Bir karede ya kovan ya da çiçek olur.</p>
+      <p class="modal-sub">Tohum satın alımları envanterine eklenir; boş bir tarha ekerken önce envanterindeki tohum kullanılır. Kovan, arazi ve dekorları satın alırken yerleştireceğin kareyi seçersin.</p>
       <div class="shop-tabs" role="tablist">
         <button type="button" data-tab="seeds" class="on">🌱 Tohumlar</button>
         <button type="button" data-tab="hive">🐝 Kovan</button>
@@ -242,6 +242,7 @@
         <div class="guide-intro">
           <b>Bu oyun uzun vadeli ilerler.</b>
           <span>Kovan kur, yanına çiçek ek, balı hasat et; pazarda sat veya daha kârlı siparişlere yetiştir. Nero açıkken çiftliğin arka planda da yaşamaya devam eder.</span>
+          <button type="button" class="guide-release-btn" id="open-whats-new">📋 Sürüm Yenilikleri</button>
         </div>
 
         <details class="guide-topic" open>
@@ -451,6 +452,25 @@
       <p class="modal-sub" id="merchant-sub"></p>
       <ul class="merchant-list" id="merchant-list"></ul>
       <div class="merchant-buy" id="merchant-buy"></div>
+    </div>
+  </div>
+
+  <!-- Sürüm yenilikleri -->
+  <div class="modal-bg whats-new-bg" id="whats-new-modal" hidden>
+    <div class="modal card whats-new-card">
+      <div class="whats-new-decor" aria-hidden="true">✿　🐝　✿</div>
+      <div class="whats-new-head">
+        <div class="whats-new-mark" aria-hidden="true">🐝</div>
+        <div>
+          <small id="whats-new-version"></small>
+          <h2 id="whats-new-title">Çiftlikte neler değişti?</h2>
+          <p id="whats-new-intro"></p>
+        </div>
+      </div>
+      <div class="whats-new-list" id="whats-new-list"></div>
+      <div class="whats-new-foot">
+        <button type="button" class="act primary" id="whats-new-close">Çiftliğe Dön</button>
+      </div>
     </div>
   </div>
 
