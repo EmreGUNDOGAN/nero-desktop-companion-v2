@@ -1,0 +1,57 @@
+name: Test Nero 5.5.0
+
+on:
+  push:
+    branches: [feature/v5.5.0-aricilik]
+  workflow_dispatch:
+  pull_request:
+    branches: [build-v5.4.2-chatgpt]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Check main-process syntax
+        run: |
+          node --check src/main/bee.js
+          node --check src/main/main.js
+      - name: Check bee renderer module syntax
+        run: |
+          node --input-type=module --check < src/renderer/bee/bee.js
+          node --input-type=module --check < src/renderer/bee/bee-dialogues.js
+          for f in src/renderer/bee/bee-dialogues-0*.js; do node --input-type=module --check < "$f"; done
+      - name: Verify locked bee dialogue totals
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          let topics = 0;
+          let lines = 0;
+          for (let i = 1; i <= 8; i++) {
+            const p = `src/renderer/bee/bee-dialogues-${String(i).padStart(2, '0')}.js`;
+            const src = fs.readFileSync(p, 'utf8');
+            const json = src.replace(/^.*?export default\s/s, '').replace(/;\s*$/, '');
+            const obj = JSON.parse(json);
+            topics += Object.keys(obj).length;
+            lines += Object.values(obj).reduce((n, a) => n + a.length, 0);
+          }
+          if (topics !== 57 || lines !== 2133) throw new Error(`Dialogue totals mismatch: ${topics} topics / ${lines} lines`);
+          console.log(`Dialogue totals OK: ${topics} topics / ${lines} lines`);
+          NODE
+      - name: Run tests
+        run: npm test
+      - name: Validate desktop dialogue data
+        run: npm run dialogue:check
+      - name: Bee window Electron smoke
+        env:
+          LIBGL_ALWAYS_SOFTWARE: "1"
+        run: xvfb-run -a npx electron --no-sandbox test/bee-window-electron-smoke.js

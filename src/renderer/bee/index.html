@@ -119,7 +119,7 @@
           <div class="breed-opts" id="h-breeds"></div>
         </div>
         <div class="sick-banner" id="h-sick" hidden>
-          <span>🤒 Bu kovan hasta: üretim %30 düştü, arılar azalıyor.</span>
+          <span id="h-sick-text">🤒 Bu kovan hasta: üretim %30 düştü.</span>
           <button type="button" id="h-medicine"></button>
         </div>
         <button class="harvest-btn" id="h-harvest" type="button"></button>
@@ -145,6 +145,7 @@
         </div>
         <p class="modal-sub" id="m-sub">Fiyatlar her gün dalgalanır. Kışın bal daha değerli, yazın daha ucuz.</p>
         <div class="festival" id="m-festival" hidden></div>
+        <div class="festival" id="m-forecast" hidden></div>
         <div class="fest-box" id="fest-box" hidden></div>
         <div class="list-tools">
           <label><input type="checkbox" id="market-mine"> Sadece depomdakiler</label>
@@ -252,8 +253,9 @@
 
         <details class="guide-topic">
           <summary>📋 Günlük görevler ve 📖 Bal Defteri</summary>
-          <p>Her gün 3 küçük görev gelir (bal hasat et, sat, sipariş teslim et, mum yap, tarh ek gibi). Tamamlanınca <b>Ödülü al</b> ile jeton, bazen de hediye tohum kazanırsın. Görevler gece yarısı yenilenir.</p>
-          <p><b>Bal Defteri</b> (📖, kısayol D) her bal türünün sayfasını tutar: ilk ne zaman ürettiğin, toplam kg, satış ve en iyi fiyat. Henüz üretmediğin ballar kilitli görünür. <b>Kayıtlar</b> sekmesinde hasat, sipariş, mum, görev sayıların ve kupaların; <b>Etiket</b> sekmesinde çiftliğinin adı ve kavanoz etiketin var. Etiketin varsa müdavim köylüler siparişlerde <b>%5 bahşiş</b> verir.</p>
+          <p>Her gerçek gün <b>40 görev türünden 3 görev</b> gelir: hasat, pazar, sipariş, arılar, bakım, geliştirme, tarh, mum ve koşul uygunsa Seyyah Yakup görevleri. Sistem o anda yapılamayan görevleri seçmez; ödül miktarı görevin zorluğuna göre değişir ve bazen hediye tohum çıkar.</p>
+          <p>Tamamlanmamış bir görevi günde <b>2 kez ücretsiz</b> değiştirebilirsin. Bu haklar bitince <b>1 kez 100 🪙</b> ödeyerek yeniden shuffle edebilirsin. Günlük maksimum 3 değişim vardır; uygun yeni görev yoksa hakkın veya jetonun harcanmaz. Görevler ve haklar gerçek gece yarısında yenilenir.</p>
+          <p><b>Bal Defteri</b> (📖, kısayol D) her bal türünün sayfasını tutar: ilk ne zaman ürettiğin, toplam kg, satış ve en iyi fiyat. Henüz üretmediğin ballar kilitli görünür. <b>Kayıtlar</b> sekmesinde hasat, sipariş, mum, görev sayıların ve kupaların; <b>✨ Etkilerim</b> sekmesinde odak bonusunu, hikâye ödüllerini, köy binalarını ve aktif geçici etkileri; <b>Etiket</b> sekmesinde çiftliğinin adı ve kavanoz etiketin var. Etiketin varsa müdavim köylüler siparişlerde <b>%5 bahşiş</b> verir.</p>
           <p>Kovanlarının adını kovan ekranında isme tıklayarak, çiftliğinin adını Bal Defteri'nde değiştirebilirsin.</p>
         </details>
 
@@ -266,7 +268,9 @@
 
         <details class="guide-topic">
           <summary>🛒 Gezgin satıcı ve 📖 köylü hikâyeleri</summary>
-          <p><b>Seyyah Yakup</b> 6–9 oyun gününde bir köye gelir ve 2 gün kalır; gelince zil çalar ve üstte "Seyyah Yakup köyde" düğmesi belirir. Arabasına ya da düğmeye tıklayınca başka yerde bulunmayan 4 ürün görürsün: ballı şurup, indirimli kraliçe, tohum paketi, dört mevsim tohumu, arı sürüsü, arı sütü, bakım kiti, depo sandığı ya da balmumu çuvalı. <b>Her üründen 1 tane, bir ziyarette en fazla 2 farklı ürün</b> alabilirsin. Ayrıca bir bal türü arar ve 10 kg'a kadar pazarın %40 üstüne satın alır.</p>
+          <p><b>Seyyah Yakup</b> 6–9 oyun gününde bir köye gelir ve 2 gün kalır; gelince zil çalar ve üstte "Seyyah Yakup köyde" düğmesi belirir. Her ziyarette <b>38 ürünlük havuzdan rastgele 4 teklif</b> getirir. <b>Dekor asla satmaz.</b> Normal ürünlerden her üründen 1 tane, bir ziyarette en fazla 2 farklı ürün alabilirsin; <b>Stok Değişim Jetonu bu kotayı tüketmez.</b> Uygun hedef yoksa hedef isteyen ürün satın alınamaz.</p>
+          <p>Havuzda Ballı Şurup, İndirimli Kraliçe, Tohum Paketi, Dört Mevsim Tohumu, Arı Sürüsü, Arı Sütü, Bakım Kiti, Depo Sandığı, Balmumu Çuvalı, Kışlık Şurup Fıçısı, Propolis Kalkanı, Arı Vitamini, Kovan Yalıtımı, Irk Değişim Kuponu, Arı Nakil Kutusu, Polen Keki, Acil Kış Paketi, Çiçek Besini, Ömür Uzatıcı Gübre, Yeniden Ekim Kuponu, Nadir Tohum Sandığı, Mevsim Tohum Kutusu, Özel Polen Karışımı, Arıcı Eldiveni, Balmumu Presi, Usta Mum Kalıbı, Depo Yükseltme Kuponu, Pazar Mührü, Fiyat Sabitleme Fişi, Pazar Tahmin Kartı, Sipariş Kum Saati, Sipariş Mührü, Dostluk Jetonu, Öncelikli Teslim Kartı, Festival Cilası, Festival Güvencesi, Seyyah Satış Fişi ve Stok Değişim Jetonu bulunur. Geçici etkiler güç olarak üst üste katlanmaz; yeniden alınırsa süre uzar/yenilenir.</p>
+          <p>Yakup ayrıca her ziyarette bir bal türü arar ve o baldan 10 kg'a kadar <b>pazarın %40 üstüne</b> satın alır.</p>
           <p>Sekiz köylünün (Arıcı Hasan, Ayşe Teyze, Balıkçı Kemal, Küçük Elif, Öğretmen Selin, Muhtar Rıza, Doktor Aslı, Kerim Dede) birer <b>hikâyesi</b> var. İlişkin %50'yi geçince açılır; 3 adımı tamamladıkça jeton ve tohum, sonunda küçük kalıcı bir ödül kazanırsın (en fazla %5). Köylüye tıklayınca ya da Bal Defteri → Köy'de ilerlemeni görürsün.</p>
         </details>
 
@@ -307,40 +311,41 @@
 
         <details class="guide-topic">
           <summary>🐝 Kovanlar, arılar ve yükseltmeler</summary>
-          <p>Kovana tıklayınca arı sayısı, bal kapasitesi, saatlik üretim, menzildeki tarhlar ve kraliçe seviyesi görünür. Kovan dolarsa üretim tamamen durur.</p>
+          <p>Kovana tıklayınca arı sayısı, bal kapasitesi, saatlik üretim, menzildeki tarhlar ve kraliçe seviyesi görünür. Kovan dolarsa üretim tamamen durur. Arı fiyatı artık geçmişte kaç kez arı aldığına değil, <b>kovandaki sıradaki arı numarasına</b> bağlıdır: 7. arı 34 🪙, sonraki her sıra +7 🪙; arı ölürse sonraki alım fiyatı da mevcut arı sayısına göre geri düşer. Arı satışı, satılan sıradaki arının fiyatının %50'sidir (aşağı yuvarlanır).</p>
           <p>Gelişim sırası kraliçe → kovan kapasitesi → kraliçe şeklinde ilerler. Arı alımı üretimi artırır ama yeterli çiçek yoksa yeni arıların getirisi düşer.</p>
           <p><b>Anadolu:</b> +%10 üretim ama daha kolay hastalanır. <b>Kafkas:</b> kış kaybına dayanıklı. <b>İtalyan:</b> hızlı çoğalır, üretimi biraz düşüktür.</p>
         </details>
 
         <details class="guide-topic">
           <summary>❄️ Kış, şurup ve hastalık</summary>
-          <p>Kışın üretim çok düşer. Şurupsuz kovan arı kaybedebilir; <b>60 jetonluk şurup 6 kg erzak</b> verir ve her oyun gününde tüketilir. Kıştan önce her kovana erzak koymak güvenlidir.</p>
-          <p>Kış dışında kovanlar hastalanabilir. Hasta kovan %30 daha az üretir ve tedavi edilmezse arı kaybeder. <b>İlaç 90 jeton</b> ve anında iyileştirir. Bir kez hastalanan kovan sonraki <b>3 oyun yılı</b> boyunca bağışıktır (kovan ekranında 🛡️ kalan gün yazar); sonra yeniden hastalanabilir.</p>
+          <p>Kışın üretim çok düşer. Şurupsuz kovan arı kaybedebilir; <b>45 jetonluk şurup 6 kg erzak</b> verir ve her oyun gününde tüketilir. Kıştan önce her kovana erzak koymak güvenlidir.</p>
+          <p>Kış dışında, 4 arıdan kalabalık kovanlar hastalanabilir. Hasta kovan %30 daha az üretir ve tedavi edilmezse 2 günde bir arı kaybedebilir. Tek bir hastalıkta, hastalık başladığındaki arı sayısının en fazla yaklaşık <b>üçte biri</b> ölür (en yakın tam sayıya yuvarlanır); kovan 4 arıya düşerse hastalık hemen biter. Hastalık doğal olarak bittiğinde de ilaçla iyileştiğinde de <b>1 oyun yılı bağışıklık</b> başlar. <b>İlaç 90 jeton</b> ve anında iyileştirir.</p>
         </details>
 
         <details class="guide-topic">
           <summary>🧺 Hasat ve depo</summary>
           <p>Hasat dediğinde arıcı evden kovana yürür, 5 saniye çalışır ve balı depoya taşır. “Hepsini Hasat Et” kovanları sıraya koyar. Depo doluysa hasat başlayamaz.</p>
-          <p>Depo 50 kg ile başlar; 100, 200 ve 400 kg'a yükseltilebilir. Hasatta ayrıca balmumu çıkar; 500 g balmumundan bir mum yapılabilir.</p>
+          <p>Depo 50 kg ile başlar; 100, 200, 400, 800, 1.500, 2.500, 4.000, 6.000 ve 10.000 kg kademelerine yükseltilebilir. Seyyah Yakup'un depo sandıkları bu kapasiteye ayrıca +10 kg ekler. Hasatta ayrıca balmumu çıkar; 500 g balmumundan bir mum yapılabilir.</p>
         </details>
 
         <details class="guide-topic">
           <summary>🍯 Pazar mı, sipariş mi?</summary>
           <p>Pazar fiyatları her gün değişir. Yazın bal daha ucuz, kışın daha pahalıdır. Acil jeton gerekiyorsa Pazar hızlıdır.</p>
           <p>Siparişler genellikle daha çok kazandırır ve köylülerle kalp biriktirir. Ancak kabul ettikten sonra süre başlar; yetiştiremezsen ödülün %20'si kadar ceza ödersin. Kabul etmeden önce depodaki miktarı kontrol et.</p>
-          <p>Yeni sipariş <b>gerçek zamanla 20 dakikada bir</b> gelir (oyun hızından bağımsız). Bir siparişi <b>reddetmek</b> o kişiyle ilişkini <b>%2</b> azaltır (her teslim %10 kazandırır; ilişki %0'ın altına inmez). Solan bir tarhı tohum fiyatının <b>%10'una canlandırabilirsin</b>.</p>
+          <p>Yeni sipariş <b>gerçek zamanla 5 dakikada bir</b> gelir (oyun hızından bağımsız). Uzun süre bakmadıysan geri döndüğünde en fazla <b>3 yeni normal sipariş</b> birden birikir; toplam sipariş sınırı yine geçilmez. <b>Aynı köylünün aynı anda yalnızca 1 açık/kabul edilmiş normal siparişi</b> olabilir. Bir siparişi <b>reddetmek</b> o kişiyle ilişkini <b>%2</b> azaltır (her teslim %10 kazandırır; ilişki %0'ın altına inmez). Solan bir tarhı tohum fiyatının <b>%10'una canlandırabilirsin</b>.</p>
           <p>Sol alttaki 🔔 <b>zil</b> son 20 bildirimi gösterir; okunmamış bildirim varsa üstünde sayı çıkar. 📊 İstatistikler'in en üstünde oyun boyunca sattığın toplam bal (ton) yazar.</p>
         </details>
 
         <details class="guide-topic">
           <summary>💛 Köylüler, dekorlar ve uzun vadeli bonuslar</summary>
-          <p>Aynı köylüye her 2 teslimde bir kalp kazanırsın. Her kalp o köylünün sipariş ödemesini %6 artırır; 2. ve 4. kalpte hediye tohum gelebilir.</p>
+          <p>Aynı köylüye her 2 teslimde bir kalp kazanırsın. Her kalp o köylünün sipariş ödemesini <b>%2</b> artırır; 5 kalpte ilişki kaynaklı maksimum bonus <b>%10</b> olur. 2. ve 4. kalpte hediye tohum gelebilir.</p>
           <p>Dekorların çoğu görseldir. <b>Çeşme</b> bulunduğu kare ve komşu tarhlara +%5 üretim verir; stratejik yerleştirmek değerlidir.</p>
         </details>
 
         <details class="guide-topic">
           <summary>🔥 Nero ile birlikte çalışmak</summary>
-          <p>Nero'da en az 10 dakikalık odak seansını tamamlamak kovanlara geçici <b>+%25 üretim</b> verir. 25 dakikalık seans yaklaşık 1 saatlik bonus üretir ve bonuslar en fazla 4 saate kadar eklenir.</p>
+          <p>Nero'da en az 10 dakikalık odak seansını tamamlamak kovanlara geçici <b>+%25 üretim</b> verir. 25 dakikalık seans yaklaşık 1 saatlik bonus üretir. Arıcılık için bir gerçek günde toplam <b>en fazla 4 saat bonus kazanabilirsin</b>; süreyi tüketmiş olsan bile o gün 4 saati geçtiysen yeni bonus eklenmez. Kota gece yarısında yenilenir.</p>
+          <p>Bal Defteri → <b>✨ Etkilerim</b> bölümünün en üstündeki Odak Bonusu kartında <b>kalan süre</b>, <b>bugün kazanılan / 4 saat</b> ve günlük limit görünür. Oyun içindeki Nero artık 57 olay başlığında toplam <b>2.133</b> onaylı replik kullanır.</p>
           <p>Nero yapılacaklar listesinde bir işi bitirdiğinde çiftliğe <b>+10 jeton</b> gelir. Oyun penceresi önde değilken Nero; dolu/hasta kovan, yaklaşan sipariş, kışta erzak ve rakip uyarılarını masaüstünde söyleyebilir.</p>
         </details>
 
@@ -412,6 +417,7 @@
       <div class="shop-tabs" role="tablist">
         <button type="button" data-ltab="honey" class="on">🍯 Ballar</button>
         <button type="button" data-ltab="records">🏅 Kayıtlar</button>
+        <button type="button" data-ltab="effects">✨ Etkilerim</button>
         <button type="button" data-ltab="village">🏘️ Köy</button>
         <button type="button" data-ltab="letters">✉️ Mektuplar <em class="badge-n tab-badge" id="letters-badge" hidden>0</em></button>
         <button type="button" data-ltab="label">🏷️ Etiket</button>

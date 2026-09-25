@@ -25,9 +25,14 @@ const WORK_MS = 5000;                    // arıcının kovanda çalışma süre
 const WALK_MS_PER_TILE = 700;
 
 const SEASON_PRICE = { ilkbahar: 1, yaz: 0.85, sonbahar: 1, kis: 1.35 };
-const STORAGE_UPGRADES = [{ cap: 100, cost: 340 }, { cap: 200, cost: 900 }, { cap: 400, cost: 2250 }];
+const STORAGE_UPGRADES = [
+  { cap: 100, cost: 340 }, { cap: 200, cost: 900 }, { cap: 400, cost: 2250 },
+  { cap: 800, cost: 4000 }, { cap: 1500, cost: 7500 }, { cap: 2500, cost: 12000 },
+  { cap: 4000, cost: 20000 }, { cap: 6000, cost: 30000 }, { cap: 10000, cost: 50000 }
+];
 const HISTORY_DAYS = 7;
-const ORDER_EVERY_REAL_MS = 20 * 60 * 1000; // gerçek zamanla 20 dakikada bir sipariş (oyun hızından bağımsız)
+const ORDER_EVERY_REAL_MS = 5 * 60 * 1000; // gerçek zamanla 5 dakikada bir sipariş (oyun hızından bağımsız)
+const ORDER_CATCHUP_MAX = 3;              // uzun aradan sonra tek açılışta en fazla 3 normal sipariş birikir
 const ORDER_EVERY_MS = ORDER_EVERY_REAL_MS;
 const ORDER_MAX = 5;
 const ORDER_SWAP_COST = 19;
@@ -58,14 +63,26 @@ const WEATHER_ODDS = {
 };
 
 // Günlük görevler (gerçek güne bağlı, her gün 3 görev)
-const QUEST_TYPES = ['harvest', 'harvestFlower', 'sell', 'deliver', 'candle', 'plant'];
+const QUEST_TYPES = [
+  'harvest', 'harvestFlower', 'sell', 'deliver', 'candle', 'plant',
+  'harvest2Hives', 'harvest3Hives', 'harvestSingle10', 'harvest2Types', 'harvest3Types', 'harvestPremium',
+  'sell2Transactions', 'sell2Types', 'sellFlower', 'saleIncome', 'winterSell',
+  'acceptOrder', 'deliver2', 'deliverNoPenalty', 'deliverPerson', 'deliverRegular',
+  'buyBee', 'buy3Bees', 'syrup1', 'syrup2Hives', 'cureHive', 'changeBreed', 'queenUpgrade', 'hiveUpgrade', 'placeHive',
+  'plant2', 'plantFlower', 'reviveFlower', 'plant2Types', 'sellCandles', 'candle2', 'claim2', 'merchantBuy', 'merchantSell'
+];
 const LABEL_DESIGNS = { klasik: 'Klasik', cicekli: 'Çiçekli', petek: 'Petek', sade: 'Sade' };
 const LABEL_BONUS = 0.05;          // etiketli kavanoz: müdavimler %5 fazla öder
 const HISTORY_KEEP = 20;
 const SICK_CHANCE = 0.03;          // kış dışında, kovan başına günlük hastalanma ihtimali
 const SICK_MULT = 0.7;             // hasta kovan %30 daha az üretir
 const MEDICINE_COST = 90;
-const SICK_IMMUNE_YEARS = 3;              // hastalanan kovan sonraki 3 oyun yılı hastalanmaz
+const SICK_IMMUNE_YEARS = 1;              // hastalık bittiğinde 1 oyun yılı bağışıklık başlar
+const SICK_MIN_BEES = 4;                   // hastalık kovanı 4 arının altına düşüremez
+const SICK_DEATH_DIVISOR = 3;              // vaka başına başlangıç arılarının yaklaşık üçte biri ölebilir
+const BEE_PRICE_BASE_NUMBER = 7;           // ilk kovanda satın alınan ilk arı: 7. arı
+const BEE_PRICE_BASE = 34;
+const BEE_PRICE_STEP = 7;
 const REVIVE_RATE = 0.1;                  // solan çiçeği canlandırmak: tohum fiyatının %10'u
 const REJECT_REL = 0.2;                   // reddetmek ilişkiyi %2 azaltır (1 teslim = %10)
 const NOTIF_KEEP = 20;
@@ -108,15 +125,44 @@ const MERCHANT_EVERY = [6, 9];            // 6-9 oyun gününde bir gelir
 const MERCHANT_STAY = 2;                  // 2 oyun günü kalır
 const MERCHANT_MAX_BUY = 2;               // bir ziyarette en fazla 2 farklı ürün (her birinden 1)
 const MERCHANT_ITEMS = {
-  surup:    { name: 'Ballı şurup', icon: '🍯', desc: 'Seçtiğin kovan 1 oyun günü boyunca %50 fazla üretir.', target: 'hive' },
-  kralice:  { name: 'İndirimli kraliçe', icon: '👑', desc: 'Seçtiğin kovanın sıradaki kraliçe yükseltmesi %30 ucuza.', target: 'hiveQueen' },
-  tohum:    { name: 'Tohum paketi', icon: '🌱', desc: '3 rastgele hediye tohum (papatya–lavanta arası).', target: null },
-  dortMevsim: { name: 'Dört mevsim tohumu', icon: '🌸', desc: 'Seçtiğin tarh 30 gün boyunca mevsim dışı cezası almaz.', target: 'flower' },
-  suru:     { name: 'Arı sürüsü', icon: '🐝', desc: 'Seçtiğin kovana 3 arı (kapasiteyi aşmaz).', target: 'hiveRoom' },
-  sut:      { name: 'Arı sütü', icon: '🥛', desc: 'Seçtiğin kovan 3 gün boyunca her gün 1 arı doğurur (kışta da).', target: 'hive' },
-  kit:      { name: 'Bakım kiti', icon: '🩺', desc: 'Hasta bir kovanı iyileştirir; bağışıklığı hemen başlatır.', target: 'hiveSick' },
-  sandik:   { name: 'Depo sandığı', icon: '📦', desc: 'Depoya kalıcı +10 kg (en fazla 3 kez).', target: null },
-  mum:      { name: 'Balmumu çuvalı', icon: '🕯️', desc: '1 kg balmumu.', target: null }
+  surup: { name: 'Ballı Şurup', icon: '🍯', desc: 'Seçilen kovan 1 oyun günü %50 fazla üretir.', target: 'hive' },
+  kralice: { name: 'İndirimli Kraliçe', icon: '👑', desc: 'Seçilen kovanın sıradaki kraliçe yükseltmesini %30 indirimli yapar.', target: 'hiveQueen', dynamicPrice: true },
+  tohum: { name: 'Tohum Paketi', icon: '🌱', desc: 'Papatya–Lavanta havuzundan 3 rastgele hediye tohum.', target: null },
+  dortMevsim: { name: 'Dört Mevsim Tohumu', icon: '🌸', desc: 'Seçilen tarh 30 gün mevsim dışı ceza almaz.', target: 'flower', dynamicPrice: true },
+  suru: { name: 'Arı Sürüsü', icon: '🐝', desc: 'Seçilen kovana +3 arı.', target: 'hiveRoom3', dynamicPrice: true },
+  sut: { name: 'Arı Sütü', icon: '🥛', desc: 'Seçilen kovan 3 gün boyunca her gün +1 arı doğurur; kışta da çalışır.', target: 'hive' },
+  kit: { name: 'Bakım Kiti', icon: '🩺', desc: 'Hasta kovanı anında iyileştirir ve bağışıklığı başlatır.', target: 'hiveSick' },
+  sandik: { name: 'Depo Sandığı', icon: '📦', desc: 'Kalıcı +10 kg depo kapasitesi; toplam en fazla 3.', target: null },
+  mum: { name: 'Balmumu Çuvalı', icon: '🕯️', desc: '+1 kg balmumu.', target: null },
+  kislikSurup: { name: 'Kışlık Şurup Fıçısı', icon: '🍯', desc: 'Seçilen kovana +18 kg kış erzakı ekler.', target: 'hive' },
+  propolis: { name: 'Propolis Kalkanı', icon: '🛡️', desc: 'Seçilen kovanda 10 gün hastalanma ihtimalini %50 azaltır.', target: 'hive' },
+  vitamin: { name: 'Arı Vitamini', icon: '💊', desc: 'Seçilen kovan 5 gün +%15 üretim sağlar.', target: 'hive' },
+  yalitim: { name: 'Kovan Yalıtımı', icon: '❄️', desc: 'Seçilen kovanda bir sonraki kış şurup tüketimini %50 azaltır.', target: 'hive' },
+  irkKupon: { name: 'Irk Değişim Kuponu', icon: '🧬', desc: 'Seçtiğin kovanda tek seferlik ırk değişimi yapar.', target: 'hiveBreed' },
+  nakil: { name: 'Arı Nakil Kutusu', icon: '📦', desc: 'İki kovan arasında en fazla 3 arı taşı.', target: 'hiveTransfer' },
+  polenKeki: { name: 'Polen Keki', icon: '🌼', desc: 'Seçilen kovanda 5 gün doğal üreme aralığını yarıya indirir.', target: 'hive' },
+  acilKis: { name: 'Acil Kış Paketi', icon: '🧯', desc: 'Seçilen kovanda şurup yokluğundan doğacak bir sonraki arı kaybını bir kez engeller.', target: 'hive' },
+  cicekBesini: { name: 'Çiçek Besini', icon: '🌿', desc: 'Seçilen tarh 5 gün +%25 üretim sağlar.', target: 'flower' },
+  omurGubre: { name: 'Ömür Uzatıcı Gübre', icon: '🌱', desc: 'Seçilen tarhın ömrüne +10 oyun günü ekler.', target: 'flower', dynamicPrice: true },
+  yenidenEkim: { name: 'Yeniden Ekim Kuponu', icon: '♻️', desc: 'Solmuş bir tarhı ücretsiz canlandırır.', target: 'flowerWilted' },
+  nadirTohum: { name: 'Nadir Tohum Sandığı', icon: '🎁', desc: 'İki yüksek değerli hediye tohum içerir.', target: null },
+  mevsimTohum: { name: 'Mevsim Tohum Kutusu', icon: '🌦️', desc: 'Mevcut mevsime uygun 3 hediye tohum içerir.', target: null },
+  polenKarisim: { name: 'Özel Polen Karışımı', icon: '🌺', desc: 'Seçilen kovanda çiçek bonuslarını 5 gün %25 güçlendirir.', target: 'hive' },
+  eldiven: { name: 'Arıcı Eldiveni', icon: '🧤', desc: 'Sonraki 3 başarılı hasatta balmumu +%50.', target: null },
+  balmumuPresi: { name: 'Balmumu Presi', icon: '🕯️', desc: 'Sonraki 5 mum 0,5 kg yerine 0,3 kg balmumu tüketir.', target: null },
+  mumKalibi: { name: 'Usta Mum Kalıbı', icon: '🏷️', desc: 'Sonraki 5 mum satışında satış fiyatı +%35.', target: null },
+  depoKupon: { name: 'Depo Yükseltme Kuponu', icon: '📦', desc: 'Bir sonraki standart depo yükseltmesi %20 ucuz olur.', target: null, dynamicPrice: true },
+  pazarMuhru: { name: 'Pazar Mührü', icon: '💰', desc: 'Bir sonraki pazar satışında en fazla 10 kg bal +%15 fiyatla satılır.', target: null },
+  fiyatSabitle: { name: 'Fiyat Sabitleme Fişi', icon: '🔒', desc: 'Seçilen balın mevcut pazar fiyatını 1 oyun günü sabitler.', target: 'honey' },
+  pazarTahmin: { name: 'Pazar Tahmin Kartı', icon: '🔮', desc: 'Ertesi gün 3 bal türünün fiyat yönünü önceden gösterir.', target: null },
+  siparisKum: { name: 'Sipariş Kum Saati', icon: '⏳', desc: 'Seçilen kabul edilmiş siparişe +1 oyun günü ekler.', target: 'acceptedOrder' },
+  siparisMuhru: { name: 'Sipariş Mührü', icon: '🏅', desc: 'Seçilen sipariş başarıyla tamamlanırsa ödemesi +%12 olur.', target: 'order', dynamicPrice: true },
+  dostlukJeton: { name: 'Dostluk Jetonu', icon: '💛', desc: 'Bir sonraki başarılı köylü siparişine +10 ilişki puanı verir.', target: null },
+  oncelikKart: { name: 'Öncelikli Teslim Kartı', icon: '📮', desc: 'Bir sonraki başarılı köylü siparişine +4 ilişki puanı verir.', target: null },
+  festivalCila: { name: 'Festival Cilası', icon: '🏆', desc: 'Bir sonraki Bal Festivali giriş puanına +%5.', target: null },
+  festivalGuvence: { name: 'Festival Güvencesi', icon: '🛡️', desc: 'Kupa alamazsan gönderdiğin balın %60’ı geri gelir.', target: null },
+  seyyahFis: { name: 'Seyyah Satış Fişi', icon: '💎', desc: 'Bu ziyarette Yakup’a sattığın en fazla 10 kg bala ek +%10 ödeme.', target: null },
+  stokDegisim: { name: 'Stok Değişim Jetonu', icon: '🔄', desc: 'Yakup’un henüz alınmamış bir teklifini bir kez yeniden çeker.', target: 'merchantStock' }
 };
 
 // Köylü hikâyeleri: ilişki %50'yi geçince açılır, 3 adım; son ödül küçük ve kalıcı (en fazla %5)
@@ -139,7 +185,7 @@ const STORIES = [
     steps: [{ t: 'deliverTo', n: 3, text: 'Ona 3 sipariş teslim et' }, { t: 'deliverKg', f: 'ihlamur', n: 5, text: '5 kg ıhlamur balı teslim et' }, { t: 'relation', n: 80, text: 'Onunla %80 ilişkiye ulaş' }] }
 ];
 const CLUSTER_BONUS = 0.15;        // aynı türden en az 3 tarh yan yanaysa
-const AWAY_SUMMARY_MS = 3 * 60 * 1000;
+const AWAY_SUMMARY_MS = 20 * 60 * 1000; // 5.5.0: dönüş özeti 20 gerçek dakikadan sonra
 
 // 1) Odak bonusu: Nero'da odaklandıkça arılar da coşar
 const FOCUS_BOOST = 0.25;                 // +%25 üretim
@@ -149,7 +195,7 @@ const TODO_REWARD = 10;                   // Nero'da bitirilen her iş: +10 jeto
 // 2) Müdavim köylüler
 const HEART_EVERY = 2;                    // her 2 teslimde +1 kalp
 const HEART_MAX = 5;
-const HEART_BONUS = 0.06;                 // kalp başına +%6 ödeme
+const HEART_BONUS = 0.02;                 // 5.5.0: kalp başına +%2 ödeme
 
 // 3) Dekorlar (kare kaplamaz, karenin kenarına konur)
 const DECOR = {
@@ -238,7 +284,7 @@ function makeIsland() {
 }
 
 function newHive(id, name, bees, invested) {
-  return { breed: 'anadolu', id, name, bees, capBees: 10, capKg: 20, honey: {}, level: 0, queens: 0, syrup: 0, beesBought: 0, invested, breedDay: 0 };
+  return { breed: 'anadolu', id, name, bees, capBees: 10, capKg: 20, honey: {}, level: 0, queens: 0, syrup: 0, beesBought: 0, invested, breedDay: 0, sickDeaths: 0 };
 }
 
 function freshState() {
@@ -260,6 +306,7 @@ function freshState() {
       [hiveId]: newHive(hiveId, 'Kovan 1', 6, 0)
     },
     storage: {},           // bal türü -> kg
+    storageBaseCap: 50,
     storageCap: 50,
     keeper: { queue: [], job: null },
     market: null,
@@ -271,6 +318,10 @@ function freshState() {
     counters: { produced: 0, born: 0, ordersIn: 0, died: 0 },
     away: null,
     focusBoostUntil: 0,
+    focusDaily: { day: '', earnedMs: 0 },
+    questRefresh: null,
+    merchantEffects: {},
+    marketLocks: {},
     customers: {},
     vouchers: {},
     wax: 0,
@@ -286,7 +337,14 @@ class BeeGame {
     this.state = s && s.v === 1 && s.tiles ? s : freshState();
     this.state.keeper = this.state.keeper || { queue: [], job: null };
     for (const h of Object.values(this.state.hives)) {
-      Object.assign(h, { level: 0, queens: 0, syrup: 0, beesBought: 0, invested: 0, breedDay: 0, ...h });
+      Object.assign(h, { level: 0, queens: 0, syrup: 0, beesBought: 0, invested: 0, breedDay: 0, sickDeaths: 0, ...h });
+      if (h.sick) {
+        h.sickStartBees = h.sickStartBees || h.bees;
+        h.sickDeaths = h.sickDeaths || 0;
+        h.immuneUntil = 0;
+      } else if (h.immuneUntil) {
+        h.immuneUntil = Math.min(h.immuneUntil, this.dayIndex() + DAYS_PER_SEASON * 4 * SICK_IMMUNE_YEARS);
+      }
     }
     this.state.weather = this.state.weather || 'gunesli';
     this.state.counters = this.state.counters || { produced: 0, born: 0, ordersIn: 0, died: 0 };
@@ -295,9 +353,13 @@ class BeeGame {
       if (t.item && t.item.type === 'flower' && t.item.plantedDay === undefined) t.item.plantedDay = this.dayIndex();
     }
     Object.assign(this.state, {
-      focusBoostUntil: 0, customers: {}, vouchers: {}, wax: 0, candles: 0,
+      focusBoostUntil: 0, focusDaily: { day: '', earnedMs: 0 }, questRefresh: null, merchantEffects: {}, marketLocks: {},
+      customers: {}, vouchers: {}, wax: 0, candles: 0,
       festival: { entry: null, cups: [], lastYear: 0 }, ...this.state
     });
+    this.state.focusDaily = this.state.focusDaily || { day: '', earnedMs: 0 };
+    this.state.merchantEffects = this.state.merchantEffects || {};
+    this.state.marketLocks = this.state.marketLocks || {};
     for (const h of Object.values(this.state.hives)) if (!h.breed) h.breed = 'anadolu';
     Object.assign(this.state, {
       farmName: 'Nero Çiftliği', quests: null, questsDone: 0, milestones: {}, history: [],
@@ -312,6 +374,9 @@ class BeeGame {
     }
     this.checkVillage(true);
     if (!this.state.merchant) this.state.merchant = { nextDay: this.dayIndex() + 3, active: false, stock: [], bought: [], sandik: 0 };
+    const crateBonus = (this.state.merchant.sandik || 0) * 10;
+    if (this.state.storageBaseCap == null) this.state.storageBaseCap = Math.max(50, (this.state.storageCap || 50) - crateBonus);
+    this.state.storageCap = this.state.storageBaseCap + crateBonus;
     if (!this.state.stories) this.state.stories = {};
     if (!this.state.letters) this.state.letters = [];
     if (this.state.nextLetterDay == null) this.state.nextLetterDay = this.dayIndex() + 2;
@@ -329,6 +394,7 @@ class BeeGame {
     this.lastDay = this.dayIndex();
     if (!this.state.market) this.state.market = this.newMarket();
     if (!this.state.orders) this.state.orders = { list: [], nextAt: this.state.gameMs + ORDER_EVERY_MS };
+    if (this.state.orders.nextAtReal && this.state.orders.nextAtReal > Date.now() + ORDER_EVERY_REAL_MS) this.state.orders.nextAtReal = Date.now() + ORDER_EVERY_REAL_MS;
     if (!this.state.rivals) {
       const base = this.netWorth();
       this.state.rivals = RIVALS.map((r, i) => ({ id: r.id, nw: Math.round(base * (0.85 + i * 0.12)), history: [], last: 0 }));
@@ -417,14 +483,18 @@ class BeeGame {
     const rates = {};
     const weather = WEATHER[this.state.weather] || WEATHER.bulutlu;
     const share = (hive.bees * BASE_KG_PER_BEE_HOUR) / near.length;
+    const day = this.dayIndex();
     for (const { flower: f, key: fk } of near) {
       const def = FLOWERS[f];
       const breed = BREEDS[hive.breed] || BREEDS.anadolu;
       const focus = Date.now() < (this.state.focusBoostUntil || 0) ? 1 + FOCUS_BOOST : 1;
-      let mult = (1 + def.buff) * weather.mult * (hive.sick ? SICK_MULT : 1) * (1 + this.clusterBonus(fk) + this.fountainBonus(fk))
-        * breed.prod * focus * (1 + this.fx('prodBonus') + this.storyFx('prodAll'))
-        * (this.dayIndex() < (hive.boostUntilDay || 0) ? 1.5 : 1);
-      const allSeason = (this.state.tiles[fk].item.allSeasonUntil || 0) > this.dayIndex();
+      const pollenBuff = day < (hive.pollenMixUntilDay || 0) ? 1.25 : 1;
+      const flowerFeed = day < ((this.state.tiles[fk].item || {}).feedUntilDay || 0) ? 1.25 : 1;
+      const vitamin = day < (hive.vitaminUntilDay || 0) ? 1.15 : 1;
+      let mult = (1 + def.buff * pollenBuff) * weather.mult * (hive.sick ? SICK_MULT : 1) * (1 + this.clusterBonus(fk) + this.fountainBonus(fk))
+        * breed.prod * focus * vitamin * flowerFeed * (1 + this.fx('prodBonus') + this.storyFx('prodAll'))
+        * (day < (hive.boostUntilDay || 0) ? 1.5 : 1);
+      const allSeason = (this.state.tiles[fk].item.allSeasonUntil || 0) > day;
       if (season === 'kis') mult *= hive.syrup > 0 ? WINTER_SYRUP_FACTOR : WINTER_FACTOR;
       else if (!def.seasons.includes(season) && !allSeason) mult *= OUT_OF_SEASON;
       rates[f] = (rates[f] || 0) + share * mult;
@@ -471,6 +541,22 @@ class BeeGame {
 
   markSeen() { this.state.lastSeenAt = Date.now(); }
 
+  // --- Hastalık ---------------------------------------------------------------
+  sicknessDeathLimit(h) {
+    const start = Math.max(SICK_MIN_BEES, Number(h.sickStartBees) || h.bees || SICK_MIN_BEES);
+    const roundedThird = Math.max(1, Math.round(start / SICK_DEATH_DIVISOR));
+    return Math.max(0, Math.min(start - SICK_MIN_BEES, roundedThird));
+  }
+
+  recoverHive(h, dayIdx, notify = true) {
+    h.sick = false;
+    h.immuneUntil = dayIdx + DAYS_PER_SEASON * 4 * SICK_IMMUNE_YEARS;
+    h.sickSince = null;
+    h.sickStartBees = null;
+    h.sickDeaths = 0;
+    if (notify) this.events.push({ msg: `🛡️ ${h.name} hastalığı atlattı. 1 oyun yılı bağışık.` });
+  }
+
   // --- Günlük olaylar: üreme, kış kaybı -------------------------------------
   onNewDay(dayIdx) {
     this.merchantDay(dayIdx);
@@ -506,28 +592,36 @@ class BeeGame {
     for (const h of Object.values(this.state.hives)) {
       const k = this.hiveTileKey(h.id);
       if (!k) continue;
-      // Hastalık: yakalanır, ilgilenilmezse 2 günde bir arı kaybettirir
+      const wasSick = !!h.sick;
+      // Hastalık: 2 günde bir kayıp olabilir; tek vakada en fazla başlangıç nüfusunun yaklaşık üçte biri ölür.
       if (h.sick) {
-        if ((dayIdx - h.sickSince) % 2 === 1 && h.bees > 1) {
+        const limit = this.sicknessDeathLimit(h);
+        if (h.bees <= SICK_MIN_BEES || (h.sickDeaths || 0) >= limit) {
+          this.recoverHive(h, dayIdx);
+        } else if ((dayIdx - h.sickSince) % 2 === 1 && h.bees > SICK_MIN_BEES) {
           h.bees -= 1;
+          h.sickDeaths = (h.sickDeaths || 0) + 1;
           this.state.counters.died += 1;
-          this.events.push({ msg: `${h.name}: hasta kovanda bir arı öldü. İlaç ver!`, err: true });
+          this.events.push({ msg: `${h.name}: hasta kovanda bir arı öldü.`, err: true });
+          if (h.bees <= SICK_MIN_BEES || h.sickDeaths >= limit) this.recoverHive(h, dayIdx);
         }
-      } else if (season !== 'kis' && dayIdx >= (h.immuneUntil || 0) && Math.random() < SICK_CHANCE * (BREEDS[h.breed] || BREEDS.anadolu).sick * (1 - this.fx('sickReduce') - this.storyFx('sick'))) {
+      } else if (season !== 'kis' && h.bees > SICK_MIN_BEES && dayIdx >= (h.immuneUntil || 0) && Math.random() < SICK_CHANCE * (BREEDS[h.breed] || BREEDS.anadolu).sick * (1 - this.fx('sickReduce') - this.storyFx('sick')) * (dayIdx < (h.propolisUntilDay || 0) ? 0.5 : 1)) {
         h.sick = true;
         h.sickSince = dayIdx;
-        h.immuneUntil = dayIdx + DAYS_PER_SEASON * 4 * SICK_IMMUNE_YEARS; // bir kez hastalanan kovan 3 yıl bağışık
+        h.sickStartBees = h.bees;
+        h.sickDeaths = 0;
+        h.immuneUntil = 0;
         this.events.push({ msg: `🤒 ${h.name} hastalandı! Üretim düştü, ilaç ver.`, err: true });
       }
       if (season === 'kis') {
-        if (h.syrup >= 1) h.syrup -= 1;
+        const insulated = dayIdx >= (h.insulationFromDay || Infinity) && dayIdx < (h.insulationUntilDay || -Infinity);
+        const need = insulated ? 0.5 : 1;
+        if (h.syrup >= need) h.syrup = Math.max(0, h.syrup - need);
         else if (h.bees > 1 && dayIdx % (BREEDS[h.breed] || BREEDS.anadolu).winter === 0) {
-          h.bees -= 1;
-          this.state.counters.died += 1;
-          this.state.winterDeaths = (this.state.winterDeaths || 0) + 1;
-          this.events.push({ msg: `${h.name}: kışın aç kalan bir arı öldü. Şurup ver!`, err: true });
+          if (h.winterShield) { h.winterShield = 0; this.events.push({ msg: `🧯 ${h.name}: Acil Kış Paketi bir arı kaybını engelledi.` }); }
+          else { h.bees -= 1; this.state.counters.died += 1; this.state.winterDeaths = (this.state.winterDeaths || 0) + 1; this.events.push({ msg: `${h.name}: kışın aç kalan bir arı öldü. Şurup ver!`, err: true }); }
         }
-      } else if (h.bees < h.capBees && this.flowersNear(k).length && dayIdx - h.breedDay >= (BREEDS[h.breed] || BREEDS.anadolu).breedDays) {
+      } else if (!wasSick && h.bees < h.capBees && this.flowersNear(k).length && dayIdx - h.breedDay >= Math.max(1, (BREEDS[h.breed] || BREEDS.anadolu).breedDays * (dayIdx < (h.pollenCakeUntilDay || 0) ? 0.5 : 1))) {
         h.bees += 1;
         h.breedDay = dayIdx;
         this.state.counters.born += 1;
@@ -541,10 +635,30 @@ class BeeGame {
   focusCompleted(minutes) {
     if (!minutes || minutes < 10) return null;
     const now = Date.now();
+    const day = this.todayKey();
+    if (!this.state.focusDaily || this.state.focusDaily.day !== day) this.state.focusDaily = { day, earnedMs: 0 };
+    const dailyMax = 4 * FOCUS_BOOST_MS;
+    const dailyLeft = Math.max(0, dailyMax - this.state.focusDaily.earnedMs);
+    if (!dailyLeft) {
+      this.events.push({ msg: '🔥 Bugünkü 4 saatlik odak bonusu limitine ulaştın.' });
+      this.save();
+      return false;
+    }
+    const requested = FOCUS_BOOST_MS * (minutes / 25) + this.fx('focusExtraMin') * 60000;
+    const activeRemaining = Math.max(0, (this.state.focusBoostUntil || 0) - now);
+    const activeRoom = Math.max(0, 4 * FOCUS_BOOST_MS - activeRemaining);
+    const granted = Math.max(0, Math.min(requested, dailyLeft, activeRoom));
+    if (!granted) {
+      this.events.push({ msg: '🔥 Odak bonusu şu an 4 saatlik aktif tavanda. Süre azaldığında yeniden ekleyebilirsin.' });
+      this.save();
+      return false;
+    }
     const base = Math.max(now, this.state.focusBoostUntil || 0);
-    this.state.focusBoostUntil = Math.min(now + 4 * FOCUS_BOOST_MS + this.fx('focusExtraMin') * 60000,
-      base + FOCUS_BOOST_MS * (minutes / 25) + this.fx('focusExtraMin') * 60000);
-    this.events.push({ msg: `🔥 ${minutes} dakika odaklandın, arılar coştu! Kovanlar bir süre %${FOCUS_BOOST * 100} hızlı.` });
+    this.state.focusBoostUntil = base + granted;
+    this.state.focusDaily.earnedMs += granted;
+    const grantedMin = Math.round(granted / 60000);
+    const earnedMin = Math.round(this.state.focusDaily.earnedMs / 60000);
+    this.events.push({ msg: `🔥 ${minutes} dakika odaklandın: Arıcılığa ${grantedMin} dk bonus eklendi. Bugün ${earnedMin}/240 dk.` });
     this.save();
     return true;
   }
@@ -556,9 +670,9 @@ class BeeGame {
   }
 
   // --- 2) Müdavim köylüler --------------------------------------------------------
-  bond(who) {
+  bond(who, extraRelationPoints = 0) {
     const c = this.state.customers[who] || { delivered: 0, hearts: 0 };
-    c.delivered += 1;
+    c.delivered += 1 + Math.max(0, Number(extraRelationPoints) || 0) / 10;
     let hearts = Math.min(HEART_MAX, Math.floor(c.delivered / HEART_EVERY));
     if (this.fx('firstHeart') && c.delivered >= 1) hearts = Math.max(1, hearts);
     if (hearts > c.hearts) {
@@ -620,9 +734,14 @@ class BeeGame {
     if (!FLOWERS[flower] || amount < 1) return this.fail('Festivale en az 1 kg bal göndermelisin.');
     this.state.storage[flower] = have - amount;
     if (this.state.storage[flower] < 0.001) delete this.state.storage[flower];
-    this.state.festival.entry = { flower, kg: amount, score: Math.round(amount * FLOWERS[flower].price * (1 + FLOWERS[flower].buff) * (1 + this.fx('festivalBonus'))) };
+    const fx = this.state.merchantEffects || {};
+    const polish = fx.festivalPolish ? 1.05 : 1;
+    const insured = !!fx.festivalInsurance;
+    fx.festivalPolish = false;
+    fx.festivalInsurance = false;
+    this.state.festival.entry = { flower, kg: amount, insured, score: Math.round(amount * FLOWERS[flower].price * (1 + FLOWERS[flower].buff) * (1 + this.fx('festivalBonus')) * polish) };
     this.save();
-    return { ok: true, msg: `Festivale ${amount.toFixed(1)} kg ${FLOWERS[flower].name} balı gönderdin. Sonuç yeni yılda!` };
+    return { ok: true, msg: `Festivale ${amount.toFixed(1)} kg ${FLOWERS[flower].name} balı gönderdin${polish > 1 ? ' · Festival Cilası +%5 aktif' : ''}. Sonuç yeni yılda!` };
   }
 
   judgeFestival(year) {
@@ -632,10 +751,7 @@ class BeeGame {
     const entry = f.entry;
     f.entry = null;
     if (!entry) { this.events.push({ msg: '🎪 Bal festivali bitti. Bu yıl katılmadın; seneye bekleriz!' }); return; }
-    const rivals = this.state.rivals.map((r) => ({
-      name: RIVALS.find((x) => x.id === r.id).name,
-      score: Math.round(entry.score * (0.55 + Math.random() * 0.9))
-    }));
+    const rivals = this.state.rivals.map((r) => ({ name: RIVALS.find((x) => x.id === r.id).name, score: Math.round(entry.score * (0.55 + Math.random() * 0.9)) }));
     const all = [{ name: 'Sen', score: entry.score, me: true }, ...rivals].sort((a, b) => b.score - a.score);
     const place = all.findIndex((x) => x.me) + 1;
     const prize = FESTIVAL_PRIZES[place - 1];
@@ -646,11 +762,12 @@ class BeeGame {
       this.milestone('ilk_kupa', 'İlk festival kupanı kazandın');
       this.events.push({ msg: `🏆 Bal festivalinde ${place}. oldun! ${prize.cup[0].toUpperCase() + prize.cup.slice(1)} kupa ve +${prize.coins} 🪙` });
     } else {
-      this.events.push({ msg: `🎪 Bal festivalinde ${place}. oldun. Birinci: ${all[0].name}. Seneye!`, err: true });
+      let refund = 0;
+      if (entry.insured) { refund = Math.round(entry.kg * 0.6 * 10) / 10; this.state.storage[entry.flower] = (this.state.storage[entry.flower] || 0) + refund; }
+      this.events.push({ msg: `🎪 Bal festivalinde ${place}. oldun. Birinci: ${all[0].name}.${refund ? ` Festival Güvencesi ${refund.toFixed(1)} kg balı geri getirdi.` : ' Seneye!'}`, err: true });
     }
   }
 
-  // --- 5) Arı ırkları -------------------------------------------------------------
   changeBreed(hiveId, breed) {
     const h = this.state.hives[hiveId];
     if (!h || !BREEDS[breed]) return this.fail('Geçersiz seçim.');
@@ -659,19 +776,22 @@ class BeeGame {
     this.state.coins -= BREED_CHANGE_COST;
     h.breed = breed;
     h.invested += BREED_CHANGE_COST;
+    this.questEvent('breedChange', { hiveId, breed });
     this.save();
     return { ok: true, msg: `${h.name} artık ${BREEDS[breed].name} kraliçesiyle.` };
   }
 
-  // --- 6) Balmumu ve mum ------------------------------------------------------
   makeCandle() {
-    if (this.state.wax + 1e-6 < CANDLE_WAX) return this.fail(`Mum için ${CANDLE_WAX * 1000} g balmumu gerekli (${Math.round(this.state.wax * 1000)} g var).`);
-    this.state.wax -= CANDLE_WAX;
+    const fx = this.state.merchantEffects || {};
+    const waxNeed = (fx.waxPressUses || 0) > 0 ? 0.3 : CANDLE_WAX;
+    if (this.state.wax + 1e-6 < waxNeed) return this.fail(`Mum için ${Math.round(waxNeed * 1000)} g balmumu gerekli (${Math.round(this.state.wax * 1000)} g var).`);
+    this.state.wax -= waxNeed;
+    if ((fx.waxPressUses || 0) > 0) fx.waxPressUses -= 1;
     this.state.candles += 1;
     this.state.ledger.candlesMade += 1;
-    this.questProgress('candle', 1);
+    this.questEvent('candleMake');
     this.save();
-    return { ok: true, msg: '🕯️ Bir mum yaptın.' };
+    return { ok: true, msg: `🕯️ Bir mum yaptın${waxNeed < CANDLE_WAX ? ' · Balmumu Presi kullanıldı' : ''}.` };
   }
 
   candlePrice() {
@@ -681,16 +801,20 @@ class BeeGame {
 
   sellCandles() {
     if (this.state.candles < 1) return this.fail('Satacak mum yok.');
-    const gain = this.state.candles * this.candlePrice();
+    const fx = this.state.merchantEffects || {};
     const n = this.state.candles;
+    const base = this.candlePrice();
+    const boosted = Math.min(n, fx.candleMoldUses || 0);
+    const gain = Math.round((n - boosted) * base + boosted * base * 1.35);
+    fx.candleMoldUses = Math.max(0, (fx.candleMoldUses || 0) - boosted);
     this.state.candles = 0;
     this.state.coins += gain;
     this.state.counters.earned += gain;
+    this.questEvent('candleSell', { count: n, gain });
     this.save();
-    return { ok: true, msg: `${n} mum satıldı (+${gain} 🪙).` };
+    return { ok: true, msg: `${n} mum satıldı (+${gain} 🪙)${boosted ? ` · ${boosted} mumda Usta Mum Kalıbı bonusu` : ''}.` };
   }
 
-  // --- Köylü mektupları ------------------------------------------------------------
   sendLetter(day) {
     this.state.nextLetterDay = day + LETTER_EVERY[0] + Math.floor(Math.random() * (LETTER_EVERY[1] - LETTER_EVERY[0] + 1));
     const people = this.state.village.arrived.map((n) => VILLAGE[n - 1]).filter((e) => e.type === 'koylu');
@@ -795,35 +919,89 @@ class BeeGame {
     if (!m.active && day >= m.nextDay) this.merchantArrive(day);
   }
 
+  makeMerchantStock(id) {
+    const item = { id, sold: false };
+    const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
+    if (id === 'tohum') {
+      const pool = ['papatya', 'aycicegi', 'kekik', 'lavanta'];
+      item.seeds = [pick(pool), pick(pool), pick(pool)];
+    }
+    if (id === 'nadirTohum') item.seeds = [pick(['lavanta', 'ihlamur', 'kestane']), pick(['kekik', 'lavanta', 'ihlamur'])];
+    if (id === 'mevsimTohum') {
+      const season = this.calendar().season;
+      const pool = Object.keys(FLOWERS).filter((x) => FLOWERS[x].seasons.includes(season));
+      if (!pool.length) return null;
+      item.seeds = [pick(pool), pick(pool), pick(pool)];
+    }
+    return item;
+  }
+
   merchantArrive(day) {
     const m = this.state.merchant;
-    const pool = Object.keys(MERCHANT_ITEMS).filter((k) => k !== 'sandik' || (m.sandik || 0) < 3);
+    let pool = Object.keys(MERCHANT_ITEMS).filter((k) => k !== 'sandik' || (m.sandik || 0) < 3);
+    if (!Object.keys(FLOWERS).some((x) => FLOWERS[x].seasons.includes(this.calendar().season))) pool = pool.filter((x) => x !== 'mevsimTohum');
     const stock = [];
-    while (stock.length < 4 && pool.length) stock.push(pool.splice(Math.floor(Math.random() * pool.length), 1)[0]);
+    while (stock.length < 4 && pool.length) {
+      const id = pool.splice(Math.floor(Math.random() * pool.length), 1)[0];
+      const made = this.makeMerchantStock(id);
+      if (made) stock.push(made);
+    }
     const planted = this.plantedFlowers();
-    const wants = (planted.length ? planted : Object.keys(FLOWERS))[Math.floor(Math.random() * (planted.length || 7))];
-    // Boş bir köy karesi: arabası orada durur
+    const wants = (planted.length ? planted : Object.keys(FLOWERS))[Math.floor(Math.random() * (planted.length || Object.keys(FLOWERS).length))];
     const used = new Set(Object.values(this.state.village.slots));
     const free = this.ringKeys(ISLAND_RADIUS + 1).filter((k) => !used.has(k));
     Object.assign(m, {
-      active: true, arrivedDay: day, until: day + MERCHANT_STAY, stock: stock.map((id) => ({ id, sold: false })), bought: [],
+      active: true, arrivedDay: day, until: day + MERCHANT_STAY, stock, bought: [], salesTicketKg: 0,
       wants, wantsLeft: 10, slot: free.length ? free[Math.floor(Math.random() * free.length)] : null
     });
     this.events.push({ msg: `🛒 Gezgin satıcı Seyyah Yakup köye geldi! 2 gün kalacak. ${FLOWERS[wants].name} balı da arıyor.` });
   }
 
-  merchantPrice(id, target) {
+  merchantPrice(id, target, stockItem = null) {
+    const item = stockItem || (this.state.merchant && this.state.merchant.stock || []).find((x) => x.id === id);
     const h = target && this.state.hives[target];
+    const t = target && this.state.tiles[target];
+    const ord = target && this.findOrder(target);
+    const fx = this.state.merchantEffects || {};
     switch (id) {
       case 'surup': return 110;
       case 'kralice': { const u = h && this.nextUpgrade(h); return u && u.type === 'queen' ? Math.round(u.cost * 0.7) : null; }
-      case 'tohum': return Math.round((this.seedCost('papatya') + this.seedCost('aycicegi') + this.seedCost('kekik')) * 0.6);
-      case 'dortMevsim': { const t = target && this.state.tiles[target]; return t && t.item && t.item.type === 'flower' ? this.seedCost(t.item.flower) * 2 : null; }
-      case 'suru': { const hh = h || Object.values(this.state.hives)[0]; return Math.round(this.beePrice(hh) * 3 * 0.7); }
-      case 'sut': return 150;
-      case 'kit': return Math.round(this.medicineCost() * 0.6);
-      case 'sandik': return 190;
-      case 'mum': return 45;
+      case 'tohum': return item && item.seeds ? Math.round(item.seeds.reduce((n, x) => n + this.seedCost(x), 0) * 0.5) : null;
+      case 'dortMevsim': return t && t.item && t.item.type === 'flower' && !t.item.wilted ? this.seedCost(t.item.flower) * 2 : null;
+      case 'suru': { if (!h || h.capBees - h.bees < 3) return null; let n = 0; for (let i = 1; i <= 3; i++) n += this.beeNumberPrice(h.bees + i); return Math.round(n * 0.7); }
+      case 'sut': return h ? 150 : null;
+      case 'kit': return h && h.sick ? 55 : null;
+      case 'sandik': return (this.state.merchant.sandik || 0) < 3 ? 120 : null;
+      case 'mum': return 70;
+      case 'kislikSurup': return h ? 115 : null;
+      case 'propolis': return h ? 70 : null;
+      case 'vitamin': return h ? 110 : null;
+      case 'yalitim': return h ? 35 : null;
+      case 'irkKupon': { const [hid, breed] = String(target || '').split('|'); const hh = this.state.hives[hid]; return hh && BREEDS[breed] && hh.breed !== breed ? 110 : null; }
+      case 'nakil': return target && String(target).includes('|') ? 60 : null;
+      case 'polenKeki': return h ? 90 : null;
+      case 'acilKis': return h && !h.winterShield ? 45 : null;
+      case 'cicekBesini': return t && t.item && t.item.type === 'flower' && !t.item.wilted ? 140 : null;
+      case 'omurGubre': return t && t.item && t.item.type === 'flower' && !t.item.wilted ? Math.min(130, Math.max(30, Math.round(this.seedCost(t.item.flower) * 0.08))) : null;
+      case 'yenidenEkim': return t && t.item && t.item.type === 'flower' && t.item.wilted ? 60 : null;
+      case 'nadirTohum': return 900;
+      case 'mevsimTohum': return item && item.seeds ? Math.round(item.seeds.reduce((n, x) => n + this.seedCost(x), 0) * 0.6) : null;
+      case 'polenKarisim': return h ? 120 : null;
+      case 'eldiven': return 80;
+      case 'balmumuPresi': return 55;
+      case 'mumKalibi': return 60;
+      case 'depoKupon': { const u = this.nextStorage(); return u && !fx.storageCoupon ? Math.round(u.cost * 0.10) : null; }
+      case 'pazarMuhru': return 75;
+      case 'fiyatSabitle': return FLOWERS[target] ? 60 : null;
+      case 'pazarTahmin': return 25;
+      case 'siparisKum': return ord && ord.status === 'accepted' ? 35 : null;
+      case 'siparisMuhru': return ord && !ord.merchantPayBonus ? Math.max(20, Math.round(ord.reward * 0.06)) : null;
+      case 'dostlukJeton': return fx.friendToken ? null : 90;
+      case 'oncelikKart': return fx.priorityCard ? null : 35;
+      case 'festivalCila': return fx.festivalPolish || fx.festivalPolishYear === this.calendar().year ? null : 180;
+      case 'festivalGuvence': return fx.festivalInsurance || fx.festivalInsuranceYear === this.calendar().year ? null : 100;
+      case 'seyyahFis': return this.state.merchant.salesTicketKg > 0 ? null : 40;
+      case 'stokDegisim': return target ? 45 : null;
       default: return null;
     }
   }
@@ -833,35 +1011,89 @@ class BeeGame {
     if (!m.active) return this.fail('Satıcı şu an köyde değil.');
     const item = m.stock.find((x) => x.id === id);
     if (!item || item.sold) return this.fail('Bu ürün kalmadı.');
-    if (m.bought.length >= MERCHANT_MAX_BUY) return this.fail(`Bu ziyarette en fazla ${MERCHANT_MAX_BUY} farklı ürün alabilirsin.`);
+    if (id !== 'stokDegisim' && m.bought.length >= MERCHANT_MAX_BUY) return this.fail(`Bu ziyarette en fazla ${MERCHANT_MAX_BUY} farklı ürün alabilirsin.`);
     const def = MERCHANT_ITEMS[id];
     const h = target && this.state.hives[target];
-    if (def.target && def.target.startsWith('hive') && !h) return this.fail('Önce bir kovan seç.');
+    const t = target && this.state.tiles[target];
+    const ord = target && this.findOrder(target);
+    if (def.target && def.target.startsWith('hive') && !['hiveTransfer', 'hiveBreed'].includes(def.target) && !h) return this.fail('Önce uygun bir kovan seç.');
     if (def.target === 'hiveQueen' && !(this.nextUpgrade(h) && this.nextUpgrade(h).type === 'queen')) return this.fail('Bu kovanın sıradaki yükseltmesi kraliçe değil.');
-    if (def.target === 'hiveRoom' && h.bees >= h.capBees) return this.fail('Bu kovan dolu.');
-    if (def.target === 'hiveSick' && !h.sick) return this.fail('Bu kovan hasta değil.');
-    if (def.target === 'flower') { const t = this.state.tiles[target]; if (!t || !t.item || t.item.type !== 'flower') return this.fail('Önce bir tarh seç.'); }
-    const price = this.merchantPrice(id, target);
-    if (price == null) return this.fail('Bu ürün seçtiğin şeye uygulanamaz.');
+    if (def.target === 'hiveRoom3' && (!h || h.capBees - h.bees < 3)) return this.fail('Bu kovanda 3 arı için yer yok.');
+    if (def.target === 'hiveSick' && (!h || !h.sick)) return this.fail('Bu kovan hasta değil.');
+    if (def.target === 'flower' && (!t || !t.item || t.item.type !== 'flower' || t.item.wilted)) return this.fail('Önce sağlıklı bir tarh seç.');
+    if (def.target === 'flowerWilted' && (!t || !t.item || t.item.type !== 'flower' || !t.item.wilted)) return this.fail('Önce solmuş bir tarh seç.');
+    if (def.target === 'honey' && !FLOWERS[target]) return this.fail('Bir bal türü seç.');
+    if (def.target === 'acceptedOrder' && (!ord || ord.status !== 'accepted')) return this.fail('Kabul edilmiş bir sipariş seç.');
+    if (def.target === 'order' && !ord) return this.fail('Bir sipariş seç.');
+    let transfer = null;
+    if (def.target === 'hiveTransfer') {
+      const [fromId, toId] = String(target || '').split('|'); const from = this.state.hives[fromId], to = this.state.hives[toId];
+      if (!from || !to || from === to || from.bees <= 1 || to.bees >= to.capBees) return this.fail('Arı taşımak için iki uygun kovan seç.');
+      transfer = { from, to };
+    }
+    if (def.target === 'merchantStock') {
+      const targetItem = m.stock.find((x) => x.id === target && !x.sold && x.id !== 'stokDegisim');
+      if (!targetItem) return this.fail('Değiştirilecek uygun bir teklif seç.');
+    }
+    const price = this.merchantPrice(id, target, item);
+    if (price == null) return this.fail('Bu ürün şu an uygulanamaz.');
     if (this.state.coins < price) return this.fail(`Yeterli jeton yok (${price} gerekli).`);
     this.state.coins -= price;
     item.sold = true;
-    m.bought.push(id);
+    if (id !== 'stokDegisim') m.bought.push(id);
     const day = this.dayIndex();
+    const fx = this.state.merchantEffects;
     let msg = '';
-    if (id === 'surup') { h.boostUntilDay = day + 1; msg = `${h.name} 1 gün boyunca %50 fazla üretecek.`; }
+    if (id === 'surup') { h.boostUntilDay = Math.max(day, h.boostUntilDay || 0) + 1; msg = `${h.name}: Ballı Şurup süresi 1 gün uzadı.`; }
     if (id === 'kralice') { const u = this.nextUpgrade(h); h.level += 1; h.queens += 1; h.capBees = u.capBees; h.invested += price; msg = `${QUEEN_NAMES[h.queens]} geldi! (${h.name})`; }
-    if (id === 'tohum') {
-      const got = [];
-      for (let i = 0; i < 3; i++) { const f = ['papatya', 'aycicegi', 'kekik', 'lavanta'][Math.floor(Math.random() * 4)]; this.state.vouchers[f] = (this.state.vouchers[f] || 0) + 1; got.push(FLOWERS[f].name); }
-      msg = `Hediye tohumlar: ${got.join(', ')}.`;
-    }
-    if (id === 'dortMevsim') { this.state.tiles[target].item.allSeasonUntil = day + 30; msg = 'Tarh 30 gün boyunca mevsim dışı cezası almayacak.'; }
-    if (id === 'suru') { const add = Math.min(3, h.capBees - h.bees); h.bees += add; msg = `${h.name}: +${add} arı.`; }
-    if (id === 'sut') { h.milkDays = 3; msg = `${h.name} 3 gün boyunca her gün yeni bir arı doğuracak.`; }
-    if (id === 'kit') { h.sick = false; h.immuneUntil = day + DAYS_PER_SEASON * 4 * SICK_IMMUNE_YEARS; this.state.ledger.cured += 1; msg = `${h.name} iyileşti ve bağışık oldu.`; }
-    if (id === 'sandik') { m.sandik = (m.sandik || 0) + 1; this.state.storageCap += 10; msg = 'Depo kalıcı olarak +10 kg büyüdü.'; }
+    if (id === 'tohum' || id === 'nadirTohum' || id === 'mevsimTohum') { for (const seed of item.seeds || []) this.state.vouchers[seed] = (this.state.vouchers[seed] || 0) + 1; msg = `Hediye tohumlar: ${(item.seeds || []).map((x) => FLOWERS[x].name).join(', ')}.`; }
+    if (id === 'dortMevsim') { t.item.allSeasonUntil = Math.max(day, t.item.allSeasonUntil || 0) + 30; msg = 'Tarhın Dört Mevsim etkisi 30 gün uzadı.'; }
+    if (id === 'suru') { h.bees += 3; msg = `${h.name}: +3 arı.`; }
+    if (id === 'sut') { h.milkDays = (h.milkDays || 0) + 3; msg = `${h.name}: Arı Sütü etkisi +3 gün.`; }
+    if (id === 'kit') { this.recoverHive(h, day, false); this.state.ledger.cured += 1; this.questEvent('cure'); msg = `${h.name} iyileşti ve 1 oyun yılı bağışık oldu.`; }
+    if (id === 'sandik') { m.sandik = (m.sandik || 0) + 1; this.state.storageCap = this.state.storageBaseCap + m.sandik * 10; msg = 'Depo kalıcı olarak +10 kg büyüdü.'; }
     if (id === 'mum') { this.state.wax += 1; msg = '+1 kg balmumu.'; }
+    if (id === 'kislikSurup') { h.syrup += 18; msg = `${h.name}: +18 kg kış erzakı.`; }
+    if (id === 'propolis') { h.propolisUntilDay = Math.max(day, h.propolisUntilDay || 0) + 10; msg = `${h.name}: Propolis Kalkanı 10 gün uzadı.`; }
+    if (id === 'vitamin') { h.vitaminUntilDay = Math.max(day, h.vitaminUntilDay || 0) + 5; msg = `${h.name}: +%15 üretim etkisi 5 gün uzadı.`; }
+    if (id === 'yalitim') { const year = DAYS_PER_SEASON * 4, pos = ((day % year) + year) % year, base = day - pos; let winterStart = base + DAYS_PER_SEASON * 3; if (day >= winterStart) winterStart += year; h.insulationFromDay = winterStart; h.insulationUntilDay = winterStart + DAYS_PER_SEASON; msg = `${h.name}: sıradaki kışta şurup tüketimi yarıya inecek.`; }
+    if (id === 'irkKupon') { const [hid, breed] = String(target).split('|'); const hh = this.state.hives[hid]; hh.breed = breed; hh.invested += price; this.questEvent('breedChange', { hiveId: hid, breed }); msg = `${hh.name} artık ${BREEDS[breed].name} kraliçesiyle.`; }
+    if (id === 'nakil') { const move = Math.min(3, transfer.from.bees - 1, transfer.to.capBees - transfer.to.bees); transfer.from.bees -= move; transfer.to.bees += move; msg = `${transfer.from.name} → ${transfer.to.name}: ${move} arı taşındı.`; }
+    if (id === 'polenKeki') { h.pollenCakeUntilDay = Math.max(day, h.pollenCakeUntilDay || 0) + 5; msg = `${h.name}: doğal üreme desteği 5 gün uzadı.`; }
+    if (id === 'acilKis') { h.winterShield = 1; msg = `${h.name}: bir sonraki şurupsuz kış kaybı engellenecek.`; }
+    if (id === 'cicekBesini') { t.item.feedUntilDay = Math.max(day, t.item.feedUntilDay || 0) + 5; msg = `${FLOWERS[t.item.flower].name} tarhı 5 gün +%25 üretim aldı.`; }
+    if (id === 'omurGubre') { t.item.plantedDay = (t.item.plantedDay || day) + 10; msg = `${FLOWERS[t.item.flower].name} tarhının ömrü 10 gün uzadı.`; }
+    if (id === 'yenidenEkim') { t.item.plantedDay = day; t.item.wilted = false; this.questEvent('revive', { flower: t.item.flower }); msg = `${FLOWERS[t.item.flower].name} tarhı ücretsiz canlandı.`; }
+    if (id === 'polenKarisim') { h.pollenMixUntilDay = Math.max(day, h.pollenMixUntilDay || 0) + 5; msg = `${h.name}: çiçek bonusları 5 gün güçlendi.`; }
+    if (id === 'eldiven') { fx.waxGloveHarvests = (fx.waxGloveHarvests || 0) + 3; msg = 'Sonraki 3 başarılı hasatta balmumu +%50.'; }
+    if (id === 'balmumuPresi') { fx.waxPressUses = (fx.waxPressUses || 0) + 5; msg = 'Sonraki 5 mum yalnız 300 g balmumu kullanacak.'; }
+    if (id === 'mumKalibi') { fx.candleMoldUses = (fx.candleMoldUses || 0) + 5; msg = 'Sonraki 5 mum satışı +%35 değerli.'; }
+    if (id === 'depoKupon') { fx.storageCoupon = true; msg = 'Bir sonraki depo yükseltmesi %20 indirimli.'; }
+    if (id === 'pazarMuhru') { fx.marketSealKg = 10; msg = 'Bir sonraki pazar satışında en fazla 10 kg için +%15 fiyat aktif.'; }
+    if (id === 'fiyatSabitle') { const current = this.price(target); const old = this.state.marketLocks[target]; this.state.marketLocks[target] = { price: current, untilDay: Math.max(day, old && old.untilDay || 0) + 1 }; msg = `${FLOWERS[target].name} balı fiyatı 1 gün sabitlendi.`; }
+    if (id === 'pazarTahmin') {
+      const nextMult = {}; for (const [flower, cur] of Object.entries(this.state.market.mult)) { const drift = (Math.random() - 0.5) * 0.18; const pull = (1.05 - cur) * 0.15; nextMult[flower] = Math.min(1.3, Math.max(0.8, cur + drift + pull)); }
+      const choices = (this.plantedFlowers().length ? this.plantedFlowers() : Object.keys(FLOWERS)).slice(); const reveal = []; while (reveal.length < Math.min(3, choices.length)) reveal.push(choices.splice(Math.floor(Math.random() * choices.length), 1)[0]);
+      fx.marketForecast = { forDay: day + 1, nextMult, reveal };
+      msg = reveal.map((x) => `${FLOWERS[x].name} ${nextMult[x] >= this.state.market.mult[x] ? '↑' : '↓'}`).join(' · ');
+    }
+    if (id === 'siparisKum') { ord.deadline += DAY_GAME_MS; msg = `${ord.who} siparişine +1 oyun günü eklendi.`; }
+    if (id === 'siparisMuhru') { ord.merchantPayBonus = 0.12; msg = `${ord.who} siparişine +%12 ödeme mührü uygulandı.`; }
+    if (id === 'dostlukJeton') { fx.friendToken = 10; msg = 'Bir sonraki başarılı köylü siparişine +10 ilişki puanı.'; }
+    if (id === 'oncelikKart') { fx.priorityCard = 4; msg = 'Bir sonraki başarılı köylü siparişine +4 ilişki puanı.'; }
+    if (id === 'festivalCila') { fx.festivalPolish = true; fx.festivalPolishYear = this.calendar().year; msg = 'Bir sonraki festival girişine +%5 puan hazır.'; }
+    if (id === 'festivalGuvence') { fx.festivalInsurance = true; fx.festivalInsuranceYear = this.calendar().year; msg = 'Bir sonraki festivalde kupa olmazsa balın %60’ı geri dönecek.'; }
+    if (id === 'seyyahFis') { m.salesTicketKg = 10; msg = 'Bu ziyarette Yakup’a satılan en fazla 10 kg bala ek +%10 ödeme aktif.'; }
+    if (id === 'stokDegisim') {
+      const idx = m.stock.findIndex((x) => x.id === target);
+      const currentIds = new Set(m.stock.map((x) => x.id));
+      let pool = Object.keys(MERCHANT_ITEMS).filter((x) => !currentIds.has(x) && (x !== 'sandik' || (m.sandik || 0) < 3));
+      if (!Object.keys(FLOWERS).some((x) => FLOWERS[x].seasons.includes(this.calendar().season))) pool = pool.filter((x) => x !== 'mevsimTohum');
+      if (!pool.length) return this.fail('Yeni stok seçeneği bulunamadı.');
+      const freshId = pool[Math.floor(Math.random() * pool.length)], fresh = this.makeMerchantStock(freshId);
+      m.stock[idx] = fresh; msg = `${MERCHANT_ITEMS[target].name} yerine ${MERCHANT_ITEMS[freshId].name} geldi.`;
+    }
+    this.questEvent('merchantBuy', { id });
     this.save();
     return { ok: true, msg: `🛒 ${def.name} alındı (-${price} 🪙). ${msg}` };
   }
@@ -873,13 +1105,17 @@ class BeeGame {
     const have = this.state.storage[f] || 0;
     const amount = Math.min(m.wantsLeft, have, kg === 'all' ? Infinity : Number(kg) || 0);
     if (amount < 0.05) return this.fail(`Depoda ${FLOWERS[f].name} balı yok ya da satıcı yeterince aldı.`);
-    const gain = Math.round(amount * this.price(f) * 1.4);
+    const unit = this.price(f) * 1.4;
+    const ticketKg = Math.min(amount, m.salesTicketKg || 0);
+    const gain = Math.round(amount * unit + ticketKg * unit * 0.10);
     this.state.storage[f] = have - amount;
     if (this.state.storage[f] < 0.001) delete this.state.storage[f];
     m.wantsLeft -= amount;
+    m.salesTicketKg = Math.max(0, (m.salesTicketKg || 0) - ticketKg);
     this.state.coins += gain;
     this.state.counters.earned += gain;
     const L = this.ledgerHoney(f); L.soldKg += amount; L.earned += gain;
+    this.questEvent('merchantSell', { kg: amount, flower: f, gain });
     this.save();
     return { ok: true, msg: `Seyyah Yakup ${amount.toFixed(1)} kg ${FLOWERS[f].name} balını aldı (+${gain} 🪙).` };
   }
@@ -890,10 +1126,9 @@ class BeeGame {
     return {
       active: true, slot: m.slot, leftMs: Math.max(0, m.until * DAY_GAME_MS - this.state.gameMs), maxBuy: MERCHANT_MAX_BUY, bought: m.bought.length,
       wants: m.wants, wantsLeft: Math.round(m.wantsLeft * 10) / 10, wantsPrice: Math.round(this.price(m.wants) * 1.4 * 10) / 10,
-      stock: m.stock.map((x) => ({ ...x, ...MERCHANT_ITEMS[x.id], basePrice: this.merchantPrice(x.id, Object.keys(this.state.hives)[0]) }))
+      stock: m.stock.map((x) => ({ ...x, ...MERCHANT_ITEMS[x.id], contents: (x.seeds || []).map((z) => FLOWERS[z].name), basePrice: MERCHANT_ITEMS[x.id].dynamicPrice ? null : this.merchantPrice(x.id, null, x) }))
     };
   }
-
   // --- Köylü hikâyeleri --------------------------------------------------------------
   storyFx(key) {
     let v = 0;
@@ -991,8 +1226,52 @@ class BeeGame {
     });
   }
 
-  // --- Köy ------------------------------------------------------------------------
-  // Teslim edilen toplam bala göre köyde kaç yerleşimci olmalı
+  effectsView() {
+    const day = this.dayIndex();
+    const effects = [];
+    const fx = this.state.merchantEffects || {};
+    for (const s of STORIES) {
+      const st = this.state.stories[s.id];
+      if (st && st.done) effects.push({ id: `story:${s.id}`, icon: 'story', title: s.bonusText, source: `${s.who} · ${s.title}`, permanent: true });
+    }
+    for (const n of this.state.village.arrived) {
+      const e = VILLAGE[n - 1];
+      if (e.effect && e.effectText) effects.push({ id: `village:${e.n}`, icon: 'building', title: e.effectText, source: e.name, permanent: true });
+    }
+    for (const h of Object.values(this.state.hives)) {
+      if (day < (h.boostUntilDay || 0)) effects.push({ id: `syrup:${h.id}`, icon: 'syrup', title: '+%50 bal üretimi', source: `${h.name} · Ballı Şurup`, daysLeft: h.boostUntilDay - day });
+      if ((h.milkDays || 0) > 0) effects.push({ id: `milk:${h.id}`, icon: 'milk', title: 'Her gün +1 arı', source: `${h.name} · Arı Sütü`, daysLeft: h.milkDays });
+      if (day < (h.propolisUntilDay || 0)) effects.push({ id: `propolis:${h.id}`, icon: 'immunity', title: 'Hastalanma ihtimali %50 az', source: `${h.name} · Propolis Kalkanı`, daysLeft: h.propolisUntilDay - day });
+      if (day < (h.vitaminUntilDay || 0)) effects.push({ id: `vitamin:${h.id}`, icon: 'syrup', title: '+%15 bal üretimi', source: `${h.name} · Arı Vitamini`, daysLeft: h.vitaminUntilDay - day });
+      if (day < (h.pollenCakeUntilDay || 0)) effects.push({ id: `cake:${h.id}`, icon: 'milk', title: 'Doğal üreme daha hızlı', source: `${h.name} · Polen Keki`, daysLeft: h.pollenCakeUntilDay - day });
+      if (day < (h.pollenMixUntilDay || 0)) effects.push({ id: `mix:${h.id}`, icon: 'story', title: 'Çiçek bonusları %25 güçlü', source: `${h.name} · Özel Polen Karışımı`, daysLeft: h.pollenMixUntilDay - day });
+      if (h.winterShield) effects.push({ id: `winter:${h.id}`, icon: 'immunity', title: '1 kış arı kaybı engellenir', source: `${h.name} · Acil Kış Paketi`, permanent: true });
+      if ((h.insulationUntilDay || 0) > day) effects.push({ id: `insulation:${h.id}`, icon: 'story', title: 'Kış şurup tüketimi %50 az', source: `${h.name} · Kovan Yalıtımı`, daysLeft: Math.max(1, h.insulationUntilDay - Math.max(day, h.insulationFromDay || day)) });
+      if (!h.sick && day < (h.immuneUntil || 0)) effects.push({ id: `immune:${h.id}`, icon: 'immunity', title: 'Hastalığa karşı bağışık', source: h.name, daysLeft: h.immuneUntil - day });
+    }
+    for (const [k, t] of Object.entries(this.state.tiles)) {
+      if (t.item && t.item.type === 'flower' && day < (t.item.allSeasonUntil || 0)) effects.push({ id: `season:${k}`, icon: 'season', title: 'Mevsim dışı üretim cezası yok', source: `${FLOWERS[t.item.flower].name} tarhı · Dört Mevsim`, daysLeft: t.item.allSeasonUntil - day });
+      if (t.item && t.item.type === 'flower' && day < (t.item.feedUntilDay || 0)) effects.push({ id: `feed:${k}`, icon: 'story', title: '+%25 tarh üretimi', source: `${FLOWERS[t.item.flower].name} tarhı · Çiçek Besini`, daysLeft: t.item.feedUntilDay - day });
+    }
+    const crates = (this.state.merchant && this.state.merchant.sandik) || 0;
+    if (crates) effects.push({ id: 'storage:crates', icon: 'storage', title: `+${crates * 10} kg depo kapasitesi`, source: `Seyyah Yakup · ${crates} depo sandığı`, permanent: true });
+    if (fx.storageCoupon) effects.push({ id: 'yakup:storage', icon: 'storage', title: 'Sonraki depo yükseltmesi %20 ucuz', source: 'Seyyah Yakup · Depo Yükseltme Kuponu', permanent: true });
+    if (fx.marketSealKg > 0) effects.push({ id: 'yakup:market', icon: 'story', title: `Kalan ${Math.round(fx.marketSealKg * 10) / 10} kg satışta +%15`, source: 'Seyyah Yakup · Pazar Mührü', permanent: true });
+    if (fx.waxGloveHarvests > 0) effects.push({ id: 'yakup:glove', icon: 'story', title: `Sonraki ${fx.waxGloveHarvests} hasatta balmumu +%50`, source: 'Seyyah Yakup · Arıcı Eldiveni', permanent: true });
+    if (fx.waxPressUses > 0) effects.push({ id: 'yakup:press', icon: 'story', title: `Sonraki ${fx.waxPressUses} mum 300 g balmumu`, source: 'Seyyah Yakup · Balmumu Presi', permanent: true });
+    if (fx.candleMoldUses > 0) effects.push({ id: 'yakup:mold', icon: 'story', title: `Sonraki ${fx.candleMoldUses} mum satışında +%35`, source: 'Seyyah Yakup · Usta Mum Kalıbı', permanent: true });
+    if (fx.friendToken) effects.push({ id: 'yakup:friend', icon: 'story', title: '+10 ilişki puanı bekliyor', source: 'Seyyah Yakup · Dostluk Jetonu', permanent: true });
+    if (fx.priorityCard) effects.push({ id: 'yakup:priority', icon: 'story', title: '+4 ilişki puanı bekliyor', source: 'Seyyah Yakup · Öncelikli Teslim Kartı', permanent: true });
+    if (fx.festivalPolish) effects.push({ id: 'yakup:polish', icon: 'story', title: 'Sonraki festival girişine +%5 puan', source: 'Seyyah Yakup · Festival Cilası', permanent: true });
+    if (fx.festivalInsurance) effects.push({ id: 'yakup:insurance', icon: 'story', title: 'Kupa olmazsa balın %60’ı geri', source: 'Seyyah Yakup · Festival Güvencesi', permanent: true });
+    const focusDay = this.todayKey();
+    const earnedMs = this.state.focusDaily && this.state.focusDaily.day === focusDay ? this.state.focusDaily.earnedMs : 0;
+    return {
+      focus: { active: Date.now() < (this.state.focusBoostUntil || 0), icon: 'focus', title: 'Odak Bonusu', text: `+%${Math.round(FOCUS_BOOST * 100)} bal üretimi`, leftMs: Math.max(0, (this.state.focusBoostUntil || 0) - Date.now()), earnedTodayMs: earnedMs, dailyLimitMs: 4 * FOCUS_BOOST_MS },
+      list: effects
+    };
+  }
+
   villageTarget(kg) {
     // Başlangıçta 6 yerleşimci; sonra her eşikte yalnızca 1 kişi gelir
     let n = 6;
@@ -1119,24 +1398,24 @@ class BeeGame {
 
   recordHarvest(hive, moved, scale) {
     const cal = this.calendar();
+    const byFlower = {};
     for (const [f, kg] of Object.entries(this.lastHoney || {})) {
       const L = this.ledgerHoney(f);
       const took = kg * scale;
+      byFlower[f] = took;
       if (!L.first && took > 0.01) {
         L.first = { day: cal.day, season: cal.seasonName, year: cal.year };
         this.events.push({ msg: `📖 Bal Defteri'ne yeni sayfa: ilk ${FLOWERS[f].name} balın!` });
       }
       L.kg += took;
-      this.questProgress('harvestFlower', took, f);
     }
     this.state.ledger.harvests += 1;
-    this.questProgress('harvest', moved);
+    this.questEvent('harvest', { kg: moved, hiveId: hive.id, byFlower });
     const total = Object.values(this.state.ledger.honey).reduce((a, x) => a + x.kg, 0);
     if (total >= 20) this.milestone('ilk_kavanoz', 'İlk kavanoz: toplam 20 kg bal hasat ettin');
     if (Object.keys(FLOWERS).every((f) => (this.state.ledger.honey[f] || {}).first)) this.milestone('tum_ballar', 'Yedi balın hepsini ürettin');
   }
 
-  // Nero rozetlerine sonradan bağlanabilsin diye büyük anlar kaydedilir (şimdilik sadece kayıt)
   milestone(id, text) {
     if (this.state.milestones[id]) return;
     this.state.milestones[id] = Date.now();
@@ -1146,29 +1425,143 @@ class BeeGame {
   // --- Günlük görevler -------------------------------------------------------------
   todayKey() { return new Date().toDateString(); }
 
-  ensureQuests() {
-    const q = this.state.quests;
-    if (q && q.day === this.todayKey()) return;
+  questCandidates() {
+    const out = [];
+    const choose = (a) => a[Math.floor(Math.random() * a.length)];
+    const add = (type, family, target, reward, extra = {}) => out.push({ type, family, target, reward, heavy: false, ...extra });
+    const hives = Object.values(this.state.hives);
     const planted = this.plantedFlowers();
-    const pool = QUEST_TYPES.filter((t) => t !== 'harvestFlower' || planted.length);
-    const list = [];
-    while (list.length < 3 && pool.length) {
-      const type = pool.splice(Math.floor(Math.random() * pool.length), 1)[0];
-      const quest = { id: uid(), type, progress: 0, claimed: false };
-      if (type === 'harvest') Object.assign(quest, { target: 5 + Math.floor(Math.random() * 3) * 5, reward: 60 });
-      if (type === 'harvestFlower') Object.assign(quest, { flower: planted[Math.floor(Math.random() * planted.length)], target: 3 + Math.floor(Math.random() * 4), reward: 70 });
-      if (type === 'sell') Object.assign(quest, { target: 5 + Math.floor(Math.random() * 3) * 3, reward: 50 });
-      if (type === 'deliver') Object.assign(quest, { target: 1, reward: 80 });
-      if (type === 'candle') Object.assign(quest, { target: 1, reward: 40 });
-      if (type === 'plant') Object.assign(quest, { target: 1, reward: 40 });
-      // Arada bir ödül hediye tohum olur
-      if (Math.random() < 0.2) {
-        const tiers = ['papatya', 'aycicegi', 'kekik'];
-        quest.voucher = tiers[Math.floor(Math.random() * tiers.length)];
-      }
-      list.push(quest);
+    const stored = Object.keys(this.state.storage).filter((f) => (this.state.storage[f] || 0) >= 0.05);
+    const orders = this.state.orders.list.filter((o) => o.status === 'open' || o.status === 'accepted');
+    const openOrders = orders.filter((o) => o.status === 'open');
+    const affordableSeeds = Object.keys(FLOWERS).filter((x) => this.seedCost(x) <= this.state.coins);
+    const emptyTiles = Object.values(this.state.tiles).filter((t) => t.owned && t.kind === 'grass' && !t.item).length;
+    const wilted = Object.entries(this.state.tiles).filter(([, t]) => t.owned && t.item && t.item.type === 'flower' && t.item.wilted);
+    const rooms = hives.reduce((n, h) => n + Math.max(0, h.capBees - h.bees), 0);
+
+    { const vals = [5, 10, 15], i = Math.floor(Math.random() * vals.length); add('harvest', 'harvest', vals[i], [50, 70, 90][i]); }
+    if (planted.length) { const f = choose(planted), target = 3 + Math.floor(Math.random() * 4); add('harvestFlower', 'harvest', target, target <= 3 ? 60 : target <= 5 ? 75 : 90, { flower: f }); }
+    if (stored.length) { const vals = [5, 8, 11], i = Math.floor(Math.random() * vals.length); add('sell', 'market', vals[i], [45, 60, 80][i]); }
+    if (orders.length) add('deliver', 'orders', 1, 90);
+    if (this.state.wax >= 0.5) add('candle', 'craft', 1, 50);
+    if (emptyTiles && affordableSeeds.length) add('plant', 'plant', 1, 45);
+
+    if (hives.length >= 2) add('harvest2Hives', 'harvest', 2, 65);
+    if (hives.length >= 3) add('harvest3Hives', 'harvest', 3, 95);
+    if (hives.some((h) => h.capKg >= 10) && planted.length) add('harvestSingle10', 'harvest', 1, 80, { minKg: 10 });
+    if (planted.length >= 2) add('harvest2Types', 'harvest', 2, 70);
+    if (planted.length >= 3) add('harvest3Types', 'harvest', 3, 105);
+    { const premium = planted.filter((x) => ['lavanta', 'ihlamur', 'kestane'].includes(x)); if (premium.length) add('harvestPremium', 'harvest', 3, 110); }
+
+    if (stored.length) add('sell2Transactions', 'market', 2, 55);
+    if (stored.length >= 2) add('sell2Types', 'market', 2, 75);
+    if (stored.length) { const flower = choose(stored), target = (this.state.storage[flower] || 0) >= 5 ? (Math.random() < 0.5 ? 3 : 5) : Math.min(3, Math.max(1, Math.floor(this.state.storage[flower] || 1))); add('sellFlower', 'market', target, target >= 5 ? 90 : 70, { flower }); }
+    if (stored.length) { const maxGain = Math.max(...stored.map((x) => (this.state.storage[x] || 0) * this.price(x))); if (maxGain >= 100) { const minGain = maxGain >= 200 && Math.random() < 0.5 ? 200 : 100; add('saleIncome', 'market', 1, minGain === 200 ? 115 : 75, { minGain }); } }
+    if (this.calendar().season === 'kis' && stored.length) add('winterSell', 'market', 5, 90);
+
+    if (openOrders.length) add('acceptOrder', 'orders', 1, 45);
+    if (orders.length >= 2) add('deliver2', 'orders', 2, 140);
+    if (orders.length) add('deliverNoPenalty', 'orders', 1, 95);
+    if (orders.length) { const ord = choose(orders); add('deliverPerson', 'orders', 1, 120, { who: ord.who }); }
+    { const regs = orders.filter((o) => ((this.state.customers[o.who] || {}).hearts || 0) > 0); if (regs.length) add('deliverRegular', 'orders', 1, 100); }
+
+    if (rooms >= 1 && hives.some((h) => h.bees < h.capBees && this.beePrice(h) <= this.state.coins)) add('buyBee', 'bees', 1, 45);
+    if (rooms >= 3) { const prices = []; for (const h of hives) for (let n = h.bees + 1; n <= h.capBees; n++) prices.push(this.beeNumberPrice(n)); prices.sort((x, y) => x - y); if (prices.slice(0, 3).reduce((x, y) => x + y, 0) <= this.state.coins) add('buy3Bees', 'bees', 3, 90); }
+    if (hives.length && this.state.coins >= this.syrupCost()) add('syrup1', 'bees', 1, 55);
+    if (hives.length >= 2 && this.state.coins >= this.syrupCost() * 2) add('syrup2Hives', 'bees', 2, 95);
+    if (hives.some((h) => h.sick) && this.state.coins >= this.medicineCost()) add('cureHive', 'bees', 1, 110);
+    if (hives.length && this.state.coins >= BREED_CHANGE_COST) add('changeBreed', 'bees', 1, 120, { heavy: true });
+    { const x = hives.map((h) => this.nextUpgrade(h)).filter((u) => u && u.type === 'queen' && u.cost <= this.state.coins); if (x.length) { const c = Math.min(...x.map((u) => u.cost)); add('queenUpgrade', 'bees', 1, Math.min(400, Math.max(100, Math.round(c * 0.12))), { heavy: true }); } }
+    { const x = hives.map((h) => this.nextUpgrade(h)).filter((u) => u && u.type === 'hive' && u.cost <= this.state.coins); if (x.length) { const c = Math.min(...x.map((u) => u.cost)); add('hiveUpgrade', 'bees', 1, Math.min(450, Math.max(100, Math.round(c * 0.10))), { heavy: true }); } }
+    if (emptyTiles && this.state.coins >= HIVE_COST) add('placeHive', 'bees', 1, 180, { heavy: true });
+
+    if (emptyTiles >= 2 && affordableSeeds.length) add('plant2', 'plant', 2, 75);
+    if (emptyTiles && affordableSeeds.length) { const flower = choose(affordableSeeds); add('plantFlower', 'plant', 1, Math.min(220, Math.max(50, 40 + Math.round(this.seedCost(flower) * 0.15))), { flower, heavy: true }); }
+    if (wilted.some(([k, t]) => this.reviveCost(t.item.flower) <= this.state.coins)) add('reviveFlower', 'plant', 1, 60);
+    if (emptyTiles >= 2 && affordableSeeds.length >= 2) add('plant2Types', 'plant', 2, 90);
+    if (this.state.candles >= 1) { const target = this.state.candles >= 2 && Math.random() < 0.5 ? 2 : 1; add('sellCandles', 'craft', target, target === 2 ? 75 : 50); }
+    if (this.state.wax >= 1) add('candle2', 'craft', 2, 80);
+    add('claim2', 'meta', 2, 65);
+    if (this.state.merchant && this.state.merchant.active && this.state.merchant.stock.some((x) => !x.sold)) add('merchantBuy', 'special', 1, 70);
+    if (this.state.merchant && this.state.merchant.active && (this.state.storage[this.state.merchant.wants] || 0) >= 0.05 && this.state.merchant.wantsLeft > 0) add('merchantSell', 'special', 1, 85);
+    return out;
+  }
+
+  makeQuest(excluded = [], usedFamilies = [], heavyUsed = false) {
+    let pool = this.questCandidates().filter((q) => !excluded.includes(q.type) && (!heavyUsed || !q.heavy));
+    if (!pool.length) return null;
+    const diverse = pool.filter((q) => !usedFamilies.includes(q.family));
+    if (diverse.length) pool = diverse;
+    const q = { ...pool[Math.floor(Math.random() * pool.length)], id: uid(), progress: 0, claimed: false, seen: [] };
+    if (Math.random() < 0.2) { const tiers = ['papatya', 'aycicegi', 'kekik']; q.voucher = tiers[Math.floor(Math.random() * tiers.length)]; }
+    return q;
+  }
+
+  ensureQuests() {
+    const day = this.todayKey();
+    const old = this.state.quests;
+    if (old && old.day === day) {
+      if (old.refreshFree == null) old.refreshFree = 2;
+      if (old.paidUsed == null) old.paidUsed = false;
+      return;
     }
-    this.state.quests = { day: this.todayKey(), list };
+    const list = [];
+    const families = [];
+    let heavy = false;
+    while (list.length < 3) {
+      const q = this.makeQuest(list.map((x) => x.type), families, heavy);
+      if (!q) break;
+      list.push(q); families.push(q.family); heavy = heavy || q.heavy;
+    }
+    this.state.quests = { day, list, refreshFree: 2, paidUsed: false };
+  }
+
+  questEvent(event, data = {}) {
+    this.ensureQuests();
+    const complete = (q, amount = 1) => {
+      const before = q.progress;
+      q.progress = Math.min(q.target, q.progress + amount);
+      if (before < q.target && q.progress >= q.target) this.events.push({ msg: '✅ Günlük görev tamamlandı! Ödülünü almayı unutma.' });
+    };
+    const seen = (q, value) => { if (value == null) return; q.seen = Array.isArray(q.seen) ? q.seen : []; if (!q.seen.includes(value)) q.seen.push(value); q.progress = Math.min(q.target, q.seen.length); };
+    for (const q of this.state.quests.list) {
+      if (q.claimed || q.progress >= q.target) continue;
+      if (event === 'harvest') {
+        if (q.type === 'harvest') complete(q, data.kg || 0);
+        if (q.type === 'harvestFlower' && q.flower) complete(q, (data.byFlower || {})[q.flower] || 0);
+        if (q.type === 'harvest2Hives' || q.type === 'harvest3Hives') { const before = q.progress; seen(q, data.hiveId); if (before < q.target && q.progress >= q.target) this.events.push({ msg: '✅ Günlük görev tamamlandı! Ödülünü almayı unutma.' }); }
+        if (q.type === 'harvestSingle10' && (data.kg || 0) >= (q.minKg || 10)) complete(q, 1);
+        if (q.type === 'harvest2Types' || q.type === 'harvest3Types') { const before = q.progress; for (const [f, kg] of Object.entries(data.byFlower || {})) if (kg > 0.01) seen(q, f); if (before < q.target && q.progress >= q.target) this.events.push({ msg: '✅ Günlük görev tamamlandı! Ödülünü almayı unutma.' }); }
+        if (q.type === 'harvestPremium') complete(q, ['lavanta', 'ihlamur', 'kestane'].reduce((n, f) => n + ((data.byFlower || {})[f] || 0), 0));
+      }
+      if (event === 'sell') {
+        if (q.type === 'sell') complete(q, data.kg || 0);
+        if (q.type === 'sell2Transactions') complete(q, 1);
+        if (q.type === 'sell2Types') { const before = q.progress; seen(q, data.flower); if (before < q.target && q.progress >= q.target) this.events.push({ msg: '✅ Günlük görev tamamlandı! Ödülünü almayı unutma.' }); }
+        if (q.type === 'sellFlower' && q.flower === data.flower) complete(q, data.kg || 0);
+        if (q.type === 'saleIncome' && (data.gain || 0) >= (q.minGain || 100)) complete(q, 1);
+        if (q.type === 'winterSell' && this.calendar().season === 'kis') complete(q, data.kg || 0);
+      }
+      if (event === 'acceptOrder' && q.type === 'acceptOrder') complete(q, 1);
+      if (event === 'deliver') {
+        if (q.type === 'deliver' || q.type === 'deliver2' || q.type === 'deliverNoPenalty') complete(q, 1);
+        if (q.type === 'deliverPerson' && q.who === data.who) complete(q, 1);
+        if (q.type === 'deliverRegular' && data.regular) complete(q, 1);
+      }
+      if (event === 'buyBee' && (q.type === 'buyBee' || q.type === 'buy3Bees')) complete(q, 1);
+      if (event === 'syrup') { if (q.type === 'syrup1') complete(q, 1); if (q.type === 'syrup2Hives') { const before = q.progress; seen(q, data.hiveId); if (before < q.target && q.progress >= q.target) this.events.push({ msg: '✅ Günlük görev tamamlandı! Ödülünü almayı unutma.' }); } }
+      if (event === 'cure' && q.type === 'cureHive') complete(q, 1);
+      if (event === 'breedChange' && q.type === 'changeBreed') complete(q, 1);
+      if (event === 'upgrade' && q.type === (data.kind === 'queen' ? 'queenUpgrade' : 'hiveUpgrade')) complete(q, 1);
+      if (event === 'placeHive' && q.type === 'placeHive') complete(q, 1);
+      if (event === 'plant') { if (q.type === 'plant' || q.type === 'plant2') complete(q, 1); if (q.type === 'plantFlower' && q.flower === data.flower) complete(q, 1); if (q.type === 'plant2Types') { const before = q.progress; seen(q, data.flower); if (before < q.target && q.progress >= q.target) this.events.push({ msg: '✅ Günlük görev tamamlandı! Ödülünü almayı unutma.' }); } }
+      if (event === 'revive' && q.type === 'reviveFlower') complete(q, 1);
+      if (event === 'candleMake' && (q.type === 'candle' || q.type === 'candle2')) complete(q, 1);
+      if (event === 'candleSell' && q.type === 'sellCandles') complete(q, data.count || 1);
+      if (event === 'claim' && q.type === 'claim2' && data.sourceId !== q.id) complete(q, 1);
+      if (event === 'merchantBuy' && q.type === 'merchantBuy') complete(q, 1);
+      if (event === 'merchantSell' && q.type === 'merchantSell') complete(q, 1);
+    }
   }
 
   questProgress(type, amount, flower) {
@@ -1176,9 +1569,34 @@ class BeeGame {
     for (const q of this.state.quests.list) {
       if (q.type !== type || q.claimed || q.progress >= q.target) continue;
       if (type === 'harvestFlower' && q.flower !== flower) continue;
+      const before = q.progress;
       q.progress = Math.min(q.target, q.progress + amount);
-      if (q.progress >= q.target) this.events.push({ msg: '✅ Günlük görev tamamlandı! Ödülünü almayı unutma.' });
+      if (before < q.target && q.progress >= q.target) this.events.push({ msg: '✅ Günlük görev tamamlandı! Ödülünü almayı unutma.' });
     }
+  }
+
+  refreshQuest(id) {
+    this.ensureQuests();
+    const Q = this.state.quests;
+    const i = Q.list.findIndex((x) => x.id === id);
+    if (i < 0) return this.fail('Görev bulunamadı.');
+    const old = Q.list[i];
+    if (old.claimed || old.progress >= old.target) return this.fail('Tamamlanmış görev değiştirilemez.');
+    const others = Q.list.filter((_, n) => n !== i);
+    const fresh = this.makeQuest([...others.map((x) => x.type), old.type], others.map((x) => x.family), others.some((x) => x.heavy));
+    if (!fresh) return this.fail('Şu an uygun başka görev bulunamadı. Hakkın harcanmadı.');
+    let cost = 0;
+    if (Q.refreshFree > 0) Q.refreshFree -= 1;
+    else {
+      if (Q.paidUsed) return this.fail('Bugünkü değiştirme hakkın bitti.');
+      cost = 100;
+      if (this.state.coins < cost) return this.fail('Ücretli görev değişimi için 100 🪙 gerekli.');
+      this.state.coins -= cost;
+      Q.paidUsed = true;
+    }
+    Q.list[i] = fresh;
+    this.save();
+    return { ok: true, msg: cost ? `Görev değiştirildi (-${cost} 🪙).` : `Görev ücretsiz değiştirildi. Kalan ücretsiz hak: ${Q.refreshFree}.` };
   }
 
   claimQuest(id) {
@@ -1191,22 +1609,23 @@ class BeeGame {
     this.state.coins += reward;
     this.state.questsDone += 1;
     if (q.voucher) this.state.vouchers[q.voucher] = (this.state.vouchers[q.voucher] || 0) + 1;
+    this.questEvent('claim', { sourceId: q.id });
     this.save();
     return { ok: true, msg: `Görev ödülü: +${reward} 🪙${q.voucher ? ` ve 1 ${FLOWERS[q.voucher].name} tohumu 🎁` : ''}` };
   }
 
   questText(q) {
     const f = q.flower ? FLOWERS[q.flower].name : '';
-    return {
-      harvest: `${q.target} kg bal hasat et`,
-      harvestFlower: `${q.target} kg ${f} balı hasat et`,
-      sell: `Pazarda ${q.target} kg bal sat`,
-      deliver: 'Bir siparişi teslim et',
-      candle: 'Bir mum yap',
-      plant: 'Bir tarh ek ya da yeniden ek'
-    }[q.type];
+    const map = {
+      harvest: `${q.target} kg bal hasat et`, harvestFlower: `${q.target} kg ${f} balı hasat et`, sell: `Pazarda ${q.target} kg bal sat`, deliver: 'Bir siparişi teslim et', candle: 'Bir mum yap', plant: 'Bir tarh ek ya da yeniden ek',
+      harvest2Hives: '2 farklı kovandan hasat yap', harvest3Hives: '3 farklı kovandan hasat yap', harvestSingle10: 'Tek hasatta en az 10 kg bal al', harvest2Types: '2 farklı bal türü hasat et', harvest3Types: '3 farklı bal türü hasat et', harvestPremium: 'Lavanta, ıhlamur veya kestane balından toplam 3 kg hasat et',
+      sell2Transactions: 'Pazarda 2 ayrı satış yap', sell2Types: '2 farklı bal türü sat', sellFlower: `${q.target} kg ${f} balı sat`, saleIncome: `Tek satıştan en az ${q.minGain} 🪙 kazan`, winterSell: 'Kışın pazarda 5 kg bal sat',
+      acceptOrder: 'Bir sipariş kabul et', deliver2: '2 sipariş teslim et', deliverNoPenalty: 'Bir siparişi başarıyla tamamla', deliverPerson: `${q.who} için bir sipariş teslim et`, deliverRegular: 'Bir müdavim köylüye sipariş teslim et',
+      buyBee: '1 arı satın al', buy3Bees: '3 arı satın al', syrup1: 'Bir kovana şurup ver', syrup2Hives: '2 farklı kovana şurup ver', cureHive: 'Hasta bir kovanı iyileştir', changeBreed: 'Bir kovanın arı ırkını değiştir', queenUpgrade: 'Bir kraliçe yükseltmesi yap', hiveUpgrade: 'Bir kovan kapasite yükseltmesi yap', placeHive: 'Yeni bir kovan kur',
+      plant2: '2 tarh ek', plantFlower: `1 ${f} tarhı ek`, reviveFlower: 'Solmuş bir tarhı canlandır', plant2Types: '2 farklı çiçek türü ek', sellCandles: `${q.target} mum sat`, candle2: '2 mum üret', claim2: 'Diğer 2 günlük görev ödülünü al', merchantBuy: "Seyyah Yakup'tan 1 ürün al", merchantSell: "Seyyah Yakup'a bal sat"
+    };
+    return map[q.type] || q.type;
   }
-
   // --- İsimler ve kavanoz etiketi -----------------------------------------------
   cleanName(name, max = 24) { return String(name || '').replace(/[<>]/g, '').trim().slice(0, max); }
 
@@ -1254,8 +1673,9 @@ class BeeGame {
     const medCost = this.medicineCost();
     if (this.state.coins < medCost) return this.fail(`Yeterli jeton yok (${medCost} gerekli).`);
     this.state.coins -= medCost;
-    h.sick = false;
+    this.recoverHive(h, this.dayIndex(), false);
     this.state.ledger.cured += 1;
+    this.questEvent('cure');
     this.save();
     return { ok: true, msg: `${h.name} iyileşti 💊` };
   }
@@ -1341,14 +1761,20 @@ class BeeGame {
   // Her gün: fiyatlar bir öncekine yakın kalarak %80-130 arasında dalgalanır
   rollMarket() {
     const m = this.state.market;
+    const day = this.dayIndex();
+    const fx = this.state.merchantEffects || {};
     m.prev = { ...m.mult };
+    const forecast = fx.marketForecast && fx.marketForecast.forDay === day ? fx.marketForecast : null;
     for (const f of Object.keys(FLOWERS)) {
-      const drift = (Math.random() - 0.5) * 0.18;
-      const pull = (1.05 - m.mult[f]) * 0.15; // ortalamaya hafif çekim
-      m.mult[f] = Math.min(1.3, Math.max(0.8, m.mult[f] + drift + pull));
+      if (forecast && forecast.nextMult && forecast.nextMult[f] != null) m.mult[f] = forecast.nextMult[f];
+      else {
+        const drift = (Math.random() - 0.5) * 0.18;
+        const pull = (1.05 - m.mult[f]) * 0.15;
+        m.mult[f] = Math.min(1.3, Math.max(0.8, m.mult[f] + drift + pull));
+      }
       m.history[f] = [...(m.history[f] || []), m.mult[f]].slice(-HISTORY_DAYS);
     }
-    const day = this.dayIndex();
+    if (forecast) fx.marketForecast = null;
     if (m.event && day >= m.event.until) m.event = null;
     if (!m.event && Math.random() < 0.12) {
       const keys = Object.keys(FLOWERS);
@@ -1359,6 +1785,8 @@ class BeeGame {
   }
 
   price(f) {
+    const lock = this.state.marketLocks && this.state.marketLocks[f];
+    if (lock && this.dayIndex() < lock.untilDay) return lock.price;
     const m = this.state.market;
     const season = this.calendar().season;
     let p = FLOWERS[f].price * m.mult[f] * SEASON_PRICE[season];
@@ -1389,7 +1817,11 @@ class BeeGame {
     if (have < 0.05) return this.fail(`Depoda ${FLOWERS[f].name} balı yok.`);
     const kg = amount === 'all' ? have : Math.min(have, Number(amount) || 0);
     if (kg < 0.05) return this.fail('Satılacak miktar yok.');
-    const gain = Math.round(kg * this.price(f));
+    const fx = this.state.merchantEffects || {};
+    const marketUnit = this.price(f);
+    const sealKg = Math.min(kg, fx.marketSealKg || 0);
+    const gain = Math.round(kg * marketUnit + sealKg * marketUnit * 0.15);
+    if ((fx.marketSealKg || 0) > 0) fx.marketSealKg = 0; // yalnız bir sonraki satış
     this.state.storage[f] = have - kg;
     if (this.state.storage[f] < 0.001) delete this.state.storage[f];
     this.state.coins += gain;
@@ -1397,25 +1829,30 @@ class BeeGame {
     const L = this.ledgerHoney(f);
     L.soldKg += kg;
     L.earned += gain;
-    const unit = gain / kg;
-    if (!L.bestPrice || unit > L.bestPrice) L.bestPrice = Math.round(unit * 10) / 10;
+    const realizedUnit = gain / kg;
+    if (!L.bestPrice || realizedUnit > L.bestPrice) L.bestPrice = Math.round(realizedUnit * 10) / 10;
     const best = this.state.ledger.bestSale;
     if (!best || gain > best.coins) this.state.ledger.bestSale = { coins: gain, flower: f, kg: Math.round(kg * 10) / 10 };
-    this.questProgress('sell', kg);
+    this.questEvent('sell', { kg, flower: f, gain });
     this.save();
     return { ok: true, msg: `${kg.toFixed(1)} kg ${FLOWERS[f].name} balı satıldı (+${gain} 🪙).` };
   }
 
-  nextStorage() { return STORAGE_UPGRADES.find((u) => u.cap > this.state.storageCap) || null; }
+  nextStorage() { return STORAGE_UPGRADES.find((u) => u.cap > (this.state.storageBaseCap || 50)) || null; }
 
   upgradeStorage() {
     const u = this.nextStorage();
     if (!u) return this.fail('Depo en büyük boyutta.');
-    if (this.state.coins < u.cost) return this.fail(`Yeterli jeton yok (${u.cost} gerekli).`);
-    this.state.coins -= u.cost;
-    this.state.storageCap = u.cap;
+    const fx = this.state.merchantEffects || {};
+    const coupon = !!fx.storageCoupon;
+    const cost = Math.round(u.cost * (coupon ? 0.8 : 1));
+    if (this.state.coins < cost) return this.fail(`Yeterli jeton yok (${cost} gerekli).`);
+    this.state.coins -= cost;
+    if (coupon) fx.storageCoupon = false;
+    this.state.storageBaseCap = u.cap;
+    this.state.storageCap = u.cap + ((this.state.merchant && this.state.merchant.sandik) || 0) * 10;
     this.save();
-    return { ok: true, msg: `Depo büyüdü: artık ${u.cap} kg alıyor.` };
+    return { ok: true, msg: `Depo büyüdü: artık ${this.state.storageCap} kg alıyor${coupon ? ` · kuponla ${u.cost - cost} 🪙 tasarruf` : ''}.` };
   }
 
   // --- Siparişler ------------------------------------------------------------
@@ -1429,10 +1866,12 @@ class BeeGame {
     const planted = this.plantedFlowers();
     if (!planted.length) return null;
     // Sipariş veren: köyde yaşayanlar (tanıdıklar biraz daha sık)
-    const pool = this.villagePeople();
+    const used = new Set(this.state.orders.list.filter((x) => !x.special && (x.status === 'open' || x.status === 'accepted')).map((x) => x.who));
+    const pool = this.villagePeople().filter((p) => !used.has(p.name));
+    if (!pool.length) return null;
     const known = pool.filter((p) => ((this.state.customers[p.name] || {}).hearts || 0) > 0);
     const person = known.length && Math.random() < 0.45 ? known[Math.floor(Math.random() * known.length)] : pool[Math.floor(Math.random() * pool.length)];
-    const who = person ? person.name : CUSTOMERS[Math.floor(Math.random() * CUSTOMERS.length)];
+    const who = person.name;
     let f = planted[Math.floor(Math.random() * planted.length)];
     let fav = false;
     if (person && person.fav && planted.includes(person.fav) && Math.random() < 0.6) { f = person.fav; fav = true; }
@@ -1463,14 +1902,18 @@ class BeeGame {
       }
     }
     this.specialOrders();
-    // Yeni sipariş
+    // Yeni sipariş: gerçek zamanda 5 dakikada bir. Uzun aradan sonra tek seferde en fazla 3 tane birikir.
     const real = Date.now();
     if (!o.nextAtReal) o.nextAtReal = real + ORDER_EVERY_REAL_MS;
-    if (o.list.filter((x) => !x.special).length >= this.orderMax()) { o.nextAtReal = real + ORDER_EVERY_REAL_MS; return; }
+    const normalCount = o.list.filter((x) => !x.special).length;
+    if (normalCount >= this.orderMax()) { o.nextAtReal = real + ORDER_EVERY_REAL_MS; return; }
     if (real >= o.nextAtReal) {
-      const ord = this.makeOrder();
-      o.nextAtReal = real + ORDER_EVERY_REAL_MS;
-      if (ord) {
+      const elapsedSlots = Math.floor((real - o.nextAtReal) / ORDER_EVERY_REAL_MS) + 1;
+      const addCount = Math.min(elapsedSlots, ORDER_CATCHUP_MAX, this.orderMax() - normalCount);
+      o.nextAtReal += elapsedSlots * ORDER_EVERY_REAL_MS;
+      for (let i = 0; i < addCount; i++) {
+        const ord = this.makeOrder();
+        if (!ord) break;
         o.list.push(ord);
         this.state.counters.ordersIn += 1;
         this.events.push({ msg: `📜 Yeni sipariş: ${ord.who} ${ord.kg} kg ${FLOWERS[ord.flower].name} balı istiyor.` });
@@ -1485,6 +1928,7 @@ class BeeGame {
     if (!ord || ord.status !== 'open') return this.fail('Sipariş bulunamadı.');
     ord.status = 'accepted';
     ord.deadline = this.state.gameMs + ord.days * DAY_GAME_MS;
+    this.questEvent('acceptOrder', { who: ord.who });
     this.save();
     return { ok: true, msg: `Sipariş kabul edildi (${ord.who}). ${ord.days} gün içinde teslim et.` };
   }
@@ -1497,22 +1941,28 @@ class BeeGame {
     this.state.storage[ord.flower] = have - ord.kg;
     if (this.state.storage[ord.flower] < 0.001) delete this.state.storage[ord.flower];
     const known = ((this.state.customers[ord.who] || {}).hearts || 0) > 0;
+    const wasRegular = known;
+    const fx = this.state.merchantEffects || {};
+    const seal = ord.merchantPayBonus ? Math.round(ord.reward * ord.merchantPayBonus) : 0;
     const extra = known && this.state.label ? Math.round(ord.reward * LABEL_BONUS) : 0;
-    this.state.coins += ord.reward + extra;
-    this.state.counters.earned += ord.reward + extra;
+    this.state.coins += ord.reward + seal + extra;
+    this.state.counters.earned += ord.reward + seal + extra;
     this.state.orders.list = this.state.orders.list.filter((x) => x.id !== id);
-    this.bond(ord.who);
+    const relationExtra = (fx.friendToken || 0) + (fx.priorityCard || 0);
+    this.bond(ord.who, relationExtra);
+    fx.friendToken = 0;
+    fx.priorityCard = 0;
     this.state.ledger.ordersDone += 1;
     const LD = this.state.ledger;
     LD.deliveredKgBy[ord.flower] = (LD.deliveredKgBy[ord.flower] || 0) + ord.kg;
     LD.deliveredOrdersBy[ord.flower] = (LD.deliveredOrdersBy[ord.flower] || 0) + 1;
     LD.deliveredTo[ord.who] = (LD.deliveredTo[ord.who] || 0) + 1;
     if (ord.special === 'muhtarlik') LD.muhtarlikDone += 1;
-    this.questProgress('deliver', 1);
+    this.questEvent('deliver', { who: ord.who, regular: wasRegular });
     this.state.village.deliveredKg += ord.kg;
     this.checkVillage();
     this.save();
-    return { ok: true, msg: `${ord.who} çok memnun kaldı! +${ord.reward} 🪙${extra ? ` (+${extra} etiket bahşişi)` : ''}` };
+    return { ok: true, msg: `${ord.who} çok memnun kaldı! +${ord.reward} 🪙${seal ? ` (+${seal} Sipariş Mührü)` : ''}${extra ? ` (+${extra} etiket bahşişi)` : ''}${relationExtra ? ` · +${relationExtra} ilişki puanı` : ''}` };
   }
 
   // Reddetmek o kişiyle ilişkiyi %2 azaltır (1 teslim = %10; en az %0)
@@ -1726,8 +2176,12 @@ class BeeGame {
   }
 
   // --- Arı alım/satım -----------------------------------------------------
-  beePrice(h) { return 34 + h.beesBought * 7; }
-  beeSellPrice(h) { return Math.floor(this.beePrice(h) / 2); }
+  beeNumberPrice(number) {
+    return Math.max(1, BEE_PRICE_BASE + (Number(number) - BEE_PRICE_BASE_NUMBER) * BEE_PRICE_STEP);
+  }
+
+  beePrice(h) { return this.beeNumberPrice(h.bees + 1); }
+  beeSellPrice(h) { return Math.floor(this.beeNumberPrice(h.bees) / 2); }
 
   buyBee(hiveId) {
     const h = this.state.hives[hiveId];
@@ -1739,6 +2193,7 @@ class BeeGame {
     h.bees += 1;
     h.beesBought += 1;
     h.invested += price;
+    this.questEvent('buyBee', { hiveId });
     this.save();
     return { ok: true, msg: `Yeni bir arı aldın (-${price} 🪙).` };
   }
@@ -1767,6 +2222,7 @@ class BeeGame {
     h.invested += u.cost;
     h.level += 1;
     if (u.type === 'queen') {
+      this.questEvent('upgrade', { kind: 'queen', hiveId });
       h.queens += 1;
       h.capBees = u.capBees;
       if (u.capBees >= 20) this.milestone('kovan_20', `${h.name} 20 arılık dev bir kovan oldu`);
@@ -1774,6 +2230,7 @@ class BeeGame {
       return { ok: true, msg: `${QUEEN_NAMES[h.queens]} geldi! Kapasite ${u.capBees} arı.` };
     }
     h.capKg = u.capKg;
+    this.questEvent('upgrade', { kind: 'hive', hiveId });
     this.save();
     return { ok: true, msg: `Kovan büyüdü: artık ${u.capKg} kg bal alıyor.` };
   }
@@ -1786,6 +2243,7 @@ class BeeGame {
     this.state.coins -= syrupCost;
     h.syrup += SYRUP_KG;
     this.state.ledger.syrupGiven += 1;
+    this.questEvent('syrup', { hiveId });
     this.save();
     return { ok: true, msg: `${h.name}: +${SYRUP_KG} kg kış erzakı.` };
   }
@@ -1843,6 +2301,7 @@ class BeeGame {
     const id = uid();
     const n = Object.keys(this.state.hives).length + 1;
     this.state.hives[id] = newHive(id, `Kovan ${n}`, 4, HIVE_COST);
+    this.questEvent('placeHive', { hiveId: id });
     t.item = { type: 'hive', id };
     this.save();
     return { ok: true, msg: `${this.state.hives[id].name} kuruldu (-${HIVE_COST} 🪙).` };
@@ -1858,7 +2317,7 @@ class BeeGame {
     if (!free && this.state.coins < seedCost) return this.fail(`Yeterli jeton yok (${seedCost} gerekli).`);
     if (free) this.state.vouchers[flower] -= 1; else this.state.coins -= seedCost;
     t.item = { type: 'flower', flower, plantedDay: this.dayIndex(), wilted: false };
-    this.questProgress('plant', 1);
+    this.questEvent('plant', { flower });
     this.save();
     return { ok: true, msg: free ? `${def.name} hediye tohumla ekildi 🎁` : `${def.name} ekildi (-${seedCost} 🪙).` };
   }
@@ -1867,12 +2326,14 @@ class BeeGame {
     const t = this.state.tiles[k];
     if (!t || !t.item || t.item.type !== 'flower') return this.fail('Burada çiçek yok.');
     const def = FLOWERS[t.item.flower];
-    const seedCost = t.item.wilted ? this.reviveCost(t.item.flower) : this.seedCost(t.item.flower);
+    const wasWilted = !!t.item.wilted;
+    const seedCost = wasWilted ? this.reviveCost(t.item.flower) : this.seedCost(t.item.flower);
     if (this.state.coins < seedCost) return this.fail(`Yeterli jeton yok (${seedCost} gerekli).`);
     this.state.coins -= seedCost;
     t.item.plantedDay = this.dayIndex();
     t.item.wilted = false;
-    this.questProgress('plant', 1);
+    this.questEvent('plant', { flower: t.item.flower });
+    if (wasWilted) this.questEvent('revive', { flower: t.item.flower });
     this.save();
     return { ok: true, msg: `${def.name} yeniden canlandı (-${seedCost} 🪙).` };
   }
@@ -1904,7 +2365,10 @@ class BeeGame {
       if (hive.honey[f] < 0.001) delete hive.honey[f];
       moved += take;
     }
-    const wax = moved * WAX_PER_KG;
+    const fx = this.state.merchantEffects || {};
+    const glove = moved > 0.01 && (fx.waxGloveHarvests || 0) > 0;
+    const wax = moved * WAX_PER_KG * (glove ? 1.5 : 1);
+    if (glove) fx.waxGloveHarvests -= 1;
     this.state.wax += wax;
     this.recordHarvest(hive, moved, scale);
     this.save();
@@ -1939,6 +2403,8 @@ class BeeGame {
       hives[h.id] = {
         ...h,
         immuneDays: Math.max(0, (h.immuneUntil || 0) - this.dayIndex()),
+        sickDeaths: h.sickDeaths || 0,
+        sickDeathLimit: h.sick ? this.sicknessDeathLimit(h) : 0,
         total: this.hiveTotal(h),
         ratePerHour: Object.values(rates).reduce((a, b) => a + b, 0),
         near: this.flowersNear(this.hiveTileKey(h.id) || '0,0'),
@@ -1966,6 +2432,17 @@ class BeeGame {
       syrupKg: SYRUP_KG,
       keeper: this.state.keeper,
       market: this.prices(),
+      marketForecast: (() => {
+        const fc = this.state.merchantEffects && this.state.merchantEffects.marketForecast;
+        if (!fc || !fc.reveal || !fc.nextMult) return null;
+        return {
+          forDay: fc.forDay,
+          rows: fc.reveal.map((flower) => ({
+            flower,
+            direction: fc.nextMult[flower] >= this.state.market.mult[flower] ? 'up' : 'down'
+          }))
+        };
+      })(),
       orders: this.ordersView(),
       weather: { id: this.state.weather, ...(WEATHER[this.state.weather] || WEATHER.bulutlu) },
       tutorialDone: this.state.tutorialDone,
@@ -1980,7 +2457,7 @@ class BeeGame {
       breedChangeCost: BREED_CHANGE_COST,
       wax: this.state.wax,
       candles: this.state.candles,
-      candleWax: CANDLE_WAX,
+      candleWax: (this.state.merchantEffects && this.state.merchantEffects.waxPressUses > 0) ? 0.3 : CANDLE_WAX,
       candlePrice: this.candlePrice(),
       festival: { open: this.festivalOpen(), entry: this.state.festival.entry, cups: this.state.festival.cups, maxKg: FESTIVAL_MAX_KG },
       flowerLife: FLOWER_LIFE_DAYS + this.fx('flowerLife'),
@@ -1991,6 +2468,7 @@ class BeeGame {
       leaderboard: this.leaderboard(),
       farmName: this.state.farmName,
       quests: (this.ensureQuests(), this.state.quests.list.map((q) => ({ ...q, text: this.questText(q) }))),
+      questRefresh: { free: this.state.quests.refreshFree, paidUsed: this.state.quests.paidUsed, paidCost: 100 },
       questsDone: this.state.questsDone,
       ledger: this.state.ledger,
       history: this.state.history,
@@ -2009,6 +2487,7 @@ class BeeGame {
       syrupAllCost: this.syrupAllCost(),
       hints: this.hints(),
       stories: this.storiesView(),
+      effects: this.effectsView(),
       notifs: (this.state.notifs || []).slice().reverse(),
       notifsUnread: this.state.notifsUnread || 0,
       reviveRate: REVIVE_RATE,
@@ -2017,7 +2496,7 @@ class BeeGame {
       dayMs: DAY_GAME_MS,
       marketEvent: this.state.market.event,
       seasonPrice: SEASON_PRICE[this.calendar().season],
-      nextStorage: this.nextStorage(),
+      nextStorage: (() => { const u = this.nextStorage(); if (!u) return null; const coupon = !!(this.state.merchantEffects && this.state.merchantEffects.storageCoupon); return { ...u, cost: Math.round(u.cost * (coupon ? 0.8 : 1)), baseCost: u.cost, coupon }; })(),
       houseKey: this.houseKey(),
       now: Date.now(),
       flowers: Object.fromEntries(Object.entries(FLOWERS).map(([k, f]) => [k, { ...f, seed: this.seedCost(k) }])),

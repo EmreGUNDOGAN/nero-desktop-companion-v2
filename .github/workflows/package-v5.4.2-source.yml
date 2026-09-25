@@ -1,0 +1,33 @@
+name: Package Nero 5.4.2 Source
+
+on:
+  push:
+    branches: [build-v5.4.2-chatgpt]
+    paths:
+      - ".github/workflows/package-v5.4.2-source.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Create source zip
+        shell: bash
+        run: |
+          mkdir -p /tmp/nero-source
+          git ls-files | grep -v '^\.github/workflows/build-v5\.4\.2-temp\.yml$' | grep -v '^\.github/workflows/release-v5\.4\.2-temp\.yml$' | grep -v '^\.github/workflows/package-v5\.4\.2-source\.yml$' | while read -r f; do
+            mkdir -p "/tmp/nero-source/$(dirname "$f")"
+            cp "$f" "/tmp/nero-source/$f"
+          done
+          cd /tmp/nero-source
+          zip -r "$GITHUB_WORKSPACE/Nero-v5_4_2-source.zip" .
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Nero-v5_4_2-source
+          path: Nero-v5_4_2-source.zip
+          if-no-files-found: error

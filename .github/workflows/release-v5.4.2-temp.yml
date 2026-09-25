@@ -1,0 +1,87 @@
+name: Stage Nero 5.4.2 Draft Release
+
+on:
+  push:
+    branches: [build-v5.4.2-chatgpt]
+    paths:
+      - ".github/workflows/release-v5.4.2-temp.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Prepare source package and guide
+        shell: pwsh
+        run: |
+          $stage = Join-Path $env:RUNNER_TEMP "nero-source-5.4.2"
+          New-Item -ItemType Directory -Force -Path $stage | Out-Null
+          git ls-files | Where-Object {
+            $_ -ne ".github/workflows/build-v5.4.2-temp.yml" -and
+            $_ -ne ".github/workflows/release-v5.4.2-temp.yml"
+          } | ForEach-Object {
+            $dest = Join-Path $stage $_
+            $parent = Split-Path $dest -Parent
+            if ($parent) { New-Item -ItemType Directory -Force -Path $parent | Out-Null }
+            Copy-Item -LiteralPath $_ -Destination $dest
+          }
+          Compress-Archive -Path (Join-Path $stage "*") -DestinationPath "Nero-v5_4_2-source.zip" -CompressionLevel Optimal
+          Copy-Item docs/ARICILIK-REHBERI.md OYUN-REHBERI.md
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm test
+
+      - name: Validate dialogue data
+        run: npm run dialogue:check
+
+      - name: Build Windows installer
+        run: npm run dist
+
+      - name: Verify release files
+        shell: pwsh
+        run: |
+          $metadata = Get-Content dist/latest.yml -Raw
+          if ($metadata -notmatch 'version: 5\.4\.2' -or $metadata -notmatch 'Nero-Setup-5\.4\.2\.exe') { throw 'Incorrect updater metadata' }
+          if (-not (Test-Path dist/Nero-Setup-5.4.2.exe)) { throw 'Missing installer' }
+          if (-not (Test-Path dist/Nero-Setup-5.4.2.exe.blockmap)) { throw 'Missing blockmap' }
+          if (-not (Test-Path Nero-v5_4_2-source.zip)) { throw 'Missing source zip' }
+          if (-not (Test-Path OYUN-REHBERI.md)) { throw 'Missing guide' }
+
+      - name: Create or update draft release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $notes = @"
+          ## Nero 5.4.2
+
+          Arıcılık tarafında ekonomi ve dayanıklılık düzenlemeleri ile yeni Etkilerim görünümü.
+
+          - Siparişler gerçek zamanda 5 dakikada bir gelir.
+          - Hastalık kaynaklı arı kaybı vaka başına sınırlandı; kovan 4 arıya düştüğünde hastalık sona erer.
+          - Arı fiyatı artık kovandaki arı sırasına bağlıdır; kayıp sonrası fiyat doğru seviyeye geri iner.
+          - Depo yükseltmeleri 10.000 kg kapasiteye kadar genişletildi.
+          - Bal Defteri'ne aktif bonusları ve kaynaklarını gösteren Etkilerim sekmesi eklendi.
+          - Oyuncu rehberi güncel kurallarla senkronlandı.
+          "@
+          $notes | Set-Content -Path release-notes-5.4.2.md -Encoding UTF8
+
+          gh release view v5.4.2 *> $null
+          if ($LASTEXITCODE -eq 0) {
+            gh release upload v5.4.2 dist/Nero-Setup-5.4.2.exe dist/Nero-Setup-5.4.2.exe.blockmap dist/latest.yml Nero-v5_4_2-source.zip OYUN-REHBERI.md --clobber
+            gh release edit v5.4.2 --draft --title "Nero 5.4.2" --notes-file release-notes-5.4.2.md
+          } else {
+            gh release create v5.4.2 dist/Nero-Setup-5.4.2.exe dist/Nero-Setup-5.4.2.exe.blockmap dist/latest.yml Nero-v5_4_2-source.zip OYUN-REHBERI.md --draft --target build-v5.4.2-chatgpt --title "Nero 5.4.2" --notes-file release-notes-5.4.2.md
+          }

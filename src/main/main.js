@@ -1576,6 +1576,7 @@ function registerIpc() {
       makeCandle: () => bee.makeCandle(),
       sellCandles: () => bee.sellCandles(),
       claimQuest: () => bee.claimQuest(arg1),
+      refreshQuest: () => bee.refreshQuest(arg1),
       renameHive: () => bee.renameHive(arg1, arg2),
       setFarmName: () => bee.setFarmName(arg1),
       setLabel: () => bee.setLabel(arg1, arg2),

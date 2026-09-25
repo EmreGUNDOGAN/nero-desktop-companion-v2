@@ -1,5 +1,6 @@
 import * as THREE from './vendor/three.module.min.js';
 import { buildOccupant, villageGround, VM, buildMerchantCart } from './village.js';
+import { pickBeeDialogue } from './bee-dialogues.js';
 
 // ============================================================================
 // Nero · Arıcılık — 3D ada ve arayüz
@@ -822,7 +823,7 @@ async function doAct(action, a, b) {
   if (cost >= 500 && !window.confirm(`Bu işlem ${cost.toLocaleString('tr-TR')} 🪙 tutuyor. Emin misin?`)) return null;
   const { res, view: v, events } = await window.bee.act(action, a, b);
   if (res && res.msg) toast(res.msg, !res.ok);
-  if (res) react(action, res);
+  if (res) react(action, res, a, b);
   (events || []).forEach((e) => { if (e.msg) { toast(e.msg, e.err); reactEvent(e); } });
   applyView(v);
   return res;
@@ -869,28 +870,38 @@ let questsSig = '';
 $('quests-toggle').addEventListener('click', () => $('quests').classList.toggle('closed'));
 function renderQuests() {
   const list = view.quests || [];
-  const sig = JSON.stringify(list.map((q) => [q.id, Math.floor(q.progress * 10), q.claimed]));
+  const R = view.questRefresh || { free: 0, paidUsed: true, paidCost: 100 };
+  const sig = JSON.stringify([list.map((q) => [q.id, Math.floor(q.progress * 10), q.claimed]), R, Math.floor(view.coins)]);
   const open = list.filter((q) => !q.claimed).length;
   $('quests-count').textContent = open ? `${list.length - open}/${list.length}` : 'tamam ✓';
   if (sig === questsSig) return;
   questsSig = sig;
+  const refreshLabel = R.free > 0 ? `🔄 Değiştir · Ücretsiz (${R.free}/2)` : !R.paidUsed ? `🔄 Değiştir · ${R.paidCost} 🪙` : '🔒 Değiştirme hakkı bitti';
   $('quest-list').innerHTML = list.map((q) => {
     const done = q.progress >= q.target;
     const pct = Math.min(100, (q.progress / q.target) * 100);
     const prog = q.target > 1 ? `${(Math.floor(q.progress * 10) / 10).toLocaleString('tr-TR')} / ${q.target}` : (done ? '1 / 1' : '0 / 1');
     const reward = `+${q.reward} 🪙${q.voucher ? ` · 🎁 ${esc(view.flowers[q.voucher].name)}` : ''}`;
+    const canRefresh = !q.claimed && !done && (R.free > 0 || !R.paidUsed);
     return `<li class="quest${q.claimed ? ' claimed' : ''}">
       <div class="qtop"><span>${esc(q.text)}</span><span class="qrew">${q.claimed ? 'alındı' : reward}</span></div>
       ${q.claimed ? '' : `<div class="qbar"><i style="width:${pct}%"></i></div><small class="qrew">${prog}</small>`}
-      ${done && !q.claimed ? `<button type="button" data-claim="${q.id}">Ödülü al</button>` : ''}
+      <div class="quest-actions">
+        ${done && !q.claimed ? `<button type="button" data-claim="${q.id}">Ödülü al</button>` : ''}
+        ${!q.claimed && !done ? `<button type="button" data-refresh="${q.id}" ${canRefresh && (R.free > 0 || view.coins >= R.paidCost) ? '' : 'disabled'}>${esc(refreshLabel)}</button>` : ''}
+      </div>
     </li>`;
   }).join('');
 }
 $('quest-list').addEventListener('click', (e) => {
-  const b = e.target.closest('[data-claim]');
-  if (b) doAct('claimQuest', b.dataset.claim);
+  const claim = e.target.closest('[data-claim]');
+  if (claim) { doAct('claimQuest', claim.dataset.claim); return; }
+  const refresh = e.target.closest('[data-refresh]');
+  if (refresh && !refresh.disabled) doAct('refreshQuest', refresh.dataset.refresh);
 });
 
+// ---------------------------------------------------------------------------
+// İsim düzenleme (kovan ve çiftlik)
 // ---------------------------------------------------------------------------
 // İsim düzenleme (kovan ve çiftlik)
 // ---------------------------------------------------------------------------
@@ -940,7 +951,7 @@ let labelDraft = null;
 
 function renderLedger(force = false) {
   if (!ledgerOpen || !view) return;
-  const sig = JSON.stringify([ledgerTab, view.ledger, view.farmName, view.label, view.questsDone, view.festival.cups, labelDraft, view.stories, view.village.residents.length, view.letters]);
+  const sig = JSON.stringify([ledgerTab, view.ledger, view.farmName, view.label, view.questsDone, view.festival.cups, labelDraft, view.stories, view.effects, view.village.residents.length, view.letters]);
   if (!force && sig === ledgerSig) return;
   ledgerSig = sig;
   $('farm-name').textContent = `🏡 ${view.farmName}`;
@@ -954,6 +965,35 @@ function renderLedger(force = false) {
         ${l.gift ? `<small>${l.claimed ? '🎁 Hediye alındı' : '🎁 İçinde küçük bir hediye var'}</small>` : ''}
         ${!l.read ? `<div><button type="button" class="act primary small-act" data-read="${l.id}">${l.gift ? 'Oku ve hediyeyi al' : 'Okundu'}</button></div>` : ''}</div>`).join('')
       : '<div class="page locked"><b>Henüz mektup yok</b><small>Köylüler birkaç günde bir sana mektup yazar.</small></div>';
+  } else if (ledgerTab === 'effects') {
+    const E = view.effects || { focus: { active: false, icon: 'focus', title: 'Odak Bonusu', text: '+%25 bal üretimi', leftMs: 0, earnedTodayMs: 0, dailyLimitMs: 14400000 }, list: [] };
+    const allowed = new Set(['focus', 'story', 'building', 'syrup', 'milk', 'season', 'immunity', 'storage']);
+    const icon = (id) => `./assets/effects/${allowed.has(id) ? id : 'story'}.svg`;
+    const hm = (ms) => {
+      const min = Math.max(0, Math.round((ms || 0) / 60000));
+      const h = Math.floor(min / 60), m = min % 60;
+      return h ? `${h} sa${m ? ` ${m} dk` : ''}` : `${m} dk`;
+    };
+    const leftClock = (ms) => {
+      const total = Math.max(0, Math.ceil((ms || 0) / 60000));
+      return `${String(Math.floor(total / 60)).padStart(2, '0')}:${String(total % 60).padStart(2, '0')}`;
+    };
+    const rows = (E.list || []).map((x) => {
+      const duration = x.permanent ? 'Kullanılana kadar aktif' : x.daysLeft ? `${x.daysLeft} oyun günü kaldı` : '';
+      return `<div class="effect-card"><img class="effect-icon" src="${icon(x.icon)}" alt=""><div><b>${esc(x.title)}</b><small>${esc(x.source)}</small>${duration ? `<span>${esc(duration)}</span>` : ''}</div></div>`;
+    }).join('');
+    const earned = hm(E.focus.earnedTodayMs);
+    const limit = hm(E.focus.dailyLimitMs);
+    html = `<div class="effects-wrap">
+      <div class="effect-focus${E.focus.active ? ' active' : ''}"><img class="effect-icon big" src="${icon('focus')}" alt=""><div>
+        <b>🔥 Odak Bonusu · +%25 üretim</b>
+        <small>Kalan: <strong>${leftClock(E.focus.leftMs)}</strong></small>
+        <span>Bugün kazanılan: ${esc(earned)} / ${esc(limit)}</span>
+        <span>Günlük limit: 4 saat</span>
+      </div></div>
+      <h3 class="effects-title">Diğer etkiler</h3>
+      <div class="effects-grid">${rows || '<div class="page locked"><b>Henüz başka etkin yok</b><small>Hikâyeler, köy binaları ve Seyyah Yakup ilerledikçe burada görünür.</small></div>'}</div>
+    </div>`;
   } else if (ledgerTab === 'village') {
     const V = view.village;
     const pct = V.nextKg ? Math.min(100, (V.deliveredKg / V.nextKg) * 100) : 100;
@@ -1246,6 +1286,24 @@ function say(text) {
   clearTimeout(bubbleTimer);
   bubbleTimer = setTimeout(() => { b.hidden = true; }, 4800);
 }
+
+let lastDialogueTopic = null;
+function sayTopic(topic, vars = {}) {
+  const line = pickBeeDialogue(topic, vars);
+  if (!line) return false;
+  lastDialogueTopic = topic;
+  say(line);
+  return true;
+}
+function hiveVar(id) {
+  return (id && view && view.hives && view.hives[id] && view.hives[id].name) || 'Kovan';
+}
+function hiveFromMessage(msg) {
+  if (!view || !view.hives) return 'Kovan';
+  const h = Object.values(view.hives).find((x) => msg.includes(x.name));
+  return h ? h.name : 'Kovan';
+}
+
 $('nero').addEventListener('click', () => { const h = view && view.hints && view.hints[0]; say(h && Math.random() < 0.6 ? h.text : pick(NERO.click)); });
 setInterval(() => { if ($('nero-bubble').hidden && Math.random() < 0.5) say(pick(NERO.idle)); }, 70000);
 
@@ -1260,23 +1318,83 @@ document.addEventListener('mousemove', (e) => {
   });
 });
 
-function react(action, res) {
+function react(action, res, a, b) {
   if (!res.ok) { SFX.err(); return; }
-  if (action === 'sellHoney') { SFX.coin(); if (Math.random() < 0.5) say(pick(NERO.sell)); }
-  else if (action === 'deliverOrder') { SFX.coin(); say(pick(NERO.delivered)); }
-  else if (action === 'upgrade' || action === 'upgradeStorage') { SFX.bell(); say(pick(NERO.upgrade)); }
-  else if (['placeHive', 'plantSeed', 'buyTile'].includes(action)) { SFX.place(); if (Math.random() < 0.3) say(pick(NERO.place)); }
-  else if (['buyBee', 'syrup', 'acceptOrder', 'swapOrder'].includes(action)) SFX.place();
+  const vars = { hive: hiveVar(a) };
+  const topicByAction = {
+    sellHoney: 'honey_market_sold',
+    deliverOrder: 'order_delivered',
+    upgrade: 'hive_upgraded',
+    upgradeStorage: 'storage_upgraded',
+    placeHive: 'hive_placed',
+    buyTile: 'plot_placed',
+    plantSeed: 'seed_planted',
+    buyBee: 'bee_bought',
+    sellBee: 'bee_sold',
+    syrup: 'bee_syrup_used',
+    makeCandle: 'candle_made',
+    sellCandles: 'candle_sold',
+    claimQuest: 'daily_task_reward_claimed',
+    merchantBuy: 'traveler_yakup_bought',
+    merchantSell: 'traveler_yakup_honey_sold',
+    enterFestival: 'honey_festival_entry_submitted',
+    medicine: 'bee_disease_recovered_medicine'
+  };
+  const topic = topicByAction[action];
+  if (action === 'sellHoney' || action === 'deliverOrder' || action === 'sellCandles' || action === 'merchantSell') SFX.coin();
+  else if (action === 'upgrade' || action === 'upgradeStorage' || action === 'enterFestival') SFX.bell();
+  else if (['placeHive', 'plantSeed', 'buyTile', 'buyBee', 'syrup', 'acceptOrder', 'swapOrder', 'merchantBuy'].includes(action)) SFX.place();
+  if (topic) {
+    if (action === 'medicine' && Math.random() < 0.25) sayTopic('bee_immunity_started', vars);
+    else sayTopic(topic, vars);
+  }
+  if (action === 'readLetter' && res.msg && res.msg.includes('hediyesi')) sayTopic('villager_letter_gift_claimed');
+  if (action === 'rejectOrder') sayTopic('villager_relationship_down');
 }
+
 function reactEvent(e) {
-  const m = e.msg;
-  if (m.includes('depoya eklendi')) { SFX.harvest(); if (Math.random() < 0.6) say(pick(NERO.harvest)); }
-  else if (m.startsWith('📜')) { SFX.bell(); say(pick(NERO.order)); }
-  else if (m.includes('doğdu')) { SFX.buzz(); if (Math.random() < 0.5) say(pick(NERO.born)); }
-  else if (m.includes('yetişmedi')) { SFX.err(); say(pick(NERO.penalty)); }
-  else if (m.includes('öldü')) { SFX.err(); say(pick(NERO.winter)); }
-  else if (m.includes('Festival')) { SFX.bell(); }
-  else if (/Ali|Kaya|Nur/.test(m) && Math.random() < 0.3) say(pick(NERO.rival));
+  const m = e.msg || '';
+  const hive = hiveFromMessage(m);
+  let topic = e.topic || null;
+  let vars = e.vars || {};
+
+  if (!topic && m.startsWith('🤒') && m.includes('hastalandı')) { topic = 'bee_disease_started'; vars = { hive }; }
+  else if (!topic && m.includes('hasta kovanda bir arı öldü')) { topic = 'bee_disease_loss'; vars = { hive }; }
+  else if (!topic && m.startsWith('🛡️') && m.includes('hastalığı atlattı')) { topic = Math.random() < 0.7 ? 'bee_disease_recovered_natural' : 'bee_immunity_started'; vars = { hive }; }
+  else if (!topic && m.includes('kışın aç kalan bir arı öldü')) { topic = 'bee_winter_loss'; vars = { hive }; }
+  else if (!topic && m.includes('yeni bir arı doğdu')) { topic = 'bee_born'; vars = { hive }; }
+  else if (!topic && m.includes('depoya eklendi')) { topic = 'honey_harvest'; vars = { hive }; SFX.harvest(); }
+  else if (!topic && m.startsWith('📖 Bal Defteri')) topic = 'honey_journal_unlocked';
+  else if (!topic && m.startsWith('✅ Günlük görev tamamlandı')) topic = 'daily_task_completed';
+  else if (!topic && m.startsWith('📜 Yeni sipariş')) { topic = 'order_arrived'; SFX.bell(); }
+  else if (!topic && m.includes('Sipariş yetişmedi')) { topic = 'order_failed'; SFX.err(); }
+  else if (!topic && m.startsWith('🏘️ Köye yeni biri taşındı:')) topic = 'villager_arrived';
+  else if (!topic && /^(🏪|🏛️) Köyde/u.test(m)) topic = 'village_building_unlocked';
+  else if (!topic && m.includes('Köyün ilk halkası doldu')) topic = 'village_ring_completed';
+  else if (!topic && m.startsWith('💛')) topic = 'villager_relationship_up';
+  else if (!topic && m.startsWith('✉️') && m.includes('hediye')) topic = 'villager_gift_letter_arrived';
+  else if (!topic && m.startsWith('✉️')) topic = 'villager_letter_arrived';
+  else if (!topic && m.startsWith('📖') && m.includes('sana bir hikâye anlatmak istiyor')) {
+    topic = 'villager_story_unlocked';
+    vars = { villager: m.slice(2).split(' sana')[0].trim() };
+  } else if (!topic && m.startsWith('📖') && m.includes('Sıradaki:')) {
+    topic = 'villager_story_step1_completed';
+    vars = { villager: m.slice(2).split(':')[0].trim() };
+  } else if (!topic && m.startsWith('📖') && m.includes('Son adım:')) {
+    topic = 'villager_story_step2_completed';
+    vars = { villager: m.slice(2).split(':')[0].trim() };
+  } else if (!topic && m.startsWith('🌟') && m.includes('hikâyesi tamamlandı')) {
+    topic = 'villager_story_completed';
+    const who = (view.stories || []).find((x) => m.includes(x.title));
+    vars = { villager: who ? who.who : 'Köylü' };
+  } else if (!topic && m.startsWith('🛒 Gezgin satıcı Seyyah Yakup köye geldi')) topic = 'traveler_yakup_arrived';
+  else if (!topic && m.startsWith('🛒 Seyyah Yakup köyden ayrıldı')) topic = 'traveler_yakup_left';
+  else if (!topic && m.startsWith('🎉 Festival!')) topic = 'market_price_festival_started';
+  else if (!topic && (m.startsWith('🏆 Bal festivalinde') || m.startsWith('🎪 Bal festivalinde'))) topic = 'honey_festival_result';
+  else if (!topic && /Temkinli Ali|Riskçi Kaya|Dengeli Nur/.test(m)) topic = 'rival_event';
+  else if (!topic && m.includes("Nero'da bir iş bitirdin")) topic = 'nero_todo_coin_reward';
+
+  if (topic) sayTopic(topic, vars);
 }
 
 // ---------------------------------------------------------------------------
@@ -1303,8 +1421,7 @@ function applySeason(season) {
   document.body.className = `season-${season}`;
   weatherFx();
   if (!first) {
-    const lines = { ilkbahar: 'İlkbahar geldi! Çiçekler açıyor.', yaz: 'Yaz geldi. Bal bol ama ucuz.', sonbahar: 'Sonbahar. Kestane zamanı!', kis: 'Kış geldi. Şurup ve biriktirdiğin bal zamanı!' };
-    say(lines[season]);
+    sayTopic('season_changed');
     SFX.bell();
   }
 }
@@ -1364,7 +1481,10 @@ function showAway(s) {
   else if (s.rank < s.oldRank) items.push([`🏆 Sıralamada yükseldin: ${s.rank}. sıradasın`, false]);
   $('away-list').innerHTML = items.map(([txt, bad]) => `<li class="${bad ? 'bad' : ''}">${esc(txt)}</li>`).join('');
   $('away-modal').hidden = false;
-  say(s.full ? 'Kovanlar dolmuş, arıcıyı yollayalım!' : 'Sen yokken de çalıştık, merak etme.');
+  if (s.minutes >= 120) {
+    sayTopic('farm_production_paused_inactivity');
+    setTimeout(() => sayTopic('farm_production_resumed'), 5200);
+  } else sayTopic('return_after_absence');
 }
 $('away-ok').addEventListener('click', () => { $('away-modal').hidden = true; });
 
@@ -1558,7 +1678,7 @@ function sparkline(values) {
 let marketSig = '';
 function renderMarket(force = false) {
   if (!marketOpen || !view) return;
-  const sig = JSON.stringify([view.market, view.storage, Math.floor(view.coins), view.storageCap, view.marketEvent, view.calendar.season, view.wax, view.candles, view.festival]);
+  const sig = JSON.stringify([view.market, view.marketForecast, view.storage, Math.floor(view.coins), view.storageCap, view.marketEvent, view.calendar.season, view.wax, view.candles, view.festival]);
   if (!force && sig === marketSig) return;
   marketSig = sig;
   const season = view.calendar.season;
@@ -1568,6 +1688,12 @@ function renderMarket(force = false) {
   const ev = view.marketEvent;
   $('m-festival').hidden = !ev;
   if (ev) $('m-festival').textContent = `🎉 Festival: ${view.flowers[ev.flower].name} balı %${ev.pct} daha değerli!`;
+
+  const fc = view.marketForecast;
+  $('m-forecast').hidden = !fc;
+  if (fc) {
+    $('m-forecast').textContent = '🔮 Yarın: ' + fc.rows.map((x) => `${view.flowers[x.flower].name} ${x.direction === 'up' ? '↑ yükselebilir' : '↓ düşebilir'}`).join(' · ');
+  }
 
   let entries = Object.entries(view.flowers);
   if ($('market-mine').checked) entries = entries.filter(([f]) => (view.storage[f] || 0) >= 0.05);
@@ -1803,6 +1929,7 @@ function renderHive() {
     : `<button type="button" data-breed="${id}" ${view.coins < view.breedChangeCost ? 'disabled' : ''}>${esc(b.name)} · ${view.breedChangeCost} 🪙</button>`).join('');
   $('h-sick').hidden = !h.sick;
   if (h.sick) {
+    $('h-sick-text').textContent = `🤒 Bu kovan hasta: üretim %30 düştü. Bu vakada ${h.sickDeaths}/${h.sickDeathLimit} arı kaybedildi; 4 arıya düşerse hastalık biter.`;
     const mb = $('h-medicine');
     mb.textContent = `💊 İlaç ver · ${view.medicineCost} 🪙`;
     mb.disabled = view.coins < view.medicineCost;
@@ -1858,6 +1985,7 @@ const SEASON_ICON = { ilkbahar: '🌸', yaz: '☀️', sonbahar: '🍂', kis: '�
 let noticeShown = false;
 
 function applyView(v) {
+  const prev = view;
   setTimeout(() => {
     if (!view) return;
     syncSettings();
@@ -1870,7 +1998,26 @@ function applyView(v) {
   setTimeout(() => { if (view && view.village) buildVillage(); }, 0);
   setTimeout(() => { renderQuests(); renderLedger(); renderStats(); }, 0);
   const first = !view;
+  const prevWeather = prev && prev.weather ? prev.weather.id : null;
+  const prevFestivalOpen = !!(prev && prev.festival && prev.festival.open);
+  const prevFocus = prev && prev.effects ? prev.effects.focus : null;
+  const prevUnattended = !!(prev && prev.unattended);
   view = v;
+
+  if (!first && prevWeather !== v.weather.id) {
+    if (v.weather.id === 'yagmurlu') sayTopic('rainy_day');
+    else if (v.weather.id === 'karli') sayTopic('snowy_day');
+  }
+  if (!first && !prevFestivalOpen && v.festival.open) sayTopic('honey_festival_application_opened');
+  if (prevFocus && v.effects && v.effects.focus) {
+    const cur = v.effects.focus;
+    if (!prevFocus.active && cur.active) sayTopic('focus_bonus_started');
+    else if (prevFocus.active && cur.active && cur.leftMs > prevFocus.leftMs + 30000) sayTopic('focus_bonus_extended');
+    if ((prevFocus.earnedTodayMs || 0) < (prevFocus.dailyLimitMs || Infinity) && (cur.earnedTodayMs || 0) >= (cur.dailyLimitMs || Infinity)) sayTopic('focus_bonus_maxed');
+    if (prevFocus.active && !cur.active) sayTopic('focus_bonus_ended');
+  }
+  if (!first && !prevUnattended && v.unattended) sayTopic('farm_production_paused_inactivity');
+  else if (!first && prevUnattended && !v.unattended) sayTopic('farm_production_resumed');
   $('coins').textContent = Math.floor(v.coins).toLocaleString('tr-TR');
   $('storage').textContent = kg(v.storageKg);
   $('storage-cap').textContent = `/ ${v.storageCap} kg`;
@@ -2180,15 +2327,38 @@ $('merchant-chip').addEventListener('click', openMerchant);
 $('merchant-close').addEventListener('click', closeMerchant);
 $('merchant-modal').addEventListener('click', (e) => { if (e.target === $('merchant-modal')) closeMerchant(); });
 
-function targetOptions(kind) {
+function targetOptions(kind, itemId = null) {
   const hives = Object.values(view.hives);
-  if (kind === 'flower') {
-    const opts = Object.entries(view.tiles).filter(([, t]) => t.owned && t.item && t.item.type === 'flower' && !t.item.wilted)
+  const hiveOpt = (h) => `<option value="${h.id}">${esc(h.name)} · ${h.bees}/${h.capBees} arı${h.sick ? ' · hasta' : ''}</option>`;
+  if (kind === 'flower' || kind === 'flowerWilted') {
+    const wilted = kind === 'flowerWilted';
+    const opts = Object.entries(view.tiles).filter(([, t]) => t.owned && t.item && t.item.type === 'flower' && !!t.item.wilted === wilted)
       .map(([k, t]) => `<option value="${k}">${esc(view.flowers[t.item.flower].name)} tarhı (${k})</option>`);
     return opts.length ? opts.join('') : null;
   }
-  const ok = (h) => kind === 'hiveQueen' ? h.next && h.next.type === 'queen' : kind === 'hiveRoom' ? h.bees < h.capBees : kind === 'hiveSick' ? h.sick : true;
-  const opts = hives.filter(ok).map((h) => `<option value="${h.id}">${esc(h.name)} · ${h.bees}/${h.capBees} arı${h.sick ? ' · hasta' : ''}</option>`);
+  if (kind === 'honey') return Object.entries(view.flowers).map(([k, f]) => `<option value="${k}">${esc(f.name)} balı</option>`).join('');
+  if (kind === 'acceptedOrder' || kind === 'order') {
+    const list = (view.orders.list || []).filter((o) => kind === 'order' || o.status === 'accepted');
+    return list.length ? list.map((o) => `<option value="${o.id}">${esc(o.who)} · ${o.kg} kg ${esc(view.flowers[o.flower].name)}</option>`).join('') : null;
+  }
+  if (kind === 'merchantStock') {
+    const list = (view.merchant.stock || []).filter((x) => !x.sold && x.id !== itemId && x.id !== 'stokDegisim');
+    return list.length ? list.map((x) => `<option value="${x.id}">${x.icon} ${esc(x.name)}</option>`).join('') : null;
+  }
+  if (kind === 'hiveBreed') {
+    const opts = [];
+    for (const h of hives) for (const [breed, def] of Object.entries(view.breeds || {})) {
+      if (h.breed !== breed) opts.push(`<option value="${h.id}|${breed}">${esc(h.name)} → ${esc(def.name)}</option>`);
+    }
+    return opts.length ? opts.join('') : null;
+  }
+  if (kind === 'hiveTransfer') {
+    const pairs = [];
+    for (const from of hives) for (const to of hives) if (from.id !== to.id && from.bees > 1 && to.bees < to.capBees) pairs.push(`<option value="${from.id}|${to.id}">${esc(from.name)} → ${esc(to.name)} · en fazla 3 arı</option>`);
+    return pairs.length ? pairs.join('') : null;
+  }
+  const ok = (h) => kind === 'hiveQueen' ? h.next && h.next.type === 'queen' : kind === 'hiveRoom3' ? h.capBees - h.bees >= 3 : kind === 'hiveSick' ? h.sick : true;
+  const opts = hives.filter(ok).map(hiveOpt);
   return opts.length ? opts.join('') : null;
 }
 
@@ -2204,12 +2374,12 @@ function renderMerchant(force = false) {
   merchantSig = sig;
   const full = M.bought >= M.maxBuy;
   $('merchant-list').innerHTML = M.stock.map((it) => {
-    const opts = it.target ? targetOptions(it.target) : '';
+    const opts = it.target ? targetOptions(it.target, it.id) : '';
     const noTarget = it.target && !opts;
     return `<li class="mitem${it.sold ? ' sold' : ''}">
       <span class="ic">${it.icon}</span>
       <span class="info"><b>${esc(it.name)}</b><small>${esc(it.desc)}</small>
-        ${it.target && !it.sold && opts ? `<select data-target-for="${it.id}">${opts}</select>` : ''}
+        ${it.contents && it.contents.length ? `<small>İçerik: ${it.contents.map(esc).join(' · ')}</small>` : ''}${it.target && !it.sold && opts ? `<select data-target-for="${it.id}">${opts}</select>` : ''}
         ${noTarget && !it.sold ? '<small>Şu an uygun bir hedef yok.</small>' : ''}</span>
       <button type="button" data-mbuy="${it.id}" ${it.sold || full || noTarget ? 'disabled' : ''}>${it.sold ? 'Alındı' : it.basePrice != null && !['kralice', 'dortMevsim', 'suru'].includes(it.id) ? `${it.basePrice} 🪙` : 'Satın al'}</button>
     </li>`;
@@ -2231,7 +2401,7 @@ $('merchant-buy').addEventListener('click', (e) => {
 });
 
 // ---------------------------------------------------------------------------
-// 5.5.0 · Grafik kalitesi (arı sayısı sadece görüntü; üretim etkilenmez)
+// Grafik kalitesi (arı sayısı sadece görüntü; üretim etkilenmez)
 // ---------------------------------------------------------------------------
 const GFX = {
   yuksek: { bees: 8, shadows: true, shadowMap: 2048, pr: 2, precip: 1, fire: true, anim: true },

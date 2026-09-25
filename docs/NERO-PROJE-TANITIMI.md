@@ -2,7 +2,7 @@
 
 > **Bu dosyayı her yeni sohbetin başında ver.** Okuyan asistan, projeyi, kod yapısını, Nero'nun karakterini,
 > uygulamanın ve arıcılık oyununun özelliklerini ve bizim çalışma kurallarımızı buradan öğrenir.
-> Bu dosyadaki bilgiler **5.5.0** sürümüne göredir. Kodla çelişki varsa **kod esastır**; farkı bana söyle.
+> Bu dosyadaki bilgiler **5.4.2** sürümüne göredir. Kodla çelişki varsa **kod esastır**; farkı bana söyle.
 
 ---
 
@@ -26,7 +26,7 @@
 | Yayıncı | **Stenwick** |
 | Repo | `github.com/EmreGUNDOGAN/nero-desktop-companion-v2` (herkese açık) |
 | appId | `com.stenwick.nero` — **asla değiştirme** (kurulum eski sürümü bununla tanır) |
-| Güncel sürüm | 5.5.0 (`package.json` → `version`) |
+| Güncel sürüm | 5.4.2 (`package.json` → `version`) |
 | Otomatik güncelleme | `electron-updater`, GitHub Releases üzerinden |
 | Veri klasörü | `%APPDATA%\Nero\` (JSON dosyaları), günlük: `%APPDATA%\Nero\nero.log` |
 
@@ -121,7 +121,7 @@ Repo kökünde eski `.patch` dosyaları, `base/`, `project/` gibi artıklar olab
 - Ekran kartı olmayan makineler için `app.commandLine.appendSwitch('enable-unsafe-swiftshader')` açık.
 
 **Test**
-- `npm test` (Node testleri, şu an 60/60 geçiyor). Oyun mantığı Electron olmadan test edilebilir:
+- `npm test` (Node testleri, şu an 65/65 geçiyor). Oyun mantığı Electron olmadan test edilebilir:
   `new BeeGame({ get(){...}, set(v){...} })`.
 - Arayüz değişikliğinde Electron duman testi ile gerçekten açıldığını doğrula (`test/*-electron-smoke.js`).
 - Linux'ta sanal ekranda 3D için: `--use-angle=swiftshader --enable-unsafe-swiftshader`.
@@ -227,18 +227,18 @@ Tüm sabitler `src/main/bee.js` dosyasının başında.
   **ballar asla karışmaz**. Mevsim dışı %25 üretim. Ömür 30 gün; solan tarh tohumun %10'una canlanır.
   Aynı çiçekten 3 tarh yan yana: +%15.
 - **Kovan:** arı başına 0.5 kg/sa; kraliçe → kovan → kraliçe sırasıyla yükseltme (en fazla 20 arı, 80 kg);
-  doğal üreme; kışta şurup; hastalık (sonrasında 3 oyun yılı bağışıklık); ırklar (Anadolu/Kafkas/İtalyan); isim verme.
+  doğal üreme; kışta şurup; hastalık (vaka başına sınırlı kayıp, sonrasında 1 oyun yılı bağışıklık); ırklar (Anadolu/Kafkas/İtalyan); isim verme.
 - **Hasat:** arıcı yürür, 5 sn çalışır, balı depoya taşır; balmumu da çıkar → mum.
 - **Pazar/depo:** günlük dalgalanan fiyatlar, mevsim etkisi (yaz ucuz, kış pahalı), festival olayları.
-- **Siparişler:** **gerçek zamanla 20 dakikada bir**, en fazla 5; yalnız ekili çiçeklerden. Kabul/değiştir/reddet;
+- **Siparişler:** **gerçek zamanla 5 dakikada bir**, en fazla 5; uzun aradan dönüşte en fazla 3 normal sipariş birikir; yalnız ekili çiçeklerden. Kabul/değiştir/reddet;
   gecikme cezası %20; **reddetmek ilişkiyi %2 düşürür** (her teslim +%10; kalpler de düşebilir; en az %0).
 - **Köylüler/ilişki:** kalpler (5), müdavim bonusu, hediye tohumlar.
 - **Köy:** adanın dışındaki 2 halkada (36 + 42 kare) 78 yerleşimci; teslim edilen bala göre büyür:
   başlangıç 6, sonra 50 / 150 / 400 / 1.000 kg'da **birer** kişi, sonra **her 500 kg'de 1**; ilk halka 14.000 kg, son yerleşimci 35.000 kg.
-  Köylülerin sevdiği bal (+%15 sipariş); 21 dükkân/bina etkisi; Fırın/Pastane/Muhtarlık düzenli siparişler.
+  Köylülerin sevdiği bal (+%15 sipariş); 28 dükkân/bina (etkili ve görsel yapılar); Fırın/Pastane/Muhtarlık düzenli siparişler.
 - **Gezgin satıcı Seyyah Yakup:** 6–9 günde bir, 2 gün kalır; 9 üründen 4'ü; **her üründen 1, ziyaret başına en fazla 2 ürün**; dekor satmaz; bir balı pazarın %40 üstüne alır.
 - **Köylü hikâyeleri:** 8 köylü, ilişki %50'de açılır, 3 adım; son ödül en fazla %5 kalıcı bonus; dekor görevi yok.
-- **Diğer:** günlük görevler, Bal Defteri (ballar, kayıtlar, köy, etiket), istatistikler (toplam satılan ton),
+- **Diğer:** günlük görevler, Bal Defteri (ballar, kayıtlar, Etkilerim, köy, mektuplar, etiket), istatistikler (toplam satılan ton),
   rakipler ve liderlik, Yıllık Bal Festivali, dekorlar (çit, bank, fener, kemer, çeşme), hava (yaz hep güneşli,
   sonbahar bulutlu/yağmurlu, ilkbahar karışık, kış karlı/yağmurlu), gerçek saatle gece modu (19:00–07:00, sadece görünüş),
   ortam sesleri, fotoğraf modu, kısayollar (H/P/S/D/F/Boşluk/Esc), bildirim zili (son 20), masaüstü Nero uyarıları,
@@ -249,12 +249,19 @@ Tüm sabitler `src/main/bee.js` dosyasının başında.
 
 ---
 
-## 8. Onaylanmış ama henüz yapılmamış işler
+## 8. Güncel arıcılık durumu
 
-Şu an bekleyen onaylı iş yok. (5.5.0'da yapılanlar: köylü mektupları, oyun içi Ayarlar + grafik kalitesi + bildirim tercihleri,
-kovanlar özeti, toplu şurup, hazır siparişler, üzerine gelince bilgi, adaya dön, pahalı işlem onayı, pencere hatırlama,
-Pazar filtre/sıralama, kısayol listesi, Nero ipuçları, bildirimden ilgili yere gitme, kovanlar arasında ←/→, sipariş sıralama.)
-Yeni işler onaylandıkça buraya ekle.
+5.4.1'de köylü mektupları, oyun içi Ayarlar + grafik kalitesi + bildirim tercihleri, kovanlar özeti, toplu şurup,
+hazır siparişler, üzerine gelince bilgi, adaya dön, pahalı işlem onayı, pencere hatırlama, Pazar filtre/sıralama,
+kısayol listesi, Nero ipuçları, bildirimden ilgili yere gitme, kovanlar arasında ←/→ ve sipariş sıralama tamamlandı.
+
+**5.4.2:** normal siparişler gerçek zamanda 5 dakikada bir gelir (uzun aradan dönüşte en fazla 3 birikir); hastalık kaybı
+vaka başına başlangıç arılarının yaklaşık üçte biriyle sınırlıdır, 4 arıda otomatik biter ve iyileşme sonrası 1 oyun yılı
+bağışıklık başlar. Arı fiyatı satın alma geçmişi yerine arı sırasına bağlıdır; ölüm fiyatı geri düşürür ve satış ilgili
+sıra fiyatının %50'sidir. Depo 10.000 kg'a kadar büyütülebilir. Bal Defteri'nde **✨ Etkilerim** bonusları kaynak ve
+süreleriyle gösterir; Odak Bonusu en üsttedir.
+
+Şu an bekleyen onaylı iş yok; yeni işler onaylandıkça buraya ekle.
 
 ## 9. Kullanıcının verdiği kararlar (bunları geri getirme)
 

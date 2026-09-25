@@ -118,3 +118,100 @@ test('beekeeping reset is exposed in the in-game settings with a backup-first fl
   assert.ok(beeHtml.includes('id="gs-reset"'));
   assert.ok(!panel.includes('id="bee-reset"'));
 });
+
+
+test('5.4.2 arı fiyatı satın alma sayacından değil arı sırasından hesaplanır', () => {
+  const bee = new BeeGame(new MemoryStore({}));
+  const hive = Object.values(bee.state.hives)[0];
+  assert.equal(hive.bees, 6);
+  assert.equal(bee.beePrice(hive), 34); // 7. arı
+  assert.equal(bee.beeNumberPrice(8), 41);
+  assert.equal(bee.beeNumberPrice(20), 125);
+  assert.equal(Array.from({ length: 14 }, (_, i) => bee.beeNumberPrice(7 + i)).reduce((a, b) => a + b, 0), 1113);
+
+  hive.bees = 7;
+  hive.beesBought = 99; // eski sayaç artık fiyatı etkilememeli
+  assert.equal(bee.beePrice(hive), 41);
+  assert.equal(bee.beeSellPrice(hive), 17);
+  hive.bees = 6; // ölüm sonrası fiyat geri düşer
+  assert.equal(bee.beePrice(hive), 34);
+
+  hive.bees = 4; // yeni kovanın ilk iki sabit sırası da geriye doğru aynı +7 dizisini sürdürür
+  assert.equal(bee.beePrice(hive), 20);
+  hive.bees = 5;
+  assert.equal(bee.beePrice(hive), 27);
+});
+
+test('5.4.2 hastalık kaybı vaka başına üçte birle sınırlıdır ve 4 arı tabanı vardır', () => {
+  const bee = new BeeGame(new MemoryStore({}));
+  const hive = Object.values(bee.state.hives)[0];
+  hive.bees = 8;
+  hive.sick = true;
+  hive.sickSince = 0;
+  hive.sickStartBees = 8;
+  hive.sickDeaths = 0;
+  hive.immuneUntil = 0;
+
+  assert.equal(bee.sicknessDeathLimit(hive), 3);
+  bee.onNewDay(1); // 8 -> 7
+  bee.onNewDay(3); // 7 -> 6
+  bee.onNewDay(5); // 6 -> 5, üçüncü ölüm ve iyileşme
+  assert.equal(hive.bees, 5);
+  assert.equal(hive.sick, false);
+  assert.equal(hive.immuneUntil, 65);
+
+  hive.bees = 5;
+  hive.sick = true;
+  hive.sickSince = 10;
+  hive.sickStartBees = 5;
+  hive.sickDeaths = 0;
+  hive.immuneUntil = 0;
+  assert.equal(bee.sicknessDeathLimit(hive), 1); // 4 arı tabanı nedeniyle bu vakada yalnız 1 arı kaybedilebilir
+  bee.onNewDay(11); // 5 -> 4 ve güvenlik tabanında hemen iyileşir
+  assert.equal(hive.bees, 4);
+  assert.equal(hive.sick, false);
+  assert.equal(hive.immuneUntil, 71);
+});
+
+test('5.4.2 siparişleri gerçek zamanda 5 dakikada gelir ve dönüşte en fazla 3 birikir', () => {
+  const bee = new BeeGame(new MemoryStore({}));
+  bee.state.orders.list = [];
+  bee.state.orders.nextAtReal = Date.now() - 17 * 60 * 1000;
+  bee.processOrders();
+  const normal = bee.state.orders.list.filter((x) => !x.special);
+  assert.equal(normal.length, 3);
+  assert.ok(bee.state.orders.nextAtReal > Date.now() - 5 * 60 * 1000);
+});
+
+test('5.4.2 depo kademeleri 10.000 kg kapasiteye kadar devam eder', () => {
+  const bee = new BeeGame(new MemoryStore({}));
+  const expected = [
+    [100, 340], [200, 900], [400, 2250], [800, 4000], [1500, 7500],
+    [2500, 12000], [4000, 20000], [6000, 30000], [10000, 50000]
+  ];
+  for (const [cap, cost] of expected) {
+    const next = bee.nextStorage();
+    assert.deepEqual(next, { cap, cost });
+    bee.state.storageBaseCap = cap;
+    bee.state.storageCap = cap;
+  }
+  assert.equal(bee.nextStorage(), null);
+});
+
+test('5.4.2 Etkilerim görünümü odak bonusunu üstte ve kaynaklı etkileri listede döndürür', () => {
+  const bee = new BeeGame(new MemoryStore({}));
+  const hive = Object.values(bee.state.hives)[0];
+  bee.state.focusBoostUntil = Date.now() + 30 * 60 * 1000;
+  bee.state.stories.hasan = { step: 2, done: true };
+  hive.boostUntilDay = bee.dayIndex() + 1;
+  hive.milkDays = 2;
+  hive.immuneUntil = bee.dayIndex() + 60;
+  const effects = bee.effectsView();
+  assert.equal(effects.focus.active, true);
+  assert.equal(effects.focus.title, 'Odak Bonusu');
+  assert.ok(effects.list.some((x) => x.id === 'story:hasan'));
+  assert.ok(effects.list.some((x) => x.icon === 'building'));
+  assert.ok(effects.list.some((x) => x.icon === 'syrup'));
+  assert.ok(effects.list.some((x) => x.icon === 'milk'));
+  assert.ok(effects.list.some((x) => x.icon === 'immunity'));
+});
