@@ -1563,6 +1563,7 @@ function registerIpc() {
     const map = {
       buyTile: () => bee.buyTile(arg1),
       placeHive: () => bee.placeHive(arg1),
+      buySeed: () => bee.buySeed(arg1),
       plantSeed: () => bee.plantSeed(arg1, arg2),
       removeFlower: () => bee.removeFlower(arg1),
       replant: () => bee.replant(arg1),
