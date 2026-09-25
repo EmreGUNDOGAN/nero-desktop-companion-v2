@@ -851,7 +851,7 @@ let lastSpeed = 1;
 window.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
     closePopup(); $('seed-modal').hidden = true; closeHive(); closeMarket(); closeOrders(); closeBoard(); closeShop();
-    $('guide-modal').hidden = true; cancelPlacing(); closeLedger(); closeStats(); closeNotifs(); closeMerchant();
+    $('guide-modal').hidden = true; closeWhatsNew(); cancelPlacing(); closeLedger(); closeStats(); closeNotifs(); closeMerchant();
     $('settings-modal').hidden = true; $('hives-modal').hidden = true; $('keys-modal').hidden = true;
     return;
   }
@@ -1241,6 +1241,30 @@ $('shop-body').addEventListener('click', async (e) => {
 $('open-guide').addEventListener('click', () => { $('guide-modal').hidden = false; });
 $('guide-close').addEventListener('click', () => { $('guide-modal').hidden = true; });
 $('guide-modal').addEventListener('click', (e) => { if (e.target === $('guide-modal')) $('guide-modal').hidden = true; });
+
+const RELEASE_SEEN_KEY = 'neroBeeLastReleaseSeen';
+function showWhatsNew(markSeen = true) {
+  $('whats-new-version').textContent = RELEASE_NOTES.eyebrow;
+  $('whats-new-title').textContent = RELEASE_NOTES.title;
+  $('whats-new-intro').textContent = RELEASE_NOTES.intro;
+  $('whats-new-list').innerHTML = RELEASE_NOTES.items.map((item) =>
+    `<article class="whats-new-item"><span class="ico">${esc(item.icon)}</span><div><b>${esc(item.title)}</b><p>${esc(item.text)}</p></div></article>`
+  ).join('');
+  $('whats-new-modal').hidden = false;
+  if (markSeen) {
+    try { localStorage.setItem(RELEASE_SEEN_KEY, RELEASE_NOTES.version); } catch (_) { /* depolama kapalıysa sessiz geç */ }
+  }
+}
+function closeWhatsNew() { $('whats-new-modal').hidden = true; }
+function maybeShowWhatsNew() {
+  if (!view || !view.tutorialDone || !$('whats-new-modal').hidden) return;
+  let seen = null;
+  try { seen = localStorage.getItem(RELEASE_SEEN_KEY); } catch (_) { /* sessiz geç */ }
+  if (seen !== RELEASE_NOTES.version) showWhatsNew(true);
+}
+$('whats-new-close').addEventListener('click', closeWhatsNew);
+$('whats-new-modal').addEventListener('click', (e) => { if (e.target === $('whats-new-modal')) closeWhatsNew(); });
+$('open-whats-new').addEventListener('click', () => { $('guide-modal').hidden = true; showWhatsNew(false); });
 
 // ---------------------------------------------------------------------------
 // Sesler: gerçek OGG kayıtları + sentez fallback
@@ -2180,6 +2204,7 @@ function applyView(v) {
     else closeHive();
   }
   clockSkew = 0;
+  maybeShowWhatsNew();
   if (first) updateHover();
 }
 
