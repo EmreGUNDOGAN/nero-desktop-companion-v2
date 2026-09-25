@@ -48,10 +48,13 @@ module.exports = [
  },
  {
   "n": 7,
-  "type": "koylu",
-  "name": "Kasabalı Cem",
-  "role": "Kasabadan taşınan genç",
-  "fav": "lavanta"
+  "type": "dukkan",
+  "name": "Çiçekçi Ezgi",
+  "role": "Tohum ve fide dükkânı",
+  "effectText": "Tohumlar %10 ucuz; Ezgi'nin Seçimi her gün ek %15 indirimli",
+  "effect": "seedDiscount",
+  "value": 0.1,
+  "owner": "Ezgi"
  },
  {
   "n": 8,
@@ -192,12 +195,10 @@ module.exports = [
  },
  {
   "n": 25,
-  "type": "dukkan",
-  "name": "Çiçekçi",
-  "role": "Tohum ve fide satar",
-  "effectText": "Tohumlar %10 ucuz",
-  "effect": "seedDiscount",
-  "value": 0.1
+  "type": "koylu",
+  "name": "Kasabalı Cem",
+  "role": "Kasabadan taşınan genç",
+  "fav": "lavanta"
  },
  {
   "n": 26,
