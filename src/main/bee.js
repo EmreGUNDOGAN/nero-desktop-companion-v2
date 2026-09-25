@@ -602,10 +602,30 @@ class BeeGame {
   focusCompleted(minutes) {
     if (!minutes || minutes < 10) return null;
     const now = Date.now();
+    const day = this.todayKey();
+    if (!this.state.focusDaily || this.state.focusDaily.day !== day) this.state.focusDaily = { day, earnedMs: 0 };
+    const dailyMax = 4 * FOCUS_BOOST_MS;
+    const dailyLeft = Math.max(0, dailyMax - this.state.focusDaily.earnedMs);
+    if (!dailyLeft) {
+      this.events.push({ msg: '🔥 Bugünkü 4 saatlik odak bonusu limitine ulaştın.' });
+      this.save();
+      return false;
+    }
+    const requested = FOCUS_BOOST_MS * (minutes / 25) + this.fx('focusExtraMin') * 60000;
+    const activeRemaining = Math.max(0, (this.state.focusBoostUntil || 0) - now);
+    const activeRoom = Math.max(0, 4 * FOCUS_BOOST_MS - activeRemaining);
+    const granted = Math.max(0, Math.min(requested, dailyLeft, activeRoom));
+    if (!granted) {
+      this.events.push({ msg: '🔥 Odak bonusu şu an 4 saatlik aktif tavanda. Süre azaldığında yeniden ekleyebilirsin.' });
+      this.save();
+      return false;
+    }
     const base = Math.max(now, this.state.focusBoostUntil || 0);
-    this.state.focusBoostUntil = Math.min(now + 4 * FOCUS_BOOST_MS + this.fx('focusExtraMin') * 60000,
-      base + FOCUS_BOOST_MS * (minutes / 25) + this.fx('focusExtraMin') * 60000);
-    this.events.push({ msg: `🔥 ${minutes} dakika odaklandın, arılar coştu! Kovanlar bir süre %${FOCUS_BOOST * 100} hızlı.` });
+    this.state.focusBoostUntil = base + granted;
+    this.state.focusDaily.earnedMs += granted;
+    const grantedMin = Math.round(granted / 60000);
+    const earnedMin = Math.round(this.state.focusDaily.earnedMs / 60000);
+    this.events.push({ msg: `🔥 ${minutes} dakika odaklandın: Arıcılığa ${grantedMin} dk bonus eklendi. Bugün ${earnedMin}/240 dk.` });
     this.save();
     return true;
   }
