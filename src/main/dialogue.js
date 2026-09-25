@@ -63,6 +63,12 @@ const CATEGORY_DEFAULTS = {
   pajama_on: { e: 'content' },
   pajama_off: { e: 'normal' },
   achievement: { e: 'surprised' },
+  bee_hive_full: { e: 'curious' },
+  bee_order_due: { e: 'surprised' },
+  bee_winter: { e: 'sad' },
+  bee_overtaken: { e: 'angry' },
+  bee_sick: { e: 'sad' },
+  bee_merchant: { e: 'surprised' },
   reminder: { e: 'curious' },
   remind_water: { e: 'normal' },
   remind_break: { e: 'curious' },
@@ -103,12 +109,31 @@ const CATEGORY_DEFAULTS = {
 };
 
 class Dialogue {
-  constructor() {
+  constructor({ historyStore = null } = {}) {
     this.pools = { ...base };
-    this.recent = new Map();
+    this.historyStore = historyStore;
+    const saved = historyStore?.get()?.recent;
+    this.recent = new Map(
+      saved && typeof saved === 'object'
+        ? Object.entries(saved).map(([category, rows]) => [
+            category,
+            Array.isArray(rows) ? rows.filter((x) => typeof x === 'string').slice(-20) : []
+          ])
+        : []
+    );
+  }
+
+  _key(item) {
+    return String(typeof item === 'string' ? item : item?.t || '');
+  }
+
+  _saveRecent() {
+    if (!this.historyStore) return;
+    this.historyStore.patch({ recent: Object.fromEntries(this.recent) });
   }
 
   // Temanın dialogue.json dosyası varsa, içindeki kategoriler varsayılanın yerine geçer.
+  // Geçmiş temizlenmez: son kullanılan replikler tema değişse veya uygulama yeniden açılsa da korunur.
   applyThemeOverrides(overrides) {
     this.pools = { ...base };
     if (overrides && typeof overrides === 'object') {
@@ -116,7 +141,6 @@ class Dialogue {
         if (Array.isArray(lines) && lines.length) this.pools[key] = lines;
       }
     }
-    this.recent.clear();
   }
 
   has(category) {
@@ -128,12 +152,18 @@ class Dialogue {
     if (!Array.isArray(pool) || !pool.length) return null;
 
     const recent = this.recent.get(category) || [];
-    const fresh = pool.map((_, i) => i).filter((i) => !recent.includes(i));
-    const candidates = fresh.length ? fresh : pool.map((_, i) => i);
-    const index = candidates[Math.floor(Math.random() * candidates.length)];
+    const keyed = pool.map((item, index) => ({ index, key: this._key(item) }));
+    const fresh = keyed.filter(({ key }) => !recent.includes(key));
+    const candidates = fresh.length ? fresh : keyed;
+    const selected = candidates[Math.floor(Math.random() * candidates.length)];
+    const index = selected.index;
 
-    const memory = Math.max(1, Math.min(5, Math.floor(pool.length / 2)));
-    this.recent.set(category, [...recent, index].slice(-memory));
+    // Büyük havuzlarda son 20 replik yeniden seçilemez.
+    // Küçük havuzlarda en az bir aday açık kalacak şekilde güvenli biçimde kısılır.
+    const memory = Math.max(0, Math.min(20, pool.length - 1));
+    const nextRecent = [...recent.filter((key) => key !== selected.key), selected.key].slice(-memory || undefined);
+    this.recent.set(category, memory ? nextRecent : []);
+    this._saveRecent();
 
     const item = pool[index];
     const line = typeof item === 'string' ? { t: item } : item;

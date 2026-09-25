@@ -1,0 +1,294 @@
+{
+  "schema_version": 1,
+  "release": "5.0.0",
+  "canonical_source": "src/data/dialogue.master.tr.json",
+  "generated_output": "src/data/dialogue.tr.json",
+  "rules": {
+    "random_selection": true,
+    "standalone_entries": true,
+    "exact_duplicates_forbidden_within_category": true,
+    "allowed_placeholders": [
+      "name",
+      "hours",
+      "days",
+      "label",
+      "minutes",
+      "focus",
+      "todos",
+      "streak",
+      "done",
+      "quit",
+      "nero",
+      "quote",
+      "pets",
+      "sighs",
+      "title",
+      "version",
+      "item",
+      "text",
+      "hive",
+      "who",
+      "rival"
+    ]
+  },
+  "approved_expanded": {
+    "remark": {
+      "count": 300,
+      "status": "approved"
+    },
+    "happy": {
+      "count": 100,
+      "status": "approved"
+    },
+    "bored": {
+      "count": 100,
+      "status": "approved"
+    },
+    "sulky": {
+      "count": 75,
+      "status": "approved"
+    },
+    "lonely": {
+      "count": 75,
+      "status": "approved"
+    },
+    "returned": {
+      "count": 75,
+      "status": "approved"
+    },
+    "self_mood_sleepy": {
+      "count": 50,
+      "status": "approved"
+    },
+    "self_mood_meh": {
+      "count": 50,
+      "status": "approved"
+    },
+    "self_mood_energetic": {
+      "count": 50,
+      "status": "approved"
+    },
+    "todo_add": {
+      "count": 200,
+      "status": "approved"
+    },
+    "todo_done": {
+      "count": 200,
+      "status": "approved"
+    },
+    "todo_all_done": {
+      "count": 100,
+      "status": "approved"
+    },
+    "note_add": {
+      "count": 250,
+      "status": "approved"
+    },
+    "panel_open": {
+      "count": 200,
+      "status": "approved"
+    },
+    "timer_start": {
+      "count": 200,
+      "status": "approved"
+    },
+    "timer_done": {
+      "count": 250,
+      "status": "approved"
+    },
+    "timer_pause": {
+      "count": 150,
+      "status": "approved"
+    },
+    "idle": {
+      "count": 300,
+      "status": "approved_reconciled_old_22_plus_278_new"
+    },
+    "click": {
+      "count": 150,
+      "status": "approved"
+    },
+    "timer_resume": {
+      "count": 250,
+      "status": "approved"
+    },
+    "timer_cancel_early": {
+      "count": 150,
+      "status": "approved"
+    },
+    "timer_cancel_mid": {
+      "count": 150,
+      "status": "approved"
+    },
+    "timer_cancel_late": {
+      "count": 150,
+      "status": "approved"
+    },
+    "nap_woken_timer": {
+      "count": 75,
+      "status": "approved"
+    },
+    "fall_asleep": {
+      "count": 100,
+      "status": "approved"
+    },
+    "wake": {
+      "count": 150,
+      "status": "approved"
+    },
+    "nap_start": {
+      "count": 150,
+      "status": "approved"
+    },
+    "snore": {
+      "count": 150,
+      "status": "approved"
+    },
+    "nap_woken": {
+      "count": 150,
+      "status": "approved"
+    },
+    "nap_woken_drag": {
+      "count": 100,
+      "status": "approved"
+    },
+    "nap_woken_pet": {
+      "count": 100,
+      "status": "approved"
+    },
+    "nap_wake_self": {
+      "count": 100,
+      "status": "approved"
+    },
+    "rest_start": {
+      "count": 100,
+      "status": "approved"
+    },
+    "rest_goodnight": {
+      "count": 100,
+      "status": "approved"
+    },
+    "rest_more": {
+      "count": 100,
+      "status": "approved"
+    },
+    "groggy": {
+      "count": 200,
+      "status": "approved"
+    },
+    "pajama_on": {
+      "count": 100,
+      "status": "approved"
+    },
+    "pajama_off": {
+      "count": 100,
+      "status": "approved"
+    },
+    "first_run": {
+      "count": 15,
+      "status": "approved"
+    },
+    "greet_morning": {
+      "count": 150,
+      "status": "approved"
+    },
+    "greet_afternoon": {
+      "count": 150,
+      "status": "approved"
+    },
+    "greet_evening": {
+      "count": 150,
+      "status": "approved"
+    },
+    "greet_night": {
+      "count": 150,
+      "status": "approved"
+    },
+    "return_short": {
+      "count": 150,
+      "status": "approved"
+    },
+    "return_long": {
+      "count": 150,
+      "status": "approved"
+    },
+    "return_days": {
+      "count": 150,
+      "status": "approved"
+    },
+    "desktop_return": {
+      "count": 250,
+      "status": "approved"
+    },
+    "late_night": {
+      "count": 150,
+      "status": "approved"
+    },
+    "poke_spam": {
+      "count": 100,
+      "status": "approved"
+    },
+    "drag_start": {
+      "count": 100,
+      "status": "approved"
+    },
+    "drag_end": {
+      "count": 100,
+      "status": "approved"
+    },
+    "pet": {
+      "count": 150,
+      "status": "approved"
+    },
+    "pet_too_much": {
+      "count": 100,
+      "status": "approved"
+    },
+    "shake": {
+      "count": 100,
+      "status": "approved"
+    },
+    "dizzy": {
+      "count": 100,
+      "status": "approved"
+    },
+    "peek_center": {
+      "count": 100,
+      "status": "approved"
+    },
+    "peek_edge": {
+      "count": 100,
+      "status": "approved"
+    },
+    "peek_caught": {
+      "count": 100,
+      "status": "approved"
+    },
+    "bee_hive_full": {
+      "count": 3,
+      "status": "approved"
+    },
+    "bee_order_due": {
+      "count": 2,
+      "status": "approved"
+    },
+    "bee_winter": {
+      "count": 2,
+      "status": "approved"
+    },
+    "bee_overtaken": {
+      "count": 2,
+      "status": "approved"
+    },
+    "bee_sick": {
+      "count": 2,
+      "status": "approved"
+    }
+  },
+  "pending_reconcile": {},
+  "pending_recovery": {},
+  "not_yet_expanded": {},
+  "recovery_notes": {
+    "idle": "Canonical old 22 entries preserved first, including their expression metadata; 278 approved new lines appended. 22 new draft lines with the strongest overlap to the canonical old pool were omitted to keep the final target at 300."
+  }
+}

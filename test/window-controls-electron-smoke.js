@@ -3,7 +3,7 @@ const path = require('node:path');
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const skins = ['latte','pazartesi','gece','disket','kasaba','yagmur','kar','cilek','mum','ege'];
-const ids = ['settings-button', 'pin', 'minimize', 'close'];
+const ids = ['bee-open', 'settings-button', 'pin', 'minimize', 'close'];
 
 app.whenReady().then(async () => {
   let win;

@@ -8,6 +8,7 @@ const INVOKE = new Set([
   'todos:add', 'todos:toggle', 'todos:rename', 'todos:delete', 'todos:clearDone', 'todos:archive', 'todos:archiveDone', 'todos:setReminder',
   'todos:stopwatchStart', 'todos:stopwatchPause', 'jar:add', 'moodboard:get', 'moodboard:set',
   'data:export', 'data:import', 'data:openBackups',
+  'bee:open', 'bee:export', 'bee:import', 'bee:reset',
   'update:check', 'update:install', 'update:onQuit', 'update:dismiss',
   'timer:start', 'timer:pause', 'timer:resume', 'timer:cancel', 'timer:badge',
   'settings:set', 'themes:reload', 'themes:openFolder', 'themes:openGuide',

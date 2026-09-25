@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:;">
+  <title>Nero · Arıcılık</title>
+  <link rel="stylesheet" href="../fonts/fonts.css">
+  <link rel="stylesheet" href="bee.css">
+</head>
+<body>
+  <div class="sky-layer sky-dusk" id="sky-dusk"></div>
+  <div class="sky-layer sky-night" id="sky-night"></div>
+  <canvas id="scene"></canvas>
+  <div id="labels"></div>
+
+  <!-- Üst bar -->
+  <header class="hud-top">
+    <div class="hud-left">
+      <div class="chip"><span class="ico coin"></span><b id="coins">0</b></div>
+      <div class="chip boost" id="boost-chip" hidden title="Nero'da odaklandığın için arılar daha hızlı çalışıyor">🔥 <b id="boost-text"></b></div>
+      <div class="chip clickable" id="storage-chip"><span class="ico jar"></span><b id="storage">0.0 kg</b><small id="storage-cap"></small></div>
+    </div>
+    <div class="season card">
+      <div class="season-ico" id="season-ico"></div>
+      <div class="season-text">
+        <b id="season-name">İlkbahar</b>
+        <small id="season-day">Gün 1 / 15 · Yıl 1</small>
+        <div class="day-bar"><i id="day-fill"></i></div>
+      </div>
+      <div class="speeds" role="group" aria-label="Oyun hızı">
+        <button type="button" data-speed="0" aria-label="Duraklat">❚❚</button>
+        <button type="button" data-speed="1">1x</button>
+        <button type="button" data-speed="2">2x</button>
+        <button type="button" data-speed="4">4x</button>
+      </div>
+    </div>
+    <div class="hud-right">
+      <button class="round" id="open-ledger" type="button" aria-label="Bal Defteri (D)" title="Bal Defteri (D)">📖</button>
+      <button class="round" id="open-stats" type="button" aria-label="İstatistikler" title="İstatistikler">📊</button>
+      <button class="round" id="photo-btn" type="button" aria-label="Fotoğraf çek (F)" title="Fotoğraf çek (F)">📷</button>
+      <button class="round" id="ambient-btn" type="button" aria-label="Ortam sesleri" title="Ortam sesleri">🎵</button>
+      <button class="round" id="sound-btn" type="button" aria-label="Ses">🔊</button>
+      <button class="round" id="open-board" type="button" aria-label="Liderlik tablosu">🏆</button>
+      <button class="round" id="zoom-in" type="button" aria-label="Yakınlaştır">＋</button>
+      <button class="round" id="zoom-out" type="button" aria-label="Uzaklaştır">－</button>
+    </div>
+  </header>
+
+  <button class="merchant-chip" id="merchant-chip" type="button" hidden>🛒 <b>Seyyah Yakup köyde</b> <span id="merchant-left"></span></button>
+  <div class="notice" id="notice" hidden>Uzun süredir bakmadığın için üretim durmuştu. Tekrar başladı!</div>
+
+  <!-- Alt bar -->
+  <!-- Günlük görevler -->
+  <section class="quests card" id="quests">
+    <button class="quests-head" id="quests-toggle" type="button"><span>📋 Bugünün görevleri</span><b id="quests-count"></b></button>
+    <ul class="quest-list" id="quest-list"></ul>
+  </section>
+
+  <nav class="hud-bottom">
+    <button class="hexbtn" type="button" id="open-shop"><span>🛒</span>Mağaza</button>
+    <button class="hexbtn" type="button" id="open-market"><span>🍯</span>Pazar</button>
+    <button class="hexbtn big" type="button" id="harvest-all"><span>🧺</span>Hepsini Hasat Et</button>
+    <button class="hexbtn" type="button" id="open-orders"><span>📜</span>Siparişler<em class="badge-n" id="orders-badge" hidden>0</em></button>
+    <button class="hexbtn" type="button" id="open-guide"><span>📖</span>Rehber</button>
+  </nav>
+
+  <!-- Kareye tıklayınca açılan menü -->
+  <div class="popup card" id="popup" hidden></div>
+
+  <!-- Tohum seçici -->
+  <div class="modal-bg" id="seed-modal" hidden>
+    <div class="modal card">
+      <div class="modal-head">
+        <h2>🌱 Tohum seç</h2>
+        <button class="round small" id="seed-close" type="button" aria-label="Kapat">✕</button>
+      </div>
+      <p class="modal-sub">Her çiçek, kovanın o çiçekten ürettiği bala kendi yüzdesini ekler. Mevsimi dışında üretimi azalır.</p>
+      <ul class="seed-list" id="seed-list"></ul>
+    </div>
+  </div>
+
+  <!-- Kovanın içi -->
+  <div class="modal-bg" id="hive-modal" hidden>
+    <div class="hive-card card">
+      <div class="comb-wrap">
+        <span class="comb-tag">Kovanın içi</span>
+        <canvas id="comb" width="520" height="560"></canvas>
+      </div>
+      <div class="hive-side">
+        <div class="hive-head">
+          <span class="hex-badge"></span>
+          <div>
+            <h2 class="rename" id="h-name" title="Adını değiştirmek için tıkla"></h2><input class="rename-input" id="h-name-input" maxlength="24" hidden>
+            <p class="sub" id="h-sub">Seviye 1 · Genç Kraliçe</p>
+          </div>
+          <button class="round small" id="hive-close" type="button" aria-label="Kapat">✕</button>
+        </div>
+        <div class="stat-row">
+          <div class="stat"><small>🐝 Arılar</small><b id="h-bees">0 / 10</b></div>
+          <div class="stat"><small>⚡ Üretim</small><b id="h-rate">0 kg/sa</b></div>
+        </div>
+        <div class="stat wide">
+          <small>🍯 Bal</small><b id="h-honey">0 / 20 kg</b>
+          <div class="bar"><b id="h-bar"></b></div>
+          <div class="chips" id="h-chips"></div>
+        </div>
+        <div class="stat wide">
+          <small>🌼 Menzildeki tarhlar</small>
+          <div class="chips" id="h-near"></div>
+        </div>
+        <div class="stat wide breed-box">
+          <small>🧬 Arı ırkı</small>
+          <b id="h-breed"></b>
+          <p class="breed-desc" id="h-breed-desc"></p>
+          <div class="breed-opts" id="h-breeds"></div>
+        </div>
+        <div class="sick-banner" id="h-sick" hidden>
+          <span>🤒 Bu kovan hasta: üretim %30 düştü, arılar azalıyor.</span>
+          <button type="button" id="h-medicine"></button>
+        </div>
+        <button class="harvest-btn" id="h-harvest" type="button"></button>
+        <div class="grid-acts">
+          <button class="gact" id="h-buy" type="button"></button>
+          <button class="gact" id="h-sell" type="button"></button>
+          <button class="gact" id="h-queen" type="button"></button>
+          <button class="gact" id="h-grow" type="button"></button>
+          <button class="gact" id="h-syrup" type="button"></button>
+          <button class="gact danger" id="h-sellhive" type="button"></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pazar ve Depo -->
+  <div class="modal-bg" id="market-modal" hidden>
+    <div class="market-card card">
+      <section class="market">
+        <div class="modal-head">
+          <h2>🍯 Pazar</h2>
+          <span class="season-tag" id="m-season"></span>
+        </div>
+        <p class="modal-sub" id="m-sub">Fiyatlar her gün dalgalanır. Kışın bal daha değerli, yazın daha ucuz.</p>
+        <div class="festival" id="m-festival" hidden></div>
+        <div class="fest-box" id="fest-box" hidden></div>
+        <ul class="market-list" id="market-list"></ul>
+      </section>
+      <aside class="depot">
+        <div class="modal-head">
+          <h2>📦 Depo</h2>
+          <button class="round small" id="market-close" type="button" aria-label="Kapat">✕</button>
+        </div>
+        <b class="depot-kg" id="d-kg">0 / 50 kg</b>
+        <div class="bar"><b id="d-bar"></b></div>
+        <ul class="depot-list" id="depot-list"></ul>
+        <button class="act" id="d-upgrade" type="button"></button>
+        <div class="wax-box">
+          <b>🕯️ Balmumu ve mum</b>
+          <p id="wax-info"></p>
+          <button class="act" id="make-candle" type="button"></button>
+          <button class="act primary" id="sell-candles" type="button"></button>
+        </div>
+        <p class="depot-note">Depo dolarsa arıcı hasat edemez. Balını sat ya da depoyu büyüt.</p>
+      </aside>
+    </div>
+  </div>
+
+  <!-- Siparişler -->
+  <div class="modal-bg" id="orders-modal" hidden>
+    <div class="modal card orders-card">
+      <div class="modal-head">
+        <h2>📜 Siparişler</h2>
+        <button class="round small" id="orders-close" type="button" aria-label="Kapat">✕</button>
+      </div>
+      <p class="modal-sub">Köylüler özel bal istiyor! Siparişler piyasadan çok daha iyi öder. Sadece ekili çiçeklerinin balı istenir.</p>
+      <div class="orders-meta" id="orders-meta"></div>
+      <ul class="order-list" id="order-list"></ul>
+      <div class="villagers" id="villagers"></div>
+    </div>
+  </div>
+
+  <!-- Liderlik -->
+  <div class="modal-bg" id="board-modal" hidden>
+    <div class="modal card board-card">
+      <div class="modal-head">
+        <h2>🏆 Liderlik</h2>
+        <button class="round small" id="board-close" type="button" aria-label="Kapat">✕</button>
+      </div>
+      <p class="modal-sub">Sıralama net değere göre: jeton + depodaki balın piyasa değeri + kovanların ve arıların değeri. Rakipler her gün kazanıp kaybedebilir.</p>
+      <ul class="board-list" id="board-list"></ul>
+    </div>
+  </div>
+
+  <!-- Yerleştirme modu şeridi -->
+  <div class="place-bar" id="place-bar" hidden>
+    <span id="place-text">Bir kare seç</span>
+    <button type="button" id="place-cancel">İptal</button>
+  </div>
+
+  <!-- Mağaza -->
+  <div class="modal-bg" id="shop-modal" hidden>
+    <div class="modal card shop-card">
+      <div class="modal-head">
+        <h2>🛒 Mağaza</h2>
+        <button class="round small" id="shop-close" type="button" aria-label="Kapat">✕</button>
+      </div>
+      <p class="modal-sub">Satın al, sonra adada yerleştirmek istediğin kareye tıkla. Bir karede ya kovan ya da çiçek olur.</p>
+      <div class="shop-tabs" role="tablist">
+        <button type="button" data-tab="seeds" class="on">🌱 Tohumlar</button>
+        <button type="button" data-tab="hive">🐝 Kovan</button>
+        <button type="button" data-tab="land">🌾 Arazi</button>
+        <button type="button" data-tab="decor">🪑 Dekor</button>
+      </div>
+      <div class="shop-body" id="shop-body"></div>
+    </div>
+  </div>
+
+  <!-- Rehber -->
+  <div class="modal-bg" id="guide-modal" hidden>
+    <div class="modal card guide-card">
+      <div class="modal-head">
+        <h2>📖 Rehber</h2>
+        <button class="round small" id="guide-close" type="button" aria-label="Kapat">✕</button>
+      </div>
+      <div class="guide">
+        <div class="guide-intro">
+          <b>Bu oyun uzun vadeli ilerler.</b>
+          <span>Kovan kur, yanına çiçek ek, balı hasat et; pazarda sat veya daha kârlı siparişlere yetiştir. Nero açıkken çiftliğin arka planda da yaşamaya devam eder.</span>
+        </div>
+
+        <details class="guide-topic" open>
+          <summary>🚀 İlk 10 dakikada ne yapmalıyım?</summary>
+          <ol>
+            <li>İlk kovanın yanındaki boş karelerden birine <b>yonca</b> ek. Kovan yalnızca komşu 6 karedeki çiçeklerden üretir.</li>
+            <li>Kovan dolmaya başladığında kovana tıkla ve üretim hızını kontrol et.</li>
+            <li><b>Hasat Et</b> ile arıcıyı gönder. Bal önce depoya gelir.</li>
+            <li>Balı hemen Pazar'da satabilir ya da Siparişler'de daha yüksek ödeme bekleyebilirsin.</li>
+            <li>İlk yatırımlarda önce çiçek sayısını, sonra arı/kraliçe kapasitesini artırmak daha verimlidir.</li>
+          </ol>
+        </details>
+
+        <details class="guide-topic">
+          <summary>📋 Günlük görevler ve 📖 Bal Defteri</summary>
+          <p>Her gün 3 küçük görev gelir (bal hasat et, sat, sipariş teslim et, mum yap, tarh ek gibi). Tamamlanınca <b>Ödülü al</b> ile jeton, bazen de hediye tohum kazanırsın. Görevler gece yarısı yenilenir.</p>
+          <p><b>Bal Defteri</b> (📖, kısayol D) her bal türünün sayfasını tutar: ilk ne zaman ürettiğin, toplam kg, satış ve en iyi fiyat. Henüz üretmediğin ballar kilitli görünür. <b>Kayıtlar</b> sekmesinde hasat, sipariş, mum, görev sayıların ve kupaların; <b>Etiket</b> sekmesinde çiftliğinin adı ve kavanoz etiketin var. Etiketin varsa müdavim köylüler siparişlerde <b>%5 bahşiş</b> verir.</p>
+          <p>Kovanlarının adını kovan ekranında isme tıklayarak, çiftliğinin adını Bal Defteri'nde değiştirebilirsin.</p>
+        </details>
+
+        <details class="guide-topic">
+          <summary>🏘️ Köy ve komşular</summary>
+          <p>Adanı çevreleyen iki halkada bir köy yaşar. Bu karelere yalnızca köylüler yerleşir; senin adana dokunmazlar. Siparişlerle teslim ettiğin toplam bal arttıkça köy büyür: <b>50 / 150 / 400 / 1.000 kg</b>'da birkaç yerleşimci birden gelir, sonra <b>her 500 kg'de bir</b> yeni köylü, dükkân ya da bina. İlk halka (36 kare) dolunca ikinci halka (42 kare) açılır; 78 yerleşimciyle köy tamamlanır.</p>
+          <p><b>Köylüler:</b> her birinin sevdiği bir bal var; o bal ekiliyse siparişlerinde sık sık onu ister ve %15 daha iyi öder. <b>Dükkânlar ve binalar</b> kalıcı etkiler getirir: Fırın, Pastane ve Muhtarlık düzenli siparişler verir; Bal Dükkânı pazar fiyatlarını %10, Çiçekçi tohumları %10 ucuzlatır, Kahveci odak bonusunu uzatır, Postane sipariş sürelerini 1 gün artırır, Pazar Yeri sipariş sınırını 6'ya çıkarır… En sonda gelen Bal Müzesi tüm üretimi %5 artırır.</p>
+          <p>Köydeki bir yapıya tıklayınca kim olduğunu ve etkisini görürsün. Bal Defteri'nin <b>Köy</b> sekmesinde bütün yerleşimciler, kalpleri ve sıradaki yerleşimci için gereken bal yazar.</p>
+        </details>
+
+        <details class="guide-topic">
+          <summary>🛒 Gezgin satıcı ve 📖 köylü hikâyeleri</summary>
+          <p><b>Seyyah Yakup</b> 6–9 oyun gününde bir köye gelir ve 2 gün kalır; gelince zil çalar ve üstte "Seyyah Yakup köyde" düğmesi belirir. Arabasına ya da düğmeye tıklayınca başka yerde bulunmayan 4 ürün görürsün: ballı şurup, indirimli kraliçe, tohum paketi, dört mevsim tohumu, arı sürüsü, arı sütü, bakım kiti, depo sandığı ya da balmumu çuvalı. <b>Her üründen 1 tane, bir ziyarette en fazla 2 farklı ürün</b> alabilirsin. Ayrıca bir bal türü arar ve 10 kg'a kadar pazarın %40 üstüne satın alır.</p>
+          <p>Sekiz köylünün (Arıcı Hasan, Ayşe Teyze, Balıkçı Kemal, Küçük Elif, Öğretmen Selin, Muhtar Rıza, Doktor Aslı, Kerim Dede) birer <b>hikâyesi</b> var. İlişkin %50'yi geçince açılır; 3 adımı tamamladıkça jeton ve tohum, sonunda küçük kalıcı bir ödül kazanırsın (en fazla %5). Köylüye tıklayınca ya da Bal Defteri → Köy'de ilerlemeni görürsün.</p>
+        </details>
+
+        <details class="guide-topic">
+          <summary>🌦️ Hava, gece ve sesler</summary>
+          <p><b>Yaz</b> her gün güneşli. <b>İlkbahar</b> güneşli, bulutlu ya da yağmurlu; <b>sonbahar</b> bulutlu ya da yağmurlu; <b>kış</b> karlı ya da yağmurlu. Yağmurlu günlerde ekranda yağmur, karlı günlerde kar yağar; yağmurda arılar dışarı daha az çıkar (üretim ×0.6), güneşte biraz daha çok (×1.1).</p>
+          <p>Gerçek saatle <b>19:00–07:00</b> arası oyun gece moduna geçer: gökyüzü kararır, evin pencereleri ve fenerler yanar, kovanların etrafında ateş böcekleri uçar. Gece sadece görünüştür; üretim etkilenmez.</p>
+          <p>🎵 düğmesi ortam seslerini açıp kapatır: gündüz kuşlar ve arı vızıltısı, gece cırcır böcekleri, yağmurda yağmur sesi.</p>
+        </details>
+
+        <details class="guide-topic">
+          <summary>⌨️ Kısayollar ve 📷 fotoğraf modu</summary>
+          <p><b>H</b> hepsini hasat et · <b>P</b> Pazar · <b>S</b> Siparişler · <b>D</b> Bal Defteri · <b>F</b> fotoğraf · <b>Boşluk</b> duraklat/devam · <b>Esc</b> pencereleri kapat.</p>
+          <p>📷 ya da F: arayüz bir anlığına gizlenir ve adanın fotoğrafı <b>Resimler\Nero Arıcılık</b> klasörüne kaydedilir. 📊 İstatistikler'de son günlerin üretim ve kazanç grafikleri var.</p>
+        </details>
+
+        <details class="guide-topic">
+          <summary>🗓️ Zaman, aylar, mevsimler ve hız</summary>
+          <p><b>1 oyun günü = 1x hızda 15 gerçek dakika.</b> Takvimde her mevsim bir oyun ayı gibi işler ve <b>15 gün</b> sürer. İlkbahar → Yaz → Sonbahar → Kış; bir yıl toplam <b>60 gün</b>.</p>
+          <p>❚❚, 1x, 2x ve 4x hızlarını kullanabilirsin. <b>4x yalnız oyun penceresi öndeyken çalışır.</b> Oyun arka plandaysa seçimin 4x olsa bile simülasyon en fazla <b>2x</b> ilerler; tekrar oyuna dönünce seçtiğin 4x devam eder.</p>
+          <p>Oyuna 2 saat hiç bakmazsan <b>bal üretimi durur</b>, fakat takvim ve süreli olaylar ilerlemeye devam eder. Nero tamamen kapalıyken oyun zamanı ilerlemez.</p>
+        </details>
+
+        <details class="guide-topic">
+          <summary>🌼 Çiçek → bal üretimi nasıl çalışır?</summary>
+          <p>Her kovan yalnızca çevresindeki <b>6 komşu kareyi</b> kullanır. Menzilde birden fazla çiçek varsa arıların emeği tarhlar arasında bölünür. Her çiçek kendi bal türünü üretir; ballar birbirine karışmaz.</p>
+          <p>Üretimi birlikte etkileyen şeyler: arı sayısı, çiçek türü, mevsim, hava, arı ırkı, hastalık, 3'lü tarh bonusu, çeşme ve Nero odak bonusu.</p>
+          <p>Aynı türden en az <b>3 bitişik tarh +%15</b>; çeşme yakını <b>+%5</b>. Mevsim dışı çiçekler yalnız %25 verimlidir. Çiçekler <b>30 gün</b> yaşar; yeni takvimde bu yaklaşık iki oyun ayıdır.</p>
+        </details>
+
+        <details class="guide-topic">
+          <summary>🐝 Kovanlar, arılar ve yükseltmeler</summary>
+          <p>Kovana tıklayınca arı sayısı, bal kapasitesi, saatlik üretim, menzildeki tarhlar ve kraliçe seviyesi görünür. Kovan dolarsa üretim tamamen durur.</p>
+          <p>Gelişim sırası kraliçe → kovan kapasitesi → kraliçe şeklinde ilerler. Arı alımı üretimi artırır ama yeterli çiçek yoksa yeni arıların getirisi düşer.</p>
+          <p><b>Anadolu:</b> +%10 üretim ama daha kolay hastalanır. <b>Kafkas:</b> kış kaybına dayanıklı. <b>İtalyan:</b> hızlı çoğalır, üretimi biraz düşüktür.</p>
+        </details>
+
+        <details class="guide-topic">
+          <summary>❄️ Kış, şurup ve hastalık</summary>
+          <p>Kışın üretim çok düşer. Şurupsuz kovan arı kaybedebilir; <b>60 jetonluk şurup 6 kg erzak</b> verir ve her oyun gününde tüketilir. Kıştan önce her kovana erzak koymak güvenlidir.</p>
+          <p>Kış dışında kovanlar hastalanabilir. Hasta kovan %30 daha az üretir ve tedavi edilmezse arı kaybeder. <b>İlaç 90 jeton</b> ve anında iyileştirir. Bir kez hastalanan kovan sonraki <b>3 oyun yılı</b> boyunca bağışıktır (kovan ekranında 🛡️ kalan gün yazar); sonra yeniden hastalanabilir.</p>
+        </details>
+
+        <details class="guide-topic">
+          <summary>🧺 Hasat ve depo</summary>
+          <p>Hasat dediğinde arıcı evden kovana yürür, 5 saniye çalışır ve balı depoya taşır. “Hepsini Hasat Et” kovanları sıraya koyar. Depo doluysa hasat başlayamaz.</p>
+          <p>Depo 50 kg ile başlar; 100, 200 ve 400 kg'a yükseltilebilir. Hasatta ayrıca balmumu çıkar; 500 g balmumundan bir mum yapılabilir.</p>
+        </details>
+
+        <details class="guide-topic">
+          <summary>🍯 Pazar mı, sipariş mi?</summary>
+          <p>Pazar fiyatları her gün değişir. Yazın bal daha ucuz, kışın daha pahalıdır. Acil jeton gerekiyorsa Pazar hızlıdır.</p>
+          <p>Siparişler genellikle daha çok kazandırır ve köylülerle kalp biriktirir. Ancak kabul ettikten sonra süre başlar; yetiştiremezsen ödülün %20'si kadar ceza ödersin. Kabul etmeden önce depodaki miktarı kontrol et.</p>
+          <p>Yeni sipariş <b>gerçek zamanla 20 dakikada bir</b> gelir (oyun hızından bağımsız). Bir siparişi <b>reddetmek</b> o kişiyle ilişkini <b>%2</b> azaltır (her teslim %10 kazandırır; ilişki %0'ın altına inmez). Solan bir tarhı tohum fiyatının <b>%10'una canlandırabilirsin</b>.</p>
+          <p>Sol alttaki 🔔 <b>zil</b> son 20 bildirimi gösterir; okunmamış bildirim varsa üstünde sayı çıkar. 📊 İstatistikler'in en üstünde oyun boyunca sattığın toplam bal (ton) yazar.</p>
+        </details>
+
+        <details class="guide-topic">
+          <summary>💛 Köylüler, dekorlar ve uzun vadeli bonuslar</summary>
+          <p>Aynı köylüye her 2 teslimde bir kalp kazanırsın. Her kalp o köylünün sipariş ödemesini %6 artırır; 2. ve 4. kalpte hediye tohum gelebilir.</p>
+          <p>Dekorların çoğu görseldir. <b>Çeşme</b> bulunduğu kare ve komşu tarhlara +%5 üretim verir; stratejik yerleştirmek değerlidir.</p>
+        </details>
+
+        <details class="guide-topic">
+          <summary>🔥 Nero ile birlikte çalışmak</summary>
+          <p>Nero'da en az 10 dakikalık odak seansını tamamlamak kovanlara geçici <b>+%25 üretim</b> verir. 25 dakikalık seans yaklaşık 1 saatlik bonus üretir ve bonuslar en fazla 4 saate kadar eklenir.</p>
+          <p>Nero yapılacaklar listesinde bir işi bitirdiğinde çiftliğe <b>+10 jeton</b> gelir. Oyun penceresi önde değilken Nero; dolu/hasta kovan, yaklaşan sipariş, kışta erzak ve rakip uyarılarını masaüstünde söyleyebilir.</p>
+        </details>
+
+        <details class="guide-topic">
+          <summary>🎪 Festival ve rakipler</summary>
+          <p>Yılın son 3 gününde Bal Festivali açılır. En fazla 10 kg bal gönderirsin; balın değeri ve çiçek bonusu puanı etkiler. Yeni yılın ilk günü sonuçlanır ve ilk üç kupa kazanır.</p>
+          <p>Temkinli Ali, Riskçi Kaya ve Dengeli Nur arka planda büyür. Liderlik yalnız jetona değil; bal, kovanlar, arılar, arazi ve mumların toplam değerine bakar.</p>
+        </details>
+
+        <details class="guide-topic">
+          <summary>💾 Kayıt, yedek ve sıfırlama</summary>
+          <p>Oyun otomatik kaydedilir ve Nero'nun genel yedeğine dahildir. Ayarlar → Yedekler bölümünden yalnız arıcılık kaydını dışa/içe aktarabilirsin.</p>
+          <p><b>Oyunu sıfırla</b> da aynı bölümde bulunur. İki kez onay ister ve sıfırlamadan hemen önce mevcut çiftliğinin ayrı bir yedeğini alır.</p>
+        </details>
+
+        <div class="guide-tip"><b>Nero'nun kısa kuralı:</b> Çiçeğin yoksa arı işe yaramaz; depo doluysa hasat olmaz; kovan doluysa üretim olmaz. Geri kalanın çoğu pahalı ayrıntı.</div>
+      </div>      </div>
+    </div>
+  </div>
+
+  <!-- Köşedeki Nero -->
+  <div class="nero" id="nero">
+    <div class="nero-bubble" id="nero-bubble" hidden></div>
+    <svg class="nero-body" viewBox="0 0 220 260" aria-label="Nero">
+      <ellipse cx="78" cy="243" rx="24" ry="11" fill="#A3B899" stroke="#4A3A36" stroke-width="5"/>
+      <ellipse cx="142" cy="243" rx="24" ry="11" fill="#A3B899" stroke="#4A3A36" stroke-width="5"/>
+      <path d="M110 22 C170 22 188 70 188 130 C188 200 170 238 110 238 C50 238 32 200 32 130 C32 70 50 22 110 22 Z" fill="#BCCDB3" stroke="#4A3A36" stroke-width="6"/>
+      <ellipse cx="86" cy="108" rx="21" ry="25" fill="#FFFBF4" stroke="#4A3A36" stroke-width="5"/>
+      <ellipse cx="134" cy="108" rx="21" ry="25" fill="#FFFBF4" stroke="#4A3A36" stroke-width="5"/>
+      <circle class="pupil" cx="84" cy="112" r="8" fill="#4A3A36"/><circle class="pupil" cx="132" cy="112" r="8" fill="#4A3A36"/>
+      <path class="lid" d="M66 97 Q86 90 106 97 L106 86 Q86 80 66 86Z M114 97 Q134 90 154 97 L154 86 Q134 80 114 86Z" fill="#A0B595"/>
+      <path d="M68 72 Q86 68 104 72M116 72 Q134 68 152 72" fill="none" stroke="#4A3A36" stroke-width="7" stroke-linecap="round"/>
+      <path class="mouth" d="M92 170 Q110 164 128 170" fill="none" stroke="#4A3A36" stroke-width="6" stroke-linecap="round"/>
+    </svg>
+  </div>
+
+  <canvas id="snow" hidden></canvas>
+
+  <!-- Sen yokken özeti -->
+  <div class="modal-bg" id="away-modal" hidden>
+    <div class="modal card away-card">
+      <h2>👋 Tekrar hoş geldin!</h2>
+      <p class="modal-sub" id="away-time"></p>
+      <ul class="away-list" id="away-list"></ul>
+      <button class="act primary" id="away-ok" type="button">Devam et</button>
+    </div>
+  </div>
+
+  <!-- İlk açılış tanıtımı -->
+  <div class="tour" id="tour" hidden>
+    <div class="tour-card card">
+      <p class="tour-step" id="tour-step"></p>
+      <p class="tour-text" id="tour-text"></p>
+      <div class="tour-btns">
+        <button type="button" id="tour-skip">Atla</button>
+        <button type="button" class="primary" id="tour-next">İleri</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bal Defteri -->
+  <div class="modal-bg" id="ledger-modal" hidden>
+    <div class="modal card ledger-card">
+      <div class="modal-head">
+        <h2>📖 Bal Defteri</h2>
+        <button class="round small" id="ledger-close" type="button" aria-label="Kapat">✕</button>
+      </div>
+      <p class="modal-sub"><span class="farm-name" id="farm-name" title="Adını değiştirmek için tıkla"></span><input class="rename-input" id="farm-name-input" maxlength="28" hidden></p>
+      <div class="shop-tabs" role="tablist">
+        <button type="button" data-ltab="honey" class="on">🍯 Ballar</button>
+        <button type="button" data-ltab="records">🏅 Kayıtlar</button>
+        <button type="button" data-ltab="village">🏘️ Köy</button>
+        <button type="button" data-ltab="label">🏷️ Etiket</button>
+      </div>
+      <div id="ledger-body"></div>
+    </div>
+  </div>
+
+  <!-- İstatistikler -->
+  <div class="modal-bg" id="stats-modal" hidden>
+    <div class="modal card stats-card">
+      <div class="modal-head">
+        <h2>📊 İstatistikler</h2>
+        <button class="round small" id="stats-close" type="button" aria-label="Kapat">✕</button>
+      </div>
+      <div id="stats-body"></div>
+    </div>
+  </div>
+
+  <!-- Gezgin satıcı -->
+  <div class="modal-bg" id="merchant-modal" hidden>
+    <div class="modal card merchant-card">
+      <div class="modal-head">
+        <h2>🛒 Seyyah Yakup</h2>
+        <button class="round small" id="merchant-close" type="button" aria-label="Kapat">✕</button>
+      </div>
+      <p class="modal-sub" id="merchant-sub"></p>
+      <ul class="merchant-list" id="merchant-list"></ul>
+      <div class="merchant-buy" id="merchant-buy"></div>
+    </div>
+  </div>
+
+  <!-- Bildirimler: sol altta zil -->
+  <button class="bell" id="bell" type="button" aria-label="Bildirimler" title="Bildirimler">🔔<em class="badge-n" id="bell-badge" hidden>0</em></button>
+  <div class="notif-panel card" id="notif-panel" hidden>
+    <div class="modal-head"><h2>🔔 Bildirimler</h2><button class="round small" id="notif-close" type="button" aria-label="Kapat">✕</button></div>
+    <p class="modal-sub">Son 20 bildirim</p>
+    <ul class="notif-list" id="notif-list"></ul>
+  </div>
+
+  <div class="toasts" id="toasts"></div>
+
+  <script type="module" src="bee.js"></script>
+</body>
+</html>

@@ -1104,9 +1104,13 @@
   $('update-onquit').addEventListener('click', () => api.invoke('update:onQuit'));
   $('update-dismiss').addEventListener('click', () => api.invoke('update:dismiss'));
   $('update-check').addEventListener('click', () => api.invoke('update:check'));
+  $('bee-open').addEventListener('click', () => api.invoke('bee:open'));
   $('data-export').addEventListener('click', () => api.invoke('data:export'));
   $('data-import').addEventListener('click', () => api.invoke('data:import'));
   $('data-backups').addEventListener('click', () => api.invoke('data:openBackups'));
+  $('bee-export').addEventListener('click', () => api.invoke('bee:export'));
+  $('bee-import').addEventListener('click', () => api.invoke('bee:import'));
+  $('bee-reset').addEventListener('click', () => api.invoke('bee:reset'));
 
   function renderRitual() {
     const done = !!state.dayMode;

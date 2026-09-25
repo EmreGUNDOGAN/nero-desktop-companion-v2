@@ -13,6 +13,8 @@ const {
 // Veriler her zaman %APPDATA%\Nero altında dursun (kurulum betiği de burayı temizler).
 app.setPath('userData', path.join(app.getPath('appData'), 'Nero'));
 app.setAppUserModelId('com.stenwick.nero');
+// Arıcılık 3D sahnesi ekran kartı olmayan sistemlerde de yazılımla çizilebilsin.
+app.commandLine.appendSwitch('enable-unsafe-swiftshader');
 
 const { JsonStore } = require('./store');
 const { ThemeManager, SCHEME } = require('./themes');
@@ -22,6 +24,7 @@ const { Timer } = require('./timer');
 const { Stats, dayKey } = require('./stats');
 const { HomeDialogueEngine } = require('./home-dialogue');
 const { Journal, isoWeekKey } = require('./journal');
+const { BeeGame, freshState } = require('./bee');
 const { monthKey: moodMonthKey, monthLabelTr, userMonth, setUserMood, dataMonths, closedDataMonths, renderMoodboardSvg } = require('./moodboard');
 const { svgToPng } = require('./moodboard-image');
 const {
@@ -55,9 +58,9 @@ const PANEL_MIN = { width: 380, height: 540 };
 const PANEL_MAX = { width: 960, height: 1100 };
 
 const TALK_INTERVALS = { // dakika [min, max]
-  az: [30, 55],
-  normal: [14, 28],
-  cok: [6, 14]
+  az: [20, 35],
+  normal: [8, 15],
+  cok: [4, 8]
 };
 
 const DEFAULT_SETTINGS = {
@@ -105,7 +108,7 @@ const builtinThemesDir = app.isPackaged
 const userThemesDir = path.join(userData, 'themes');
 const iconPath = path.join(app.getAppPath(), 'build', 'icon.png');
 
-let settingsStore, notesStore, todosStore, moodStore, statsStore, moodLogStore, archiveStore, jarStore, homeDialogueStore, userMoodStore;
+let settingsStore, notesStore, todosStore, moodStore, statsStore, moodLogStore, archiveStore, jarStore, homeDialogueStore, userMoodStore, dialogueHistoryStore;
 let themes, dialogue, mood, timer, stats, journal, homeDialogue;
 let homeCache = null;
 let resize = null;
@@ -114,7 +117,7 @@ let petTimes = [];
 let dizzyUntil = 0;
 let lastDesktopJokeAt = 0;
 let peek = null;              // sürpriz ziyaret sürerken { home, done }
-let nextPeekAt = Date.now() + 20 * 60 * 1000;
+let nextPeekAt = Date.now() + (25 + Math.random() * 20) * MIN;
 // Kestirme (rastgele uyku) ve uyku sersemliği
 let napUntil = 0;
 let nextNapAt = 0; // ilk kestirme zamanı başlangıçta hesaplanır
@@ -158,6 +161,10 @@ function watchWindow(win, name) {
 let charWin = null;
 let panelWin = null;
 let quickWin = null;
+let beeWin = null;
+let beeStore = null;
+let bee = null;
+let lastBeeAlertAt = 0;
 let tray = null;
 let quickShortcutOn = false;
 let currentTheme = null;
@@ -173,6 +180,43 @@ let lastPanelToggleAt = 0;
 let screenLocked = false;
 let panelLink = null;         // panelin karaktere göre konumu { dx, dy }
 let syncingMove = false;
+
+function openBeeWindow() {
+  if (!bee) return false;
+  if (beeWin && !beeWin.isDestroyed()) {
+    if (beeWin.isMinimized()) beeWin.restore();
+    beeWin.show();
+    beeWin.focus();
+    return true;
+  }
+
+  beeWin = new BrowserWindow({
+    width: 1100, height: 720, minWidth: 820, minHeight: 560,
+    title: 'Nero · Arıcılık', backgroundColor: '#CFE9F7',
+    autoHideMenuBar: true, show: false,
+    icon: iconPath,
+    webPreferences: {
+      preload: path.join(__dirname, '..', 'preload', 'bee-preload.js'),
+      contextIsolation: true, nodeIntegration: false, sandbox: true
+    }
+  });
+  beeWin.loadFile(path.join(__dirname, '..', 'renderer', 'bee', 'index.html'));
+  beeWin.once('ready-to-show', () => { if (beeWin && !beeWin.isDestroyed()) beeWin.show(); });
+  beeWin.on('closed', () => {
+    beeWin = null;
+    if (bee) bee.markAway();
+  });
+  watchWindow(beeWin, 'arıcılık');
+  return true;
+}
+
+function sendBee() {
+  if (!bee) return;
+  const events = bee.drainEvents();
+  if (!beeWin || beeWin.isDestroyed()) return;
+  beeWin.webContents.send('bee:state', bee.view());
+  if (events.length) beeWin.webContents.send('bee:events', events);
+}
 
 // Achievement v2 kısa süreli etkileşim durumu (kalıcı metrikler Stats içinde tutulur).
 let lastSpeechEndedAt = 0;
@@ -952,6 +996,15 @@ function exitRest() {
   broadcastState();
 }
 
+// Son görev kapandığında önce todo_all_done repliğinin görünmesine izin ver,
+// ardından otomatik "Bugünlük yeter" moduna geç. Replik sessize alınmışsa
+// kısa bir gecikmeyle devam eder; konuşuyorsa main-process konuşma süresini bekler.
+function scheduleRestAfterAllDone() {
+  if (settings().restMode === false || settings().restDay === todayKey()) return;
+  const delay = Math.max(800, speakingUntil - Date.now() + 500);
+  setTimeout(() => enterRest(true), delay);
+}
+
 function currentOutfit(date = new Date()) {
   const h = date.getHours();
   if (h >= 21 || h < 6) return 'pajama';
@@ -1070,13 +1123,19 @@ function greet() {
 }
 
 // Etkileşim sonrası: ihmal edilmişse sitem eder, uyuyorsa uyanır.
-function reactToInteraction(kind, fallback) {
+function reactToInteraction(kind, fallback, { preferFallback = false } = {}) {
   markUserInteraction();
   stats.recordInteraction(kind, { stage: mood.stage });
   const result = mood.interact(kind);
   maybeRareEvent();
   updateBaseline();
   broadcastState();
+  // Bazı yüksek öncelikli olaylar (örn. bütün görevlerin bitmesi) kendi
+  // tepkisini her durumda göstermeli; wake/returned bu özel tepkiyi ezmesin.
+  if (preferFallback) {
+    if (fallback) fallback();
+    return false;
+  }
   if (result.wasAsleep) { say('wake'); return true; }
   if (result.wasNeglected) { say('returned'); return true; }
   if (fallback) fallback();
@@ -1218,6 +1277,7 @@ function buildMenu() {
     { label: 'Notlar', click: () => showPanel('notes') },
     { label: 'Yapılacaklar', click: () => showPanel('todos') },
     { label: 'Zamanlayıcı', click: () => showPanel('timer') },
+    { label: 'Arıcılık oyunu', click: () => openBeeWindow() },
     { label: 'Ayarlar', click: () => showPanel('settings') },
     { type: 'separator' },
     { label: s.hidden ? 'Nero\'yu göster' : 'Nero\'yu gizle', click: () => setSetting('hidden', !s.hidden) },
@@ -1258,11 +1318,12 @@ function petNero() {
   stats.pet({ stage: preStage, ignoredMs, dizzy: Date.now() < dizzyUntil });
   if (woke) { mood.interact('pet'); broadcastState(); return; }
   petTimes = [...petTimes.filter((t) => now - t < 2 * MIN), now];
-  if (petTimes.length > 6) {
+  if (petTimes.length >= 3) {
     mood.interact('pet_too_much');
     updateBaseline();
     say('pet_too_much');
-    petTimes = petTimes.slice(-3);
+    // Üçüncü algılanan pet olayı tepkiyi tetikler; sonraki tetik için üç yeni pet gerekir.
+    petTimes = [];
   } else {
     const r = mood.interact('pet');
     updateBaseline();
@@ -1441,6 +1502,73 @@ function pauseAllTodoStopwatches({ final = false } = {}) {
 // IPC
 // ---------------------------------------------------------------------------
 function registerIpc() {
+  ipcMain.handle('bee:open', () => openBeeWindow());
+  ipcMain.handle('bee:state', () => {
+    if (!bee) return null;
+    bee.markSeen();
+    return bee.view();
+  });
+  ipcMain.handle('bee:summary', () => (bee ? bee.takeAwaySummary() : null));
+  ipcMain.handle('bee:export', () => exportBee());
+  ipcMain.handle('bee:import', () => importBee());
+  ipcMain.handle('bee:reset', () => resetBee());
+  // Fotoğraf modu: arayüz gizliyken pencerenin görüntüsünü Resimler\Nero Arıcılık klasörüne kaydeder
+  ipcMain.handle('bee:photo', async () => {
+    if (!beeWin || beeWin.isDestroyed()) return { ok: false };
+    const img = await beeWin.webContents.capturePage();
+    const dir = path.join(app.getPath('pictures'), 'Nero Arıcılık');
+    fs.mkdirSync(dir, { recursive: true });
+    const d = new Date();
+    const pad = (n) => String(n).padStart(2, '0');
+    const file = path.join(dir, `ada-${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}-${pad(d.getHours())}${pad(d.getMinutes())}${pad(d.getSeconds())}.png`);
+    fs.writeFileSync(file, img.toPNG());
+    return { ok: true, file };
+  });
+  ipcMain.handle('bee:openPhotos', () => shell.openPath(path.join(app.getPath('pictures'), 'Nero Arıcılık')));
+  ipcMain.handle('bee:action', (_e, action, arg1, arg2) => {
+    if (!bee) return { res: { ok: false, msg: 'Arıcılık henüz hazır değil.' }, view: null, events: [] };
+    bee.markSeen();
+    const map = {
+      buyTile: () => bee.buyTile(arg1),
+      placeHive: () => bee.placeHive(arg1),
+      plantSeed: () => bee.plantSeed(arg1, arg2),
+      removeFlower: () => bee.removeFlower(arg1),
+      replant: () => bee.replant(arg1),
+      harvest: () => bee.requestHarvest(arg1),
+      harvestAll: () => bee.harvestAll(),
+      buyBee: () => bee.buyBee(arg1),
+      sellBee: () => bee.sellBee(arg1),
+      upgrade: () => bee.upgrade(arg1),
+      syrup: () => bee.giveSyrup(arg1),
+      sellHive: () => bee.sellHive(arg1),
+      sellHoney: () => bee.sellHoney(arg1, arg2),
+      upgradeStorage: () => bee.upgradeStorage(),
+      acceptOrder: () => bee.acceptOrder(arg1),
+      deliverOrder: () => bee.deliverOrder(arg1),
+      rejectOrder: () => bee.rejectOrder(arg1),
+      swapOrder: () => bee.swapOrder(arg1),
+      speed: () => bee.setSpeed(Number(arg1)),
+      medicine: () => bee.giveMedicine(arg1),
+      readNotifs: () => bee.readNotifs(),
+      merchantBuy: () => bee.merchantBuy(arg1, arg2),
+      merchantSell: () => bee.merchantSell(arg1),
+      placeDecor: () => bee.placeDecor(arg1, arg2),
+      removeDecor: () => bee.removeDecor(arg1),
+      enterFestival: () => bee.enterFestival(arg1, arg2),
+      changeBreed: () => bee.changeBreed(arg1, arg2),
+      makeCandle: () => bee.makeCandle(),
+      sellCandles: () => bee.sellCandles(),
+      claimQuest: () => bee.claimQuest(arg1),
+      renameHive: () => bee.renameHive(arg1, arg2),
+      setFarmName: () => bee.setFarmName(arg1),
+      setLabel: () => bee.setLabel(arg1, arg2),
+      finishTutorial: () => bee.finishTutorial()
+    };
+    const fn = map[action];
+    const res = fn ? fn() : { ok: false, msg: 'Bilinmeyen işlem.' };
+    return { res, view: bee.view(), events: bee.drainEvents() };
+  });
+
   ipcMain.handle('state:get', () => fullState());
   ipcMain.handle('theme:get', () => themePayload());
 
@@ -1460,7 +1588,7 @@ function registerIpc() {
       saved = { id: uid(), body, createdAt: now, updatedAt: now, archivedAt: null };
       stats.noteCreated();
       notesStore.set([saved, ...notes]);
-      reactToInteraction('note_add', () => { if (body.trim() && chance(0.35)) say('note_add'); });
+      reactToInteraction('note_add', () => { if (body.trim() && chance(0.70)) say('note_add'); });
     }
     broadcastState();
     return saved;
@@ -1526,6 +1654,7 @@ function registerIpc() {
     todosStore.set(todos);
     stats.todoDone(todo.done ? 1 : -1, { createdAt: todo.createdAt });
     if (todo.done) {
+      if (bee) { bee.todoCompleted(); sendBee(); }
       journal.archiveDone(todo.text);
       if (settings().sound) sendTo(charWin, 'sound', 'pop');
       const activeTodos = todos.filter((t) => !t.archivedAt);
@@ -1536,11 +1665,11 @@ function registerIpc() {
       reactToInteraction('todo_done', () => {
         if (allDone) {
           stats.award('hepsi_bitti');
-          if (settings().restMode !== false && settings().restDay !== todayKey()) setTimeout(() => enterRest(true), 1500);
-          else say('todo_all_done');
+          say('todo_all_done');
+          scheduleRestAfterAllDone();
         }
         else if (chance(0.7)) say('todo_done', { label: truncate(todo.text, 40) });
-      });
+      }, { preferFallback: allDone });
     } else {
       broadcastState();
     }
@@ -1698,7 +1827,13 @@ function registerIpc() {
   });
   ipcMain.handle('quick:addNote', async (_e, text) => {
     const body = String(text || '').trim().slice(0, 20000);
-    if (body) { notesStore.set([{ id: uid(), body, createdAt: Date.now(), updatedAt: Date.now(), archivedAt: null }, ...notesStore.get()]); stats.noteCreated(); }
+    if (body) {
+      notesStore.set([{ id: uid(), body, createdAt: Date.now(), updatedAt: Date.now(), archivedAt: null }, ...notesStore.get()]);
+      stats.noteCreated();
+      // Hızlı not da normal yeni notla aynı Nero etkileşimini üretir.
+      // Böylece quick add, karakter davranışı ve istatistik mantığı açısından ayrıksı kalmaz.
+      reactToInteraction('note_add', () => { if (chance(0.70)) say('note_add'); });
+    }
     broadcastState();
     return true;
   });
@@ -1950,6 +2085,7 @@ function wireTimer() {
     stats.focus(minutes, true, { pajama: currentOutfit() === 'pajama', pauseResumeCount: timerPauseResumeCount });
     stats.recordInteraction('timer_done', { stage: mood.stage });
     timerPauseResumeCount = 0;
+    if (bee && bee.focusCompleted(minutes)) sendBee();
     homeDialogue.recordTimerResult(true);
     const woke = wakeNap('timer');
     mood.interact('timer_done');
@@ -1983,6 +2119,27 @@ function wireTimer() {
 // Döngüler
 // ---------------------------------------------------------------------------
 function startLoops() {
+  // Arıcılık ana süreçte ilerler; oyun penceresi kapalıyken de üretim sürer.
+  setInterval(() => {
+    if (!bee) return;
+    const gameInFront = beeWin && !beeWin.isDestroyed() && beeWin.isVisible() && beeWin.isFocused();
+    if (gameInFront) bee.markSeen();
+    if (bee.tick(Date.now(), gameInFront ? null : 2)) {
+      sendBee();
+      if (Math.random() < 0.1) bee.save();
+    }
+
+    // Oyun penceresi önde değilken Nero, önemli arıcılık durumlarını haber verir.
+    const alerts = bee.pendingAlerts();
+    if (alerts.length && !gameInFront && Date.now() - lastBeeAlertAt > 90 * 1000) {
+      const s = settings();
+      if (!s.muted && !s.hidden && !mood.state.asleep && !mood.state.napping) {
+        lastBeeAlertAt = Date.now();
+        say(alerts[0].kind, alerts[0].vars, { interrupt: false });
+      }
+    }
+  }, 1000);
+
   // Göz takibi için fare konumu (~30 fps). Sadece değiştiğinde gönderilir.
   setInterval(() => {
     if (!charWin || !charWin.isVisible()) return;
@@ -2036,7 +2193,7 @@ function startLoops() {
     maybeShiftSelfMood();
     checkDaySummary();
     if (Date.now() >= nextPeekAt && !mood.state.napping) {
-      nextPeekAt = Date.now() + rand(45, 100) * MIN;
+      nextPeekAt = Date.now() + rand(25, 45) * MIN;
       if (settings().peekVisits !== false) doPeek();
     }
     if (Date.now() < nextTalkAt) return;
@@ -2141,16 +2298,31 @@ async function doPeek() {
 
   let cut;
   const cutPromise = new Promise((r) => { cut = r; });
+  const restoreAlwaysOnTop = s.alwaysOnTop !== false;
+  const visibleMs = rand(4500, 6500);
   peek = { home: { x: b.x, y: b.y }, cut };
+
+  // Peek sırasında normal masaüstü pencerelerinin üzerinde kalır, ancak focus çalmaz.
+  try {
+    charWin.setAlwaysOnTop(true, 'screen-saver');
+    charWin.showInactive();
+    charWin.moveTop();
+  } catch (_) { /* platform fallback */ }
+
   sendTo(charWin, 'peek', { mode, side, visible });
   await animateBounds(b, { ...b, ...target }, mode === 'center' ? 220 : 520);
   say(mode === 'center' ? 'peek_center' : 'peek_edge', {}, { force: false });
-  await Promise.race([new Promise((r) => setTimeout(r, 5200)), cutPromise]);
+  await Promise.race([new Promise((r) => setTimeout(r, visibleMs)), cutPromise]);
   if (!charWin) { peek = null; return; }
-  await new Promise((r) => setTimeout(r, 900));
   const now = charWin.getBounds();
   await animateBounds(now, { ...now, ...peek.home }, 480);
   sendTo(charWin, 'peek', null);
+
+  // Kullanıcının peek öncesindeki topmost tercihine geri dön.
+  try {
+    if (restoreAlwaysOnTop) charWin.setAlwaysOnTop(true, 'floating');
+    else charWin.setAlwaysOnTop(false);
+  } catch (_) { /* platform fallback */ }
   peek = null;
 }
 
@@ -2260,6 +2432,93 @@ function checkDaySummary() {
 // ---------------------------------------------------------------------------
 const backupDir = path.join(app.getPath('userData'), 'yedekler');
 
+async function exportBee() {
+  const d = new Date();
+  const stamp = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  const res = await dialog.showSaveDialog(panelWin || beeWin, {
+    title: 'Arıcılık kaydını dışa aktar',
+    defaultPath: path.join(app.getPath('documents'), `nero-aricilik-${stamp}.json`),
+    filters: [{ name: 'Nero arıcılık kaydı', extensions: ['json'] }]
+  });
+  if (res.canceled || !res.filePath) return { ok: false };
+  bee.save();
+  const data = { app: 'Nero', type: 'bee', version: app.getVersion(), createdAt: d.toISOString(), bee: beeStore.get() };
+  fs.writeFileSync(res.filePath, JSON.stringify(data, null, 2), 'utf8');
+  return { ok: true, path: res.filePath };
+}
+
+async function importBee() {
+  const parent = panelWin || beeWin;
+  const res = await dialog.showOpenDialog(parent, {
+    title: 'Arıcılık kaydını içe aktar',
+    filters: [{ name: 'Nero arıcılık kaydı', extensions: ['json'] }],
+    properties: ['openFile']
+  });
+  if (res.canceled || !res.filePaths[0]) return { ok: false };
+  let data;
+  try {
+    data = JSON.parse(fs.readFileSync(res.filePaths[0], 'utf8'));
+    if (!data || data.app !== 'Nero' || !data.bee || !data.bee.tiles || !data.bee.hives) throw new Error('Bu dosya bir Nero arıcılık kaydı değil.');
+  } catch (err) {
+    await dialog.showMessageBox(parent, { type: 'error', title: 'İçe aktarılamadı', message: err.message });
+    return { ok: false };
+  }
+  const answer = await dialog.showMessageBox(parent, {
+    type: 'warning', buttons: ['İçe aktar', 'Vazgeç'], defaultId: 1, cancelId: 1,
+    title: 'Arıcılık kaydını içe aktar',
+    message: 'Şu anki çiftliğin bu kayıtla değiştirilecek.',
+    detail: `Kayıttaki çiftlik: ${Math.floor(data.bee.coins || 0)} jeton, ${Object.keys(data.bee.hives).length} kovan.\nŞu anki çiftliğin önce yedeklenecek (${path.join(backupDir)}).`
+  });
+  if (answer.response !== 0) return { ok: false };
+  fs.mkdirSync(backupDir, { recursive: true });
+  fs.writeFileSync(path.join(backupDir, `nero-aricilik-ice-aktarma-oncesi-${Date.now()}.json`),
+    JSON.stringify({ app: 'Nero', type: 'bee', createdAt: new Date().toISOString(), bee: beeStore.get() }, null, 2), 'utf8');
+  beeStore.set(data.bee);
+  bee = new BeeGame(beeStore);
+  bee.markSeen();
+  sendBee();
+  return { ok: true };
+}
+
+async function resetBee() {
+  const parent = panelWin || beeWin;
+  const first = await dialog.showMessageBox(parent, {
+    type: 'warning',
+    buttons: ['Devam et', 'Vazgeç'],
+    defaultId: 1,
+    cancelId: 1,
+    title: 'Arıcılık oyununu sıfırla',
+    message: 'Çiftliğini sıfırlamak istediğine emin misin?',
+    detail: 'Jetonlar, kovanlar, çiçekler, siparişler, rakip ilerlemesi ve tüm arıcılık kaydı başlangıç durumuna döner. Önce otomatik yedek alınacak.'
+  });
+  if (first.response !== 0) return { ok: false, cancelled: true };
+
+  const second = await dialog.showMessageBox(parent, {
+    type: 'warning',
+    buttons: ['Evet, sıfırla', 'Hayır'],
+    defaultId: 1,
+    cancelId: 1,
+    title: 'Son onay',
+    message: 'Bu işlem mevcut çiftliğin yerine yeni bir çiftlik oluşturacak.',
+    detail: 'Devam edersen oyun 200 jeton, ilk kovan ve başlangıç tarhlarıyla yeniden başlar.'
+  });
+  if (second.response !== 0) return { ok: false, cancelled: true };
+
+  fs.mkdirSync(backupDir, { recursive: true });
+  bee.save();
+  fs.writeFileSync(
+    path.join(backupDir, `nero-aricilik-sifirlama-oncesi-${Date.now()}.json`),
+    JSON.stringify({ app: 'Nero', type: 'bee', createdAt: new Date().toISOString(), bee: beeStore.get() }, null, 2),
+    'utf8'
+  );
+
+  beeStore.set(freshState());
+  bee = new BeeGame(beeStore);
+  bee.markSeen();
+  sendBee();
+  return { ok: true };
+}
+
 function snapshotData() {
   const { position, ...cleanSettings } = settings();
   return {
@@ -2267,7 +2526,8 @@ function snapshotData() {
     notes: notesStore.get(), todos: todosStore.get(), stats: statsStore.get(), settings: cleanSettings,
     moodLog: moodLogStore?.get() || null, archive: archiveStore?.get() || null, jar: jarStore?.get() || null,
     userMoodboard: userMoodStore?.get() || null,
-    homeDialogue: homeDialogueStore?.get() || null
+    homeDialogue: homeDialogueStore?.get() || null,
+    bee: beeStore ? beeStore.get() : null
   };
 }
 
@@ -2327,6 +2587,11 @@ async function importData() {
   if (data.archive && typeof data.archive === 'object') archiveStore.set(data.archive);
   if (data.jar && typeof data.jar === 'object') jarStore.set(data.jar);
   if (data.userMoodboard && typeof data.userMoodboard === 'object') userMoodStore.set(data.userMoodboard);
+  if (data.bee && typeof data.bee === 'object' && data.bee.tiles && data.bee.hives) {
+    beeStore.set(data.bee);
+    bee = new BeeGame(beeStore);
+    sendBee();
+  }
   if (data.stats && typeof data.stats === 'object') {
     statsStore.set(data.stats); stats = new Stats(statsStore); stats.onUnlock = handleUnlock;
     stats.onDeskUnlock = (item) => { setTimeout(() => say('desk_unlock', { title: item.title }, { force: true }), 1500); };
@@ -2394,7 +2659,7 @@ function checkForUpdates(manual) {
 function installUpdateNow() {
   if (!updater || updateState.status === 'idle') return false;
   isQuitting = true;
-  for (const store of [settingsStore, notesStore, todosStore, moodStore, statsStore, moodLogStore, archiveStore, jarStore, homeDialogueStore, userMoodStore]) store?.flush();
+  for (const store of [settingsStore, notesStore, todosStore, moodStore, statsStore, moodLogStore, archiveStore, jarStore, homeDialogueStore, userMoodStore, dialogueHistoryStore, beeStore]) store?.flush();
   setImmediate(() => updater.quitAndInstall(true, true));
   return true;
 }
@@ -2480,6 +2745,10 @@ app.whenReady().then(() => {
   jarStore = new JsonStore(userData, 'jar', {});
   homeDialogueStore = new JsonStore(userData, 'home-dialogue-state', {});
   userMoodStore = new JsonStore(userData, 'user-moodboard', { days: {}, exports: {} });
+  dialogueHistoryStore = new JsonStore(userData, 'dialogue-history', { recent: {} });
+  beeStore = new JsonStore(userData, 'bee', {});
+  bee = new BeeGame(beeStore);
+  bee.markAway();
   journal = new Journal({ moodStore: moodLogStore, archiveStore, jarStore });
   // Migration sırasında mevcut saatli görevler sayılır; onUnlock henüz bağlı olmadığı için eski
   // kullanıcı verileri için toplu Windows bildirimi spamı oluşmaz.
@@ -2495,7 +2764,7 @@ app.whenReady().then(() => {
 
   themes = new ThemeManager({ builtinDir: builtinThemesDir, userDir: userThemesDir });
   themes.scan();
-  dialogue = new Dialogue();
+  dialogue = new Dialogue({ historyStore: dialogueHistoryStore });
   loadTheme(settings().themeId);
   if (currentTheme.id !== settings().themeId) settingsStore.patch({ themeId: currentTheme.id });
 
@@ -2549,7 +2818,7 @@ app.on('before-quit', () => {
   // Açık iş kronometresini son kez güvenle durdur; kapalı geçen süre bir sonraki açılışta sayılmaz.
   try { pauseAllTodoStopwatches({ final: false }); } catch (err) { log('iş kronometresi kapatılırken durdurulamadı:', err); }
   try { globalShortcut.unregisterAll(); } catch (_) { /* yoksay */ }
-  for (const store of [settingsStore, notesStore, todosStore, moodStore, statsStore, moodLogStore, archiveStore, jarStore, homeDialogueStore, userMoodStore]) store?.flush();
+  for (const store of [settingsStore, notesStore, todosStore, moodStore, statsStore, moodLogStore, archiveStore, jarStore, homeDialogueStore, userMoodStore, beeStore]) store?.flush();
 });
 
 app.on('window-all-closed', (e) => {

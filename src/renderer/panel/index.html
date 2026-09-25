@@ -14,6 +14,7 @@
     <div class="gingham" aria-hidden="true"></div>
     <div class="panel-drag-zone" aria-hidden="true"></div>
     <div class="window-controls" role="group" aria-label="Pencere kontrolleri">
+      <button class="bee-launch" id="bee-open" type="button" aria-label="Arıcılık oyununu aç" title="Arıcılık oyununu aç"><span class="bee-launch-icon" aria-hidden="true">🐝</span><span class="bee-launch-label">Arıcılık</span></button>
       <button class="close settings-btn" id="settings-button" type="button" aria-label="Ayarlar" aria-pressed="false" title="Ayarlar">
         <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="2.5"/><path d="M10 2.5v2M10 15.5v2M2.5 10h2M15.5 10h2M4.7 4.7l1.4 1.4M13.9 13.9l1.4 1.4M4.7 15.3l1.4-1.4M13.9 6.1l1.4-1.4"/></svg>
       </button>
@@ -413,6 +414,15 @@
             <button class="chip" id="data-export" type="button">Dışa aktar</button>
             <button class="chip" id="data-import" type="button">Yedekten geri yükle</button>
             <button class="chip" id="data-backups" type="button">Yedek klasörü</button>
+          </div>
+          <p class="hint">🐝 Arıcılık oyunu kaydı (tek başına):</p>
+          <div class="row chips">
+            <button class="chip" id="bee-export" type="button">Kaydı dışa aktar</button>
+            <button class="chip" id="bee-import" type="button">Kaydı içe aktar</button>
+          </div>
+          <div class="row">
+            <span>Arıcılık oyununu sıfırla<small class="sub">Önce mevcut çiftliğin yedeği alınır.</small></span>
+            <button class="chip danger" id="bee-reset" type="button">Oyunu sıfırla</button>
           </div>
         </div>
 

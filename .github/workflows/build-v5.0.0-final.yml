@@ -1,0 +1,157 @@
+name: Build Nero 5.0.0 Final Bundle
+
+on:
+  push:
+    branches:
+      - build-v5.0.0-final
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout workflow branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Checkout exact 5.0.0 source
+        shell: pwsh
+        run: |
+          git checkout 231ce7ef4c700cd5d2cbbd92a1fc6d3c9fbfc9f1
+          if ($LASTEXITCODE -ne 0) { throw "Exact source checkout failed" }
+
+      - name: Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install
+        shell: pwsh
+        run: |
+          npm ci
+          if ($LASTEXITCODE -ne 0) { throw "npm ci failed" }
+
+      - name: Verify version and syntax
+        shell: pwsh
+        run: |
+          $pkg = Get-Content package.json -Raw | ConvertFrom-Json
+          if ($pkg.version -ne "5.0.0") { throw "Unexpected version: $($pkg.version)" }
+          foreach ($path in @(
+            "src/main/main.js",
+            "src/main/bee.js",
+            "src/preload/preload.js",
+            "src/preload/bee-preload.js",
+            "src/renderer/panel/panel.js",
+            "src/renderer/bee/bee.js",
+            "src/renderer/character/character.js"
+          )) {
+            node --check $path
+            if ($LASTEXITCODE -ne 0) { throw "Syntax error: $path" }
+          }
+
+      - name: Dialogue validation
+        shell: pwsh
+        run: |
+          npm run dialogue:check
+          if ($LASTEXITCODE -ne 0) { throw "Dialogue validation failed" }
+
+      - name: Node regression tests
+        shell: pwsh
+        run: |
+          npm test
+          if ($LASTEXITCODE -ne 0) { throw "Node tests failed" }
+
+      - name: Header controls Electron hit-test
+        shell: pwsh
+        run: |
+          $out = @(npx electron test/window-controls-electron-smoke.js 2>&1)
+          $out | ForEach-Object { Write-Host $_ }
+          if ($LASTEXITCODE -ne 0 -or (($out -join [Environment]::NewLine) -notmatch "window-controls-electron-smoke: ok")) {
+            throw "Header controls smoke failed"
+          }
+
+      - name: Repeated panel pointer gestures
+        shell: pwsh
+        run: |
+          $out = @(npx electron test/panel-pointer-electron-smoke.js 2>&1)
+          $out | ForEach-Object { Write-Host $_ }
+          if ($LASTEXITCODE -ne 0 -or (($out -join [Environment]::NewLine) -notmatch "panel-pointer-electron-smoke: ok")) {
+            throw "Panel pointer smoke failed"
+          }
+
+      - name: Beekeeping window Electron smoke
+        shell: pwsh
+        run: |
+          $out = @(npx electron test/bee-window-electron-smoke.js 2>&1)
+          $out | ForEach-Object { Write-Host $_ }
+          if ($LASTEXITCODE -ne 0 -or (($out -join [Environment]::NewLine) -notmatch "bee-window-electron-smoke: ok")) {
+            throw "Beekeeping window smoke failed"
+          }
+
+      - name: Build final NSIS release
+        shell: pwsh
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: "false"
+        run: |
+          npm run dist
+          if ($LASTEXITCODE -ne 0) { throw "electron-builder failed" }
+          foreach ($path in @(
+            "dist/Nero-Setup-5.0.0.exe",
+            "dist/Nero-Setup-5.0.0.exe.blockmap",
+            "dist/latest.yml"
+          )) {
+            if (-not (Test-Path $path)) { throw "Missing release file: $path" }
+          }
+
+      - name: Create source archive and release notes
+        shell: pwsh
+        run: |
+          git archive --format=zip --output="dist/Nero-v5.0.0-source.zip" 231ce7ef4c700cd5d2cbbd92a1fc6d3c9fbfc9f1
+          if ($LASTEXITCODE -ne 0) { throw "git archive failed" }
+          Copy-Item "CHANGELOG-5.0.0.md" "dist/CHANGELOG-5.0.0.md" -Force
+
+      - name: Create checksums
+        shell: pwsh
+        run: |
+          $files = @(
+            "dist/Nero-Setup-5.0.0.exe",
+            "dist/Nero-Setup-5.0.0.exe.blockmap",
+            "dist/latest.yml",
+            "dist/Nero-v5.0.0-source.zip"
+          )
+          $lines = foreach ($file in $files) {
+            $hash = (Get-FileHash -Algorithm SHA256 $file).Hash.ToLower()
+            "$hash  $([System.IO.Path]::GetFileName($file))"
+          }
+          $lines | Set-Content -Encoding ascii "dist/SHA256SUMS-5.0.0.txt"
+
+      - name: Verify release names
+        shell: pwsh
+        run: |
+          foreach ($path in @(
+            "dist/Nero-Setup-5.0.0.exe",
+            "dist/Nero-Setup-5.0.0.exe.blockmap",
+            "dist/latest.yml",
+            "dist/Nero-v5.0.0-source.zip",
+            "dist/SHA256SUMS-5.0.0.txt",
+            "dist/CHANGELOG-5.0.0.md"
+          )) {
+            if (-not (Test-Path $path)) { throw "Missing final asset: $path" }
+          }
+          if (Get-ChildItem dist -Filter "*5.0.1*") { throw "Unexpected 5.0.1 artifact found" }
+
+      - name: Upload final 5.0.0 bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: Nero-5.0.0-final-release
+          path: |
+            dist/Nero-Setup-5.0.0.exe
+            dist/Nero-Setup-5.0.0.exe.blockmap
+            dist/latest.yml
+            dist/Nero-v5.0.0-source.zip
+            dist/SHA256SUMS-5.0.0.txt
+            dist/CHANGELOG-5.0.0.md
+          if-no-files-found: error
