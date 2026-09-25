@@ -9,6 +9,7 @@ Her sürümde eklenenler, değişenler ve düzeltilenler burada. En yeni sürüm
 - Seyyah Yakup ürün havuzu **9'dan 38 ürüne** çıktı; dekor satışı tamamen dışarıda.
 - Günlük görev havuzu **40 göreve** çıktı; günde 2 ücretsiz + 1×100 🪙 görev değiştirme hakkı eklendi.
 - Bal Defteri → Etkilerim odak kartına günlük kazanım ve 4 saat limiti eklendi.
+- Arıcılık için **20 gerçek OGG ses kaydı** ve kamera/hava/mevsime duyarlı yeni ambient motoru eklendi.
 
 ### Değişti
 - Odak bonusu artık gerçek gün başına toplam **4 saat kazanım** ile sınırlı.
