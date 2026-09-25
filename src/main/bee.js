@@ -1233,6 +1233,7 @@ class BeeGame {
   effectsView() {
     const day = this.dayIndex();
     const effects = [];
+    const fx = this.state.merchantEffects || {};
     for (const s of STORIES) {
       const st = this.state.stories[s.id];
       if (st && st.done) effects.push({ id: `story:${s.id}`, icon: 'story', title: s.bonusText, source: `${s.who} · ${s.title}`, permanent: true });
@@ -1242,25 +1243,40 @@ class BeeGame {
       if (e.effect && e.effectText) effects.push({ id: `village:${e.n}`, icon: 'building', title: e.effectText, source: e.name, permanent: true });
     }
     for (const h of Object.values(this.state.hives)) {
-      if (day < (h.boostUntilDay || 0)) effects.push({ id: `syrup:${h.id}`, icon: 'syrup', title: '+%50 bal üretimi', source: `${h.name} · Ballı şurup`, daysLeft: h.boostUntilDay - day });
-      if ((h.milkDays || 0) > 0) effects.push({ id: `milk:${h.id}`, icon: 'milk', title: 'Her gün +1 arı', source: `${h.name} · Arı sütü`, daysLeft: h.milkDays });
+      if (day < (h.boostUntilDay || 0)) effects.push({ id: `syrup:${h.id}`, icon: 'syrup', title: '+%50 bal üretimi', source: `${h.name} · Ballı Şurup`, daysLeft: h.boostUntilDay - day });
+      if ((h.milkDays || 0) > 0) effects.push({ id: `milk:${h.id}`, icon: 'milk', title: 'Her gün +1 arı', source: `${h.name} · Arı Sütü`, daysLeft: h.milkDays });
+      if (day < (h.propolisUntilDay || 0)) effects.push({ id: `propolis:${h.id}`, icon: 'immunity', title: 'Hastalanma ihtimali %50 az', source: `${h.name} · Propolis Kalkanı`, daysLeft: h.propolisUntilDay - day });
+      if (day < (h.vitaminUntilDay || 0)) effects.push({ id: `vitamin:${h.id}`, icon: 'syrup', title: '+%15 bal üretimi', source: `${h.name} · Arı Vitamini`, daysLeft: h.vitaminUntilDay - day });
+      if (day < (h.pollenCakeUntilDay || 0)) effects.push({ id: `cake:${h.id}`, icon: 'milk', title: 'Doğal üreme daha hızlı', source: `${h.name} · Polen Keki`, daysLeft: h.pollenCakeUntilDay - day });
+      if (day < (h.pollenMixUntilDay || 0)) effects.push({ id: `mix:${h.id}`, icon: 'story', title: 'Çiçek bonusları %25 güçlü', source: `${h.name} · Özel Polen Karışımı`, daysLeft: h.pollenMixUntilDay - day });
+      if (h.winterShield) effects.push({ id: `winter:${h.id}`, icon: 'immunity', title: '1 kış arı kaybı engellenir', source: `${h.name} · Acil Kış Paketi`, permanent: true });
+      if ((h.insulationUntilDay || 0) > day) effects.push({ id: `insulation:${h.id}`, icon: 'story', title: 'Kış şurup tüketimi %50 az', source: `${h.name} · Kovan Yalıtımı`, daysLeft: Math.max(1, h.insulationUntilDay - Math.max(day, h.insulationFromDay || day)) });
       if (!h.sick && day < (h.immuneUntil || 0)) effects.push({ id: `immune:${h.id}`, icon: 'immunity', title: 'Hastalığa karşı bağışık', source: h.name, daysLeft: h.immuneUntil - day });
     }
     for (const [k, t] of Object.entries(this.state.tiles)) {
-      if (t.item && t.item.type === 'flower' && day < (t.item.allSeasonUntil || 0)) {
-        effects.push({ id: `season:${k}`, icon: 'season', title: 'Mevsim dışı üretim cezası yok', source: `${FLOWERS[t.item.flower].name} tarhı · Dört mevsim`, daysLeft: t.item.allSeasonUntil - day });
-      }
+      if (t.item && t.item.type === 'flower' && day < (t.item.allSeasonUntil || 0)) effects.push({ id: `season:${k}`, icon: 'season', title: 'Mevsim dışı üretim cezası yok', source: `${FLOWERS[t.item.flower].name} tarhı · Dört Mevsim`, daysLeft: t.item.allSeasonUntil - day });
+      if (t.item && t.item.type === 'flower' && day < (t.item.feedUntilDay || 0)) effects.push({ id: `feed:${k}`, icon: 'story', title: '+%25 tarh üretimi', source: `${FLOWERS[t.item.flower].name} tarhı · Çiçek Besini`, daysLeft: t.item.feedUntilDay - day });
     }
     const crates = (this.state.merchant && this.state.merchant.sandik) || 0;
     if (crates) effects.push({ id: 'storage:crates', icon: 'storage', title: `+${crates * 10} kg depo kapasitesi`, source: `Seyyah Yakup · ${crates} depo sandığı`, permanent: true });
+    if (fx.breedCoupon) effects.push({ id: 'yakup:breed', icon: 'story', title: '1 ücretsiz ırk değişimi', source: 'Seyyah Yakup · Irk Değişim Kuponu', permanent: true });
+    if (fx.storageCoupon) effects.push({ id: 'yakup:storage', icon: 'storage', title: 'Sonraki depo yükseltmesi %20 ucuz', source: 'Seyyah Yakup · Depo Yükseltme Kuponu', permanent: true });
+    if (fx.marketSealKg > 0) effects.push({ id: 'yakup:market', icon: 'story', title: `Kalan ${Math.round(fx.marketSealKg * 10) / 10} kg satışta +%15`, source: 'Seyyah Yakup · Pazar Mührü', permanent: true });
+    if (fx.waxGloveHarvests > 0) effects.push({ id: 'yakup:glove', icon: 'story', title: `Sonraki ${fx.waxGloveHarvests} hasatta balmumu +%50`, source: 'Seyyah Yakup · Arıcı Eldiveni', permanent: true });
+    if (fx.waxPressUses > 0) effects.push({ id: 'yakup:press', icon: 'story', title: `Sonraki ${fx.waxPressUses} mum 300 g balmumu`, source: 'Seyyah Yakup · Balmumu Presi', permanent: true });
+    if (fx.candleMoldUses > 0) effects.push({ id: 'yakup:mold', icon: 'story', title: `Sonraki ${fx.candleMoldUses} mum satışında +%35`, source: 'Seyyah Yakup · Usta Mum Kalıbı', permanent: true });
+    if (fx.friendToken) effects.push({ id: 'yakup:friend', icon: 'story', title: '+10 ilişki puanı bekliyor', source: 'Seyyah Yakup · Dostluk Jetonu', permanent: true });
+    if (fx.priorityCard) effects.push({ id: 'yakup:priority', icon: 'story', title: '+4 ilişki puanı bekliyor', source: 'Seyyah Yakup · Öncelikli Teslim Kartı', permanent: true });
+    if (fx.festivalPolish) effects.push({ id: 'yakup:polish', icon: 'story', title: 'Sonraki festival girişine +%5 puan', source: 'Seyyah Yakup · Festival Cilası', permanent: true });
+    if (fx.festivalInsurance) effects.push({ id: 'yakup:insurance', icon: 'story', title: 'Kupa olmazsa balın %60’ı geri', source: 'Seyyah Yakup · Festival Güvencesi', permanent: true });
+    const focusDay = this.todayKey();
+    const earnedMs = this.state.focusDaily && this.state.focusDaily.day === focusDay ? this.state.focusDaily.earnedMs : 0;
     return {
-      focus: { active: Date.now() < (this.state.focusBoostUntil || 0), icon: 'focus', title: 'Odak Bonusu', text: `+%${Math.round(FOCUS_BOOST * 100)} bal üretimi`, leftMs: Math.max(0, (this.state.focusBoostUntil || 0) - Date.now()) },
+      focus: { active: Date.now() < (this.state.focusBoostUntil || 0), icon: 'focus', title: 'Odak Bonusu', text: `+%${Math.round(FOCUS_BOOST * 100)} bal üretimi`, leftMs: Math.max(0, (this.state.focusBoostUntil || 0) - Date.now()), earnedTodayMs: earnedMs, dailyLimitMs: 4 * FOCUS_BOOST_MS },
       list: effects
     };
   }
 
-  // --- Köy ------------------------------------------------------------------------
-  // Teslim edilen toplam bala göre köyde kaç yerleşimci olmalı
   villageTarget(kg) {
     // Başlangıçta 6 yerleşimci; sonra her eşikte yalnızca 1 kişi gelir
     let n = 6;
@@ -2430,10 +2446,10 @@ class BeeGame {
       vouchers: this.state.vouchers,
       decor: Object.fromEntries(Object.entries(DECOR).map(([k, d]) => [k, { ...d, cost: this.decorCost(k) }])),
       breeds: BREEDS,
-      breedChangeCost: BREED_CHANGE_COST,
+      breedChangeCost: (this.state.merchantEffects && this.state.merchantEffects.breedCoupon) ? 0 : BREED_CHANGE_COST,
       wax: this.state.wax,
       candles: this.state.candles,
-      candleWax: CANDLE_WAX,
+      candleWax: (this.state.merchantEffects && this.state.merchantEffects.waxPressUses > 0) ? 0.3 : CANDLE_WAX,
       candlePrice: this.candlePrice(),
       festival: { open: this.festivalOpen(), entry: this.state.festival.entry, cups: this.state.festival.cups, maxKg: FESTIVAL_MAX_KG },
       flowerLife: FLOWER_LIFE_DAYS + this.fx('flowerLife'),
@@ -2444,6 +2460,7 @@ class BeeGame {
       leaderboard: this.leaderboard(),
       farmName: this.state.farmName,
       quests: (this.ensureQuests(), this.state.quests.list.map((q) => ({ ...q, text: this.questText(q) }))),
+      questRefresh: { free: this.state.quests.refreshFree, paidUsed: this.state.quests.paidUsed, paidCost: 100 },
       questsDone: this.state.questsDone,
       ledger: this.state.ledger,
       history: this.state.history,
@@ -2471,7 +2488,7 @@ class BeeGame {
       dayMs: DAY_GAME_MS,
       marketEvent: this.state.market.event,
       seasonPrice: SEASON_PRICE[this.calendar().season],
-      nextStorage: this.nextStorage(),
+      nextStorage: (() => { const u = this.nextStorage(); if (!u) return null; const coupon = !!(this.state.merchantEffects && this.state.merchantEffects.storageCoupon); return { ...u, cost: Math.round(u.cost * (coupon ? 0.8 : 1)), baseCost: u.cost, coupon }; })(),
       houseKey: this.houseKey(),
       now: Date.now(),
       flowers: Object.fromEntries(Object.entries(FLOWERS).map(([k, f]) => [k, { ...f, seed: this.seedCost(k) }])),
