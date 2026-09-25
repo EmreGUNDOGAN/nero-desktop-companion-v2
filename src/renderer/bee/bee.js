@@ -2246,7 +2246,7 @@ $('merchant-buy').addEventListener('click', (e) => {
 });
 
 // ---------------------------------------------------------------------------
-// 5.5.0 · Grafik kalitesi (arı sayısı sadece görüntü; üretim etkilenmez)
+// Grafik kalitesi (arı sayısı sadece görüntü; üretim etkilenmez)
 // ---------------------------------------------------------------------------
 const GFX = {
   yuksek: { bees: 8, shadows: true, shadowMap: 2048, pr: 2, precip: 1, fire: true, anim: true },
