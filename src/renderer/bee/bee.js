@@ -869,28 +869,38 @@ let questsSig = '';
 $('quests-toggle').addEventListener('click', () => $('quests').classList.toggle('closed'));
 function renderQuests() {
   const list = view.quests || [];
-  const sig = JSON.stringify(list.map((q) => [q.id, Math.floor(q.progress * 10), q.claimed]));
+  const R = view.questRefresh || { free: 0, paidUsed: true, paidCost: 100 };
+  const sig = JSON.stringify([list.map((q) => [q.id, Math.floor(q.progress * 10), q.claimed]), R, Math.floor(view.coins)]);
   const open = list.filter((q) => !q.claimed).length;
   $('quests-count').textContent = open ? `${list.length - open}/${list.length}` : 'tamam ✓';
   if (sig === questsSig) return;
   questsSig = sig;
+  const refreshLabel = R.free > 0 ? `🔄 Değiştir · Ücretsiz (${R.free}/2)` : !R.paidUsed ? `🔄 Değiştir · ${R.paidCost} 🪙` : '🔒 Değiştirme hakkı bitti';
   $('quest-list').innerHTML = list.map((q) => {
     const done = q.progress >= q.target;
     const pct = Math.min(100, (q.progress / q.target) * 100);
     const prog = q.target > 1 ? `${(Math.floor(q.progress * 10) / 10).toLocaleString('tr-TR')} / ${q.target}` : (done ? '1 / 1' : '0 / 1');
     const reward = `+${q.reward} 🪙${q.voucher ? ` · 🎁 ${esc(view.flowers[q.voucher].name)}` : ''}`;
+    const canRefresh = !q.claimed && !done && (R.free > 0 || !R.paidUsed);
     return `<li class="quest${q.claimed ? ' claimed' : ''}">
       <div class="qtop"><span>${esc(q.text)}</span><span class="qrew">${q.claimed ? 'alındı' : reward}</span></div>
       ${q.claimed ? '' : `<div class="qbar"><i style="width:${pct}%"></i></div><small class="qrew">${prog}</small>`}
-      ${done && !q.claimed ? `<button type="button" data-claim="${q.id}">Ödülü al</button>` : ''}
+      <div class="quest-actions">
+        ${done && !q.claimed ? `<button type="button" data-claim="${q.id}">Ödülü al</button>` : ''}
+        ${!q.claimed && !done ? `<button type="button" data-refresh="${q.id}" ${canRefresh && (R.free > 0 || view.coins >= R.paidCost) ? '' : 'disabled'}>${esc(refreshLabel)}</button>` : ''}
+      </div>
     </li>`;
   }).join('');
 }
 $('quest-list').addEventListener('click', (e) => {
-  const b = e.target.closest('[data-claim]');
-  if (b) doAct('claimQuest', b.dataset.claim);
+  const claim = e.target.closest('[data-claim]');
+  if (claim) { doAct('claimQuest', claim.dataset.claim); return; }
+  const refresh = e.target.closest('[data-refresh]');
+  if (refresh && !refresh.disabled) doAct('refreshQuest', refresh.dataset.refresh);
 });
 
+// ---------------------------------------------------------------------------
+// İsim düzenleme (kovan ve çiftlik)
 // ---------------------------------------------------------------------------
 // İsim düzenleme (kovan ve çiftlik)
 // ---------------------------------------------------------------------------
@@ -955,16 +965,31 @@ function renderLedger(force = false) {
         ${!l.read ? `<div><button type="button" class="act primary small-act" data-read="${l.id}">${l.gift ? 'Oku ve hediyeyi al' : 'Okundu'}</button></div>` : ''}</div>`).join('')
       : '<div class="page locked"><b>Henüz mektup yok</b><small>Köylüler birkaç günde bir sana mektup yazar.</small></div>';
   } else if (ledgerTab === 'effects') {
-    const E = view.effects || { focus: { active: false, icon: 'focus', title: 'Odak Bonusu', text: '+%25 bal üretimi', leftMs: 0 }, list: [] };
+    const E = view.effects || { focus: { active: false, icon: 'focus', title: 'Odak Bonusu', text: '+%25 bal üretimi', leftMs: 0, earnedTodayMs: 0, dailyLimitMs: 14400000 }, list: [] };
     const allowed = new Set(['focus', 'story', 'building', 'syrup', 'milk', 'season', 'immunity', 'storage']);
     const icon = (id) => `./assets/effects/${allowed.has(id) ? id : 'story'}.svg`;
-    const focusLeft = E.focus.active ? `${Math.max(1, Math.ceil(E.focus.leftMs / 60000))} dk kaldı` : 'Şu an aktif değil';
+    const hm = (ms) => {
+      const min = Math.max(0, Math.round((ms || 0) / 60000));
+      const h = Math.floor(min / 60), m = min % 60;
+      return h ? `${h} sa${m ? ` ${m} dk` : ''}` : `${m} dk`;
+    };
+    const leftClock = (ms) => {
+      const total = Math.max(0, Math.ceil((ms || 0) / 60000));
+      return `${String(Math.floor(total / 60)).padStart(2, '0')}:${String(total % 60).padStart(2, '0')}`;
+    };
     const rows = (E.list || []).map((x) => {
-      const duration = x.permanent ? 'Kalıcı' : x.daysLeft ? `${x.daysLeft} oyun günü kaldı` : '';
+      const duration = x.permanent ? 'Kullanılana kadar aktif' : x.daysLeft ? `${x.daysLeft} oyun günü kaldı` : '';
       return `<div class="effect-card"><img class="effect-icon" src="${icon(x.icon)}" alt=""><div><b>${esc(x.title)}</b><small>${esc(x.source)}</small>${duration ? `<span>${esc(duration)}</span>` : ''}</div></div>`;
     }).join('');
+    const earned = hm(E.focus.earnedTodayMs);
+    const limit = hm(E.focus.dailyLimitMs);
     html = `<div class="effects-wrap">
-      <div class="effect-focus${E.focus.active ? ' active' : ''}"><img class="effect-icon big" src="${icon('focus')}" alt=""><div><b>Odak Bonusu</b><small>Nero ile odaklandıkça bal üretimi hızlanır.</small><span>${E.focus.active ? `${esc(E.focus.text)} · ${focusLeft}` : focusLeft}</span></div></div>
+      <div class="effect-focus${E.focus.active ? ' active' : ''}"><img class="effect-icon big" src="${icon('focus')}" alt=""><div>
+        <b>🔥 Odak Bonusu · +%25 üretim</b>
+        <small>Kalan: <strong>${leftClock(E.focus.leftMs)}</strong></small>
+        <span>Bugün kazanılan: ${esc(earned)} / ${esc(limit)}</span>
+        <span>Günlük limit: 4 saat</span>
+      </div></div>
       <h3 class="effects-title">Diğer etkiler</h3>
       <div class="effects-grid">${rows || '<div class="page locked"><b>Henüz başka etkin yok</b><small>Hikâyeler, köy binaları ve Seyyah Yakup ilerledikçe burada görünür.</small></div>'}</div>
     </div>`;
@@ -2195,15 +2220,31 @@ $('merchant-chip').addEventListener('click', openMerchant);
 $('merchant-close').addEventListener('click', closeMerchant);
 $('merchant-modal').addEventListener('click', (e) => { if (e.target === $('merchant-modal')) closeMerchant(); });
 
-function targetOptions(kind) {
+function targetOptions(kind, itemId = null) {
   const hives = Object.values(view.hives);
-  if (kind === 'flower') {
-    const opts = Object.entries(view.tiles).filter(([, t]) => t.owned && t.item && t.item.type === 'flower' && !t.item.wilted)
+  const hiveOpt = (h) => `<option value="${h.id}">${esc(h.name)} · ${h.bees}/${h.capBees} arı${h.sick ? ' · hasta' : ''}</option>`;
+  if (kind === 'flower' || kind === 'flowerWilted') {
+    const wilted = kind === 'flowerWilted';
+    const opts = Object.entries(view.tiles).filter(([, t]) => t.owned && t.item && t.item.type === 'flower' && !!t.item.wilted === wilted)
       .map(([k, t]) => `<option value="${k}">${esc(view.flowers[t.item.flower].name)} tarhı (${k})</option>`);
     return opts.length ? opts.join('') : null;
   }
-  const ok = (h) => kind === 'hiveQueen' ? h.next && h.next.type === 'queen' : kind === 'hiveRoom' ? h.bees < h.capBees : kind === 'hiveSick' ? h.sick : true;
-  const opts = hives.filter(ok).map((h) => `<option value="${h.id}">${esc(h.name)} · ${h.bees}/${h.capBees} arı${h.sick ? ' · hasta' : ''}</option>`);
+  if (kind === 'honey') return Object.entries(view.flowers).map(([k, f]) => `<option value="${k}">${esc(f.name)} balı</option>`).join('');
+  if (kind === 'acceptedOrder' || kind === 'order') {
+    const list = (view.orders.list || []).filter((o) => kind === 'order' || o.status === 'accepted');
+    return list.length ? list.map((o) => `<option value="${o.id}">${esc(o.who)} · ${o.kg} kg ${esc(view.flowers[o.flower].name)}</option>`).join('') : null;
+  }
+  if (kind === 'merchantStock') {
+    const list = (view.merchant.stock || []).filter((x) => !x.sold && x.id !== itemId && x.id !== 'stokDegisim');
+    return list.length ? list.map((x) => `<option value="${x.id}">${x.icon} ${esc(x.name)}</option>`).join('') : null;
+  }
+  if (kind === 'hiveTransfer') {
+    const pairs = [];
+    for (const from of hives) for (const to of hives) if (from.id !== to.id && from.bees > 1 && to.bees < to.capBees) pairs.push(`<option value="${from.id}|${to.id}">${esc(from.name)} → ${esc(to.name)} · en fazla 3 arı</option>`);
+    return pairs.length ? pairs.join('') : null;
+  }
+  const ok = (h) => kind === 'hiveQueen' ? h.next && h.next.type === 'queen' : kind === 'hiveRoom3' ? h.capBees - h.bees >= 3 : kind === 'hiveSick' ? h.sick : true;
+  const opts = hives.filter(ok).map(hiveOpt);
   return opts.length ? opts.join('') : null;
 }
 
@@ -2219,12 +2260,12 @@ function renderMerchant(force = false) {
   merchantSig = sig;
   const full = M.bought >= M.maxBuy;
   $('merchant-list').innerHTML = M.stock.map((it) => {
-    const opts = it.target ? targetOptions(it.target) : '';
+    const opts = it.target ? targetOptions(it.target, it.id) : '';
     const noTarget = it.target && !opts;
     return `<li class="mitem${it.sold ? ' sold' : ''}">
       <span class="ic">${it.icon}</span>
       <span class="info"><b>${esc(it.name)}</b><small>${esc(it.desc)}</small>
-        ${it.target && !it.sold && opts ? `<select data-target-for="${it.id}">${opts}</select>` : ''}
+        ${it.contents && it.contents.length ? `<small>İçerik: ${it.contents.map(esc).join(' · ')}</small>` : ''}${it.target && !it.sold && opts ? `<select data-target-for="${it.id}">${opts}</select>` : ''}
         ${noTarget && !it.sold ? '<small>Şu an uygun bir hedef yok.</small>' : ''}</span>
       <button type="button" data-mbuy="${it.id}" ${it.sold || full || noTarget ? 'disabled' : ''}>${it.sold ? 'Alındı' : it.basePrice != null && !['kralice', 'dortMevsim', 'suru'].includes(it.id) ? `${it.basePrice} 🪙` : 'Satın al'}</button>
     </li>`;
