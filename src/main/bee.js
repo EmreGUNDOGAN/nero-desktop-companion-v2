@@ -579,6 +579,10 @@ class BeeGame {
         if (job.arriveAt) job.arriveAt += pausedFor;
         if (job.doneAt) job.doneAt += pausedFor;
       }
+      if (this.state.orders && this.state.orders.nextAtReal) {
+        const remaining = Math.max(0, this.state.orders.nextAtReal - this.state.pauseStartedAt);
+        this.state.orders.nextAtReal = now + remaining;
+      }
       this.state.pauseStartedAt = null;
     }
     this.state.lastSeenAt = now;
