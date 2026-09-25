@@ -2,7 +2,7 @@ name: Test Nero 5.5.2
 
 on:
   push:
-    branches: [feature/v5.5.2-audio]
+    branches: [feature/v5.5.2-aricilik]
   pull_request:
     branches: [main]
   workflow_dispatch:
