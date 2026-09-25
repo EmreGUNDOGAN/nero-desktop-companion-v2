@@ -2,7 +2,7 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
-const { BeeGame } = require('../src/main/bee');
+const { BeeGame, freshState } = require('../src/main/bee');
 
 class MemoryStore {
   constructor(value = {}) { this.value = value; }
@@ -67,8 +67,10 @@ test('5.1.0 jar label gives known customers a five percent order tip', () => {
 });
 
 test('5.1.0 weather obeys seasonal constraints when loading old saves', () => {
-  const summerMs = 15 * 15 * 60 * 1000;
-  const bee = new BeeGame(new MemoryStore({ gameMs: summerMs, weather: 'karli' }));
+  const saved = freshState();
+  saved.gameMs = 15 * 15 * 60 * 1000;
+  saved.weather = 'karli';
+  const bee = new BeeGame(new MemoryStore(saved));
   assert.equal(bee.calendar().season, 'yaz');
   assert.equal(bee.state.weather, 'gunesli');
 });
