@@ -138,7 +138,7 @@ const MERCHANT_ITEMS = {
   propolis: { name: 'Propolis Kalkanı', icon: '🛡️', desc: 'Seçilen kovanda 10 gün hastalanma ihtimalini %50 azaltır.', target: 'hive' },
   vitamin: { name: 'Arı Vitamini', icon: '💊', desc: 'Seçilen kovan 5 gün +%15 üretim sağlar.', target: 'hive' },
   yalitim: { name: 'Kovan Yalıtımı', icon: '❄️', desc: 'Seçilen kovanda bir sonraki kış şurup tüketimini %50 azaltır.', target: 'hive' },
-  irkKupon: { name: 'Irk Değişim Kuponu', icon: '🧬', desc: 'Bir sonraki arı ırkı değişimini Yakup fiyatıyla yapmanı sağlar.', target: null },
+  irkKupon: { name: 'Irk Değişim Kuponu', icon: '🧬', desc: 'Seçtiğin kovanda tek seferlik ırk değişimi yapar.', target: 'hiveBreed' },
   nakil: { name: 'Arı Nakil Kutusu', icon: '📦', desc: 'İki kovan arasında en fazla 3 arı taşı.', target: 'hiveTransfer' },
   polenKeki: { name: 'Polen Keki', icon: '🌼', desc: 'Seçilen kovanda 5 gün doğal üreme aralığını yarıya indirir.', target: 'hive' },
   acilKis: { name: 'Acil Kış Paketi', icon: '🧯', desc: 'Seçilen kovanda şurup yokluğundan doğacak bir sonraki arı kaybını bir kez engeller.', target: 'hive' },
@@ -772,17 +772,13 @@ class BeeGame {
     const h = this.state.hives[hiveId];
     if (!h || !BREEDS[breed]) return this.fail('Geçersiz seçim.');
     if (h.breed === breed) return this.fail('Bu kovan zaten bu ırktan.');
-    const fx = this.state.merchantEffects || {};
-    const coupon = !!fx.breedCoupon;
-    const cost = coupon ? 0 : BREED_CHANGE_COST;
-    if (this.state.coins < cost) return this.fail(`Yeterli jeton yok (${cost} gerekli).`);
-    this.state.coins -= cost;
+    if (this.state.coins < BREED_CHANGE_COST) return this.fail(`Yeterli jeton yok (${BREED_CHANGE_COST} gerekli).`);
+    this.state.coins -= BREED_CHANGE_COST;
     h.breed = breed;
-    h.invested += cost;
-    if (coupon) fx.breedCoupon = false;
+    h.invested += BREED_CHANGE_COST;
     this.questEvent('breedChange', { hiveId, breed });
     this.save();
-    return { ok: true, msg: `${h.name} artık ${BREEDS[breed].name} kraliçesiyle.${coupon ? ' Irk Değişim Kuponu kullanıldı.' : ''}` };
+    return { ok: true, msg: `${h.name} artık ${BREEDS[breed].name} kraliçesiyle.` };
   }
 
   makeCandle() {
@@ -981,7 +977,7 @@ class BeeGame {
       case 'propolis': return h ? 70 : null;
       case 'vitamin': return h ? 110 : null;
       case 'yalitim': return h ? 35 : null;
-      case 'irkKupon': return fx.breedCoupon ? null : 110;
+      case 'irkKupon': { const [hid, breed] = String(target || '').split('|'); const hh = this.state.hives[hid]; return hh && BREEDS[breed] && hh.breed !== breed ? 110 : null; }
       case 'nakil': return target && String(target).includes('|') ? 60 : null;
       case 'polenKeki': return h ? 90 : null;
       case 'acilKis': return h && !h.winterShield ? 45 : null;
@@ -1020,7 +1016,7 @@ class BeeGame {
     const h = target && this.state.hives[target];
     const t = target && this.state.tiles[target];
     const ord = target && this.findOrder(target);
-    if (def.target && def.target.startsWith('hive') && !['hiveTransfer'].includes(def.target) && !h) return this.fail('Önce uygun bir kovan seç.');
+    if (def.target && def.target.startsWith('hive') && !['hiveTransfer', 'hiveBreed'].includes(def.target) && !h) return this.fail('Önce uygun bir kovan seç.');
     if (def.target === 'hiveQueen' && !(this.nextUpgrade(h) && this.nextUpgrade(h).type === 'queen')) return this.fail('Bu kovanın sıradaki yükseltmesi kraliçe değil.');
     if (def.target === 'hiveRoom3' && (!h || h.capBees - h.bees < 3)) return this.fail('Bu kovanda 3 arı için yer yok.');
     if (def.target === 'hiveSick' && (!h || !h.sick)) return this.fail('Bu kovan hasta değil.');
@@ -1061,7 +1057,7 @@ class BeeGame {
     if (id === 'propolis') { h.propolisUntilDay = Math.max(day, h.propolisUntilDay || 0) + 10; msg = `${h.name}: Propolis Kalkanı 10 gün uzadı.`; }
     if (id === 'vitamin') { h.vitaminUntilDay = Math.max(day, h.vitaminUntilDay || 0) + 5; msg = `${h.name}: +%15 üretim etkisi 5 gün uzadı.`; }
     if (id === 'yalitim') { const year = DAYS_PER_SEASON * 4, pos = ((day % year) + year) % year, base = day - pos; let winterStart = base + DAYS_PER_SEASON * 3; if (day >= winterStart) winterStart += year; h.insulationFromDay = winterStart; h.insulationUntilDay = winterStart + DAYS_PER_SEASON; msg = `${h.name}: sıradaki kışta şurup tüketimi yarıya inecek.`; }
-    if (id === 'irkKupon') { fx.breedCoupon = true; msg = 'Bir sonraki arı ırkı değişimin hazır.'; }
+    if (id === 'irkKupon') { const [hid, breed] = String(target).split('|'); const hh = this.state.hives[hid]; hh.breed = breed; hh.invested += price; this.questEvent('breedChange', { hiveId: hid, breed }); msg = `${hh.name} artık ${BREEDS[breed].name} kraliçesiyle.`; }
     if (id === 'nakil') { const move = Math.min(3, transfer.from.bees - 1, transfer.to.capBees - transfer.to.bees); transfer.from.bees -= move; transfer.to.bees += move; msg = `${transfer.from.name} → ${transfer.to.name}: ${move} arı taşındı.`; }
     if (id === 'polenKeki') { h.pollenCakeUntilDay = Math.max(day, h.pollenCakeUntilDay || 0) + 5; msg = `${h.name}: doğal üreme desteği 5 gün uzadı.`; }
     if (id === 'acilKis') { h.winterShield = 1; msg = `${h.name}: bir sonraki şurupsuz kış kaybı engellenecek.`; }
@@ -1259,7 +1255,6 @@ class BeeGame {
     }
     const crates = (this.state.merchant && this.state.merchant.sandik) || 0;
     if (crates) effects.push({ id: 'storage:crates', icon: 'storage', title: `+${crates * 10} kg depo kapasitesi`, source: `Seyyah Yakup · ${crates} depo sandığı`, permanent: true });
-    if (fx.breedCoupon) effects.push({ id: 'yakup:breed', icon: 'story', title: '1 ücretsiz ırk değişimi', source: 'Seyyah Yakup · Irk Değişim Kuponu', permanent: true });
     if (fx.storageCoupon) effects.push({ id: 'yakup:storage', icon: 'storage', title: 'Sonraki depo yükseltmesi %20 ucuz', source: 'Seyyah Yakup · Depo Yükseltme Kuponu', permanent: true });
     if (fx.marketSealKg > 0) effects.push({ id: 'yakup:market', icon: 'story', title: `Kalan ${Math.round(fx.marketSealKg * 10) / 10} kg satışta +%15`, source: 'Seyyah Yakup · Pazar Mührü', permanent: true });
     if (fx.waxGloveHarvests > 0) effects.push({ id: 'yakup:glove', icon: 'story', title: `Sonraki ${fx.waxGloveHarvests} hasatta balmumu +%50`, source: 'Seyyah Yakup · Arıcı Eldiveni', permanent: true });
@@ -2448,7 +2443,7 @@ class BeeGame {
       vouchers: this.state.vouchers,
       decor: Object.fromEntries(Object.entries(DECOR).map(([k, d]) => [k, { ...d, cost: this.decorCost(k) }])),
       breeds: BREEDS,
-      breedChangeCost: (this.state.merchantEffects && this.state.merchantEffects.breedCoupon) ? 0 : BREED_CHANGE_COST,
+      breedChangeCost: BREED_CHANGE_COST,
       wax: this.state.wax,
       candles: this.state.candles,
       candleWax: (this.state.merchantEffects && this.state.merchantEffects.waxPressUses > 0) ? 0.3 : CANDLE_WAX,
