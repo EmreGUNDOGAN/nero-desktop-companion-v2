@@ -3,6 +3,27 @@
 Her sürümde eklenenler, değişenler ve düzeltilenler burada. En yeni sürüm en üstte.
 
 
+## 5.5.3: Tohum envanteri ve arayüz iyileştirmeleri
+
+### Yeni
+- Sürüm değiştiğinde Arıcılık ilk açılışında bir kez görünen cozy **“Çiftlikte neler değişti?”** penceresi.
+- Rehber içinden tekrar açılabilen **📋 Sürüm Yenilikleri**.
+- Mağazadan alınan tohumlar için ortak **tohum envanteri**.
+
+### Değişti
+- **Yonca +%5**, **Papatya +%10** üretim bonusu sağlar.
+- Mağazadan alınan tohumlar anında yerleştirilmek yerine envantere eklenir; ekimde önce envanter kullanıldığı için ikinci kez ücret alınmaz.
+- Tohum mağazasında mevcut envanter adedi görünür.
+
+### Düzeltildi
+- Günlük görevler tamamlandığında görev panelinin eski görünüme dönmesi engellendi; kompakt ikon ve açılır panel düzeni korunur.
+
+### Korunanlar
+- 5.5.2 mekanikleri ve mevcut ses davranışı değişmez.
+- Genişletilmiş mektup sistemi bu patch'e dahil değildir.
+
+Ayrıntılar: `CHANGELOG-5.5.3.md`
+
 ## 5.5.2: Arıcılık yaşam kalitesi ve denge
 
 ### Yeni
