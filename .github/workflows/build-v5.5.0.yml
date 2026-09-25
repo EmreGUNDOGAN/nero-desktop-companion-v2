@@ -66,8 +66,9 @@ jobs:
         shell: pwsh
         run: |
           $asar = "dist/win-unpacked/resources/app.asar"
+          $unpacked = "dist/win-unpacked/resources/app.asar.unpacked"
           if (-not (Test-Path $asar)) { throw "app.asar not found" }
-          node -e "const asar=require('@electron/asar');const list=asar.listPackage(process.argv[1]);const need=['/src/renderer/bee/sounds/loop_bees.ogg','/src/renderer/bee/sounds/birds_1.ogg','/src/renderer/bee/sounds/KAYNAKLAR.md'];for(const p of need){if(!list.includes(p))throw new Error('Missing from app.asar: '+p)}console.log('Packaged sound assets OK')" $asar
+          node -e "const fs=require('fs');const path=require('path');const asar=require('@electron/asar');const asarPath=process.argv[1],unpacked=process.argv[2];const norm=x=>String(x).replace(/\\/g,'/').replace(/^\/+/, '');const list=asar.listPackage(asarPath).map(norm);const need=['src/renderer/bee/sounds/loop_bees.ogg','src/renderer/bee/sounds/birds_1.ogg','src/renderer/bee/sounds/KAYNAKLAR.md'];const found=[];for(const p of need){if(list.includes(p)){found.push(p+' [asar]');if(p.endsWith('.ogg')){const b=asar.extractFile(asarPath,p);if(b.subarray(0,4).toString('ascii')!=='OggS')throw new Error('Invalid OGG in asar: '+p)}}else{const q=path.join(unpacked,...p.split('/'));if(fs.existsSync(q)){found.push(p+' [unpacked]');if(p.endsWith('.ogg')&&fs.readFileSync(q).subarray(0,4).toString('ascii')!=='OggS')throw new Error('Invalid unpacked OGG: '+p)}else{console.log('Sound-like ASAR entries:',list.filter(x=>x.includes('renderer/bee/sounds')).slice(0,50));throw new Error('Packaged sound asset missing: '+p)}}}console.log('Packaged sound assets OK:',found.join(', '))" $asar $unpacked
 
       - name: Prepare guide, changelog and source package
         shell: pwsh
