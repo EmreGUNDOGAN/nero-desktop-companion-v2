@@ -2339,6 +2339,13 @@ function targetOptions(kind, itemId = null) {
     const list = (view.merchant.stock || []).filter((x) => !x.sold && x.id !== itemId && x.id !== 'stokDegisim');
     return list.length ? list.map((x) => `<option value="${x.id}">${x.icon} ${esc(x.name)}</option>`).join('') : null;
   }
+  if (kind === 'hiveBreed') {
+    const opts = [];
+    for (const h of hives) for (const [breed, def] of Object.entries(view.breeds || {})) {
+      if (h.breed !== breed) opts.push(`<option value="${h.id}|${breed}">${esc(h.name)} → ${esc(def.name)}</option>`);
+    }
+    return opts.length ? opts.join('') : null;
+  }
   if (kind === 'hiveTransfer') {
     const pairs = [];
     for (const from of hives) for (const to of hives) if (from.id !== to.id && from.bees > 1 && to.bees < to.capBees) pairs.push(`<option value="${from.id}|${to.id}">${esc(from.name)} → ${esc(to.name)} · en fazla 3 arı</option>`);
