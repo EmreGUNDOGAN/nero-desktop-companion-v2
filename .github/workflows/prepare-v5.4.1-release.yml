@@ -1,0 +1,51 @@
+name: Prepare Nero 5.4.1 draft release
+
+on:
+  push:
+    branches: [prepare-v5.4.1-release]
+
+permissions:
+  contents: write
+
+jobs:
+  draft:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run dialogue:check
+      - run: npm run dist
+      - name: Assemble and verify release files
+        shell: pwsh
+        run: |
+          $metadata = Get-Content dist/latest.yml -Raw
+          if ($metadata -notmatch 'version: 5\.4\.1' -or $metadata -notmatch 'Nero-Setup-5\.4\.1\.exe') { throw 'Incorrect update metadata' }
+          git archive --format=zip --output=dist/Nero-v5_4_1-source.zip origin/main
+          if ($LASTEXITCODE -ne 0) { throw 'Source archive failed' }
+          Copy-Item docs/ARICILIK-REHBERI.md dist/OYUN-REHBERI.md
+          Copy-Item CHANGELOG-5.4.1.md dist/CHANGELOG-5.4.1.md
+      - name: Create draft release with downloadable assets
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create v5.4.1 `
+            dist/Nero-Setup-5.4.1.exe `
+            dist/Nero-Setup-5.4.1.exe.blockmap `
+            dist/latest.yml `
+            dist/Nero-v5_4_1-source.zip `
+            dist/OYUN-REHBERI.md `
+            dist/CHANGELOG-5.4.1.md `
+            --repo "$env:GITHUB_REPOSITORY" `
+            --target main `
+            --title 'Nero 5.4.1' `
+            --notes-file CHANGELOG-5.4.1.md `
+            --draft
+          if ($LASTEXITCODE -ne 0) { throw 'Creating draft release failed' }
