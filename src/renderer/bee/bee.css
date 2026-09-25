@@ -469,7 +469,7 @@ body.photo .popup, body.photo .notice, body.photo .place-bar { display: none !im
 .story li.todo { color: #B0A38A; }
 .stories-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; margin-bottom: 12px; }
 
-/* ---------- 5.5.0: ayarlar, kovanlar, araçlar ---------- */
+/* ---------- Ayarlar, kovanlar, araçlar ---------- */
 .gsettings-card { width: min(560px, 94vw); }
 .gs-sec { background: #fff; border-radius: 14px; padding: 10px 14px; margin-bottom: 10px; }
 .gs-sec h3 { margin: 0 0 6px; font-size: 14px; }
