@@ -496,7 +496,8 @@ class BeeGame {
   // --- Hastalık ---------------------------------------------------------------
   sicknessDeathLimit(h) {
     const start = Math.max(SICK_MIN_BEES, Number(h.sickStartBees) || h.bees || SICK_MIN_BEES);
-    return Math.max(1, Math.round(start / SICK_DEATH_DIVISOR));
+    const roundedThird = Math.max(1, Math.round(start / SICK_DEATH_DIVISOR));
+    return Math.max(0, Math.min(start - SICK_MIN_BEES, roundedThird));
   }
 
   recoverHive(h, dayIdx, notify = true) {
