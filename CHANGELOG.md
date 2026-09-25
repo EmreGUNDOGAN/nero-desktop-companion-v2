@@ -2,6 +2,23 @@
 
 Her sürümde eklenenler, değişenler ve düzeltilenler burada. En yeni sürüm en üstte.
 
+## 5.5.0: Arıcılık dünyası genişliyor
+
+### Yeni
+- 57 olay başlığında **2.133 yeni oyun içi Nero repliği**.
+- Seyyah Yakup ürün havuzu **9'dan 38 ürüne** çıktı; dekor satışı tamamen dışarıda.
+- Günlük görev havuzu **40 göreve** çıktı; günde 2 ücretsiz + 1×100 🪙 görev değiştirme hakkı eklendi.
+- Bal Defteri → Etkilerim odak kartına günlük kazanım ve 4 saat limiti eklendi.
+
+### Değişti
+- Odak bonusu artık gerçek gün başına toplam **4 saat kazanım** ile sınırlı.
+- Müdavim sipariş bonusu kalp başına **%2** (maksimum %10).
+- Aynı köylünün aynı anda en fazla **1 açık/kabul edilmiş normal siparişi** olabilir.
+- Geri dönüş özeti eşiği **20 gerçek dakika**.
+- Yakup ürün fiyatları, hedefleri ve etkileri 5.4.2 ekonomisine göre dengelendi.
+
+Ayrıntılar: `CHANGELOG-5.5.0.md`
+
 ## 5.4.0: Gezgin satıcı ve köylü hikâyeleri
 
 ### Yeni
