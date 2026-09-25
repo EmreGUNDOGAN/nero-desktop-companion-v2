@@ -2,6 +2,21 @@
 
 Her sürümde eklenenler, değişenler ve düzeltilenler burada. En yeni sürüm en üstte.
 
+## 5.5.1: Arıcılık ses entegrasyonu
+
+### Yeni
+- Arıcılık bölümüne **20 gerçek OGG ses kaydı** eklendi.
+- Coin, zil, başarı, yerleştirme, ekim, kâğıt, hasat ve hata olayları gerçek sample kullanıyor.
+- Kuş, arı, yağmur ve rüzgâr için kamera/hava/mevsim duyarlı yeni ambient motoru eklendi.
+- Arı uğultusu stereo konumlandırma ve kovan yakınlığına göre değişiyor.
+- Efekt ve ortam sesleri birbirinden bağımsız kapatılabiliyor.
+- Mevcut sentez sesleri sample yüklenemezse fallback olarak korunuyor.
+
+### Korunanlar
+- 5.5.0'ın **57 topic / 2.133 repliği** ve tüm arıcılık mekanikleri değişmeden devam ediyor.
+
+Ayrıntılar: `CHANGELOG-5.5.1.md`
+
 ## 5.5.0: Arıcılık dünyası genişliyor
 
 ### Yeni
@@ -9,7 +24,6 @@ Her sürümde eklenenler, değişenler ve düzeltilenler burada. En yeni sürüm
 - Seyyah Yakup ürün havuzu **9'dan 38 ürüne** çıktı; dekor satışı tamamen dışarıda.
 - Günlük görev havuzu **40 göreve** çıktı; günde 2 ücretsiz + 1×100 🪙 görev değiştirme hakkı eklendi.
 - Bal Defteri → Etkilerim odak kartına günlük kazanım ve 4 saat limiti eklendi.
-- Arıcılık için **20 gerçek OGG ses kaydı** ve kamera/hava/mevsime duyarlı yeni ambient motoru eklendi.
 
 ### Değişti
 - Odak bonusu artık gerçek gün başına toplam **4 saat kazanım** ile sınırlı.
