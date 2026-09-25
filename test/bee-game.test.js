@@ -166,7 +166,7 @@ test('5.4.2 hastalık kaybı vaka başına üçte birle sınırlıdır ve 4 arı
   hive.sickStartBees = 5;
   hive.sickDeaths = 0;
   hive.immuneUntil = 0;
-  assert.equal(bee.sicknessDeathLimit(hive), 2); // en yakın tam sayı: 5 / 3 -> 2
+  assert.equal(bee.sicknessDeathLimit(hive), 1); // 4 arı tabanı nedeniyle bu vakada yalnız 1 arı kaybedilebilir
   bee.onNewDay(11); // 5 -> 4 ve güvenlik tabanında hemen iyileşir
   assert.equal(hive.bees, 4);
   assert.equal(hive.sick, false);
