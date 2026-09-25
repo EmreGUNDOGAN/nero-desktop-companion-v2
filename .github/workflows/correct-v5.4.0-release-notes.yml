@@ -1,0 +1,20 @@
+name: Update Nero 5.4.0 draft notes
+
+on:
+  push:
+    branches: [correct-v5.4.0-notes]
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Update draft description and changelog asset
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release edit v5.4.0 --repo "$GITHUB_REPOSITORY" --notes-file CHANGELOG-5.4.0.md
+          gh release upload v5.4.0 CHANGELOG-5.4.0.md --repo "$GITHUB_REPOSITORY" --clobber
