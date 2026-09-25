@@ -1,6 +1,7 @@
 import * as THREE from './vendor/three.module.min.js';
 import { buildOccupant, villageGround, VM, buildMerchantCart } from './village.js';
 import { pickBeeDialogue } from './bee-dialogues.js';
+import { RELEASE_NOTES } from './release-notes.js';
 
 // ============================================================================
 // Nero · Arıcılık — 3D ada ve arayüz
@@ -771,7 +772,7 @@ function openSeeds(k) {
         <span class="${inSeason ? 'insz' : 'outsz'}">${inSeason ? 'şu an mevsiminde' : 'mevsimi dışında, az üretir'}</span>
       </span>
       <span class="buff ${buff === 0 ? 'zero' : ''}">🐝 +%${buff} bal üretimi</span>
-      <button class="buy" type="button" data-seed="${id}" ${view.coins < f.seed && !(view.vouchers[id] > 0) ? 'disabled' : ''}>${view.vouchers[id] > 0 ? `🎁 Hediye ×${view.vouchers[id]}` : `${f.seed} 🪙`}</button>
+      <button class="buy" type="button" data-seed="${id}" ${view.coins < f.seed && !(view.vouchers[id] > 0) ? 'disabled' : ''}>${view.vouchers[id] > 0 ? `🌱 Envanter ×${view.vouchers[id]}` : `${f.seed} 🪙`}</button>
     </li>`;
   }).join('');
   $('seed-modal').hidden = false;
@@ -877,14 +878,23 @@ window.addEventListener('keydown', (e) => {
 // Günlük görevler
 // ---------------------------------------------------------------------------
 let questsSig = '';
-$('quests-icon').addEventListener('click', () => { $('quests').hidden = false; });
-$('quests-toggle').addEventListener('click', () => { $('quests').hidden = true; });
+let questsOpen = false;
+function setQuestsOpen(open) {
+  questsOpen = !!open;
+  $('quests').hidden = !questsOpen;
+}
+$('quests-icon').addEventListener('click', () => setQuestsOpen(true));
+$('quests-toggle').addEventListener('click', () => setQuestsOpen(false));
 function renderQuests() {
   const list = view.quests || [];
   const R = view.questRefresh || { free: 0, paidUsed: true, paidCost: 100 };
   const sig = JSON.stringify([list.map((q) => [q.id, Math.floor(q.progress * 10), q.claimed]), R, Math.floor(view.coins)]);
   const open = list.filter((q) => !q.claimed).length;
-  $('quests-count').textContent = open ? `${list.length - open}/${list.length}` : 'tamam ✓';
+  const allClaimed = list.length > 0 && open === 0;
+  $('quests-count').textContent = allClaimed ? 'tamam ✓' : `${list.length - open}/${list.length}`;
+  $('quests-icon').classList.toggle('done', allClaimed);
+  $('quests-icon').title = allClaimed ? 'Bugünün görevleri tamamlandı' : 'Bugünün görevleri';
+  if (allClaimed && questsOpen) setQuestsOpen(false);
   if (sig === questsSig) return;
   questsSig = sig;
   const refreshLabel = R.free > 0 ? `🔄 Değiştir · Ücretsiz (${R.free}/2)` : !R.paidUsed ? `🔄 Değiştir · ${R.paidCost} 🪙` : '🔒 Değiştirme hakkı bitti';
@@ -1182,7 +1192,7 @@ for (const b of document.querySelectorAll('.shop-tabs button')) {
 
 function renderShop(force = false) {
   if (!shopOpen || !view) return;
-  const sig = JSON.stringify([shopTab, Math.floor(view.coins), view.tilePrice, view.calendar.season, view.ezgi]);
+  const sig = JSON.stringify([shopTab, Math.floor(view.coins), view.tilePrice, view.calendar.season, view.ezgi, view.vouchers]);
   if (!force && sig === shopSig) return;
   shopSig = sig;
   const c = view.coins;
@@ -1195,8 +1205,9 @@ function renderShop(force = false) {
       return `<div class="shop-item${ezgiPick ? ' ezgi-choice' : ''}"><span class="big" style="color:${f.color}">✿</span>
         <span class="info"><b>${esc(f.name)} tohumu · +%${Math.round(f.buff * 100)} bal üretimi</b>
         <small>${f.seasons.map((s) => seasonsTr[s]).join(' · ')} · ${inS ? 'şu an mevsiminde' : 'şu an mevsimi dışında'}</small>
+        <small>🌱 Envanter: ×${view.vouchers[id] || 0}</small>
         ${ezgiPick ? '<small class="choice-note">🌷 Ezgi’nin Seçimi · bugün ek %15 indirimli</small>' : ''}</span>
-        <button type="button" data-buy="seed" data-flower="${id}" ${c < f.seed && !(view.vouchers[id] > 0) ? 'disabled' : ''}>${view.vouchers[id] > 0 ? `🎁 Hediye ×${view.vouchers[id]}` : `${f.seed} 🪙`}</button></div>`;
+        <button type="button" data-buy="seed" data-flower="${id}" ${c < f.seed ? 'disabled' : ''}>Satın al · ${f.seed} 🪙</button></div>`;
     }).join('');
   } else if (shopTab === 'hive') {
     html = `<div class="shop-item"><span class="big">🐝</span>
@@ -1214,11 +1225,14 @@ function renderShop(force = false) {
   }
   $('shop-body').innerHTML = html;
 }
-$('shop-body').addEventListener('click', (e) => {
+$('shop-body').addEventListener('click', async (e) => {
   const b = e.target.closest('[data-buy]');
   if (!b || b.disabled) return;
   const kind = b.dataset.buy;
-  if (kind === 'seed') startPlacing({ type: 'seed', flower: b.dataset.flower }, `${view.flowers[b.dataset.flower].name} ekmek için boş bir kare seç`);
+  if (kind === 'seed') {
+    await doAct('buySeed', b.dataset.flower);
+    renderShop(true);
+  }
   else if (kind === 'hive') startPlacing({ type: 'hive' }, 'Kovanı koymak için boş bir kare seç');
   else if (kind === 'decor') startPlacing({ type: 'decor', decor: b.dataset.decor }, `${view.decor[b.dataset.decor].name} için adandan bir kare seç`);
   else startPlacing({ type: 'land' }, 'Satın almak için adanın kenarından bir kare seç');
@@ -1444,7 +1458,7 @@ function react(action, res, a, b) {
   };
   const topic = topicByAction[action];
 
-  if (['sellHoney', 'deliverOrder', 'sellCandles', 'merchantSell', 'claimQuest'].includes(action)) SFX.coin();
+  if (['sellHoney', 'deliverOrder', 'sellCandles', 'merchantSell', 'claimQuest', 'buySeed'].includes(action)) SFX.coin();
   else if (['upgrade', 'upgradeStorage', 'enterFestival'].includes(action)) SFX.success();
   else if (['plantSeed', 'replant'].includes(action)) SFX.plant();
   else if (action === 'readLetter') SFX.paper();
