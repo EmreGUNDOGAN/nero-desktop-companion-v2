@@ -1,5 +1,6 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('node:path');
+const fs = require('node:fs');
 const { BeeGame } = require('../src/main/bee');
 
 app.commandLine.appendSwitch('enable-unsafe-swiftshader');
@@ -22,6 +23,14 @@ app.whenReady().then(async () => {
   ipcMain.handle('bee:state', () => bee.view());
   ipcMain.handle('bee:summary', () => null);
   ipcMain.handle('bee:action', () => ({ res: { ok: false, msg: '' }, view: bee.view(), events: [] }));
+  ipcMain.handle('bee:sounds', () => {
+    const dir = path.join(__dirname, '../src/renderer/bee/sounds');
+    const out = {};
+    for (const file of fs.readdirSync(dir)) {
+      if (file.endsWith('.ogg')) out[file.slice(0, -4)] = fs.readFileSync(path.join(dir, file));
+    }
+    return out;
+  });
 
   try {
     win = new BrowserWindow({
@@ -50,6 +59,7 @@ app.whenReady().then(async () => {
         const errorText = document.body.innerText || '';
         return {
           hasApi: !!window.bee && typeof window.bee.state === 'function' && typeof window.bee.act === 'function',
+          hasSoundApi: !!window.bee && typeof window.bee.sounds === 'function',
           canvas: canvas ? { width: canvas.clientWidth, height: canvas.clientHeight } : null,
           title: document.title,
           hasThreeError: /3D çizim başlatılamadı/i.test(errorText),
@@ -60,6 +70,9 @@ app.whenReady().then(async () => {
     `);
 
     ensure(info.hasApi, 'window.bee preload API bulunamadı.');
+    ensure(info.hasSoundApi, 'window.bee.sounds preload API bulunamadı.');
+    const soundCount = await win.webContents.executeJavaScript(`window.bee.sounds().then(x => Object.keys(x || {}).length)`);
+    ensure(soundCount === 20, `Ses IPC paketi 20 OGG döndürmedi: ${soundCount}`);
     ensure(info.canvas && info.canvas.width > 300 && info.canvas.height > 200, `3D canvas görünür değil: ${JSON.stringify(info)}`);
     ensure(!info.hasThreeError, 'Renderer 3D başlatma hatası gösterdi.');
     ensure(info.bodyWidth > 700 && info.bodyHeight > 500, `Oyun penceresi layoutu çökmüş: ${JSON.stringify(info)}`);
@@ -71,7 +84,7 @@ app.whenReady().then(async () => {
     if (rendererErrors.length) console.error('renderer errors:', rendererErrors);
     process.exitCode = 1;
   } finally {
-    for (const channel of ['bee:state','bee:summary','bee:action']) {
+    for (const channel of ['bee:state','bee:summary','bee:action','bee:sounds']) {
       try { ipcMain.removeHandler(channel); } catch (_) {}
     }
     if (win && !win.isDestroyed()) win.destroy();
