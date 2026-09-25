@@ -61,7 +61,8 @@ function resize() {
 window.addEventListener('resize', resize);
 
 // Işıklar: yumuşak gökyüzü + gölgeli güneş
-scene.add(new THREE.HemisphereLight(0xFFF6E0, 0x7FA36B, 1.15));
+const hemi = new THREE.HemisphereLight(0xFFF6E0, 0x7FA36B, 1.15);
+scene.add(hemi);
 const sun = new THREE.DirectionalLight(0xFFF1D6, 1.6);
 sun.position.set(-10, 22, 8);
 sun.castShadow = true;
@@ -86,6 +87,7 @@ const M = {
   roof: mat(0xD9743A),
   wood: mat(0x8A5A34),
   window: mat(0xBFE3EE),
+  lamp: mat(0xFFD27A, { emissive: 0xFFB84A, emissiveIntensity: 0.6 }),
   hive: mat(0xEBC983),
   hiveLight: mat(0xF4DCA6),
   hiveDark: mat(0xC99A55),
@@ -279,7 +281,7 @@ function makeDecor(id) {
   const iron = mat(0x3A3A3A);
   const stone = mat(0xBDB6AA);
   const water = mat(0x7FC8E0, { roughness: 0.2 });
-  const glow = mat(0xFFD27A, { emissive: 0xFFB84A, emissiveIntensity: 0.6 });
+  const glow = M.lamp;
   if (id === 'cit') {
     for (let i = 0; i < 4; i++) {
       const p = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.22, 0.05), white);
@@ -333,6 +335,7 @@ function makeCup(kind) {
 const hiveObjects = new Map(); // hiveId -> { group, pos }
 
 function buildItems() {
+  setTimeout(buildNightLights, 0);
   itemGroup.clear();
   hiveObjects.clear();
   for (const [k, t] of Object.entries(view.tiles)) {
@@ -793,9 +796,220 @@ for (const b of document.querySelectorAll('.speeds button')) {
 for (const b of document.querySelectorAll('[data-soon]')) {
   b.addEventListener('click', () => toast(`${b.dataset.soon} bir sonraki aşamada geliyor.`));
 }
+let lastSpeed = 1;
 window.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') { closePopup(); $('seed-modal').hidden = true; closeHive(); closeMarket(); closeOrders(); closeBoard(); closeShop(); $('guide-modal').hidden = true; cancelPlacing(); }
+  if (e.key === 'Escape') {
+    closePopup(); $('seed-modal').hidden = true; closeHive(); closeMarket(); closeOrders(); closeBoard(); closeShop();
+    $('guide-modal').hidden = true; cancelPlacing(); closeLedger(); closeStats();
+    return;
+  }
+  // Yazı yazarken ya da tanıtım açıkken kısayollar çalışmasın
+  if (e.target.closest('input, textarea, select') || !$('tour').hidden || e.ctrlKey || e.altKey || e.metaKey) return;
+  const k = e.code;
+  if (k === 'KeyH') { e.preventDefault(); doAct('harvestAll'); }
+  else if (k === 'KeyP') { e.preventDefault(); openMarket(); }
+  else if (k === 'KeyS') { e.preventDefault(); openOrders(); }
+  else if (k === 'KeyD') { e.preventDefault(); openLedger(); }
+  else if (k === 'KeyF') { e.preventDefault(); takePhoto(); }
+  else if (k === 'Space') {
+    e.preventDefault();
+    if (!view) return;
+    if (view.speed) { lastSpeed = view.speed; doAct('speed', 0); } else doAct('speed', lastSpeed || 1);
+  }
 });
+
+// ---------------------------------------------------------------------------
+// Günlük görevler
+// ---------------------------------------------------------------------------
+let questsSig = '';
+$('quests-toggle').addEventListener('click', () => $('quests').classList.toggle('closed'));
+function renderQuests() {
+  const list = view.quests || [];
+  const sig = JSON.stringify(list.map((q) => [q.id, Math.floor(q.progress * 10), q.claimed]));
+  const open = list.filter((q) => !q.claimed).length;
+  $('quests-count').textContent = open ? `${list.length - open}/${list.length}` : 'tamam ✓';
+  if (sig === questsSig) return;
+  questsSig = sig;
+  $('quest-list').innerHTML = list.map((q) => {
+    const done = q.progress >= q.target;
+    const pct = Math.min(100, (q.progress / q.target) * 100);
+    const prog = q.target > 1 ? `${(Math.floor(q.progress * 10) / 10).toLocaleString('tr-TR')} / ${q.target}` : (done ? '1 / 1' : '0 / 1');
+    const reward = `+${q.reward} 🪙${q.voucher ? ` · 🎁 ${esc(view.flowers[q.voucher].name)}` : ''}`;
+    return `<li class="quest${q.claimed ? ' claimed' : ''}">
+      <div class="qtop"><span>${esc(q.text)}</span><span class="qrew">${q.claimed ? 'alındı' : reward}</span></div>
+      ${q.claimed ? '' : `<div class="qbar"><i style="width:${pct}%"></i></div><small class="qrew">${prog}</small>`}
+      ${done && !q.claimed ? `<button type="button" data-claim="${q.id}">Ödülü al</button>` : ''}
+    </li>`;
+  }).join('');
+}
+$('quest-list').addEventListener('click', (e) => {
+  const b = e.target.closest('[data-claim]');
+  if (b) doAct('claimQuest', b.dataset.claim);
+});
+
+// ---------------------------------------------------------------------------
+// İsim düzenleme (kovan ve çiftlik)
+// ---------------------------------------------------------------------------
+function inlineRename(labelEl, inputEl, current, onSave) {
+  inputEl.value = current;
+  labelEl.hidden = true;
+  inputEl.hidden = false;
+  inputEl.focus();
+  inputEl.select();
+  const finish = (save) => {
+    inputEl.onkeydown = null;
+    inputEl.onblur = null;
+    inputEl.hidden = true;
+    labelEl.hidden = false;
+    const v = inputEl.value.trim();
+    if (save && v && v !== current) onSave(v);
+  };
+  inputEl.onkeydown = (e) => { if (e.key === 'Enter') finish(true); if (e.key === 'Escape') { e.stopPropagation(); finish(false); } };
+  inputEl.onblur = () => finish(true);
+}
+$('h-name').addEventListener('click', () => {
+  const h = view.hives[openHiveId];
+  if (h) inlineRename($('h-name'), $('h-name-input'), h.name, (n) => doAct('renameHive', openHiveId, n));
+});
+$('farm-name').addEventListener('click', () => inlineRename($('farm-name'), $('farm-name-input'), view.farmName, (n) => doAct('setFarmName', n)));
+
+// ---------------------------------------------------------------------------
+// Bal Defteri
+// ---------------------------------------------------------------------------
+let ledgerOpen = false;
+let ledgerTab = 'honey';
+let ledgerSig = '';
+function openLedger() { ledgerOpen = true; $('ledger-modal').hidden = false; renderLedger(true); }
+function closeLedger() { ledgerOpen = false; $('ledger-modal').hidden = true; }
+$('open-ledger').addEventListener('click', openLedger);
+$('ledger-close').addEventListener('click', closeLedger);
+$('ledger-modal').addEventListener('click', (e) => { if (e.target === $('ledger-modal')) closeLedger(); });
+for (const b of document.querySelectorAll('[data-ltab]')) {
+  b.addEventListener('click', () => {
+    ledgerTab = b.dataset.ltab;
+    for (const x of document.querySelectorAll('[data-ltab]')) x.classList.toggle('on', x === b);
+    renderLedger(true);
+  });
+}
+const LABEL_COLORS = ['#E0626A', '#3F7FBF', '#6FAF7F', '#9C7BD6', '#D9793B', '#4A3A22'];
+let labelDraft = null;
+
+function renderLedger(force = false) {
+  if (!ledgerOpen || !view) return;
+  const sig = JSON.stringify([ledgerTab, view.ledger, view.farmName, view.label, view.questsDone, view.festival.cups, labelDraft]);
+  if (!force && sig === ledgerSig) return;
+  ledgerSig = sig;
+  $('farm-name').textContent = `🏡 ${view.farmName}`;
+  const L = view.ledger;
+  const n = (v, d = 1) => (Math.round(v * 10 ** d) / 10 ** d).toLocaleString('tr-TR');
+  let html = '';
+  if (ledgerTab === 'honey') {
+    html = `<div class="ledger-grid">${Object.entries(view.flowers).map(([f, def]) => {
+      const h = L.honey[f];
+      if (!h || !h.first) {
+        return `<div class="page locked"><div class="jar"></div><b>??? Balı</b>
+          <small>Henüz üretmedin. ${esc(def.name)} tohumu ekip kovanın yanına koyarsan bu sayfa açılır.</small></div>`;
+      }
+      return `<div class="page"><div class="jar" style="background:${def.color}"></div><b>${esc(def.name)} Balı</b>
+        <small>İlk kavanoz: ${h.first.year}. yıl, ${esc(h.first.season)}, ${h.first.day}. gün</small>
+        <small>Toplam hasat: ${n(h.kg)} kg · Satılan: ${n(h.soldKg)} kg</small>
+        <small>Kazanç: ${n(h.earned, 0)} 🪙 · En iyi fiyat: ${h.bestPrice ? `${n(h.bestPrice)} 🪙/kg` : '—'}</small></div>`;
+    }).join('')}</div>`;
+  } else if (ledgerTab === 'records') {
+    const totalKg = Object.values(L.honey).reduce((a, x) => a + x.kg, 0);
+    const found = Object.values(L.honey).filter((x) => x.first).length;
+    const maxBees = Math.max(0, ...Object.values(view.hives).map((h) => h.bees));
+    const best = L.bestSale ? `${n(L.bestSale.coins, 0)} 🪙 (${n(L.bestSale.kg)} kg ${esc(view.flowers[L.bestSale.flower].name)})` : '—';
+    const cups = (view.festival.cups || []).map((c) => `${c.cup === 'altın' ? '🥇' : c.cup === 'gümüş' ? '🥈' : '🥉'} ${c.year}. yıl`).join(' · ');
+    const rec = (label, val) => `<div class="rec"><small>${label}</small><b>${val}</b></div>`;
+    html = `<div class="records">
+      ${rec('Toplam hasat', `${n(totalKg)} kg`)}${rec('Bal türleri', `${found} / ${Object.keys(view.flowers).length}`)}
+      ${rec('Hasat sayısı', n(L.harvests, 0))}${rec('Teslim edilen sipariş', n(L.ordersDone, 0))}
+      ${rec('Yapılan mum', n(L.candlesMade, 0))}${rec('Tamamlanan görev', n(view.questsDone, 0))}
+      ${rec('En kalabalık kovan', `${maxBees} arı`)}${rec('En büyük satış', best)}
+    </div><p class="cups-line">🏆 Kupalar: ${cups || 'henüz yok, Bal Festivali seni bekliyor!'}</p>`;
+  } else {
+    const cur = labelDraft || view.label || { design: 'klasik', color: LABEL_COLORS[0] };
+    labelDraft = cur;
+    html = `<div class="label-wrap">
+      <div class="big-jar"><div class="lbl ${cur.design}" style="background-color:${cur.color}">${esc(view.farmName)}<br><small>saf bal</small></div></div>
+      <div class="label-opts">
+        <b>Desen</b>
+        <div class="row2">${Object.entries(view.labelDesigns).map(([id, nm]) => `<button type="button" data-design="${id}" class="${cur.design === id ? 'on' : ''}">${esc(nm)}</button>`).join('')}</div>
+        <b>Renk</b>
+        <div class="row2">${LABEL_COLORS.map((c) => `<button type="button" class="swatch${cur.color === c ? ' on' : ''}" data-color="${c}" style="background:${c}" aria-label="Renk ${c}"></button>`).join('')}</div>
+        <p class="modal-sub" style="margin:0">Etiketin olduğunda müdavim köylülerin (en az 1 kalp) siparişlerinde %${Math.round(view.labelBonus * 100)} bahşiş verir.</p>
+        <button type="button" class="act primary" id="label-save">${view.label ? 'Etiketi güncelle' : 'Etiketi kaydet'}</button>
+      </div></div>`;
+  }
+  $('ledger-body').innerHTML = html;
+}
+$('ledger-body').addEventListener('click', async (e) => {
+  const d = e.target.closest('[data-design]');
+  const c = e.target.closest('[data-color]');
+  if (d) { labelDraft = { ...labelDraft, design: d.dataset.design }; renderLedger(true); }
+  else if (c) { labelDraft = { ...labelDraft, color: c.dataset.color }; renderLedger(true); }
+  else if (e.target.id === 'label-save') await doAct('setLabel', labelDraft.design, labelDraft.color);
+});
+
+// ---------------------------------------------------------------------------
+// İstatistikler
+// ---------------------------------------------------------------------------
+let statsOpen = false;
+let statsSig = '';
+function openStats() { statsOpen = true; $('stats-modal').hidden = false; renderStats(true); }
+function closeStats() { statsOpen = false; $('stats-modal').hidden = true; }
+$('open-stats').addEventListener('click', openStats);
+$('stats-close').addEventListener('click', closeStats);
+$('stats-modal').addEventListener('click', (e) => { if (e.target === $('stats-modal')) closeStats(); });
+
+function barChart(values, color, unit) {
+  if (!values.length || values.every((v) => !v)) return '<div class="empty">Henüz veri yok. Birkaç oyun günü sonra burada grafik belirecek.</div>';
+  const max = Math.max(...values, 1);
+  const w = 600 / values.length;
+  const bars = values.map((v, i) => {
+    const h = (v / max) * 92;
+    return `<rect x="${i * w + w * 0.15}" y="${100 - h}" width="${w * 0.7}" height="${h}" rx="4" fill="${color}"><title>${v.toLocaleString('tr-TR')} ${unit}</title></rect>`;
+  }).join('');
+  return `<svg viewBox="0 0 600 104" preserveAspectRatio="none" aria-hidden="true">${bars}<line x1="0" y1="100.5" x2="600" y2="100.5" stroke="#E3D3A9"/></svg>`;
+}
+
+function renderStats(force = false) {
+  if (!statsOpen || !view) return;
+  const sig = JSON.stringify([view.history, view.today]);
+  if (!force && sig === statsSig) return;
+  statsSig = sig;
+  const hist = (view.history || []).slice(-14);
+  const nw = (view.leaderboard.find((r) => r.me) || {}).nw || 0;
+  const rec = (label, val) => `<div class="rec"><small>${label}</small><b>${val}</b></div>`;
+  $('stats-body').innerHTML = `
+    <div class="stat-today">
+      ${rec('Bugün üretilen', `${view.today.produced.toLocaleString('tr-TR')} kg`)}
+      ${rec('Bugün kazanılan', `${view.today.earned.toLocaleString('tr-TR')} 🪙`)}
+      ${rec('Net değer', `${nw.toLocaleString('tr-TR')} 🪙`)}
+    </div>
+    <div class="chart"><h3>🍯 Günlük bal üretimi (son ${hist.length || 0} oyun günü)</h3>${barChart(hist.map((d) => d.produced), '#F2B33D', 'kg')}</div>
+    <div class="chart"><h3>🪙 Günlük kazanç</h3>${barChart(hist.map((d) => d.earned), '#6FAF7F', 'jeton')}</div>
+    <div class="chart"><h3>🏆 Net değer (son 14 gün)</h3>${barChart((view.leaderboard.find((r) => r.me) || {}).history || [], '#9C7BD6', 'jeton')}</div>`;
+}
+
+// ---------------------------------------------------------------------------
+// Fotoğraf modu
+// ---------------------------------------------------------------------------
+async function takePhoto() {
+  document.body.classList.add('photo');
+  await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+  await new Promise((r) => setTimeout(r, 120));
+  let res = null;
+  try { res = await window.bee.photo(); } finally { document.body.classList.remove('photo'); }
+  if (res && res.ok) {
+    SFX.coin();
+    toast('📷 Fotoğraf Resimler\\Nero Arıcılık klasörüne kaydedildi. (klasörü açmak için tıkla)');
+    const last = $('toasts').lastElementChild;
+    if (last) { last.style.cursor = 'pointer'; last.addEventListener('click', () => window.bee.openPhotos()); }
+  }
+}
+$('photo-btn').addEventListener('click', takePhoto);
 
 // ---------------------------------------------------------------------------
 // Yerleştirme modu (Mağaza'dan satın alınca bir kare seçilir)
@@ -925,7 +1139,7 @@ const SFX = {
   place: () => { tone(330, 0.08, 'square', 0.04); tone(495, 0.1, 'triangle', 0.05, 0.06); },
   err: () => { tone(200, 0.18, 'sine', 0.06, 0, 140); }
 };
-function updateSoundBtn() { $('sound-btn').textContent = soundOn ? '🔊' : '🔇'; }
+function updateSoundBtn() { $('sound-btn').textContent = soundOn ? '🔊' : '🔇'; if ($('ambient-btn')) $('ambient-btn').style.opacity = soundOn ? '1' : '.45'; }
 $('sound-btn').addEventListener('click', () => {
   soundOn = !soundOn;
   try { localStorage.setItem('bee-sound', soundOn ? 'on' : 'off'); } catch (_) { /* yoksay */ }
@@ -1030,7 +1244,7 @@ function applySeason(season) {
 let precip = null; // 'snow' | 'rain' | null
 function weatherFx() {
   if (!view) return;
-  precip = currentSeason === 'kis' ? 'snow' : view.weather.id === 'yagmurlu' ? 'rain' : null;
+  precip = view.weather.id === 'karli' ? 'snow' : view.weather.id === 'yagmurlu' ? 'rain' : null;
   $('snow').hidden = !precip;
 }
 const snowCanvas = $('snow');
@@ -1563,6 +1777,7 @@ const SEASON_ICON = { ilkbahar: '🌸', yaz: '☀️', sonbahar: '🍂', kis: '�
 let noticeShown = false;
 
 function applyView(v) {
+  setTimeout(() => { renderQuests(); renderLedger(); renderStats(); }, 0);
   const first = !view;
   view = v;
   $('coins').textContent = Math.floor(v.coins).toLocaleString('tr-TR');
@@ -1634,9 +1849,151 @@ function updateLabels() {
 // ---------------------------------------------------------------------------
 // Döngü
 // ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
+// Gece modu: gerçek saatle 19:00–07:00 (sadece görünüş, üretim etkilenmez)
+// ---------------------------------------------------------------------------
+const DAY_LIGHT = { hemi: 1.15, sun: 1.6, hemiColor: new THREE.Color(0xFFF6E0), sunColor: new THREE.Color(0xFFF1D6) };
+const NIGHT_LIGHT = { hemi: 0.62, sun: 0.45, hemiColor: new THREE.Color(0x7F8FC8), sunColor: new THREE.Color(0x9FB0E0) };
+let night = 0;
+let lampLights = [];
+let houseLight = null;
+let fireflies = null;
+
+// 0 = gündüz, 1 = gece. Akşam 18:30–19:15 ve sabah 06:45–07:30 arasında yumuşak geçiş.
+function nightLevel(d = new Date()) {
+  const h = d.getHours() + d.getMinutes() / 60;
+  const ramp = (x, a, b) => Math.min(1, Math.max(0, (x - a) / (b - a)));
+  if (h >= 12) return ramp(h, 18.5, 19.25);
+  return 1 - ramp(h, 6.75, 7.5);
+}
+
+function buildNightLights() {
+  if (!view) return;
+  for (const l of lampLights) scene.remove(l);
+  lampLights = [];
+  for (const t of Object.values(view.tiles)) {
+    if (t.decor !== 'fener' || lampLights.length >= 8) continue;
+    const p = hexToWorld(t.q, t.r);
+    const l = new THREE.PointLight(0xFFB84A, 0, 4, 1.4);
+    l.position.set(p.x + 0.52, topY(t) + 0.75, p.z + 0.42);
+    scene.add(l);
+    lampLights.push(l);
+  }
+  if (!houseLight) { houseLight = new THREE.PointLight(0xFFC266, 0, 3, 1.5); scene.add(houseLight); }
+  const hk = view.houseKey && view.tiles[view.houseKey];
+  if (hk) { const p = hexToWorld(hk.q, hk.r); houseLight.position.set(p.x, topY(hk) + 0.6, p.z + 0.7); }
+  // Ateş böcekleri: her kovanın çevresinde küçük parlayan noktalar
+  if (fireflies) scene.remove(fireflies);
+  const pts = [];
+  for (const { pos } of hiveObjects.values()) {
+    for (let i = 0; i < 9; i++) pts.push({ c: pos.clone(), a: Math.random() * 6.28, r: 0.5 + Math.random() * 0.9, h: 0.4 + Math.random() * 0.8, s: 0.3 + Math.random() * 0.5 });
+  }
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.Float32BufferAttribute(new Float32Array(Math.max(1, pts.length) * 3), 3));
+  fireflies = new THREE.Points(geo, new THREE.PointsMaterial({ color: 0xFFF3A0, size: 0.14, transparent: true, opacity: 0, depthWrite: false, blending: THREE.AdditiveBlending }));
+  fireflies.userData.pts = pts;
+  scene.add(fireflies);
+}
+
+function applyNight() {
+  night = nightLevel();
+  hemi.intensity = DAY_LIGHT.hemi + (NIGHT_LIGHT.hemi - DAY_LIGHT.hemi) * night;
+  sun.intensity = DAY_LIGHT.sun + (NIGHT_LIGHT.sun - DAY_LIGHT.sun) * night;
+  hemi.color.copy(DAY_LIGHT.hemiColor).lerp(NIGHT_LIGHT.hemiColor, night);
+  sun.color.copy(DAY_LIGHT.sunColor).lerp(NIGHT_LIGHT.sunColor, night);
+  M.window.emissive.setHex(0xFFB84A);
+  M.window.emissiveIntensity = night * 1.6;
+  M.lamp.emissiveIntensity = 0.3 + night * 1.2;
+  for (const l of lampLights) l.intensity = night * 3;
+  if (houseLight) houseLight.intensity = night * 2;
+  // Gökyüzü: şafak/gün batımı tonu geçişin ortasında en belirgin
+  $('sky-night').style.opacity = String(night * 0.92);
+  $('sky-dusk').style.opacity = String(Math.min(1, 4 * night * (1 - night)) * 0.85);
+  document.body.classList.toggle('night', night > 0.5);
+}
+setInterval(applyNight, 30 * 1000);
+
+function animateFireflies(t) {
+  if (!fireflies) return;
+  const m = fireflies.material;
+  m.opacity = Math.max(0, night - 0.3) / 0.7 * (0.75 + Math.sin(t * 3) * 0.2);
+  if (m.opacity <= 0.01) return;
+  const arr = fireflies.geometry.attributes.position.array;
+  fireflies.userData.pts.forEach((p, i) => {
+    const a = p.a + t * p.s;
+    arr[i * 3] = p.c.x + Math.cos(a) * p.r;
+    arr[i * 3 + 1] = p.c.y + p.h + Math.sin(t * 1.3 + p.a) * 0.15;
+    arr[i * 3 + 2] = p.c.z + Math.sin(a * 1.2) * p.r;
+  });
+  fireflies.geometry.attributes.position.needsUpdate = true;
+}
+
+// ---------------------------------------------------------------------------
+// Ortam sesleri: gündüz kuşlar ve arılar, gece cırcır böcekleri, yağmurda yağmur
+// ---------------------------------------------------------------------------
+let ambientOn = true;
+try { ambientOn = localStorage.getItem('bee-ambient') !== 'off'; } catch (_) { /* yoksay */ }
+const amb = { started: false, buzz: null, rain: null };
+function updateAmbientBtn() { $('ambient-btn').style.opacity = ambientOn && soundOn ? '1' : '.45'; }
+$('ambient-btn').addEventListener('click', () => {
+  ambientOn = !ambientOn;
+  try { localStorage.setItem('bee-ambient', ambientOn ? 'on' : 'off'); } catch (_) { /* yoksay */ }
+  updateAmbientBtn();
+  toast(ambientOn ? '🎵 Ortam sesleri açık' : '🎵 Ortam sesleri kapalı');
+});
+updateAmbientBtn();
+
+function ambientStart() {
+  if (amb.started) return;
+  try {
+    actx = actx || new AudioContext();
+    // Arı vızıltısı: çok kısık, hafifçe dalgalanan alçak bir ton
+    const buzz = actx.createOscillator(); buzz.type = 'sawtooth'; buzz.frequency.value = 176;
+    const bf = actx.createBiquadFilter(); bf.type = 'lowpass'; bf.frequency.value = 420;
+    const bg = actx.createGain(); bg.gain.value = 0;
+    const lfo = actx.createOscillator(); lfo.frequency.value = 0.35;
+    const lg = actx.createGain(); lg.gain.value = 6;
+    lfo.connect(lg).connect(buzz.frequency);
+    buzz.connect(bf).connect(bg).connect(actx.destination);
+    buzz.start(); lfo.start();
+    // Yağmur: filtrelenmiş beyaz gürültü
+    const buf = actx.createBuffer(1, actx.sampleRate * 2, actx.sampleRate);
+    const d = buf.getChannelData(0);
+    for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+    const noise = actx.createBufferSource(); noise.buffer = buf; noise.loop = true;
+    const nf = actx.createBiquadFilter(); nf.type = 'bandpass'; nf.frequency.value = 1800; nf.Q.value = 0.6;
+    const ng = actx.createGain(); ng.gain.value = 0;
+    noise.connect(nf).connect(ng).connect(actx.destination);
+    noise.start();
+    amb.buzz = bg; amb.rain = ng; amb.started = true;
+  } catch (_) { /* ses altyapısı yoksa sessiz geç */ }
+}
+
+function ambientTick() {
+  const on = ambientOn && soundOn && view && document.visibilityState === 'visible';
+  if (on) ambientStart();
+  if (!amb.started) return;
+  const now = actx.currentTime;
+  const raining = view && view.weather.id === 'yagmurlu';
+  amb.buzz.gain.setTargetAtTime(on && night < 0.5 && !raining ? 0.006 : 0, now, 0.8);
+  amb.rain.gain.setTargetAtTime(on && raining ? 0.035 : 0, now, 0.8);
+  if (!on) return;
+  if (night < 0.5 && !raining && Math.random() < 0.35) {
+    // Kuş cıvıltısı: kısa, hızlı iki üç nota
+    const base = 2200 + Math.random() * 1400;
+    const n = 2 + Math.floor(Math.random() * 3);
+    for (let i = 0; i < n; i++) tone(base + Math.random() * 500, 0.07, 'sine', 0.012, i * 0.09, base * 1.25);
+  } else if (night >= 0.5 && Math.random() < 0.7) {
+    // Cırcır böceği: yüksek, titrek kısa darbeler
+    for (let i = 0; i < 3; i++) tone(4300, 0.035, 'triangle', 0.006, i * 0.06);
+  }
+}
+setInterval(ambientTick, 1100);
+
 const clock = new THREE.Clock();
 function loop() {
   const t = clock.getElapsedTime();
+  animateFireflies(t);
   animateBees(t);
   animateKeeper(t);
   drawComb(t);
@@ -1650,6 +2007,7 @@ function loop() {
   placeCamera();
   resize();
   applyView(await window.bee.state());
+  applyNight();
   window.bee.onState(applyView);
   window.bee.onEvents((events) => events.forEach((e) => { if (e.msg) { toast(e.msg, e.err); reactEvent(e); } }));
   if (!view.tutorialDone) startTour();

@@ -46,12 +46,19 @@ const WEATHER = {
   yagmurlu: { name: 'Yağmurlu', icon: '🌧️', mult: 0.6 },
   karli: { name: 'Karlı', icon: '🌨️', mult: 1.0 }
 };
+// Mevsime göre hava: yaz hep güneşli; sonbahar bulutlu/yağmurlu; ilkbahar karışık; kış yağmurlu/karlı
 const WEATHER_ODDS = {
-  ilkbahar: [['gunesli', 0.4], ['bulutlu', 0.35], ['yagmurlu', 0.25]],
-  yaz: [['gunesli', 0.65], ['bulutlu', 0.25], ['yagmurlu', 0.1]],
-  sonbahar: [['gunesli', 0.25], ['bulutlu', 0.4], ['yagmurlu', 0.35]],
-  kis: [['bulutlu', 0.45], ['karli', 0.4], ['gunesli', 0.15]]
+  ilkbahar: [['gunesli', 0.45], ['bulutlu', 0.3], ['yagmurlu', 0.25]],
+  yaz: [['gunesli', 1]],
+  sonbahar: [['bulutlu', 0.55], ['yagmurlu', 0.45]],
+  kis: [['karli', 0.6], ['yagmurlu', 0.4]]
 };
+
+// Günlük görevler (gerçek güne bağlı, her gün 3 görev)
+const QUEST_TYPES = ['harvest', 'harvestFlower', 'sell', 'deliver', 'candle', 'plant'];
+const LABEL_DESIGNS = { klasik: 'Klasik', cicekli: 'Çiçekli', petek: 'Petek', sade: 'Sade' };
+const LABEL_BONUS = 0.05;          // etiketli kavanoz: müdavimler %5 fazla öder
+const HISTORY_KEEP = 20;
 const SICK_CHANCE = 0.03;          // kış dışında, kovan başına günlük hastalanma ihtimali
 const SICK_MULT = 0.7;             // hasta kovan %30 daha az üretir
 const MEDICINE_COST = 120;
@@ -216,6 +223,16 @@ class BeeGame {
       festival: { entry: null, cups: [], lastYear: 0 }, ...this.state
     });
     for (const h of Object.values(this.state.hives)) if (!h.breed) h.breed = 'anadolu';
+    Object.assign(this.state, {
+      farmName: 'Nero Çiftliği', quests: null, questsDone: 0, milestones: {}, history: [],
+      label: null, ledger: { honey: {}, harvests: 0, ordersDone: 0, candlesMade: 0, bestSale: null, maxBees: 0 },
+      ...this.state
+    });
+    this.state.counters.earned = this.state.counters.earned || 0;
+    this.dayStart = { produced: this.state.counters.produced, earned: this.state.counters.earned };
+    // Eski kayıtlarda mevsime uymayan hava kalmışsa (ör. kışın güneş) düzelt
+    const season0 = this.calendar().season;
+    if (!WEATHER_ODDS[season0].some(([w]) => w === this.state.weather)) this.rollWeather(season0, true);
     this.alertSeen = {};
     this.events = [];
     this.lastDay = this.dayIndex();
@@ -362,6 +379,13 @@ class BeeGame {
 
   // --- Günlük olaylar: üreme, kış kaybı -------------------------------------
   onNewDay(dayIdx) {
+    const c = this.state.counters;
+    this.state.history = [...(this.state.history || []), {
+      day: dayIdx - 1,
+      produced: Math.round((c.produced - this.dayStart.produced) * 10) / 10,
+      earned: Math.round(c.earned - this.dayStart.earned)
+    }].slice(-HISTORY_KEEP);
+    this.dayStart = { produced: c.produced, earned: c.earned };
     this.rollMarket();
     this.rollRivals();
     const season = SEASONS[Math.floor(dayIdx / DAYS_PER_SEASON) % 4];
@@ -507,6 +531,8 @@ class BeeGame {
     if (prize) {
       this.state.coins += prize.coins;
       f.cups.push({ year, cup: prize.cup, flower: entry.flower });
+      this.state.counters.earned += prize.coins;
+      this.milestone('ilk_kupa', 'İlk festival kupanı kazandın');
       this.events.push({ msg: `🏆 Bal festivalinde ${place}. oldun! ${prize.cup[0].toUpperCase() + prize.cup.slice(1)} kupa ve +${prize.coins} 🪙` });
     } else {
       this.events.push({ msg: `🎪 Bal festivalinde ${place}. oldun. Birinci: ${all[0].name}. Seneye!`, err: true });
@@ -531,6 +557,8 @@ class BeeGame {
     if (this.state.wax + 1e-6 < CANDLE_WAX) return this.fail(`Mum için ${CANDLE_WAX * 1000} g balmumu gerekli (${Math.round(this.state.wax * 1000)} g var).`);
     this.state.wax -= CANDLE_WAX;
     this.state.candles += 1;
+    this.state.ledger.candlesMade += 1;
+    this.questProgress('candle', 1);
     this.save();
     return { ok: true, msg: '🕯️ Bir mum yaptın.' };
   }
@@ -546,18 +574,145 @@ class BeeGame {
     const n = this.state.candles;
     this.state.candles = 0;
     this.state.coins += gain;
+    this.state.counters.earned += gain;
     this.save();
     return { ok: true, msg: `${n} mum satıldı (+${gain} 🪙).` };
   }
 
+  // --- Bal Defteri -----------------------------------------------------------------
+  ledgerHoney(f) {
+    const h = this.state.ledger.honey;
+    if (!h[f]) h[f] = { kg: 0, soldKg: 0, earned: 0, bestPrice: 0, first: null };
+    return h[f];
+  }
+
+  recordHarvest(hive, moved, scale) {
+    const cal = this.calendar();
+    for (const [f, kg] of Object.entries(this.lastHoney || {})) {
+      const L = this.ledgerHoney(f);
+      const took = kg * scale;
+      if (!L.first && took > 0.01) {
+        L.first = { day: cal.day, season: cal.seasonName, year: cal.year };
+        this.events.push({ msg: `📖 Bal Defteri'ne yeni sayfa: ilk ${FLOWERS[f].name} balın!` });
+      }
+      L.kg += took;
+      this.questProgress('harvestFlower', took, f);
+    }
+    this.state.ledger.harvests += 1;
+    this.questProgress('harvest', moved);
+    const total = Object.values(this.state.ledger.honey).reduce((a, x) => a + x.kg, 0);
+    if (total >= 20) this.milestone('ilk_kavanoz', 'İlk kavanoz: toplam 20 kg bal hasat ettin');
+    if (Object.keys(FLOWERS).every((f) => (this.state.ledger.honey[f] || {}).first)) this.milestone('tum_ballar', 'Yedi balın hepsini ürettin');
+  }
+
+  // Nero rozetlerine sonradan bağlanabilsin diye büyük anlar kaydedilir (şimdilik sadece kayıt)
+  milestone(id, text) {
+    if (this.state.milestones[id]) return;
+    this.state.milestones[id] = Date.now();
+    this.events.push({ msg: `🌟 ${text}`, milestone: id });
+  }
+
+  // --- Günlük görevler -------------------------------------------------------------
+  todayKey() { return new Date().toDateString(); }
+
+  ensureQuests() {
+    const q = this.state.quests;
+    if (q && q.day === this.todayKey()) return;
+    const planted = this.plantedFlowers();
+    const pool = QUEST_TYPES.filter((t) => t !== 'harvestFlower' || planted.length);
+    const list = [];
+    while (list.length < 3 && pool.length) {
+      const type = pool.splice(Math.floor(Math.random() * pool.length), 1)[0];
+      const quest = { id: uid(), type, progress: 0, claimed: false };
+      if (type === 'harvest') Object.assign(quest, { target: 5 + Math.floor(Math.random() * 3) * 5, reward: 60 });
+      if (type === 'harvestFlower') Object.assign(quest, { flower: planted[Math.floor(Math.random() * planted.length)], target: 3 + Math.floor(Math.random() * 4), reward: 70 });
+      if (type === 'sell') Object.assign(quest, { target: 5 + Math.floor(Math.random() * 3) * 3, reward: 50 });
+      if (type === 'deliver') Object.assign(quest, { target: 1, reward: 80 });
+      if (type === 'candle') Object.assign(quest, { target: 1, reward: 40 });
+      if (type === 'plant') Object.assign(quest, { target: 1, reward: 40 });
+      // Arada bir ödül hediye tohum olur
+      if (Math.random() < 0.2) {
+        const tiers = ['papatya', 'aycicegi', 'kekik'];
+        quest.voucher = tiers[Math.floor(Math.random() * tiers.length)];
+      }
+      list.push(quest);
+    }
+    this.state.quests = { day: this.todayKey(), list };
+  }
+
+  questProgress(type, amount, flower) {
+    this.ensureQuests();
+    for (const q of this.state.quests.list) {
+      if (q.type !== type || q.claimed || q.progress >= q.target) continue;
+      if (type === 'harvestFlower' && q.flower !== flower) continue;
+      q.progress = Math.min(q.target, q.progress + amount);
+      if (q.progress >= q.target) this.events.push({ msg: '✅ Günlük görev tamamlandı! Ödülünü almayı unutma.' });
+    }
+  }
+
+  claimQuest(id) {
+    this.ensureQuests();
+    const q = this.state.quests.list.find((x) => x.id === id);
+    if (!q || q.claimed) return this.fail('Görev bulunamadı.');
+    if (q.progress < q.target) return this.fail('Görev henüz tamamlanmadı.');
+    q.claimed = true;
+    this.state.coins += q.reward;
+    this.state.questsDone += 1;
+    if (q.voucher) this.state.vouchers[q.voucher] = (this.state.vouchers[q.voucher] || 0) + 1;
+    this.save();
+    return { ok: true, msg: `Görev ödülü: +${q.reward} 🪙${q.voucher ? ` ve 1 ${FLOWERS[q.voucher].name} tohumu 🎁` : ''}` };
+  }
+
+  questText(q) {
+    const f = q.flower ? FLOWERS[q.flower].name : '';
+    return {
+      harvest: `${q.target} kg bal hasat et`,
+      harvestFlower: `${q.target} kg ${f} balı hasat et`,
+      sell: `Pazarda ${q.target} kg bal sat`,
+      deliver: 'Bir siparişi teslim et',
+      candle: 'Bir mum yap',
+      plant: 'Bir tarh ek ya da yeniden ek'
+    }[q.type];
+  }
+
+  // --- İsimler ve kavanoz etiketi -----------------------------------------------
+  cleanName(name, max = 24) { return String(name || '').replace(/[<>]/g, '').trim().slice(0, max); }
+
+  renameHive(hiveId, name) {
+    const h = this.state.hives[hiveId];
+    const n = this.cleanName(name);
+    if (!h || !n) return this.fail('Geçerli bir isim yaz.');
+    h.name = n;
+    this.save();
+    return { ok: true, msg: `Kovanın yeni adı: ${n}` };
+  }
+
+  setFarmName(name) {
+    const n = this.cleanName(name, 28);
+    if (!n) return this.fail('Geçerli bir isim yaz.');
+    this.state.farmName = n;
+    this.save();
+    return { ok: true, msg: `Çiftliğinin adı artık "${n}".` };
+  }
+
+  setLabel(design, color) {
+    if (!LABEL_DESIGNS[design] || !/^#[0-9a-fA-F]{6}$/.test(String(color))) return this.fail('Geçersiz etiket.');
+    const first = !this.state.label;
+    this.state.label = { design, color };
+    this.save();
+    return { ok: true, msg: first ? 'Kavanoz etiketin hazır! Müdavimlerin artık %5 bahşiş verir.' : 'Etiket güncellendi.' };
+  }
+
   // --- Hava durumu, hastalık, tanıtım -----------------------------------------
-  rollWeather(season) {
+  rollWeather(season, silent = false) {
     const odds = WEATHER_ODDS[season];
     let x = Math.random();
     let pick = odds[odds.length - 1][0];
     for (const [w, p] of odds) { if (x < p) { pick = w; break; } x -= p; }
     this.state.weather = pick;
+    if (silent) return;
     if (pick === 'yagmurlu') this.events.push({ msg: '🌧️ Bugün yağmurlu, arılar kovandan pek çıkmıyor.' });
+    else if (pick === 'karli') this.events.push({ msg: '🌨️ Bugün kar yağıyor. Arılar kovanda ısınıyor.' });
   }
 
   giveMedicine(hiveId) {
@@ -696,6 +851,15 @@ class BeeGame {
     this.state.storage[f] = have - kg;
     if (this.state.storage[f] < 0.001) delete this.state.storage[f];
     this.state.coins += gain;
+    this.state.counters.earned += gain;
+    const L = this.ledgerHoney(f);
+    L.soldKg += kg;
+    L.earned += gain;
+    const unit = gain / kg;
+    if (!L.bestPrice || unit > L.bestPrice) L.bestPrice = Math.round(unit * 10) / 10;
+    const best = this.state.ledger.bestSale;
+    if (!best || gain > best.coins) this.state.ledger.bestSale = { coins: gain, flower: f, kg: Math.round(kg * 10) / 10 };
+    this.questProgress('sell', kg);
     this.save();
     return { ok: true, msg: `${kg.toFixed(1)} kg ${FLOWERS[f].name} balı satıldı (+${gain} 🪙).` };
   }
@@ -780,11 +944,16 @@ class BeeGame {
     if (have + 1e-6 < ord.kg) return this.fail(`Depoda yeterli ${FLOWERS[ord.flower].name} balı yok (${have.toFixed(1)} / ${ord.kg} kg).`);
     this.state.storage[ord.flower] = have - ord.kg;
     if (this.state.storage[ord.flower] < 0.001) delete this.state.storage[ord.flower];
-    this.state.coins += ord.reward;
+    const known = ((this.state.customers[ord.who] || {}).hearts || 0) > 0;
+    const extra = known && this.state.label ? Math.round(ord.reward * LABEL_BONUS) : 0;
+    this.state.coins += ord.reward + extra;
+    this.state.counters.earned += ord.reward + extra;
     this.state.orders.list = this.state.orders.list.filter((x) => x.id !== id);
     this.bond(ord.who);
+    this.state.ledger.ordersDone += 1;
+    this.questProgress('deliver', 1);
     this.save();
-    return { ok: true, msg: `${ord.who} çok memnun kaldı! +${ord.reward} 🪙` };
+    return { ok: true, msg: `${ord.who} çok memnun kaldı! +${ord.reward} 🪙${extra ? ` (+${extra} etiket bahşişi)` : ''}` };
   }
 
   rejectOrder(id) {
@@ -998,6 +1167,7 @@ class BeeGame {
     if (u.type === 'queen') {
       h.queens += 1;
       h.capBees = u.capBees;
+      if (u.capBees >= 20) this.milestone('kovan_20', `${h.name} 20 arılık dev bir kovan oldu`);
       this.save();
       return { ok: true, msg: `${QUEEN_NAMES[h.queens]} geldi! Kapasite ${u.capBees} arı.` };
     }
@@ -1083,6 +1253,7 @@ class BeeGame {
     if (!free && this.state.coins < def.seed) return this.fail(`Yeterli jeton yok (${def.seed} gerekli).`);
     if (free) this.state.vouchers[flower] -= 1; else this.state.coins -= def.seed;
     t.item = { type: 'flower', flower, plantedDay: this.dayIndex(), wilted: false };
+    this.questProgress('plant', 1);
     this.save();
     return { ok: true, msg: free ? `${def.name} hediye tohumla ekildi 🎁` : `${def.name} ekildi (-${def.seed} 🪙).` };
   }
@@ -1095,6 +1266,7 @@ class BeeGame {
     this.state.coins -= def.seed;
     t.item.plantedDay = this.dayIndex();
     t.item.wilted = false;
+    this.questProgress('plant', 1);
     this.save();
     return { ok: true, msg: `${def.name} yeniden ekildi (-${def.seed} 🪙).` };
   }
@@ -1110,6 +1282,7 @@ class BeeGame {
   // 1. aşamada anında hasat; arıcının yürüyüşü 2. aşamada gelecek.
   harvestHive(hiveId) {
     const hive = this.state.hives[hiveId];
+    if (hive) this.lastHoney = { ...hive.honey };
     if (!hive) return this.fail('Kovan bulunamadı.');
     const total = this.hiveTotal(hive);
     if (total < 0.05) return this.fail('Hasat edilecek bal yok.');
@@ -1127,6 +1300,7 @@ class BeeGame {
     }
     const wax = moved * WAX_PER_KG;
     this.state.wax += wax;
+    this.recordHarvest(hive, moved, scale);
     this.save();
     return { ok: true, msg: `+${moved.toFixed(1)} kg bal depoya eklendi (+${Math.round(wax * 1000)} g balmumu).`, kg: moved };
   }
@@ -1208,6 +1382,19 @@ class BeeGame {
       clusterTiles: Object.fromEntries(Object.entries(this.state.tiles)
         .filter(([, t]) => t.item && t.item.type === 'flower').map(([k]) => [k, this.clusterBonus(k) > 0])),
       leaderboard: this.leaderboard(),
+      farmName: this.state.farmName,
+      quests: (this.ensureQuests(), this.state.quests.list.map((q) => ({ ...q, text: this.questText(q) }))),
+      questsDone: this.state.questsDone,
+      ledger: this.state.ledger,
+      history: this.state.history,
+      today: {
+        produced: Math.round((this.state.counters.produced - this.dayStart.produced) * 10) / 10,
+        earned: Math.round(this.state.counters.earned - this.dayStart.earned)
+      },
+      label: this.state.label,
+      labelDesigns: LABEL_DESIGNS,
+      labelBonus: LABEL_BONUS,
+      milestones: this.state.milestones,
       dayMs: DAY_GAME_MS,
       marketEvent: this.state.market.event,
       seasonPrice: SEASON_PRICE[this.calendar().season],

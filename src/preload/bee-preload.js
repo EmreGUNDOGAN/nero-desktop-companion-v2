@@ -4,6 +4,8 @@ const { contextBridge, ipcRenderer } = require('electron');
 contextBridge.exposeInMainWorld('bee', {
   state: () => ipcRenderer.invoke('bee:state'),
   summary: () => ipcRenderer.invoke('bee:summary'),
+  photo: () => ipcRenderer.invoke('bee:photo'),
+  openPhotos: () => ipcRenderer.invoke('bee:openPhotos'),
   act: (action, a, b) => ipcRenderer.invoke('bee:action', action, a, b),
   onState: (fn) => {
     const handler = (_e, v) => fn(v);
