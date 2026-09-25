@@ -740,6 +740,7 @@ class BeeGame {
     this.state.coins -= BREED_CHANGE_COST;
     h.breed = breed;
     h.invested += BREED_CHANGE_COST;
+    this.questEvent('breedChange', { hiveId, breed });
     this.save();
     return { ok: true, msg: `${h.name} artık ${BREEDS[breed].name} kraliçesiyle.` };
   }
@@ -750,6 +751,7 @@ class BeeGame {
     this.state.wax -= CANDLE_WAX;
     this.state.candles += 1;
     this.state.ledger.candlesMade += 1;
+    this.questEvent('candleMake');
     this.questProgress('candle', 1);
     this.save();
     return { ok: true, msg: '🕯️ Bir mum yaptın.' };
@@ -767,6 +769,7 @@ class BeeGame {
     this.state.candles = 0;
     this.state.coins += gain;
     this.state.counters.earned += gain;
+    this.questEvent('candleSell', { count: n, gain });
     this.save();
     return { ok: true, msg: `${n} mum satıldı (+${gain} 🪙).` };
   }
@@ -1229,24 +1232,24 @@ class BeeGame {
 
   recordHarvest(hive, moved, scale) {
     const cal = this.calendar();
+    const byFlower = {};
     for (const [f, kg] of Object.entries(this.lastHoney || {})) {
       const L = this.ledgerHoney(f);
       const took = kg * scale;
+      byFlower[f] = took;
       if (!L.first && took > 0.01) {
         L.first = { day: cal.day, season: cal.seasonName, year: cal.year };
         this.events.push({ msg: `📖 Bal Defteri'ne yeni sayfa: ilk ${FLOWERS[f].name} balın!` });
       }
       L.kg += took;
-      this.questProgress('harvestFlower', took, f);
     }
     this.state.ledger.harvests += 1;
-    this.questProgress('harvest', moved);
+    this.questEvent('harvest', { kg: moved, hiveId: hive.id, byFlower });
     const total = Object.values(this.state.ledger.honey).reduce((a, x) => a + x.kg, 0);
     if (total >= 20) this.milestone('ilk_kavanoz', 'İlk kavanoz: toplam 20 kg bal hasat ettin');
     if (Object.keys(FLOWERS).every((f) => (this.state.ledger.honey[f] || {}).first)) this.milestone('tum_ballar', 'Yedi balın hepsini ürettin');
   }
 
-  // Nero rozetlerine sonradan bağlanabilsin diye büyük anlar kaydedilir (şimdilik sadece kayıt)
   milestone(id, text) {
     if (this.state.milestones[id]) return;
     this.state.milestones[id] = Date.now();
@@ -1506,6 +1509,7 @@ class BeeGame {
     this.state.coins -= medCost;
     this.recoverHive(h, this.dayIndex(), false);
     this.state.ledger.cured += 1;
+    this.questEvent('cure');
     this.save();
     return { ok: true, msg: `${h.name} iyileşti 💊` };
   }
@@ -1651,7 +1655,7 @@ class BeeGame {
     if (!L.bestPrice || unit > L.bestPrice) L.bestPrice = Math.round(unit * 10) / 10;
     const best = this.state.ledger.bestSale;
     if (!best || gain > best.coins) this.state.ledger.bestSale = { coins: gain, flower: f, kg: Math.round(kg * 10) / 10 };
-    this.questProgress('sell', kg);
+    this.questEvent('sell', { kg, flower: f, gain });
     this.save();
     return { ok: true, msg: `${kg.toFixed(1)} kg ${FLOWERS[f].name} balı satıldı (+${gain} 🪙).` };
   }
@@ -1742,6 +1746,7 @@ class BeeGame {
     if (!ord || ord.status !== 'open') return this.fail('Sipariş bulunamadı.');
     ord.status = 'accepted';
     ord.deadline = this.state.gameMs + ord.days * DAY_GAME_MS;
+    this.questEvent('acceptOrder', { who: ord.who });
     this.save();
     return { ok: true, msg: `Sipariş kabul edildi (${ord.who}). ${ord.days} gün içinde teslim et.` };
   }
@@ -1754,6 +1759,7 @@ class BeeGame {
     this.state.storage[ord.flower] = have - ord.kg;
     if (this.state.storage[ord.flower] < 0.001) delete this.state.storage[ord.flower];
     const known = ((this.state.customers[ord.who] || {}).hearts || 0) > 0;
+    const wasRegular = known;
     const extra = known && this.state.label ? Math.round(ord.reward * LABEL_BONUS) : 0;
     this.state.coins += ord.reward + extra;
     this.state.counters.earned += ord.reward + extra;
@@ -1765,7 +1771,7 @@ class BeeGame {
     LD.deliveredOrdersBy[ord.flower] = (LD.deliveredOrdersBy[ord.flower] || 0) + 1;
     LD.deliveredTo[ord.who] = (LD.deliveredTo[ord.who] || 0) + 1;
     if (ord.special === 'muhtarlik') LD.muhtarlikDone += 1;
-    this.questProgress('deliver', 1);
+    this.questEvent('deliver', { who: ord.who, regular: wasRegular });
     this.state.village.deliveredKg += ord.kg;
     this.checkVillage();
     this.save();
@@ -2000,6 +2006,7 @@ class BeeGame {
     h.bees += 1;
     h.beesBought += 1;
     h.invested += price;
+    this.questEvent('buyBee', { hiveId });
     this.save();
     return { ok: true, msg: `Yeni bir arı aldın (-${price} 🪙).` };
   }
@@ -2028,6 +2035,7 @@ class BeeGame {
     h.invested += u.cost;
     h.level += 1;
     if (u.type === 'queen') {
+      this.questEvent('upgrade', { kind: 'queen', hiveId });
       h.queens += 1;
       h.capBees = u.capBees;
       if (u.capBees >= 20) this.milestone('kovan_20', `${h.name} 20 arılık dev bir kovan oldu`);
@@ -2035,6 +2043,7 @@ class BeeGame {
       return { ok: true, msg: `${QUEEN_NAMES[h.queens]} geldi! Kapasite ${u.capBees} arı.` };
     }
     h.capKg = u.capKg;
+    this.questEvent('upgrade', { kind: 'hive', hiveId });
     this.save();
     return { ok: true, msg: `Kovan büyüdü: artık ${u.capKg} kg bal alıyor.` };
   }
@@ -2047,6 +2056,7 @@ class BeeGame {
     this.state.coins -= syrupCost;
     h.syrup += SYRUP_KG;
     this.state.ledger.syrupGiven += 1;
+    this.questEvent('syrup', { hiveId });
     this.save();
     return { ok: true, msg: `${h.name}: +${SYRUP_KG} kg kış erzakı.` };
   }
@@ -2104,6 +2114,7 @@ class BeeGame {
     const id = uid();
     const n = Object.keys(this.state.hives).length + 1;
     this.state.hives[id] = newHive(id, `Kovan ${n}`, 4, HIVE_COST);
+    this.questEvent('placeHive', { hiveId: id });
     t.item = { type: 'hive', id };
     this.save();
     return { ok: true, msg: `${this.state.hives[id].name} kuruldu (-${HIVE_COST} 🪙).` };
@@ -2119,7 +2130,7 @@ class BeeGame {
     if (!free && this.state.coins < seedCost) return this.fail(`Yeterli jeton yok (${seedCost} gerekli).`);
     if (free) this.state.vouchers[flower] -= 1; else this.state.coins -= seedCost;
     t.item = { type: 'flower', flower, plantedDay: this.dayIndex(), wilted: false };
-    this.questProgress('plant', 1);
+    this.questEvent('plant', { flower });
     this.save();
     return { ok: true, msg: free ? `${def.name} hediye tohumla ekildi 🎁` : `${def.name} ekildi (-${seedCost} 🪙).` };
   }
@@ -2133,7 +2144,7 @@ class BeeGame {
     this.state.coins -= seedCost;
     t.item.plantedDay = this.dayIndex();
     t.item.wilted = false;
-    this.questProgress('plant', 1);
+    this.questEvent('revive', { flower: t.item.flower });
     this.save();
     return { ok: true, msg: `${def.name} yeniden canlandı (-${seedCost} 🪙).` };
   }
