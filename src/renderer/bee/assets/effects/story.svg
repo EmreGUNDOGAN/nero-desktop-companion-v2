@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='utf-8'?>
+<ns0:svg xmlns:ns0="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="96" height="96"><ns0:g stroke="#76563c" stroke-width="2.4" stroke-linejoin="round">
+    <ns0:path d="M19 23q18-6 29 3 11-9 29-3v49q-17-5-29 4-12-9-29-4z" fill="#fff8df" /><ns0:path d="M48 26v50" fill="none" />
+    <ns0:path d="M24 33q11-2 18 1M24 40q11-2 18 1M54 35q9-4 17-2" fill="none" stroke="#ddac58" stroke-width="2" />
+    <ns0:path d="M48 55c-10-10-17 4 0 13 17-9 10-23 0-13z" fill="#e87867" stroke="#bc5d55" />
+  </ns0:g></ns0:svg>
