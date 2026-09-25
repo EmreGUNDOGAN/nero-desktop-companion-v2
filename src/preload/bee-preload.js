@@ -6,6 +6,9 @@ contextBridge.exposeInMainWorld('bee', {
   summary: () => ipcRenderer.invoke('bee:summary'),
   photo: () => ipcRenderer.invoke('bee:photo'),
   openPhotos: () => ipcRenderer.invoke('bee:openPhotos'),
+  exportSave: () => ipcRenderer.invoke('bee:export'),
+  importSave: () => ipcRenderer.invoke('bee:import'),
+  resetGame: () => ipcRenderer.invoke('bee:reset'),
   act: (action, a, b) => ipcRenderer.invoke('bee:action', action, a, b),
   onState: (fn) => {
     const handler = (_e, v) => fn(v);

@@ -190,8 +190,16 @@ function openBeeWindow() {
     return true;
   }
 
+  // Pencerenin son boyutu ve konumu hatırlanır (ekran dışında kaldıysa varsayılana döner)
+  const saved = settings().beeBounds;
+  let bounds = { width: 1100, height: 720 };
+  if (saved && saved.width >= 820 && saved.height >= 560) {
+    const area = screen.getDisplayMatching(saved).workArea;
+    const visible = saved.x < area.x + area.width - 100 && saved.x + saved.width > area.x + 100 && saved.y >= area.y - 20 && saved.y < area.y + area.height - 100;
+    bounds = visible ? saved : { width: Math.min(saved.width, area.width), height: Math.min(saved.height, area.height) };
+  }
   beeWin = new BrowserWindow({
-    width: 1100, height: 720, minWidth: 820, minHeight: 560,
+    ...bounds, minWidth: 820, minHeight: 560,
     title: 'Nero · Arıcılık', backgroundColor: '#CFE9F7',
     autoHideMenuBar: true, show: false,
     icon: iconPath,
@@ -202,6 +210,11 @@ function openBeeWindow() {
   });
   beeWin.loadFile(path.join(__dirname, '..', 'renderer', 'bee', 'index.html'));
   beeWin.once('ready-to-show', () => { if (beeWin && !beeWin.isDestroyed()) beeWin.show(); });
+  beeWin.on('close', () => {
+    try {
+      if (!beeWin.isMinimized()) settingsStore.patch({ beeBounds: beeWin.isMaximized() ? beeWin.getNormalBounds() : beeWin.getBounds() });
+    } catch (_) { /* yoksay */ }
+  });
   beeWin.on('closed', () => {
     beeWin = null;
     if (bee) bee.markAway();
@@ -1552,6 +1565,10 @@ function registerIpc() {
       readNotifs: () => bee.readNotifs(),
       merchantBuy: () => bee.merchantBuy(arg1, arg2),
       merchantSell: () => bee.merchantSell(arg1),
+      readLetter: () => bee.readLetter(arg1),
+      setting: () => bee.setGameSetting(arg1, arg2),
+      syrupAll: () => bee.giveSyrupAll(),
+      deliverReady: () => bee.deliverReady(),
       placeDecor: () => bee.placeDecor(arg1, arg2),
       removeDecor: () => bee.removeDecor(arg1),
       enterFestival: () => bee.enterFestival(arg1, arg2),
@@ -2435,7 +2452,7 @@ const backupDir = path.join(app.getPath('userData'), 'yedekler');
 async function exportBee() {
   const d = new Date();
   const stamp = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-  const res = await dialog.showSaveDialog(panelWin || beeWin, {
+  const res = await dialog.showSaveDialog(beeDialogParent(), {
     title: 'Arıcılık kaydını dışa aktar',
     defaultPath: path.join(app.getPath('documents'), `nero-aricilik-${stamp}.json`),
     filters: [{ name: 'Nero arıcılık kaydı', extensions: ['json'] }]
@@ -2448,7 +2465,7 @@ async function exportBee() {
 }
 
 async function importBee() {
-  const parent = panelWin || beeWin;
+  const parent = beeDialogParent();
   const res = await dialog.showOpenDialog(parent, {
     title: 'Arıcılık kaydını içe aktar',
     filters: [{ name: 'Nero arıcılık kaydı', extensions: ['json'] }],
@@ -2480,8 +2497,13 @@ async function importBee() {
   return { ok: true };
 }
 
+// Oyun ayarları artık oyunun içinde: pencereler oyun penceresinin üstünde açılsın
+function beeDialogParent() {
+  return beeWin && !beeWin.isDestroyed() ? beeWin : panelWin;
+}
+
 async function resetBee() {
-  const parent = panelWin || beeWin;
+  const parent = beeDialogParent();
   const first = await dialog.showMessageBox(parent, {
     type: 'warning',
     buttons: ['Devam et', 'Vazgeç'],

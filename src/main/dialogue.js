@@ -69,6 +69,7 @@ const CATEGORY_DEFAULTS = {
   bee_overtaken: { e: 'angry' },
   bee_sick: { e: 'sad' },
   bee_merchant: { e: 'surprised' },
+  bee_letter: { e: 'curious' },
   reminder: { e: 'curious' },
   remind_water: { e: 'normal' },
   remind_break: { e: 'curious' },

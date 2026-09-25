@@ -503,7 +503,7 @@ function buildBees() {
         targets.push(new THREE.Vector3(p.x, topY(n) + 0.45, p.z));
       }
     }
-    const count = Math.min(h.bees, 8);
+    const count = Math.min(h.bees, GFX[gfx].bees);
     for (let i = 0; i < count; i++) {
       const b = makeBee();
       b.scale.setScalar(1.7);
@@ -610,6 +610,7 @@ canvas.addEventListener('pointermove', (e) => {
     return;
   }
   hoverKey = pickTile(e.clientX, e.clientY);
+  showHoverTip(hoverKey, e.clientX, e.clientY);
   updateHover();
 });
 canvas.addEventListener('pointerup', (e) => {
@@ -793,7 +794,7 @@ function renderNotifs() {
   const list = view.notifs || [];
   const fmt = (t) => new Date(t).toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
   $('notif-list').innerHTML = list.length
-    ? list.map((n, i) => `<li class="${n.err ? 'err' : ''}${i < openUnread ? ' new' : ''}"><time>${fmt(n.t)}</time><span>${esc(n.msg)}</span></li>`).join('')
+    ? list.map((n, i) => `<li class="${n.err ? 'err' : ''}${i < openUnread ? ' new' : ''}${n.go ? ' go' : ''}" data-ni="${i}" title="${n.go ? 'Tıkla, ilgili yere git' : ''}"><time>${fmt(n.t)}</time><span>${esc(n.msg)}</span></li>`).join('')
     : '<li class="empty">Henüz bildirim yok.</li>';
 }
 let openUnread = 0;
@@ -817,6 +818,8 @@ function toast(msg, err = false) {
 }
 
 async function doAct(action, a, b) {
+  const cost = costOf(action, a, b);
+  if (cost >= 500 && !window.confirm(`Bu işlem ${cost.toLocaleString('tr-TR')} 🪙 tutuyor. Emin misin?`)) return null;
   const { res, view: v, events } = await window.bee.act(action, a, b);
   if (res && res.msg) toast(res.msg, !res.ok);
   if (res) react(action, res);
@@ -837,6 +840,7 @@ window.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
     closePopup(); $('seed-modal').hidden = true; closeHive(); closeMarket(); closeOrders(); closeBoard(); closeShop();
     $('guide-modal').hidden = true; cancelPlacing(); closeLedger(); closeStats(); closeNotifs(); closeMerchant();
+    $('settings-modal').hidden = true; $('hives-modal').hidden = true; $('keys-modal').hidden = true;
     return;
   }
   // Yazı yazarken ya da tanıtım açıkken kısayollar çalışmasın
@@ -847,6 +851,10 @@ window.addEventListener('keydown', (e) => {
   else if (k === 'KeyS') { e.preventDefault(); openOrders(); }
   else if (k === 'KeyD') { e.preventDefault(); openLedger(); }
   else if (k === 'KeyF') { e.preventDefault(); takePhoto(); }
+  else if (k === 'KeyK') { e.preventDefault(); openHives(); }
+  else if (k === 'KeyR') { e.preventDefault(); recenter(); }
+  else if (e.key === '?') { e.preventDefault(); $('keys-modal').hidden = false; }
+  else if ((k === 'ArrowLeft' || k === 'ArrowRight') && openHiveId) { e.preventDefault(); cycleHive(k === 'ArrowRight' ? 1 : -1); }
   else if (k === 'Space') {
     e.preventDefault();
     if (!view) return;
@@ -932,14 +940,21 @@ let labelDraft = null;
 
 function renderLedger(force = false) {
   if (!ledgerOpen || !view) return;
-  const sig = JSON.stringify([ledgerTab, view.ledger, view.farmName, view.label, view.questsDone, view.festival.cups, labelDraft, view.stories, view.village.residents.length]);
+  const sig = JSON.stringify([ledgerTab, view.ledger, view.farmName, view.label, view.questsDone, view.festival.cups, labelDraft, view.stories, view.village.residents.length, view.letters]);
   if (!force && sig === ledgerSig) return;
   ledgerSig = sig;
   $('farm-name').textContent = `🏡 ${view.farmName}`;
   const L = view.ledger;
   const n = (v, d = 1) => (Math.round(v * 10 ** d) / 10 ** d).toLocaleString('tr-TR');
   let html = '';
-  if (ledgerTab === 'village') {
+  if (ledgerTab === 'letters') {
+    const L = view.letters || [];
+    html = L.length ? L.map((l) => `<div class="letter-card${l.read ? '' : ' unread'}"><b>✉️ ${esc(l.from)}</b> <small>· ${esc(l.role)}</small>
+        <p>“${esc(l.text)}”</p>
+        ${l.gift ? `<small>${l.claimed ? '🎁 Hediye alındı' : '🎁 İçinde küçük bir hediye var'}</small>` : ''}
+        ${!l.read ? `<div><button type="button" class="act primary small-act" data-read="${l.id}">${l.gift ? 'Oku ve hediyeyi al' : 'Okundu'}</button></div>` : ''}</div>`).join('')
+      : '<div class="page locked"><b>Henüz mektup yok</b><small>Köylüler birkaç günde bir sana mektup yazar.</small></div>';
+  } else if (ledgerTab === 'village') {
     const V = view.village;
     const pct = V.nextKg ? Math.min(100, (V.deliveredKg / V.nextKg) * 100) : 100;
     const icon = { koylu: '🏠', dukkan: '🏪', bina: '🏛️' };
@@ -1231,7 +1246,7 @@ function say(text) {
   clearTimeout(bubbleTimer);
   bubbleTimer = setTimeout(() => { b.hidden = true; }, 4800);
 }
-$('nero').addEventListener('click', () => say(pick(NERO.click)));
+$('nero').addEventListener('click', () => { const h = view && view.hints && view.hints[0]; say(h && Math.random() < 0.6 ? h.text : pick(NERO.click)); });
 setInterval(() => { if ($('nero-bubble').hidden && Math.random() < 0.5) say(pick(NERO.idle)); }, 70000);
 
 // Göz takibi ve göz kırpma
@@ -1297,7 +1312,7 @@ function applySeason(season) {
 let precip = null; // 'snow' | 'rain' | null
 function weatherFx() {
   if (!view) return;
-  precip = view.weather.id === 'karli' ? 'snow' : view.weather.id === 'yagmurlu' ? 'rain' : null;
+  precip = !GFX[gfx].precip ? null : view.weather.id === 'karli' ? 'snow' : view.weather.id === 'yagmurlu' ? 'rain' : null;
   $('snow').hidden = !precip;
 }
 const snowCanvas = $('snow');
@@ -1312,7 +1327,7 @@ function drawSnow(t) {
   if (precip === 'rain') {
     sctx.strokeStyle = 'rgba(120,150,190,.45)';
     sctx.lineWidth = 1.4;
-    for (const f of flakes) {
+    for (const f of activeFlakes()) {
       f.y += f.s * 6 / 60;
       if (f.y > 1.02) { f.y = -0.02; f.x = Math.random(); }
       const x = f.x * w;
@@ -1322,7 +1337,7 @@ function drawSnow(t) {
     return;
   }
   sctx.fillStyle = 'rgba(255,255,255,.9)';
-  for (const f of flakes) {
+  for (const f of activeFlakes()) {
     f.y += f.s / 60;
     if (f.y > 1.02) { f.y = -0.02; f.x = Math.random(); }
     const x = (f.x + Math.sin(t * 0.8 + f.w) * 0.01) * w;
@@ -1462,7 +1477,7 @@ function renderOrders(force = false) {
   const meta = `${o.list.length} / ${o.max} sipariş · ` + (o.nextInMs === null ? 'liste dolu' : `yeni sipariş: ${view.speed ? realLeft(o.nextInMs, 1) : 'duraklatıldı'}`);
   $('orders-meta').innerHTML = `<span>${meta}</span><span>${openCount} yeni</span>`;
   // Kalan süreler her saniye değişir; listeyi sadece yapı değişince yeniden kur
-  const sig = JSON.stringify([o.list.map((x) => [x.id, x.status, x.have >= x.kg, Math.floor(view.coins / 10)]), view.customers]);
+  const sig = JSON.stringify([o.list.map((x) => [x.id, x.status, x.have >= x.kg, Math.floor(view.coins / 10)]), view.customers, $('order-sort').value]);
   if (!force && sig === ordersSig) {
     for (const x of o.list) {
       const el = document.querySelector(`[data-left="${x.id}"]`);
@@ -1476,7 +1491,14 @@ function renderOrders(force = false) {
     $('order-list').innerHTML = `<li class="order-empty">${o.planted ? 'Şu an sipariş yok. Yakında biri kapını çalar.' : 'Hiç çiçek ekmedin. Sipariş gelmesi için önce tohum ek.'}</li>`;
     return;
   }
-  $('order-list').innerHTML = o.list.map((x, i) => {
+  const sortBy = $('order-sort').value;
+  const sorted = o.list.slice().sort((p, q) => {
+    if (sortBy === 'reward') return q.reward - p.reward;
+    if (sortBy === 'ready') return (q.have >= q.kg) - (p.have >= p.kg) || (p.leftMs ?? 1e15) - (q.leftMs ?? 1e15);
+    return (p.leftMs ?? 1e15) - (q.leftMs ?? 1e15);
+  });
+  $('deliver-ready').disabled = !o.list.some((x) => x.status === 'accepted' && x.have + 1e-6 >= x.kg);
+  $('order-list').innerHTML = sorted.map((x, i) => {
     const f = view.flowers[x.flower];
     const enough = x.have + 1e-6 >= x.kg;
     const accepted = x.status === 'accepted';
@@ -1497,7 +1519,7 @@ function renderOrders(force = false) {
         <span class="reward">+${x.reward} 🪙</span>
       </div>
       <div class="tags">
-        <span class="${enough ? 'ok' : ''}">Depoda ${x.have.toFixed(1)} / ${x.kg} kg</span>
+        ${enough ? '<span class="ready-tag">✓ hazır</span>' : ''}<span class="${enough ? 'ok' : ''}">Depoda ${x.have.toFixed(1)} / ${x.kg} kg</span>
         ${timeTag}
       </div>
       <p class="note">${accepted ? 'Süresinde teslim edemezsen' : 'Kabul edip süresinde teslim edemezsen'} ödemenin %20'si (${x.penalty} 🪙) kesilir.</p>
@@ -1547,7 +1569,13 @@ function renderMarket(force = false) {
   $('m-festival').hidden = !ev;
   if (ev) $('m-festival').textContent = `🎉 Festival: ${view.flowers[ev.flower].name} balı %${ev.pct} daha değerli!`;
 
-  $('market-list').innerHTML = Object.entries(view.flowers).map(([f, def]) => {
+  let entries = Object.entries(view.flowers);
+  if ($('market-mine').checked) entries = entries.filter(([f]) => (view.storage[f] || 0) >= 0.05);
+  const ms = $('market-sort').value;
+  if (ms === 'price') entries.sort((p, q) => view.market[q[0]].price - view.market[p[0]].price);
+  if (ms === 'stock') entries.sort((p, q) => (view.storage[q[0]] || 0) - (view.storage[p[0]] || 0));
+  if (!entries.length) { $('market-list').innerHTML = '<li class="order-empty">Depoda satılacak bal yok.</li>'; }
+  else $('market-list').innerHTML = entries.map(([f, def]) => {
     const m = view.market[f];
     const have = view.storage[f] || 0;
     const cls = m.change > 0 ? 'up' : m.change < 0 ? 'down' : 'flat';
@@ -1830,6 +1858,13 @@ const SEASON_ICON = { ilkbahar: '🌸', yaz: '☀️', sonbahar: '🍂', kis: '�
 let noticeShown = false;
 
 function applyView(v) {
+  setTimeout(() => {
+    if (!view) return;
+    syncSettings();
+    const lb = $('letters-badge'); lb.hidden = !view.lettersUnread; lb.textContent = String(view.lettersUnread || 0);
+    if (!$('hives-modal').hidden) renderHives();
+    checkHints();
+  }, 0);
   setTimeout(() => { if (view && view.merchant) renderMerchant(); }, 0);
   setTimeout(renderNotifs, 0);
   setTimeout(() => { if (view && view.village) buildVillage(); }, 0);
@@ -1952,7 +1987,7 @@ function buildNightLights() {
 }
 
 function applyNight() {
-  night = nightLevel();
+  night = view && view.gameSettings && !view.gameSettings.night ? 0 : nightLevel();
   hemi.intensity = DAY_LIGHT.hemi + (NIGHT_LIGHT.hemi - DAY_LIGHT.hemi) * night;
   sun.intensity = DAY_LIGHT.sun + (NIGHT_LIGHT.sun - DAY_LIGHT.sun) * night;
   hemi.color.copy(DAY_LIGHT.hemiColor).lerp(NIGHT_LIGHT.hemiColor, night);
@@ -1974,7 +2009,7 @@ setInterval(applyNight, 30 * 1000);
 function animateFireflies(t) {
   if (!fireflies) return;
   const m = fireflies.material;
-  m.opacity = Math.max(0, night - 0.3) / 0.7 * (0.75 + Math.sin(t * 3) * 0.2);
+  m.opacity = GFX[gfx].fire ? Math.max(0, night - 0.3) / 0.7 * (0.75 + Math.sin(t * 3) * 0.2) : 0;
   if (m.opacity <= 0.01) return;
   const arr = fireflies.geometry.attributes.position.array;
   fireflies.userData.pts.forEach((p, i) => {
@@ -2195,12 +2230,218 @@ $('merchant-buy').addEventListener('click', (e) => {
   if (b && !b.disabled) doAct('merchantSell', b.dataset.msell);
 });
 
+// ---------------------------------------------------------------------------
+// 5.5.0 · Grafik kalitesi (arı sayısı sadece görüntü; üretim etkilenmez)
+// ---------------------------------------------------------------------------
+const GFX = {
+  yuksek: { bees: 8, shadows: true, shadowMap: 2048, pr: 2, precip: 1, fire: true, anim: true },
+  dengeli: { bees: 4, shadows: true, shadowMap: 1024, pr: 1.25, precip: 0.5, fire: true, anim: true },
+  hafif: { bees: 2, shadows: false, shadowMap: 512, pr: 1, precip: 0, fire: false, anim: false }
+};
+let gfx = 'dengeli';
+let gfxApplied = null;
+function activeFlakes() { return flakes.slice(0, Math.round(flakes.length * (GFX[gfx].precip || 0))); }
+function applyGraphics(level) {
+  if (!GFX[level] || gfxApplied === level) return;
+  const prevBees = gfxApplied ? GFX[gfxApplied].bees : null;
+  gfx = level;
+  gfxApplied = level;
+  const g = GFX[level];
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, g.pr));
+  renderer.shadowMap.enabled = g.shadows;
+  sun.castShadow = g.shadows;
+  sun.shadow.mapSize.set(g.shadowMap, g.shadowMap);
+  if (sun.shadow.map) { sun.shadow.map.dispose(); sun.shadow.map = null; }
+  scene.traverse((o) => { if (o.material) (Array.isArray(o.material) ? o.material : [o.material]).forEach((m) => { m.needsUpdate = true; }); });
+  resize();
+  if (prevBees !== null && prevBees !== g.bees && view) buildBees();
+  weatherFx();
+}
+
+// Ayarları durumdan uygula (ses, ortam, grafik, gece)
+function syncSettings() {
+  const s = view.gameSettings;
+  if (!s) return;
+  soundOn = s.sfx;
+  ambientOn = s.ambient;
+  applyGraphics(s.graphics);
+  applyNight();
+}
+
+// ---------------------------------------------------------------------------
+// Oyun içi Ayarlar
+// ---------------------------------------------------------------------------
+const NOTIFY_LABELS = { full: 'Kovan doldu', due: 'Sipariş süresi azaldı', sick: 'Kovan hastalandı', winter: 'Kış ve erzak', rival: 'Rakip seni geçti', merchant: 'Satıcı geldi', letter: 'Mektup geldi' };
+function renderSettings() {
+  const s = view.gameSettings;
+  for (const b of document.querySelectorAll('#gs-graphics button')) b.classList.toggle('on', b.dataset.g === s.graphics);
+  $('gs-night').checked = s.night;
+  $('gs-sfx').checked = s.sfx;
+  $('gs-ambient').checked = s.ambient;
+  $('gs-notify').innerHTML = Object.entries(NOTIFY_LABELS).map(([k, label]) => `<label><input type="checkbox" data-notify="${k}" ${s.notify[k] ? 'checked' : ''}> ${label}</label>`).join('');
+}
+$('open-settings').addEventListener('click', () => { renderSettings(); $('settings-modal').hidden = false; });
+$('settings-close').addEventListener('click', () => { $('settings-modal').hidden = true; });
+$('settings-modal').addEventListener('click', (e) => { if (e.target === $('settings-modal')) $('settings-modal').hidden = true; });
+const setSetting = async (k, v) => { await doAct('setting', k, v); renderSettings(); };
+$('gs-graphics').addEventListener('click', (e) => { const b = e.target.closest('[data-g]'); if (b) setSetting('graphics', b.dataset.g); });
+$('gs-night').addEventListener('change', (e) => setSetting('night', e.target.checked));
+$('gs-sfx').addEventListener('change', (e) => setSetting('sfx', e.target.checked));
+$('gs-ambient').addEventListener('change', (e) => setSetting('ambient', e.target.checked));
+$('gs-notify').addEventListener('change', (e) => { const k = e.target.dataset.notify; if (k) setSetting(`notify.${k}`, e.target.checked); });
+$('gs-export').addEventListener('click', () => window.bee.exportSave());
+$('gs-import').addEventListener('click', () => window.bee.importSave());
+$('gs-photos').addEventListener('click', () => window.bee.openPhotos());
+$('gs-reset').addEventListener('click', () => window.bee.resetGame());
+
+// ---------------------------------------------------------------------------
+// Pahalı işlem onayı (500 🪙 ve üstü)
+// ---------------------------------------------------------------------------
+function costOf(action, a, b) {
+  if (!view) return 0;
+  const h = a && view.hives[a];
+  switch (action) {
+    case 'upgrade': return h && h.next ? h.next.cost : 0;
+    case 'placeHive': return view.hiveCost;
+    case 'buyTile': return view.tilePrice;
+    case 'plantSeed': return view.vouchers[b] > 0 ? 0 : (view.flowers[b] || {}).seed || 0;
+    case 'upgradeStorage': return view.nextStorage ? view.nextStorage.cost : 0;
+    case 'changeBreed': return view.breedChangeCost;
+    case 'placeDecor': return (view.decor[b] || {}).cost || 0;
+    case 'syrupAll': return view.syrupAllCost;
+    case 'merchantBuy': { const it = view.merchant.stock && view.merchant.stock.find((x) => x.id === a); return it && it.basePrice ? it.basePrice : 0; }
+    default: return 0;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Üzerine gelince bilgi (kovan: doluluk ve üretim, tarh: kalan ömür)
+// ---------------------------------------------------------------------------
+function showHoverTip(k, x, y) {
+  const tip = $('hover-tip');
+  const t = k && view && view.tiles[k];
+  let html = '';
+  if (t && t.item && t.item.type === 'hive') {
+    const h = view.hives[t.item.id];
+    if (h) html = `🐝 ${esc(h.name)}<small>${h.total.toFixed(1)} / ${h.capKg} kg · ${h.ratePerHour.toFixed(1)} kg/sa${h.sick ? ' · 🤒 hasta' : ''}</small>`;
+  } else if (t && t.item && t.item.type === 'flower') {
+    const f = view.flowers[t.item.flower];
+    const left = Math.max(0, view.flowerLife - (view.dayIndex - (t.item.plantedDay || 0)));
+    html = `🌼 ${esc(f.name)}<small>${t.item.wilted ? '🥀 soldu, canlandırılabilir' : `kalan ömür: ${left} gün`}</small>`;
+  }
+  if (!html || drag) { tip.hidden = true; return; }
+  tip.innerHTML = html;
+  tip.hidden = false;
+  tip.style.left = `${Math.min(window.innerWidth - tip.offsetWidth - 8, x + 16)}px`;
+  tip.style.top = `${Math.max(8, y - 44)}px`;
+}
+canvas.addEventListener('pointerleave', () => { $('hover-tip').hidden = true; });
+
+// ---------------------------------------------------------------------------
+// Adaya dön (R) ve bir kovana odaklan
+// ---------------------------------------------------------------------------
+function recenter() { camTarget.set(0, 0, 0); zoom = 1.3; placeCamera(); resize(); closePopup(); }
+$('recenter').addEventListener('click', recenter);
+function focusHive(id) {
+  const o = hiveObjects.get(id);
+  if (o) { camTarget.set(o.pos.x, 0, o.pos.z); zoom = Math.max(zoom, 1.4); placeCamera(); resize(); }
+  $('hives-modal').hidden = true;
+  openHive(id);
+}
+function cycleHive(dir) {
+  const ids = Object.keys(view.hives);
+  if (!ids.length || !openHiveId) return;
+  const i = ids.indexOf(openHiveId);
+  const next = ids[(i + dir + ids.length) % ids.length];
+  const o = hiveObjects.get(next);
+  if (o) { camTarget.set(o.pos.x, 0, o.pos.z); placeCamera(); }
+  openHive(next);
+}
+$('hive-prev').addEventListener('click', () => cycleHive(-1));
+$('hive-next').addEventListener('click', () => cycleHive(1));
+
+// ---------------------------------------------------------------------------
+// Kovanlar özeti ve toplu şurup
+// ---------------------------------------------------------------------------
+function openHives() { renderHives(); $('hives-modal').hidden = false; }
+function renderHives() {
+  const hives = Object.values(view.hives);
+  $('hives-list').innerHTML = hives.map((h) => {
+    const pct = Math.min(100, (h.total / h.capKg) * 100);
+    const tags = [h.sick ? '🤒 hasta' : '', h.immuneDays > 0 && !h.sick ? `🛡️ ${h.immuneDays}g` : '', h.syrup > 0 ? `💧 ${h.syrup.toFixed(0)} kg` : '💧 yok', h.queued ? '🧺 yolda' : ''].filter(Boolean).join(' · ');
+    return `<li class="hrow" data-hive="${h.id}"><span><b>${esc(h.name)}</b><br><small>${h.ratePerHour.toFixed(1)} kg/sa · 👑 ${esc(h.queenName)}</small></span>
+      <span><div class="bar"><i style="width:${pct}%"></i></div><small>${h.total.toFixed(1)} / ${h.capKg} kg${pct >= 100 ? ' · Dolu!' : ''}</small></span>
+      <span>🐝 ${h.bees}/${h.capBees}</span><span class="tags">${tags}</span></li>`;
+  }).join('');
+  const sa = $('syrup-all');
+  sa.textContent = `💧 Tüm kovanlara şurup ver · ${view.syrupAllCost} 🪙`;
+  sa.disabled = view.coins < view.syrupAllCost;
+}
+$('open-hives').addEventListener('click', openHives);
+$('hives-close').addEventListener('click', () => { $('hives-modal').hidden = true; });
+$('hives-modal').addEventListener('click', (e) => { if (e.target === $('hives-modal')) $('hives-modal').hidden = true; });
+$('hives-list').addEventListener('click', (e) => { const r = e.target.closest('[data-hive]'); if (r) focusHive(r.dataset.hive); });
+$('syrup-all').addEventListener('click', async () => {
+  if (!window.confirm(`${Object.keys(view.hives).length} kovana şurup verilsin mi? Toplam ${view.syrupAllCost} 🪙`)) return;
+  await doAct('syrupAll');
+  renderHives();
+});
+
+// Kısayol listesi
+$('keys-close').addEventListener('click', () => { $('keys-modal').hidden = true; });
+$('keys-modal').addEventListener('click', (e) => { if (e.target === $('keys-modal')) $('keys-modal').hidden = true; });
+
+// Siparişler ve pazar araçları
+$('order-sort').addEventListener('change', () => renderOrders(true));
+$('deliver-ready').addEventListener('click', () => doAct('deliverReady'));
+$('market-mine').addEventListener('change', () => renderMarket(true));
+$('market-sort').addEventListener('change', () => renderMarket(true));
+
+// Mektuplar
+function setLedgerTab(tab) {
+  ledgerTab = tab;
+  for (const x of document.querySelectorAll('[data-ltab]')) x.classList.toggle('on', x.dataset.ltab === tab);
+  renderLedger(true);
+}
+$('ledger-body').addEventListener('click', (e) => { const b = e.target.closest('[data-read]'); if (b) doAct('readLetter', b.dataset.read); });
+
+// Bildirime tıklayınca ilgili yere git
+function navigate(go) {
+  if (!go) return;
+  closeNotifs();
+  if (go.to === 'orders') openOrders();
+  else if (go.to === 'merchant') openMerchant();
+  else if (go.to === 'market') openMarket();
+  else if (go.to === 'hives') openHives();
+  else if (go.to === 'hive' && view.hives[go.id]) focusHive(go.id);
+  else if (go.to === 'letters' || go.to === 'village') { openLedger(); setLedgerTab(go.to); }
+}
+$('notif-list').addEventListener('click', (e) => {
+  const li = e.target.closest('[data-ni]');
+  if (li) { const n = (view.notifs || [])[Number(li.dataset.ni)]; if (n && n.go) navigate(n.go); }
+});
+
+// Nero'dan durum ipuçları: yeni bir ipucu çıkınca (en fazla dakikada bir) söyler
+const saidHints = new Set();
+let lastHintAt = 0;
+function checkHints() {
+  const hs = view.hints || [];
+  for (const h of hs) {
+    if (saidHints.has(h.id)) continue;
+    if (Date.now() - lastHintAt < 60 * 1000) return;
+    saidHints.add(h.id);
+    lastHintAt = Date.now();
+    say(h.text);
+    return;
+  }
+}
+
 const clock = new THREE.Clock();
 function loop() {
   const t = clock.getElapsedTime();
   animateFireflies(t);
   animateBees(t);
-  for (const o of villageAnims) o(t);
+  if (GFX[gfx].anim) for (const o of villageAnims) o(t);
   animateKeeper(t);
   drawComb(t);
   drawSnow(t);
