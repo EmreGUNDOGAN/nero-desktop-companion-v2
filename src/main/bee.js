@@ -1,5 +1,5 @@
 // Arıcılık mini oyunu: oyun mantığı.
-// Nero'nun ana sürecinde çalışır; oyun penceresi kapalıyken de üretim sürer.
+// Nero'nun ana sürecinde çalışır; Arıcılık görülmedikten sonraki ilk 3 saat ilerler, sonra tamamen durur.
 // Durum JsonStore ile %APPDATA%\Nero\bee.json dosyasında tutulur.
 
 const VILLAGE = require('./village-data');
@@ -1197,7 +1197,7 @@ class BeeGame {
     if (!m.active) return { active: false };
     return {
       active: true, slot: m.slot, leftMs: Math.max(0, m.until * DAY_GAME_MS - this.state.gameMs), maxBuy: MERCHANT_MAX_BUY, bought: m.bought.length,
-      wants: m.wants, wantsLeft: Math.round(m.wantsLeft * 10) / 10, wantsPrice: Math.round(this.price(m.wants) * 1.4 * 10) / 10,
+      wants: m.wants, wantsLeft: Math.round(m.wantsLeft * 10) / 10, wantsPrice: Math.round(this.price(m.wants) * 1.4 * 10) / 10, salesTicketKg: Math.max(0, m.salesTicketKg || 0),
       stock: m.stock.map((x) => ({ ...x, ...MERCHANT_ITEMS[x.id], contents: (x.seeds || []).map((z) => FLOWERS[z].name), basePrice: this.merchantPrice(x.id, null, x) }))
     };
   }
