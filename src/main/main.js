@@ -187,6 +187,7 @@ function openBeeWindow() {
     if (beeWin.isMinimized()) beeWin.restore();
     beeWin.show();
     beeWin.focus();
+    bee.markSeen();
     return true;
   }
 
@@ -209,7 +210,13 @@ function openBeeWindow() {
     }
   });
   beeWin.loadFile(path.join(__dirname, '..', 'renderer', 'bee', 'index.html'));
-  beeWin.once('ready-to-show', () => { if (beeWin && !beeWin.isDestroyed()) beeWin.show(); });
+  beeWin.once('ready-to-show', () => {
+    if (beeWin && !beeWin.isDestroyed()) {
+      beeWin.show();
+      if (bee) bee.markSeen();
+    }
+  });
+  beeWin.on('focus', () => { if (bee) bee.markSeen(); });
   beeWin.on('close', () => {
     try {
       if (!beeWin.isMinimized()) settingsStore.patch({ beeBounds: beeWin.isMaximized() ? beeWin.getNormalBounds() : beeWin.getBounds() });
@@ -1553,7 +1560,6 @@ function registerIpc() {
   });
   ipcMain.handle('bee:action', (_e, action, arg1, arg2) => {
     if (!bee) return { res: { ok: false, msg: 'Arıcılık henüz hazır değil.' }, view: null, events: [] };
-    bee.markSeen();
     const map = {
       buyTile: () => bee.buyTile(arg1),
       placeHive: () => bee.placeHive(arg1),
@@ -1576,6 +1582,7 @@ function registerIpc() {
       speed: () => bee.setSpeed(Number(arg1)),
       medicine: () => bee.giveMedicine(arg1),
       readNotifs: () => bee.readNotifs(),
+      merchantQuote: () => bee.merchantQuote(arg1, arg2),
       merchantBuy: () => bee.merchantBuy(arg1, arg2),
       merchantSell: () => bee.merchantSell(arg1),
       readLetter: () => bee.readLetter(arg1),
@@ -1593,6 +1600,7 @@ function registerIpc() {
       renameHive: () => bee.renameHive(arg1, arg2),
       setFarmName: () => bee.setFarmName(arg1),
       setLabel: () => bee.setLabel(arg1, arg2),
+      claimEzgiWelcome: () => bee.claimEzgiWelcome(),
       finishTutorial: () => bee.finishTutorial()
     };
     const fn = map[action];
@@ -2166,6 +2174,7 @@ function startLoops() {
       const s = settings();
       if (!s.muted && !s.hidden && !mood.state.asleep && !mood.state.napping) {
         lastBeeAlertAt = Date.now();
+        if (s.sound && bee.notificationSoundEnabled(alerts[0].kind)) sendTo(charWin, 'sound', 'chime');
         say(alerts[0].kind, alerts[0].vars, { interrupt: false });
       }
     }
