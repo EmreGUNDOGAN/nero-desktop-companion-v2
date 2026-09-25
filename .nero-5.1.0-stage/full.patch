@@ -1,0 +1,1511 @@
+diff --git a/new/CHANGELOG-5.1.0.md b/CHANGELOG-5.1.0.md
+new file mode 100644
+index 0000000..7a43e33
+--- /dev/null
++++ b/CHANGELOG-5.1.0.md
+@@ -0,0 +1,18 @@
++# Nero 5.1.0
++
++### Yeni
++- **Günlük görevler:** her gün 3 küçük görev (bal hasat et, sat, sipariş teslim et, mum yap, tarh ek). Ödül jeton, bazen hediye tohum. Sol üstte katlanabilir kart.
++- **Bal Defteri (📖, D):** her bal türünün sayfası (ilk üretim, toplam hasat, satış, en iyi fiyat); kilitli sayfalar; kayıtlar ve kupalar.
++- **Çiftlik ve kovan isimleri:** kovan adına tıklayarak, çiftlik adını Bal Defteri'nde değiştirme.
++- **Kavanoz etiketi:** 4 desen, 6 renk; etiketin varsa müdavim köylüler siparişlerde %5 bahşiş verir.
++- **İstatistikler (📊):** bugünkü üretim ve kazanç, son günlerin üretim/kazanç grafikleri, net değer grafiği.
++- **Fotoğraf modu (📷, F):** arayüz gizlenir, adanın görüntüsü Resimler\Nero Arıcılık klasörüne kaydedilir.
++- **Gece modu:** gerçek saatle 19:00–07:00; gün batımı ve şafak geçişleri, yıldızlı gökyüzü, yanan fenerler ve ev pencereleri, ateş böcekleri. Sadece görünüş, üretim etkilenmez.
++- **Ortam sesleri (🎵):** gündüz kuşlar ve arı vızıltısı, gece cırcır böcekleri, yağmurda yağmur sesi. Çok kısık, kapatılabilir.
++- **Klavye kısayolları:** H hepsini hasat et, P Pazar, S Siparişler, D Bal Defteri, F fotoğraf, Boşluk duraklat/devam, Esc kapat.
++- Büyük anlar (ilk kavanoz, tüm ballar, 20 arılı kovan, ilk kupa) ileride rozetlere bağlanabilmesi için kaydediliyor.
++
++### Değişti
++- **Hava artık mevsime uygun:** yaz her gün güneşli; ilkbahar güneşli/bulutlu/yağmurlu; sonbahar bulutlu/yağmurlu; kış karlı/yağmurlu. Kışın güneşli gün yok. Eski kayıtlardaki uyumsuz hava açılışta düzeltiliyor.
++- Kar efekti artık sadece karlı günlerde yağıyor; yağmurlu günlerde (kış dahil) yağmur yağıyor.
++
+diff --git a/CHANGELOG.md b/CHANGELOG.md
+index 91de6a9..171ce01 100644
+--- a/CHANGELOG.md
++++ b/CHANGELOG.md
+@@ -2,6 +2,24 @@
+ 
+ Her sürümde eklenenler, değişenler ve düzeltilenler burada. En yeni sürüm en üstte.
+ 
++## 5.1.0: Arıcılıkta görevler, Bal Defteri, gece ve hava
++
++### Yeni
++- **Günlük görevler:** her gün 3 küçük görev (bal hasat et, sat, sipariş teslim et, mum yap, tarh ek). Ödül jeton, bazen hediye tohum. Sol üstte katlanabilir kart.
++- **Bal Defteri (📖, D):** her bal türünün sayfası (ilk üretim, toplam hasat, satış, en iyi fiyat); kilitli sayfalar; kayıtlar ve kupalar.
++- **Çiftlik ve kovan isimleri:** kovan adına tıklayarak, çiftlik adını Bal Defteri'nde değiştirme.
++- **Kavanoz etiketi:** 4 desen, 6 renk; etiketin varsa müdavim köylüler siparişlerde %5 bahşiş verir.
++- **İstatistikler (📊):** bugünkü üretim ve kazanç, son günlerin üretim/kazanç grafikleri, net değer grafiği.
++- **Fotoğraf modu (📷, F):** arayüz gizlenir, adanın görüntüsü Resimler\Nero Arıcılık klasörüne kaydedilir.
++- **Gece modu:** gerçek saatle 19:00–07:00; gün batımı ve şafak geçişleri, yıldızlı gökyüzü, yanan fenerler ve ev pencereleri, ateş böcekleri. Sadece görünüş, üretim etkilenmez.
++- **Ortam sesleri (🎵):** gündüz kuşlar ve arı vızıltısı, gece cırcır böcekleri, yağmurda yağmur sesi. Çok kısık, kapatılabilir.
++- **Klavye kısayolları:** H hepsini hasat et, P Pazar, S Siparişler, D Bal Defteri, F fotoğraf, Boşluk duraklat/devam, Esc kapat.
++- Büyük anlar (ilk kavanoz, tüm ballar, 20 arılı kovan, ilk kupa) ileride rozetlere bağlanabilmesi için kaydediliyor.
++
++### Değişti
++- **Hava artık mevsime uygun:** yaz her gün güneşli; ilkbahar güneşli/bulutlu/yağmurlu; sonbahar bulutlu/yağmurlu; kış karlı/yağmurlu. Kışın güneşli gün yok. Eski kayıtlardaki uyumsuz hava açılışta düzeltiliyor.
++- Kar efekti artık sadece karlı günlerde yağıyor; yağmurlu günlerde (kış dahil) yağmur yağıyor.
++
+ ## 5.0.0: Diyalog sistemi ve Arıcılık oyunu
+ 
+ ### Yeni
+diff --git a/new/docs/ARICILIK-REHBERI.md b/docs/ARICILIK-REHBERI.md
+new file mode 100644
+index 0000000..526c9c9
+--- /dev/null
++++ b/docs/ARICILIK-REHBERI.md
+@@ -0,0 +1,403 @@
++# 🐝 Nero'nun Arıcılık Oyunu — Oyuncu Rehberi
++
++Masaüstünde yaşayan Nero'nun içinde küçük bir arıcılık çiftliği var. Kovanlar kurup etrafına çiçek
++ekiyor, arılarının ürettiği balı hasat edip satıyor, köylülerin siparişlerini yetiştiriyor ve
++komşu arıcılarla yarışıyorsun. Oyun sen bakmazken de yavaş yavaş ilerler; birkaç günde değil,
++haftalar içinde büyüyen sakin bir çiftlik olarak tasarlandı.
++
++---
++
++## İçindekiler
++1. [Oyunu açmak](#1-oyunu-açmak)
++2. [Ekran](#2-ekran)
++3. [İlk adımlar](#3-ilk-adımlar)
++4. [Zaman, mevsimler ve hava](#4-zaman-mevsimler-ve-hava)
++5. [Ada ve yerleşim](#5-ada-ve-yerleşim)
++6. [Çiçekler](#6-çiçekler)
++7. [Kovanlar ve arılar](#7-kovanlar-ve-arılar)
++8. [Hasat](#8-hasat)
++9. [Depo ve Pazar](#9-depo-ve-pazar)
++10. [Siparişler ve köylüler](#10-siparişler-ve-köylüler)
++11. [Balmumu ve mum](#11-balmumu-ve-mum)
++12. [Dekorlar](#12-dekorlar)
++13. [Yıllık Bal Festivali](#13-yıllık-bal-festivali)
++14. [Rakipler ve liderlik](#14-rakipler-ve-liderlik)
++15. [Nero ile birlikte](#15-nero-ile-birlikte)
++15b. [Günlük görevler, Bal Defteri ve kişiselleştirme](#15b-günlük-görevler-bal-defteri-ve-kişiselleştirme)
++16. [Sen yokken](#16-sen-yokken)
++17. [Kayıt ve yedek](#17-kayıt-ve-yedek)
++18. [İpuçları ve stratejiler](#18-ipuçları-ve-stratejiler)
++19. [Hızlı başvuru tabloları](#19-hızlı-başvuru-tabloları)
++
++---
++
++## 1. Oyunu açmak
++- **Panelden:** Nero'ya tıkla → panel başlığında, **Ayarlar** düğmesinin solundaki **🐝 Arıcılık** düğmesine bas.
++- **Sağ tık menüsünden:** masaüstündeki Nero'ya sağ tıkla → **Arıcılık oyunu**.
++
++Oyun ayrı bir pencerede açılır. Pencereyi kapatsan da Nero açık kaldığı sürece çiftlik çalışmaya devam eder.
++
++---
++
++## 2. Ekran
++
++**Üst sol**
++- 🪙 **Jeton:** paran.
++- 🔥 **Odak bonusu:** Nero'da odaklandıysan kalan süreyi gösterir (bkz. §15).
++- 🍯 **Depo:** depodaki toplam bal / kapasite. Tıklarsan Pazar ve Depo açılır.
++
++**Üst orta**
++- Mevsim, gün, yıl ve **hava durumu** (☀️ ⛅ 🌧️ 🌨️).
++- Günün ilerleme çubuğu.
++- Hız: **❚❚** duraklat, **1x**, **2x**, **4x**.
++
++**Üst sağ**
++- 🔊 ses aç/kapat, 🏆 liderlik tablosu, ＋ / － yakınlaştırma.
++
++**Alt çubuk**
++- 🛒 **Mağaza** · 🍯 **Pazar** · 🧺 **Hepsini Hasat Et** · 📜 **Siparişler** (kırmızı sayı: bekleyen sipariş) · 📖 **Rehber**
++
++**Sağ alt:** Nero. Olan bitene yorum yapar; tıklarsan konuşur.
++
++**Ada üzerinde gezinmek:** sürükleyerek kaydır, fare tekerleğiyle yakınlaş/uzaklaş.
++Kovanların üstünde doluluk yüzdesi yazar; dolunca **Dolu!**, hastaysa 🤒 görünür.
++
++---
++
++## 3. İlk adımlar
++Oyun ilk açıldığında Nero 6 adımda kısa bir tanıtım yapar (**Atla** ile geçebilirsin).
++
++Başlangıçta elinde:
++- 200 jeton,
++- evin, 6 arılı bir kovanın, yanında bir yonca ve bir papatya tarhı,
++- birkaç boş kare.
++
++**İlk saatlerde yapılacaklar**
++1. Kovanın yanında boş kare varsa oraya **yonca** ek (60 jeton). Kovan yalnızca **yanındaki 6 karedeki** çiçeklerden bal yapar.
++2. Kovan dolunca **Hasat Et**.
++3. Balı **Pazar'da** sat ya da daha iyisi, bir **siparişe** teslim et.
++4. Biriken jetonla önce çiçek, sonra **kraliçe yükseltmesi** al.
++
++---
++
++## 4. Zaman, mevsimler ve hava
++
++| Birim | Süre (1x hızda) |
++|---|---|
++| 1 oyun günü | 15 gerçek dakika |
++| 1 mevsim (oyun ayı) | 15 gün (≈ 3,75 saat) |
++| 1 yıl | 60 gün (≈ 15 saat) |
++
++**Hız:** 2x ve 4x oyunu hızlandırır. **4x yalnızca oyun penceresi öndeyken** çalışır; pencere arka plandayken simülasyon en fazla 2x ilerler. Arıcının yürüyüşü ve odak bonusu gibi bazı şeyler gerçek zamanlıdır, hızdan etkilenmez.
++
++**Mevsimler:** İlkbahar → Yaz → Sonbahar → Kış. Görünüm de değişir: yazın canlı yeşil, sonbaharda sarı çimen ve turuncu yapraklar, kışın karla kaplı kareler ve kar yağışı.
++
++- **Yaz:** bal bol ama pazarda **%15 ucuz**.
++- **Kış:** çiçekler neredeyse hiç üretmez (%10), ama bal pazarda **%35 pahalı**. Şurup vermezsen arılar ölür (§7).
++
++**Hava durumu:** her gün mevsime göre seçilir.
++
++| Mevsim | Olası hava |
++|---|---|
++| Yaz | ☀️ her gün güneşli |
++| İlkbahar | ☀️ güneşli, ⛅ bulutlu ya da 🌧️ yağmurlu |
++| Sonbahar | ⛅ bulutlu ya da 🌧️ yağmurlu |
++| Kış | 🌨️ karlı ya da 🌧️ yağmurlu (güneşli gün yok) |
++
++| Hava | Üretim |
++|---|---|
++| ☀️ Güneşli | ×1.1 |
++| ⛅ Bulutlu | ×1.0 |
++| 🌧️ Yağmurlu | ×0.6 (arılar dışarı pek çıkmaz); ekranda yağmur yağar |
++| 🌨️ Karlı | ×1.0 (kış etkisi ayrıca); ekranda kar yağar |
++
++**Gece:** gerçek saatle **19:00–07:00** arası oyun gece moduna geçer. Gökyüzü yıldızlı laciverte döner, gün batımında ve şafakta renkler yavaşça geçer; evin pencereleri ve fenerler yanar, kovanların etrafında ateş böcekleri uçar. **Gece sadece görünüştür, üretim etkilenmez.**
++
++---
++
++## 5. Ada ve yerleşim
++- Ada altıgen karelerden oluşur. **Bir karede ya bir kovan ya bir çiçek tarhı** olabilir (dekorlar hariç, bkz. §12).
++- **Boş kareye tıkla:** 🐝 *Kovan yerleştir* veya 🌱 *Tohum ek*.
++- **Adanın kenarındaki soluk yeşil karelere tıkla:** o kareyi satın alabilirsin. İlk kare **80 jeton**; her yeni kare bir öncekinin **1.4 katı**.
++- Mavi kareler göldür, üzerine bir şey konmaz.
++- **Mağaza** üzerinden de satın alabilirsin: bir şey seç, üstte "bir kare seç" şeridi çıkar, yerleştirmek istediğin kareye tıkla (**İptal** ile vazgeç).
++
++---
++
++## 6. Çiçekler
++
++| Çiçek | Tohum | Üretime etkisi | Balın taban fiyatı (kg) | Mevsim |
++|---|---|---|---|---|
++| Yonca | 60 | +%0 | 8 | İlkbahar, Yaz |
++| Papatya | 120 | +%8 | 12 | İlkbahar, Yaz |
++| Ayçiçeği | 250 | +%18 | 18 | Yaz |
++| Kekik | 450 | +%30 | 26 | İlkbahar, Yaz |
++| Lavanta | 800 | +%45 | 38 | Yaz |
++| Ihlamur | 1.300 | +%65 | 55 | İlkbahar |
++| Kestane | 2.200 | +%90 | 80 | Sonbahar |
++
++- **Her çiçek kendi balını üretir.** Ballar karışmaz: kovanın içinde, depoda ve pazarda türüne göre ayrı durur ve ayrı fiyattan satılır.
++- **Mevsimi dışında** çiçek solmaz ama üretimi **%25'e** düşer. Tohum seçerken "şu an mevsiminde" / "mevsimi dışında" yazar.
++- **Ömür:** her çiçek **30 gün (iki oyun ayı)** yaşar. Tarha tıklayınca kalan ömrü görürsün. Solan tarh 🥀 bal vermez, arılar oraya uçmaz ve o baldan sipariş gelmez. Solmuş tarha tıklayıp tohum fiyatına **yeniden ek** ya da temizle.
++- **Yan yana bonusu:** aynı çiçekten **en az 3 tarh birbirine değiyorsa** (zincir hâlinde), her biri **+%15** üretir. Çiçeğe tıklayınca bonus varsa görünür.
++- **Çeşme bonusu:** çeşmenin olduğu karede ve yanındaki karelerde bulunan tarhlar **+%5** üretir (§12).
++- **Hediye tohum:** müdavim köylüler bazen tohum hediye eder (§10). Tohum listesinde **🎁 Hediye ×1** yazar, ücretsiz ekersin.
++
++---
++
++## 7. Kovanlar ve arılar
++Bir kovana tıklayınca **kovanın içi** açılır: solda canlı petek (ortada yavrular, çevresinde çiçek renginde polen, dışa doğru bal), sağda bilgiler ve işlemler.
++
++**Üretim:** her arı saatte yaklaşık **0.5 kg** bal üretir; çiçek bonusu, hava, mevsim, ırk ve diğer etkilerle çarpılır. Kovanın üretimi menzilindeki tarhlar arasında eşit bölünür. **Kovan dolunca üretim durur**, hasat etmelisin.
++
++**İşlemler**
++- 🐝 **Arı Al:** 45 jetondan başlar, o kovana her alımda +9 artar. Kapasite doluysa alınamaz.
++- 🐝 **Arı Sat:** alış fiyatının yarısı. Kovanda en az 1 arı kalır.
++- 👑 **Kraliçe** ve 📦 **Kovanı Büyüt:** sırayla ilerler (aşağıdaki tablo). Sırası gelmeyen düğme ne yapman gerektiğini söyler.
++- 💧 **Şurup Ver:** 60 jeton = 6 kg kış erzakı; kışın günde 1 kg tüketilir.
++- 💊 **İlaç ver:** kovan hastaysa görünür, 120 jeton.
++- 💰 **Kovanı Sat:** yatırımının yarısı ve arılar için küçük bir tutar geri gelir. Onay ister. Son kovan satılamaz.
++
++**Yükseltme sırası**
++
++| Adım | Sonuç | Maliyet |
++|---|---|---|
++| Başlangıç (Genç Kraliçe) | 10 arı, 20 kg | — |
++| Sağlıklı Kraliçe | 12 arı | 450 |
++| Kovanı Büyüt | 30 kg | 750 |
++| Güçlü Kraliçe | 14 arı | 1.200 |
++| Kovanı Büyüt | 40 kg | 1.800 |
++| Olgun Kraliçe | 16 arı | 2.700 |
++| Kovanı Büyüt | 60 kg | 3.900 |
++| Asil Kraliçe | 18 arı | 5.700 |
++| Efsane Kraliçe | 20 arı (üst sınır) | 8.400 |
++| Kovanı Büyüt | 80 kg | 9.000 |
++
++**Doğal üreme:** kış dışında, menzilde çiçek varsa ve kovan dolu değilse **2 günde bir 1 arı** doğar.
++
++**Kış:** şurubu olmayan kovan **her gün 1 arı** kaybeder. Şurubu olan kovan kışın biraz daha fazla üretir.
++
++**Hastalık:** kış dışında her kovan her gün küçük bir ihtimalle (%3) hastalanır. Hasta kovan **%30 az** üretir ve **2 günde bir arı** kaybeder. İlaç anında iyileştirir.
++
++**Arı ırkları** (kovan ekranında, değiştirmek 300 jeton)
++
++| Irk | Özelliği |
++|---|---|
++| Anadolu (varsayılan) | +%10 üretim, ama hastalanma ihtimali 1.5 kat |
++| Kafkas | Soğuğa dayanıklı: kışın arı kaybı yarıya iner |
++| İtalyan | Her gün çoğalır, üretim biraz düşük (×0.95) |
++
++**Yeni kovan:** 1.200 jeton, içinde 4 arıyla gelir. Yanına çiçek ekmeyi unutma.
++
++---
++
++## 8. Hasat
++- Kovan ekranında **Hasat Et** ya da alttaki **Hepsini Hasat Et**.
++- Hasır şapkalı arıcı evden kovana yürür, **5 saniye** çalışır, balı depoya taşır ve eve döner. Bu sırada düğme **"Arıcı yolda…"** yazar.
++- "Hepsini Hasat Et" dolu kovanları sırayla dolaşır.
++- Her hasatta bal kadar **balmumu** da çıkar (§11).
++- **Depo doluysa** arıcı hasat edemez: önce sat ya da depoyu büyüt.
++
++---
++
++## 9. Depo ve Pazar
++
++**Depo:** 50 kg ile başlar. Büyütme: 100 kg (450), 200 kg (1.200), 400 kg (3.000). Ballar türüne göre ayrı listelenir.
++
++**Pazar**
++- Fiyatlar her gün taban fiyatın **%80'i ile %130'u** arasında, yumuşak şekilde dalgalanır.
++- Her balın yanında o günün kg fiyatı, dünden bugüne değişim ve son 7 günün küçük grafiği var.
++- Mevsim: yaz **%15 ucuz**, kış **%35 pahalı**.
++- **Festival olayları:** ara sıra bir bal 2 gün boyunca **%50 değerlenir**; duyurulur ve listede vurgulanır.
++- Satış: **1 kg**, **5 kg** ya da **Hepsi**.
++
++---
++
++## 10. Siparişler ve köylüler
++- 1x hızda **10 dakikada bir** yeni sipariş gelir; aynı anda en fazla **5**.
++- **Sadece şu an ekili (solmamış) çiçeklerin balı istenir.** Hiç ıhlamurun yoksa ıhlamur siparişi gelmez.
++- Siparişler piyasadan **çok daha iyi öder** (piyasanın 1.4–1.8 katı).
++- Kartta: kim, ne kadar ve hangi bal, ödül, süre, depodaki miktar (yetiyorsa yeşil).
++
++**İşlemler**
++- **Kabul et:** süre o an başlar (2–5 gün).
++- **Teslim et:** depoda yeterli bal varsa.
++- **Değiştir:** 25 jeton, anında yeni sipariş.
++- **Reddet:** ücretsiz; yerine hemen yenisi gelmez, normal sırayı bekler.
++- **Vazgeç** (kabul ettikten sonra) ya da **süreyi kaçırmak:** ödemenin **%20'si** kesilir. Bu tutar her kartta açıkça yazar.
++
++**Müdavim köylüler 💛**
++- Aynı köylüye her **2 teslimde 1 kalp** (en fazla 5).
++- Her kalp o köylünün siparişlerini **%6** daha iyi ödetir.
++- **2. ve 4. kalpte** teşekkür mektubu ve **hediye tohum** gönderir.
++- Tanıdıkların daha sık sipariş verir. Kalpler sipariş kartlarında ve Siparişler ekranının altındaki **Köylüler** listesinde görünür.
++
++---
++
++## 11. Balmumu ve mum
++- Her 1 kg hasatta **50 g balmumu** çıkar.
++- Depo panelinde **Mum yap:** 500 g balmumu → 1 mum.
++- **Mumları sat:** mum yaklaşık 45 jeton; **kışın %40 daha değerli**.
++- Satmadığın mumlar net değerine sayılır.
++
++---
++
++## 12. Dekorlar
++Mağaza → **🪑 Dekor**. Dekorlar karenin kenarına konur; kovan ya da çiçekle **aynı karede** durabilir. Her karede bir dekor olabilir.
++
++| Dekor | Fiyat | Etki |
++|---|---|---|
++| Çit | 40 | Süs |
++| Bank | 120 | Süs |
++| Fener | 150 | Süs, sıcak bir ışık |
++| Çiçekli kemer | 300 | Süs |
++| Çeşme | 400 | Bulunduğu ve yanındaki karelerdeki tarhlar **+%5** üretir |
++
++Kaldırmak için dekorlu kareye tıkla → **… kaldır**; fiyatın yarısı geri gelir.
++
++---
++
++## 13. Yıllık Bal Festivali
++- **Ne zaman:** her yılın **son 3 günü** (kışın sonu) başvuru açılır. Pazar ekranının üstünde duyuru çıkar.
++- **Nasıl:** depodan bir bal türü ve miktar seç (en az 1, en fazla **10 kg**) → **Gönder**. Yılda bir başvuru hakkın var.
++- **Puan:** miktar × balın taban fiyatı × (1 + çiçek bonusu). Yani değerli bal çok daha fazla puan getirir.
++- **Sonuç:** yeni yılın ilk günü rakiplerle karşılaştırılır.
++
++| Derece | Ödül |
++|---|---|
++| 🥇 1. | 1.500 jeton + altın kupa |
++| 🥈 2. | 800 jeton + gümüş kupa |
++| 🥉 3. | 400 jeton + bronz kupa |
++
++Kazandığın kupalar **evinin yanında** sergilenir ve Pazar ekranında listelenir.
++
++---
++
++## 14. Rakipler ve liderlik
++Üç komşu arıcı arka planda kendi çiftliklerini işletir:
++
++| Rakip | Tarzı |
++|---|---|
++| Temkinli Ali | Yavaş ama istikrarlı büyür |
++| Riskçi Kaya | Hızlı büyür, sert iniş çıkışları var |
++| Dengeli Nur | İkisinin arasında |
++
++- Her gün net değerleri değişir; **hep yukarı gitmez**. Ara sıra olay yaşarlar ("Riskçi Kaya: kötü bir hasat geçirdi -%22").
++- Sen çok geride kalırsan yavaşlarlar, çok öne geçersen hızlanırlar; yarış hep canlı kalır.
++- **Net değer** = jeton + depodaki balın o günkü piyasa değeri + kovanların ve arıların değeri + satın alınan araziler + mumlar.
++- 🏆 düğmesi: sıralama, son 14 günün grafiği ve günlük değişim.
++
++---
++
++## 15. Nero ile birlikte
++Oyun Nero'nun asıl amacıyla bağlantılı: **sen çalıştıkça çiftlik büyür.**
++- **Odak bonusu:** Nero'nun sayacıyla en az 10 dakikalık bir odak seansını bitirince kovanlar **+%25** hızlı üretir. 25 dakikalık seans = **1 saat** bonus; seanslar üst üste eklenir, en fazla **4 saat**. Üst barda 🔥 rozeti kalan süreyi gösterir.
++- **İş ödülü:** Nero'da bir işi "bitti" olarak işaretleyince **+10 jeton**.
++- **Masaüstündeki Nero haber verir** (oyun penceresi önde değilken): kovan doldu, kabul ettiğin siparişe 1 günden az kaldı, bir kovan hastalandı, kış geldi ve erzak yok, bir rakip seni geçti. Aynı şeyi iki kez söylemez; sessiz modda ya da uyurken susar.
++- **Oyun içindeki Nero** hasatta, satışta, yeni siparişte, cezada ve mevsim değişiminde yorum yapar.
++
++---
++
++## 15b. Günlük görevler, Bal Defteri ve kişiselleştirme
++
++**📋 Günlük görevler** (sol üstteki kart, başlığına tıklayıp katlayabilirsin)
++- Her gün 3 küçük görev: bal hasat et, belirli bir çiçeğin balını hasat et, pazarda bal sat, sipariş teslim et, mum yap, tarh ek.
++- Görev bitince **Ödülü al**: 40–80 jeton, bazen **hediye tohum**. Görevler gerçek günde, gece yarısı yenilenir.
++
++**📖 Bal Defteri** (sağ üstte 📖 ya da **D**)
++- **Ballar:** her bal türünün sayfası: ilk kavanozun ne zaman olduğu, toplam hasat, satılan miktar, kazanç ve en iyi kg fiyatı. Henüz üretmediğin ballar kilitli görünür.
++- **Kayıtlar:** toplam hasat, bal türü sayısı, hasat/sipariş/mum/görev sayıları, en kalabalık kovan, en büyük satış ve kupaların.
++- **Etiket:** çiftliğinin adı ve kavanoz etiketin. 4 desen (Klasik, Çiçekli, Petek, Sade) ve 6 renkten seç. **Etiketin varsa müdavim köylüler** (en az 1 kalp) siparişlerde **%5 bahşiş** verir.
++
++**İsimler:** kovan ekranında kovanın adına tıklayıp değiştir (ör. "Papatya Konağı"). Çiftliğinin adını Bal Defteri'nin başında adına tıklayarak değiştirirsin.
++
++**📊 İstatistikler:** bugün üretilen bal, bugün kazanılan jeton, net değer; son günlerin üretim ve kazanç grafikleri ve net değerinin gidişi.
++
++**📷 Fotoğraf modu** (📷 ya da **F**): arayüz bir anlığına gizlenir, adanın fotoğrafı **Resimler\Nero Arıcılık** klasörüne kaydedilir. Çıkan bildirime tıklayınca klasör açılır.
++
++**🎵 Ortam sesleri:** gündüz kuş cıvıltısı ve arı vızıltısı, gece cırcır böcekleri, yağmurlu günde yağmur sesi. Çok kısıktır; 🎵 ile açıp kapatırsın. 🔊 tüm sesleri kapatır.
++
++**⌨️ Kısayollar**
++
++| Tuş | İşlev |
++|---|---|
++| H | Hepsini hasat et |
++| P | Pazar |
++| S | Siparişler |
++| D | Bal Defteri |
++| F | Fotoğraf |
++| Boşluk | Duraklat / devam |
++| Esc | Açık pencereleri kapat |
++
++---
++
++## 16. Sen yokken
++- Nero açık olduğu sürece çiftlik çalışır, oyun penceresi kapalı olsa bile.
++- **2 saat** boyunca oyuna hiç bakmazsan üretim durur (takvim devam eder). Geri dönünce üretim kaldığı yerden sürer.
++- **Nero tamamen kapalıyken** oyunun zamanı da durur.
++- 3 dakikadan uzun süre sonra oyunu açınca **"Tekrar hoş geldin!"** kartı çıkar: ne kadar bal üretildiği, doğan ve ölen arılar, gelen siparişler, hasat bekleyen ve hasta kovanlar, sıralamadaki değişim.
++
++---
++
++## 17. Kayıt ve yedek
++- Oyun **otomatik kaydedilir**: her işlemden sonra, üretim sırasında yaklaşık 10 saniyede bir ve Nero kapanırken.
++- Kayıt dosyası: `%APPDATA%\Nero\bee.json`.
++- **Oyunu sıfırlamak:** Nero → Ayarlar → Yedekler → *Oyunu sıfırla*. İki aşamalı onay ister ve önce mevcut çiftliğini otomatik yedekler.
++- Oyun verisi Nero'nun **günlük otomatik yedeklerine** (son 7 gün) ve Ayarlar'daki **Dışa aktar / Yedekten geri yükle** özelliğine dahildir.
++- **Sadece arıcılık kaydını taşımak için:** Nero → Ayarlar → **Yedekler** → 🐝 *Kaydı dışa aktar*. Bir `.json`
++  dosyası kaydedilir; başka bir bilgisayarda *Kaydı içe aktar* ile yüklersin.
++- İçe aktarma şu anki çiftliğin üstüne yazar; bu yüzden **onay ister** ve öncesinde mevcut çiftliğini
++  otomatik olarak yedek klasörüne kaydeder. Yanlışlıkla yüklersen oradan geri dönebilirsin.
++
++---
++
++## 18. İpuçları ve stratejiler
++- **Önce çiçek, sonra arı.** Kovanın etrafındaki 6 kareyi doldurmadan arı almak pek işe yaramaz.
++- **Aynı çiçekten 3'lü gruplar** yap; +%15 bonus ucuz bir büyümedir. Grubun ortasına bir çeşme koyarsan +%5 daha.
++- **Siparişleri tercih et.** Pazardan çok daha iyi öderler, köylülerle kalp kazandırırlar. Ama kabul etmeden önce depodaki miktara ve süreye bak.
++- **Yazdan kışa bal biriktir.** Yazın ucuz satmak yerine depoda tut; kışın %35 pahalıya sat. Bunun için depoyu büyütmek iyi bir yatırım.
++- **Kış öncesi şurup al.** Sonbaharın sonunda her kovana en az bir şurup ver. Kış kaybından çok korkuyorsan Kafkas arısına geç.
++- **Hastalığı erken yakala.** 🤒 gördüğünde ilacı hemen ver; bekledikçe arı kaybedersin. Anadolu arısı daha sık hastalanır.
++- **Değerli çiçekleri mevsiminde ek.** Kestane sonbaharda, ıhlamur ilkbaharda tam verimle üretir. Ömürleri 30 gün olduğu için ekim zamanı önemli.
++- **Festivale en değerli balını sakla.** Kestane ya da ıhlamur balı festivalde yonca balından kat kat fazla puan getirir.
++- **Odaklan.** Uzun bir çalışma gününde birkaç odak seansı, kovanları saatlerce hızlandırır.
++- **Balmumunu biriktir, mumu kışın sat.**
++
++---
++
++## 19. Hızlı başvuru tabloları
++
++**Temel sabitler**
++
++| Konu | Değer |
++|---|---|
++| Başlangıç jetonu | 200 |
++| Arı başına üretim | 0.5 kg/sa (+ etkiler) |
++| Yeni kovan | 1.200 (4 arıyla) |
++| Yeni kare | 80, sonra her biri ×1.4 |
++| Arı alış / satış | 45 + 9×(alınan) / alışın yarısı |
++| Şurup | 60 jeton = 6 kg |
++| İlaç | 120 jeton |
++| Irk değiştirme | 300 jeton |
++| Çiçek ömrü | 30 gün |
++| Sipariş sıklığı / en fazla | 10 dk / 5 |
++| Sipariş değiştirme | 25 jeton |
++| Ceza | ödemenin %20'si |
++| Mum | 500 g balmumu, ~45 jeton (kışın ×1.4) |
++| Bakılmazsa üretim durur | 2 saat |
++| Gece modu | 19:00–07:00 (sadece görünüş) |
++| Etiket bahşişi | %5 (müdavimler) |
++
++**Üretimi etkileyenler (çarpımsal)**
++
++| Etki | Değer |
++|---|---|
++| Çiçek bonusu | +%0 … +%90 |
++| Mevsim dışı çiçek | ×0.25 |
++| Kış | ×0.10 (şurupla ×0.35) |
++| Hava | ☀️ ×1.1 · ⛅ ×1.0 · 🌧️ ×0.6 |
++| Hasta kovan | ×0.7 |
++| Yan yana 3 tarh | +%15 |
++| Çeşme yakını | +%5 |
++| Anadolu / İtalyan ırkı | ×1.1 / ×0.95 |
++| Odak bonusu | ×1.25 |
+diff --git a/package-lock.json b/package-lock.json
+index 635e670..34fc26d 100644
+--- a/package-lock.json
++++ b/package-lock.json
+@@ -1,12 +1,12 @@
+ {
+   "name": "nero",
+-  "version": "5.0.0",
++  "version": "5.1.0",
+   "lockfileVersion": 3,
+   "requires": true,
+   "packages": {
+     "": {
+       "name": "nero",
+-      "version": "5.0.0",
++      "version": "5.1.0",
+       "license": "UNLICENSED",
+       "dependencies": {
+         "electron-updater": "^6.8.9"
+diff --git a/package.json b/package.json
+index 783d8c7..188807b 100644
+--- a/package.json
++++ b/package.json
+@@ -1,7 +1,7 @@
+ {
+   "name": "nero",
+   "productName": "Nero",
+-  "version": "5.0.0",
++  "version": "5.1.0",
+   "description": "Nero - huysuz ama seni seven masaüstü arkadaşın",
+   "main": "src/main/main.js",
+   "author": {
+diff --git a/src/main/bee.js b/src/main/bee.js
+index f2f7ca8..a28c7ca 100644
+--- a/src/main/bee.js
++++ b/src/main/bee.js
+@@ -46,12 +46,19 @@ const WEATHER = {
+   yagmurlu: { name: 'Yağmurlu', icon: '🌧️', mult: 0.6 },
+   karli: { name: 'Karlı', icon: '🌨️', mult: 1.0 }
+ };
++// Mevsime göre hava: yaz hep güneşli; sonbahar bulutlu/yağmurlu; ilkbahar karışık; kış yağmurlu/karlı
+ const WEATHER_ODDS = {
+-  ilkbahar: [['gunesli', 0.4], ['bulutlu', 0.35], ['yagmurlu', 0.25]],
+-  yaz: [['gunesli', 0.65], ['bulutlu', 0.25], ['yagmurlu', 0.1]],
+-  sonbahar: [['gunesli', 0.25], ['bulutlu', 0.4], ['yagmurlu', 0.35]],
+-  kis: [['bulutlu', 0.45], ['karli', 0.4], ['gunesli', 0.15]]
++  ilkbahar: [['gunesli', 0.45], ['bulutlu', 0.3], ['yagmurlu', 0.25]],
++  yaz: [['gunesli', 1]],
++  sonbahar: [['bulutlu', 0.55], ['yagmurlu', 0.45]],
++  kis: [['karli', 0.6], ['yagmurlu', 0.4]]
+ };
++
++// Günlük görevler (gerçek güne bağlı, her gün 3 görev)
++const QUEST_TYPES = ['harvest', 'harvestFlower', 'sell', 'deliver', 'candle', 'plant'];
++const LABEL_DESIGNS = { klasik: 'Klasik', cicekli: 'Çiçekli', petek: 'Petek', sade: 'Sade' };
++const LABEL_BONUS = 0.05;          // etiketli kavanoz: müdavimler %5 fazla öder
++const HISTORY_KEEP = 20;
+ const SICK_CHANCE = 0.03;          // kış dışında, kovan başına günlük hastalanma ihtimali
+ const SICK_MULT = 0.7;             // hasta kovan %30 daha az üretir
+ const MEDICINE_COST = 120;
+@@ -216,6 +223,16 @@ class BeeGame {
+       festival: { entry: null, cups: [], lastYear: 0 }, ...this.state
+     });
+     for (const h of Object.values(this.state.hives)) if (!h.breed) h.breed = 'anadolu';
++    Object.assign(this.state, {
++      farmName: 'Nero Çiftliği', quests: null, questsDone: 0, milestones: {}, history: [],
++      label: null, ledger: { honey: {}, harvests: 0, ordersDone: 0, candlesMade: 0, bestSale: null, maxBees: 0 },
++      ...this.state
++    });
++    this.state.counters.earned = this.state.counters.earned || 0;
++    this.dayStart = { produced: this.state.counters.produced, earned: this.state.counters.earned };
++    // Eski kayıtlarda mevsime uymayan hava kalmışsa (ör. kışın güneş) düzelt
++    const season0 = this.calendar().season;
++    if (!WEATHER_ODDS[season0].some(([w]) => w === this.state.weather)) this.rollWeather(season0, true);
+     this.alertSeen = {};
+     this.events = [];
+     this.lastDay = this.dayIndex();
+@@ -362,6 +379,13 @@ class BeeGame {
+ 
+   // --- Günlük olaylar: üreme, kış kaybı -------------------------------------
+   onNewDay(dayIdx) {
++    const c = this.state.counters;
++    this.state.history = [...(this.state.history || []), {
++      day: dayIdx - 1,
++      produced: Math.round((c.produced - this.dayStart.produced) * 10) / 10,
++      earned: Math.round(c.earned - this.dayStart.earned)
++    }].slice(-HISTORY_KEEP);
++    this.dayStart = { produced: c.produced, earned: c.earned };
+     this.rollMarket();
+     this.rollRivals();
+     const season = SEASONS[Math.floor(dayIdx / DAYS_PER_SEASON) % 4];
+@@ -507,6 +531,8 @@ class BeeGame {
+     if (prize) {
+       this.state.coins += prize.coins;
+       f.cups.push({ year, cup: prize.cup, flower: entry.flower });
++      this.state.counters.earned += prize.coins;
++      this.milestone('ilk_kupa', 'İlk festival kupanı kazandın');
+       this.events.push({ msg: `🏆 Bal festivalinde ${place}. oldun! ${prize.cup[0].toUpperCase() + prize.cup.slice(1)} kupa ve +${prize.coins} 🪙` });
+     } else {
+       this.events.push({ msg: `🎪 Bal festivalinde ${place}. oldun. Birinci: ${all[0].name}. Seneye!`, err: true });
+@@ -531,6 +557,8 @@ class BeeGame {
+     if (this.state.wax + 1e-6 < CANDLE_WAX) return this.fail(`Mum için ${CANDLE_WAX * 1000} g balmumu gerekli (${Math.round(this.state.wax * 1000)} g var).`);
+     this.state.wax -= CANDLE_WAX;
+     this.state.candles += 1;
++    this.state.ledger.candlesMade += 1;
++    this.questProgress('candle', 1);
+     this.save();
+     return { ok: true, msg: '🕯️ Bir mum yaptın.' };
+   }
+@@ -546,18 +574,145 @@ class BeeGame {
+     const n = this.state.candles;
+     this.state.candles = 0;
+     this.state.coins += gain;
++    this.state.counters.earned += gain;
+     this.save();
+     return { ok: true, msg: `${n} mum satıldı (+${gain} 🪙).` };
+   }
+ 
++  // --- Bal Defteri -----------------------------------------------------------------
++  ledgerHoney(f) {
++    const h = this.state.ledger.honey;
++    if (!h[f]) h[f] = { kg: 0, soldKg: 0, earned: 0, bestPrice: 0, first: null };
++    return h[f];
++  }
++
++  recordHarvest(hive, moved, scale) {
++    const cal = this.calendar();
++    for (const [f, kg] of Object.entries(this.lastHoney || {})) {
++      const L = this.ledgerHoney(f);
++      const took = kg * scale;
++      if (!L.first && took > 0.01) {
++        L.first = { day: cal.day, season: cal.seasonName, year: cal.year };
++        this.events.push({ msg: `📖 Bal Defteri'ne yeni sayfa: ilk ${FLOWERS[f].name} balın!` });
++      }
++      L.kg += took;
++      this.questProgress('harvestFlower', took, f);
++    }
++    this.state.ledger.harvests += 1;
++    this.questProgress('harvest', moved);
++    const total = Object.values(this.state.ledger.honey).reduce((a, x) => a + x.kg, 0);
++    if (total >= 20) this.milestone('ilk_kavanoz', 'İlk kavanoz: toplam 20 kg bal hasat ettin');
++    if (Object.keys(FLOWERS).every((f) => (this.state.ledger.honey[f] || {}).first)) this.milestone('tum_ballar', 'Yedi balın hepsini ürettin');
++  }
++
++  // Nero rozetlerine sonradan bağlanabilsin diye büyük anlar kaydedilir (şimdilik sadece kayıt)
++  milestone(id, text) {
++    if (this.state.milestones[id]) return;
++    this.state.milestones[id] = Date.now();
++    this.events.push({ msg: `🌟 ${text}`, milestone: id });
++  }
++
++  // --- Günlük görevler -------------------------------------------------------------
++  todayKey() { return new Date().toDateString(); }
++
++  ensureQuests() {
++    const q = this.state.quests;
++    if (q && q.day === this.todayKey()) return;
++    const planted = this.plantedFlowers();
++    const pool = QUEST_TYPES.filter((t) => t !== 'harvestFlower' || planted.length);
++    const list = [];
++    while (list.length < 3 && pool.length) {
++      const type = pool.splice(Math.floor(Math.random() * pool.length), 1)[0];
++      const quest = { id: uid(), type, progress: 0, claimed: false };
++      if (type === 'harvest') Object.assign(quest, { target: 5 + Math.floor(Math.random() * 3) * 5, reward: 60 });
++      if (type === 'harvestFlower') Object.assign(quest, { flower: planted[Math.floor(Math.random() * planted.length)], target: 3 + Math.floor(Math.random() * 4), reward: 70 });
++      if (type === 'sell') Object.assign(quest, { target: 5 + Math.floor(Math.random() * 3) * 3, reward: 50 });
++      if (type === 'deliver') Object.assign(quest, { target: 1, reward: 80 });
++      if (type === 'candle') Object.assign(quest, { target: 1, reward: 40 });
++      if (type === 'plant') Object.assign(quest, { target: 1, reward: 40 });
++      // Arada bir ödül hediye tohum olur
++      if (Math.random() < 0.2) {
++        const tiers = ['papatya', 'aycicegi', 'kekik'];
++        quest.voucher = tiers[Math.floor(Math.random() * tiers.length)];
++      }
++      list.push(quest);
++    }
++    this.state.quests = { day: this.todayKey(), list };
++  }
++
++  questProgress(type, amount, flower) {
++    this.ensureQuests();
++    for (const q of this.state.quests.list) {
++      if (q.type !== type || q.claimed || q.progress >= q.target) continue;
++      if (type === 'harvestFlower' && q.flower !== flower) continue;
++      q.progress = Math.min(q.target, q.progress + amount);
++      if (q.progress >= q.target) this.events.push({ msg: '✅ Günlük görev tamamlandı! Ödülünü almayı unutma.' });
++    }
++  }
++
++  claimQuest(id) {
++    this.ensureQuests();
++    const q = this.state.quests.list.find((x) => x.id === id);
++    if (!q || q.claimed) return this.fail('Görev bulunamadı.');
++    if (q.progress < q.target) return this.fail('Görev henüz tamamlanmadı.');
++    q.claimed = true;
++    this.state.coins += q.reward;
++    this.state.questsDone += 1;
++    if (q.voucher) this.state.vouchers[q.voucher] = (this.state.vouchers[q.voucher] || 0) + 1;
++    this.save();
++    return { ok: true, msg: `Görev ödülü: +${q.reward} 🪙${q.voucher ? ` ve 1 ${FLOWERS[q.voucher].name} tohumu 🎁` : ''}` };
++  }
++
++  questText(q) {
++    const f = q.flower ? FLOWERS[q.flower].name : '';
++    return {
++      harvest: `${q.target} kg bal hasat et`,
++      harvestFlower: `${q.target} kg ${f} balı hasat et`,
++      sell: `Pazarda ${q.target} kg bal sat`,
++      deliver: 'Bir siparişi teslim et',
++      candle: 'Bir mum yap',
++      plant: 'Bir tarh ek ya da yeniden ek'
++    }[q.type];
++  }
++
++  // --- İsimler ve kavanoz etiketi -----------------------------------------------
++  cleanName(name, max = 24) { return String(name || '').replace(/[<>]/g, '').trim().slice(0, max); }
++
++  renameHive(hiveId, name) {
++    const h = this.state.hives[hiveId];
++    const n = this.cleanName(name);
++    if (!h || !n) return this.fail('Geçerli bir isim yaz.');
++    h.name = n;
++    this.save();
++    return { ok: true, msg: `Kovanın yeni adı: ${n}` };
++  }
++
++  setFarmName(name) {
++    const n = this.cleanName(name, 28);
++    if (!n) return this.fail('Geçerli bir isim yaz.');
++    this.state.farmName = n;
++    this.save();
++    return { ok: true, msg: `Çiftliğinin adı artık "${n}".` };
++  }
++
++  setLabel(design, color) {
++    if (!LABEL_DESIGNS[design] || !/^#[0-9a-fA-F]{6}$/.test(String(color))) return this.fail('Geçersiz etiket.');
++    const first = !this.state.label;
++    this.state.label = { design, color };
++    this.save();
++    return { ok: true, msg: first ? 'Kavanoz etiketin hazır! Müdavimlerin artık %5 bahşiş verir.' : 'Etiket güncellendi.' };
++  }
++
+   // --- Hava durumu, hastalık, tanıtım -----------------------------------------
+-  rollWeather(season) {
++  rollWeather(season, silent = false) {
+     const odds = WEATHER_ODDS[season];
+     let x = Math.random();
+     let pick = odds[odds.length - 1][0];
+     for (const [w, p] of odds) { if (x < p) { pick = w; break; } x -= p; }
+     this.state.weather = pick;
++    if (silent) return;
+     if (pick === 'yagmurlu') this.events.push({ msg: '🌧️ Bugün yağmurlu, arılar kovandan pek çıkmıyor.' });
++    else if (pick === 'karli') this.events.push({ msg: '🌨️ Bugün kar yağıyor. Arılar kovanda ısınıyor.' });
+   }
+ 
+   giveMedicine(hiveId) {
+@@ -696,6 +851,15 @@ class BeeGame {
+     this.state.storage[f] = have - kg;
+     if (this.state.storage[f] < 0.001) delete this.state.storage[f];
+     this.state.coins += gain;
++    this.state.counters.earned += gain;
++    const L = this.ledgerHoney(f);
++    L.soldKg += kg;
++    L.earned += gain;
++    const unit = gain / kg;
++    if (!L.bestPrice || unit > L.bestPrice) L.bestPrice = Math.round(unit * 10) / 10;
++    const best = this.state.ledger.bestSale;
++    if (!best || gain > best.coins) this.state.ledger.bestSale = { coins: gain, flower: f, kg: Math.round(kg * 10) / 10 };
++    this.questProgress('sell', kg);
+     this.save();
+     return { ok: true, msg: `${kg.toFixed(1)} kg ${FLOWERS[f].name} balı satıldı (+${gain} 🪙).` };
+   }
+@@ -780,11 +944,16 @@ class BeeGame {
+     if (have + 1e-6 < ord.kg) return this.fail(`Depoda yeterli ${FLOWERS[ord.flower].name} balı yok (${have.toFixed(1)} / ${ord.kg} kg).`);
+     this.state.storage[ord.flower] = have - ord.kg;
+     if (this.state.storage[ord.flower] < 0.001) delete this.state.storage[ord.flower];
+-    this.state.coins += ord.reward;
++    const known = ((this.state.customers[ord.who] || {}).hearts || 0) > 0;
++    const extra = known && this.state.label ? Math.round(ord.reward * LABEL_BONUS) : 0;
++    this.state.coins += ord.reward + extra;
++    this.state.counters.earned += ord.reward + extra;
+     this.state.orders.list = this.state.orders.list.filter((x) => x.id !== id);
+     this.bond(ord.who);
++    this.state.ledger.ordersDone += 1;
++    this.questProgress('deliver', 1);
+     this.save();
+-    return { ok: true, msg: `${ord.who} çok memnun kaldı! +${ord.reward} 🪙` };
++    return { ok: true, msg: `${ord.who} çok memnun kaldı! +${ord.reward} 🪙${extra ? ` (+${extra} etiket bahşişi)` : ''}` };
+   }
+ 
+   rejectOrder(id) {
+@@ -998,6 +1167,7 @@ class BeeGame {
+     if (u.type === 'queen') {
+       h.queens += 1;
+       h.capBees = u.capBees;
++      if (u.capBees >= 20) this.milestone('kovan_20', `${h.name} 20 arılık dev bir kovan oldu`);
+       this.save();
+       return { ok: true, msg: `${QUEEN_NAMES[h.queens]} geldi! Kapasite ${u.capBees} arı.` };
+     }
+@@ -1083,6 +1253,7 @@ class BeeGame {
+     if (!free && this.state.coins < def.seed) return this.fail(`Yeterli jeton yok (${def.seed} gerekli).`);
+     if (free) this.state.vouchers[flower] -= 1; else this.state.coins -= def.seed;
+     t.item = { type: 'flower', flower, plantedDay: this.dayIndex(), wilted: false };
++    this.questProgress('plant', 1);
+     this.save();
+     return { ok: true, msg: free ? `${def.name} hediye tohumla ekildi 🎁` : `${def.name} ekildi (-${def.seed} 🪙).` };
+   }
+@@ -1095,6 +1266,7 @@ class BeeGame {
+     this.state.coins -= def.seed;
+     t.item.plantedDay = this.dayIndex();
+     t.item.wilted = false;
++    this.questProgress('plant', 1);
+     this.save();
+     return { ok: true, msg: `${def.name} yeniden ekildi (-${def.seed} 🪙).` };
+   }
+@@ -1110,6 +1282,7 @@ class BeeGame {
+   // 1. aşamada anında hasat; arıcının yürüyüşü 2. aşamada gelecek.
+   harvestHive(hiveId) {
+     const hive = this.state.hives[hiveId];
++    if (hive) this.lastHoney = { ...hive.honey };
+     if (!hive) return this.fail('Kovan bulunamadı.');
+     const total = this.hiveTotal(hive);
+     if (total < 0.05) return this.fail('Hasat edilecek bal yok.');
+@@ -1127,6 +1300,7 @@ class BeeGame {
+     }
+     const wax = moved * WAX_PER_KG;
+     this.state.wax += wax;
++    this.recordHarvest(hive, moved, scale);
+     this.save();
+     return { ok: true, msg: `+${moved.toFixed(1)} kg bal depoya eklendi (+${Math.round(wax * 1000)} g balmumu).`, kg: moved };
+   }
+@@ -1208,6 +1382,19 @@ class BeeGame {
+       clusterTiles: Object.fromEntries(Object.entries(this.state.tiles)
+         .filter(([, t]) => t.item && t.item.type === 'flower').map(([k]) => [k, this.clusterBonus(k) > 0])),
+       leaderboard: this.leaderboard(),
++      farmName: this.state.farmName,
++      quests: (this.ensureQuests(), this.state.quests.list.map((q) => ({ ...q, text: this.questText(q) }))),
++      questsDone: this.state.questsDone,
++      ledger: this.state.ledger,
++      history: this.state.history,
++      today: {
++        produced: Math.round((this.state.counters.produced - this.dayStart.produced) * 10) / 10,
++        earned: Math.round(this.state.counters.earned - this.dayStart.earned)
++      },
++      label: this.state.label,
++      labelDesigns: LABEL_DESIGNS,
++      labelBonus: LABEL_BONUS,
++      milestones: this.state.milestones,
+       dayMs: DAY_GAME_MS,
+       marketEvent: this.state.market.event,
+       seasonPrice: SEASON_PRICE[this.calendar().season],
+diff --git a/src/main/main.js b/src/main/main.js
+index f1ae5bd..62e3797 100644
+--- a/src/main/main.js
++++ b/src/main/main.js
+@@ -1512,6 +1512,19 @@ function registerIpc() {
+   ipcMain.handle('bee:export', () => exportBee());
+   ipcMain.handle('bee:import', () => importBee());
+   ipcMain.handle('bee:reset', () => resetBee());
++  // Fotoğraf modu: arayüz gizliyken pencerenin görüntüsünü Resimler\Nero Arıcılık klasörüne kaydeder
++  ipcMain.handle('bee:photo', async () => {
++    if (!beeWin || beeWin.isDestroyed()) return { ok: false };
++    const img = await beeWin.webContents.capturePage();
++    const dir = path.join(app.getPath('pictures'), 'Nero Arıcılık');
++    fs.mkdirSync(dir, { recursive: true });
++    const d = new Date();
++    const pad = (n) => String(n).padStart(2, '0');
++    const file = path.join(dir, `ada-${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}-${pad(d.getHours())}${pad(d.getMinutes())}${pad(d.getSeconds())}.png`);
++    fs.writeFileSync(file, img.toPNG());
++    return { ok: true, file };
++  });
++  ipcMain.handle('bee:openPhotos', () => shell.openPath(path.join(app.getPath('pictures'), 'Nero Arıcılık')));
+   ipcMain.handle('bee:action', (_e, action, arg1, arg2) => {
+     if (!bee) return { res: { ok: false, msg: 'Arıcılık henüz hazır değil.' }, view: null, events: [] };
+     bee.markSeen();
+@@ -1542,6 +1555,10 @@ function registerIpc() {
+       changeBreed: () => bee.changeBreed(arg1, arg2),
+       makeCandle: () => bee.makeCandle(),
+       sellCandles: () => bee.sellCandles(),
++      claimQuest: () => bee.claimQuest(arg1),
++      renameHive: () => bee.renameHive(arg1, arg2),
++      setFarmName: () => bee.setFarmName(arg1),
++      setLabel: () => bee.setLabel(arg1, arg2),
+       finishTutorial: () => bee.finishTutorial()
+     };
+     const fn = map[action];
+diff --git a/src/preload/bee-preload.js b/src/preload/bee-preload.js
+index deb3947..1cf0192 100644
+--- a/src/preload/bee-preload.js
++++ b/src/preload/bee-preload.js
+@@ -4,6 +4,8 @@ const { contextBridge, ipcRenderer } = require('electron');
+ contextBridge.exposeInMainWorld('bee', {
+   state: () => ipcRenderer.invoke('bee:state'),
+   summary: () => ipcRenderer.invoke('bee:summary'),
++  photo: () => ipcRenderer.invoke('bee:photo'),
++  openPhotos: () => ipcRenderer.invoke('bee:openPhotos'),
+   act: (action, a, b) => ipcRenderer.invoke('bee:action', action, a, b),
+   onState: (fn) => {
+     const handler = (_e, v) => fn(v);
+diff --git a/src/renderer/bee/bee.css b/src/renderer/bee/bee.css
+index 1ac0eeb..3020021 100644
+--- a/src/renderer/bee/bee.css
++++ b/src/renderer/bee/bee.css
+@@ -298,6 +298,8 @@ body.season-kis { background: linear-gradient(180deg, #C9D8E8 0%, #EAF1F8 55%, #
+ 
+ /* ---------- Odak bonusu ---------- */
+ .chip.boost { background: #FFE3B0; }
++.chip { white-space: nowrap; flex: none; }
++.hud-left { flex-wrap: wrap; max-width: 34vw; }
+ .chip.boost[hidden] { display: none; }
+ 
+ /* ---------- Arı ırkı ---------- */
+@@ -329,3 +331,80 @@ body.season-kis { background: linear-gradient(180deg, #C9D8E8 0%, #EAF1F8 55%, #
+ .hearts { color: #E0626A; letter-spacing: 1px; }
+ .order .who .hearts { font-size: 12px; margin-left: 4px; }
+ .gift { color: var(--green); font-weight: 800; font-size: 11px; }
++
++/* ---------- Gece ve şafak ---------- */
++.sky-layer { position: fixed; inset: 0; pointer-events: none; opacity: 0; transition: opacity 2s linear; }
++.sky-night { background: radial-gradient(1.5px 1.5px at 12% 18%, #fff 60%, transparent 70%), radial-gradient(1.5px 1.5px at 72% 12%, #fff 60%, transparent 70%),
++  radial-gradient(1px 1px at 42% 8%, #fff 60%, transparent 70%), radial-gradient(1.5px 1.5px at 88% 30%, #fff 60%, transparent 70%),
++  radial-gradient(1px 1px at 25% 34%, #fff 60%, transparent 70%), radial-gradient(1px 1px at 58% 26%, #fff 60%, transparent 70%),
++  linear-gradient(180deg, #0E1433 0%, #1D2A55 55%, #33406E 100%); }
++.sky-dusk { background: linear-gradient(180deg, #F28A6B 0%, #F6B98A 45%, #FBE2C0 100%); }
++body.night .hud-top .card, body.night .chip { box-shadow: 0 6px 18px rgba(0, 0, 0, .35); }
++
++/* ---------- Günlük görevler ---------- */
++.quests { position: fixed; left: 14px; top: 72px; width: 270px; z-index: 5; padding: 0; overflow: hidden; }
++.quests-head { width: 100%; border: 0; background: transparent; display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; font-weight: 800; font-size: 13.5px; }
++.quests-head b { background: var(--card2); border-radius: 999px; padding: 2px 9px; font-size: 12px; }
++.quests.closed .quest-list { display: none; }
++.quest-list { list-style: none; margin: 0; padding: 0 10px 10px; display: flex; flex-direction: column; gap: 6px; }
++.quest { background: #fff; border-radius: 12px; padding: 8px 10px; font-size: 12.5px; font-weight: 700; }
++.quest .qtop { display: flex; justify-content: space-between; gap: 6px; }
++.quest .qbar { height: 5px; background: #EFE3C6; border-radius: 3px; margin-top: 5px; overflow: hidden; }
++.quest .qbar i { display: block; height: 100%; background: var(--amber); }
++.quest .qrew { color: var(--muted); font-size: 11.5px; white-space: nowrap; }
++.quest button { margin-top: 6px; width: 100%; border: 0; border-radius: 9px; padding: 6px; font-weight: 800; background: var(--amber); color: #fff; box-shadow: 0 2px 0 var(--amber-d); }
++.quest.claimed { opacity: .55; }
++.quest.claimed .qtop span::before { content: "✓ "; color: var(--green); }
++
++/* ---------- İsim düzenleme ---------- */
++.rename { cursor: text; }
++.rename:hover { text-decoration: underline dotted; }
++.rename-input { font: inherit; font-weight: 800; font-size: 18px; border: 2px solid var(--amber); border-radius: 10px; padding: 3px 8px; width: 100%; max-width: 260px; }
++.rename-input[hidden] { display: none; }
++.farm-name { font-family: "Fraunces", Georgia, serif; font-size: 15px; color: var(--ink); cursor: text; }
++.farm-name::after { content: " ✏️"; font-size: 12px; }
++
++/* ---------- Bal Defteri ---------- */
++.ledger-card { width: min(700px, 94vw); }
++.ledger-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 10px; }
++.page { background: #fff; border-radius: 14px; padding: 12px; box-shadow: 0 2px 6px rgba(74, 58, 34, .07); position: relative; }
++.page .jar { width: 38px; height: 46px; border-radius: 8px 8px 12px 12px; border: 2px solid var(--ink); margin-bottom: 6px; position: relative; }
++.page .jar::before { content: ""; position: absolute; left: 4px; right: 4px; top: -8px; height: 7px; border-radius: 3px; background: #C99A55; border: 2px solid var(--ink); }
++.page b { display: block; font-size: 14.5px; }
++.page small { display: block; color: var(--muted); font-weight: 700; font-size: 11.5px; line-height: 1.5; }
++.page.locked { background: #F4EDDC; }
++.page.locked .jar { background: #E3D8BE !important; border-style: dashed; }
++.page.locked b, .page.locked small { color: #A89A7C; }
++.records { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
++.rec { background: #fff; border-radius: 12px; padding: 10px 12px; }
++.rec small { display: block; color: var(--muted); font-weight: 800; font-size: 11.5px; }
++.rec b { font-size: 18px; }
++.cups-line { margin-top: 10px; font-weight: 800; font-size: 13px; }
++
++/* ---------- Kavanoz etiketi ---------- */
++.label-wrap { display: flex; gap: 18px; align-items: center; flex-wrap: wrap; }
++.big-jar { width: 150px; height: 180px; border-radius: 22px 22px 34px 34px; border: 3px solid var(--ink); background: linear-gradient(180deg, #F7C45C, #E39A1E); position: relative; flex: none; }
++.big-jar::before { content: ""; position: absolute; left: 14px; right: 14px; top: -18px; height: 16px; border-radius: 6px; background: #C99A55; border: 3px solid var(--ink); }
++.big-jar .lbl { position: absolute; left: 12px; right: 12px; top: 58px; min-height: 64px; border-radius: 10px; border: 2px solid var(--ink); display: grid; place-items: center; text-align: center; padding: 6px; font-family: "Fraunces", Georgia, serif; font-size: 13px; line-height: 1.2; color: #fff; }
++.big-jar .lbl.cicekli { background-image: radial-gradient(circle at 15% 25%, #fff6 3px, transparent 4px), radial-gradient(circle at 85% 70%, #fff6 3px, transparent 4px), radial-gradient(circle at 70% 20%, #fff6 2px, transparent 3px); }
++.big-jar .lbl.petek { background-image: radial-gradient(circle, #fff3 30%, transparent 32%); background-size: 12px 12px; }
++.big-jar .lbl.sade { border-radius: 4px; }
++.big-jar .lbl.klasik { border-style: double; border-width: 4px; }
++.label-opts { display: flex; flex-direction: column; gap: 10px; flex: 1; min-width: 220px; }
++.label-opts .row2 { display: flex; gap: 6px; flex-wrap: wrap; }
++.label-opts button { border: 0; border-radius: 10px; padding: 7px 12px; font-weight: 800; background: var(--card2); }
++.label-opts button.on { background: var(--amber); color: #fff; }
++.swatch { width: 30px; height: 30px; border-radius: 50%; border: 3px solid transparent !important; padding: 0 !important; }
++.swatch.on { border-color: var(--ink) !important; }
++
++/* ---------- İstatistikler ---------- */
++.stats-card { width: min(640px, 94vw); }
++.stat-today { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 14px; }
++.chart { background: #fff; border-radius: 14px; padding: 12px; margin-bottom: 10px; }
++.chart h3 { margin: 0 0 8px; font-size: 13.5px; }
++.chart svg { width: 100%; height: 120px; display: block; }
++.chart .empty { color: var(--muted); font-weight: 700; font-size: 13px; padding: 20px 0; text-align: center; }
++
++/* ---------- Fotoğraf modu ---------- */
++body.photo .hud-top, body.photo .hud-bottom, body.photo .quests, body.photo .nero, body.photo .toasts, body.photo #labels,
++body.photo .popup, body.photo .notice, body.photo .place-bar { display: none !important; }
+diff --git a/src/renderer/bee/bee.js b/src/renderer/bee/bee.js
+index 5b1ecbd..74e42ad 100644
+--- a/src/renderer/bee/bee.js
++++ b/src/renderer/bee/bee.js
+@@ -61,7 +61,8 @@ function resize() {
+ window.addEventListener('resize', resize);
+ 
+ // Işıklar: yumuşak gökyüzü + gölgeli güneş
+-scene.add(new THREE.HemisphereLight(0xFFF6E0, 0x7FA36B, 1.15));
++const hemi = new THREE.HemisphereLight(0xFFF6E0, 0x7FA36B, 1.15);
++scene.add(hemi);
+ const sun = new THREE.DirectionalLight(0xFFF1D6, 1.6);
+ sun.position.set(-10, 22, 8);
+ sun.castShadow = true;
+@@ -86,6 +87,7 @@ const M = {
+   roof: mat(0xD9743A),
+   wood: mat(0x8A5A34),
+   window: mat(0xBFE3EE),
++  lamp: mat(0xFFD27A, { emissive: 0xFFB84A, emissiveIntensity: 0.6 }),
+   hive: mat(0xEBC983),
+   hiveLight: mat(0xF4DCA6),
+   hiveDark: mat(0xC99A55),
+@@ -279,7 +281,7 @@ function makeDecor(id) {
+   const iron = mat(0x3A3A3A);
+   const stone = mat(0xBDB6AA);
+   const water = mat(0x7FC8E0, { roughness: 0.2 });
+-  const glow = mat(0xFFD27A, { emissive: 0xFFB84A, emissiveIntensity: 0.6 });
++  const glow = M.lamp;
+   if (id === 'cit') {
+     for (let i = 0; i < 4; i++) {
+       const p = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.22, 0.05), white);
+@@ -333,6 +335,7 @@ function makeCup(kind) {
+ const hiveObjects = new Map(); // hiveId -> { group, pos }
+ 
+ function buildItems() {
++  setTimeout(buildNightLights, 0);
+   itemGroup.clear();
+   hiveObjects.clear();
+   for (const [k, t] of Object.entries(view.tiles)) {
+@@ -793,10 +796,221 @@ for (const b of document.querySelectorAll('.speeds button')) {
+ for (const b of document.querySelectorAll('[data-soon]')) {
+   b.addEventListener('click', () => toast(`${b.dataset.soon} bir sonraki aşamada geliyor.`));
+ }
++let lastSpeed = 1;
+ window.addEventListener('keydown', (e) => {
+-  if (e.key === 'Escape') { closePopup(); $('seed-modal').hidden = true; closeHive(); closeMarket(); closeOrders(); closeBoard(); closeShop(); $('guide-modal').hidden = true; cancelPlacing(); }
++  if (e.key === 'Escape') {
++    closePopup(); $('seed-modal').hidden = true; closeHive(); closeMarket(); closeOrders(); closeBoard(); closeShop();
++    $('guide-modal').hidden = true; cancelPlacing(); closeLedger(); closeStats();
++    return;
++  }
++  // Yazı yazarken ya da tanıtım açıkken kısayollar çalışmasın
++  if (e.target.closest('input, textarea, select') || !$('tour').hidden || e.ctrlKey || e.altKey || e.metaKey) return;
++  const k = e.code;
++  if (k === 'KeyH') { e.preventDefault(); doAct('harvestAll'); }
++  else if (k === 'KeyP') { e.preventDefault(); openMarket(); }
++  else if (k === 'KeyS') { e.preventDefault(); openOrders(); }
++  else if (k === 'KeyD') { e.preventDefault(); openLedger(); }
++  else if (k === 'KeyF') { e.preventDefault(); takePhoto(); }
++  else if (k === 'Space') {
++    e.preventDefault();
++    if (!view) return;
++    if (view.speed) { lastSpeed = view.speed; doAct('speed', 0); } else doAct('speed', lastSpeed || 1);
++  }
+ });
+ 
++// ---------------------------------------------------------------------------
++// Günlük görevler
++// ---------------------------------------------------------------------------
++let questsSig = '';
++$('quests-toggle').addEventListener('click', () => $('quests').classList.toggle('closed'));
++function renderQuests() {
++  const list = view.quests || [];
++  const sig = JSON.stringify(list.map((q) => [q.id, Math.floor(q.progress * 10), q.claimed]));
++  const open = list.filter((q) => !q.claimed).length;
++  $('quests-count').textContent = open ? `${list.length - open}/${list.length}` : 'tamam ✓';
++  if (sig === questsSig) return;
++  questsSig = sig;
++  $('quest-list').innerHTML = list.map((q) => {
++    const done = q.progress >= q.target;
++    const pct = Math.min(100, (q.progress / q.target) * 100);
++    const prog = q.target > 1 ? `${(Math.floor(q.progress * 10) / 10).toLocaleString('tr-TR')} / ${q.target}` : (done ? '1 / 1' : '0 / 1');
++    const reward = `+${q.reward} 🪙${q.voucher ? ` · 🎁 ${esc(view.flowers[q.voucher].name)}` : ''}`;
++    return `<li class="quest${q.claimed ? ' claimed' : ''}">
++      <div class="qtop"><span>${esc(q.text)}</span><span class="qrew">${q.claimed ? 'alındı' : reward}</span></div>
++      ${q.claimed ? '' : `<div class="qbar"><i style="width:${pct}%"></i></div><small class="qrew">${prog}</small>`}
++      ${done && !q.claimed ? `<button type="button" data-claim="${q.id}">Ödülü al</button>` : ''}
++    </li>`;
++  }).join('');
++}
++$('quest-list').addEventListener('click', (e) => {
++  const b = e.target.closest('[data-claim]');
++  if (b) doAct('claimQuest', b.dataset.claim);
++});
++
++// ---------------------------------------------------------------------------
++// İsim düzenleme (kovan ve çiftlik)
++// ---------------------------------------------------------------------------
++function inlineRename(labelEl, inputEl, current, onSave) {
++  inputEl.value = current;
++  labelEl.hidden = true;
++  inputEl.hidden = false;
++  inputEl.focus();
++  inputEl.select();
++  const finish = (save) => {
++    inputEl.onkeydown = null;
++    inputEl.onblur = null;
++    inputEl.hidden = true;
++    labelEl.hidden = false;
++    const v = inputEl.value.trim();
++    if (save && v && v !== current) onSave(v);
++  };
++  inputEl.onkeydown = (e) => { if (e.key === 'Enter') finish(true); if (e.key === 'Escape') { e.stopPropagation(); finish(false); } };
++  inputEl.onblur = () => finish(true);
++}
++$('h-name').addEventListener('click', () => {
++  const h = view.hives[openHiveId];
++  if (h) inlineRename($('h-name'), $('h-name-input'), h.name, (n) => doAct('renameHive', openHiveId, n));
++});
++$('farm-name').addEventListener('click', () => inlineRename($('farm-name'), $('farm-name-input'), view.farmName, (n) => doAct('setFarmName', n)));
++
++// ---------------------------------------------------------------------------
++// Bal Defteri
++// ---------------------------------------------------------------------------
++let ledgerOpen = false;
++let ledgerTab = 'honey';
++let ledgerSig = '';
++function openLedger() { ledgerOpen = true; $('ledger-modal').hidden = false; renderLedger(true); }
++function closeLedger() { ledgerOpen = false; $('ledger-modal').hidden = true; }
++$('open-ledger').addEventListener('click', openLedger);
++$('ledger-close').addEventListener('click', closeLedger);
++$('ledger-modal').addEventListener('click', (e) => { if (e.target === $('ledger-modal')) closeLedger(); });
++for (const b of document.querySelectorAll('[data-ltab]')) {
++  b.addEventListener('click', () => {
++    ledgerTab = b.dataset.ltab;
++    for (const x of document.querySelectorAll('[data-ltab]')) x.classList.toggle('on', x === b);
++    renderLedger(true);
++  });
++}
++const LABEL_COLORS = ['#E0626A', '#3F7FBF', '#6FAF7F', '#9C7BD6', '#D9793B', '#4A3A22'];
++let labelDraft = null;
++
++function renderLedger(force = false) {
++  if (!ledgerOpen || !view) return;
++  const sig = JSON.stringify([ledgerTab, view.ledger, view.farmName, view.label, view.questsDone, view.festival.cups, labelDraft]);
++  if (!force && sig === ledgerSig) return;
++  ledgerSig = sig;
++  $('farm-name').textContent = `🏡 ${view.farmName}`;
++  const L = view.ledger;
++  const n = (v, d = 1) => (Math.round(v * 10 ** d) / 10 ** d).toLocaleString('tr-TR');
++  let html = '';
++  if (ledgerTab === 'honey') {
++    html = `<div class="ledger-grid">${Object.entries(view.flowers).map(([f, def]) => {
++      const h = L.honey[f];
++      if (!h || !h.first) {
++        return `<div class="page locked"><div class="jar"></div><b>??? Balı</b>
++          <small>Henüz üretmedin. ${esc(def.name)} tohumu ekip kovanın yanına koyarsan bu sayfa açılır.</small></div>`;
++      }
++      return `<div class="page"><div class="jar" style="background:${def.color}"></div><b>${esc(def.name)} Balı</b>
++        <small>İlk kavanoz: ${h.first.year}. yıl, ${esc(h.first.season)}, ${h.first.day}. gün</small>
++        <small>Toplam hasat: ${n(h.kg)} kg · Satılan: ${n(h.soldKg)} kg</small>
++        <small>Kazanç: ${n(h.earned, 0)} 🪙 · En iyi fiyat: ${h.bestPrice ? `${n(h.bestPrice)} 🪙/kg` : '—'}</small></div>`;
++    }).join('')}</div>`;
++  } else if (ledgerTab === 'records') {
++    const totalKg = Object.values(L.honey).reduce((a, x) => a + x.kg, 0);
++    const found = Object.values(L.honey).filter((x) => x.first).length;
++    const maxBees = Math.max(0, ...Object.values(view.hives).map((h) => h.bees));
++    const best = L.bestSale ? `${n(L.bestSale.coins, 0)} 🪙 (${n(L.bestSale.kg)} kg ${esc(view.flowers[L.bestSale.flower].name)})` : '—';
++    const cups = (view.festival.cups || []).map((c) => `${c.cup === 'altın' ? '🥇' : c.cup === 'gümüş' ? '🥈' : '🥉'} ${c.year}. yıl`).join(' · ');
++    const rec = (label, val) => `<div class="rec"><small>${label}</small><b>${val}</b></div>`;
++    html = `<div class="records">
++      ${rec('Toplam hasat', `${n(totalKg)} kg`)}${rec('Bal türleri', `${found} / ${Object.keys(view.flowers).length}`)}
++      ${rec('Hasat sayısı', n(L.harvests, 0))}${rec('Teslim edilen sipariş', n(L.ordersDone, 0))}
++      ${rec('Yapılan mum', n(L.candlesMade, 0))}${rec('Tamamlanan görev', n(view.questsDone, 0))}
++      ${rec('En kalabalık kovan', `${maxBees} arı`)}${rec('En büyük satış', best)}
++    </div><p class="cups-line">🏆 Kupalar: ${cups || 'henüz yok, Bal Festivali seni bekliyor!'}</p>`;
++  } else {
++    const cur = labelDraft || view.label || { design: 'klasik', color: LABEL_COLORS[0] };
++    labelDraft = cur;
++    html = `<div class="label-wrap">
++      <div class="big-jar"><div class="lbl ${cur.design}" style="background-color:${cur.color}">${esc(view.farmName)}<br><small>saf bal</small></div></div>
++      <div class="label-opts">
++        <b>Desen</b>
++        <div class="row2">${Object.entries(view.labelDesigns).map(([id, nm]) => `<button type="button" data-design="${id}" class="${cur.design === id ? 'on' : ''}">${esc(nm)}</button>`).join('')}</div>
++        <b>Renk</b>
++        <div class="row2">${LABEL_COLORS.map((c) => `<button type="button" class="swatch${cur.color === c ? ' on' : ''}" data-color="${c}" style="background:${c}" aria-label="Renk ${c}"></button>`).join('')}</div>
++        <p class="modal-sub" style="margin:0">Etiketin olduğunda müdavim köylülerin (en az 1 kalp) siparişlerinde %${Math.round(view.labelBonus * 100)} bahşiş verir.</p>
++        <button type="button" class="act primary" id="label-save">${view.label ? 'Etiketi güncelle' : 'Etiketi kaydet'}</button>
++      </div></div>`;
++  }
++  $('ledger-body').innerHTML = html;
++}
++$('ledger-body').addEventListener('click', async (e) => {
++  const d = e.target.closest('[data-design]');
++  const c = e.target.closest('[data-color]');
++  if (d) { labelDraft = { ...labelDraft, design: d.dataset.design }; renderLedger(true); }
++  else if (c) { labelDraft = { ...labelDraft, color: c.dataset.color }; renderLedger(true); }
++  else if (e.target.id === 'label-save') await doAct('setLabel', labelDraft.design, labelDraft.color);
++});
++
++// ---------------------------------------------------------------------------
++// İstatistikler
++// ---------------------------------------------------------------------------
++let statsOpen = false;
++let statsSig = '';
++function openStats() { statsOpen = true; $('stats-modal').hidden = false; renderStats(true); }
++function closeStats() { statsOpen = false; $('stats-modal').hidden = true; }
++$('open-stats').addEventListener('click', openStats);
++$('stats-close').addEventListener('click', closeStats);
++$('stats-modal').addEventListener('click', (e) => { if (e.target === $('stats-modal')) closeStats(); });
++
++function barChart(values, color, unit) {
++  if (!values.length || values.every((v) => !v)) return '<div class="empty">Henüz veri yok. Birkaç oyun günü sonra burada grafik belirecek.</div>';
++  const max = Math.max(...values, 1);
++  const w = 600 / values.length;
++  const bars = values.map((v, i) => {
++    const h = (v / max) * 92;
++    return `<rect x="${i * w + w * 0.15}" y="${100 - h}" width="${w * 0.7}" height="${h}" rx="4" fill="${color}"><title>${v.toLocaleString('tr-TR')} ${unit}</title></rect>`;
++  }).join('');
++  return `<svg viewBox="0 0 600 104" preserveAspectRatio="none" aria-hidden="true">${bars}<line x1="0" y1="100.5" x2="600" y2="100.5" stroke="#E3D3A9"/></svg>`;
++}
++
++function renderStats(force = false) {
++  if (!statsOpen || !view) return;
++  const sig = JSON.stringify([view.history, view.today]);
++  if (!force && sig === statsSig) return;
++  statsSig = sig;
++  const hist = (view.history || []).slice(-14);
++  const nw = (view.leaderboard.find((r) => r.me) || {}).nw || 0;
++  const rec = (label, val) => `<div class="rec"><small>${label}</small><b>${val}</b></div>`;
++  $('stats-body').innerHTML = `
++    <div class="stat-today">
++      ${rec('Bugün üretilen', `${view.today.produced.toLocaleString('tr-TR')} kg`)}
++      ${rec('Bugün kazanılan', `${view.today.earned.toLocaleString('tr-TR')} 🪙`)}
++      ${rec('Net değer', `${nw.toLocaleString('tr-TR')} 🪙`)}
++    </div>
++    <div class="chart"><h3>🍯 Günlük bal üretimi (son ${hist.length || 0} oyun günü)</h3>${barChart(hist.map((d) => d.produced), '#F2B33D', 'kg')}</div>
++    <div class="chart"><h3>🪙 Günlük kazanç</h3>${barChart(hist.map((d) => d.earned), '#6FAF7F', 'jeton')}</div>
++    <div class="chart"><h3>🏆 Net değer (son 14 gün)</h3>${barChart((view.leaderboard.find((r) => r.me) || {}).history || [], '#9C7BD6', 'jeton')}</div>`;
++}
++
++// ---------------------------------------------------------------------------
++// Fotoğraf modu
++// ---------------------------------------------------------------------------
++async function takePhoto() {
++  document.body.classList.add('photo');
++  await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
++  await new Promise((r) => setTimeout(r, 120));
++  let res = null;
++  try { res = await window.bee.photo(); } finally { document.body.classList.remove('photo'); }
++  if (res && res.ok) {
++    SFX.coin();
++    toast('📷 Fotoğraf Resimler\\Nero Arıcılık klasörüne kaydedildi. (klasörü açmak için tıkla)');
++    const last = $('toasts').lastElementChild;
++    if (last) { last.style.cursor = 'pointer'; last.addEventListener('click', () => window.bee.openPhotos()); }
++  }
++}
++$('photo-btn').addEventListener('click', takePhoto);
++
+ // ---------------------------------------------------------------------------
+ // Yerleştirme modu (Mağaza'dan satın alınca bir kare seçilir)
+ // ---------------------------------------------------------------------------
+@@ -925,7 +1139,7 @@ const SFX = {
+   place: () => { tone(330, 0.08, 'square', 0.04); tone(495, 0.1, 'triangle', 0.05, 0.06); },
+   err: () => { tone(200, 0.18, 'sine', 0.06, 0, 140); }
+ };
+-function updateSoundBtn() { $('sound-btn').textContent = soundOn ? '🔊' : '🔇'; }
++function updateSoundBtn() { $('sound-btn').textContent = soundOn ? '🔊' : '🔇'; if ($('ambient-btn')) $('ambient-btn').style.opacity = soundOn ? '1' : '.45'; }
+ $('sound-btn').addEventListener('click', () => {
+   soundOn = !soundOn;
+   try { localStorage.setItem('bee-sound', soundOn ? 'on' : 'off'); } catch (_) { /* yoksay */ }
+@@ -1030,7 +1244,7 @@ function applySeason(season) {
+ let precip = null; // 'snow' | 'rain' | null
+ function weatherFx() {
+   if (!view) return;
+-  precip = currentSeason === 'kis' ? 'snow' : view.weather.id === 'yagmurlu' ? 'rain' : null;
++  precip = view.weather.id === 'karli' ? 'snow' : view.weather.id === 'yagmurlu' ? 'rain' : null;
+   $('snow').hidden = !precip;
+ }
+ const snowCanvas = $('snow');
+@@ -1563,6 +1777,7 @@ const SEASON_ICON = { ilkbahar: '🌸', yaz: '☀️', sonbahar: '🍂', kis: '
+ let noticeShown = false;
+ 
+ function applyView(v) {
++  setTimeout(() => { renderQuests(); renderLedger(); renderStats(); }, 0);
+   const first = !view;
+   view = v;
+   $('coins').textContent = Math.floor(v.coins).toLocaleString('tr-TR');
+@@ -1634,9 +1849,151 @@ function updateLabels() {
+ // ---------------------------------------------------------------------------
+ // Döngü
+ // ---------------------------------------------------------------------------
++// ---------------------------------------------------------------------------
++// Gece modu: gerçek saatle 19:00–07:00 (sadece görünüş, üretim etkilenmez)
++// ---------------------------------------------------------------------------
++const DAY_LIGHT = { hemi: 1.15, sun: 1.6, hemiColor: new THREE.Color(0xFFF6E0), sunColor: new THREE.Color(0xFFF1D6) };
++const NIGHT_LIGHT = { hemi: 0.62, sun: 0.45, hemiColor: new THREE.Color(0x7F8FC8), sunColor: new THREE.Color(0x9FB0E0) };
++let night = 0;
++let lampLights = [];
++let houseLight = null;
++let fireflies = null;
++
++// 0 = gündüz, 1 = gece. Akşam 18:30–19:15 ve sabah 06:45–07:30 arasında yumuşak geçiş.
++function nightLevel(d = new Date()) {
++  const h = d.getHours() + d.getMinutes() / 60;
++  const ramp = (x, a, b) => Math.min(1, Math.max(0, (x - a) / (b - a)));
++  if (h >= 12) return ramp(h, 18.5, 19.25);
++  return 1 - ramp(h, 6.75, 7.5);
++}
++
++function buildNightLights() {
++  if (!view) return;
++  for (const l of lampLights) scene.remove(l);
++  lampLights = [];
++  for (const t of Object.values(view.tiles)) {
++    if (t.decor !== 'fener' || lampLights.length >= 8) continue;
++    const p = hexToWorld(t.q, t.r);
++    const l = new THREE.PointLight(0xFFB84A, 0, 4, 1.4);
++    l.position.set(p.x + 0.52, topY(t) + 0.75, p.z + 0.42);
++    scene.add(l);
++    lampLights.push(l);
++  }
++  if (!houseLight) { houseLight = new THREE.PointLight(0xFFC266, 0, 3, 1.5); scene.add(houseLight); }
++  const hk = view.houseKey && view.tiles[view.houseKey];
++  if (hk) { const p = hexToWorld(hk.q, hk.r); houseLight.position.set(p.x, topY(hk) + 0.6, p.z + 0.7); }
++  // Ateş böcekleri: her kovanın çevresinde küçük parlayan noktalar
++  if (fireflies) scene.remove(fireflies);
++  const pts = [];
++  for (const { pos } of hiveObjects.values()) {
++    for (let i = 0; i < 9; i++) pts.push({ c: pos.clone(), a: Math.random() * 6.28, r: 0.5 + Math.random() * 0.9, h: 0.4 + Math.random() * 0.8, s: 0.3 + Math.random() * 0.5 });
++  }
++  const geo = new THREE.BufferGeometry();
++  geo.setAttribute('position', new THREE.Float32BufferAttribute(new Float32Array(Math.max(1, pts.length) * 3), 3));
++  fireflies = new THREE.Points(geo, new THREE.PointsMaterial({ color: 0xFFF3A0, size: 0.14, transparent: true, opacity: 0, depthWrite: false, blending: THREE.AdditiveBlending }));
++  fireflies.userData.pts = pts;
++  scene.add(fireflies);
++}
++
++function applyNight() {
++  night = nightLevel();
++  hemi.intensity = DAY_LIGHT.hemi + (NIGHT_LIGHT.hemi - DAY_LIGHT.hemi) * night;
++  sun.intensity = DAY_LIGHT.sun + (NIGHT_LIGHT.sun - DAY_LIGHT.sun) * night;
++  hemi.color.copy(DAY_LIGHT.hemiColor).lerp(NIGHT_LIGHT.hemiColor, night);
++  sun.color.copy(DAY_LIGHT.sunColor).lerp(NIGHT_LIGHT.sunColor, night);
++  M.window.emissive.setHex(0xFFB84A);
++  M.window.emissiveIntensity = night * 1.6;
++  M.lamp.emissiveIntensity = 0.3 + night * 1.2;
++  for (const l of lampLights) l.intensity = night * 3;
++  if (houseLight) houseLight.intensity = night * 2;
++  // Gökyüzü: şafak/gün batımı tonu geçişin ortasında en belirgin
++  $('sky-night').style.opacity = String(night * 0.92);
++  $('sky-dusk').style.opacity = String(Math.min(1, 4 * night * (1 - night)) * 0.85);
++  document.body.classList.toggle('night', night > 0.5);
++}
++setInterval(applyNight, 30 * 1000);
++
++function animateFireflies(t) {
++  if (!fireflies) return;
++  const m = fireflies.material;
++  m.opacity = Math.max(0, night - 0.3) / 0.7 * (0.75 + Math.sin(t * 3) * 0.2);
++  if (m.opacity <= 0.01) return;
++  const arr = fireflies.geometry.attributes.position.array;
++  fireflies.userData.pts.forEach((p, i) => {
++    const a = p.a + t * p.s;
++    arr[i * 3] = p.c.x + Math.cos(a) * p.r;
++    arr[i * 3 + 1] = p.c.y + p.h + Math.sin(t * 1.3 + p.a) * 0.15;
++    arr[i * 3 + 2] = p.c.z + Math.sin(a * 1.2) * p.r;
++  });
++  fireflies.geometry.attributes.position.needsUpdate = true;
++}
++
++// ---------------------------------------------------------------------------
++// Ortam sesleri: gündüz kuşlar ve arılar, gece cırcır böcekleri, yağmurda yağmur
++// ---------------------------------------------------------------------------
++let ambientOn = true;
++try { ambientOn = localStorage.getItem('bee-ambient') !== 'off'; } catch (_) { /* yoksay */ }
++const amb = { started: false, buzz: null, rain: null };
++function updateAmbientBtn() { $('ambient-btn').style.opacity = ambientOn && soundOn ? '1' : '.45'; }
++$('ambient-btn').addEventListener('click', () => {
++  ambientOn = !ambientOn;
++  try { localStorage.setItem('bee-ambient', ambientOn ? 'on' : 'off'); } catch (_) { /* yoksay */ }
++  updateAmbientBtn();
++  toast(ambientOn ? '🎵 Ortam sesleri açık' : '🎵 Ortam sesleri kapalı');
++});
++updateAmbientBtn();
++
++function ambientStart() {
++  if (amb.started) return;
++  try {
++    actx = actx || new AudioContext();
++    // Arı vızıltısı: çok kısık, hafifçe dalgalanan alçak bir ton
++    const buzz = actx.createOscillator(); buzz.type = 'sawtooth'; buzz.frequency.value = 176;
++    const bf = actx.createBiquadFilter(); bf.type = 'lowpass'; bf.frequency.value = 420;
++    const bg = actx.createGain(); bg.gain.value = 0;
++    const lfo = actx.createOscillator(); lfo.frequency.value = 0.35;
++    const lg = actx.createGain(); lg.gain.value = 6;
++    lfo.connect(lg).connect(buzz.frequency);
++    buzz.connect(bf).connect(bg).connect(actx.destination);
++    buzz.start(); lfo.start();
++    // Yağmur: filtrelenmiş beyaz gürültü
++    const buf = actx.createBuffer(1, actx.sampleRate * 2, actx.sampleRate);
++    const d = buf.getChannelData(0);
++    for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
++    const noise = actx.createBufferSource(); noise.buffer = buf; noise.loop = true;
++    const nf = actx.createBiquadFilter(); nf.type = 'bandpass'; nf.frequency.value = 1800; nf.Q.value = 0.6;
++    const ng = actx.createGain(); ng.gain.value = 0;
++    noise.connect(nf).connect(ng).connect(actx.destination);
++    noise.start();
++    amb.buzz = bg; amb.rain = ng; amb.started = true;
++  } catch (_) { /* ses altyapısı yoksa sessiz geç */ }
++}
++
++function ambientTick() {
++  const on = ambientOn && soundOn && view && document.visibilityState === 'visible';
++  if (on) ambientStart();
++  if (!amb.started) return;
++  const now = actx.currentTime;
++  const raining = view && view.weather.id === 'yagmurlu';
++  amb.buzz.gain.setTargetAtTime(on && night < 0.5 && !raining ? 0.006 : 0, now, 0.8);
++  amb.rain.gain.setTargetAtTime(on && raining ? 0.035 : 0, now, 0.8);
++  if (!on) return;
++  if (night < 0.5 && !raining && Math.random() < 0.35) {
++    // Kuş cıvıltısı: kısa, hızlı iki üç nota
++    const base = 2200 + Math.random() * 1400;
++    const n = 2 + Math.floor(Math.random() * 3);
++    for (let i = 0; i < n; i++) tone(base + Math.random() * 500, 0.07, 'sine', 0.012, i * 0.09, base * 1.25);
++  } else if (night >= 0.5 && Math.random() < 0.7) {
++    // Cırcır böceği: yüksek, titrek kısa darbeler
++    for (let i = 0; i < 3; i++) tone(4300, 0.035, 'triangle', 0.006, i * 0.06);
++  }
++}
++setInterval(ambientTick, 1100);
++
+ const clock = new THREE.Clock();
+ function loop() {
+   const t = clock.getElapsedTime();
++  animateFireflies(t);
+   animateBees(t);
+   animateKeeper(t);
+   drawComb(t);
+@@ -1650,6 +2007,7 @@ function loop() {
+   placeCamera();
+   resize();
+   applyView(await window.bee.state());
++  applyNight();
+   window.bee.onState(applyView);
+   window.bee.onEvents((events) => events.forEach((e) => { if (e.msg) { toast(e.msg, e.err); reactEvent(e); } }));
+   if (!view.tutorialDone) startTour();
+diff --git a/src/renderer/bee/index.html b/src/renderer/bee/index.html
+index c04eb09..2e73f0b 100644
+--- a/src/renderer/bee/index.html
++++ b/src/renderer/bee/index.html
+@@ -9,6 +9,8 @@
+   <link rel="stylesheet" href="bee.css">
+ </head>
+ <body>
++  <div class="sky-layer sky-dusk" id="sky-dusk"></div>
++  <div class="sky-layer sky-night" id="sky-night"></div>
+   <canvas id="scene"></canvas>
+   <div id="labels"></div>
+ 
+@@ -34,6 +36,10 @@
+       </div>
+     </div>
+     <div class="hud-right">
++      <button class="round" id="open-ledger" type="button" aria-label="Bal Defteri (D)" title="Bal Defteri (D)">📖</button>
++      <button class="round" id="open-stats" type="button" aria-label="İstatistikler" title="İstatistikler">📊</button>
++      <button class="round" id="photo-btn" type="button" aria-label="Fotoğraf çek (F)" title="Fotoğraf çek (F)">📷</button>
++      <button class="round" id="ambient-btn" type="button" aria-label="Ortam sesleri" title="Ortam sesleri">🎵</button>
+       <button class="round" id="sound-btn" type="button" aria-label="Ses">🔊</button>
+       <button class="round" id="open-board" type="button" aria-label="Liderlik tablosu">🏆</button>
+       <button class="round" id="zoom-in" type="button" aria-label="Yakınlaştır">＋</button>
+@@ -44,6 +50,12 @@
+   <div class="notice" id="notice" hidden>Uzun süredir bakmadığın için üretim durmuştu. Tekrar başladı!</div>
+ 
+   <!-- Alt bar -->
++  <!-- Günlük görevler -->
++  <section class="quests card" id="quests">
++    <button class="quests-head" id="quests-toggle" type="button"><span>📋 Bugünün görevleri</span><b id="quests-count"></b></button>
++    <ul class="quest-list" id="quest-list"></ul>
++  </section>
++
+   <nav class="hud-bottom">
+     <button class="hexbtn" type="button" id="open-shop"><span>🛒</span>Mağaza</button>
+     <button class="hexbtn" type="button" id="open-market"><span>🍯</span>Pazar</button>
+@@ -78,7 +90,7 @@
+         <div class="hive-head">
+           <span class="hex-badge"></span>
+           <div>
+-            <h2 id="h-name">Kovan 1</h2>
++            <h2 class="rename" id="h-name" title="Adını değiştirmek için tıkla"></h2><input class="rename-input" id="h-name-input" maxlength="24" hidden>
+             <p class="sub" id="h-sub">Seviye 1 · Genç Kraliçe</p>
+           </div>
+           <button class="round small" id="hive-close" type="button" aria-label="Kapat">✕</button>
+@@ -226,6 +238,26 @@
+           </ol>
+         </details>
+ 
++        <details class="guide-topic">
++          <summary>📋 Günlük görevler ve 📖 Bal Defteri</summary>
++          <p>Her gün 3 küçük görev gelir (bal hasat et, sat, sipariş teslim et, mum yap, tarh ek gibi). Tamamlanınca <b>Ödülü al</b> ile jeton, bazen de hediye tohum kazanırsın. Görevler gece yarısı yenilenir.</p>
++          <p><b>Bal Defteri</b> (📖, kısayol D) her bal türünün sayfasını tutar: ilk ne zaman ürettiğin, toplam kg, satış ve en iyi fiyat. Henüz üretmediğin ballar kilitli görünür. <b>Kayıtlar</b> sekmesinde hasat, sipariş, mum, görev sayıların ve kupaların; <b>Etiket</b> sekmesinde çiftliğinin adı ve kavanoz etiketin var. Etiketin varsa müdavim köylüler siparişlerde <b>%5 bahşiş</b> verir.</p>
++          <p>Kovanlarının adını kovan ekranında isme tıklayarak, çiftliğinin adını Bal Defteri'nde değiştirebilirsin.</p>
++        </details>
++
++        <details class="guide-topic">
++          <summary>🌦️ Hava, gece ve sesler</summary>
++          <p><b>Yaz</b> her gün güneşli. <b>İlkbahar</b> güneşli, bulutlu ya da yağmurlu; <b>sonbahar</b> bulutlu ya da yağmurlu; <b>kış</b> karlı ya da yağmurlu. Yağmurlu günlerde ekranda yağmur, karlı günlerde kar yağar; yağmurda arılar dışarı daha az çıkar (üretim ×0.6), güneşte biraz daha çok (×1.1).</p>
++          <p>Gerçek saatle <b>19:00–07:00</b> arası oyun gece moduna geçer: gökyüzü kararır, evin pencereleri ve fenerler yanar, kovanların etrafında ateş böcekleri uçar. Gece sadece görünüştür; üretim etkilenmez.</p>
++          <p>🎵 düğmesi ortam seslerini açıp kapatır: gündüz kuşlar ve arı vızıltısı, gece cırcır böcekleri, yağmurda yağmur sesi.</p>
++        </details>
++
++        <details class="guide-topic">
++          <summary>⌨️ Kısayollar ve 📷 fotoğraf modu</summary>
++          <p><b>H</b> hepsini hasat et · <b>P</b> Pazar · <b>S</b> Siparişler · <b>D</b> Bal Defteri · <b>F</b> fotoğraf · <b>Boşluk</b> duraklat/devam · <b>Esc</b> pencereleri kapat.</p>
++          <p>📷 ya da F: arayüz bir anlığına gizlenir ve adanın fotoğrafı <b>Resimler\Nero Arıcılık</b> klasörüne kaydedilir. 📊 İstatistikler'de son günlerin üretim ve kazanç grafikleri var.</p>
++        </details>
++
+         <details class="guide-topic">
+           <summary>🗓️ Zaman, aylar, mevsimler ve hız</summary>
+           <p><b>1 oyun günü = 1x hızda 15 gerçek dakika.</b> Takvimde her mevsim bir oyun ayı gibi işler ve <b>15 gün</b> sürer. İlkbahar → Yaz → Sonbahar → Kış; bir yıl toplam <b>60 gün</b>.</p>
+@@ -334,6 +366,34 @@
+     </div>
+   </div>
+ 
++  <!-- Bal Defteri -->
++  <div class="modal-bg" id="ledger-modal" hidden>
++    <div class="modal card ledger-card">
++      <div class="modal-head">
++        <h2>📖 Bal Defteri</h2>
++        <button class="round small" id="ledger-close" type="button" aria-label="Kapat">✕</button>
++      </div>
++      <p class="modal-sub"><span class="farm-name" id="farm-name" title="Adını değiştirmek için tıkla"></span><input class="rename-input" id="farm-name-input" maxlength="28" hidden></p>
++      <div class="shop-tabs" role="tablist">
++        <button type="button" data-ltab="honey" class="on">🍯 Ballar</button>
++        <button type="button" data-ltab="records">🏅 Kayıtlar</button>
++        <button type="button" data-ltab="label">🏷️ Etiket</button>
++      </div>
++      <div id="ledger-body"></div>
++    </div>
++  </div>
++
++  <!-- İstatistikler -->
++  <div class="modal-bg" id="stats-modal" hidden>
++    <div class="modal card stats-card">
++      <div class="modal-head">
++        <h2>📊 İstatistikler</h2>
++        <button class="round small" id="stats-close" type="button" aria-label="Kapat">✕</button>
++      </div>
++      <div id="stats-body"></div>
++    </div>
++  </div>
++
+   <div class="toasts" id="toasts"></div>
+ 
+   <script type="module" src="bee.js"></script>
