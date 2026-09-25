@@ -2,7 +2,7 @@ name: Build Nero 5.5.3 Final Bundle
 
 on:
   push:
-    branches: [feature/v5.5.3-aricilik]
+    branches: [feature/v5.5.3-release]
     paths:
       - ".github/workflows/build-v5.5.3.yml"
       - "package.json"
@@ -94,8 +94,8 @@ jobs:
         shell: pwsh
         run: |
           $metadata = Get-Content dist/latest.yml -Raw
-          if ($metadata -notmatch 'version: 5\.5\.2') { throw 'latest.yml version is not 5.5.3' }
-          if ($metadata -notmatch 'Nero-Setup-5\.5\.2\.exe') { throw 'latest.yml installer name mismatch' }
+          if ($metadata -notmatch 'version: 5\.5\.3') { throw 'latest.yml version is not 5.5.3' }
+          if ($metadata -notmatch 'Nero-Setup-5\.5\.3\.exe') { throw 'latest.yml installer name mismatch' }
           $files = @(
             "dist/Nero-Setup-5.5.3.exe",
             "dist/Nero-Setup-5.5.3.exe.blockmap",
