@@ -483,14 +483,18 @@ class BeeGame {
     const rates = {};
     const weather = WEATHER[this.state.weather] || WEATHER.bulutlu;
     const share = (hive.bees * BASE_KG_PER_BEE_HOUR) / near.length;
+    const day = this.dayIndex();
     for (const { flower: f, key: fk } of near) {
       const def = FLOWERS[f];
       const breed = BREEDS[hive.breed] || BREEDS.anadolu;
       const focus = Date.now() < (this.state.focusBoostUntil || 0) ? 1 + FOCUS_BOOST : 1;
-      let mult = (1 + def.buff) * weather.mult * (hive.sick ? SICK_MULT : 1) * (1 + this.clusterBonus(fk) + this.fountainBonus(fk))
-        * breed.prod * focus * (1 + this.fx('prodBonus') + this.storyFx('prodAll'))
-        * (this.dayIndex() < (hive.boostUntilDay || 0) ? 1.5 : 1);
-      const allSeason = (this.state.tiles[fk].item.allSeasonUntil || 0) > this.dayIndex();
+      const pollenBuff = day < (hive.pollenMixUntilDay || 0) ? 1.25 : 1;
+      const flowerFeed = day < ((this.state.tiles[fk].item || {}).feedUntilDay || 0) ? 1.25 : 1;
+      const vitamin = day < (hive.vitaminUntilDay || 0) ? 1.15 : 1;
+      let mult = (1 + def.buff * pollenBuff) * weather.mult * (hive.sick ? SICK_MULT : 1) * (1 + this.clusterBonus(fk) + this.fountainBonus(fk))
+        * breed.prod * focus * vitamin * flowerFeed * (1 + this.fx('prodBonus') + this.storyFx('prodAll'))
+        * (day < (hive.boostUntilDay || 0) ? 1.5 : 1);
+      const allSeason = (this.state.tiles[fk].item.allSeasonUntil || 0) > day;
       if (season === 'kis') mult *= hive.syrup > 0 ? WINTER_SYRUP_FACTOR : WINTER_FACTOR;
       else if (!def.seasons.includes(season) && !allSeason) mult *= OUT_OF_SEASON;
       rates[f] = (rates[f] || 0) + share * mult;
@@ -730,9 +734,14 @@ class BeeGame {
     if (!FLOWERS[flower] || amount < 1) return this.fail('Festivale en az 1 kg bal göndermelisin.');
     this.state.storage[flower] = have - amount;
     if (this.state.storage[flower] < 0.001) delete this.state.storage[flower];
-    this.state.festival.entry = { flower, kg: amount, score: Math.round(amount * FLOWERS[flower].price * (1 + FLOWERS[flower].buff) * (1 + this.fx('festivalBonus'))) };
+    const fx = this.state.merchantEffects || {};
+    const polish = fx.festivalPolish ? 1.05 : 1;
+    const insured = !!fx.festivalInsurance;
+    fx.festivalPolish = false;
+    fx.festivalInsurance = false;
+    this.state.festival.entry = { flower, kg: amount, insured, score: Math.round(amount * FLOWERS[flower].price * (1 + FLOWERS[flower].buff) * (1 + this.fx('festivalBonus')) * polish) };
     this.save();
-    return { ok: true, msg: `Festivale ${amount.toFixed(1)} kg ${FLOWERS[flower].name} balı gönderdin. Sonuç yeni yılda!` };
+    return { ok: true, msg: `Festivale ${amount.toFixed(1)} kg ${FLOWERS[flower].name} balı gönderdin${polish > 1 ? ' · Festival Cilası +%5 aktif' : ''}. Sonuç yeni yılda!` };
   }
 
   judgeFestival(year) {
@@ -742,10 +751,7 @@ class BeeGame {
     const entry = f.entry;
     f.entry = null;
     if (!entry) { this.events.push({ msg: '🎪 Bal festivali bitti. Bu yıl katılmadın; seneye bekleriz!' }); return; }
-    const rivals = this.state.rivals.map((r) => ({
-      name: RIVALS.find((x) => x.id === r.id).name,
-      score: Math.round(entry.score * (0.55 + Math.random() * 0.9))
-    }));
+    const rivals = this.state.rivals.map((r) => ({ name: RIVALS.find((x) => x.id === r.id).name, score: Math.round(entry.score * (0.55 + Math.random() * 0.9)) }));
     const all = [{ name: 'Sen', score: entry.score, me: true }, ...rivals].sort((a, b) => b.score - a.score);
     const place = all.findIndex((x) => x.me) + 1;
     const prize = FESTIVAL_PRIZES[place - 1];
@@ -756,34 +762,40 @@ class BeeGame {
       this.milestone('ilk_kupa', 'İlk festival kupanı kazandın');
       this.events.push({ msg: `🏆 Bal festivalinde ${place}. oldun! ${prize.cup[0].toUpperCase() + prize.cup.slice(1)} kupa ve +${prize.coins} 🪙` });
     } else {
-      this.events.push({ msg: `🎪 Bal festivalinde ${place}. oldun. Birinci: ${all[0].name}. Seneye!`, err: true });
+      let refund = 0;
+      if (entry.insured) { refund = Math.round(entry.kg * 0.6 * 10) / 10; this.state.storage[entry.flower] = (this.state.storage[entry.flower] || 0) + refund; }
+      this.events.push({ msg: `🎪 Bal festivalinde ${place}. oldun. Birinci: ${all[0].name}.${refund ? ` Festival Güvencesi ${refund.toFixed(1)} kg balı geri getirdi.` : ' Seneye!'}`, err: true });
     }
   }
 
-  // --- 5) Arı ırkları -------------------------------------------------------------
   changeBreed(hiveId, breed) {
     const h = this.state.hives[hiveId];
     if (!h || !BREEDS[breed]) return this.fail('Geçersiz seçim.');
     if (h.breed === breed) return this.fail('Bu kovan zaten bu ırktan.');
-    if (this.state.coins < BREED_CHANGE_COST) return this.fail(`Yeterli jeton yok (${BREED_CHANGE_COST} gerekli).`);
-    this.state.coins -= BREED_CHANGE_COST;
+    const fx = this.state.merchantEffects || {};
+    const coupon = !!fx.breedCoupon;
+    const cost = coupon ? 0 : BREED_CHANGE_COST;
+    if (this.state.coins < cost) return this.fail(`Yeterli jeton yok (${cost} gerekli).`);
+    this.state.coins -= cost;
     h.breed = breed;
-    h.invested += BREED_CHANGE_COST;
+    h.invested += cost;
+    if (coupon) fx.breedCoupon = false;
     this.questEvent('breedChange', { hiveId, breed });
     this.save();
-    return { ok: true, msg: `${h.name} artık ${BREEDS[breed].name} kraliçesiyle.` };
+    return { ok: true, msg: `${h.name} artık ${BREEDS[breed].name} kraliçesiyle.${coupon ? ' Irk Değişim Kuponu kullanıldı.' : ''}` };
   }
 
-  // --- 6) Balmumu ve mum ------------------------------------------------------
   makeCandle() {
-    if (this.state.wax + 1e-6 < CANDLE_WAX) return this.fail(`Mum için ${CANDLE_WAX * 1000} g balmumu gerekli (${Math.round(this.state.wax * 1000)} g var).`);
-    this.state.wax -= CANDLE_WAX;
+    const fx = this.state.merchantEffects || {};
+    const waxNeed = (fx.waxPressUses || 0) > 0 ? 0.3 : CANDLE_WAX;
+    if (this.state.wax + 1e-6 < waxNeed) return this.fail(`Mum için ${Math.round(waxNeed * 1000)} g balmumu gerekli (${Math.round(this.state.wax * 1000)} g var).`);
+    this.state.wax -= waxNeed;
+    if ((fx.waxPressUses || 0) > 0) fx.waxPressUses -= 1;
     this.state.candles += 1;
     this.state.ledger.candlesMade += 1;
     this.questEvent('candleMake');
-    this.questProgress('candle', 1);
     this.save();
-    return { ok: true, msg: '🕯️ Bir mum yaptın.' };
+    return { ok: true, msg: `🕯️ Bir mum yaptın${waxNeed < CANDLE_WAX ? ' · Balmumu Presi kullanıldı' : ''}.` };
   }
 
   candlePrice() {
@@ -793,17 +805,20 @@ class BeeGame {
 
   sellCandles() {
     if (this.state.candles < 1) return this.fail('Satacak mum yok.');
-    const gain = this.state.candles * this.candlePrice();
+    const fx = this.state.merchantEffects || {};
     const n = this.state.candles;
+    const base = this.candlePrice();
+    const boosted = Math.min(n, fx.candleMoldUses || 0);
+    const gain = Math.round((n - boosted) * base + boosted * base * 1.35);
+    fx.candleMoldUses = Math.max(0, (fx.candleMoldUses || 0) - boosted);
     this.state.candles = 0;
     this.state.coins += gain;
     this.state.counters.earned += gain;
     this.questEvent('candleSell', { count: n, gain });
     this.save();
-    return { ok: true, msg: `${n} mum satıldı (+${gain} 🪙).` };
+    return { ok: true, msg: `${n} mum satıldı (+${gain} 🪙)${boosted ? ` · ${boosted} mumda Usta Mum Kalıbı bonusu` : ''}.` };
   }
 
-  // --- Köylü mektupları ------------------------------------------------------------
   sendLetter(day) {
     this.state.nextLetterDay = day + LETTER_EVERY[0] + Math.floor(Math.random() * (LETTER_EVERY[1] - LETTER_EVERY[0] + 1));
     const people = this.state.village.arrived.map((n) => VILLAGE[n - 1]).filter((e) => e.type === 'koylu');
@@ -1735,14 +1750,20 @@ class BeeGame {
   // Her gün: fiyatlar bir öncekine yakın kalarak %80-130 arasında dalgalanır
   rollMarket() {
     const m = this.state.market;
+    const day = this.dayIndex();
+    const fx = this.state.merchantEffects || {};
     m.prev = { ...m.mult };
+    const forecast = fx.marketForecast && fx.marketForecast.forDay === day ? fx.marketForecast : null;
     for (const f of Object.keys(FLOWERS)) {
-      const drift = (Math.random() - 0.5) * 0.18;
-      const pull = (1.05 - m.mult[f]) * 0.15; // ortalamaya hafif çekim
-      m.mult[f] = Math.min(1.3, Math.max(0.8, m.mult[f] + drift + pull));
+      if (forecast && forecast.nextMult && forecast.nextMult[f] != null) m.mult[f] = forecast.nextMult[f];
+      else {
+        const drift = (Math.random() - 0.5) * 0.18;
+        const pull = (1.05 - m.mult[f]) * 0.15;
+        m.mult[f] = Math.min(1.3, Math.max(0.8, m.mult[f] + drift + pull));
+      }
       m.history[f] = [...(m.history[f] || []), m.mult[f]].slice(-HISTORY_DAYS);
     }
-    const day = this.dayIndex();
+    if (forecast) fx.marketForecast = null;
     if (m.event && day >= m.event.until) m.event = null;
     if (!m.event && Math.random() < 0.12) {
       const keys = Object.keys(FLOWERS);
@@ -1753,6 +1774,8 @@ class BeeGame {
   }
 
   price(f) {
+    const lock = this.state.marketLocks && this.state.marketLocks[f];
+    if (lock && this.dayIndex() < lock.untilDay) return lock.price;
     const m = this.state.market;
     const season = this.calendar().season;
     let p = FLOWERS[f].price * m.mult[f] * SEASON_PRICE[season];
