@@ -2827,6 +2827,7 @@ function costOf(action, a, b) {
     case 'upgrade': return h && h.next ? h.next.cost : 0;
     case 'placeHive': return view.hiveCost;
     case 'buyTile': return view.tilePrice;
+    case 'buySeed': return (view.flowers[a] || {}).seed || 0;
     case 'plantSeed': return view.vouchers[b] > 0 ? 0 : (view.flowers[b] || {}).seed || 0;
     case 'upgradeStorage': return view.nextStorage ? view.nextStorage.cost : 0;
     case 'changeBreed': return view.breedChangeCost;
