@@ -26,6 +26,7 @@ haftalar içinde büyüyen sakin bir çiftlik olarak tasarlandı.
 15b. [Günlük görevler, Bal Defteri ve kişiselleştirme](#15b-günlük-görevler-bal-defteri-ve-kişiselleştirme)
 15c. [Köy ve komşular](#15c-köy-ve-komşular)
 15d. [Gezgin satıcı ve köylü hikâyeleri](#15d-gezgin-satıcı-ve-köylü-hikâyeleri)
+15e. [Ayarlar, kovanlar ve kolaylıklar](#15e-ayarlar-kovanlar-ve-kolaylıklar)
 16. [Sen yokken](#16-sen-yokken)
 17. [Kayıt ve yedek](#17-kayıt-ve-yedek)
 18. [İpuçları ve stratejiler](#18-ipuçları-ve-stratejiler)
@@ -329,7 +330,11 @@ Oyun Nero'nun asıl amacıyla bağlantılı: **sen çalıştıkça çiftlik büy
 | P | Pazar |
 | S | Siparişler |
 | D | Bal Defteri |
+| K | Kovanlar |
 | F | Fotoğraf |
+| R | Adaya dön |
+| ← / → | Kovan ekranında önceki / sonraki kovan |
+| ? | Kısayol listesi |
 | Boşluk | Duraklat / devam |
 | Esc | Açık pencereleri kapat |
 
@@ -338,7 +343,20 @@ Oyun Nero'nun asıl amacıyla bağlantılı: **sen çalıştıkça çiftlik büy
 ## 15c. Köy ve komşular
 
 - Adanı çevreleyen **iki halkada** (36 + 42 kare) bir köy yaşar. Bu karelere yalnızca köylüler yerleşir; senin adana dokunmazlar, ada hep tam altıgen kalır.
-- Köy, **siparişlerle teslim ettiğin toplam bala** göre büyür: başlangıçta 6 yerleşimci; **50 / 150 / 400 / 1.000 kg**'da birkaç yerleşimci birden gelir, sonra **her 500 kg'de bir** yeni köylü, dükkân ya da bina. İlk halka dolunca ikinci halka açılır; **78 yerleşimciyle** köy tamamlanır.
+- Köy, **siparişlerle teslim ettiğin toplam bala** göre büyür. Başlangıç dışında **her eşikte yalnızca 1 kişi** gelir:
+
+| Teslim edilen toplam bal | Gelen | Köydeki toplam |
+|---|---|---|
+| Başlangıç | 6 | 6 |
+| 50 kg | 1 | 7 |
+| 150 kg | 1 | 8 |
+| 400 kg | 1 | 9 |
+| 1.000 kg | 1 | 10 |
+| 1.000 kg'dan sonra her 500 kg | 1 | 11, 12, … |
+| 14.000 kg | — | 36 · **1. halka dolar**, sonrakiler 2. halkaya |
+| 35.000 kg | — | 78 · **köy tamamlanır** (son yerleşimci: Bal Müzesi) |
+
+- Varış sırası sabittir; kimin ne zaman geleceği `KOY-YERLESIM-LISTESI.md` dosyasında yazar.
 - **Köylüler** (50 kişi): her birinin **sevdiği bir bal** var. O bal ekiliyse siparişlerinde sık sık onu ister ve **%15 daha iyi** öder (kartta "❤️ en sevdiği bal").
 - **Dükkânlar ve binalar** (28 yapı): bir kısmı kalıcı etki verir, bir kısmı köyü güzelleştirir.
 
@@ -410,6 +428,40 @@ Oyun Nero'nun asıl amacıyla bağlantılı: **sen çalıştıkça çiftlik büy
 
 ---
 
+## 15e. Ayarlar, kovanlar ve kolaylıklar
+
+**⚙️ Ayarlar (oyunun içinde, sağ üstte)** — oyunla ilgili bütün ayarlar burada; Nero'nun kendi Ayarlar'ında artık arıcılık bölümü yok.
+- **Grafik kalitesi:**
+
+| | Yüksek | Dengeli (varsayılan) | Hafif |
+|---|---|---|---|
+| Kovan başına görünen arı | 8 | 4 | 2 |
+| Gölgeler | keskin | yumuşak | kapalı |
+| Ateş böcekleri, kar, yağmur | tam | yarı yarıya | kapalı |
+| Köydeki hareketli detaylar | açık | açık | kapalı |
+
+  Arı sayısı sadece görüntüdür; üretim etkilenmez.
+- **Gece modu** aç/kapa · **Efekt sesleri** ve **ortam sesleri** ayrı ayrı.
+- **Masaüstündeki Nero haber versin:** kovan doldu, sipariş süresi, hastalık, kış, rakip, satıcı, mektup — her biri ayrı açılıp kapatılır.
+- **Kayıt:** dışa/içe aktar, fotoğraf klasörü, oyunu sıfırla (iki onay, önce yedek).
+
+**🐝 Kovanlar (K):** bütün kovanlar tek listede (doluluk, arı, üretim, hastalık, şurup, bağışıklık). Tıklayınca kamera o kovana gider ve kovan ekranı açılır. **Tüm kovanlara şurup ver** düğmesi toplam fiyatı gösterir ve onay ister. Kovan ekranında **‹ ›** ya da **←/→** ile kovanlar arasında gezinirsin.
+
+**Diğer kolaylıklar**
+- **⌖ Adaya dön (R):** kamera adanın ortasına döner.
+- **Üzerine gelince bilgi:** kovanın üstünde doluluk ve saatlik üretim, tarhın üstünde kalan ömür.
+- **Siparişler:** hemen karşılanabilenler **✓ hazır**; **Hazır olanların hepsini teslim et**; süreye / ödüle / hazır olanlara göre sıralama.
+- **Pazar:** "Sadece depomdakiler" filtresi; fiyata ya da miktara göre sıralama.
+- **Onay:** 500 🪙 ve üstündeki alımlarda onay istenir.
+- **Bildirimler:** zildeki bir bildirime tıklayınca ilgili yer açılır (sipariş, kovan, satıcı, mektup, köy).
+- **Nero'dan ipuçları:** köşedeki Nero depo dolmak üzereyken, yanında çiçek olmayan kovan varken, hazır sipariş varken ya da kış öncesi erzak yokken haber verir; ona tıklayınca da ipucu söyleyebilir.
+- **Pencere:** oyun penceresinin boyutu ve konumu hatırlanır.
+- **? :** kısayol listesi.
+
+**✉️ Köylü mektupları:** köyde yaşayan köylüler 3–5 oyun gününde bir kısa bir mektup gönderir (zil ve bildirim ile). Mektupların çoğu sıcak bir an; bazıları küçük bir hediye içerir (10–30 jeton, 100 g balmumu ya da nadiren hediye tohum). Bal Defteri → **Mektuplar** sekmesinden okunur; hediye okuyunca alınır.
+
+---
+
 ## 16. Sen yokken
 - Nero açık olduğu sürece çiftlik çalışır, oyun penceresi kapalı olsa bile.
 - **2 saat** boyunca oyuna hiç bakmazsan üretim durur (takvim devam eder). Geri dönünce üretim kaldığı yerden sürer.
@@ -421,9 +473,9 @@ Oyun Nero'nun asıl amacıyla bağlantılı: **sen çalıştıkça çiftlik büy
 ## 17. Kayıt ve yedek
 - Oyun **otomatik kaydedilir**: her işlemden sonra, üretim sırasında yaklaşık 10 saniyede bir ve Nero kapanırken.
 - Kayıt dosyası: `%APPDATA%\Nero\bee.json`.
-- **Oyunu sıfırlamak:** Nero → Ayarlar → Yedekler → *Oyunu sıfırla*. İki aşamalı onay ister ve önce mevcut çiftliğini otomatik yedekler.
+- **Oyunu sıfırlamak:** oyunun içinde ⚙️ Ayarlar → Kayıt → *Oyunu sıfırla*. İki aşamalı onay ister ve önce mevcut çiftliğini otomatik yedekler.
 - Oyun verisi Nero'nun **günlük otomatik yedeklerine** (son 7 gün) ve Ayarlar'daki **Dışa aktar / Yedekten geri yükle** özelliğine dahildir.
-- **Sadece arıcılık kaydını taşımak için:** Nero → Ayarlar → **Yedekler** → 🐝 *Kaydı dışa aktar*. Bir `.json`
+- **Sadece arıcılık kaydını taşımak için:** oyunun içinde ⚙️ Ayarlar → Kayıt → *Kaydı dışa aktar*. Bir `.json`
   dosyası kaydedilir; başka bir bilgisayarda *Kaydı içe aktar* ile yüklersin.
 - İçe aktarma şu anki çiftliğin üstüne yazar; bu yüzden **onay ister** ve öncesinde mevcut çiftliğini
   otomatik olarak yedek klasörüne kaydeder. Yanlışlıkla yüklersen oradan geri dönebilirsin.

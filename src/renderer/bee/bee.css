@@ -456,3 +456,48 @@ body.photo .popup, body.photo .notice, body.photo .place-bar { display: none !im
 .story li.now { color: var(--ink); }
 .story li.todo { color: #B0A38A; }
 .stories-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; margin-bottom: 12px; }
+
+/* ---------- 5.5.0: ayarlar, kovanlar, araçlar ---------- */
+.gsettings-card { width: min(560px, 94vw); }
+.gs-sec { background: #fff; border-radius: 14px; padding: 10px 14px; margin-bottom: 10px; }
+.gs-sec h3 { margin: 0 0 6px; font-size: 14px; }
+.gs-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 6px 0; font-weight: 800; font-size: 13.5px; }
+.gs-row small { display: block; font-weight: 700; font-size: 11.5px; color: var(--muted); }
+.gs-row input[type=checkbox], .gs-grid input { width: 18px; height: 18px; accent-color: var(--amber); }
+.seg { display: flex; gap: 3px; background: var(--card2); padding: 3px; border-radius: 10px; flex: none; }
+.seg button { border: 0; background: transparent; border-radius: 8px; padding: 6px 10px; font-weight: 800; font-size: 12.5px; }
+.seg button.on { background: var(--amber); color: #fff; }
+.gs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 12px; font-weight: 700; font-size: 13px; }
+.gs-grid label { display: flex; align-items: center; gap: 6px; }
+.gs-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.gs-btns .act { margin: 0; justify-content: center; }
+.hives-card { width: min(620px, 94vw); }
+.hives-list { list-style: none; margin: 0 0 10px; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.hrow { display: grid; grid-template-columns: 1fr 120px 70px auto; align-items: center; gap: 10px; background: #fff; border-radius: 12px; padding: 9px 12px; cursor: pointer; font-size: 13px; font-weight: 700; }
+.hrow:hover { box-shadow: 0 0 0 2px var(--amber) inset; }
+.hrow b { font-size: 14px; }
+.hrow .bar { height: 7px; border-radius: 4px; background: #EFE3C6; overflow: hidden; }
+.hrow .bar i { display: block; height: 100%; background: var(--amber); }
+.hrow .tags { color: var(--muted); font-size: 12px; white-space: nowrap; }
+.keys-card { width: min(420px, 92vw); }
+.keys-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; font-weight: 700; font-size: 13.5px; }
+kbd { display: inline-block; min-width: 22px; text-align: center; background: var(--card2); border-radius: 6px; padding: 2px 6px; font-family: inherit; font-weight: 800; font-size: 12px; box-shadow: 0 2px 0 rgba(74, 58, 34, .15); margin-right: 4px; }
+.hover-tip { position: fixed; z-index: 8; pointer-events: none; background: var(--card); border-radius: 10px; padding: 7px 10px; font-size: 12px; font-weight: 800; box-shadow: var(--shadow); white-space: nowrap; }
+.hover-tip[hidden] { display: none; }
+.hover-tip small { display: block; color: var(--muted); font-weight: 700; }
+.list-tools { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; font-weight: 800; font-size: 12.5px; }
+.list-tools select { border: 0; border-radius: 8px; padding: 5px 8px; font: inherit; background: var(--card2); }
+.list-tools label { display: flex; align-items: center; gap: 6px; }
+.small-act { width: auto !important; margin: 0 !important; padding: 7px 12px !important; font-size: 12.5px !important; }
+.small-act:disabled { opacity: .45; }
+.ready-tag { background: #DDF0D8 !important; color: #2F6E3E; }
+.tab-badge { position: static !important; display: inline-grid !important; margin-left: 4px; }
+.tab-badge[hidden] { display: none !important; }
+.letter-card { background: #FFFBF1; border: 1.5px dashed #D9C595; border-radius: 12px; padding: 12px; margin-bottom: 8px; }
+.letter-card.unread { border-style: solid; border-color: var(--amber); }
+.letter-card b { font-size: 14px; }
+.letter-card p { margin: 6px 0; font-family: "Fraunces", Georgia, serif; font-size: 14px; line-height: 1.5; }
+.letter-card small { color: var(--muted); font-weight: 700; }
+.letter-card button { margin-top: 4px; }
+.notif-list li.go { cursor: pointer; }
+.notif-list li.go:hover { box-shadow: 0 0 0 2px var(--amber) inset; }

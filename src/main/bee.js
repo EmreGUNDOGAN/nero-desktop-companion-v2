@@ -70,6 +70,39 @@ const REVIVE_RATE = 0.1;                  // solan çiçeği canlandırmak: tohu
 const REJECT_REL = 0.2;                   // reddetmek ilişkiyi %2 azaltır (1 teslim = %10)
 const NOTIF_KEEP = 20;
 
+// Köylü mektupları: birkaç oyun gününde bir; yaklaşık üçte biri küçük hediye içerir
+const LETTER_EVERY = [3, 5];
+const LETTER_KEEP = 30;
+// Belirli köylülere özel mektuplar; diğerleri rolüne göre genel mektuplardan seçer
+const LETTERS_BY_NAME = {
+  'Ayşe Teyze': ['Torunum doğdu! Mahalleye lokum dağıtıyorum, sana da ayırdım.', 'Eski bir tarif defteri buldum. Bal kurabiyesi var içinde, bir gün yaparım.', 'Pencereye yeni saksılar koydum. Arıların uğrarsa ayıp olmaz.'],
+  'Mehmet Usta': ['Kovanlarının kapakları gıcırdıyorsa söyle, bir bakarım.', 'Bisikletimi tamir ettim. Artık yokuşları sadece ben değil o da sevmiyor.'],
+  'Küçük Elif': ['Sana arı resmi çizdim! Kanatları biraz büyük oldu ama o uçabiliyor.', 'Okulda arıları anlattım. Herkes senin kovanlarını merak etti.', 'Bugün bir arı elime kondu ve ısırmadı. Arkadaş olduk sanırım.'],
+  'Hacer Nine': ['Kapının önünde oturup arılarını izledim. Eskiden de böyle çalışırdık.', 'Ihlamur çayı demledim. Balın olsa daha güzel olurdu, haber veriyorum.'],
+  'Muhtar Rıza': ['Köy toplantısında adın geçti. İyi anlamda, merak etme.', 'Muhtarlık panosuna senin balını astık. Herkes soruyor.'],
+  'Balıkçı Kemal': ['Bu sabah gölde dev bir sazan gördüm. Tutamadım ama gördüm, o da bir şey.', 'Ağlarımı onarırken arılarının vızıltısı iyi geldi.'],
+  'Kasabalı Cem': ['Kasabada senin balını anlattım. Bir arkadaşım ziyarete gelmek istiyor.', 'Köy hayatına alışıyorum. Sessizlik bazen fazla sessiz.'],
+  'Öğretmen Selin': ['Öğrencilerim bal hakkında kompozisyon yazdı. En iyisi "Arılar yorulmaz mı?" diye bitiyordu.', 'Kütüphaneye arıcılık kitabı sipariş ettim. Bitince sana da veririm.'],
+  'Doktor Aslı': ['Ballı ıhlamur boğaza iyi gelir. Reçete değil, tavsiye.', 'Köyde bu kış kimse hastalanmadı. Senin balının payı var bence.'],
+  'Arıcı Hasan': ['Kovanlarının sesi iyi geliyor, bu işi seviyorsun belli.', 'Gençken bir kovanım oğul verdi, üç gün peşinden koştum. Sen koşma, izle.'],
+  'Ressam Deniz': ['Arılarını resmettim. Bir tanesi fırçama kondu, imzası da resimde.', 'Gün batımında kovanların çok güzel görünüyor. Işık sende.'],
+  'Kerim Dede ve Kedileri': ['Kedilerden biri bu sabah kovanının oraya gitmiş. Arılar kovalayınca geri döndü, gururu kırıldı.', 'Yedinci kedi yavruladı. Sekiz oldular. Hesap tutamıyorum artık.']
+};
+const LETTERS_GENERIC = [
+  'Bugün pencereden arılarını izledim. Çok çalışkanlar, biraz kıskandım.',
+  'Kahvaltıda senin balını yedik. Çocuklar kavanozu sıyırdı.',
+  'Köyde yağmurdan sonra her yer mis gibi çiçek kokuyor.',
+  'Geçen gün yolda karşılaştık ama selam veremedim, telaşlıydım. Selam olsun!',
+  'Bahçemdeki çiçekler bu yıl çok güzel açtı. Arıların uğrarsa ikram ederim.',
+  'Akşam yürüyüşünde kovanlarının oradan geçtim. Vızıltı insanı dinlendiriyor.'
+];
+
+// Ayarlar (oyun içi): görüntü, ses, bildirim tercihleri
+const GAME_SETTINGS_DEFAULT = {
+  graphics: 'dengeli', night: true, sfx: true, ambient: true,
+  notify: { full: true, due: true, sick: true, winter: true, rival: true, merchant: true, letter: true }
+};
+
 // Gezgin satıcı: Seyyah Yakup
 const MERCHANT_EVERY = [6, 9];            // 6-9 oyun gününde bir gelir
 const MERCHANT_STAY = 2;                  // 2 oyun günü kalır
@@ -280,6 +313,10 @@ class BeeGame {
     this.checkVillage(true);
     if (!this.state.merchant) this.state.merchant = { nextDay: this.dayIndex() + 3, active: false, stock: [], bought: [], sandik: 0 };
     if (!this.state.stories) this.state.stories = {};
+    if (!this.state.letters) this.state.letters = [];
+    if (this.state.nextLetterDay == null) this.state.nextLetterDay = this.dayIndex() + 2;
+    const gs = this.state.gameSettings || {};
+    this.state.gameSettings = { ...GAME_SETTINGS_DEFAULT, ...gs, notify: { ...GAME_SETTINGS_DEFAULT.notify, ...(gs.notify || {}) } };
     const L0 = this.state.ledger;
     Object.assign(L0, { deliveredKgBy: {}, deliveredOrdersBy: {}, deliveredTo: {}, syrupGiven: 0, cured: 0, cleanWinters: 0, muhtarlikDone: 0, ...L0 });
     this.state.winterDeaths = this.state.winterDeaths || 0;
@@ -437,6 +474,7 @@ class BeeGame {
   // --- Günlük olaylar: üreme, kış kaybı -------------------------------------
   onNewDay(dayIdx) {
     this.merchantDay(dayIdx);
+    if (dayIdx >= this.state.nextLetterDay) this.sendLetter(dayIdx);
     const seasonToday = SEASONS[Math.floor(dayIdx / DAYS_PER_SEASON) % 4];
     const seasonYesterday = SEASONS[Math.floor((dayIdx - 1) / DAYS_PER_SEASON) % 4];
     if (seasonYesterday === 'kis' && seasonToday !== 'kis') {
@@ -652,6 +690,97 @@ class BeeGame {
     return { ok: true, msg: `${n} mum satıldı (+${gain} 🪙).` };
   }
 
+  // --- Köylü mektupları ------------------------------------------------------------
+  sendLetter(day) {
+    this.state.nextLetterDay = day + LETTER_EVERY[0] + Math.floor(Math.random() * (LETTER_EVERY[1] - LETTER_EVERY[0] + 1));
+    const people = this.state.village.arrived.map((n) => VILLAGE[n - 1]).filter((e) => e.type === 'koylu');
+    if (!people.length) return;
+    const p = people[Math.floor(Math.random() * people.length)];
+    const own = LETTERS_BY_NAME[p.name];
+    const pool = own && Math.random() < 0.75 ? own : LETTERS_GENERIC;
+    const text = pool[Math.floor(Math.random() * pool.length)];
+    let gift = null;
+    const r = Math.random();
+    if (r < 0.2) gift = { coins: 10 + Math.floor(Math.random() * 3) * 10 };
+    else if (r < 0.3) gift = { wax: 0.1 };
+    else if (r < 0.34) gift = { seed: ['papatya', 'aycicegi', 'kekik'][Math.floor(Math.random() * 3)] };
+    const letter = { id: uid(), from: p.name, role: p.role, text, gift, day, read: false, claimed: false };
+    this.state.letters = [...this.state.letters, letter].slice(-LETTER_KEEP);
+    this.events.push({ msg: `✉️ ${p.name} sana bir mektup gönderdi${gift ? ' (içinde küçük bir hediye var)' : ''}.`, go: { to: 'letters' } });
+  }
+
+  readLetter(id) {
+    const l = this.state.letters.find((x) => x.id === id);
+    if (!l) return this.fail('Mektup bulunamadı.');
+    l.read = true;
+    let msg = '';
+    if (l.gift && !l.claimed) {
+      l.claimed = true;
+      if (l.gift.coins) { this.state.coins += l.gift.coins; msg = `+${l.gift.coins} 🪙`; }
+      if (l.gift.wax) { this.state.wax += l.gift.wax; msg = '+100 g balmumu'; }
+      if (l.gift.seed) { this.state.vouchers[l.gift.seed] = (this.state.vouchers[l.gift.seed] || 0) + 1; msg = `1 ${FLOWERS[l.gift.seed].name} tohumu 🎁`; }
+    }
+    this.save();
+    return { ok: true, msg: msg ? `${l.from} hediyesi: ${msg}` : '' };
+  }
+
+  // --- Oyun ayarları ---------------------------------------------------------------
+  setGameSetting(keyName, value) {
+    const s = this.state.gameSettings;
+    if (keyName === 'graphics' && ['yuksek', 'dengeli', 'hafif'].includes(value)) s.graphics = value;
+    else if (['night', 'sfx', 'ambient'].includes(keyName)) s[keyName] = !!value;
+    else if (keyName.startsWith('notify.') && keyName.slice(7) in s.notify) s.notify[keyName.slice(7)] = !!value;
+    else return this.fail('Geçersiz ayar.');
+    this.save();
+    return { ok: true, msg: '' };
+  }
+
+  // --- Toplu işlemler ----------------------------------------------------------
+  syrupAllCost() { return this.syrupCost() * Object.keys(this.state.hives).length; }
+
+  giveSyrupAll() {
+    const hives = Object.values(this.state.hives);
+    const cost = this.syrupAllCost();
+    if (this.state.coins < cost) return this.fail(`Yeterli jeton yok (${cost} gerekli).`);
+    this.state.coins -= cost;
+    for (const h of hives) { h.syrup += SYRUP_KG; this.state.ledger.syrupGiven += 1; }
+    this.save();
+    return { ok: true, msg: `${hives.length} kovana şurup verildi: +${SYRUP_KG} kg kış erzakı (-${cost} 🪙).` };
+  }
+
+  // Kabul edilmiş ve depodan hemen karşılanabilen siparişlerin hepsini teslim et
+  deliverReady() {
+    const ready = this.state.orders.list.filter((o) => o.status === 'accepted');
+    let n = 0;
+    let gain = 0;
+    for (const o of ready) {
+      const before = this.state.coins;
+      const r = this.deliverOrder(o.id);
+      if (r.ok) { n += 1; gain += this.state.coins - before; }
+    }
+    if (!n) return this.fail('Depodan hemen teslim edilebilecek kabul edilmiş sipariş yok.');
+    return { ok: true, msg: `${n} sipariş teslim edildi (+${gain} 🪙).` };
+  }
+
+  // --- Nero'dan durum ipuçları --------------------------------------------------------
+  hints() {
+    const out = [];
+    const used = Object.values(this.state.storage).reduce((a, b) => a + b, 0);
+    if (used >= this.state.storageCap * 0.9) out.push({ id: 'storage', text: `Depo %${Math.round((used / this.state.storageCap) * 100)} dolu. Satmazsan arıcı hasat edemeyecek.`, go: { to: 'market' } });
+    for (const h of Object.values(this.state.hives)) {
+      const k = this.hiveTileKey(h.id);
+      if (k && !this.flowersNear(k).length) out.push({ id: `nof:${h.id}`, text: `Yanında hiç çiçek olmayan bir kovan var: ${h.name}. Bal üretmiyor.`, go: { to: 'hive', id: h.id } });
+    }
+    const ready = this.state.orders.list.filter((o) => (this.state.storage[o.flower] || 0) + 1e-6 >= o.kg).length;
+    if (ready) out.push({ id: `ready:${ready}`, text: `${ready} siparişin depodan hemen karşılanabilir.`, go: { to: 'orders' } });
+    const wilted = Object.values(this.state.tiles).filter((t) => t.item && t.item.type === 'flower' && t.item.wilted).length;
+    if (wilted) out.push({ id: `wilt:${wilted}`, text: `${wilted} tarh soldu. Tohumun %10'una canlandırabilirsin.` });
+    if (this.calendar().season === 'sonbahar' && this.calendar().day >= 12 && Object.values(this.state.hives).some((h) => h.syrup < 1)) {
+      out.push({ id: 'prewinter', text: 'Kış yaklaşıyor ve bazı kovanlarda erzak yok. Toplu şurup verebilirsin.', go: { to: 'hives' } });
+    }
+    return out;
+  }
+
   // --- Gezgin satıcı: Seyyah Yakup ---------------------------------------------
   merchantDay(day) {
     const m = this.state.merchant;
@@ -865,11 +994,12 @@ class BeeGame {
   // --- Köy ------------------------------------------------------------------------
   // Teslim edilen toplam bala göre köyde kaç yerleşimci olmalı
   villageTarget(kg) {
+    // Başlangıçta 6 yerleşimci; sonra her eşikte yalnızca 1 kişi gelir
     let n = 6;
-    if (kg >= 50) n += 3;
-    if (kg >= 150) n += 4;
-    if (kg >= 400) n += 4;
-    if (kg >= 1000) n += 4 + Math.floor((kg - 1000) / 500);
+    if (kg >= 50) n += 1;
+    if (kg >= 150) n += 1;
+    if (kg >= 400) n += 1;
+    if (kg >= 1000) n += 1 + Math.floor((kg - 1000) / 500);
     return Math.min(VILLAGE.length, n);
   }
 
@@ -1189,7 +1319,12 @@ class BeeGame {
     seen.rank = rank;
     const m = this.state.merchant;
     if (m && m.active && !seen[`merchant:${m.arrivedDay}`]) { out.push({ kind: 'bee_merchant', vars: {} }); seen[`merchant:${m.arrivedDay}`] = true; }
-    return out;
+    const lastLetter = this.state.letters[this.state.letters.length - 1];
+    if (lastLetter && !lastLetter.read && !seen[`letter:${lastLetter.id}`]) { out.push({ kind: 'bee_letter', vars: { who: lastLetter.from } }); seen[`letter:${lastLetter.id}`] = true; }
+    // Oyun ayarlarındaki bildirim tercihleri
+    const pref = this.state.gameSettings.notify;
+    const map = { bee_hive_full: 'full', bee_order_due: 'due', bee_sick: 'sick', bee_winter: 'winter', bee_overtaken: 'rival', bee_merchant: 'merchant', bee_letter: 'letter' };
+    return out.filter((a) => pref[map[a.kind]] !== false);
   }
 
   // --- Pazar -------------------------------------------------------------------
@@ -1503,9 +1638,21 @@ class BeeGame {
   logNotifs(events) {
     if (!events.length) return;
     const list = this.state.notifs || [];
-    for (const e of events) if (e.msg) list.push({ t: Date.now(), msg: e.msg, err: !!e.err });
+    for (const e of events) if (e.msg) list.push({ t: Date.now(), msg: e.msg, err: !!e.err, go: e.go || this.notifTarget(e.msg) });
     this.state.notifs = list.slice(-NOTIF_KEEP);
     this.state.notifsUnread = Math.min(NOTIF_KEEP, (this.state.notifsUnread || 0) + events.filter((e) => e.msg).length);
+  }
+
+  // Bildirime tıklayınca açılacak yer (mesajın içeriğinden çıkarılır)
+  notifTarget(msg) {
+    if (msg.startsWith('✉️')) return { to: 'letters' };
+    if (msg.startsWith('🛒')) return { to: 'merchant' };
+    if (msg.startsWith('📜') || msg.includes('Sipariş')) return { to: 'orders' };
+    if (/^(🏘️|🏪|🏛️|📖|🌟)/u.test(msg)) return { to: 'village' };
+    if (msg.includes('Festival') || msg.includes('festival')) return { to: 'market' };
+    const hive = Object.values(this.state.hives).find((h) => msg.includes(h.name));
+    if (hive) return { to: 'hive', id: hive.id };
+    return null;
   }
 
   readNotifs() { this.state.notifsUnread = 0; this.save(); return { ok: true, msg: '' }; }
@@ -1856,6 +2003,11 @@ class BeeGame {
       labelBonus: LABEL_BONUS,
       milestones: this.state.milestones,
       merchant: this.merchantView(),
+      letters: this.state.letters.slice().reverse(),
+      lettersUnread: this.state.letters.filter((l) => !l.read).length,
+      gameSettings: this.state.gameSettings,
+      syrupAllCost: this.syrupAllCost(),
+      hints: this.hints(),
       stories: this.storiesView(),
       notifs: (this.state.notifs || []).slice().reverse(),
       notifsUnread: this.state.notifsUnread || 0,

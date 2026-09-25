@@ -1,0 +1,40 @@
+name: Build Nero 5.4.1
+
+on:
+  push:
+    branches: [upgrade-v5.4.1]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Run tests
+        run: npm test
+      - name: Validate dialogue data
+        run: npm run dialogue:check
+      - name: Build Windows installer
+        run: npm run dist
+      - name: Verify update metadata
+        shell: pwsh
+        run: |
+          $metadata = Get-Content dist/latest.yml -Raw
+          if ($metadata -notmatch 'version: 5\.4\.1' -or $metadata -notmatch 'Nero-Setup-5\.4\.1\.exe') { throw 'Incorrect updater metadata' }
+          if (-not (Test-Path dist/Nero-Setup-5.4.1.exe.blockmap)) { throw 'Missing blockmap' }
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Nero-5.4.1-installer
+          path: |
+            dist/Nero-Setup-5.4.1.exe
+            dist/Nero-Setup-5.4.1.exe.blockmap
+            dist/latest.yml
+          if-no-files-found: error

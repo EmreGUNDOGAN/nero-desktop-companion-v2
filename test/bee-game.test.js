@@ -62,8 +62,11 @@ test('Nero 5.0.0 contains the complete beekeeping integration wiring', () => {
   }
 
   assert.ok(panel.indexOf('id="bee-open"') < panel.indexOf('id="settings-button"'));
-  assert.ok(panel.includes('id="bee-export"'));
-  assert.ok(panel.includes('id="bee-import"'));
+  // 5.5.0: oyunla ilgili bütün ayarlar oyunun içindeki ⚙️ Ayarlar'da
+  const beeHtml = fs.readFileSync(path.join(root, 'src/renderer/bee/index.html'), 'utf8');
+  assert.ok(beeHtml.includes('id="gs-export"'));
+  assert.ok(beeHtml.includes('id="gs-import"'));
+  assert.ok(!panel.includes('id="bee-export"'), 'arıcılık kaydı Nero panelinde kalmamalı');
 
   const cats = ['bee_hive_full', 'bee_order_due', 'bee_winter', 'bee_overtaken', 'bee_sick'];
   for (const cat of cats) assert.deepEqual(runtime[cat], master[cat]);
@@ -99,7 +102,7 @@ test('beekeeping background simulation caps selected 4x speed at 2x', () => {
   assert.equal(bee.state.gameMs, 6000);
 });
 
-test('beekeeping reset is exposed in Nero settings with a backup-first flow', () => {
+test('beekeeping reset is exposed in the in-game settings with a backup-first flow', () => {
   const root = path.join(__dirname, '..');
   const main = fs.readFileSync(path.join(root, 'src/main/main.js'), 'utf8');
   const preload = fs.readFileSync(path.join(root, 'src/preload/preload.js'), 'utf8');
@@ -109,5 +112,9 @@ test('beekeeping reset is exposed in Nero settings with a backup-first flow', ()
   assert.match(main, /nero-aricilik-sifirlama-oncesi-/);
   assert.match(main, /beeStore\.set\(freshState\(\)\)/);
   assert.ok(preload.includes("'bee:reset'"));
-  assert.ok(panel.includes('id="bee-reset"'));
+  const beePreload = fs.readFileSync(path.join(root, 'src/preload/bee-preload.js'), 'utf8');
+  const beeHtml = fs.readFileSync(path.join(root, 'src/renderer/bee/index.html'), 'utf8');
+  assert.ok(beePreload.includes("'bee:reset'"));
+  assert.ok(beeHtml.includes('id="gs-reset"'));
+  assert.ok(!panel.includes('id="bee-reset"'));
 });
