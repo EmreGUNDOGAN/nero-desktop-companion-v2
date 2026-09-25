@@ -220,8 +220,10 @@ Bir kovana tıklayınca **kovanın içi** açılır: solda canlı petek (ortada 
 
 ---
 
+
 ## 10. Siparişler ve köylüler
 - **Gerçek zamanla 5 dakikada bir** yeni sipariş gelir (oyun hızından bağımsız; oyun duraklatılmışsa gelmez). Uzun süre bakmadıysan geri döndüğünde tek seferde en fazla **3 yeni normal sipariş** birikir; aynı anda toplam sipariş sınırı yine **5** (Pazar Yeri varsa 6).
+- **Aynı köylünün aynı anda yalnızca 1 normal siparişi** listede olabilir. O kişinin açık ya da kabul edilmiş siparişi varken yeni normal sipariş üretiminde adı kullanılmaz; sipariş listeden çıkınca tekrar gelebilir.
 - **Sadece şu an ekili (solmamış) çiçeklerin balı istenir.** Hiç ıhlamurun yoksa ıhlamur siparişi gelmez.
 - Siparişler piyasadan **çok daha iyi öder** (piyasanın 1.4–1.8 katı).
 - Kartta: kim, ne kadar ve hangi bal, ödül, süre, depodaki miktar (yetiyorsa yeşil).
@@ -235,7 +237,7 @@ Bir kovana tıklayınca **kovanın içi** açılır: solda canlı petek (ortada 
 
 **Müdavim köylüler 💛**
 - Aynı köylüye her **2 teslimde 1 kalp** (en fazla 5).
-- Her kalp o köylünün siparişlerini **%6** daha iyi ödetir.
+- Her kalp o köylünün sipariş ödemesini **%2 artırır**. Beş kalpte ilişki kaynaklı maksimum ödeme bonusu **%10** olur.
 - **2. ve 4. kalpte** teşekkür mektubu ve **hediye tohum** gönderir.
 - Tanıdıkların daha sık sipariş verir. Kalpler sipariş kartlarında ve Siparişler ekranının altındaki **Köylüler** listesinde görünür.
 
@@ -296,27 +298,36 @@ Kazandığın kupalar **evinin yanında** sergilenir ve Pazar ekranında listele
 
 ---
 
+
 ## 15. Nero ile birlikte
 Oyun Nero'nun asıl amacıyla bağlantılı: **sen çalıştıkça çiftlik büyür.**
-- **Odak bonusu:** Nero'nun sayacıyla en az 10 dakikalık bir odak seansını bitirince kovanlar **+%25** hızlı üretir. 25 dakikalık seans = **1 saat** bonus; seanslar üst üste eklenir, en fazla **4 saat**. Üst barda 🔥 rozeti kalan süreyi gösterir.
+- **Odak bonusu:** Nero'nun sayacıyla en az 10 dakikalık bir odak seansını bitirince kovanlar **+%25** hızlı üretir. 25 dakikalık seans = **1 saat** Arıcılık bonusu.
+- Bir gerçek takvim gününde Arıcılık için toplam **en fazla 4 saat bonus kazanabilirsin**. Bu yalnızca aynı anda biriktirme sınırı değildir: o gün kazandığın toplam süre 4 saate ulaştıysa süreyi tüketmiş olsan bile yeni seans ek bonus vermez. Günlük kazanım kotası gerçek gece yarısında sıfırlanır; o anda hâlâ aktif olan bonus süresi ise devam eder.
+- Bal Defteri → **✨ Etkilerim** sayfasının en üstünde Odak Bonusu kartı **kalan süreyi**, **bugün kazanılan süre / 4 saat** bilgisini ve günlük limiti gösterir. Günlük limit dolduğunda açıkça haber verir.
 - **İş ödülü:** Nero'da bir işi "bitti" olarak işaretleyince **+10 jeton**.
 - **Masaüstündeki Nero haber verir** (oyun penceresi önde değilken): kovan doldu, kabul ettiğin siparişe 1 günden az kaldı, bir kovan hastalandı, kış geldi ve erzak yok, bir rakip seni geçti. Aynı şeyi iki kez söylemez; sessiz modda ya da uyurken susar.
-- **Oyun içindeki Nero** hasatta, satışta, yeni siparişte, cezada ve mevsim değişiminde yorum yapar.
+- **Oyun içindeki Nero** artık Arıcılık olaylarını çok daha geniş bir havuzdan yorumlar: 57 olay başlığında toplam **2.133** onaylı replik bulunur.
 
 ---
+
 
 ## 15b. Günlük görevler, Bal Defteri ve kişiselleştirme
 
 **📋 Günlük görevler** (sol üstteki kart, başlığına tıklayıp katlayabilirsin)
-- Her gün 3 küçük görev: bal hasat et, belirli bir çiçeğin balını hasat et, pazarda bal sat, sipariş teslim et, mum yap, tarh ek.
-- Görev bitince **Ödülü al**: 40–80 jeton, bazen **hediye tohum**. Görevler gerçek günde, gece yarısı yenilenir.
+- Her gerçek gün **3 görev** gelir. Havuz artık **40 görev türünden** oluşur: hasat, farklı kovan/ballar, pazar satışları, siparişler, arı satın alma ve bakım, kovan/kraliçe geliştirme, tarh ve çiçek işleri, mumlar, Seyyah Yakup ve bazı koşullu görevler.
+- Görevler yalnızca o anda **makul biçimde yapılabiliyorsa** havuza girer. Örneğin hasta kovan yoksa “kovanı iyileştir”, Yakup köyde değilse Yakup görevi, yeterli kovan yoksa 3 farklı kovandan hasat görevi gelmez.
+- Günün üç görevi mümkün olduğunca farklı oyun alanlarından seçilir; ağır harcama gerektiren görevlerden aynı gün en fazla biri gelir.
+- Ödül görevin zorluğuna göre değişir: kolay görevler daha düşük, zor/masraflı görevler daha yüksek jeton verir. Görev ödüllerinde **%20 hediye tohum ihtimali** korunur.
+- Her gerçek gün **2 ücretsiz görev değiştirme hakkın** vardır. Yalnız tamamlanmamış bir görevi değiştirirsin; diğer iki görev yerinde kalır.
+- İki ücretsiz hak bittikten sonra **1 kez daha 100 🪙 karşılığında** görev değiştirebilirsin. Böylece günlük maksimum **3 refresh = 2 ücretsiz + 1 ücretli**. Üçüncü hak da kullanıldıktan sonra o gün yeniden değiştirilemez.
+- Sistem uygun yeni görev bulamazsa refresh hakkı ve jeton **harcanmaz**. Haklar gerçek gece yarısında günlük görevlerle birlikte yenilenir.
 
 **📖 Bal Defteri** (sağ üstte 📖 ya da **D**)
 - **Ballar:** her bal türünün sayfası: ilk kavanozun ne zaman olduğu, toplam hasat, satılan miktar, kazanç ve en iyi kg fiyatı. Henüz üretmediğin ballar kilitli görünür.
 - **Kayıtlar:** toplam hasat, bal türü sayısı, hasat/sipariş/mum/görev sayıları, en kalabalık kovan, en büyük satış ve kupaların.
 - **Etiket:** çiftliğinin adı ve kavanoz etiketin. 4 desen (Klasik, Çiçekli, Petek, Sade) ve 6 renkten seç. **Etiketin varsa müdavim köylüler** (en az 1 kalp) siparişlerde **%5 bahşiş** verir.
 
-**✨ Etkilerim:** Bal Defteri içindeki bu sekmede bütün bonuslarını tek yerde görürsün. **Odak Bonusu her zaman en üsttedir** ve aktifse kalan gerçek süreyi gösterir. Altında tamamlanan köylü hikâyelerinin kalıcı ödülleri, köy bina/dükkân etkileri, Seyyah Yakup'tan gelen aktif Ballı Şurup / Arı Sütü / Dört Mevsim etkileri, kovan bağışıklıkları ve depo sandığı kapasite bonusları kaynakları ve kalan süreleriyle listelenir.
+**✨ Etkilerim:** Bal Defteri içindeki bu sekmede bütün bonuslarını tek yerde görürsün. **Odak Bonusu her zaman en üsttedir**; kalan gerçek süre, o gün kazanılan süre ve **4 saatlik günlük limit** görünür. Altında tamamlanan köylü hikâyelerinin kalıcı ödülleri, köy bina/dükkân etkileri, Seyyah Yakup etkileri, kovan bağışıklıkları ve depo sandığı kapasite bonusları kaynakları ve kalan süreleriyle listelenir.
 
 **İsimler:** kovan ekranında kovanın adına tıklayıp değiştir (ör. "Papatya Konağı"). Çiftliğinin adını Bal Defteri'nin başında adına tıklayarak değiştirirsin.
 
@@ -394,24 +405,56 @@ Oyun Nero'nun asıl amacıyla bağlantılı: **sen çalıştıkça çiftlik büy
 
 ---
 
+
 ## 15d. Gezgin satıcı ve köylü hikâyeleri
 
 **🛒 Seyyah Yakup (gezgin satıcı)**
 - **6–9 oyun gününde bir** köye gelir, **2 oyun günü** kalır. Gelince zil çalar, masaüstündeki Nero haber verir, üstte "Seyyah Yakup köyde" düğmesi belirir. Gitmeden bir gün önce hatırlatma gelir.
 - Arabası köy halkasında boş bir karede durur; arabaya ya da düğmeye tıklayınca dükkânı açılır.
-- Her ziyarette aşağıdaki listeden **rastgele 4 ürün** getirir. **Her üründen 1 tane, bir ziyarette en fazla 2 farklı ürün** alabilirsin. Dekor satmaz.
+- Her ziyarette **38 ürünlük havuzdan rastgele 4 ürün** getirir. **Dekor hiçbir koşulda satmaz.**
+- Normal ürünlerden **her üründen 1 tane**, bir ziyarette en fazla **2 farklı ürün** alabilirsin. **🔄 Stok Değişim Jetonu bu iki ürünlük kotayı tüketmez.**
+- Hedef gerektiren ürünün o anda uygun hedefi yoksa ürün satın alınamaz. Geçici etkiler aynı güçte üst üste katlanmaz; aynı etki yeniden uygulanırsa yalnız süresi uzar/yenilenir.
 
-| Ürün | Ne yapar | Fiyat |
-|---|---|---|
-| 🍯 Ballı şurup | Seçtiğin kovan 1 oyun günü %50 fazla üretir | 110 |
-| 👑 İndirimli kraliçe | Seçtiğin kovanın sıradaki kraliçe yükseltmesi %30 ucuza | yükseltmenin %70'i |
-| 🌱 Tohum paketi | 3 rastgele hediye tohum (papatya–lavanta) | ~%60 indirimli |
-| 🌸 Dört mevsim tohumu | Seçtiğin tarh 30 gün mevsim dışı cezası almaz | tohum fiyatı ×2 |
-| 🐝 Arı sürüsü | Seçtiğin kovana 3 arı | normal fiyatın ~%70'i |
-| 🥛 Arı sütü | Seçtiğin kovan 3 gün her gün 1 arı doğurur (kışta da) | 150 |
-| 🩺 Bakım kiti | Hasta kovanı iyileştirir, bağışıklık başlar | ilacın %60'ı |
-| 📦 Depo sandığı | Depoya kalıcı +10 kg (en fazla 3 kez) | 190 |
-| 🕯️ Balmumu çuvalı | 1 kg balmumu | 45 |
+| # | Ürün | Etki | Fiyat |
+|---:|---|---|---:|
+| 1 | 🍯 Ballı Şurup | Seçilen kovan 1 gün +%50 üretim | 110 |
+| 2 | 👑 İndirimli Kraliçe | Sıradaki kraliçe yükseltmesini %30 indirimli yapar | yükseltmenin %70'i |
+| 3 | 🌱 Tohum Paketi | Papatya–Lavanta havuzundan 3 hediye tohum | çıkan tohumların %50'si |
+| 4 | 🌸 Dört Mevsim Tohumu | Tarh 30 gün mevsim dışı ceza almaz | tohum ×2 |
+| 5 | 🐝 Arı Sürüsü | Seçilen kovana +3 arı | sıradaki 3 arının %70'i |
+| 6 | 🥛 Arı Sütü | 3 gün, her gün +1 arı; kışta da | 150 |
+| 7 | 🩺 Bakım Kiti | Hasta kovanı iyileştirir, bağışıklık başlatır | 55 |
+| 8 | 📦 Depo Sandığı | Kalıcı +10 kg depo; toplam en fazla 3 | 120 |
+| 9 | 🕯️ Balmumu Çuvalı | +1 kg balmumu | 70 |
+| 10 | 🍯 Kışlık Şurup Fıçısı | Seçilen kovana +18 kg erzak | 115 |
+| 11 | 🛡️ Propolis Kalkanı | 10 gün hastalanma ihtimali %50 azalır | 70 |
+| 12 | 💊 Arı Vitamini | 5 gün +%15 kovan üretimi | 110 |
+| 13 | ❄️ Kovan Yalıtımı | Bir sonraki kış şurup tüketimi %50 azalır | 35 |
+| 14 | 🧬 Irk Değişim Kuponu | Seçilen kovanda tek seferlik ırk değişimi | 110 |
+| 15 | 📦 Arı Nakil Kutusu | İki kovan arasında en fazla 3 arı taşı | 60 |
+| 16 | 🌼 Polen Keki | 5 gün doğal üreme aralığını yarıya indirir | 90 |
+| 17 | 🧯 Acil Kış Paketi | Şurupsuz bir sonraki arı kaybını 1 kez engeller | 45 |
+| 18 | 🌿 Çiçek Besini | Seçilen tarh 5 gün +%25 üretim | 140 |
+| 19 | 🌱 Ömür Uzatıcı Gübre | Tarh ömrüne +10 gün | tohumun %8'i, 30–130 |
+| 20 | ♻️ Yeniden Ekim Kuponu | Solmuş bir tarhı ücretsiz canlandırır | 60 |
+| 21 | 🎁 Nadir Tohum Sandığı | 2 yüksek değerli hediye tohum | 900 |
+| 22 | 🌦️ Mevsim Tohum Kutusu | Mevsime uygun 3 hediye tohum | çıkan tohumların %60'ı |
+| 23 | 🌺 Özel Polen Karışımı | 5 gün komşu çiçek katkısını %25 güçlendirir | 120 |
+| 24 | 🧤 Arıcı Eldiveni | Sonraki 3 hasatta balmumu +%50 | 80 |
+| 25 | 🕯️ Balmumu Presi | Sonraki 5 mum 0,5 yerine 0,3 kg balmumu kullanır | 55 |
+| 26 | 🏷️ Usta Mum Kalıbı | Sonraki 5 mum satışında fiyat +%35 | 60 |
+| 27 | 📦 Depo Yükseltme Kuponu | Sonraki standart depo yükseltmesi %20 ucuz | yükseltmenin %10'u |
+| 28 | 💰 Pazar Mührü | Bir sonraki satışta en fazla 10 kg +%15 fiyat | 75 |
+| 29 | 🔒 Fiyat Sabitleme Fişi | Seçilen balın fiyatını 1 gün sabitler | 60 |
+| 30 | 🔮 Pazar Tahmin Kartı | Ertesi gün 3 balın fiyat yönünü gösterir | 25 |
+| 31 | ⏳ Sipariş Kum Saati | Kabul edilmiş siparişe +1 oyun günü | 35 |
+| 32 | 🏅 Sipariş Mührü | Seçilen başarılı siparişe +%12 ödeme | ödülün %6'sı, min. 20 |
+| 33 | 💛 Dostluk Jetonu | Sonraki başarılı siparişe +10 ilişki puanı | 90 |
+| 34 | 📮 Öncelikli Teslim Kartı | Sonraki başarılı siparişe +4 ilişki puanı | 35 |
+| 35 | 🏆 Festival Cilası | Sonraki festival giriş puanına +%5 | 180 |
+| 36 | 🛡️ Festival Güvencesi | Kupa yoksa gönderilen balın %60'ını geri getirir | 100 |
+| 37 | 💎 Seyyah Satış Fişi | Yakup'a satışta en fazla 10 kg'a ek +%10 ödeme | 40 |
+| 38 | 🔄 Stok Değişim Jetonu | Henüz alınmamış bir Yakup teklifini yeniden çeker | 45 |
 
 - Ayrıca her ziyarette **bir bal türü arar** ve o baldan 10 kg'a kadar **pazarın %40 üstüne** satın alır.
 
@@ -468,11 +511,12 @@ Oyun Nero'nun asıl amacıyla bağlantılı: **sen çalıştıkça çiftlik büy
 
 ---
 
+
 ## 16. Sen yokken
 - Nero açık olduğu sürece çiftlik çalışır, oyun penceresi kapalı olsa bile.
-- **2 saat** boyunca oyuna hiç bakmazsan üretim durur (takvim devam eder). Geri dönünce üretim kaldığı yerden sürer.
+- **2 saat** boyunca oyuna hiç bakmazsan üretim durur; takvim mevcut kurala göre ilerlemeye devam eder. Geri dönünce üretim kaldığı yerden sürer.
 - **Nero tamamen kapalıyken** oyunun zamanı da durur.
-- 3 dakikadan uzun süre sonra oyunu açınca **"Tekrar hoş geldin!"** kartı çıkar: ne kadar bal üretildiği, doğan ve ölen arılar, gelen siparişler, hasat bekleyen ve hasta kovanlar, sıralamadaki değişim.
+- Oyundan **20 gerçek dakika veya daha uzun** süre uzak kaldıysan geri döndüğünde **"Tekrar hoş geldin!"** kartı çıkar: ne kadar bal üretildiği, doğan ve ölen arılar, gelen siparişler, hasat bekleyen ve hasta kovanlar, sıralamadaki değişim gösterilir.
 
 ---
 
