@@ -1232,8 +1232,16 @@ $('guide-modal').addEventListener('click', (e) => { if (e.target === $('guide-mo
 // Sesler: gerçek OGG kayıtları + sentez fallback
 // ---------------------------------------------------------------------------
 let soundOn = true;
-try { soundOn = localStorage.getItem('bee-sound') !== 'off'; } catch (_) { /* yoksay */ }
+let notificationSoundOn = true;
+let audioPrefs = {};
 let actx = null;
+
+function gameWindowAudible() { return document.visibilityState === 'visible'; }
+function sfxAllowed(key) { return soundOn && gameWindowAudible() && audioPrefs[key] !== false; }
+function notificationAllowed(group) {
+  const key = { orders: 'notifyOrders', hive: 'notifyHive', merchant: 'notifyMerchant', special: 'notifySpecial' }[group] || 'notifySpecial';
+  return notificationSoundOn && gameWindowAudible() && audioPrefs[key] !== false;
+}
 
 function ensureAudioContext() {
   try {
@@ -1244,7 +1252,7 @@ function ensureAudioContext() {
 }
 
 function tone(freq, dur, type = 'sine', gain = 0.08, delay = 0, glide = null, force = false) {
-  if (!soundOn && !force) return;
+  if ((!soundOn && !force) || !gameWindowAudible()) return;
   try {
     const ctx = ensureAudioContext();
     if (!ctx) return;
@@ -1277,18 +1285,14 @@ async function loadSamples() {
       SAMPLES[name] = await ctx.decodeAudioData(copy);
     }));
     samplesReady = Object.keys(SAMPLES).length > 0;
-  } catch (_) {
-    samplesReady = false;
-  }
+  } catch (_) { samplesReady = false; }
 }
 loadSamples();
 
-function sampleNames(base) {
-  return Object.keys(SAMPLES).filter((n) => n === base || n.startsWith(`${base}_`));
-}
+function sampleNames(base) { return Object.keys(SAMPLES).filter((n) => n === base || n.startsWith(`${base}_`)); }
 
-function play(base, { gain = 0.5, pan = 0, rate = 1, jitter = 0.05, delay = 0 } = {}) {
-  if (!soundOn || !samplesReady) return false;
+function play(base, { gain = 0.5, pan = 0, rate = 1, jitter = 0.05, delay = 0, force = false } = {}) {
+  if ((!soundOn && !force) || !gameWindowAudible() || !samplesReady) return false;
   const names = sampleNames(base);
   if (!names.length) return false;
   try {
@@ -1309,7 +1313,7 @@ function play(base, { gain = 0.5, pan = 0, rate = 1, jitter = 0.05, delay = 0 } 
 
 function playSlice(name, gain, dur) {
   try {
-    if (!soundOn || !SAMPLES[name]) return false;
+    if (!soundOn || !gameWindowAudible() || !SAMPLES[name]) return false;
     const ctx = ensureAudioContext();
     if (!ctx) return false;
     const src = ctx.createBufferSource();
@@ -1328,26 +1332,25 @@ function playSlice(name, gain, dur) {
 }
 
 const SFX = {
-  coin: () => play('coin', { gain: 0.45 }) || (tone(880, 0.09, 'triangle', 0.08), tone(1320, 0.12, 'triangle', 0.07, 0.07)),
-  harvest: () => play('harvest', { gain: 0.5 }) || (tone(520, 0.1, 'triangle', 0.09, 0, 780), tone(780, 0.14, 'sine', 0.07, 0.09)),
-  bell: () => play('bell', { gain: 0.4, jitter: 0.02 }) || (tone(988, 0.35, 'sine', 0.06), tone(1480, 0.3, 'sine', 0.04, 0.05)),
-  buzz: () => (SAMPLES.loop_bees && soundOn ? playSlice('loop_bees', 0.25, 0.6) : (tone(220, 0.25, 'sawtooth', 0.025, 0, 260), true)),
-  place: () => play('place', { gain: 0.5 }) || (tone(330, 0.08, 'square', 0.04), tone(495, 0.1, 'triangle', 0.05, 0.06)),
-  plant: () => play('plant', { gain: 0.45, jitter: 0.08 }) || (SFX.place(), true),
-  paper: () => play('paper', { gain: 0.55 }) || (SFX.place(), true),
-  success: () => play('success', { gain: 0.45, jitter: 0.02 }) || (SFX.bell(), true),
-  err: () => play('error', { gain: 0.4, jitter: 0.02 }) || (tone(200, 0.18, 'sine', 0.06, 0, 140), true)
+  coin: () => sfxAllowed('coin') && (play('coin', { gain: 0.45 }) || (tone(880, 0.09, 'triangle', 0.08), tone(1320, 0.12, 'triangle', 0.07, 0.07), true)),
+  harvest: () => sfxAllowed('harvest') && (play('harvest', { gain: 0.5 }) || (tone(520, 0.1, 'triangle', 0.09, 0, 780), tone(780, 0.14, 'sine', 0.07, 0.09), true)),
+  bell: () => sfxAllowed('success') && (play('bell', { gain: 0.4, jitter: 0.02 }) || (tone(988, 0.35, 'sine', 0.06), tone(1480, 0.3, 'sine', 0.04, 0.05), true)),
+  buzz: () => sfxAllowed('place') && (SAMPLES.loop_bees ? playSlice('loop_bees', 0.25, 0.6) : (tone(220, 0.25, 'sawtooth', 0.025, 0, 260), true)),
+  place: () => sfxAllowed('place') && (play('place', { gain: 0.5 }) || (tone(330, 0.08, 'square', 0.04), tone(495, 0.1, 'triangle', 0.05, 0.06), true)),
+  plant: () => sfxAllowed('plant') && (play('plant', { gain: 0.45, jitter: 0.08 }) || (tone(430, 0.08, 'triangle', 0.045), true)),
+  paper: () => sfxAllowed('paper') && (play('paper', { gain: 0.55 }) || (tone(360, 0.08, 'triangle', 0.04), true)),
+  success: () => sfxAllowed('success') && (play('success', { gain: 0.45, jitter: 0.02 }) || (tone(784, 0.12, 'sine', 0.05), tone(1175, 0.16, 'sine', 0.04, 0.08), true)),
+  err: () => sfxAllowed('error') && (play('error', { gain: 0.4, jitter: 0.02 }) || (tone(200, 0.18, 'sine', 0.06, 0, 140), true))
 };
 
-function updateSoundBtn() {
-  $('sound-btn').textContent = soundOn ? '🔊' : '🔇';
+function playNotification(group = 'special') {
+  if (!notificationAllowed(group)) return false;
+  return play('bell', { gain: 0.4, jitter: 0.02, force: true }) ||
+    (tone(988, 0.35, 'sine', 0.06, 0, null, true), tone(1480, 0.3, 'sine', 0.04, 0.05, null, true), true);
 }
-$('sound-btn').addEventListener('click', () => {
-  soundOn = !soundOn;
-  ensureAudioContext();
-  try { localStorage.setItem('bee-sound', soundOn ? 'on' : 'off'); } catch (_) { /* yoksay */ }
-  updateSoundBtn();
-});
+
+function updateSoundBtn() { $('sound-btn').textContent = soundOn ? '🔊' : '🔇'; }
+$('sound-btn').addEventListener('click', () => { ensureAudioContext(); doAct('setting', 'sfx', !soundOn); });
 window.addEventListener('pointerdown', ensureAudioContext, { once: true, capture: true });
 window.addEventListener('keydown', ensureAudioContext, { once: true, capture: true });
 updateSoundBtn();
@@ -1472,7 +1475,7 @@ function reactEvent(e) {
   else if (!topic && m.startsWith('📜 Yeni sipariş')) { topic = 'order_arrived'; }
   else if (!topic && m.includes('Sipariş yetişmedi')) { topic = 'order_failed'; }
   else if (!topic && m.startsWith('🏘️ Köye yeni biri taşındı:')) topic = 'villager_arrived';
-  else if (!topic && /^(🏪|🏛️) Köyde/u.test(m)) topic = 'village_building_unlocked';
+  else if (!topic && (/^(🏪|🏛️) Köyde/u.test(m) || m.startsWith('🌷 Kasabaya yeni biri yerleşti!'))) topic = 'village_building_unlocked';
   else if (!topic && m.includes('Köyün ilk halkası doldu')) topic = 'village_ring_completed';
   else if (!topic && m.startsWith('💛')) topic = 'villager_relationship_up';
   else if (!topic && m.startsWith('✉️') && m.includes('hediye')) topic = 'villager_gift_letter_arrived';
@@ -1499,9 +1502,11 @@ function reactEvent(e) {
 
   if (m.includes('depoya eklendi')) SFX.harvest();
   else if (m.includes('yeni bir arı doğdu')) SFX.buzz();
-  else if (m.includes('Sipariş yetişmedi') || m.includes('öldü')) SFX.err();
-  else if (m.startsWith('📜 Yeni sipariş') || m.startsWith('✉️') || m.startsWith('🛒 Gezgin') || m.startsWith('🎉 Festival!')) SFX.bell();
-  else if (m.startsWith('🌟') || m.startsWith('🏆') || m.startsWith('🏘️') || /^(🏪|🏛️) Köyde/u.test(m)) SFX.success();
+  else if (m.startsWith('📜 Yeni sipariş') || m.includes('Sipariş yetişmedi')) playNotification('orders');
+  else if (m.startsWith('🤒') || m.includes('öldü') || m.includes('Şurup ver')) playNotification('hive');
+  else if (m.startsWith('🛒 Gezgin')) playNotification('merchant');
+  else if (m.startsWith('✉️') || m.startsWith('🎉 Festival!') || m.startsWith('🌷 Kasabaya') || m.startsWith('🏆') || m.startsWith('🏪') || m.startsWith('🏛️')) playNotification('special');
+  else if (m.startsWith('🌟') || m.startsWith('🏘️')) SFX.success();
 
   if (topic) sayTopic(topic, vars);
 }
@@ -2282,19 +2287,10 @@ function animateFireflies(t) {
 // Ortam sesleri: gerçek kayıtlar; kayıtlar yoksa mevcut sentez fallback
 // ---------------------------------------------------------------------------
 let ambientOn = true;
-try { ambientOn = localStorage.getItem('bee-ambient') !== 'off'; } catch (_) { /* yoksay */ }
 const amb = { started: false, buzz: null, rain: null };
 
-function updateAmbientBtn() {
-  $('ambient-btn').style.opacity = ambientOn ? '1' : '.45';
-}
-$('ambient-btn').addEventListener('click', () => {
-  ambientOn = !ambientOn;
-  ensureAudioContext();
-  try { localStorage.setItem('bee-ambient', ambientOn ? 'on' : 'off'); } catch (_) { /* yoksay */ }
-  updateAmbientBtn();
-  toast(ambientOn ? '🎵 Ortam sesleri açık' : '🎵 Ortam sesleri kapalı');
-});
+function updateAmbientBtn() { $('ambient-btn').style.opacity = ambientOn ? '1' : '.45'; }
+$('ambient-btn').addEventListener('click', () => { ensureAudioContext(); doAct('setting', 'ambient', !ambientOn); });
 updateAmbientBtn();
 
 function ambientStart() {
@@ -2428,7 +2424,7 @@ function ambientTickSamples(on) {
   const winter = season === 'kis';
   const insideHive = typeof openHiveId !== 'undefined' && openHiveId && view.hives[openHiveId];
 
-  const birdsNow = cycle(AMB_S.birds, on && dayLight > 0.5 && !raining && !insideHive, [90, 180], winter ? [450, 1200] : [180, 480]);
+  const birdsNow = cycle(AMB_S.birds, on && audioPrefs.birds !== false && dayLight > 0.5 && !raining && !insideHive, [90, 180], winter ? [450, 1200] : [180, 480]);
   if (birdsNow && !AMB_S.birds.node) {
     const names = sampleNames('birds');
     if (names.length) {
@@ -2443,9 +2439,9 @@ function ambientTickSamples(on) {
 
   if (insideHive) {
     const fullness = Math.min(1, 0.35 + insideHive.bees / 20);
-    setLoop('bees', on ? 0.28 * fullness * (winter ? 0.5 : 1) : 0, 0, 1800);
+    setLoop('bees', on && audioPrefs.bees !== false ? 0.28 * fullness * (winter ? 0.5 : 1) : 0, 0, 1800);
   } else {
-    const beesNow = cycle(AMB_S.bees, on && dayLight > 0.5 && !raining && !winter, [60, 150], [150, 360]);
+    const beesNow = cycle(AMB_S.bees, on && audioPrefs.bees !== false && dayLight > 0.5 && !raining && !winter, [60, 150], [150, 360]);
     const bees = Object.values(view.hives).reduce((a, h) => a + h.bees, 0);
     const { pan, visible } = hiveListening();
     const closeness = Math.max(0, Math.min(1, (zoom - 0.6) / 1.6));
@@ -2453,10 +2449,10 @@ function ambientTickSamples(on) {
     setLoop('bees', beesNow ? 0.08 * activity * (0.45 + closeness * 0.8) : 0, pan, 1200 + closeness * 9000);
   }
 
-  setLoop('rain', on && raining ? 0.18 * (insideHive ? 0.4 : 1) : 0);
-  setLoop('wind', on ? (snowy ? 0.18 : winter ? 0.11 : season === 'sonbahar' ? 0.07 : 0) * (insideHive ? 0.4 : 1) : 0);
+  setLoop('rain', on && audioPrefs.rain !== false && raining ? 0.18 * (insideHive ? 0.4 : 1) : 0);
+  setLoop('wind', on && audioPrefs.wind !== false ? (snowy ? 0.18 : winter ? 0.11 : season === 'sonbahar' ? 0.07 : 0) * (insideHive ? 0.4 : 1) : 0);
 
-  const cricketsNow = cycle(AMB_S.crickets, on && night >= 0.5 && !raining && !winter, [60, 150], [120, 300]);
+  const cricketsNow = cycle(AMB_S.crickets, on && audioPrefs.crickets !== false && night >= 0.5 && !raining && !winter, [60, 150], [120, 300]);
   if (cricketsNow && Math.random() < 0.6) {
     for (let i = 0; i < 3; i++) tone(4300, 0.035, 'triangle', 0.004, i * 0.06, null, true);
   }
@@ -2475,14 +2471,14 @@ function ambientTick() {
   if (!amb.started || !actx) return;
   const now = actx.currentTime;
   const raining = view && view.weather.id === 'yagmurlu';
-  amb.buzz.gain.setTargetAtTime(on && night < 0.5 && !raining ? 0.006 : 0, now, 0.8);
-  amb.rain.gain.setTargetAtTime(on && raining ? 0.035 : 0, now, 0.8);
+  amb.buzz.gain.setTargetAtTime(on && audioPrefs.bees !== false && night < 0.5 && !raining ? 0.006 : 0, now, 0.8);
+  amb.rain.gain.setTargetAtTime(on && audioPrefs.rain !== false && raining ? 0.035 : 0, now, 0.8);
   if (!on) return;
-  if (night < 0.5 && !raining && Math.random() < 0.35) {
+  if (audioPrefs.birds !== false && night < 0.5 && !raining && Math.random() < 0.35) {
     const base = 2200 + Math.random() * 1400;
     const n = 2 + Math.floor(Math.random() * 3);
     for (let i = 0; i < n; i++) tone(base + Math.random() * 500, 0.07, 'sine', 0.012, i * 0.09, base * 1.25, true);
-  } else if (night >= 0.5 && Math.random() < 0.7) {
+  } else if (audioPrefs.crickets !== false && night >= 0.5 && Math.random() < 0.7) {
     for (let i = 0; i < 3; i++) tone(4300, 0.035, 'triangle', 0.006, i * 0.06, null, true);
   }
 }
@@ -2739,6 +2735,10 @@ function syncSettings() {
   if (!s) return;
   soundOn = s.sfx;
   ambientOn = s.ambient;
+  notificationSoundOn = s.notificationSound !== false;
+  audioPrefs = s.audio || {};
+  updateSoundBtn();
+  updateAmbientBtn();
   applyGraphics(s.graphics);
   applyNight();
 }
@@ -2747,12 +2747,19 @@ function syncSettings() {
 // Oyun içi Ayarlar
 // ---------------------------------------------------------------------------
 const NOTIFY_LABELS = { full: 'Kovan doldu', due: 'Sipariş süresi azaldı', sick: 'Kovan hastalandı', winter: 'Kış ve erzak', rival: 'Rakip seni geçti', merchant: 'Satıcı geldi', letter: 'Mektup geldi' };
+const AUDIO_GROUPS = [
+  ['Oyun efektleri', [['coin', 'Jeton / satış'], ['harvest', 'Hasat'], ['place', 'Yerleştirme'], ['plant', 'Ekim'], ['paper', 'Mektup / kâğıt'], ['success', 'Başarı'], ['error', 'Hata']]],
+  ['Ortam', [['birds', 'Kuşlar'], ['bees', 'Arılar'], ['rain', 'Yağmur'], ['wind', 'Rüzgâr'], ['crickets', 'Cırcır böcekleri']]],
+  ['Bildirimler', [['notifyOrders', 'Siparişler'], ['notifyHive', 'Kovan uyarıları'], ['notifyMerchant', 'Seyyah Yakup'], ['notifySpecial', 'Festival ve özel olaylar']]]
+];
 function renderSettings() {
   const s = view.gameSettings;
   for (const b of document.querySelectorAll('#gs-graphics button')) b.classList.toggle('on', b.dataset.g === s.graphics);
   $('gs-night').checked = s.night;
   $('gs-sfx').checked = s.sfx;
   $('gs-ambient').checked = s.ambient;
+  $('gs-notification-sound').checked = s.notificationSound !== false;
+  $('gs-audio').innerHTML = AUDIO_GROUPS.map(([title, items]) => `<div class="gs-audio-group"><b>${title}</b><div class="gs-audio-grid">${items.map(([k, label]) => `<label><input type="checkbox" data-audio="${k}" ${!s.audio || s.audio[k] !== false ? 'checked' : ''}> ${label}</label>`).join('')}</div></div>`).join('');
   $('gs-notify').innerHTML = Object.entries(NOTIFY_LABELS).map(([k, label]) => `<label><input type="checkbox" data-notify="${k}" ${s.notify[k] ? 'checked' : ''}> ${label}</label>`).join('');
 }
 $('open-settings').addEventListener('click', () => { renderSettings(); $('settings-modal').hidden = false; });
@@ -2763,6 +2770,8 @@ $('gs-graphics').addEventListener('click', (e) => { const b = e.target.closest('
 $('gs-night').addEventListener('change', (e) => setSetting('night', e.target.checked));
 $('gs-sfx').addEventListener('change', (e) => setSetting('sfx', e.target.checked));
 $('gs-ambient').addEventListener('change', (e) => setSetting('ambient', e.target.checked));
+$('gs-notification-sound').addEventListener('change', (e) => setSetting('notificationSound', e.target.checked));
+$('gs-audio').addEventListener('change', (e) => { const k = e.target.dataset.audio; if (k) setSetting(`audio.${k}`, e.target.checked); });
 $('gs-notify').addEventListener('change', (e) => { const k = e.target.dataset.notify; if (k) setSetting(`notify.${k}`, e.target.checked); });
 $('gs-export').addEventListener('click', () => window.bee.exportSave());
 $('gs-import').addEventListener('click', () => window.bee.importSave());
