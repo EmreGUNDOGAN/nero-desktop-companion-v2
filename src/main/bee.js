@@ -1060,7 +1060,7 @@ class BeeGame {
     if (id === 'kislikSurup') { h.syrup += 18; msg = `${h.name}: +18 kg kış erzakı.`; }
     if (id === 'propolis') { h.propolisUntilDay = Math.max(day, h.propolisUntilDay || 0) + 10; msg = `${h.name}: Propolis Kalkanı 10 gün uzadı.`; }
     if (id === 'vitamin') { h.vitaminUntilDay = Math.max(day, h.vitaminUntilDay || 0) + 5; msg = `${h.name}: +%15 üretim etkisi 5 gün uzadı.`; }
-    if (id === 'yalitim') { const year = DAYS_PER_SEASON * 4, pos = ((day % year) + year) % year, base = day - pos, winterStart = base + DAYS_PER_SEASON * 3; h.insulationFromDay = pos >= DAYS_PER_SEASON * 3 ? day : winterStart; h.insulationUntilDay = pos >= DAYS_PER_SEASON * 3 ? base + year : winterStart + DAYS_PER_SEASON; msg = `${h.name}: sıradaki kışta şurup tüketimi yarıya inecek.`; }
+    if (id === 'yalitim') { const year = DAYS_PER_SEASON * 4, pos = ((day % year) + year) % year, base = day - pos; let winterStart = base + DAYS_PER_SEASON * 3; if (day >= winterStart) winterStart += year; h.insulationFromDay = winterStart; h.insulationUntilDay = winterStart + DAYS_PER_SEASON; msg = `${h.name}: sıradaki kışta şurup tüketimi yarıya inecek.`; }
     if (id === 'irkKupon') { fx.breedCoupon = true; msg = 'Bir sonraki arı ırkı değişimin hazır.'; }
     if (id === 'nakil') { const move = Math.min(3, transfer.from.bees - 1, transfer.to.capBees - transfer.to.bees); transfer.from.bees -= move; transfer.to.bees += move; msg = `${transfer.from.name} → ${transfer.to.name}: ${move} arı taşındı.`; }
     if (id === 'polenKeki') { h.pollenCakeUntilDay = Math.max(day, h.pollenCakeUntilDay || 0) + 5; msg = `${h.name}: doğal üreme desteği 5 gün uzadı.`; }
@@ -1823,10 +1823,10 @@ class BeeGame {
     const kg = amount === 'all' ? have : Math.min(have, Number(amount) || 0);
     if (kg < 0.05) return this.fail('Satılacak miktar yok.');
     const fx = this.state.merchantEffects || {};
-    const unit = this.price(f);
+    const marketUnit = this.price(f);
     const sealKg = Math.min(kg, fx.marketSealKg || 0);
-    const gain = Math.round(kg * unit + sealKg * unit * 0.15);
-    fx.marketSealKg = Math.max(0, (fx.marketSealKg || 0) - sealKg);
+    const gain = Math.round(kg * marketUnit + sealKg * marketUnit * 0.15);
+    if ((fx.marketSealKg || 0) > 0) fx.marketSealKg = 0; // yalnız bir sonraki satış
     this.state.storage[f] = have - kg;
     if (this.state.storage[f] < 0.001) delete this.state.storage[f];
     this.state.coins += gain;
@@ -1834,8 +1834,8 @@ class BeeGame {
     const L = this.ledgerHoney(f);
     L.soldKg += kg;
     L.earned += gain;
-    const unit = gain / kg;
-    if (!L.bestPrice || unit > L.bestPrice) L.bestPrice = Math.round(unit * 10) / 10;
+    const realizedUnit = gain / kg;
+    if (!L.bestPrice || realizedUnit > L.bestPrice) L.bestPrice = Math.round(realizedUnit * 10) / 10;
     const best = this.state.ledger.bestSale;
     if (!best || gain > best.coins) this.state.ledger.bestSale = { coins: gain, flower: f, kg: Math.round(kg * 10) / 10 };
     this.questEvent('sell', { kg, flower: f, gain });
@@ -2331,12 +2331,14 @@ class BeeGame {
     const t = this.state.tiles[k];
     if (!t || !t.item || t.item.type !== 'flower') return this.fail('Burada çiçek yok.');
     const def = FLOWERS[t.item.flower];
-    const seedCost = t.item.wilted ? this.reviveCost(t.item.flower) : this.seedCost(t.item.flower);
+    const wasWilted = !!t.item.wilted;
+    const seedCost = wasWilted ? this.reviveCost(t.item.flower) : this.seedCost(t.item.flower);
     if (this.state.coins < seedCost) return this.fail(`Yeterli jeton yok (${seedCost} gerekli).`);
     this.state.coins -= seedCost;
     t.item.plantedDay = this.dayIndex();
     t.item.wilted = false;
-    this.questEvent('revive', { flower: t.item.flower });
+    this.questEvent('plant', { flower: t.item.flower });
+    if (wasWilted) this.questEvent('revive', { flower: t.item.flower });
     this.save();
     return { ok: true, msg: `${def.name} yeniden canlandı (-${seedCost} 🪙).` };
   }
