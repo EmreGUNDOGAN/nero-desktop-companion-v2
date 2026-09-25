@@ -13,6 +13,9 @@ Nero 5.5.0, Arıcılık oyununu diyaloglar, günlük görevler, Seyyah Yakup ve 
 - **Koşullu görev seçimi:** o anda yapılamayan görevler günlük havuza girmez; ağır harcama görevlerinden aynı gün en fazla biri seçilir.
 - **Etkilerim genişletildi:** Yakup'tan gelen aktif etkiler de Bal Defteri → Etkilerim bölümünde kaynak ve süre bilgileriyle görünür.
 - **Odak kartı ayrıntıları:** kalan bonus süresi, bugün kazanılan süre ve 4 saatlik günlük limit birlikte gösterilir.
+- **Gerçek ses paketi:** 20 OGG kayıt oyuna entegre edildi. Coin, zil, başarı, yerleştirme, ekim, kâğıt, hasat ve hata efektleri artık gerçek sample kullanır; dosya yüklenemezse sentez fallback korunur.
+- **Yeni ambient ses motoru:** kuş, arı, yağmur ve rüzgâr kayıtları hava, mevsim, gece/gündüz, kamera yakınlığı ve kovan konumuna göre dinamik çalınır. Arı sesi stereo konumlandırma kullanır; ortam ve efekt sesleri ayrı ayrı kapatılabilir.
+- **Ses kaynakları:** kullanılan kayıtların kaynak/lisans notları `src/renderer/bee/sounds/KAYNAKLAR.md` içinde tutulur.
 
 ## Değişti
 
