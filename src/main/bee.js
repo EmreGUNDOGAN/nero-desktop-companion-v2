@@ -998,8 +998,8 @@ class BeeGame {
       case 'siparisMuhru': return ord && !ord.merchantPayBonus ? Math.max(20, Math.round(ord.reward * 0.06)) : null;
       case 'dostlukJeton': return fx.friendToken ? null : 90;
       case 'oncelikKart': return fx.priorityCard ? null : 35;
-      case 'festivalCila': return fx.festivalPolish ? null : 180;
-      case 'festivalGuvence': return fx.festivalInsurance ? null : 100;
+      case 'festivalCila': return fx.festivalPolish || fx.festivalPolishYear === this.calendar().year ? null : 180;
+      case 'festivalGuvence': return fx.festivalInsurance || fx.festivalInsuranceYear === this.calendar().year ? null : 100;
       case 'seyyahFis': return this.state.merchant.salesTicketKg > 0 ? null : 40;
       case 'stokDegisim': return target ? 45 : null;
       default: return null;
@@ -1069,7 +1069,7 @@ class BeeGame {
     if (id === 'balmumuPresi') { fx.waxPressUses = (fx.waxPressUses || 0) + 5; msg = 'Sonraki 5 mum yalnız 300 g balmumu kullanacak.'; }
     if (id === 'mumKalibi') { fx.candleMoldUses = (fx.candleMoldUses || 0) + 5; msg = 'Sonraki 5 mum satışı +%35 değerli.'; }
     if (id === 'depoKupon') { fx.storageCoupon = true; msg = 'Bir sonraki depo yükseltmesi %20 indirimli.'; }
-    if (id === 'pazarMuhru') { fx.marketSealKg = (fx.marketSealKg || 0) + 10; msg = 'Sonraki pazar satışlarında toplam 10 kg için +%15 fiyat aktif.'; }
+    if (id === 'pazarMuhru') { fx.marketSealKg = 10; msg = 'Bir sonraki pazar satışında en fazla 10 kg için +%15 fiyat aktif.'; }
     if (id === 'fiyatSabitle') { const current = this.price(target); const old = this.state.marketLocks[target]; this.state.marketLocks[target] = { price: current, untilDay: Math.max(day, old && old.untilDay || 0) + 1 }; msg = `${FLOWERS[target].name} balı fiyatı 1 gün sabitlendi.`; }
     if (id === 'pazarTahmin') {
       const nextMult = {}; for (const [flower, cur] of Object.entries(this.state.market.mult)) { const drift = (Math.random() - 0.5) * 0.18; const pull = (1.05 - cur) * 0.15; nextMult[flower] = Math.min(1.3, Math.max(0.8, cur + drift + pull)); }
@@ -1081,8 +1081,8 @@ class BeeGame {
     if (id === 'siparisMuhru') { ord.merchantPayBonus = 0.12; msg = `${ord.who} siparişine +%12 ödeme mührü uygulandı.`; }
     if (id === 'dostlukJeton') { fx.friendToken = 10; msg = 'Bir sonraki başarılı köylü siparişine +10 ilişki puanı.'; }
     if (id === 'oncelikKart') { fx.priorityCard = 4; msg = 'Bir sonraki başarılı köylü siparişine +4 ilişki puanı.'; }
-    if (id === 'festivalCila') { fx.festivalPolish = true; msg = 'Bir sonraki festival girişine +%5 puan hazır.'; }
-    if (id === 'festivalGuvence') { fx.festivalInsurance = true; msg = 'Bir sonraki festivalde kupa olmazsa balın %60’ı geri dönecek.'; }
+    if (id === 'festivalCila') { fx.festivalPolish = true; fx.festivalPolishYear = this.calendar().year; msg = 'Bir sonraki festival girişine +%5 puan hazır.'; }
+    if (id === 'festivalGuvence') { fx.festivalInsurance = true; fx.festivalInsuranceYear = this.calendar().year; msg = 'Bir sonraki festivalde kupa olmazsa balın %60’ı geri dönecek.'; }
     if (id === 'seyyahFis') { m.salesTicketKg = 10; msg = 'Bu ziyarette Yakup’a satılan en fazla 10 kg bala ek +%10 ödeme aktif.'; }
     if (id === 'stokDegisim') {
       const idx = m.stock.findIndex((x) => x.id === target);
@@ -2432,6 +2432,17 @@ class BeeGame {
       syrupKg: SYRUP_KG,
       keeper: this.state.keeper,
       market: this.prices(),
+      marketForecast: (() => {
+        const fc = this.state.merchantEffects && this.state.merchantEffects.marketForecast;
+        if (!fc || !fc.reveal || !fc.nextMult) return null;
+        return {
+          forDay: fc.forDay,
+          rows: fc.reveal.map((flower) => ({
+            flower,
+            direction: fc.nextMult[flower] >= this.state.market.mult[flower] ? 'up' : 'down'
+          }))
+        };
+      })(),
       orders: this.ordersView(),
       weather: { id: this.state.weather, ...(WEATHER[this.state.weather] || WEATHER.bulutlu) },
       tutorialDone: this.state.tutorialDone,
