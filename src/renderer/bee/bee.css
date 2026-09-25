@@ -382,6 +382,18 @@ body.night .hud-top .card, body.night .chip { box-shadow: 0 6px 18px rgba(0, 0, 
 .rec small { display: block; color: var(--muted); font-weight: 800; font-size: 11.5px; }
 .rec b { font-size: 18px; }
 .cups-line { margin-top: 10px; font-weight: 800; font-size: 13px; }
+.effects-wrap { display: grid; gap: 12px; }
+.effect-focus { display: flex; gap: 14px; align-items: center; padding: 14px 16px; border: 1.5px solid #E6D8B8; border-radius: 16px; background: #F7F0DF; }
+.effect-focus.active { background: #FFF2CC; border-color: #E8C875; box-shadow: 0 3px 10px rgba(117,83,52,.08); }
+.effect-focus b { display: block; font-family: "Fraunces", Georgia, serif; font-size: 18px; }
+.effect-focus small, .effect-card small { display: block; color: var(--muted); font-weight: 700; line-height: 1.45; }
+.effect-focus span, .effect-card span { display: inline-block; margin-top: 4px; color: var(--green); font-size: 12px; font-weight: 900; }
+.effects-title { margin: 2px 0 -2px; font-family: "Fraunces", Georgia, serif; font-size: 15px; }
+.effects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 9px; }
+.effect-card { display: flex; gap: 10px; align-items: center; min-height: 78px; padding: 10px 12px; background: #fff; border: 1px solid #EADFCA; border-radius: 14px; box-shadow: 0 2px 6px rgba(74,58,34,.06); }
+.effect-card b { display: block; font-size: 13px; line-height: 1.25; }
+.effect-icon { width: 52px; height: 52px; flex: 0 0 52px; object-fit: contain; }
+.effect-icon.big { width: 64px; height: 64px; flex-basis: 64px; }
 
 /* ---------- Kavanoz etiketi ---------- */
 .label-wrap { display: flex; gap: 18px; align-items: center; flex-wrap: wrap; }
