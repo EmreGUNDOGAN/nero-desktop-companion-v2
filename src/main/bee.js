@@ -248,8 +248,8 @@ const UPGRADES = [
 ];
 
 const FLOWERS = {
-  yonca:    { name: 'Yonca',    seed: 45,  buff: 0.00, price: 8,  seasons: ['ilkbahar', 'yaz'], color: '#C9E6A0', petal: '#FFFFFF' },
-  papatya:  { name: 'Papatya',  seed: 90,  buff: 0.08, price: 12, seasons: ['ilkbahar', 'yaz'], color: '#F0DE7A', petal: '#FFFFFF' },
+  yonca:    { name: 'Yonca',    seed: 45,  buff: 0.05, price: 8,  seasons: ['ilkbahar', 'yaz'], color: '#C9E6A0', petal: '#FFFFFF' },
+  papatya:  { name: 'Papatya',  seed: 90,  buff: 0.10, price: 12, seasons: ['ilkbahar', 'yaz'], color: '#F0DE7A', petal: '#FFFFFF' },
   aycicegi: { name: 'Ayçiçeği', seed: 190, buff: 0.18, price: 18, seasons: ['yaz'],             color: '#F5C851', petal: '#F7C22E' },
   kekik:    { name: 'Kekik',    seed: 340, buff: 0.30, price: 26, seasons: ['ilkbahar', 'yaz'], color: '#D8A6E0', petal: '#C98BD6' },
   lavanta:  { name: 'Lavanta',  seed: 600, buff: 0.45, price: 38, seasons: ['yaz'],             color: '#B79BE0', petal: '#9C7BD6' },
@@ -2412,6 +2412,17 @@ class BeeGame {
     t.item = { type: 'hive', id };
     this.save();
     return { ok: true, msg: `${this.state.hives[id].name} kuruldu (-${HIVE_COST} 🪙).` };
+  }
+
+  buySeed(flower) {
+    const def = FLOWERS[flower];
+    if (!def) return this.fail('Bilinmeyen tohum.');
+    const seedCost = this.seedCost(flower);
+    if (this.state.coins < seedCost) return this.fail(`Yeterli jeton yok (${seedCost} gerekli).`);
+    this.state.coins -= seedCost;
+    this.state.vouchers[flower] = (this.state.vouchers[flower] || 0) + 1;
+    this.save();
+    return { ok: true, msg: `${def.name} tohumu envantere eklendi (-${seedCost} 🪙). Envanter: ${this.state.vouchers[flower]}` };
   }
 
   plantSeed(k, flower) {
