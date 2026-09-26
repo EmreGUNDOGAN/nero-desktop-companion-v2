@@ -3,6 +3,14 @@
 Her sürümde eklenenler, değişenler ve düzeltilenler burada. En yeni sürüm en üstte.
 
 
+## 5.5.4: Adaya dön düğmesi
+
+- **Adaya dön** düğmesi sağ üstten sol alta taşındı ve biraz büyütüldü.
+- Bildirim ve günlük görev düğmelerinin konumu ile davranışı korundu.
+- Fotoğraf modunda taşınan düğme de gizlenir.
+
+Ayrıntılar: `CHANGELOG-5.5.4.md`
+
 ## 5.5.3: Tohum envanteri ve arayüz iyileştirmeleri
 
 ### Yeni
