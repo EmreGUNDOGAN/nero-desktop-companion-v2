@@ -20,9 +20,10 @@ Nero 5.5.3, Arıcılık bölümünde satın alma akışını sadeleştiren ve g�
 
 ## Düzeltildi
 
-- Günlük görevler tamamlandığında görev alanının eski/persistent kart görünümüne dönmesi engellendi.
-- Görev sistemi her durumda **📋 kompakt ikon → açılır “Bugünün görevleri” paneli** düzenini korur.
-- Günün bütün görev ödülleri alındığında panel tekrar ikona kapanır ve görev ikonunda tamamlanma işareti görünür.
+- Günlük görev panelinin tamamlanan görevlerde eski/minimal görünüme dönmesi engellendi.
+- Panel başlangıçta, görevler sürerken ve bütün görevler tamamlandığında aynı **ilerleme çubuğu + checkbox + ödül** tasarımını korur.
+- Görev ikonu artık aç/kapat mantığıyla çalışır; bütün görevler tamamlandığında panel kendi kendine kapanmaz.
+- Günün bütün görevleri tamamlandığında görev ikonunda tamamlanma işareti görünür.
 
 ## Korunanlar
 
