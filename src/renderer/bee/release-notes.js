@@ -16,8 +16,9 @@ export const RELEASE_NOTES = [
   { version: '5.4.1', title: 'Çiftlik yönetimi', items: [
     { icon: '⚙️', title: 'Oyun içi ayarlar', text: 'Grafik, ses, gece modu ve kayıt seçenekleri oyun içine taşındı.' },
     { icon: '🐝', title: 'Kovanlar özeti', text: 'Kovanlar arasında gezinme ve toplu şurup işlemleri eklendi.' }] },
-  { version: '5.4.2', title: 'Sürüm notu arşivde yok', items: [
-    { icon: '📋', title: '5.4.2', text: 'Bu sürümün ayrıntılı notu uygulama arşivinde bulunmuyor.' }] },
+  { version: '5.4.2', title: 'Büyüyen çiftlik', items: [
+    { icon: '✨', title: 'Etkilerim', text: 'Odak, köy, hikâye ve Seyyah Yakup bonusları Bal Defteri’nde bir araya geldi.' },
+    { icon: '🍯', title: 'Depo ve denge', text: 'Depo 10.000 kg’a kadar büyür; sipariş sıklığı, hastalık ve arı ekonomisi dengelenir.' }] },
   { version: '5.5.0', title: 'Arıcılık dünyası genişliyor', items: [
     { icon: '🐝', title: 'Yeni Nero diyalogları', text: 'Çiftlik olaylarına ve köylere özel yeni tepkiler.' },
     { icon: '📋', title: 'Yeni görevler ve Yakup ürünleri', text: 'Görev türleri ve gezgin satıcının ürün havuzu genişledi.' }] },
