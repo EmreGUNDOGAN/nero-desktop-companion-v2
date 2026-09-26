@@ -3,6 +3,17 @@
 Her sürümde eklenenler, değişenler ve düzeltilenler burada. En yeni sürüm en üstte.
 
 
+## 6.0.0: Yaşayan köy
+
+- Güncel 3D sahneye yürüyen köy sakinleri, sipariş teslimi ziyaretleri ve adada dolaşıp geceleri uyuyan Nero eklendi. Yürüyen karakter sayısı grafik ayarına bağlıdır.
+- Yedi çiçeğin üretim bonusları değişti; Ihlamur Kış Fundası'na dönüştü. Eski kayıtların tarh, bal, tohum ve sipariş verileri dönüştürülür. Çiçek bonusları menzildeki tarhlar arasında toplanır; mevsim çarpanları uygulanır.
+- Ek kovanlar 900 jetondan başlar, her satın almada %25 artar ve fiyat en yakın 25'e yuvarlanır.
+- Mevsim turnuvaları, dört kategoriyle puanlanan üç bağımsız rakiple yılda dört kez düzenlenir. İlk üç 750/500/250 jeton ve kupa kazanır; birinci sonraki yıl aynı mevsimde %20 üretim bonusu alır. Bal Defteri'ne Kupalar eklendi.
+- Bildirimlerde Önemli / Köy / Tümü sekmeleri, kış öncesi eksik erzak uyarısı, sipariş süresi tahmini, hasat rozeti, 10 saniyelik son yerleştirmeyi geri alma ve gece yıldızları eklendi.
+- Geçmiş sürümlerin yenilikleri sırayla gösterilir; mevcut 5.6 davranışı sürer.
+- Turnuva sonuç penceresi onaylanan krem/altın tasarıma getirildi; kategori sıralamaları, ödül özeti ve gelecek mevsim bonusu tek ekranda şeffaf gösterilir.
+- Kış Fundası geçişinden kalan görünür Ihlamur metinleri ve Festival Cilası açıklamaları temizlendi; kışta çiçek mevsim uyumu artık bal katkısına da uygulanır.
+
 ## 5.6.0: Arıcılık arayüzü ve liderlik
 
 ## Yeni

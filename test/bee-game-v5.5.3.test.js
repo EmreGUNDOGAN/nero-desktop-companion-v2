@@ -11,9 +11,10 @@ class MemoryStore {
   flush() {}
 }
 
-test('5.5.3 Yonca yüzde 5 ve Papatya yüzde 10 üretim bonusu verir', () => {
-  assert.equal(FLOWERS.yonca.buff, 0.05);
-  assert.equal(FLOWERS.papatya.buff, 0.10);
+test('6.0.0 Yonca ve Papatya yeni tarh bonuslarını kullanır', () => {
+  assert.equal(FLOWERS.yonca.buff, 0.02);
+  assert.equal(FLOWERS.papatya.buff, 0.04);
+  assert.equal(FLOWERS.kisfundasi.buff, 0.17);
 });
 
 test('5.5.3 mağazadan alınan tohum envantere girer ve ekimde ikinci kez para alınmaz', () => {

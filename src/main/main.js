@@ -1565,6 +1565,7 @@ function registerIpc() {
       placeHive: () => bee.placeHive(arg1),
       buySeed: () => bee.buySeed(arg1),
       plantSeed: () => bee.plantSeed(arg1, arg2),
+      undoPlacement: () => bee.undoPlacement(),
       removeFlower: () => bee.removeFlower(arg1),
       replant: () => bee.replant(arg1),
       harvest: () => bee.requestHarvest(arg1),
@@ -1589,6 +1590,7 @@ function registerIpc() {
       readLetter: () => bee.readLetter(arg1),
       setting: () => bee.setGameSetting(arg1, arg2),
       syrupAll: () => bee.giveSyrupAll(),
+      winterSyrup: () => bee.giveWinterSyrup(),
       deliverReady: () => bee.deliverReady(),
       placeDecor: () => bee.placeDecor(arg1, arg2),
       removeDecor: () => bee.removeDecor(arg1),
@@ -1605,6 +1607,7 @@ function registerIpc() {
       finishTutorial: () => bee.finishTutorial()
     };
     const fn = map[action];
+    if (fn && action !== 'undoPlacement' && !['readNotifs', 'merchantQuote', 'setting'].includes(action)) bee.commitPlacement();
     const res = fn ? fn() : { ok: false, msg: 'Bilinmeyen işlem.' };
     return { res, view: bee.view(), events: bee.drainEvents() };
   });

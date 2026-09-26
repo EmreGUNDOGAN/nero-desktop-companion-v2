@@ -36,5 +36,10 @@ export const RELEASE_NOTES = [
   { version: '5.6.0', title: 'Çiftlik yeni bir yüz kazandı', items: [
     { icon: '🍯', title: 'Yeni arayüz', text: 'Tek parça alt menü, yenilenen üst çubuk ve çizilmiş simgeler.' },
     { icon: '🐝', title: 'Kovanlar ve istatistikler', text: 'Doluluk halkaları, kovan işlemleri, günlük karşılaştırmalar ve satış dökümü.' },
-    { icon: '🏆', title: 'Liderlik', text: 'Rakipler artık üretir, satış yapar ve yatırım kararları verir; değişimlerinin nedenleri görünür.' }] }
+    { icon: '🏆', title: 'Liderlik', text: 'Rakipler artık üretir, satış yapar ve yatırım kararları verir; değişimlerinin nedenleri görünür.' }] },
+  { version: '6.0.0', title: 'Yaşayan köy ve mevsim turnuvaları', items: [
+    { icon: '🏘️', title: 'Köy canlanıyor', text: 'Köylüler gündüz dolaşır, teslimat sonrası seni ziyaret eder; Nero da adada yürür ve geceleri uyur.' },
+    { icon: '🏆', title: 'Dört mevsim turnuvası', text: 'Kategori puanları, kupalar, 750/500/250 jeton ödülleri ve şampiyona sonraki yıl aynı mevsim +%20 üretim.' },
+    { icon: '🌿', title: 'Çiçekler ve kovanlar', text: 'Yedi çiçeğin bonusları dengelendi, Ihlamur yerine Kış Fundası geldi; yeni kovan fiyatları kademelendi.' },
+    { icon: '🔔', title: 'Yeni kolaylıklar', text: 'Bildirim sekmeleri, 10 saniyelik geri alma, sipariş süre tahmini, hasat rozeti ve gece yıldızları.' }] }
 ];

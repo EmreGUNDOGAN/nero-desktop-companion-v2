@@ -20,7 +20,7 @@ haftalar içinde büyüyen sakin bir çiftlik olarak tasarlandı.
 10. [Siparişler ve köylüler](#10-siparişler-ve-köylüler)
 11. [Balmumu ve mum](#11-balmumu-ve-mum)
 12. [Dekorlar](#12-dekorlar)
-13. [Yıllık Bal Festivali](#13-yıllık-bal-festivali)
+13. [Mevsim Turnuvaları](#13-mevsim-turnuvaları)
 14. [Rakipler ve liderlik](#14-rakipler-ve-liderlik)
 15. [Nero ile birlikte](#15-nero-ile-birlikte)
 15b. [Günlük görevler, Bal Defteri ve kişiselleştirme](#15b-günlük-görevler-bal-defteri-ve-kişiselleştirme)
@@ -135,16 +135,16 @@ Başlangıçta elinde:
 
 | Çiçek | Tohum | Üretime etkisi | Balın taban fiyatı (kg) | Mevsim |
 |---|---|---|---|---|
-| Yonca | 45 | +%5 | 8 | İlkbahar, Yaz |
-| Papatya | 90 | +%10 | 12 | İlkbahar, Yaz |
-| Ayçiçeği | 190 | +%18 | 18 | Yaz |
-| Kekik | 340 | +%30 | 26 | İlkbahar, Yaz |
-| Lavanta | 600 | +%45 | 38 | Yaz |
-| Ihlamur | 975 | +%65 | 55 | İlkbahar |
-| Kestane | 1.650 | +%90 | 80 | Sonbahar |
+| Yonca | 45 | +%2 | 8 | İlkbahar |
+| Papatya | 90 | +%4 | 12 | Yaz |
+| Ayçiçeği | 190 | +%6 | 18 | Yaz |
+| Kekik | 340 | +%10 | 26 | İlkbahar |
+| Lavanta | 600 | +%13 | 38 | Sonbahar |
+| Kış Fundası | 975 | +%17 | 55 | Kış |
+| Kestane | 1.650 | +%22 | 80 | Sonbahar |
 
 - **Her çiçek kendi balını üretir.** Ballar karışmaz: kovanın içinde, depoda ve pazarda türüne göre ayrı durur ve ayrı fiyattan satılır.
-- **Mevsimi dışında** çiçek solmaz ama üretimi **%25'e** düşer. Tohum seçerken "şu an mevsiminde" / "mevsimi dışında" yazar.
+- Mevsim etkisi: kendi mevsimi ×1, komşu mevsim ×0,5, karşı mevsim ×0,25. Bu oran hem tarhın bal katkısına hem üretim bonusuna uygulanır. Menzildeki her aktif tarhın bonusu ayrıca toplanır.
 - **Ömür:** her çiçek **30 gün (iki oyun ayı)** yaşar. Tarha tıklayınca kalan ömrü görürsün. Solan tarh 🥀 bal vermez, arılar oraya uçmaz ve o baldan sipariş gelmez. Solmuş tarha tıklayıp tohum fiyatının **%10'una canlandır** ya da temizle.
 - **Yan yana bonusu:** aynı çiçekten **en az 3 tarh birbirine değiyorsa** (zincir hâlinde), her biri **+%15** üretir. Çiçeğe tıklayınca bonus varsa görünür.
 - **Çeşme bonusu:** çeşmenin olduğu karede ve yanındaki karelerde bulunan tarhlar **+%5** üretir (§12).
@@ -194,7 +194,7 @@ Bir kovana tıklayınca **kovanın içi** açılır: solda canlı petek (ortada 
 | Kafkas | Soğuğa dayanıklı: kışın arı kaybı yarıya iner |
 | İtalyan | Her gün çoğalır, üretim biraz düşük (×0.95) |
 
-**Yeni kovan:** 900 jeton, içinde 4 arıyla gelir. Yanına çiçek ekmeyi unutma.
+**Yeni kovan:** ilk ek kovan 900 jeton, sonra her satın almada %25 artar ve en yakın 25 jetona yuvarlanır. İçinde 4 arıyla gelir.
 
 ---
 
@@ -215,7 +215,7 @@ Bir kovana tıklayınca **kovanın içi** açılır: solda canlı petek (ortada 
 - Fiyatlar her gün taban fiyatın **%80'i ile %130'u** arasında, yumuşak şekilde dalgalanır.
 - Her balın yanında o günün kg fiyatı, dünden bugüne değişim ve son 7 günün küçük grafiği var.
 - Mevsim: yaz **%15 ucuz**, kış **%35 pahalı**.
-- **Festival olayları:** ara sıra bir bal 2 gün boyunca **%50 değerlenir**; duyurulur ve listede vurgulanır.
+- **Pazar etkinliği:** ara sıra bir bal 2 gün boyunca **%50 değerlenir**; duyurulur ve listede vurgulanır.
 - Satış: **1 kg**, **5 kg** ya da **Hepsi**.
 
 ---
@@ -224,7 +224,7 @@ Bir kovana tıklayınca **kovanın içi** açılır: solda canlı petek (ortada 
 ## 10. Siparişler ve köylüler
 - **Gerçek zamanla 5 dakikada bir** yeni sipariş gelir (oyun hızından bağımsız; oyun duraklatılmışsa gelmez). Uzun süre bakmadıysan geri döndüğünde tek seferde en fazla **3 yeni normal sipariş** birikir; aynı anda toplam sipariş sınırı yine **5** (Pazar Yeri varsa 6).
 - **Aynı köylünün aynı anda yalnızca 1 normal siparişi** listede olabilir. O kişinin açık ya da kabul edilmiş siparişi varken yeni normal sipariş üretiminde adı kullanılmaz; sipariş listeden çıkınca tekrar gelebilir.
-- **Sadece şu an ekili (solmamış) çiçeklerin balı istenir.** Hiç ıhlamurun yoksa ıhlamur siparişi gelmez.
+- **Sadece şu an ekili (solmamış) çiçeklerin balı istenir.** Hiç Kış Fundası tarhın yoksa Kış Fundası balı siparişi gelmez.
 - Siparişler piyasadan **çok daha iyi öder** (piyasanın 1.4–1.8 katı).
 - Kartta: kim, ne kadar ve hangi bal, ödül, süre, depodaki miktar (yetiyorsa yeşil).
 
@@ -266,19 +266,18 @@ Kaldırmak için dekorlu kareye tıkla → **… kaldır**; fiyatın yarısı ge
 
 ---
 
-## 13. Yıllık Bal Festivali
-- **Ne zaman:** her yılın **son 3 günü** (kışın sonu) başvuru açılır. Pazar ekranının üstünde duyuru çıkar.
-- **Nasıl:** depodan bir bal türü ve miktar seç (en az 1, en fazla **10 kg**) → **Gönder**. Yılda bir başvuru hakkın var.
-- **Puan:** miktar × balın taban fiyatı × (1 + çiçek bonusu). Yani değerli bal çok daha fazla puan getirir.
-- **Sonuç:** yeni yılın ilk günü rakiplerle karşılaştırılır.
+## 13. Mevsim Turnuvaları
 
-| Derece | Ödül |
-|---|---|
-| 🥇 1. | 1.500 jeton + altın kupa |
-| 🥈 2. | 800 jeton + gümüş kupa |
-| 🥉 3. | 400 jeton + bronz kupa |
+Her yıl ilkbahar, yaz, sonbahar ve kış turnuvası düzenlenir. Mevsimin son üç gününde Pazar'dan 1–10 kg bal gönder; sonuç sonraki mevsimin ilk günü açıklanır. Katılım için depoda bal gerekir. Pazarın iki günlük fiyat artışı farklı bir etkinliktir.
 
-Kazandığın kupalar **evinin yanında** sergilenir ve Pazar ekranında listelenir.
+| Kategori | En yüksek puan | Oyun verisi |
+|---|---:|---|
+| Bal Kalitesi | 400 | Gönderilen balın miktarı, taban değeri, mevsime uyumu, Festival Cilası |
+| Arıcılık Ustalığı | 250 | Sağlıklı kovanlar ve arı sayısı |
+| Üretim Başarısı | 200 | Mevsimlik üretim ve kovan başına üretim |
+| Köy İtibarı | 150 | Teslim edilmiş siparişler ve ilişkiler |
+
+Temkinli Ali, Riskçi Kaya ve Dengeli Nur kendi çiftlik verilerine göre puan alır; senin puanının yüzdesiyle hesaplanmaz. İlk üçe sırasıyla **750, 500, 250 jeton** ve altın/gümüş/bronz kupa verilir. Birinci olursan **gelecek yıl aynı mevsim** boyunca üretimin %20 artar. Bal Defteri → **Kupalar** bölümünde sonraki turnuvaya kalan oyun günlerini, geçmiş sonuçları ve kategori puanlarını görürsün. Eski festival kupaların korunur.
 
 ---
 
@@ -381,7 +380,7 @@ Oyun Nero'nun asıl amacıyla bağlantılı: **sen çalıştıkça çiftlik büy
 |---|---|
 | Bakkal | Şurup %20 ucuz |
 | Fırın | 7 günde bir düzenli yonca/papatya siparişi (8–12 kg, ödeme ×1.6) |
-| Pastane | 5 günde bir küçük ama çok iyi ödemeli lavanta/ıhlamur/kestane siparişi (×2.2) |
+| Pastane | 5 günde bir küçük ama çok iyi ödemeli lavanta/Kış Fundası/kestane siparişi (×2.2) |
 | Çay Bahçesi | Her köylüyle ilk kalp tek teslimde |
 | Bal Dükkânı | Pazar fiyatları +%10 |
 | Postane | Sipariş süreleri +1 gün |
@@ -394,7 +393,7 @@ Oyun Nero'nun asıl amacıyla bağlantılı: **sen çalıştıkça çiftlik büy
 | Dondurmacı | Yazın siparişler %10 daha iyi |
 | Pazar Yeri | Aynı anda 6 sipariş |
 | Eczane | İlaç %30 ucuz |
-| Reçelci | Kekik ve ıhlamur siparişleri daha sık |
+| Reçelci | Kekik ve Kış Fundası siparişleri daha sık |
 | Arıcılar Derneği | Festival puanı +%10 |
 | Marangoz Atölyesi | Dekorlar %20 ucuz |
 | Lokumcu | Kışın siparişler %10 daha iyi |
@@ -451,8 +450,8 @@ Oyun Nero'nun asıl amacıyla bağlantılı: **sen çalıştıkça çiftlik büy
 | 32 | 🏅 Sipariş Mührü | Seçilen başarılı siparişe +%12 ödeme | ödülün %6'sı, min. 20 |
 | 33 | 💛 Dostluk Jetonu | Sonraki başarılı siparişe +10 ilişki puanı | 90 |
 | 34 | 📮 Öncelikli Teslim Kartı | Sonraki başarılı siparişe +4 ilişki puanı | 35 |
-| 35 | 🏆 Festival Cilası | Sonraki festival giriş puanına +%5 | 180 |
-| 36 | 🛡️ Festival Güvencesi | Kupa yoksa gönderilen balın %60'ını geri getirir | 100 |
+| 35 | 🏆 Festival Cilası | Sonraki turnuvanın Bal Kalitesi puanına +20 | 180 |
+| 36 | 🛡️ Festival Güvencesi | Turnuvada kupa yoksa gönderilen balın %60'ını geri getirir | 100 |
 | 37 | 💎 Seyyah Satış Fişi | Yakup'a satışta en fazla 10 kg'a ek +%10 ödeme | 40 |
 | 38 | 🔄 Stok Değişim Jetonu | Henüz alınmamış bir Yakup teklifini yeniden çeker | 45 |
 
@@ -465,13 +464,13 @@ Oyun Nero'nun asıl amacıyla bağlantılı: **sen çalıştıkça çiftlik büy
 | Köylü | Hikâye | Adımlar | Son ödül |
 |---|---|---|---|
 | Arıcı Hasan | Ustalık yolu | Bir kovanı 20 arıya çıkar · 10 kg kestane balı hasat et · Festivalde derece al | Tüm üretim +%3 |
-| Ayşe Teyze | Eski tarifler | 15 kg papatya balı teslim et · 3 mum yap · Bir ıhlamur siparişini tamamla | Mum fiyatı +%5 |
+| Ayşe Teyze | Eski tarifler | 15 kg papatya balı teslim et · 3 mum yap · Bir kış fundası siparişini tamamla | Mum fiyatı +%5 |
 | Balıkçı Kemal | Göl kıyısında | Göle bitişik bir kareye tarh ek · 30 kg yonca hasat et · 5 sipariş teslim et | Yonca balı fiyatı +%5 |
 | Küçük Elif | Arı okulu | Ayçiçeği ek · Bir kovana isim ver · 10 günlük görev tamamla | Görev ödülleri +%5 |
 | Öğretmen Selin | Bal Defteri | Bal Defteri'nde 4 sayfa aç · Kavanoz etiketi tasarla · 3 farklı baldan sat | Pazar satışları +%2 |
 | Muhtar Rıza | Köyün sesi | Köyü 13 yerleşimciye ulaştır · Bir köy isteğini tamamla · 3 köylüyle %50 ilişki | Köylü siparişleri +%3 |
 | Doktor Aslı | Sağlıklı kovanlar | 3 kez şurup ver · Hasta bir kovanı iyileştir · Bir kışı arı kaybetmeden geçir | İlaç %10 ucuz |
-| Kerim Dede | Kedi dostu | Ona 3 sipariş teslim et · 5 kg ıhlamur balı teslim et · Onunla %80 ilişki | Hastalanma ihtimali %5 az |
+| Kerim Dede | Kedi dostu | Ona 3 sipariş teslim et · 5 kg kış fundası balı teslim et · Onunla %80 ilişki | Hastalanma ihtimali %5 az |
 
 - İlerlemeyi köylüye tıklayınca ya da Bal Defteri → **🏘️ Köy** sekmesinin başındaki **Hikâyeler** bölümünde görürsün.
 
@@ -541,8 +540,8 @@ Oyun Nero'nun asıl amacıyla bağlantılı: **sen çalıştıkça çiftlik büy
 - **Yazdan kışa bal biriktir.** Yazın ucuz satmak yerine depoda tut; kışın %35 pahalıya sat. Bunun için depoyu büyütmek iyi bir yatırım.
 - **Kış öncesi şurup al.** Sonbaharın sonunda her kovana en az bir şurup ver. Kış kaybından çok korkuyorsan Kafkas arısına geç.
 - **Hastalığı erken yakala.** 🤒 gördüğünde ilacı hemen ver; bekledikçe arı kaybedersin. Anadolu arısı daha sık hastalanır.
-- **Değerli çiçekleri mevsiminde ek.** Kestane sonbaharda, ıhlamur ilkbaharda tam verimle üretir. Ömürleri 30 gün olduğu için ekim zamanı önemli.
-- **Festivale en değerli balını sakla.** Kestane ya da ıhlamur balı festivalde yonca balından kat kat fazla puan getirir.
+- **Değerli çiçekleri mevsiminde ek.** Kestane sonbaharda, Kış Fundası kışın tam verimle üretir. Ömürleri 30 gün olduğu için ekim zamanı önemli.
+- **Festivale en değerli balını sakla.** Kestane ya da Kış Fundası balını mevsim turnuvası için sakla; dört puan kategorisini de geliştir.
 - **Odaklan.** Uzun bir çalışma gününde birkaç odak seansı, kovanları saatlerce hızlandırır.
 - **Balmumunu biriktir, mumu kışın sat.**
 
@@ -556,7 +555,7 @@ Oyun Nero'nun asıl amacıyla bağlantılı: **sen çalıştıkça çiftlik büy
 |---|---|
 | Başlangıç jetonu | 200 |
 | Arı başına üretim | 0.5 kg/sa (+ etkiler) |
-| Yeni kovan | 900 (4 arıyla) |
+| Yeni kovan | İlk ek kovan 900, sonraki satın almalar ×1,25, en yakın 25 (4 arıyla) |
 | Depo üst sınırı | 10.000 kg (+ en fazla 30 kg depo sandığı) |
 | Yeni kare | 60, sonra her biri ×1.4 |
 | Arı alış / satış | sıradaki arı numarasına göre: 7. arı 34, her sıra +7 / ilgili sıra fiyatının %50’si |
@@ -576,8 +575,8 @@ Oyun Nero'nun asıl amacıyla bağlantılı: **sen çalıştıkça çiftlik büy
 
 | Etki | Değer |
 |---|---|
-| Çiçek bonusu | +%0 … +%90 |
-| Mevsim dışı çiçek | ×0.25 |
+| Çiçek bonusu | Tarh başına +%2 … +%22; menzildeki aktif tarhlar toplanır |
+| Mevsim uyumu | kendi mevsimi ×1 · komşu mevsim ×0,5 · karşı mevsim ×0,25 (bal katkısı + buff) |
 | Kış | ×0.10 (şurupla ×0.35) |
 | Hava | ☀️ ×1.1 · ⛅ ×1.0 · 🌧️ ×0.6 |
 | Hasta kovan | ×0.7 |
@@ -589,3 +588,9 @@ Oyun Nero'nun asıl amacıyla bağlantılı: **sen çalıştıkça çiftlik büy
 **Liderlik (5.6.0):** Rakipler aynı mevsim ve pazar koşullarında üretim, satış ve yatırım yapar. Bir üst sıraya kalan fark ve rakiplerin günlük değişim nedenleri listede görünür.
 
 **Sürüm yenilikleri:** Rehberden eski notları tekrar okuyabilirsin. Birkaç sürüm atlandıysa arşivde bulunan yenilikler sırayla görünür; yarıda bıraktığın sürümler sonra tekrar açılır.
+
+## 20. Yaşayan köy, Nero ve yeni araçlar (6.0.0)
+
+Köylüler gündüz evlerinden çıkar, yürüyerek köydeki yerlere uğrar ve akşam evlerine döner. Aktif görünen sayı grafik ayarına göre 12/6/2 ile sınırlıdır. Sipariş teslim edince ilgili kişi eve uğrayıp teşekkür eder. Nero gündüz adada gezer, karşılaştığı köylülerle konuşur, geceleri evin yanında uyur; ona tıklayabilirsin. Bu hareketler oyun ekonomisini değiştirmez.
+
+Gece gökyüzünde küçük, parlayan ve nadiren kayan yıldızlar görünür. **Hafif** grafik modunda yıldız hareketleri ve meteor kapalıdır. Alt menüde Hasat Et üstündeki sayı sıraya alınabilecek kovanları gösterir. Son tohum/kovan yerleşimini 10 gerçek saniye içinde **Geri al** ile iptal edebilirsin. Bildirimler Önemli / Köy / Tümü sekmelerinde; sonbaharda kışın ilk günü için erzağı yetersiz kovanlara toplu şurup düğmesi çıkar. Sipariş kartı kabul etmeden önce mevcut hıza göre yetişme tahmini verir; üretim hızı değişirse tahmin de değişir.

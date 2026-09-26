@@ -27,7 +27,7 @@ module.exports = [
   "type": "koylu",
   "name": "Hacer Nine",
   "role": "Köyün en yaşlısı",
-  "fav": "ihlamur"
+  "fav": "kisfundasi"
  },
  {
   "n": 5,
@@ -85,14 +85,14 @@ module.exports = [
   "type": "koylu",
   "name": "Doktor Aslı",
   "role": "Köy doktoru",
-  "fav": "ihlamur"
+  "fav": "kisfundasi"
  },
  {
   "n": 12,
   "type": "dukkan",
   "name": "Pastane",
   "role": "Pastacı Nur işletir",
-  "effectText": "Her 5 günde küçük ama çok iyi ödemeli lavanta/ıhlamur/kestane siparişi (2–4 kg, ×2.2)",
+  "effectText": "Her 5 günde küçük ama çok iyi ödemeli lavanta/Kış Fundası/kestane siparişi (2–4 kg, ×2.2)",
   "effect": "pastane",
   "value": 1,
   "owner": "Pastacı Nur"
@@ -226,7 +226,7 @@ module.exports = [
   "type": "koylu",
   "name": "Hemşire Canan",
   "role": "Doktor Aslı'nın yardımcısı",
-  "fav": "ihlamur"
+  "fav": "kisfundasi"
  },
  {
   "n": 30,
@@ -295,7 +295,7 @@ module.exports = [
   "type": "koylu",
   "name": "Yazar Melike",
   "role": "Köyü anlatan romanlar yazar",
-  "fav": "ihlamur"
+  "fav": "kisfundasi"
  },
  {
   "n": 39,
@@ -332,7 +332,7 @@ module.exports = [
   "type": "koylu",
   "name": "Eczacı Burak",
   "role": "Köy eczacısı",
-  "fav": "ihlamur"
+  "fav": "kisfundasi"
  },
  {
   "n": 44,
@@ -383,7 +383,7 @@ module.exports = [
   "type": "dukkan",
   "name": "Reçelci",
   "role": "Reçel ve pekmez yapar",
-  "effectText": "Kekik ve ıhlamur siparişleri daha sık gelir",
+  "effectText": "Kekik ve Kış Fundası siparişleri daha sık gelir",
   "effect": "favorOrders",
   "value": 1
  },
@@ -415,7 +415,7 @@ module.exports = [
   "type": "koylu",
   "name": "Botanikçi Defne",
   "role": "Bitki araştırmacısı",
-  "fav": "ihlamur"
+  "fav": "kisfundasi"
  },
  {
   "n": 55,
@@ -545,7 +545,7 @@ module.exports = [
   "type": "koylu",
   "name": "Kerim Dede ve Kedileri",
   "role": "Yedi kedisiyle yaşar",
-  "fav": "ihlamur"
+  "fav": "kisfundasi"
  },
  {
   "n": 73,

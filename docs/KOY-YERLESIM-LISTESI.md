@@ -10,7 +10,7 @@ Köy, oyuncunun adasını (5 yarıçaplı altıgen) çevreleyen **iki halkada** 
 - **Köylüler:** her birinin sevdiği bir bal var. O bal ekiliyse siparişlerinde sık sık onu ister ve %15 daha iyi öder. Mevcut kalp sistemi aynen geçerli.
 - **Dükkânlar ve binalar:** bazıları küçük bir kalıcı etki verir, bazıları sadece köyü güzelleştirir. Etkiler aşağıdaki tabloda; oranlar denge için değiştirilebilir.
 - **Görünüş:** hepsi kodla çizilen 3D modeller (resim dosyası gerekmez). "Görünüş" sütunu her yapıyı diğerlerinden ayıran detaydır. Gece modunda pencereleri yanar.
-- **Dağılım:** 50 köylü evi, 12 dükkân, 16 bina. Köylülerin sevdiği ballar: Yonca 8, Ayçiçeği 8, Papatya 7, Ihlamur 7, Kekik 7, Lavanta 7, Kestane 6.
+- **Dağılım:** 50 köylü evi, 12 dükkân, 16 bina. Köylülerin sevdiği ballar: Yonca 8, Ayçiçeği 8, Papatya 7, Kış Fundası 7, Kekik 7, Lavanta 7, Kestane 6.
 
 ## Varış sırası
 
@@ -19,15 +19,15 @@ Köy, oyuncunun adasını (5 yarıçaplı altıgen) çevreleyen **iki halkada** 
 | 1 | 1 | Başlangıçta | Köylü | **Ayşe Teyze** | Emekli terzi | Papatya | Kiremit çatı, pencere önlerinde saksılar, bahçede çamaşır ipi |
 | 2 | 1 | Başlangıçta | Köylü | **Mehmet Usta** | Tamirci | Yonca | Lacivert düz çatı, kapı önünde alet sandığı ve eski bisiklet |
 | 3 | 1 | Başlangıçta | Köylü | **Küçük Elif** | Okul çağında bir kız, ailesiyle | Ayçiçeği | Sarı çatı, bahçede ağaç dalına asılı salıncak |
-| 4 | 1 | Başlangıçta | Köylü | **Hacer Nine** | Köyün en yaşlısı | Ihlamur | Yosunlu taş ev, kapı önünde tabure ve uyuklayan kedi |
+| 4 | 1 | Başlangıçta | Köylü | **Hacer Nine** | Köyün en yaşlısı | Kış Fundası | Yosunlu taş ev, kapı önünde tabure ve uyuklayan kedi |
 | 5 | 1 | Başlangıçta | Köylü | **Muhtar Rıza** | Köyün muhtarı | Kekik | İki katlı büyük ev, balkonlu, kapıda küçük tabela |
 | 6 | 1 | Başlangıçta | Dükkân | **Bakkal** | Bakkal Hüseyin işletir | Şurup %20 ucuz | Yeşil çizgili tente, önünde meyve kasaları |
 | 7 | 1 | 50 kg | Köylü | **Kasabalı Cem** | Kasabadan taşınan genç | Lavanta | Beyaz, düz çatılı modern ev, geniş cam cephe |
 | 8 | 1 | 150 kg | Köylü | **Balıkçı Kemal** | Göl balıkçısı | Yonca | Mavi çatı, önünde ters çevrilmiş kayık ve kuruyan ağ |
 | 9 | 1 | 400 kg | Dükkân | **Fırın** | Fırıncı Leyla işletir | Her 7 günde düzenli yonca/papatya siparişi (8–12 kg, ödeme ×1.6) | Kırmızı tuğla, sürekli tüten baca, ekmek tabelası |
 | 10 | 1 | 1.000 kg | Köylü | **Öğretmen Selin** | Köy okulunun öğretmeni | Papatya | Pastel yeşil ev, bahçede kitap rafı ve küçük masa |
-| 11 | 1 | 1.500 kg | Köylü | **Doktor Aslı** | Köy doktoru | Ihlamur | Beyaz ev, yeşil panjurlar, kapı önünde doktor çantası |
-| 12 | 1 | 2.000 kg | Dükkân | **Pastane** | Pastacı Nur işletir | Her 5 günde küçük ama çok iyi ödemeli lavanta/ıhlamur/kestane siparişi (2–4 kg, ×2.2) | Pembe çatı, kırmızı-beyaz çizgili tente, pasta tabelası |
+| 11 | 1 | 1.500 kg | Köylü | **Doktor Aslı** | Köy doktoru | Kış Fundası | Beyaz ev, yeşil panjurlar, kapı önünde doktor çantası |
+| 12 | 1 | 2.000 kg | Dükkân | **Pastane** | Pastacı Nur işletir | Her 5 günde küçük ama çok iyi ödemeli lavanta/Kış Fundası/kestane siparişi (2–4 kg, ×2.2) | Pembe çatı, kırmızı-beyaz çizgili tente, pasta tabelası |
 | 13 | 1 | 2.500 kg | Bina | **Çay Bahçesi** | Köyün buluşma yeri | Müdavimlik hızlanır: her köylüyle ilk kalp 1 teslimde | Büyük ağacın altında masalar, dallarda asılı küçük fenerler |
 | 14 | 1 | 3.000 kg | Dükkân | **Bal Dükkânı** | Köyün kendi bal satıcısı | Pazar fiyatları +%10 | Altın sarısı çatı, petek desenli tabela, vitrinde kavanozlar |
 | 15 | 1 | 3.500 kg | Bina | **Postane** | Köyün postası | Siparişlerin süresi +1 gün | Kırmızı çatı, önünde sarı posta kutusu |
@@ -44,7 +44,7 @@ Köy, oyuncunun adasını (5 yarıçaplı altıgen) çevreleyen **iki halkada** 
 | 26 | 1 | 9.000 kg | Köylü | **Marangoz İsmail** | Ahşap ustası | Kestane | Yanında kütük yığını ve testere tezgâhı |
 | 27 | 1 | 9.500 kg | Köylü | **Bahçıvan Zehra** | Köyün bahçıvanı | Ayçiçeği | Evin yanında küçük cam sera |
 | 28 | 1 | 10.000 kg | Bina | **Kütüphane** | Köy kütüphanesi | Süs (gece pencereleri geç saate kadar yanar) | Kubbeli çatı, kolonlu giriş |
-| 29 | 1 | 10.500 kg | Köylü | **Hemşire Canan** | Doktor Aslı'nın yardımcısı | Ihlamur | Açık mavi ev, pencerede papatya saksısı |
+| 29 | 1 | 10.500 kg | Köylü | **Hemşire Canan** | Doktor Aslı'nın yardımcısı | Kış Fundası | Açık mavi ev, pencerede papatya saksısı |
 | 30 | 1 | 11.000 kg | Dükkân | **Mumcu** | Balmumundan mum yapar | Mum fiyatı +%20 | Vitrinde yanan mumlar, sıcak sarı ışık |
 | 31 | 1 | 11.500 kg | Köylü | **Kaptan Rüstem** | Emekli gemi kaptanı | Kestane | Lacivert çatı, kapı önünde çapa, çatıda dürbün |
 | 32 | 1 | 12.000 kg | Köylü | **Müzisyen Efe** | Köyün sazcısı | Lavanta | Balkonda duvara asılı saz |
@@ -53,23 +53,23 @@ Köy, oyuncunun adasını (5 yarıçaplı altıgen) çevreleyen **iki halkada** 
 | 35 | 1 | 13.500 kg | Köylü | **Aşçı Fatma** | Düğün yemekleri yapar | Kekik | Bahçede büyük kazan ve odun ateşi |
 | 36 | 1 | 14.000 kg | Köylü | **Fotoğrafçı Can** | Köyün fotoğrafçısı | Ayçiçeği | Mor çatı, pencerede asılı fotoğraflar |
 | 37 | 2 | 14.500 kg | Dükkân | **Dondurmacı** | Yazları çok kalabalık | Yazın tüm siparişler %10 daha iyi öder | Açık mavi tente, kapıda dev külah maketi |
-| 38 | 2 | 15.000 kg | Köylü | **Yazar Melike** | Köyü anlatan romanlar yazar | Ihlamur | Pencere önünde daktilo, yığınla kitap |
+| 38 | 2 | 15.000 kg | Köylü | **Yazar Melike** | Köyü anlatan romanlar yazar | Kış Fundası | Pencere önünde daktilo, yığınla kitap |
 | 39 | 2 | 15.500 kg | Köylü | **Bisikletçi Tolga** | Bisiklet tamircisi | Yonca | Duvara asılı bisikletler, önünde pompa |
 | 40 | 2 | 16.000 kg | Bina | **Pazar Yeri** | Haftalık köy pazarı | Aynı anda bekleyebilecek sipariş sayısı 5 → 6 | Renkli tenteli tezgâhlar, meyve sebze kasaları |
 | 41 | 2 | 16.500 kg | Köylü | **Seramikçi Nazlı** | Çömlek ustası | Lavanta | Önünde çömlek çarkı ve sıra sıra vazolar |
 | 42 | 2 | 17.000 kg | Köylü | **Genç Balıkçı Kerem** | Balıkçı Kemal'in oğlu | Yonca | Küçük mavi kulübe, kapıda olta |
-| 43 | 2 | 17.500 kg | Köylü | **Eczacı Burak** | Köy eczacısı | Ihlamur | Yeşil panjurlar, pencerede şifalı bitki kavanozları |
+| 43 | 2 | 17.500 kg | Köylü | **Eczacı Burak** | Köy eczacısı | Kış Fundası | Yeşil panjurlar, pencerede şifalı bitki kavanozları |
 | 44 | 2 | 18.000 kg | Dükkân | **Eczane** | Burak işletir | İlaç %30 ucuz | Beyaz cephe, yeşil ışıklı "E" tabelası |
 | 45 | 2 | 18.500 kg | Köylü | **Sütçü Hatice** | Köyün sütçüsü | Papatya | Kapı önünde süt güğümleri |
 | 46 | 2 | 19.000 kg | Köylü | **Dokumacı Sevim** | Kilim dokur | Kekik | Balkondan sarkan renkli kilimler |
 | 47 | 2 | 19.500 kg | Bina | **Değirmen** | Rüzgâr değirmeni | Süs (kanatları sürekli döner) | Beyaz gövde, dönen kırmızı kanatlar |
 | 48 | 2 | 20.000 kg | Köylü | **Çiftçi Recep** | Tarla sahibi | Ayçiçeği | Yanında küçük traktör ve saman balyaları |
 | 49 | 2 | 20.500 kg | Köylü | **Saatçi Nihat** | Saat tamircisi | Kestane | Cephede büyük yuvarlak saat |
-| 50 | 2 | 21.000 kg | Dükkân | **Reçelci** | Reçel ve pekmez yapar | Kekik ve ıhlamur siparişleri daha sık gelir | Pencerede sıra sıra kavanozlar, kırmızı kareli perde |
+| 50 | 2 | 21.000 kg | Dükkân | **Reçelci** | Reçel ve pekmez yapar | Kekik ve Kış Fundası siparişleri daha sık gelir | Pencerede sıra sıra kavanozlar, kırmızı kareli perde |
 | 51 | 2 | 21.500 kg | Köylü | **Kuaför Şule** | Köyün kuaförü | Lavanta | Pembe tabela, kapı önünde döner direk |
 | 52 | 2 | 22.000 kg | Köylü | **Oduncu Bayram** | Oduncu | Kestane | Yığılı odunlar ve kütüğe saplı balta |
-| 53 | 2 | 22.500 kg | Bina | **Arıcılar Derneği** | Köy arıcıları buluşur | Bal Festivali puanın +%10 | Petek şeklinde pencereler, kapıda arı figürü |
-| 54 | 2 | 23.000 kg | Köylü | **Botanikçi Defne** | Bitki araştırmacısı | Ihlamur | Çatısı sarmaşıkla kaplı ev |
+| 53 | 2 | 22.500 kg | Bina | **Arıcılar Derneği** | Köy arıcıları buluşur | Mevsim turnuvası puanın +%10 | Petek şeklinde pencereler, kapıda arı figürü |
+| 54 | 2 | 23.000 kg | Köylü | **Botanikçi Defne** | Bitki araştırmacısı | Kış Fundası | Çatısı sarmaşıkla kaplı ev |
 | 55 | 2 | 23.500 kg | Köylü | **Kavalcı Mahmut Dede** | Akşamları kaval çalar | Kekik | Taş ev, kapı önünde hasır sandalye |
 | 56 | 2 | 24.000 kg | Köylü | **Kümesçi Emine** | Tavuk yetiştirir | Yonca | Yanında kümes ve dolaşan tavuklar |
 | 57 | 2 | 24.500 kg | Dükkân | **Marangoz Atölyesi** | İsmail'in atölyesi | Dekorlar %20 ucuz | Büyük ahşap kapı, önünde yarım kalmış bank |
@@ -87,7 +87,7 @@ Köy, oyuncunun adasını (5 yarıçaplı altıgen) çevreleyen **iki halkada** 
 | 69 | 2 | 30.500 kg | Köylü | **Dans Hocası Irmak** | Halk dansları öğretir | Lavanta | Önünde küçük ahşap sahne |
 | 70 | 2 | 31.000 kg | Bina | **Çalgı Köşkü** | Meydanda müzik köşkü | Süs (akşamları ışıkları yanar) | Altıgen, çatılı, etrafı fenerli köşk |
 | 71 | 2 | 31.500 kg | Köylü | **Biyolog Sinem** | Arıları inceler | Kekik | Bahçede mikroskop masası ve not defterleri |
-| 72 | 2 | 32.000 kg | Köylü | **Kerim Dede ve Kedileri** | Yedi kedisiyle yaşar | Ihlamur | Çatıda, pencerede, kapıda kediler |
+| 72 | 2 | 32.000 kg | Köylü | **Kerim Dede ve Kedileri** | Yedi kedisiyle yaşar | Kış Fundası | Çatıda, pencerede, kapıda kediler |
 | 73 | 2 | 32.500 kg | Bina | **Köy Serası** | Büyük ortak sera | Çiçeklerin ömrü +5 gün | Uzun cam sera, içinde yeşillik |
 | 74 | 2 | 33.000 kg | Köylü | **Mimar Kaan** | Köyün yeni binalarını çizer | Ayçiçeği | Asimetrik, cam ve ahşap modern ev |
 | 75 | 2 | 33.500 kg | Köylü | **Yörük Gülizar** | Yaylalardan gelmiş | Kekik | Evin yanında keçe çadır |
@@ -101,7 +101,7 @@ Köy, oyuncunun adasını (5 yarıçaplı altıgen) çevreleyen **iki halkada** 
 |---|---|---|
 | Bakkal | 6 (Başlangıçta) | Şurup %20 ucuz |
 | Fırın | 9 (400 kg) | Her 7 günde düzenli yonca/papatya siparişi (8–12 kg, ödeme ×1.6) |
-| Pastane | 12 (2.000 kg) | Her 5 günde küçük ama çok iyi ödemeli lavanta/ıhlamur/kestane siparişi (2–4 kg, ×2.2) |
+| Pastane | 12 (2.000 kg) | Her 5 günde küçük ama çok iyi ödemeli lavanta/Kış Fundası/kestane siparişi (2–4 kg, ×2.2) |
 | Çay Bahçesi | 13 (2.500 kg) | Müdavimlik hızlanır: her köylüyle ilk kalp 1 teslimde |
 | Bal Dükkânı | 14 (3.000 kg) | Pazar fiyatları +%10 |
 | Postane | 15 (3.500 kg) | Siparişlerin süresi +1 gün |
@@ -117,8 +117,8 @@ Köy, oyuncunun adasını (5 yarıçaplı altıgen) çevreleyen **iki halkada** 
 | Pazar Yeri | 40 (16.000 kg) | Aynı anda bekleyebilecek sipariş sayısı 5 → 6 |
 | Eczane | 44 (18.000 kg) | İlaç %30 ucuz |
 | Değirmen | 47 (19.500 kg) | Süs (kanatları sürekli döner) |
-| Reçelci | 50 (21.000 kg) | Kekik ve ıhlamur siparişleri daha sık gelir |
-| Arıcılar Derneği | 53 (22.500 kg) | Bal Festivali puanın +%10 |
+| Reçelci | 50 (21.000 kg) | Kekik ve Kış Fundası siparişleri daha sık gelir |
+| Arıcılar Derneği | 53 (22.500 kg) | Mevsim turnuvası puanın +%10 |
 | Marangoz Atölyesi | 57 (24.500 kg) | Dekorlar %20 ucuz |
 | Su Kulesi | 60 (26.000 kg) | Süs |
 | Saat Kulesi | 64 (28.000 kg) | Süs (gece kadranı ışıklı) |

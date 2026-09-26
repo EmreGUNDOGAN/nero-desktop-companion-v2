@@ -142,16 +142,17 @@ export function initUiV2({ $, esc }) {
     // Süzülen +/− yazıları
     if (last) {
       const dc = Math.round(v.coins - last.coins);
-      if (dc && coinChip) floatText(coinChip, `${dc > 0 ? '+' : ''}${dc.toLocaleString('tr-TR')}`, dc > 0);
+      if (dc && coinChip) floatText(coinChip, `${dc > 0 ? '+' : ''}${dc.toLocaleString('tr-TR')} 🪙`, dc > 0);
       const dk = Math.round((v.storageKg - last.storageKg) * 10) / 10;
       if (Math.abs(dk) >= 0.1 && storage) floatText(storage, `${dk > 0 ? '+' : ''}${dk.toLocaleString('tr-TR')} kg`, dk > 0);
     }
     last = { coins: v.coins, storageKg: v.storageKg };
     // Hasada hazır kovan sayısı
-    const ready = Object.values(v.hives).filter((h) => h.total >= h.capKg - 0.05).length;
+    const ready = Object.values(v.hives).filter((h) => h.total >= 0.05 && !h.queued).length;
     harvestBadge.hidden = !ready;
     harvestBadge.textContent = String(ready);
-    $('harvest-all').classList.toggle('idle', !Object.values(v.hives).some((h) => h.total >= 0.5));
+    $('harvest-all').classList.toggle('idle', !ready);
+    $('harvest-all').disabled = !ready;
     // Görevler rozeti
     const tb = tasks && tasks.querySelector('em');
     if (!tb) return;

@@ -27,7 +27,7 @@
       <div class="season-text">
         <b id="season-name">İlkbahar</b>
         <small id="season-day">Gün 1 / 15 · Yıl 1</small>
-        <div class="day-bar"><i id="day-fill"></i></div>
+        <div class="day-bar" role="img" tabindex="0"><i id="day-fill"></i></div>
       </div>
       <div class="speeds" role="group" aria-label="Oyun hızı">
         <button type="button" data-speed="0" aria-label="Duraklat">❚❚</button>
@@ -361,8 +361,8 @@
         </details>
 
         <details class="guide-topic">
-          <summary>🎪 Festival ve rakipler</summary>
-          <p>Yılın son 3 gününde Bal Festivali açılır. En fazla 10 kg bal gönderirsin; balın değeri ve çiçek bonusu puanı etkiler. Yeni yılın ilk günü sonuçlanır ve ilk üç kupa kazanır.</p>
+          <summary>🏆 Mevsim Turnuvaları ve rakipler</summary>
+          <p>Her mevsimin son 3 gününde turnuva açılır. En fazla 10 kg bal gönderirsin; sonuç sonraki mevsimin ilk günü açıklanır. Bal Kalitesi 400, Arıcılık 250, Üretim 200, Köy İtibarı 150 puandır. İlk üçe 750 / 500 / 250 jeton ve kupa verilir. Birinciye gelecek yıl aynı mevsim +%20 üretim sağlanır. Kupalar ve ayrıntılı sonuçlar Bal Defteri’nde görünür.</p>
           <p>Temkinli Ali, Riskçi Kaya ve Dengeli Nur arka planda büyür. Liderlik yalnız jetona değil; bal, kovanlar, arılar, arazi ve mumların toplam değerine bakar.</p>
         </details>
 
@@ -431,6 +431,7 @@
         <button type="button" data-ltab="village">🏘️ Köy</button>
         <button type="button" data-ltab="letters">✉️ Mektuplar <em class="badge-n tab-badge" id="letters-badge" hidden>0</em></button>
         <button type="button" data-ltab="label">🏷️ Etiket</button>
+        <button type="button" data-ltab="cups">🏆 Kupalar</button>
       </div>
       <div id="ledger-body"></div>
     </div>
@@ -550,11 +551,15 @@
   <button class="bell" id="bell" type="button" aria-label="Bildirimler" title="Bildirimler">🔔<em class="badge-n" id="bell-badge" hidden>0</em></button>
   <div class="notif-panel card" id="notif-panel" hidden>
     <div class="modal-head"><h2>🔔 Bildirimler</h2><button class="round small" id="notif-close" type="button" aria-label="Kapat">✕</button></div>
-    <p class="modal-sub">Son 20 bildirim</p>
+    <div class="notif-tabs" role="tablist" aria-label="Bildirim türü"><button type="button" data-ntab="important" class="on">Önemli</button><button type="button" data-ntab="village">Köy</button><button type="button" data-ntab="all">Tümü</button></div>
     <ul class="notif-list" id="notif-list"></ul>
   </div>
 
   <div class="toasts" id="toasts"></div>
+  <button type="button" id="placement-undo" hidden>↶ Geri al · <span id="placement-seconds">10</span> sn</button>
+  <div class="modal-bg" id="cup-result-modal" hidden>
+    <div class="modal card cups-modal"><div class="modal-head cups-modal-head"><h2 id="cup-result-title">🏆 Mevsim Turnuvası Sonuçları</h2><button type="button" class="round small" id="cup-result-close" aria-label="Kapat">✕</button></div><div id="cup-result-body"></div></div>
+  </div>
 
   <script type="module" src="bee.js"></script>
 </body>

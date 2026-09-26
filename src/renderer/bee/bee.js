@@ -3,6 +3,9 @@ import { buildOccupant, villageGround, VM, buildMerchantCart } from './village.j
 import { pickBeeDialogue } from './bee-dialogues.js';
 import { RELEASE_NOTES } from './release-notes.js';
 import { initUiV2 } from './ui-v2.js';
+import { createWalkers } from './walkers.js';
+import { createVillageLife } from './village-life.js';
+import { createIslandNero } from './nero-3d.js';
 
 // ============================================================================
 // Nero · Arıcılık — 3D ada ve arayüz
@@ -115,6 +118,31 @@ const itemGroup = new THREE.Group();
 const beeGroup = new THREE.Group();
 const villageGroup = new THREE.Group();
 scene.add(tileGroup, itemGroup, beeGroup, villageGroup);
+const walkers = createWalkers({ THREE, world: hexToWorld, height: topY });
+const actors = new THREE.Group();
+scene.add(actors);
+const houseApproach = () => {
+  if (!view || !view.houseKey) return null;
+  const [q, r] = view.houseKey.split(',').map(Number);
+  return [[1, 0], [0, 1], [-1, 1], [-1, 0], [0, -1], [1, -1]]
+    .map(([dq, dr]) => `${q + dq},${r + dr}`)
+    .find((k) => view.tiles[k] && view.tiles[k].kind !== 'water') || view.houseKey;
+};
+const worldBubbles = new Set();
+function actorBubble(obj, message, duration = 2000) {
+  const el = document.createElement('div');
+  el.className = 'actor-bubble'; el.textContent = message;
+  document.body.appendChild(el);
+  const bubble = { obj, el };
+  worldBubbles.add(bubble);
+  setTimeout(() => { el.remove(); worldBubbles.delete(bubble); }, duration);
+}
+const villageLife = createVillageLife({ scene: actors, walkers, graphics: () => gfx, house: houseApproach, bubble: actorBubble });
+const islandNero = createIslandNero({ scene: actors, walkers, house: houseApproach,
+  targets: () => [...hiveObjects.values()].map((x) => x.key).concat(Object.entries(view?.tiles || {})
+    .filter(([, t]) => t.item?.type === 'flower').map(([k]) => k)),
+  getNight: () => nightLevel(), villagers: () => villageLife.people, bubble: actorBubble,
+  say: () => pick(NERO.click) });
 
 const hexGeo = new THREE.CylinderGeometry(R * 0.965, R * 0.965, TILE_H, 6);
 const tileMeshes = new Map(); // key -> mesh
@@ -652,7 +680,13 @@ canvas.addEventListener('pointermove', (e) => {
 canvas.addEventListener('pointerup', (e) => {
   const d = drag;
   drag = null;
-  if (d && !d.moved) onTileClick(pickTile(e.clientX, e.clientY), e.clientX, e.clientY);
+  if (d && !d.moved) {
+    mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+    mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+    raycaster.setFromCamera(mouse, camera);
+    if (islandNero.active && raycaster.intersectObject(islandNero.fig, true).length) islandNero.click();
+    else onTileClick(pickTile(e.clientX, e.clientY), e.clientX, e.clientY);
+  }
 });
 canvas.addEventListener('wheel', (e) => {
   e.preventDefault();
@@ -737,7 +771,7 @@ function onTileClick(k, x, y) {
   if (t.item.type === 'flower') {
     const f = view.flowers[t.item.flower];
     const season = view.calendar.season;
-    const inSeason = season !== 'kis' && f.seasons.includes(season);
+    const inSeason = f.seasons.includes(season);
     const age = view.dayIndex - (t.item.plantedDay || 0);
     const left = Math.max(0, view.flowerLife - age);
     if (t.item.wilted) {
@@ -828,6 +862,9 @@ $('seed-list').addEventListener('click', async (e) => {
 // ---------------------------------------------------------------------------
 let notifOpen = false;
 let lastUnread = 0;
+let notifTab = 'important';
+const isVillageNotif = (n) => n.go?.to === 'village' || /^(🏘️|🏪|🏛️|🌷|✉️)/u.test(n.msg);
+const isImportantNotif = (n) => n.err || n.go?.to === 'winterSyrup' || n.go?.to === 'hive' || /^(🏆|📜)/u.test(n.msg);
 function renderNotifs() {
   if (!view) return;
   const unread = view.notifsUnread || 0;
@@ -839,9 +876,19 @@ function renderNotifs() {
   if (!notifOpen) return;
   const list = view.notifs || [];
   const fmt = (t) => new Date(t).toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
-  $('notif-list').innerHTML = list.length
-    ? list.map((n, i) => `<li class="${n.err ? 'err' : ''}${i < openUnread ? ' new' : ''}${n.go ? ' go' : ''}" data-ni="${i}" title="${n.go ? 'Tıkla, ilgili yere git' : ''}"><time>${fmt(n.t)}</time><span>${esc(n.msg)}</span></li>`).join('')
-    : '<li class="empty">Henüz bildirim yok.</li>';
+  const today = new Date().toDateString();
+  const cards = list.map((n, i) => ({ n, i })).filter(({ n }) => notifTab === 'all' ||
+    (notifTab === 'village' ? isVillageNotif(n) : isImportantNotif(n)));
+  const group = (items, label) => items.length ? `<li class="notif-group">${label}</li>${items.map(({ n, i }) => {
+    const winter = n.go?.to === 'winterSyrup';
+    const action = winter ? `<button type="button" class="notif-action" data-winter="1">Şurup ver · ${view.winterSyrupCost} 🪙</button>`
+      : n.go ? '<small class="notif-action-text">İlgili yere git →</small>' : '';
+    return `<li class="${n.err ? 'err' : ''}${i >= list.length - openUnread ? ' new' : ''}${n.go ? ' go' : ''}" data-ni="${i}"><time>${fmt(n.t)}</time><span>${esc(n.msg)}${action}</span></li>`;
+  }).join('')}` : '';
+  $('notif-list').innerHTML = group(cards.filter(({ n, i }) => i >= list.length - openUnread), 'Yeni') +
+    group(cards.filter(({ n, i }) => i < list.length - openUnread && new Date(n.t).toDateString() === today), 'Bugün') +
+    group(cards.filter(({ n, i }) => i < list.length - openUnread && new Date(n.t).toDateString() !== today), 'Önceki günler') ||
+    '<li class="empty">Bu bölümde bildirim yok.</li>';
 }
 let openUnread = 0;
 function openNotifs() {
@@ -862,19 +909,65 @@ function toast(msg, err = false) {
   $('toasts').appendChild(el);
   setTimeout(() => el.remove(), 2800);
 }
+function showCupResult() {
+  const r = view?.festival?.results?.at(-1);
+  if (!r) return;
+  const seasonName = seasonsTr[r.season] || r.season;
+  const seasonEmoji = ({ ilkbahar: '🌸', yaz: '☀️', sonbahar: '🍂', kis: '❄️' })[r.season] || '🌿';
+  $('cup-result-title').textContent = `🏆 ${seasonName} Yarışması Sonuçları`;
+  const prizeByPlace = {
+    1: { cup: 'Altın kupa', icon: '🥇', coins: 750 },
+    2: { cup: 'Gümüş kupa', icon: '🥈', coins: 500 },
+    3: { cup: 'Bronz kupa', icon: '🥉', coins: 250 }
+  };
+  const prize = r.place ? prizeByPlace[r.place] : null;
+  const heroTitle = !r.place ? 'Bu mevsim turnuvaya katılmadın.' : r.place === 1 ? 'Tebrikler! 1. oldun.' : `${r.place}. oldun.`;
+  const heroIcon = prize?.icon || (r.place ? '🎪' : '📋');
+  const reward = prize ? `<div class="cup-reward-box"><small>Kazandığın ödüller</small><div class="cup-reward-items">
+      <span><b>${prize.icon}</b>${prize.cup}</span><span><b>🪙</b>+${prize.coins} jeton</span>${r.place === 1 ? `<span><b>${seasonEmoji}</b>Gelecek ${esc(seasonName)} +%20 üretim</span>` : ''}
+    </div></div>` : '<div class="cup-reward-box muted"><small>Ödül</small><b>Bu kez kupa yok. Bir sonraki mevsimde yeniden dene.</b></div>';
+  const overall = r.all.map((x, i) => `<div class="cup-overall-row${x.me ? ' me' : ''}">
+      <span class="cup-place p${i + 1}">${i + 1}</span><span class="cup-person"><b>${x.me ? '🧑‍🌾 Sen' : esc(x.name)}</b>${x.me ? '<small>Senin çiftliğin</small>' : ''}</span><strong>${x.score} <small>/ 1000</small></strong>
+    </div>`).join('');
+  const categories = [
+    ['quality', '🍯', 'Bal Kalitesi', 400],
+    ['mastery', '🐝', 'Arıcılık Ustalığı', 250],
+    ['production', '🌼', 'Üretim Başarısı', 200],
+    ['reputation', '🏘️', 'Köy İtibarı', 150]
+  ];
+  const categoryCards = categories.map(([key, icon, title, max]) => {
+    const rows = [...r.all].sort((a, b) => b.categories[key] - a.categories[key] || a.name.localeCompare(b.name, 'tr'))
+      .map((x, i) => `<div class="cup-category-row${x.me ? ' me' : ''}"><span>${i + 1}</span><b>${x.me ? 'Sen' : esc(x.name)}</b><strong>${x.categories[key]} / ${max}</strong></div>`).join('');
+    return `<section class="cup-category-card"><header><span>${icon}</span><div><b>${title}</b><small>${max} puan</small></div></header>${rows}</section>`;
+  }).join('');
+  $('cup-result-body').innerHTML = `<div class="cup-result-hero"><div class="cup-hero-result"><span class="cup-hero-icon">${heroIcon}</span><div><small>${r.year}. Yıl · ${esc(seasonName)}</small><h3>${heroTitle}</h3></div></div>${reward}</div>
+    <section class="cup-overall"><div class="cup-section-title"><b>🏆 Genel Sıralama</b><small>Toplam Puan (1000 üzerinden)</small></div>${overall}</section>
+    <section class="cup-categories"><h3>📊 Kategori Puanları</h3><div class="cup-category-grid">${categoryCards}</div></section>
+    <footer class="cup-result-footer"><span>🏆 Kupayı Bal Defteri › Kupalar bölümünde görebilirsin.</span>${r.place === 1 ? `<span>${seasonEmoji} Bu kupanın mevsim bonusu bir sonraki ${esc(seasonName)}da aktif olacak.</span>` : ''}</footer>`;
+  $('cup-result-modal').hidden = false;
+}
+$('cup-result-close').addEventListener('click', () => { $('cup-result-modal').hidden = true; });
 
 async function doAct(action, a, b) {
   const cost = costOf(action, a, b);
-  if (cost >= 500 && !window.confirm(`Bu işlem ${cost.toLocaleString('tr-TR')} 🪙 tutuyor. Emin misin?`)) return null;
+  if (cost >= 500 && action !== 'winterSyrup' && !window.confirm(`Bu işlem ${cost.toLocaleString('tr-TR')} 🪙 tutuyor. Emin misin?`)) return null;
   const { res, view: v, events } = await window.bee.act(action, a, b);
   if (res && res.msg) toast(res.msg, !res.ok);
   if (res) react(action, res, a, b);
-  (events || []).forEach((e) => { if (e.msg) { toast(e.msg, e.err); reactEvent(e); } });
+  (events || []).forEach((e) => { if (e.msg) { toast(e.msg, e.err); reactEvent(e); } if (e.go?.to === 'cups') setTimeout(showCupResult, 0); });
+  (events || []).filter((e) => e.type === 'delivered').forEach((e) => villageLife.deliver(e.who));
   applyView(v);
   return res;
 }
 
 $('harvest-all').addEventListener('click', () => doAct('harvestAll'));
+$('placement-undo').addEventListener('click', () => doAct('undoPlacement'));
+setInterval(() => {
+  const pending = view?.undoPlacement;
+  const left = pending ? Math.ceil((pending.expiresAt - Date.now()) / 1000) : 0;
+  $('placement-undo').hidden = left <= 0;
+  if (left > 0) $('placement-seconds').textContent = String(left);
+}, 150);
 for (const b of document.querySelectorAll('.speeds button')) {
   b.addEventListener('click', () => doAct('speed', Number(b.dataset.speed)));
 }
@@ -1017,16 +1110,32 @@ let labelDraft = null;
 
 function renderLedger(force = false) {
   if (!ledgerOpen || !view) return;
-  const sig = JSON.stringify([ledgerTab, view.ledger, view.farmName, view.label, view.questsDone, view.festival.cups, labelDraft, view.stories, view.effects, view.village.residents.length, view.letters]);
+  const sig = JSON.stringify([ledgerTab, view.ledger, view.farmName, view.label, view.questsDone, view.festival, labelDraft, view.stories, view.effects, view.village.residents.length, view.letters]);
   if (!force && sig === ledgerSig) return;
   ledgerSig = sig;
   $('farm-name').textContent = `🏡 ${view.farmName}`;
   const L = view.ledger;
   const n = (v, d = 1) => (Math.round(v * 10 ** d) / 10 ** d).toLocaleString('tr-TR');
   let html = '';
-  if (ledgerTab === 'letters') {
+  if (ledgerTab === 'cups') {
+    const f = view.festival;
+    const count = (kind) => (f.cups || []).filter((c) => c.cup === kind).length;
+    const names = { quality: 'Bal Kalitesi', mastery: 'Arıcılık Ustalığı', production: 'Üretim Başarısı', reputation: 'Köy İtibarı' };
+    const badge = (cup) => cup === 'altın' ? '🥇' : cup === 'gümüş' ? '🥈' : cup === 'bronz' ? '🥉' : '📋';
+    const years = (f.results || []).slice().reverse().map((result) => {
+      const ordered = result.all.map((x, i) => `<div class="cups-rank${x.me ? ' me' : ''}"><b>${i + 1}. ${esc(x.name)}</b><strong>${x.score} / 1000</strong>
+        <small>${Object.entries(names).map(([id, title]) => `${title}: ${x.categories[id]}`).join(' · ')}</small></div>`).join('');
+      return `<details class="cups-result"><summary>${result.place ? badge(['altın','gümüş','bronz'][result.place - 1]) : '📋'} ${result.year}. Yıl · ${seasonsTr[result.season]} · ${result.place ? `${result.place}. sıra` : 'Katılmadın'}</summary>${ordered}</details>`;
+    }).join('');
+    const bonus = (f.cups || []).filter((c) => c.cup === 'altın' && c.year === view.calendar.year - 1 && c.season === view.calendar.season);
+    html = `<section class="cups-page"><div class="cups-next">🌿 <b>Sonraki turnuva: ${esc(f.nextSeason)}</b><span>${f.nextInDays} oyun günü kaldı</span></div>
+      ${bonus.length ? `<p class="cups-bonus">✨ Geçen yılın şampiyonu: bu mevsim +%20 üretim</p>` : ''}
+      <div class="cups-count"><div>🥇 <b>${count('altın')}</b><small>Altın</small></div><div>🥈 <b>${count('gümüş')}</b><small>Gümüş</small></div><div>🥉 <b>${count('bronz')}</b><small>Bronz</small></div></div>
+      <h3>Turnuva geçmişi</h3>${years || '<p class="page locked">Henüz turnuva sonucu yok. Mevsimin son üç gününde katılabilirsin.</p>'}</section>`;
+  } else if (ledgerTab === 'letters') {
     const L = view.letters || [];
-    html = L.length ? L.map((l) => `<div class="letter-card${l.read ? '' : ' unread'}"><b>✉️ ${esc(l.from)}</b> <small>· ${esc(l.role)}</small>
+    html = L.length ? `<div class="ledger-hero"><strong>✉️ Köyden mektuplar</strong><p>${L.filter((l) => !l.read).length} yeni mektup · ${L.filter((l) => l.read).length} okunan</p></div>` +
+      L.slice().sort((a, b) => Number(a.read) - Number(b.read)).map((l) => `<div class="letter-card${l.read ? '' : ' unread'}"><b>✉️ ${esc(l.from)}</b> <small>· ${esc(l.role)}</small>
         <p>“${esc(l.text)}”</p>
         ${l.gift ? `<small>${l.claimed ? '🎁 Hediye alındı' : '🎁 İçinde küçük bir hediye var'}</small>` : ''}
         ${!l.read ? `<div><button type="button" class="act primary small-act" data-read="${l.id}">${l.gift ? 'Oku ve hediyeyi al' : 'Okundu'}</button></div>` : ''}</div>`).join('')
@@ -1065,18 +1174,21 @@ function renderLedger(force = false) {
     const pct = V.nextKg ? Math.min(100, (V.deliveredKg / V.nextKg) * 100) : 100;
     const icon = { koylu: '🏠', dukkan: '🏪', bina: '🏛️' };
     const unlockedStories = view.stories.filter((s) => s.unlocked);
-    const storyBlock = `<h3 style="margin:4px 0 6px;font-size:14px">📖 Hikâyeler (${view.stories.filter((s) => s.done).length} / ${view.stories.length} tamam)</h3>
+    const storyBlock = `<div class="ledger-section-head"><h3>📖 Köy hikâyeleri · ${view.stories.filter((s) => s.done).length} / ${view.stories.length} tamamlandı</h3><small>Tüm hikâyeler (${view.stories.length})</small></div>
       <div class="stories-grid">${view.stories.map((s) => storyHtml(s.who, null, true)).join('')}</div>`;
-    html = storyBlock + `<div class="rec" style="margin-bottom:10px"><small>Köy · ${V.residents.length} / ${V.total} yerleşimci · teslim edilen toplam bal</small>
-        <b>${n(V.deliveredKg)} kg</b>${V.nextKg ? ` <small>sıradaki yerleşimci ${n(V.nextKg, 0)} kg'da</small>` : ' <small>köy tamamlandı 🎉</small>'}
-        <div class="qbar" style="height:7px;background:#EFE3C6;border-radius:4px;margin-top:6px;overflow:hidden"><i style="display:block;height:100%;width:${pct}%;background:#F2B33D"></i></div></div>
+    html = `<div class="ledger-hero"><strong>🏘️ Köy büyüyor · ${V.residents.length} / ${V.total} yerleşimci</strong>
+        <p>${n(V.deliveredKg)} kg ${V.nextKg ? `/ ${n(V.nextKg, 0)} kg` : '· Köy tamamlandı 🎉'}</p>
+        <small>${V.nextKg ? `Sıradaki yerleşimci ${n(V.nextKg, 0)} kg'da` : 'Tüm komşular geldi'}</small>
+        <div class="qbar"><i style="width:${pct}%"></i></div></div>` + storyBlock +
+      `<div class="ledger-section-head"><h3>🏘️ Köylüler ve yapılar · ${V.residents.length} / ${V.total}</h3><small>Tüm kayıtlar aşağıda</small></div>
       <div class="ledger-grid">${V.residents.map((r) => `<div class="page"><b>${icon[r.type]} ${esc(r.name)}</b>
         <small>${esc(r.role)}</small>
         <small>${r.type === 'koylu' ? `❤️ Sevdiği bal: ${esc(view.flowers[r.fav].name)}` : `✨ ${esc(r.effectText)}`}</small>
         ${(r.type === 'koylu' || r.owner) ? `<small>🤝 İlişki %${view.relations[r.type === 'koylu' ? r.name : r.owner] || 0}${r.hearts ? ` <span class="hearts">${'♥'.repeat(r.hearts)}${'♡'.repeat(view.heartMax - r.hearts)}</span>` : ''}</small>` : ''}</div>`).join('')}
         ${V.residents.length < V.total ? `<div class="page locked"><b>??? · ${V.total - V.residents.length} yerleşimci daha</b><small>Siparişleri teslim ettikçe köye yeni komşular, dükkânlar ve binalar gelir.</small></div>` : ''}</div>`;
   } else if (ledgerTab === 'honey') {
-    html = `<div class="ledger-grid">${Object.entries(view.flowers).map(([f, def]) => {
+    const discovered = Object.values(L.honey).filter((x) => x.first).length;
+    html = `<div class="ledger-hero"><strong>🍯 Ballar · ${discovered} / ${Object.keys(view.flowers).length} keşfedildi</strong><small>Her çiçek kendi balını üretir. Kavanozların kayıtları aşağıda.</small><div class="qbar"><i style="width:${discovered / Object.keys(view.flowers).length * 100}%"></i></div></div><div class="ledger-grid">${Object.entries(view.flowers).map(([f, def]) => {
       const h = L.honey[f];
       if (!h || !h.first) {
         return `<div class="page locked"><div class="jar"></div><b>??? Balı</b>
@@ -1092,14 +1204,13 @@ function renderLedger(force = false) {
     const found = Object.values(L.honey).filter((x) => x.first).length;
     const maxBees = Math.max(0, ...Object.values(view.hives).map((h) => h.bees));
     const best = L.bestSale ? `${n(L.bestSale.coins, 0)} 🪙 (${n(L.bestSale.kg)} kg ${esc(view.flowers[L.bestSale.flower].name)})` : '—';
-    const cups = (view.festival.cups || []).map((c) => `${c.cup === 'altın' ? '🥇' : c.cup === 'gümüş' ? '🥈' : '🥉'} ${c.year}. yıl`).join(' · ');
     const rec = (label, val) => `<div class="rec"><small>${label}</small><b>${val}</b></div>`;
-    html = `<div class="records">
+    html = `<div class="ledger-hero"><strong>📒 Çiftliğinin kayıtları</strong><small>Bal üretiminden siparişlerine, görevlerinden kovanlarına kadar tüm önemli istatistikler burada.</small></div><div class="records">
       ${rec('Toplam hasat', `${n(totalKg)} kg`)}${rec('Bal türleri', `${found} / ${Object.keys(view.flowers).length}`)}
       ${rec('Hasat sayısı', n(L.harvests, 0))}${rec('Teslim edilen sipariş', n(L.ordersDone, 0))}
       ${rec('Yapılan mum', n(L.candlesMade, 0))}${rec('Tamamlanan görev', n(view.questsDone, 0))}
       ${rec('En kalabalık kovan', `${maxBees} arı`)}${rec('En büyük satış', best)}
-    </div><p class="cups-line">🏆 Kupalar: ${cups || 'henüz yok, Bal Festivali seni bekliyor!'}</p>`;
+    </div>`;
   } else {
     const cur = labelDraft || view.label || { design: 'klasik', color: LABEL_COLORS[0] };
     labelDraft = cur;
@@ -1230,7 +1341,7 @@ function renderShop(force = false) {
   if (shopTab === 'seeds') {
     const season = view.calendar.season;
     html = Object.entries(view.flowers).map(([id, f]) => {
-      const inS = season !== 'kis' && f.seasons.includes(season);
+      const inS = f.seasons.includes(season);
       const ezgiPick = !!(view.ezgi && view.ezgi.unlocked && view.ezgi.choice === id);
       return `<div class="shop-item${ezgiPick ? ' ezgi-choice' : ''}"><span class="big" style="color:${f.color}">✿</span>
         <span class="info"><b>${esc(f.name)} tohumu · +%${Math.round(f.buff * 100)} bal üretimi</b>
@@ -1472,6 +1583,10 @@ const NERO = {
 };
 let bubbleTimer = null;
 function say(text) {
+  if (islandNero.active && $('nero').style.visibility === 'hidden') {
+    actorBubble(islandNero.fig, text, 4800);
+    return;
+  }
   const b = $('nero-bubble');
   b.textContent = text;
   b.hidden = false;
@@ -1735,7 +1850,7 @@ $('board-modal').addEventListener('click', (e) => { if (e.target === $('board-mo
 function renderBoard(force = false) {
   if (!boardOpen || !view) return;
   const rows = view.leaderboard || [];
-  const sig = JSON.stringify(rows.map((r) => [r.id, r.nw, r.rank, r.reason, r.last, r.history]));
+  const sig = JSON.stringify(rows.map((r) => [r.id, r.nw, r.rank, r.reason, r.last, r.history, r.cups]));
   if (!force && sig === boardSig) return;
   boardSig = sig;
   const me = rows.find((r) => r.me);
@@ -1758,7 +1873,7 @@ function renderBoard(force = false) {
     return `<li class="brow${r.me ? ' me' : ''}">
       <span class="rk rank-${r.rank}">${r.rank}</span>
       <span class="av">${BOARD_AV[r.id] || '🙂'}</span>
-      <span class="nm"><b>${esc(r.name)}</b><small>${detail} ${reason}</small></span>
+      <span class="nm"><b>${esc(r.name)}</b><small>${detail} ${reason}</small><small>🏆 Altın ${r.cups?.altın || 0} · Gümüş ${r.cups?.gümüş || 0} · Bronz ${r.cups?.bronz || 0}</small></span>
       ${sparkline(r.history)}
       <span class="nw"><b>${r.nw.toLocaleString('tr-TR')} 🪙</b><small class="${cls}">${txt} dün</small>${difference}</span>
     </li>`;
@@ -1819,7 +1934,7 @@ function renderOrders(force = false) {
   const meta = `${o.list.length} / ${o.max} sipariş · ` + (o.nextInMs === null ? 'liste dolu' : `yeni sipariş: ${view.speed ? realLeft(o.nextInMs, 1) : 'duraklatıldı'}`);
   $('orders-meta').innerHTML = `<span>${meta}</span><span>${openCount} yeni</span>`;
   // Kalan süreler her saniye değişir; listeyi sadece yapı değişince yeniden kur
-  const sig = JSON.stringify([o.list.map((x) => [x.id, x.status, x.have >= x.kg, Math.floor(view.coins / 10)]), view.customers, $('order-sort').value]);
+  const sig = JSON.stringify([o.list.map((x) => [x.id, x.status, x.have >= x.kg, x.estimateDays === null ? null : Math.round(x.estimateDays * 10), Math.floor(view.coins / 10)]), view.customers, $('order-sort').value]);
   if (!force && sig === ordersSig) {
     for (const x of o.list) {
       const el = document.querySelector(`[data-left="${x.id}"]`);
@@ -1864,6 +1979,7 @@ function renderOrders(force = false) {
         ${enough ? '<span class="ready-tag">✓ hazır</span>' : ''}<span class="${enough ? 'ok' : ''}">Depoda ${x.have.toFixed(1)} / ${x.kg} kg</span>
         ${timeTag}
       </div>
+      ${!accepted ? `<p class="order-estimate ${x.estimateDays === null || x.estimateDays > x.days ? 'warn' : ''}">${x.have >= x.kg ? 'Depoda hazır' : x.estimateDays === 0 ? 'Kovanlarda hazır; hasat et' : x.estimateDays === null ? 'Şu an bu baldan üretim yok · ceza riski' : `Bu hızla ≈${x.estimateDays.toLocaleString('tr-TR', { maximumFractionDigits: 1 })} oyun gününde hazır${x.estimateDays > x.days ? ' · ceza riski' : ''}`}. Tahmin güncel üretime dayanır; hız değişebilir.</p>` : ''}
       <p class="note">${accepted ? 'Süresinde teslim edemezsen' : 'Kabul edip süresinde teslim edemezsen'} ödemenin %20'si (${x.penalty} 🪙) kesilir.</p>
       <div class="btns">${btns}</div>
     </li>`;
@@ -1958,21 +2074,21 @@ function renderMarket(force = false) {
 
   const fest = view.festival;
   const fb = $('fest-box');
-  const cups = (fest.cups || []).map((c) => `${c.cup === 'altın' ? '🥇' : c.cup === 'gümüş' ? '🥈' : '🥉'} ${c.year}. yıl`).join(' · ');
+  const cups = (fest.cups || []).map((c) => `${c.cup === 'altın' ? '🥇' : c.cup === 'gümüş' ? '🥈' : '🥉'} ${c.year}. yıl${c.season ? ` ${seasonsTr[c.season]}` : ' · Eski festival'}`).join(' · ');
   if (fest.open && !fest.entry) {
     const opts = Object.entries(view.storage).filter(([, v]) => v >= 1)
       .sort((a, b) => view.flowers[b[0]].price - view.flowers[a[0]].price)
       .map(([f, v]) => `<option value="${f}">${esc(view.flowers[f].name)} (${v.toFixed(1)} kg)</option>`).join('');
     fb.hidden = false;
-    fb.innerHTML = `<b>🎪 Yıllık Bal Festivali başvuruları açık!</b><br>En değerli balını gönder (en fazla ${fest.maxKg} kg). Sonuçlar yeni yılda açıklanır; ilk üçe ödül ve kupa var.
+    fb.innerHTML = `<b>🏆 ${seasonsTr[view.calendar.season]} Turnuvası başvuruları açık!</b><br>Balını gönder (en fazla ${fest.maxKg} kg). Sonuçlar sonraki mevsimde açıklanır; ilk üçe 750 / 500 / 250 🪙 ve kupa verilir.
       <div class="fest-row">${opts ? `<select id="fest-flower">${opts}</select><input id="fest-kg" type="number" min="1" max="${fest.maxKg}" step="0.5" value="${fest.maxKg}"><button type="button" id="fest-send">Gönder</button>` : 'Depoda en az 1 kg bal olmalı.'}</div>
       ${cups ? `<p>Kupaların: ${cups}</p>` : ''}`;
   } else if (fest.entry) {
     fb.hidden = false;
-    fb.innerHTML = `<b>🎪 Festivale katıldın</b><br>${fest.entry.kg.toFixed(1)} kg ${esc(view.flowers[fest.entry.flower].name)} balı gönderdin. Sonuç yeni yılın ilk günü!${cups ? `<p>Kupaların: ${cups}</p>` : ''}`;
+    fb.innerHTML = `<b>🏆 Turnuvaya katıldın</b><br>${fest.entry.kg.toFixed(1)} kg ${esc(view.flowers[fest.entry.flower].name)} balı gönderdin. Sonuç yeni mevsimin ilk günü!${cups ? `<p>Kupaların: ${cups}</p>` : ''}`;
   } else {
     fb.hidden = !cups;
-    fb.innerHTML = cups ? `<b>🏆 Kupaların</b><br>${cups}<br>Bir sonraki festival kışın son 3 gününde.` : '';
+    fb.innerHTML = cups ? `<b>🏆 Kupaların</b><br>${cups}<br>Sonraki turnuva ${fest.nextInDays} oyun günü sonra.` : '';
   }
 
   const nx = view.nextStorage;
@@ -2227,6 +2343,9 @@ function applyView(v) {
   const prevFocus = prev && prev.effects ? prev.effects.focus : null;
   const prevUnattended = !!(prev && prev.unattended);
   view = v;
+  walkers.setMap(v.tiles, [...(v.village?.ring1 || []), ...(v.village?.ring2 || [])]);
+  villageLife.sync(v);
+  islandNero.sync();
 
   if (!first && prevWeather !== v.weather.id) {
     if (v.weather.id === 'yagmurlu') sayTopic('rainy_day');
@@ -2252,6 +2371,10 @@ function applyView(v) {
   $('season-day').innerHTML = `Gün ${c.day} · Yıl ${c.year} · <b>${v.weather.icon} ${v.weather.name}</b>`;
   $('season-ico').textContent = SEASON_ICON[c.season];
   $('day-fill').style.width = `${Math.round(c.dayProgress * 100)}%`;
+  const nextSeason = { ilkbahar: 'yaz', yaz: 'sonbahar', sonbahar: 'kış', kis: 'ilkbahar' }[c.season];
+  const dayTip = `Günün %${Math.round(c.dayProgress * 100)}'i geçti · ${c.daysPerMonth - c.day + 1} oyun günü sonra ${nextSeason}`;
+  document.querySelector('.day-bar').title = dayTip;
+  document.querySelector('.day-bar').setAttribute('aria-label', dayTip);
   for (const b of document.querySelectorAll('.speeds button')) b.classList.toggle('on', Number(b.dataset.speed) === v.speed);
 
   if (v.unattended && !noticeShown) { $('notice').hidden = false; noticeShown = true; setTimeout(() => { $('notice').hidden = true; }, 5000); }
@@ -2373,6 +2496,31 @@ function applyNight() {
   $('sky-night').style.opacity = String(night * 0.92);
   $('sky-dusk').style.opacity = String(Math.min(1, 4 * night * (1 - night)) * 0.85);
   document.body.classList.toggle('night', night > 0.5);
+}
+const nightSky = $('sky-night');
+if (nightSky && !nightSky.querySelector('.star')) {
+  const addStars = (kind, count, min, max) => {
+    for (let i = 0; i < count; i++) {
+      const star = document.createElement('i');
+      star.className = `star ${kind}`;
+      const size = min + Math.random() * (max - min);
+      Object.assign(star.style, { left: `${Math.random() * 100}%`, top: `${Math.random() * 60}%`,
+        width: `${size}px`, height: `${size}px`, animationDelay: `${Math.random() * 6}s` });
+      nightSky.appendChild(star);
+    }
+  };
+  addStars('tiny', 90, 1, 2);
+  addStars('twinkle', 30, 2, 3);
+  addStars('bright', 7, 10, 16);
+  setInterval(() => {
+    if (gfx === 'hafif' || window.matchMedia('(prefers-reduced-motion: reduce)').matches || night < 0.55 || Math.random() >= 0.5) return;
+    const meteor = document.createElement('i');
+    meteor.className = 'star meteor';
+    meteor.style.left = `${10 + Math.random() * 60}%`;
+    meteor.style.top = `${Math.random() * 25}%`;
+    nightSky.appendChild(meteor);
+    setTimeout(() => meteor.remove(), 1600);
+  }, 60000);
 }
 setInterval(applyNight, 30 * 1000);
 
@@ -2825,6 +2973,7 @@ function applyGraphics(level) {
   const prevBees = gfxApplied ? GFX[gfxApplied].bees : null;
   gfx = level;
   gfxApplied = level;
+  document.body.classList.toggle('gfx-hafif', level === 'hafif');
   const g = GFX[level];
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, g.pr));
   renderer.shadowMap.enabled = g.shadows;
@@ -3006,10 +3155,19 @@ function navigate(go) {
   else if (go.to === 'hives') openHives();
   else if (go.to === 'hive' && view.hives[go.id]) focusHive(go.id);
   else if (go.to === 'letters' || go.to === 'village') { openLedger(); setLedgerTab(go.to); }
+  else if (go.to === 'winterSyrup') doAct('winterSyrup');
+  else if (go.to === 'cups') { openLedger(); setLedgerTab('cups'); }
 }
 $('notif-list').addEventListener('click', (e) => {
+  if (e.target.closest('[data-winter]')) { e.stopPropagation(); doAct('winterSyrup'); return; }
   const li = e.target.closest('[data-ni]');
   if (li) { const n = (view.notifs || [])[Number(li.dataset.ni)]; if (n && n.go) navigate(n.go); }
+});
+document.querySelector('.notif-tabs').addEventListener('click', (e) => {
+  const b = e.target.closest('[data-ntab]'); if (!b) return;
+  notifTab = b.dataset.ntab;
+  document.querySelectorAll('[data-ntab]').forEach((x) => x.classList.toggle('on', x === b));
+  renderNotifs();
 });
 
 // Nero'dan durum ipuçları: yeni bir ipucu çıkınca (en fazla dakikada bir) söyler
@@ -3029,7 +3187,21 @@ function checkHints() {
 
 const clock = new THREE.Clock();
 function loop() {
-  const t = clock.getElapsedTime();
+  const dt = clock.getDelta();
+  const t = clock.elapsedTime;
+  const now = new Date();
+  villageLife.update(now);
+  islandNero.update(now);
+  walkers.update(dt, t, gfx === 'hafif');
+  for (const { obj, el } of worldBubbles) {
+    const p = obj.position.clone().add(new THREE.Vector3(0, 0.63, 0)).project(camera);
+    el.style.left = `${(p.x + 1) * window.innerWidth / 2}px`;
+    el.style.top = `${(1 - p.y) * window.innerHeight / 2}px`;
+  }
+  if (islandNero.active) {
+    const p = islandNero.fig.position.clone().project(camera);
+    $('nero').style.visibility = Math.abs(p.x) <= 1 && Math.abs(p.y) <= 1 && p.z < 1 ? 'hidden' : '';
+  }
   animateFireflies(t);
   animateBees(t);
   if (GFX[gfx].anim) for (const o of villageAnims) o(t);
@@ -3050,7 +3222,7 @@ const ui = initUiV2({ $, esc });
   applyView(await window.bee.state());
   applyNight();
   window.bee.onState(applyView);
-  window.bee.onEvents((events) => events.forEach((e) => { if (e.msg) { toast(e.msg, e.err); reactEvent(e); } }));
+  window.bee.onEvents((events) => events.forEach((e) => { if (e.msg) { toast(e.msg, e.err); reactEvent(e); } if (e.go?.to === 'cups') setTimeout(showCupResult, 0); if (e.type === 'delivered') villageLife.deliver(e.who); }));
   if (!view.tutorialDone) startTour();
   else {
     const sum = await window.bee.summary();

@@ -76,10 +76,12 @@ body.ui2.night .hud-bottom, body.ui2.night .bell, body.ui2.night .tasks-btn { ba
 .ui2 .hexbtn { clip-path: none !important; width: 86px !important; height: 78px !important; border-radius: 18px; background: transparent !important; box-shadow: none !important; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; font-weight: 800; font-size: 12.5px; color: #4A3A22; }
 .ui2 .hexbtn:hover { background: #F6ECD6 !important; }
 .ui2 .hexbtn > .ico { width: 32px; height: 32px; }
-.ui2 .hexbtn.big { width: 124px !important; height: 96px !important; margin-top: -24px; background: linear-gradient(180deg, #F7C45C, #EAA42A) !important; color: #4A2F10; box-shadow: 0 6px 16px rgba(233, 162, 42, .45), inset 0 -4px 0 #C98612 !important; font-size: 13.5px; }
+.ui2 .hexbtn.big { width: 124px !important; height: 96px !important; margin-top: -18px; margin-bottom: -2px; flex: none; position: relative; background: linear-gradient(180deg, #F7C45C, #EAA42A) !important; color: #4A2F10; box-shadow: 0 6px 16px rgba(233, 162, 42, .45), inset 0 -4px 0 #C98612 !important; font-size: 13.5px; }
 .ui2 .hexbtn.big > .ico { width: 40px; height: 40px; }
 .ui2 .hexbtn.big { clip-path: polygon(25% 3%, 75% 3%, 100% 50%, 75% 97%, 25% 97%, 0 50%) !important; border-radius: 0; outline: 2px solid #fff; }
 .ui2 .hexbtn.big.idle { filter: saturate(.55) brightness(1.04); opacity: .8; }
+.ui2 .hexbtn.big:disabled { cursor: default; pointer-events: none; }
+.ui2 #harvest-all .badge-n { top: 7px !important; right: 12px !important; }
 .ui2 .hexbtn:active, .ui2 .round:active { transform: translateY(1px) scale(.98); }
 .ui2 .badge-n { top: -6px !important; right: -4px !important; }
 .ui2 .badge-n.ok { background: #3E8F52; }
