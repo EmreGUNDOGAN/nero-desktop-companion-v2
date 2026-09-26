@@ -362,29 +362,51 @@ body.season-kis { background: linear-gradient(180deg, #C9D8E8 0%, #EAF1F8 55%, #
 body.night .hud-top .card, body.night .chip { box-shadow: 0 6px 18px rgba(0, 0, 0, .35); }
 
 /* ---------- Günlük görevler ---------- */
-.quests { position: fixed; left: 14px; top: 72px; width: 270px; z-index: 5; padding: 0; overflow: hidden; }
-.quests-head { width: 100%; border: 0; background: transparent; display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; font-weight: 800; font-size: 13.5px; }
-.quests-head b { background: var(--card2); border-radius: 999px; padding: 2px 9px; font-size: 12px; }
-.quests-head-right { display: flex; align-items: center; gap: 9px; }
-.quests-head-right i { font-style: normal; color: var(--muted); font-size: 12px; }
+.quests {
+  position: fixed;
+  left: 14px;
+  top: 72px;
+  width: min(410px, calc(100vw - 28px));
+  z-index: 5;
+  padding: 0 0 12px;
+  overflow: hidden;
+  border-radius: 22px;
+  background: rgba(255, 251, 241, .97);
+}
 .quests[hidden] { display: none; }
+.quests-head { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px 8px; }
+.quests-title { font-family: "Fraunces", Georgia, serif; font-weight: 800; font-size: 16px; }
+.quests-close { width: 28px; height: 28px; border: 0; border-radius: 50%; background: transparent; color: var(--muted); font-size: 17px; font-weight: 900; display: grid; place-items: center; }
+.quests-close:hover { background: var(--card2); color: var(--ink); }
+.quests-summary { display: flex; align-items: center; gap: 12px; padding: 0 16px 12px; }
+.quests-summary > b { flex: 0 0 auto; font-size: 11.5px; white-space: nowrap; }
+.quests-progress { flex: 1; height: 10px; border-radius: 999px; background: #E9DFC8; overflow: hidden; box-shadow: inset 0 1px 2px rgba(74,58,34,.08); }
+.quests-progress i { display: block; width: 0; height: 100%; border-radius: inherit; background: #63AD65; transition: width .25s ease; }
 .task-bell { position: fixed; left: 82px; bottom: 16px; z-index: 9; width: 54px; height: 54px; border-radius: 50%; border: 0; background: var(--card); box-shadow: var(--shadow); font-size: 23px; }
 .task-bell:hover { transform: translateY(-1px); }
-.quest-list { list-style: none; margin: 0; padding: 0 10px 10px; display: flex; flex-direction: column; gap: 6px; }
-.quest { background: #fff; border-radius: 12px; padding: 8px 10px; font-size: 12.5px; font-weight: 700; }
-.quest .qtop { display: flex; justify-content: space-between; gap: 6px; }
-.quest .qbar { height: 5px; background: #EFE3C6; border-radius: 3px; margin-top: 5px; overflow: hidden; }
-.quest .qbar i { display: block; height: 100%; background: var(--amber); }
-.quest .qrew { color: var(--muted); font-size: 11.5px; white-space: nowrap; }
-.quest button { margin-top: 6px; width: 100%; border: 0; border-radius: 9px; padding: 6px; font-weight: 800; background: var(--amber); color: #fff; box-shadow: 0 2px 0 var(--amber-d); }
-.quest-actions { display: grid; gap: 5px; margin-top: 6px; }
-.quest-actions button { margin-top: 0; }
-.quest-actions button[data-refresh] { background: #F4EDDC; color: var(--ink); box-shadow: 0 2px 0 #DCCFB2; }
-.quest-actions button[data-refresh]:disabled { opacity: .45; box-shadow: none; cursor: default; }
-.quest.claimed { opacity: .55; }
-.quest.claimed .qtop span::before { content: "✓ "; color: var(--green); }
 .task-bell.done { background: #F2E8C9; }
 .task-bell.done::after { content: "✓"; position: absolute; right: -2px; top: -3px; width: 20px; height: 20px; display: grid; place-items: center; border-radius: 50%; background: var(--green); color: #fff; font-size: 12px; font-weight: 900; box-shadow: 0 2px 5px rgba(74,58,34,.18); }
+.quest-list { list-style: none; margin: 0; padding: 0 12px; display: flex; flex-direction: column; gap: 8px; }
+.quest-row { display: grid; grid-template-columns: 26px minmax(0, 1fr) auto; align-items: center; gap: 11px; min-height: 54px; padding: 10px 12px; border-radius: 14px; background: #F8F3E8; box-shadow: inset 0 0 0 1px rgba(218,203,175,.28); }
+.quest-row.done { background: #F3F6EA; }
+.quest-row.claimed { background: #F6F4EC; }
+.qcheck { width: 22px; height: 22px; border: 2px solid #A9A49B; border-radius: 5px; background: #fff; display: grid; place-items: center; padding: 0; color: transparent; font-size: 15px; font-weight: 900; line-height: 1; box-shadow: none; }
+.qcheck.done { border-color: #63AD65; background: #63AD65; color: #fff; }
+button.qcheck.claim-ready { cursor: pointer; }
+button.qcheck.claim-ready:hover { transform: scale(1.05); }
+.qbody { min-width: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 3px; }
+.qtitle { font-size: 13.5px; font-weight: 800; line-height: 1.25; }
+.quest-row.done .qtitle { color: #66735F; }
+.qprogress { color: var(--muted); font-size: 10.5px; font-weight: 800; }
+.qright { display: flex; align-items: center; justify-content: flex-end; min-width: 70px; }
+.qreward, .qclaimed { white-space: nowrap; font-size: 12px; font-weight: 900; }
+.qreward { color: #7FA35A; }
+.qclaimed { color: #8FA184; }
+button.qreward { border: 0; background: transparent; padding: 4px 2px; font: inherit; color: #6C9E55; cursor: pointer; }
+button.qreward:hover { color: var(--green); text-decoration: underline; }
+.qrefresh { margin: 2px 0 0; border: 0; border-radius: 999px; padding: 4px 8px; background: #EEE5D3; color: var(--muted); font-size: 10.5px; font-weight: 800; box-shadow: none; }
+.qrefresh:hover:not(:disabled) { background: #E7D9BC; color: var(--ink); }
+.qrefresh:disabled { opacity: .45; cursor: default; }
 
 /* ---------- İsim düzenleme ---------- */
 .rename { cursor: text; }
