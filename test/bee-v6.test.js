@@ -139,7 +139,7 @@ test('6.0.0 turnuva popupı şeffaf kategori kartlarını ve doğru ödülleri g
   assert.match(js, /750/);
   assert.match(js, /500/);
   assert.match(js, /250/);
-  assert.match(js, /Üretim \+%20/);
+  assert.match(js, /\+%20 üretim/);
   assert.match(css, /\.cup-category-grid/);
   assert.match(css, /\.cup-prize-card/);
 });
