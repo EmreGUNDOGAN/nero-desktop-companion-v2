@@ -1,4 +1,5 @@
 name: Bootstrap Nero 6.0.0 Release
+# rerun after popup assertion fix
 
 on:
   push:
