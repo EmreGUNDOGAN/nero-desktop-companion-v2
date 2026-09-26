@@ -1,5 +1,5 @@
 name: Bootstrap Nero 6.0.0 Release
-# rerun after popup assertion fix
+# rerun after approved reward card assertion fix
 
 on:
   push:
