@@ -883,34 +883,45 @@ function setQuestsOpen(open) {
   questsOpen = !!open;
   $('quests').hidden = !questsOpen;
 }
-$('quests-icon').addEventListener('click', () => setQuestsOpen(true));
+$('quests-icon').addEventListener('click', () => setQuestsOpen(!questsOpen));
 $('quests-toggle').addEventListener('click', () => setQuestsOpen(false));
 function renderQuests() {
   const list = view.quests || [];
   const R = view.questRefresh || { free: 0, paidUsed: true, paidCost: 100 };
-  const sig = JSON.stringify([list.map((q) => [q.id, Math.floor(q.progress * 10), q.claimed]), R, Math.floor(view.coins)]);
-  const open = list.filter((q) => !q.claimed).length;
-  const allClaimed = list.length > 0 && open === 0;
-  $('quests-count').textContent = allClaimed ? 'tamam ✓' : `${list.length - open}/${list.length}`;
-  $('quests-icon').classList.toggle('done', allClaimed);
-  $('quests-icon').title = allClaimed ? 'Bugünün görevleri tamamlandı' : 'Bugünün görevleri';
-  if (allClaimed && questsOpen) setQuestsOpen(false);
+  const sig = JSON.stringify([list.map((q) => [q.id, q.target, Math.floor(q.progress * 10), q.claimed]), R, Math.floor(view.coins)]);
+  const completed = list.filter((q) => q.progress >= q.target).length;
+  const allCompleted = list.length > 0 && completed === list.length;
+  $('quests-count').textContent = `${completed} / ${list.length} tamamlandı`;
+  $('quests-progress-fill').style.width = `${list.length ? Math.round((completed / list.length) * 100) : 0}%`;
+  $('quests-icon').classList.toggle('done', allCompleted);
+  $('quests-icon').title = allCompleted ? 'Bugünün görevleri tamamlandı' : 'Bugünün görevleri';
   if (sig === questsSig) return;
   questsSig = sig;
   const refreshLabel = R.free > 0 ? `🔄 Değiştir · Ücretsiz (${R.free}/2)` : !R.paidUsed ? `🔄 Değiştir · ${R.paidCost} 🪙` : '🔒 Değiştirme hakkı bitti';
   $('quest-list').innerHTML = list.map((q) => {
     const done = q.progress >= q.target;
-    const pct = Math.min(100, (q.progress / q.target) * 100);
-    const prog = q.target > 1 ? `${(Math.floor(q.progress * 10) / 10).toLocaleString('tr-TR')} / ${q.target}` : (done ? '1 / 1' : '0 / 1');
-    const reward = `+${q.reward} 🪙${q.voucher ? ` · 🎁 ${esc(view.flowers[q.voucher].name)}` : ''}`;
-    const canRefresh = !q.claimed && !done && (R.free > 0 || !R.paidUsed);
-    return `<li class="quest${q.claimed ? ' claimed' : ''}">
-      <div class="qtop"><span>${esc(q.text)}</span><span class="qrew">${q.claimed ? 'alındı' : reward}</span></div>
-      ${q.claimed ? '' : `<div class="qbar"><i style="width:${pct}%"></i></div><small class="qrew">${prog}</small>`}
-      <div class="quest-actions">
-        ${done && !q.claimed ? `<button type="button" data-claim="${q.id}">Ödülü al</button>` : ''}
-        ${!q.claimed && !done ? `<button type="button" data-refresh="${q.id}" ${canRefresh && (R.free > 0 || view.coins >= R.paidCost) ? '' : 'disabled'}>${esc(refreshLabel)}</button>` : ''}
+    const claimed = !!q.claimed;
+    const prog = q.target > 1 ? `${(Math.floor(q.progress * 10) / 10).toLocaleString('tr-TR')} / ${q.target}` : '';
+    const reward = `+ ${q.reward} 🪙${q.voucher ? ` · 🎁 ${esc(view.flowers[q.voucher].name)}` : ''}`;
+    const canRefresh = !claimed && !done && (R.free > 0 || !R.paidUsed);
+    const check = claimed
+      ? '<span class="qcheck done" aria-hidden="true">✓</span>'
+      : done
+        ? `<button type="button" class="qcheck done claim-ready" data-claim="${q.id}" aria-label="${esc(q.text)} ödülünü al">✓</button>`
+        : '<span class="qcheck" aria-hidden="true"></span>';
+    const right = claimed
+      ? '<span class="qclaimed">✓ alındı</span>'
+      : done
+        ? `<button type="button" class="qreward claim-ready" data-claim="${q.id}" title="Ödülü al">${reward}</button>`
+        : `<span class="qreward">${reward}</span>`;
+    return `<li class="quest-row${done ? ' done' : ''}${claimed ? ' claimed' : ''}">
+      ${check}
+      <div class="qbody">
+        <span class="qtitle">${esc(q.text)}</span>
+        ${!done && prog ? `<small class="qprogress">${prog}</small>` : ''}
+        ${!claimed && !done ? `<button type="button" class="qrefresh" data-refresh="${q.id}" ${canRefresh && (R.free > 0 || view.coins >= R.paidCost) ? '' : 'disabled'}>${esc(refreshLabel)}</button>` : ''}
       </div>
+      <div class="qright">${right}</div>
     </li>`;
   }).join('');
 }
