@@ -53,15 +53,20 @@ test('5.5.3 Yenilikler penceresi ve tekrar açma girişi rendererda bulunur', ()
   assert.match(notes, /version: '5\.5\.3'/);
 });
 
-test('5.5.3 görevler tamamlanınca kompakt ikon düzeni korunur', () => {
+test('5.5.3 görev paneli tamamlanınca açık kalabilir ve tek tasarımı korur', () => {
   const root = path.join(__dirname, '..');
   const html = fs.readFileSync(path.join(root, 'src/renderer/bee/index.html'), 'utf8');
   const js = fs.readFileSync(path.join(root, 'src/renderer/bee/bee.js'), 'utf8');
   const css = fs.readFileSync(path.join(root, 'src/renderer/bee/bee.css'), 'utf8');
 
   assert.ok(html.includes('class="task-bell" id="quests-icon"'));
-  assert.match(js, /allClaimed && questsOpen/);
-  assert.match(js, /setQuestsOpen\(false\)/);
+  assert.ok(html.includes('id="quests-progress-fill"'));
+  assert.ok(html.includes('class="quests-close" id="quests-toggle"'));
+  assert.match(js, /setQuestsOpen\(!questsOpen\)/);
+  assert.doesNotMatch(js, /allClaimed && questsOpen/);
+  assert.match(js, /quest-row/);
+  assert.match(css, /\.quests-progress/);
+  assert.match(css, /\.quest-row/);
   assert.match(css, /\.task-bell\.done/);
 });
 
