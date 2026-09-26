@@ -57,10 +57,14 @@
   <!-- Günlük görevler: varsayılan olarak yalnız ikon görünür -->
   <button class="task-bell" id="quests-icon" type="button" aria-label="Bugünün görevleri" title="Bugünün görevleri">📋</button>
   <section class="quests card" id="quests" hidden>
-    <button class="quests-head" id="quests-toggle" type="button" aria-label="Görevleri kapat">
-      <span>📋 Bugünün görevleri</span>
-      <span class="quests-head-right"><b id="quests-count"></b><i aria-hidden="true">✕</i></span>
-    </button>
+    <div class="quests-head">
+      <span class="quests-title">📋 Bugünün görevleri</span>
+      <button class="quests-close" id="quests-toggle" type="button" aria-label="Görevleri kapat">✕</button>
+    </div>
+    <div class="quests-summary">
+      <div class="quests-progress" aria-hidden="true"><i id="quests-progress-fill"></i></div>
+      <b id="quests-count">0 / 3 tamamlandı</b>
+    </div>
     <ul class="quest-list" id="quest-list"></ul>
   </section>
 
