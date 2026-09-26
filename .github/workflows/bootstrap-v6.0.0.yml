@@ -1,0 +1,171 @@
+name: Bootstrap Nero 6.0.0 Release
+
+on:
+  push:
+    branches: [feature/bee-v6.0.0]
+    paths:
+      - ".release/**"
+      - ".github/workflows/bootstrap-v6.0.0.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  finalize:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Reconstruct and apply verified 6.0.0 patch
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          $parts = Get-ChildItem ".release\part-*.b64" | Sort-Object Name
+          if ($parts.Count -ne 39) { throw "Expected 39 patch chunks, got $($parts.Count)" }
+          $b64 = ($parts | ForEach-Object { Get-Content $_.FullName -Raw }) -join ""
+          [IO.File]::WriteAllBytes((Join-Path $PWD "update.patch.xz"), [Convert]::FromBase64String($b64))
+          $expected = "035a3071488b3eca0f5048a523635d80d03a5c30eeaf7b715c22986a03b1505d"
+          $actual = (Get-FileHash "update.patch.xz" -Algorithm SHA256).Hash.ToLowerInvariant()
+          if ($actual -ne $expected) { throw "Patch payload SHA256 mismatch: $actual" }
+
+          $sevenZip = "C:\Program Files\7-Zip\7z.exe"
+          if (-not (Test-Path $sevenZip)) { throw "7-Zip not found" }
+          & $sevenZip x -y "update.patch.xz" "-o$PWD"
+          if ($LASTEXITCODE -ne 0) { throw "Could not unpack update.patch.xz" }
+          if (-not (Test-Path "update.patch")) { throw "update.patch was not produced" }
+
+          git apply --check update.patch
+          if ($LASTEXITCODE -ne 0) { throw "git apply --check failed" }
+          git apply --whitespace=nowarn update.patch
+          if ($LASTEXITCODE -ne 0) { throw "git apply failed" }
+
+          Remove-Item "update.patch.xz","update.patch" -Force
+          Remove-Item ".release" -Recurse -Force
+          Remove-Item ".github/workflows/bootstrap-v6.0.0.yml" -Force
+          git add -A
+          git diff --cached --check
+          if ($LASTEXITCODE -ne 0) { throw "Staged diff check failed" }
+
+          $pkg = Get-Content package.json -Raw | ConvertFrom-Json
+          if ($pkg.version -ne "6.0.0") { throw "package.json is not 6.0.0" }
+          if ($pkg.build.appId -ne "com.stenwick.nero") { throw "appId changed unexpectedly" }
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check JavaScript syntax
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          node --check src/main/bee.js
+          node --check src/main/main.js
+          node --check src/main/village-data.js
+          @(
+            "src/renderer/bee/bee.js",
+            "src/renderer/bee/release-notes.js",
+            "src/renderer/bee/ui-v2.js",
+            "src/renderer/bee/ui-icons.js",
+            "src/renderer/bee/village.js",
+            "src/renderer/bee/nero-3d.js",
+            "src/renderer/bee/village-life.js",
+            "src/renderer/bee/walkers.js",
+            "src/renderer/bee/figures.js",
+            "src/renderer/bee/villager-looks.js"
+          ) | ForEach-Object {
+            Get-Content $_ -Raw | node --input-type=module --check
+            if ($LASTEXITCODE -ne 0) { throw "Syntax failed: $_" }
+          }
+          Get-ChildItem src/renderer/bee/bee-dialogues-0*.js | ForEach-Object {
+            Get-Content $_.FullName -Raw | node --input-type=module --check
+            if ($LASTEXITCODE -ne 0) { throw "Dialogue module syntax failed: $($_.Name)" }
+          }
+
+      - name: Verify locked bee dialogue totals
+        shell: pwsh
+        run: |
+          node -e "const fs=require('fs');let t=0,l=0;for(let i=1;i<=8;i++){const p='src/renderer/bee/bee-dialogues-'+String(i).padStart(2,'0')+'.js';const src=fs.readFileSync(p,'utf8');const obj=JSON.parse(src.replace(/^.*?export default\s/s,'').replace(/;\s*$/,''));t+=Object.keys(obj).length;l+=Object.values(obj).reduce((n,a)=>n+a.length,0)}if(t!==57||l!==2133)throw new Error('Dialogue totals: '+t+'/'+l);console.log('Dialogue totals OK:',t,'topics /',l,'lines')"
+
+      - name: Run Node tests
+        run: npm test
+
+      - name: Validate desktop dialogue data
+        run: npm run dialogue:check
+
+      - name: Bee window Electron smoke
+        run: npx electron test/bee-window-electron-smoke.js
+
+      - name: Build Windows installer
+        run: npm run dist
+
+      - name: Prepare classic 6.0.0 release files
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          Copy-Item docs/ARICILIK-REHBERI.md OYUN-REHBERI.md
+
+          $stage = Join-Path $env:RUNNER_TEMP "nero-source-6.0.0"
+          if (Test-Path $stage) { Remove-Item $stage -Recurse -Force }
+          New-Item -ItemType Directory -Force -Path $stage | Out-Null
+          git ls-files | ForEach-Object {
+            $dest = Join-Path $stage $_
+            $parent = Split-Path $dest -Parent
+            if ($parent) { New-Item -ItemType Directory -Force -Path $parent | Out-Null }
+            Copy-Item -LiteralPath $_ -Destination $dest
+          }
+          Compress-Archive -Path (Join-Path $stage "*") -DestinationPath "Nero-v6_0_0-source.zip" -CompressionLevel Optimal
+
+          $required = @(
+            "dist/Nero-Setup-6.0.0.exe",
+            "dist/Nero-Setup-6.0.0.exe.blockmap",
+            "dist/latest.yml",
+            "Nero-v6_0_0-source.zip",
+            "OYUN-REHBERI.md",
+            "CHANGELOG-6.0.0.md"
+          )
+          foreach ($f in $required) {
+            if (-not (Test-Path $f)) { throw "Missing final file: $f" }
+          }
+
+          $metadata = Get-Content dist/latest.yml -Raw
+          if ($metadata -notmatch 'version: 6\.0\.0') { throw "latest.yml version mismatch" }
+          if ($metadata -notmatch 'Nero-Setup-6\.0\.0\.exe') { throw "latest.yml installer mismatch" }
+
+          $lines = foreach ($f in $required) {
+            $hash = (Get-FileHash $f -Algorithm SHA256).Hash.ToLowerInvariant()
+            "$hash  $([IO.Path]::GetFileName($f))"
+          }
+          Set-Content -Path "SHA256SUMS.txt" -Value $lines -Encoding ascii
+
+      - name: Upload classic Nero 6.0.0 final bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: Nero-6.0.0-final-bundle
+          path: |
+            dist/Nero-Setup-6.0.0.exe
+            dist/Nero-Setup-6.0.0.exe.blockmap
+            dist/latest.yml
+            Nero-v6_0_0-source.zip
+            OYUN-REHBERI.md
+            CHANGELOG-6.0.0.md
+            SHA256SUMS.txt
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Commit finalized 6.0.0 source last
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git diff --cached --stat
+          git commit -m "Release Nero 6.0.0 living village"
+          git push origin HEAD:feature/bee-v6.0.0
