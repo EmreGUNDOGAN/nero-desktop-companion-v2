@@ -38,7 +38,7 @@ haftalar içinde büyüyen sakin bir çiftlik olarak tasarlandı.
 - **Panelden:** Nero'ya tıkla → **Bugün** sekmesinde aşağıdaki hızlı düğmelerden **🐝 Arıcılık**.
 - **Sağ tık menüsünden:** masaüstündeki Nero'ya sağ tıkla → **Arıcılık oyunu**.
 
-Oyun ayrı bir pencerede açılır. Pencereyi kapatsan da Nero açık kaldığı sürece çiftlik çalışmaya devam eder.
+Oyun ayrı bir pencerede açılır. Pencereyi kapatsan da Nero açıkken çiftlik ilk **3 gerçek saat** çalışmaya devam eder; Arıcılık 3 saat boyunca hiç görülmezse oyun tamamen durur ve tekrar baktığında kaldığı yerden devam eder.
 
 ---
 
@@ -58,8 +58,8 @@ Oyun ayrı bir pencerede açılır. Pencereyi kapatsan da Nero açık kaldığı
 - 📖 **Bal Defteri** · 📊 **İstatistikler** · 📷 **Fotoğraf** · 🐝 **Kovanlar** · ⌖ **Adaya dön** · ⚙️ **Ayarlar** · 🏆 **Liderlik** · ＋ / － yakınlaştırma.
 - Ses ve ortam sesi düğmeleri oyun içi Ayarlar'daki tercihlere göre yönetilir.
 
-**Sol taraf**
-- 📋 **Bugünün görevleri:** her gerçek gün 3 küçük görev; başlığa tıklayıp katlayabilirsin.
+**Sol alt**
+- 🔔 **Bildirimler** ve hemen yanında 📋 **Bugünün görevleri** ikonu bulunur. Görev ikonuna tıklayınca mevcut görev kartı açılır; kartı kapattığında yeniden yalnız ikon kalır.
 
 **Alt çubuk**
 - 🛒 **Mağaza** · 🍯 **Pazar** · 🧺 **Hepsini Hasat Et** · 📜 **Siparişler** (kırmızı sayı: bekleyen sipariş) · 📖 **Rehber**
@@ -135,8 +135,8 @@ Başlangıçta elinde:
 
 | Çiçek | Tohum | Üretime etkisi | Balın taban fiyatı (kg) | Mevsim |
 |---|---|---|---|---|
-| Yonca | 45 | +%0 | 8 | İlkbahar, Yaz |
-| Papatya | 90 | +%8 | 12 | İlkbahar, Yaz |
+| Yonca | 45 | +%5 | 8 | İlkbahar, Yaz |
+| Papatya | 90 | +%10 | 12 | İlkbahar, Yaz |
 | Ayçiçeği | 190 | +%18 | 18 | Yaz |
 | Kekik | 340 | +%30 | 26 | İlkbahar, Yaz |
 | Lavanta | 600 | +%45 | 38 | Yaz |
@@ -148,7 +148,7 @@ Başlangıçta elinde:
 - **Ömür:** her çiçek **30 gün (iki oyun ayı)** yaşar. Tarha tıklayınca kalan ömrü görürsün. Solan tarh 🥀 bal vermez, arılar oraya uçmaz ve o baldan sipariş gelmez. Solmuş tarha tıklayıp tohum fiyatının **%10'una canlandır** ya da temizle.
 - **Yan yana bonusu:** aynı çiçekten **en az 3 tarh birbirine değiyorsa** (zincir hâlinde), her biri **+%15** üretir. Çiçeğe tıklayınca bonus varsa görünür.
 - **Çeşme bonusu:** çeşmenin olduğu karede ve yanındaki karelerde bulunan tarhlar **+%5** üretir (§12).
-- **Hediye tohum:** müdavim köylüler bazen tohum hediye eder (§10). Tohum listesinde **🎁 Hediye ×1** yazar, ücretsiz ekersin.
+- **Tohum envanteri:** Mağaza'dan satın aldığın tohum doğrudan envantere eklenir. Boş bir tarha ekerken önce envanterdeki hak kullanılır; mağazada ödediğin tohum için ikinci kez jeton ödemezsin. Köylü, görev ve diğer sistemlerden gelen ücretsiz tohumlar da aynı envantere eklenir.
 
 ---
 
@@ -161,7 +161,7 @@ Bir kovana tıklayınca **kovanın içi** açılır: solda canlı petek (ortada 
 - 🐝 **Arı Al:** fiyat artık satın alma geçmişine değil **arı sırasına** bağlıdır. İlk kovanda 7. arı 34 jetondur; sonraki her sıra +7 jeton (8. arı 41, 9. arı 48 … 20. arı 125). Yeni kovan 4 arıyla geldiği için 5. ve 6. arının sabit fiyatları sırasıyla 20 ve 27 jetondur. Arı ölürse sonraki alım fiyatı mevcut arı sayısına göre geri düşer. Kapasite doluysa alınamaz.
 - 🐝 **Arı Sat:** satılan sıradaki arının sabit alış fiyatının **%50'si** (aşağı yuvarlanır). Kovanda en az 1 arı kalır.
 - 👑 **Kraliçe** ve 📦 **Kovanı Büyüt:** sırayla ilerler (aşağıdaki tablo). Sırası gelmeyen düğme ne yapman gerektiğini söyler.
-- 💧 **Şurup Ver:** 45 jeton = 6 kg kış erzakı; kışın günde 1 kg tüketilir.
+- 💧 **Şurup Ver:** taban fiyat **45 jeton = 15 kg** kış erzakı. Kovan ekranında **🌾 Erzak: X gün** görünür: 15+ gün yeşil, 7–14 gün sarı, 0–6 gün kırmızı. Arı sayısı ne olursa olsun günlük temel tüketim **1 kg**; Kovan Yalıtımı aktif olduğu kışta **0,5 kg**. Günlük ihtiyetten az erzak kalırsa kalan miktar o gün tamamen tüketilir ve kovan beslenmiş sayılmaz.
 - 💊 **İlaç ver:** kovan hastaysa görünür, 90 jeton.
 - 💰 **Kovanı Sat:** yatırımının yarısı ve arılar için küçük bir tutar geri gelir. Onay ister. Son kovan satılamaz.
 
@@ -182,7 +182,7 @@ Bir kovana tıklayınca **kovanın içi** açılır: solda canlı petek (ortada 
 
 **Doğal üreme:** kış dışında, menzilde çiçek varsa ve kovan dolu değilse **2 günde bir 1 arı** doğar.
 
-**Kış:** şurubu olmayan kovan **her gün 1 arı** kaybeder. Şurubu olan kovan kışın biraz daha fazla üretir.
+**Kış:** günlük erzak ihtiyacını karşılayamayan kovan aç sayılır ve ırkının kış kaybı kuralına göre arı kaybedebilir. O gün yeterli erzakla beslenen kovan kışın daha iyi üretir (**×0,35**; beslenmeyen kovan **×0,10**).
 
 **Hastalık:** kış dışında, 4 arıdan kalabalık her kovan her gün küçük bir ihtimalle (%3) hastalanır. Hasta kovan **%30 az** üretir ve tedavi edilmezse **2 günde bir arı** kaybedebilir. Bir hastalık vakasında, hastalık başladığındaki arı sayısının en fazla yaklaşık **üçte biri** ölür (en yakın tam sayıya yuvarlanır: 5→1, 6→2, 7→2, 8→3, 9→3, 10→3). Kovan **4 arıya düşerse hastalık o gün otomatik biter**. İlaç anında iyileştirir. Hastalık ister doğal olarak bitsin ister ilaçla iyileştirilsin, ardından **1 oyun yılı bağışıklık** başlar (kovan ekranında 🛡️ kalan gün).
 
@@ -313,7 +313,7 @@ Oyun Nero'nun asıl amacıyla bağlantılı: **sen çalıştıkça çiftlik büy
 
 ## 15b. Günlük görevler, Bal Defteri ve kişiselleştirme
 
-**📋 Günlük görevler** (sol üstteki kart, başlığına tıklayıp katlayabilirsin)
+**📋 Günlük görevler** (sol alttaki 📋 ikonuna tıklayınca mevcut görev kartı açılır)
 - Her gerçek gün **3 görev** gelir. Havuz artık **40 görev türünden** oluşur: hasat, farklı kovan/ballar, pazar satışları, siparişler, arı satın alma ve bakım, kovan/kraliçe geliştirme, tarh ve çiçek işleri, mumlar, Seyyah Yakup ve bazı koşullu görevler.
 - Görevler yalnızca o anda **makul biçimde yapılabiliyorsa** havuza girer. Örneğin hasta kovan yoksa “kovanı iyileştir”, Yakup köyde değilse Yakup görevi, yeterli kovan yoksa 3 farklı kovandan hasat görevi gelmez.
 - Günün üç görevi mümkün olduğunca farklı oyun alanlarından seçilir; ağır harcama gerektiren görevlerden aynı gün en fazla biri gelir.
@@ -335,7 +335,7 @@ Oyun Nero'nun asıl amacıyla bağlantılı: **sen çalıştıkça çiftlik büy
 
 **📷 Fotoğraf modu** (📷 ya da **F**): arayüz bir anlığına gizlenir, adanın fotoğrafı **Resimler\Nero Arıcılık** klasörüne kaydedilir. Çıkan bildirime tıklayınca klasör açılır.
 
-**🎵 Ortam sesleri:** gündüz kuş cıvıltısı ve arı vızıltısı, gece cırcır böcekleri, yağmurlu günde yağmur sesi. Çok kısıktır; 🎵 ile açıp kapatırsın. 🔊 tüm sesleri kapatır.
+**🎵 Sesler:** Ayarlar → Ses bölümünde **Oyun sesleri**, **Ortam sesleri** ve **Bildirim sesleri** ayrı ana kontrollerdir. **İleri Ses Ayarları** açılır bölümünde jeton, hasat, yerleştirme, ekim, kâğıt, başarı, hata; kuş, arı, yağmur, rüzgâr, cırcır böceği; sipariş, kovan, Yakup ve özel olay bildirimlerini tek tek seçebilirsin. Oyun efektleri ve ortam sesleri yalnız Arıcılık penceresi görünürken çalar; önemli bildirimler oyun penceresi kapalıyken Nero üzerinden gelmeye devam edebilir.
 
 **🔔 Bildirimler:** sol alttaki zil simgesine tıklayınca son 20 bildirim açılır; okunmamış bildirim varsa zilin üstünde sayı çıkar ve zil sallanır.
 
@@ -360,12 +360,12 @@ Oyun Nero'nun asıl amacıyla bağlantılı: **sen çalıştıkça çiftlik büy
 ## 15c. Köy ve komşular
 
 - Adanı çevreleyen **iki halkada** (36 + 42 kare) bir köy yaşar. Bu karelere yalnızca köylüler yerleşir; senin adana dokunmazlar, ada hep tam altıgen kalır.
-- Köy, **siparişlerle teslim ettiğin toplam bala** göre büyür. Başlangıç dışında **her eşikte yalnızca 1 kişi** gelir:
+- Köyün ana büyümesi **siparişlerle teslim ettiğin toplam bala** göre devam eder. Bunun tek erken oyun istisnası **50 kg toplam bal üretimi**dir: bu eşikte Çiçekçi Ezgi gelir. Diğer eşiklerde yine her seferinde yalnızca 1 yeni yerleşimci açılır:
 
 | Teslim edilen toplam bal | Gelen | Köydeki toplam |
 |---|---|---|
 | Başlangıç | 6 | 6 |
-| 50 kg | 1 | 7 |
+| **50 kg toplam üretim** | **🌷 Çiçekçi Ezgi** | 7 |
 | 150 kg | 1 | 8 |
 | 400 kg | 1 | 9 |
 | 1.000 kg | 1 | 10 |
@@ -388,7 +388,7 @@ Oyun Nero'nun asıl amacıyla bağlantılı: **sen çalıştıkça çiftlik büy
 | Muhtarlık | 7 günde bir 20 kg'lık "köy isteği" (ödeme ×1.8) |
 | Kahveci | Odak bonusu +15 dakika |
 | Okul | Günlük görev ödülleri +%10 |
-| Çiçekçi | Tohumlar %10 ucuz |
+| **Çiçekçi Ezgi** | Tohumlar %10 ucuz; her oyun günü **Ezgi'nin Seçimi** bir tohumda ek %15 indirim |
 | Mumcu | Mum fiyatı +%20 |
 | Veteriner Kliniği | Hastalanma ihtimali %25 az |
 | Dondurmacı | Yazın siparişler %10 daha iyi |
@@ -401,7 +401,7 @@ Oyun Nero'nun asıl amacıyla bağlantılı: **sen çalıştıkça çiftlik büy
 | Köy Serası | Çiçek ömrü +5 gün |
 | Bal Müzesi (son yapı) | Tüm bal üretimi +%5 |
 
-- Köydeki bir yapıya tıklayınca kim olduğunu, sevdiği balı ya da etkisini görürsün. Bal Defteri → **🏘️ Köy** sekmesinde bütün yerleşimciler, kalpleri ve sıradaki yerleşimci için gereken bal yazar. Köyün tamamını görmek için uzaklaş (tekerlek ya da −).
+- Köydeki bir yapıya tıklayınca kim olduğunu, sevdiği balı ya da etkisini görürsün. **Çiçekçi Ezgi'ye ilk tıklamada** tek seferlik tanışma kartı ve **1 ücretsiz mevsimlik tohum** hediyesi çıkar; sonraki ziyaretlerde o günkü **Ezgi'nin Seçimi** görünür. Bal Defteri → **🏘️ Köy** sekmesinde bütün yerleşimciler, kalpleri ve sıradaki yerleşimci için gereken bal yazar. Köyün tamamını görmek için uzaklaş (tekerlek ya da −).
 
 ---
 
@@ -413,7 +413,7 @@ Oyun Nero'nun asıl amacıyla bağlantılı: **sen çalıştıkça çiftlik büy
 - Arabası köy halkasında boş bir karede durur; arabaya ya da düğmeye tıklayınca dükkânı açılır.
 - Her ziyarette **38 ürünlük havuzdan rastgele 4 ürün** getirir. **Dekor hiçbir koşulda satmaz.**
 - Normal ürünlerden **her üründen 1 tane**, bir ziyarette en fazla **2 farklı ürün** alabilirsin. **🔄 Stok Değişim Jetonu bu iki ürünlük kotayı tüketmez.**
-- Hedef gerektiren ürünün o anda uygun hedefi yoksa ürün satın alınamaz. Geçici etkiler aynı güçte üst üste katlanmaz; aynı etki yeniden uygulanırsa yalnız süresi uzar/yenilenir.
+- Hedef gerektiren ürünün o anda uygun hedefi yoksa ürün satın alınamaz. Hedef seçildikçe gerçek fiyat **Satın al · X 🪙** düğmesinde canlı görünür. Geçici etkiler aynı güçte üst üste katlanmaz; aynı etki yeniden uygulanırsa yalnız süresi uzar/yenilenir. Ballı Şurup gibi hedefli etkiler satın alındığı anda seçilen kovana uygulanır ve aktif etki kovan ekranında da görünür.
 
 | # | Ürün | Etki | Fiyat |
 |---:|---|---|---:|
@@ -426,7 +426,7 @@ Oyun Nero'nun asıl amacıyla bağlantılı: **sen çalıştıkça çiftlik büy
 | 7 | 🩺 Bakım Kiti | Hasta kovanı iyileştirir, bağışıklık başlatır | 55 |
 | 8 | 📦 Depo Sandığı | Kalıcı +10 kg depo; toplam en fazla 3 | 120 |
 | 9 | 🕯️ Balmumu Çuvalı | +1 kg balmumu | 70 |
-| 10 | 🍯 Kışlık Şurup Fıçısı | Seçilen kovana +18 kg erzak | 115 |
+| 10 | 🍯 Kışlık Şurup Fıçısı | Seçilen kovana +45 kg erzak | **105** |
 | 11 | 🛡️ Propolis Kalkanı | 10 gün hastalanma ihtimali %50 azalır | 70 |
 | 12 | 💊 Arı Vitamini | 5 gün +%15 kovan üretimi | 110 |
 | 13 | ❄️ Kovan Yalıtımı | Bir sonraki kış şurup tüketimi %50 azalır | 35 |
@@ -490,11 +490,12 @@ Oyun Nero'nun asıl amacıyla bağlantılı: **sen çalıştıkça çiftlik büy
 | Köydeki hareketli detaylar | açık | açık | kapalı |
 
   Arı sayısı sadece görüntüdür; üretim etkilenmez.
-- **Gece modu** aç/kapa · **Efekt sesleri** ve **ortam sesleri** ayrı ayrı.
+- **Gece modu** aç/kapa.
+- **Ses:** Oyun sesleri, ortam sesleri ve bildirim sesleri ayrı ana kontrollerdir. **İleri Ses Ayarları** açıldığında efektler, ortam kanalları ve bildirim grupları tek tek seçilebilir. Oyun/ortam sesleri yalnız Arıcılık görünürken çalar; bildirim sesi tercihi Nero masaüstü bildirimlerinde de korunur.
 - **Masaüstündeki Nero haber versin:** kovan doldu, sipariş süresi, hastalık, kış, rakip, satıcı, mektup — her biri ayrı açılıp kapatılır.
 - **Kayıt:** dışa/içe aktar, fotoğraf klasörü, oyunu sıfırla (iki onay, önce yedek).
 
-**🐝 Kovanlar (K):** bütün kovanlar tek listede (doluluk, arı, üretim, hastalık, şurup, bağışıklık). Tıklayınca kamera o kovana gider ve kovan ekranı açılır. **Tüm kovanlara şurup ver** düğmesi toplam fiyatı gösterir ve onay ister. Kovan ekranında **‹ ›** ya da **←/→** ile kovanlar arasında gezinirsin.
+**🐝 Kovanlar (K):** bütün kovanlar tek listede (doluluk, arı, üretim, hastalık, **kalan erzak günü**, aktif üretim etkisi, bağışıklık). Tıklayınca kamera o kovana gider ve kovan ekranı açılır. **Tüm kovanlara şurup ver** düğmesi toplam fiyatı gösterir ve onay ister. Kovan ekranında **‹ ›** ya da **←/→** ile kovanlar arasında gezinirsin.
 
 **Diğer kolaylıklar**
 - **⌖ Adaya dön (R):** kamera adanın ortasına döner.
@@ -513,8 +514,9 @@ Oyun Nero'nun asıl amacıyla bağlantılı: **sen çalıştıkça çiftlik büy
 
 
 ## 16. Sen yokken
-- Nero açık olduğu sürece çiftlik çalışır, oyun penceresi kapalı olsa bile.
-- **2 saat** boyunca oyuna hiç bakmazsan üretim durur; takvim mevcut kurala göre ilerlemeye devam eder. Geri dönünce üretim kaldığı yerden sürer.
+- Nero açıkken Arıcılık penceresini kapatsan ya da başka işlere geçsen de çiftlik **son görülmeden sonraki ilk 3 gerçek saat** çalışmaya devam eder.
+- Arıcılık **3 saat boyunca hiç görülmezse oyun tamamen durur**: üretim, takvim, mevsimler, hastalık, doğumlar, kış erzağı, Yakup'un kalış süresi, festival, oyun-zamanlı sipariş süreleri ve arıcının yürüyüşü ilerlemez.
+- Tekrar Arıcılık penceresine baktığında kaldığın noktadan devam eder; 3 saatten sonraki süre için geriye dönük üretim veya normal sipariş birikimi yapılmaz.
 - **Nero tamamen kapalıyken** oyunun zamanı da durur.
 - Oyundan **20 gerçek dakika veya daha uzun** süre uzak kaldıysan geri döndüğünde **"Tekrar hoş geldin!"** kartı çıkar: ne kadar bal üretildiği, doğan ve ölen arılar, gelen siparişler, hasat bekleyen ve hasta kovanlar, sıralamadaki değişim gösterilir.
 
@@ -558,7 +560,7 @@ Oyun Nero'nun asıl amacıyla bağlantılı: **sen çalıştıkça çiftlik büy
 | Depo üst sınırı | 10.000 kg (+ en fazla 30 kg depo sandığı) |
 | Yeni kare | 60, sonra her biri ×1.4 |
 | Arı alış / satış | sıradaki arı numarasına göre: 7. arı 34, her sıra +7 / ilgili sıra fiyatının %50’si |
-| Şurup | 45 jeton = 6 kg |
+| Şurup | 45 jeton taban fiyat = **15 kg** · temel tüketim 1 kg/gün |
 | İlaç | 90 jeton · hastalık bitince 1 yıl bağışıklık |
 | Irk değiştirme | 225 jeton |
 | Çiçek ömrü | 30 gün · canlandırma tohumun %10'u |
@@ -566,7 +568,7 @@ Oyun Nero'nun asıl amacıyla bağlantılı: **sen çalıştıkça çiftlik büy
 | Sipariş değiştirme | 19 jeton · Reddetmek: ilişki −%2 |
 | Ceza | ödemenin %20'si |
 | Mum | 500 g balmumu, ~45 jeton (kışın ×1.4) |
-| Bakılmazsa üretim durur | 2 saat |
+| Arıcılık görülmezse tam duraklama | **3 gerçek saat** |
 | Gece modu | 19:00–07:00 (sadece görünüş) |
 | Etiket bahşişi | %5 (müdavimler) |
 

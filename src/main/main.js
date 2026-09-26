@@ -187,6 +187,7 @@ function openBeeWindow() {
     if (beeWin.isMinimized()) beeWin.restore();
     beeWin.show();
     beeWin.focus();
+    bee.markSeen();
     return true;
   }
 
@@ -209,7 +210,13 @@ function openBeeWindow() {
     }
   });
   beeWin.loadFile(path.join(__dirname, '..', 'renderer', 'bee', 'index.html'));
-  beeWin.once('ready-to-show', () => { if (beeWin && !beeWin.isDestroyed()) beeWin.show(); });
+  beeWin.once('ready-to-show', () => {
+    if (beeWin && !beeWin.isDestroyed()) {
+      beeWin.show();
+      if (bee) bee.markSeen();
+    }
+  });
+  beeWin.on('focus', () => { if (bee) bee.markSeen(); });
   beeWin.on('close', () => {
     try {
       if (!beeWin.isMinimized()) settingsStore.patch({ beeBounds: beeWin.isMaximized() ? beeWin.getNormalBounds() : beeWin.getBounds() });
@@ -1538,12 +1545,25 @@ function registerIpc() {
     return { ok: true, file };
   });
   ipcMain.handle('bee:openPhotos', () => shell.openPath(path.join(app.getPath('pictures'), 'Nero Arıcılık')));
+  // Arıcılık gerçek ses kayıtları: renderer Web Audio ile decode eder.
+  ipcMain.handle('bee:sounds', () => {
+    const dir = path.join(__dirname, '..', 'renderer', 'bee', 'sounds');
+    const out = {};
+    try {
+      for (const f of fs.readdirSync(dir)) {
+        if (f.toLowerCase().endsWith('.ogg')) out[f.slice(0, -4)] = fs.readFileSync(path.join(dir, f));
+      }
+    } catch (err) {
+      log(`HATA (arıcılık sesleri): ${err.message}`);
+    }
+    return out;
+  });
   ipcMain.handle('bee:action', (_e, action, arg1, arg2) => {
     if (!bee) return { res: { ok: false, msg: 'Arıcılık henüz hazır değil.' }, view: null, events: [] };
-    bee.markSeen();
     const map = {
       buyTile: () => bee.buyTile(arg1),
       placeHive: () => bee.placeHive(arg1),
+      buySeed: () => bee.buySeed(arg1),
       plantSeed: () => bee.plantSeed(arg1, arg2),
       removeFlower: () => bee.removeFlower(arg1),
       replant: () => bee.replant(arg1),
@@ -1563,6 +1583,7 @@ function registerIpc() {
       speed: () => bee.setSpeed(Number(arg1)),
       medicine: () => bee.giveMedicine(arg1),
       readNotifs: () => bee.readNotifs(),
+      merchantQuote: () => bee.merchantQuote(arg1, arg2),
       merchantBuy: () => bee.merchantBuy(arg1, arg2),
       merchantSell: () => bee.merchantSell(arg1),
       readLetter: () => bee.readLetter(arg1),
@@ -1580,6 +1601,7 @@ function registerIpc() {
       renameHive: () => bee.renameHive(arg1, arg2),
       setFarmName: () => bee.setFarmName(arg1),
       setLabel: () => bee.setLabel(arg1, arg2),
+      claimEzgiWelcome: () => bee.claimEzgiWelcome(),
       finishTutorial: () => bee.finishTutorial()
     };
     const fn = map[action];
@@ -2140,19 +2162,21 @@ function startLoops() {
   // Arıcılık ana süreçte ilerler; oyun penceresi kapalıyken de üretim sürer.
   setInterval(() => {
     if (!bee) return;
-    const gameInFront = beeWin && !beeWin.isDestroyed() && beeWin.isVisible() && beeWin.isFocused();
+    const gameVisible = beeWin && !beeWin.isDestroyed() && beeWin.isVisible() && !beeWin.isMinimized();
+    const gameInFront = gameVisible && beeWin.isFocused();
     if (gameInFront) bee.markSeen();
     if (bee.tick(Date.now(), gameInFront ? null : 2)) {
       sendBee();
       if (Math.random() < 0.1) bee.save();
     }
 
-    // Oyun penceresi önde değilken Nero, önemli arıcılık durumlarını haber verir.
+    // Arıcılık görünür değilken Nero önemli durumları haber verir; böylece çift ses çıkmaz.
     const alerts = bee.pendingAlerts();
-    if (alerts.length && !gameInFront && Date.now() - lastBeeAlertAt > 90 * 1000) {
+    if (alerts.length && !gameVisible && Date.now() - lastBeeAlertAt > 90 * 1000) {
       const s = settings();
       if (!s.muted && !s.hidden && !mood.state.asleep && !mood.state.napping) {
         lastBeeAlertAt = Date.now();
+        if (s.sound && bee.notificationSoundEnabled(alerts[0].kind)) sendTo(charWin, 'sound', 'chime');
         say(alerts[0].kind, alerts[0].vars, { interrupt: false });
       }
     }

@@ -665,7 +665,9 @@ export function buildMerchantCart() {
 }
 
 export function buildOccupant(id) {
-  const b = BUILDERS[id];
+  // 5.5.2: 7 numara artık Çiçekçi Ezgi, 25 numara Kasabalı Cem.
+  const visualId = id === 7 ? 25 : id === 25 ? 7 : id;
+  const b = BUILDERS[visualId];
   if (!b) return null;
   const g = b();
   // Tüm alt grupların animate fonksiyonlarını tek bir çağrıda topla

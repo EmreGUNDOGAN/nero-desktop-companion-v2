@@ -1,0 +1,124 @@
+name: Build Nero 5.5.3 Final Bundle
+
+on:
+  push:
+    branches: [feature/v5.5.3-release]
+    paths:
+      - ".github/workflows/build-v5.5.3.yml"
+      - "package.json"
+      - "package-lock.json"
+      - "src/main/**"
+      - "src/preload/**"
+      - "src/renderer/bee/**"
+      - "docs/ARICILIK-REHBERI.md"
+      - "CHANGELOG.md"
+      - "CHANGELOG-5.5.3.md"
+      - "test/**"
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check JavaScript syntax
+        shell: pwsh
+        run: |
+          node --check src/main/bee.js
+          node --check src/main/main.js
+          Get-Content src/renderer/bee/bee.js -Raw | node --input-type=module --check
+          Get-Content src/renderer/bee/bee-dialogues.js -Raw | node --input-type=module --check
+          Get-Content src/renderer/bee/release-notes.js -Raw | node --input-type=module --check
+          Get-ChildItem src/renderer/bee/bee-dialogues-0*.js | ForEach-Object {
+            Get-Content $_.FullName -Raw | node --input-type=module --check
+            if ($LASTEXITCODE -ne 0) { throw "Dialogue module syntax failed: $($_.Name)" }
+          }
+
+      - name: Verify locked bee dialogue totals
+        shell: pwsh
+        run: |
+          node -e "const fs=require('fs');let t=0,l=0;for(let i=1;i<=8;i++){const p='src/renderer/bee/bee-dialogues-'+String(i).padStart(2,'0')+'.js';const src=fs.readFileSync(p,'utf8');const obj=JSON.parse(src.replace(/^.*?export default\s/s,'').replace(/;\s*$/,''));t+=Object.keys(obj).length;l+=Object.values(obj).reduce((n,a)=>n+a.length,0)}if(t!==57||l!==2133)throw new Error('Dialogue totals: '+t+'/'+l);console.log('Dialogue totals OK:',t,'topics /',l,'lines')"
+
+      - name: Run Node tests
+        run: npm test
+
+      - name: Validate desktop dialogue data
+        run: npm run dialogue:check
+
+      - name: Bee window Electron smoke with sound IPC
+        run: npx electron test/bee-window-electron-smoke.js
+
+      - name: Build Windows installer
+        run: npm run dist
+
+      - name: Verify packaged sound assets
+        shell: pwsh
+        run: |
+          $asar = "dist/win-unpacked/resources/app.asar"
+          $unpacked = "dist/win-unpacked/resources/app.asar.unpacked"
+          if (-not (Test-Path $asar)) { throw "app.asar not found" }
+          node -e "const fs=require('fs');const path=require('path');const asar=require('@electron/asar');const asarPath=process.argv[1],unpacked=process.argv[2];const norm=x=>String(x).replace(/\\/g,'/').replace(/^\/+/, '');const list=asar.listPackage(asarPath).map(norm);const need=['src/renderer/bee/sounds/loop_bees.ogg','src/renderer/bee/sounds/birds_1.ogg','src/renderer/bee/sounds/KAYNAKLAR.md'];const found=[];for(const p of need){if(list.includes(p)){found.push(p+' [asar]')}else{const q=path.join(unpacked,...p.split('/'));if(fs.existsSync(q))found.push(p+' [unpacked]');else{console.log('Sound-like package entries:',list.filter(x=>x.includes('renderer/bee/sounds')).slice(0,50));throw new Error('Packaged sound asset missing: '+p)}}}console.log('Packaged sound assets OK:',found.join(', '))" $asar $unpacked
+
+      - name: Prepare guide, changelog and source package
+        shell: pwsh
+        run: |
+          Copy-Item docs/ARICILIK-REHBERI.md OYUN-REHBERI.md
+          $stage = Join-Path $env:RUNNER_TEMP "nero-source-5.5.3"
+          New-Item -ItemType Directory -Force -Path $stage | Out-Null
+          git ls-files | Where-Object {
+            $_ -notlike ".github/workflows/build-v5.5.3.yml" -and
+            $_ -notlike ".github/workflows/test-v5.5.3.yml"
+          } | ForEach-Object {
+            $dest = Join-Path $stage $_
+            $parent = Split-Path $dest -Parent
+            if ($parent) { New-Item -ItemType Directory -Force -Path $parent | Out-Null }
+            Copy-Item -LiteralPath $_ -Destination $dest
+          }
+          Compress-Archive -Path (Join-Path $stage "*") -DestinationPath "Nero-v5_5_3-source.zip" -CompressionLevel Optimal
+
+      - name: Verify final bundle
+        shell: pwsh
+        run: |
+          $metadata = Get-Content dist/latest.yml -Raw
+          if ($metadata -notmatch 'version: 5\.5\.3') { throw 'latest.yml version is not 5.5.3' }
+          if ($metadata -notmatch 'Nero-Setup-5\.5\.3\.exe') { throw 'latest.yml installer name mismatch' }
+          $files = @(
+            "dist/Nero-Setup-5.5.3.exe",
+            "dist/Nero-Setup-5.5.3.exe.blockmap",
+            "dist/latest.yml",
+            "Nero-v5_5_3-source.zip",
+            "OYUN-REHBERI.md",
+            "CHANGELOG-5.5.3.md"
+          )
+          foreach ($f in $files) { if (-not (Test-Path $f)) { throw "Missing final file: $f" } }
+          $pkg = Get-Content package.json -Raw | ConvertFrom-Json
+          if ($pkg.version -ne "5.5.3") { throw "package.json version mismatch" }
+          if ($pkg.build.appId -ne "com.stenwick.nero") { throw "appId changed unexpectedly" }
+
+      - name: Upload final Nero 5.5.3 bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: Nero-5.5.3-final-bundle
+          path: |
+            dist/Nero-Setup-5.5.3.exe
+            dist/Nero-Setup-5.5.3.exe.blockmap
+            dist/latest.yml
+            Nero-v5_5_3-source.zip
+            OYUN-REHBERI.md
+            CHANGELOG-5.5.3.md
+          if-no-files-found: error
+          retention-days: 30

@@ -1,6 +1,7 @@
 import * as THREE from './vendor/three.module.min.js';
 import { buildOccupant, villageGround, VM, buildMerchantCart } from './village.js';
 import { pickBeeDialogue } from './bee-dialogues.js';
+import { RELEASE_NOTES } from './release-notes.js';
 
 // ============================================================================
 // Nero · Arıcılık — 3D ada ve arayüz
@@ -734,6 +735,16 @@ function onTileClick(k, x, y) {
 }
 
 popup.addEventListener('click', async (e) => {
+  const welcome = e.target.closest('[data-ezgi-welcome]');
+  if (welcome) { await doAct('claimEzgiWelcome'); closePopup(); return; }
+  const ezgiShop = e.target.closest('[data-ezgi-shop]');
+  if (ezgiShop) {
+    closePopup();
+    shopTab = 'seeds';
+    for (const x of document.querySelectorAll('.shop-tabs button')) x.classList.toggle('on', x.dataset.tab === 'seeds');
+    openShop();
+    return;
+  }
   const b = e.target.closest('[data-act]');
   if (!b || b.disabled) return;
   const act = b.dataset.act;
@@ -761,7 +772,7 @@ function openSeeds(k) {
         <span class="${inSeason ? 'insz' : 'outsz'}">${inSeason ? 'şu an mevsiminde' : 'mevsimi dışında, az üretir'}</span>
       </span>
       <span class="buff ${buff === 0 ? 'zero' : ''}">🐝 +%${buff} bal üretimi</span>
-      <button class="buy" type="button" data-seed="${id}" ${view.coins < f.seed && !(view.vouchers[id] > 0) ? 'disabled' : ''}>${view.vouchers[id] > 0 ? `🎁 Hediye ×${view.vouchers[id]}` : `${f.seed} 🪙`}</button>
+      <button class="buy" type="button" data-seed="${id}" ${view.coins < f.seed && !(view.vouchers[id] > 0) ? 'disabled' : ''}>${view.vouchers[id] > 0 ? `🌱 Envanter ×${view.vouchers[id]}` : `${f.seed} 🪙`}</button>
     </li>`;
   }).join('');
   $('seed-modal').hidden = false;
@@ -840,7 +851,7 @@ let lastSpeed = 1;
 window.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
     closePopup(); $('seed-modal').hidden = true; closeHive(); closeMarket(); closeOrders(); closeBoard(); closeShop();
-    $('guide-modal').hidden = true; cancelPlacing(); closeLedger(); closeStats(); closeNotifs(); closeMerchant();
+    $('guide-modal').hidden = true; closeWhatsNew(); cancelPlacing(); closeLedger(); closeStats(); closeNotifs(); closeMerchant();
     $('settings-modal').hidden = true; $('hives-modal').hidden = true; $('keys-modal').hidden = true;
     return;
   }
@@ -867,29 +878,50 @@ window.addEventListener('keydown', (e) => {
 // Günlük görevler
 // ---------------------------------------------------------------------------
 let questsSig = '';
-$('quests-toggle').addEventListener('click', () => $('quests').classList.toggle('closed'));
+let questsOpen = false;
+function setQuestsOpen(open) {
+  questsOpen = !!open;
+  $('quests').hidden = !questsOpen;
+}
+$('quests-icon').addEventListener('click', () => setQuestsOpen(!questsOpen));
+$('quests-toggle').addEventListener('click', () => setQuestsOpen(false));
 function renderQuests() {
   const list = view.quests || [];
   const R = view.questRefresh || { free: 0, paidUsed: true, paidCost: 100 };
-  const sig = JSON.stringify([list.map((q) => [q.id, Math.floor(q.progress * 10), q.claimed]), R, Math.floor(view.coins)]);
-  const open = list.filter((q) => !q.claimed).length;
-  $('quests-count').textContent = open ? `${list.length - open}/${list.length}` : 'tamam ✓';
+  const sig = JSON.stringify([list.map((q) => [q.id, q.target, Math.floor(q.progress * 10), q.claimed]), R, Math.floor(view.coins)]);
+  const completed = list.filter((q) => q.progress >= q.target).length;
+  const allCompleted = list.length > 0 && completed === list.length;
+  $('quests-count').textContent = `${completed} / ${list.length} tamamlandı`;
+  $('quests-progress-fill').style.width = `${list.length ? Math.round((completed / list.length) * 100) : 0}%`;
+  $('quests-icon').classList.toggle('done', allCompleted);
+  $('quests-icon').title = allCompleted ? 'Bugünün görevleri tamamlandı' : 'Bugünün görevleri';
   if (sig === questsSig) return;
   questsSig = sig;
   const refreshLabel = R.free > 0 ? `🔄 Değiştir · Ücretsiz (${R.free}/2)` : !R.paidUsed ? `🔄 Değiştir · ${R.paidCost} 🪙` : '🔒 Değiştirme hakkı bitti';
   $('quest-list').innerHTML = list.map((q) => {
     const done = q.progress >= q.target;
-    const pct = Math.min(100, (q.progress / q.target) * 100);
-    const prog = q.target > 1 ? `${(Math.floor(q.progress * 10) / 10).toLocaleString('tr-TR')} / ${q.target}` : (done ? '1 / 1' : '0 / 1');
-    const reward = `+${q.reward} 🪙${q.voucher ? ` · 🎁 ${esc(view.flowers[q.voucher].name)}` : ''}`;
-    const canRefresh = !q.claimed && !done && (R.free > 0 || !R.paidUsed);
-    return `<li class="quest${q.claimed ? ' claimed' : ''}">
-      <div class="qtop"><span>${esc(q.text)}</span><span class="qrew">${q.claimed ? 'alındı' : reward}</span></div>
-      ${q.claimed ? '' : `<div class="qbar"><i style="width:${pct}%"></i></div><small class="qrew">${prog}</small>`}
-      <div class="quest-actions">
-        ${done && !q.claimed ? `<button type="button" data-claim="${q.id}">Ödülü al</button>` : ''}
-        ${!q.claimed && !done ? `<button type="button" data-refresh="${q.id}" ${canRefresh && (R.free > 0 || view.coins >= R.paidCost) ? '' : 'disabled'}>${esc(refreshLabel)}</button>` : ''}
+    const claimed = !!q.claimed;
+    const prog = q.target > 1 ? `${(Math.floor(q.progress * 10) / 10).toLocaleString('tr-TR')} / ${q.target}` : '';
+    const reward = `+ ${q.reward} 🪙${q.voucher ? ` · 🎁 ${esc(view.flowers[q.voucher].name)}` : ''}`;
+    const canRefresh = !claimed && !done && (R.free > 0 || !R.paidUsed);
+    const check = claimed
+      ? '<span class="qcheck done" aria-hidden="true">✓</span>'
+      : done
+        ? `<button type="button" class="qcheck done claim-ready" data-claim="${q.id}" aria-label="${esc(q.text)} ödülünü al">✓</button>`
+        : '<span class="qcheck" aria-hidden="true"></span>';
+    const right = claimed
+      ? '<span class="qclaimed">✓ alındı</span>'
+      : done
+        ? `<button type="button" class="qreward claim-ready" data-claim="${q.id}" title="Ödülü al">${reward}</button>`
+        : `<span class="qreward">${reward}</span>`;
+    return `<li class="quest-row${done ? ' done' : ''}${claimed ? ' claimed' : ''}">
+      ${check}
+      <div class="qbody">
+        <span class="qtitle">${esc(q.text)}</span>
+        ${!done && prog ? `<small class="qprogress">${prog}</small>` : ''}
+        ${!claimed && !done ? `<button type="button" class="qrefresh" data-refresh="${q.id}" ${canRefresh && (R.free > 0 || view.coins >= R.paidCost) ? '' : 'disabled'}>${esc(refreshLabel)}</button>` : ''}
       </div>
+      <div class="qright">${right}</div>
     </li>`;
   }).join('');
 }
@@ -1171,7 +1203,7 @@ for (const b of document.querySelectorAll('.shop-tabs button')) {
 
 function renderShop(force = false) {
   if (!shopOpen || !view) return;
-  const sig = JSON.stringify([shopTab, Math.floor(view.coins), view.tilePrice, view.calendar.season]);
+  const sig = JSON.stringify([shopTab, Math.floor(view.coins), view.tilePrice, view.calendar.season, view.ezgi, view.vouchers]);
   if (!force && sig === shopSig) return;
   shopSig = sig;
   const c = view.coins;
@@ -1180,10 +1212,13 @@ function renderShop(force = false) {
     const season = view.calendar.season;
     html = Object.entries(view.flowers).map(([id, f]) => {
       const inS = season !== 'kis' && f.seasons.includes(season);
-      return `<div class="shop-item"><span class="big" style="color:${f.color}">✿</span>
+      const ezgiPick = !!(view.ezgi && view.ezgi.unlocked && view.ezgi.choice === id);
+      return `<div class="shop-item${ezgiPick ? ' ezgi-choice' : ''}"><span class="big" style="color:${f.color}">✿</span>
         <span class="info"><b>${esc(f.name)} tohumu · +%${Math.round(f.buff * 100)} bal üretimi</b>
-        <small>${f.seasons.map((s) => seasonsTr[s]).join(' · ')} · ${inS ? 'şu an mevsiminde' : 'şu an mevsimi dışında'}</small></span>
-        <button type="button" data-buy="seed" data-flower="${id}" ${c < f.seed && !(view.vouchers[id] > 0) ? 'disabled' : ''}>${view.vouchers[id] > 0 ? `🎁 Hediye ×${view.vouchers[id]}` : `${f.seed} 🪙`}</button></div>`;
+        <small>${f.seasons.map((s) => seasonsTr[s]).join(' · ')} · ${inS ? 'şu an mevsiminde' : 'şu an mevsimi dışında'}</small>
+        <small>🌱 Envanter: ×${view.vouchers[id] || 0}</small>
+        ${ezgiPick ? '<small class="choice-note">🌷 Ezgi’nin Seçimi · bugün ek %15 indirimli</small>' : ''}</span>
+        <button type="button" data-buy="seed" data-flower="${id}" ${c < f.seed ? 'disabled' : ''}>Satın al · ${f.seed} 🪙</button></div>`;
     }).join('');
   } else if (shopTab === 'hive') {
     html = `<div class="shop-item"><span class="big">🐝</span>
@@ -1201,11 +1236,14 @@ function renderShop(force = false) {
   }
   $('shop-body').innerHTML = html;
 }
-$('shop-body').addEventListener('click', (e) => {
+$('shop-body').addEventListener('click', async (e) => {
   const b = e.target.closest('[data-buy]');
   if (!b || b.disabled) return;
   const kind = b.dataset.buy;
-  if (kind === 'seed') startPlacing({ type: 'seed', flower: b.dataset.flower }, `${view.flowers[b.dataset.flower].name} ekmek için boş bir kare seç`);
+  if (kind === 'seed') {
+    await doAct('buySeed', b.dataset.flower);
+    renderShop(true);
+  }
   else if (kind === 'hive') startPlacing({ type: 'hive' }, 'Kovanı koymak için boş bir kare seç');
   else if (kind === 'decor') startPlacing({ type: 'decor', decor: b.dataset.decor }, `${view.decor[b.dataset.decor].name} için adandan bir kare seç`);
   else startPlacing({ type: 'land' }, 'Satın almak için adanın kenarından bir kare seç');
@@ -1215,46 +1253,159 @@ $('open-guide').addEventListener('click', () => { $('guide-modal').hidden = fals
 $('guide-close').addEventListener('click', () => { $('guide-modal').hidden = true; });
 $('guide-modal').addEventListener('click', (e) => { if (e.target === $('guide-modal')) $('guide-modal').hidden = true; });
 
+const RELEASE_SEEN_KEY = 'neroBeeLastReleaseSeen';
+function showWhatsNew(markSeen = true) {
+  $('whats-new-version').textContent = RELEASE_NOTES.eyebrow;
+  $('whats-new-title').textContent = RELEASE_NOTES.title;
+  $('whats-new-intro').textContent = RELEASE_NOTES.intro;
+  $('whats-new-list').innerHTML = RELEASE_NOTES.items.map((item) =>
+    `<article class="whats-new-item"><span class="ico">${esc(item.icon)}</span><div><b>${esc(item.title)}</b><p>${esc(item.text)}</p></div></article>`
+  ).join('');
+  $('whats-new-modal').hidden = false;
+  if (markSeen) {
+    try { localStorage.setItem(RELEASE_SEEN_KEY, RELEASE_NOTES.version); } catch (_) { /* depolama kapalıysa sessiz geç */ }
+  }
+}
+function closeWhatsNew() { $('whats-new-modal').hidden = true; }
+function maybeShowWhatsNew() {
+  if (!view || !view.tutorialDone || !$('whats-new-modal').hidden) return;
+  let seen = null;
+  try { seen = localStorage.getItem(RELEASE_SEEN_KEY); } catch (_) { /* sessiz geç */ }
+  if (seen !== RELEASE_NOTES.version) showWhatsNew(true);
+}
+$('whats-new-close').addEventListener('click', closeWhatsNew);
+$('whats-new-modal').addEventListener('click', (e) => { if (e.target === $('whats-new-modal')) closeWhatsNew(); });
+$('open-whats-new').addEventListener('click', () => { $('guide-modal').hidden = true; showWhatsNew(false); });
+
 // ---------------------------------------------------------------------------
-// Sesler: dosya yok, küçük sentezlenmiş efektler
+// Sesler: gerçek OGG kayıtları + sentez fallback
 // ---------------------------------------------------------------------------
 let soundOn = true;
-try { soundOn = localStorage.getItem('bee-sound') !== 'off'; } catch (_) { /* yoksay */ }
+let notificationSoundOn = true;
+let audioPrefs = {};
 let actx = null;
-function tone(freq, dur, type = 'sine', gain = 0.08, delay = 0, glide = null) {
-  if (!soundOn) return;
+
+function gameWindowAudible() { return document.visibilityState === 'visible'; }
+function sfxAllowed(key) { return soundOn && gameWindowAudible() && audioPrefs[key] !== false; }
+function notificationAllowed(group) {
+  const key = { orders: 'notifyOrders', hive: 'notifyHive', merchant: 'notifyMerchant', special: 'notifySpecial' }[group] || 'notifySpecial';
+  return notificationSoundOn && gameWindowAudible() && audioPrefs[key] !== false;
+}
+
+function ensureAudioContext() {
   try {
     actx = actx || new AudioContext();
-    const t0 = actx.currentTime + delay;
-    const o = actx.createOscillator();
-    const g = actx.createGain();
+    if (actx.state === 'suspended') actx.resume().catch(() => {});
+    return actx;
+  } catch (_) { return null; }
+}
+
+function tone(freq, dur, type = 'sine', gain = 0.08, delay = 0, glide = null, force = false) {
+  if ((!soundOn && !force) || !gameWindowAudible()) return;
+  try {
+    const ctx = ensureAudioContext();
+    if (!ctx) return;
+    const t0 = ctx.currentTime + delay;
+    const o = ctx.createOscillator();
+    const g = ctx.createGain();
     o.type = type;
     o.frequency.setValueAtTime(freq, t0);
     if (glide) o.frequency.exponentialRampToValueAtTime(glide, t0 + dur);
     g.gain.setValueAtTime(0.0001, t0);
     g.gain.exponentialRampToValueAtTime(gain, t0 + 0.012);
     g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
-    o.connect(g).connect(actx.destination);
+    o.connect(g).connect(ctx.destination);
     o.start(t0);
     o.stop(t0 + dur + 0.03);
   } catch (_) { /* ses yoksa sessiz geç */ }
 }
+
+const SAMPLES = {};
+let samplesReady = false;
+async function loadSamples() {
+  try {
+    if (!window.bee || typeof window.bee.sounds !== 'function') return;
+    const files = await window.bee.sounds();
+    const ctx = ensureAudioContext();
+    if (!ctx) return;
+    await Promise.all(Object.entries(files || {}).map(async ([name, data]) => {
+      const u8 = data instanceof Uint8Array ? data : new Uint8Array(data);
+      const copy = u8.buffer.slice(u8.byteOffset, u8.byteOffset + u8.byteLength);
+      SAMPLES[name] = await ctx.decodeAudioData(copy);
+    }));
+    samplesReady = Object.keys(SAMPLES).length > 0;
+  } catch (_) { samplesReady = false; }
+}
+loadSamples();
+
+function sampleNames(base) { return Object.keys(SAMPLES).filter((n) => n === base || n.startsWith(`${base}_`)); }
+
+function play(base, { gain = 0.5, pan = 0, rate = 1, jitter = 0.05, delay = 0, force = false } = {}) {
+  if ((!soundOn && !force) || !gameWindowAudible() || !samplesReady) return false;
+  const names = sampleNames(base);
+  if (!names.length) return false;
+  try {
+    const ctx = ensureAudioContext();
+    if (!ctx) return false;
+    const src = ctx.createBufferSource();
+    src.buffer = SAMPLES[names[Math.floor(Math.random() * names.length)]];
+    src.playbackRate.value = rate * (1 + (Math.random() * 2 - 1) * jitter);
+    const g = ctx.createGain();
+    g.gain.value = gain * (1 + (Math.random() * 2 - 1) * 0.1);
+    const p = ctx.createStereoPanner();
+    p.pan.value = Math.max(-1, Math.min(1, pan));
+    src.connect(g).connect(p).connect(ctx.destination);
+    src.start(ctx.currentTime + delay);
+    return true;
+  } catch (_) { return false; }
+}
+
+function playSlice(name, gain, dur) {
+  try {
+    if (!soundOn || !gameWindowAudible() || !SAMPLES[name]) return false;
+    const ctx = ensureAudioContext();
+    if (!ctx) return false;
+    const src = ctx.createBufferSource();
+    src.buffer = SAMPLES[name];
+    const g = ctx.createGain();
+    const t = ctx.currentTime;
+    const actualDur = Math.min(dur, Math.max(0.1, src.buffer.duration - 0.05));
+    const maxOffset = Math.max(0, src.buffer.duration - actualDur - 0.05);
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(gain, t + 0.08);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + actualDur);
+    src.connect(g).connect(ctx.destination);
+    src.start(t, Math.random() * maxOffset, actualDur);
+    return true;
+  } catch (_) { return false; }
+}
+
 const SFX = {
-  coin: () => { tone(880, 0.09, 'triangle', 0.08); tone(1320, 0.12, 'triangle', 0.07, 0.07); },
-  harvest: () => { tone(520, 0.1, 'triangle', 0.09, 0, 780); tone(780, 0.14, 'sine', 0.07, 0.09); },
-  bell: () => { tone(988, 0.35, 'sine', 0.06); tone(1480, 0.3, 'sine', 0.04, 0.05); },
-  buzz: () => { tone(220, 0.25, 'sawtooth', 0.025, 0, 260); },
-  place: () => { tone(330, 0.08, 'square', 0.04); tone(495, 0.1, 'triangle', 0.05, 0.06); },
-  err: () => { tone(200, 0.18, 'sine', 0.06, 0, 140); }
+  coin: () => sfxAllowed('coin') && (play('coin', { gain: 0.45 }) || (tone(880, 0.09, 'triangle', 0.08), tone(1320, 0.12, 'triangle', 0.07, 0.07), true)),
+  harvest: () => sfxAllowed('harvest') && (play('harvest', { gain: 0.5 }) || (tone(520, 0.1, 'triangle', 0.09, 0, 780), tone(780, 0.14, 'sine', 0.07, 0.09), true)),
+  bell: () => sfxAllowed('success') && (play('bell', { gain: 0.4, jitter: 0.02 }) || (tone(988, 0.35, 'sine', 0.06), tone(1480, 0.3, 'sine', 0.04, 0.05), true)),
+  buzz: () => sfxAllowed('place') && (SAMPLES.loop_bees ? playSlice('loop_bees', 0.25, 0.6) : (tone(220, 0.25, 'sawtooth', 0.025, 0, 260), true)),
+  place: () => sfxAllowed('place') && (play('place', { gain: 0.5 }) || (tone(330, 0.08, 'square', 0.04), tone(495, 0.1, 'triangle', 0.05, 0.06), true)),
+  plant: () => sfxAllowed('plant') && (play('plant', { gain: 0.45, jitter: 0.08 }) || (tone(430, 0.08, 'triangle', 0.045), true)),
+  paper: () => sfxAllowed('paper') && (play('paper', { gain: 0.55 }) || (tone(360, 0.08, 'triangle', 0.04), true)),
+  success: () => sfxAllowed('success') && (play('success', { gain: 0.45, jitter: 0.02 }) || (tone(784, 0.12, 'sine', 0.05), tone(1175, 0.16, 'sine', 0.04, 0.08), true)),
+  err: () => sfxAllowed('error') && (play('error', { gain: 0.4, jitter: 0.02 }) || (tone(200, 0.18, 'sine', 0.06, 0, 140), true))
 };
-function updateSoundBtn() { $('sound-btn').textContent = soundOn ? '🔊' : '🔇'; if ($('ambient-btn')) $('ambient-btn').style.opacity = soundOn ? '1' : '.45'; }
-$('sound-btn').addEventListener('click', () => {
-  soundOn = !soundOn;
-  try { localStorage.setItem('bee-sound', soundOn ? 'on' : 'off'); } catch (_) { /* yoksay */ }
-  updateSoundBtn();
-});
+
+function playNotification(group = 'special') {
+  if (!notificationAllowed(group)) return false;
+  return play('bell', { gain: 0.4, jitter: 0.02, force: true }) ||
+    (tone(988, 0.35, 'sine', 0.06, 0, null, true), tone(1480, 0.3, 'sine', 0.04, 0.05, null, true), true);
+}
+
+function updateSoundBtn() { $('sound-btn').textContent = soundOn ? '🔊' : '🔇'; }
+$('sound-btn').addEventListener('click', () => { ensureAudioContext(); doAct('setting', 'sfx', !soundOn); });
+window.addEventListener('pointerdown', ensureAudioContext, { once: true, capture: true });
+window.addEventListener('keydown', ensureAudioContext, { once: true, capture: true });
 updateSoundBtn();
 
+// ---------------------------------------------------------------------------
+// Nero: köşeden laf atar
 // ---------------------------------------------------------------------------
 // Nero: köşeden laf atar
 // ---------------------------------------------------------------------------
@@ -1341,9 +1492,13 @@ function react(action, res, a, b) {
     medicine: 'bee_disease_recovered_medicine'
   };
   const topic = topicByAction[action];
-  if (action === 'sellHoney' || action === 'deliverOrder' || action === 'sellCandles' || action === 'merchantSell') SFX.coin();
-  else if (action === 'upgrade' || action === 'upgradeStorage' || action === 'enterFestival') SFX.bell();
-  else if (['placeHive', 'plantSeed', 'buyTile', 'buyBee', 'syrup', 'acceptOrder', 'swapOrder', 'merchantBuy'].includes(action)) SFX.place();
+
+  if (['sellHoney', 'deliverOrder', 'sellCandles', 'merchantSell', 'claimQuest', 'buySeed'].includes(action)) SFX.coin();
+  else if (['upgrade', 'upgradeStorage', 'enterFestival'].includes(action)) SFX.success();
+  else if (['plantSeed', 'replant'].includes(action)) SFX.plant();
+  else if (action === 'readLetter') SFX.paper();
+  else if (['placeHive', 'buyTile', 'placeDecor', 'buyBee', 'syrup', 'syrupAll', 'acceptOrder', 'swapOrder', 'merchantBuy', 'medicine', 'changeBreed', 'makeCandle'].includes(action)) SFX.place();
+
   if (topic) {
     if (action === 'medicine' && Math.random() < 0.25) sayTopic('bee_immunity_started', vars);
     else sayTopic(topic, vars);
@@ -1363,13 +1518,13 @@ function reactEvent(e) {
   else if (!topic && m.startsWith('🛡️') && m.includes('hastalığı atlattı')) { topic = Math.random() < 0.7 ? 'bee_disease_recovered_natural' : 'bee_immunity_started'; vars = { hive }; }
   else if (!topic && m.includes('kışın aç kalan bir arı öldü')) { topic = 'bee_winter_loss'; vars = { hive }; }
   else if (!topic && m.includes('yeni bir arı doğdu')) { topic = 'bee_born'; vars = { hive }; }
-  else if (!topic && m.includes('depoya eklendi')) { topic = 'honey_harvest'; vars = { hive }; SFX.harvest(); }
+  else if (!topic && m.includes('depoya eklendi')) { topic = 'honey_harvest'; vars = { hive }; }
   else if (!topic && m.startsWith('📖 Bal Defteri')) topic = 'honey_journal_unlocked';
   else if (!topic && m.startsWith('✅ Günlük görev tamamlandı')) topic = 'daily_task_completed';
-  else if (!topic && m.startsWith('📜 Yeni sipariş')) { topic = 'order_arrived'; SFX.bell(); }
-  else if (!topic && m.includes('Sipariş yetişmedi')) { topic = 'order_failed'; SFX.err(); }
+  else if (!topic && m.startsWith('📜 Yeni sipariş')) { topic = 'order_arrived'; }
+  else if (!topic && m.includes('Sipariş yetişmedi')) { topic = 'order_failed'; }
   else if (!topic && m.startsWith('🏘️ Köye yeni biri taşındı:')) topic = 'villager_arrived';
-  else if (!topic && /^(🏪|🏛️) Köyde/u.test(m)) topic = 'village_building_unlocked';
+  else if (!topic && (/^(🏪|🏛️) Köyde/u.test(m) || m.startsWith('🌷 Kasabaya yeni biri yerleşti!'))) topic = 'village_building_unlocked';
   else if (!topic && m.includes('Köyün ilk halkası doldu')) topic = 'village_ring_completed';
   else if (!topic && m.startsWith('💛')) topic = 'villager_relationship_up';
   else if (!topic && m.startsWith('✉️') && m.includes('hediye')) topic = 'villager_gift_letter_arrived';
@@ -1393,6 +1548,14 @@ function reactEvent(e) {
   else if (!topic && (m.startsWith('🏆 Bal festivalinde') || m.startsWith('🎪 Bal festivalinde'))) topic = 'honey_festival_result';
   else if (!topic && /Temkinli Ali|Riskçi Kaya|Dengeli Nur/.test(m)) topic = 'rival_event';
   else if (!topic && m.includes("Nero'da bir iş bitirdin")) topic = 'nero_todo_coin_reward';
+
+  if (m.includes('depoya eklendi')) SFX.harvest();
+  else if (m.includes('yeni bir arı doğdu')) SFX.buzz();
+  else if (m.startsWith('📜 Yeni sipariş') || m.includes('Sipariş yetişmedi')) playNotification('orders');
+  else if (m.startsWith('🤒') || m.includes('öldü') || m.includes('Şurup ver')) playNotification('hive');
+  else if (m.startsWith('🛒 Gezgin')) playNotification('merchant');
+  else if (m.startsWith('✉️') || m.startsWith('🎉 Festival!') || m.startsWith('🌷 Kasabaya') || m.startsWith('🏆') || m.startsWith('🏪') || m.startsWith('🏛️')) playNotification('special');
+  else if (m.startsWith('🌟') || m.startsWith('🏘️')) SFX.success();
 
   if (topic) sayTopic(topic, vars);
 }
@@ -1909,7 +2072,8 @@ function renderHive() {
   if (!h) return;
   const names = view.flowers;
   $('h-name').textContent = h.name;
-  $('h-sub').textContent = `Seviye ${h.level + 1} · 👑 ${h.queenName}${h.syrup > 0 ? ` · 💧 ${h.syrup.toFixed(0)} kg erzak` : ''}${h.immuneDays > 0 && !h.sick ? ` · 🛡️ ${h.immuneDays} gün bağışık` : ''}`;
+  const feedClass = h.feedDays >= 15 ? 'feed-ok' : h.feedDays >= 7 ? 'feed-warn' : 'feed-low';
+  $('h-sub').innerHTML = `Seviye ${h.level + 1} · 👑 ${esc(h.queenName)} · <span class="${feedClass}">🌾 Erzak: ${h.feedDays} gün</span>${h.boostDays > 0 ? ` · 🍯 +%50 üretim · ${h.boostDays} gün` : ''}${h.immuneDays > 0 && !h.sick ? ` · 🛡️ ${h.immuneDays} gün bağışık` : ''}`;
   $('h-bees').textContent = `${h.bees} / ${h.capBees}`;
   $('h-rate').textContent = `${h.ratePerHour.toFixed(1)} kg/sa`;
   $('h-honey').textContent = `${h.total.toFixed(1)} kg / ${h.capKg} kg`;
@@ -2051,6 +2215,7 @@ function applyView(v) {
     else closeHive();
   }
   clockSkew = 0;
+  maybeShowWhatsNew();
   if (first) updateHover();
 }
 
@@ -2169,67 +2334,208 @@ function animateFireflies(t) {
 }
 
 // ---------------------------------------------------------------------------
-// Ortam sesleri: gündüz kuşlar ve arılar, gece cırcır böcekleri, yağmurda yağmur
+// Ortam sesleri: gerçek kayıtlar; kayıtlar yoksa mevcut sentez fallback
 // ---------------------------------------------------------------------------
 let ambientOn = true;
-try { ambientOn = localStorage.getItem('bee-ambient') !== 'off'; } catch (_) { /* yoksay */ }
 const amb = { started: false, buzz: null, rain: null };
-function updateAmbientBtn() { $('ambient-btn').style.opacity = ambientOn && soundOn ? '1' : '.45'; }
-$('ambient-btn').addEventListener('click', () => {
-  ambientOn = !ambientOn;
-  try { localStorage.setItem('bee-ambient', ambientOn ? 'on' : 'off'); } catch (_) { /* yoksay */ }
-  updateAmbientBtn();
-  toast(ambientOn ? '🎵 Ortam sesleri açık' : '🎵 Ortam sesleri kapalı');
-});
+
+function updateAmbientBtn() { $('ambient-btn').style.opacity = ambientOn ? '1' : '.45'; }
+$('ambient-btn').addEventListener('click', () => { ensureAudioContext(); doAct('setting', 'ambient', !ambientOn); });
 updateAmbientBtn();
 
 function ambientStart() {
   if (amb.started) return;
   try {
-    actx = actx || new AudioContext();
-    // Arı vızıltısı: çok kısık, hafifçe dalgalanan alçak bir ton
-    const buzz = actx.createOscillator(); buzz.type = 'sawtooth'; buzz.frequency.value = 176;
-    const bf = actx.createBiquadFilter(); bf.type = 'lowpass'; bf.frequency.value = 420;
-    const bg = actx.createGain(); bg.gain.value = 0;
-    const lfo = actx.createOscillator(); lfo.frequency.value = 0.35;
-    const lg = actx.createGain(); lg.gain.value = 6;
+    const ctx = ensureAudioContext();
+    if (!ctx) return;
+    const buzz = ctx.createOscillator(); buzz.type = 'sawtooth'; buzz.frequency.value = 176;
+    const bf = ctx.createBiquadFilter(); bf.type = 'lowpass'; bf.frequency.value = 420;
+    const bg = ctx.createGain(); bg.gain.value = 0;
+    const lfo = ctx.createOscillator(); lfo.frequency.value = 0.35;
+    const lg = ctx.createGain(); lg.gain.value = 6;
     lfo.connect(lg).connect(buzz.frequency);
-    buzz.connect(bf).connect(bg).connect(actx.destination);
+    buzz.connect(bf).connect(bg).connect(ctx.destination);
     buzz.start(); lfo.start();
-    // Yağmur: filtrelenmiş beyaz gürültü
-    const buf = actx.createBuffer(1, actx.sampleRate * 2, actx.sampleRate);
+
+    const buf = ctx.createBuffer(1, ctx.sampleRate * 2, ctx.sampleRate);
     const d = buf.getChannelData(0);
     for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
-    const noise = actx.createBufferSource(); noise.buffer = buf; noise.loop = true;
-    const nf = actx.createBiquadFilter(); nf.type = 'bandpass'; nf.frequency.value = 1800; nf.Q.value = 0.6;
-    const ng = actx.createGain(); ng.gain.value = 0;
-    noise.connect(nf).connect(ng).connect(actx.destination);
+    const noise = ctx.createBufferSource(); noise.buffer = buf; noise.loop = true;
+    const nf = ctx.createBiquadFilter(); nf.type = 'bandpass'; nf.frequency.value = 1800; nf.Q.value = 0.6;
+    const ng = ctx.createGain(); ng.gain.value = 0;
+    noise.connect(nf).connect(ng).connect(ctx.destination);
     noise.start();
     amb.buzz = bg; amb.rain = ng; amb.started = true;
-  } catch (_) { /* ses altyapısı yoksa sessiz geç */ }
+  } catch (_) { /* yoksay */ }
+}
+
+const loops = {};
+function startLoop(name) {
+  if (loops[name] || !SAMPLES[`loop_${name}`]) return loops[name];
+  try {
+    const ctx = ensureAudioContext();
+    if (!ctx) return null;
+    const src = ctx.createBufferSource();
+    src.buffer = SAMPLES[`loop_${name}`];
+    src.loop = true;
+    const filter = ctx.createBiquadFilter();
+    filter.type = 'lowpass';
+    filter.frequency.value = 12000;
+    const g = ctx.createGain();
+    g.gain.value = 0;
+    const p = ctx.createStereoPanner();
+    src.connect(filter).connect(g).connect(p).connect(ctx.destination);
+    src.start(0, Math.random() * src.buffer.duration);
+    loops[name] = { src, g, p, filter };
+    return loops[name];
+  } catch (_) { return null; }
+}
+
+function setLoop(name, gain, pan = 0, cutoff = 12000) {
+  const l = startLoop(name);
+  if (!l || !actx) return;
+  const t = actx.currentTime;
+  l.g.gain.setTargetAtTime(gain, t, 1.2);
+  l.p.pan.setTargetAtTime(pan, t, 0.6);
+  l.filter.frequency.setTargetAtTime(cutoff, t, 0.6);
+}
+
+function hiveListening() {
+  let x = 0; let n = 0;
+  for (const { pos } of hiveObjects.values()) {
+    const p = pos.clone().project(camera);
+    if (Math.abs(p.x) < 1.4 && Math.abs(p.y) < 1.4) { x += p.x; n += 1; }
+  }
+  return { pan: n ? Math.max(-0.8, Math.min(0.8, x / n)) : 0, visible: n };
+}
+
+const rnd = (a, b) => a + Math.random() * (b - a);
+const AMB_S = {
+  birds: { on: false, until: Date.now() + rnd(20, 60) * 1000, node: null },
+  bees: { on: false, until: Date.now() + rnd(30, 90) * 1000 },
+  crickets: { on: false, until: Date.now() + rnd(20, 60) * 1000 }
+};
+const BIRD_GAIN = 0.07;
+
+function playSession(name, gain, dur) {
+  const buf = SAMPLES[name];
+  if (!buf || !actx) return null;
+  try {
+    const src = actx.createBufferSource();
+    src.buffer = buf;
+    src.loop = buf.duration < dur + 1;
+    const g = actx.createGain();
+    const p = actx.createStereoPanner();
+    p.pan.value = rnd(-0.35, 0.35);
+    const t = actx.currentTime;
+    const actual = Math.max(8, Math.min(dur, src.loop ? dur : buf.duration - 0.2));
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.linearRampToValueAtTime(gain, t + Math.min(6, actual * 0.25));
+    if (actual > 14) g.gain.setValueAtTime(gain, t + actual - 8);
+    g.gain.linearRampToValueAtTime(0.0001, t + actual);
+    src.connect(g).connect(p).connect(actx.destination);
+    const maxOffset = Math.max(0, buf.duration - actual - 0.1);
+    src.start(t, src.loop ? 0 : rnd(0, maxOffset));
+    src.stop(t + actual + 0.2);
+    return { src, g };
+  } catch (_) { return null; }
+}
+
+function stopSession(node) {
+  if (!node || !actx) return;
+  try {
+    const t = actx.currentTime;
+    node.g.gain.cancelScheduledValues(t);
+    node.g.gain.setTargetAtTime(0.0001, t, 1.2);
+    node.src.stop(t + 5);
+  } catch (_) { /* yoksay */ }
+}
+
+function cycle(st, allowed, onRange, offRange) {
+  const now = Date.now();
+  if (!allowed) {
+    if (st.on) { st.on = false; st.until = now + rnd(...offRange) * 1000; }
+    return false;
+  }
+  if (now >= st.until) {
+    st.on = !st.on;
+    st.until = now + rnd(...(st.on ? onRange : offRange)) * 1000;
+  }
+  return st.on;
+}
+
+function ambientTickSamples(on) {
+  if (!view) return;
+  const w = view.weather.id;
+  const season = view.calendar.season;
+  const dayLight = 1 - night;
+  const raining = w === 'yagmurlu';
+  const snowy = w === 'karli';
+  const winter = season === 'kis';
+  const insideHive = typeof openHiveId !== 'undefined' && openHiveId && view.hives[openHiveId];
+
+  const birdsNow = cycle(AMB_S.birds, on && audioPrefs.birds !== false && dayLight > 0.5 && !raining && !insideHive, [90, 180], winter ? [450, 1200] : [180, 480]);
+  if (birdsNow && !AMB_S.birds.node) {
+    const names = sampleNames('birds');
+    if (names.length) {
+      const dur = Math.max(8, (AMB_S.birds.until - Date.now()) / 1000);
+      AMB_S.birds.node = playSession(names[Math.floor(Math.random() * names.length)], BIRD_GAIN * (winter ? 0.6 : 1), dur);
+    }
+  } else if (!birdsNow && AMB_S.birds.node) {
+    stopSession(AMB_S.birds.node);
+    AMB_S.birds.node = null;
+  }
+  if (AMB_S.birds.node && Date.now() >= AMB_S.birds.until) AMB_S.birds.node = null;
+
+  if (insideHive) {
+    const fullness = Math.min(1, 0.35 + insideHive.bees / 20);
+    setLoop('bees', on && audioPrefs.bees !== false ? 0.28 * fullness * (winter ? 0.5 : 1) : 0, 0, 1800);
+  } else {
+    const beesNow = cycle(AMB_S.bees, on && audioPrefs.bees !== false && dayLight > 0.5 && !raining && !winter, [60, 150], [150, 360]);
+    const bees = Object.values(view.hives).reduce((a, h) => a + h.bees, 0);
+    const { pan, visible } = hiveListening();
+    const closeness = Math.max(0, Math.min(1, (zoom - 0.6) / 1.6));
+    const activity = Math.min(1, 0.25 + bees / 40) * (visible ? 1 : 0.35);
+    setLoop('bees', beesNow ? 0.08 * activity * (0.45 + closeness * 0.8) : 0, pan, 1200 + closeness * 9000);
+  }
+
+  setLoop('rain', on && audioPrefs.rain !== false && raining ? 0.18 * (insideHive ? 0.4 : 1) : 0);
+  setLoop('wind', on && audioPrefs.wind !== false ? (snowy ? 0.18 : winter ? 0.11 : season === 'sonbahar' ? 0.07 : 0) * (insideHive ? 0.4 : 1) : 0);
+
+  const cricketsNow = cycle(AMB_S.crickets, on && audioPrefs.crickets !== false && night >= 0.5 && !raining && !winter, [60, 150], [120, 300]);
+  if (cricketsNow && Math.random() < 0.6) {
+    for (let i = 0; i < 3; i++) tone(4300, 0.035, 'triangle', 0.004, i * 0.06, null, true);
+  }
 }
 
 function ambientTick() {
-  const on = ambientOn && soundOn && view && document.visibilityState === 'visible';
+  const onAmbient = ambientOn && view && document.visibilityState === 'visible';
+  if (samplesReady && view) {
+    ensureAudioContext();
+    ambientTickSamples(onAmbient);
+    return;
+  }
+
+  const on = ambientOn && view && document.visibilityState === 'visible';
   if (on) ambientStart();
-  if (!amb.started) return;
+  if (!amb.started || !actx) return;
   const now = actx.currentTime;
   const raining = view && view.weather.id === 'yagmurlu';
-  amb.buzz.gain.setTargetAtTime(on && night < 0.5 && !raining ? 0.006 : 0, now, 0.8);
-  amb.rain.gain.setTargetAtTime(on && raining ? 0.035 : 0, now, 0.8);
+  amb.buzz.gain.setTargetAtTime(on && audioPrefs.bees !== false && night < 0.5 && !raining ? 0.006 : 0, now, 0.8);
+  amb.rain.gain.setTargetAtTime(on && audioPrefs.rain !== false && raining ? 0.035 : 0, now, 0.8);
   if (!on) return;
-  if (night < 0.5 && !raining && Math.random() < 0.35) {
-    // Kuş cıvıltısı: kısa, hızlı iki üç nota
+  if (audioPrefs.birds !== false && night < 0.5 && !raining && Math.random() < 0.35) {
     const base = 2200 + Math.random() * 1400;
     const n = 2 + Math.floor(Math.random() * 3);
-    for (let i = 0; i < n; i++) tone(base + Math.random() * 500, 0.07, 'sine', 0.012, i * 0.09, base * 1.25);
-  } else if (night >= 0.5 && Math.random() < 0.7) {
-    // Cırcır böceği: yüksek, titrek kısa darbeler
-    for (let i = 0; i < 3; i++) tone(4300, 0.035, 'triangle', 0.006, i * 0.06);
+    for (let i = 0; i < n; i++) tone(base + Math.random() * 500, 0.07, 'sine', 0.012, i * 0.09, base * 1.25, true);
+  } else if (audioPrefs.crickets !== false && night >= 0.5 && Math.random() < 0.7) {
+    for (let i = 0; i < 3; i++) tone(4300, 0.035, 'triangle', 0.006, i * 0.06, null, true);
   }
 }
 setInterval(ambientTick, 1100);
 
+// ---------------------------------------------------------------------------
+// Köy:
 // ---------------------------------------------------------------------------
 // Köy: adayı çevreleyen iki halka (yalnızca köylüler yerleşir)
 // ---------------------------------------------------------------------------
@@ -2286,6 +2592,14 @@ function openVillagerPopup(n, x, y) {
   const kind = { koylu: 'Köylü', dukkan: 'Dükkân', bina: 'Köy binası' }[r.type];
   const relName = r.type === 'koylu' ? r.name : r.owner;
   const rel = relName ? (view.relations[relName] || 0) : null;
+  const isEzgi = Number(r.n) === 7;
+  const choice = isEzgi && view.ezgi && view.ezgi.choice ? view.ezgi.choice : null;
+  const choiceInfo = choice && view.flowers[choice]
+    ? `<div class="ezgi-welcome"><b>🌷 Ezgi’nin Seçimi</b><span>${esc(view.flowers[choice].name)} tohumu · bugün ek %15 indirimli · ${view.flowers[choice].seed} 🪙</span><div><button type="button" class="act primary small-act" data-ezgi-shop>Tohumları gör</button></div></div>`
+    : '';
+  const welcome = isEzgi && view.ezgi && view.ezgi.welcomePending
+    ? `<div class="ezgi-welcome"><b>🌷 Çiçekçi Ezgi</b><p class="sub">Merhaba! Buradaki arıları uzaktan beri izliyordum. Bu kadar çok bal üretildiğini görünce dükkânımı burada açmaya karar verdim. Sanırım bundan sonra çiçeklerle biraz daha fazla ilgileneceğiz.</p><b>🎁 Hoş Geldin Hediyesi</b><small>1 ücretsiz mevsimlik tohum paketi</small><div><button type="button" class="act primary small-act" data-ezgi-welcome>Hediyeyi Al</button></div></div>`
+    : '';
   openPopupAt(x, y, `
     <h3>${esc(r.name)}${hearts}</h3>
     <p class="sub">${kind} · ${esc(r.role)}</p>
@@ -2293,6 +2607,8 @@ function openVillagerPopup(n, x, y) {
     ${r.type === 'koylu'
       ? `<div class="row"><span>❤️ Sevdiği bal</span><b>${esc(view.flowers[r.fav].name)}</b></div><p class="sub">Bu bal ekiliyse siparişlerinde sık sık onu ister ve %15 daha iyi öder.</p>`
       : `<p class="sub">✨ ${esc(r.effectText)}</p>`}
+    ${welcome}
+    ${isEzgi && !welcome ? choiceInfo : ''}
     ${storyHtml(r.type === 'koylu' ? r.name : null, rel)}`);
 }
 
@@ -2362,6 +2678,32 @@ function targetOptions(kind, itemId = null) {
   return opts.length ? opts.join('') : null;
 }
 
+async function refreshMerchantQuote(id) {
+  const button = document.querySelector(`[data-mbuy="${id}"]`);
+  if (!button || button.dataset.locked === '1') return;
+  const sel = document.querySelector(`[data-target-for="${id}"]`);
+  try {
+    const pack = await window.bee.act('merchantQuote', id, sel ? sel.value : null);
+    const price = pack && pack.res && pack.res.ok ? pack.res.price : null;
+    if (price == null) {
+      button.textContent = 'Uygun hedef yok';
+      button.disabled = true;
+      return;
+    }
+    button.textContent = `Satın al · ${price} 🪙`;
+    button.disabled = view.coins < price;
+  } catch (_) {
+    button.textContent = 'Fiyat alınamadı';
+    button.disabled = true;
+  }
+}
+
+function refreshMerchantQuotes() {
+  document.querySelectorAll('[data-mbuy]').forEach((b) => {
+    if (b.dataset.locked !== '1') refreshMerchantQuote(b.dataset.mbuy);
+  });
+}
+
 function renderMerchant(force = false) {
   const M = view && view.merchant;
   $('merchant-chip').hidden = !M || !M.active;
@@ -2376,19 +2718,28 @@ function renderMerchant(force = false) {
   $('merchant-list').innerHTML = M.stock.map((it) => {
     const opts = it.target ? targetOptions(it.target, it.id) : '';
     const noTarget = it.target && !opts;
+    const locked = it.sold || full || noTarget;
+    const priceText = it.basePrice != null ? `Satın al · ${it.basePrice} 🪙` : 'Satın al · …';
+    const buttonText = it.sold ? 'Alındı' : full ? 'Limit doldu' : noTarget ? 'Uygun hedef yok' : priceText;
     return `<li class="mitem${it.sold ? ' sold' : ''}">
       <span class="ic">${it.icon}</span>
       <span class="info"><b>${esc(it.name)}</b><small>${esc(it.desc)}</small>
         ${it.contents && it.contents.length ? `<small>İçerik: ${it.contents.map(esc).join(' · ')}</small>` : ''}${it.target && !it.sold && opts ? `<select data-target-for="${it.id}">${opts}</select>` : ''}
         ${noTarget && !it.sold ? '<small>Şu an uygun bir hedef yok.</small>' : ''}</span>
-      <button type="button" data-mbuy="${it.id}" ${it.sold || full || noTarget ? 'disabled' : ''}>${it.sold ? 'Alındı' : it.basePrice != null && !['kralice', 'dortMevsim', 'suru'].includes(it.id) ? `${it.basePrice} 🪙` : 'Satın al'}</button>
+      <button type="button" data-mbuy="${it.id}" data-locked="${locked ? '1' : '0'}" ${locked ? 'disabled' : ''}>${buttonText}</button>
     </li>`;
   }).join('');
+  queueMicrotask(refreshMerchantQuotes);
   const have = view.storage[M.wants] || 0;
   const f = view.flowers[M.wants];
-  $('merchant-buy').innerHTML = `🍯 Seyyah Yakup <b>${esc(f.name)} balı</b> arıyor: kilosuna <b>${M.wantsPrice} 🪙</b> (pazarın %40 üstü). Kalan: ${M.wantsLeft} kg · Depoda: ${have.toFixed(1)} kg
+  const ticket = M.salesTicketKg > 0 ? ` · 💎 Satış Fişi aktif: kalan ${M.salesTicketKg.toFixed(1)} kg’a +%10` : '';
+  $('merchant-buy').innerHTML = `🍯 Seyyah Yakup <b>${esc(f.name)} balı</b> arıyor: kilosuna <b>${M.wantsPrice} 🪙</b> (pazarın %40 üstü). Kalan: ${M.wantsLeft} kg · Depoda: ${have.toFixed(1)} kg${ticket}
     <div class="fest-row"><button type="button" data-msell="1" ${have < 1 || M.wantsLeft < 1 ? 'disabled' : ''}>1 kg sat</button><button type="button" data-msell="all" ${have < 0.05 || M.wantsLeft < 0.05 ? 'disabled' : ''}>Hepsini sat</button></div>`;
 }
+$('merchant-list').addEventListener('change', (e) => {
+  const sel = e.target.closest('[data-target-for]');
+  if (sel) refreshMerchantQuote(sel.dataset.targetFor);
+});
 $('merchant-list').addEventListener('click', (e) => {
   const b = e.target.closest('[data-mbuy]');
   if (!b || b.disabled) return;
@@ -2434,6 +2785,10 @@ function syncSettings() {
   if (!s) return;
   soundOn = s.sfx;
   ambientOn = s.ambient;
+  notificationSoundOn = s.notificationSound !== false;
+  audioPrefs = s.audio || {};
+  updateSoundBtn();
+  updateAmbientBtn();
   applyGraphics(s.graphics);
   applyNight();
 }
@@ -2442,12 +2797,19 @@ function syncSettings() {
 // Oyun içi Ayarlar
 // ---------------------------------------------------------------------------
 const NOTIFY_LABELS = { full: 'Kovan doldu', due: 'Sipariş süresi azaldı', sick: 'Kovan hastalandı', winter: 'Kış ve erzak', rival: 'Rakip seni geçti', merchant: 'Satıcı geldi', letter: 'Mektup geldi' };
+const AUDIO_GROUPS = [
+  ['Oyun efektleri', [['coin', 'Jeton / satış'], ['harvest', 'Hasat'], ['place', 'Yerleştirme'], ['plant', 'Ekim'], ['paper', 'Mektup / kâğıt'], ['success', 'Başarı'], ['error', 'Hata']]],
+  ['Ortam', [['birds', 'Kuşlar'], ['bees', 'Arılar'], ['rain', 'Yağmur'], ['wind', 'Rüzgâr'], ['crickets', 'Cırcır böcekleri']]],
+  ['Bildirimler', [['notifyOrders', 'Siparişler'], ['notifyHive', 'Kovan uyarıları'], ['notifyMerchant', 'Seyyah Yakup'], ['notifySpecial', 'Festival ve özel olaylar']]]
+];
 function renderSettings() {
   const s = view.gameSettings;
   for (const b of document.querySelectorAll('#gs-graphics button')) b.classList.toggle('on', b.dataset.g === s.graphics);
   $('gs-night').checked = s.night;
   $('gs-sfx').checked = s.sfx;
   $('gs-ambient').checked = s.ambient;
+  $('gs-notification-sound').checked = s.notificationSound !== false;
+  $('gs-audio').innerHTML = AUDIO_GROUPS.map(([title, items]) => `<div class="gs-audio-group"><b>${title}</b><div class="gs-audio-grid">${items.map(([k, label]) => `<label><input type="checkbox" data-audio="${k}" ${!s.audio || s.audio[k] !== false ? 'checked' : ''}> ${label}</label>`).join('')}</div></div>`).join('');
   $('gs-notify').innerHTML = Object.entries(NOTIFY_LABELS).map(([k, label]) => `<label><input type="checkbox" data-notify="${k}" ${s.notify[k] ? 'checked' : ''}> ${label}</label>`).join('');
 }
 $('open-settings').addEventListener('click', () => { renderSettings(); $('settings-modal').hidden = false; });
@@ -2458,6 +2820,8 @@ $('gs-graphics').addEventListener('click', (e) => { const b = e.target.closest('
 $('gs-night').addEventListener('change', (e) => setSetting('night', e.target.checked));
 $('gs-sfx').addEventListener('change', (e) => setSetting('sfx', e.target.checked));
 $('gs-ambient').addEventListener('change', (e) => setSetting('ambient', e.target.checked));
+$('gs-notification-sound').addEventListener('change', (e) => setSetting('notificationSound', e.target.checked));
+$('gs-audio').addEventListener('change', (e) => { const k = e.target.dataset.audio; if (k) setSetting(`audio.${k}`, e.target.checked); });
 $('gs-notify').addEventListener('change', (e) => { const k = e.target.dataset.notify; if (k) setSetting(`notify.${k}`, e.target.checked); });
 $('gs-export').addEventListener('click', () => window.bee.exportSave());
 $('gs-import').addEventListener('click', () => window.bee.importSave());
@@ -2474,6 +2838,7 @@ function costOf(action, a, b) {
     case 'upgrade': return h && h.next ? h.next.cost : 0;
     case 'placeHive': return view.hiveCost;
     case 'buyTile': return view.tilePrice;
+    case 'buySeed': return (view.flowers[a] || {}).seed || 0;
     case 'plantSeed': return view.vouchers[b] > 0 ? 0 : (view.flowers[b] || {}).seed || 0;
     case 'upgradeStorage': return view.nextStorage ? view.nextStorage.cost : 0;
     case 'changeBreed': return view.breedChangeCost;
@@ -2538,7 +2903,7 @@ function renderHives() {
   const hives = Object.values(view.hives);
   $('hives-list').innerHTML = hives.map((h) => {
     const pct = Math.min(100, (h.total / h.capKg) * 100);
-    const tags = [h.sick ? '🤒 hasta' : '', h.immuneDays > 0 && !h.sick ? `🛡️ ${h.immuneDays}g` : '', h.syrup > 0 ? `💧 ${h.syrup.toFixed(0)} kg` : '💧 yok', h.queued ? '🧺 yolda' : ''].filter(Boolean).join(' · ');
+    const tags = [h.sick ? '🤒 hasta' : '', h.immuneDays > 0 && !h.sick ? `🛡️ ${h.immuneDays}g` : '', `🌾 ${h.feedDays} gün`, h.boostDays > 0 ? `🍯 +%50 · ${h.boostDays}g` : '', h.queued ? '🧺 yolda' : ''].filter(Boolean).join(' · ');
     return `<li class="hrow" data-hive="${h.id}"><span><b>${esc(h.name)}</b><br><small>${h.ratePerHour.toFixed(1)} kg/sa · 👑 ${esc(h.queenName)}</small></span>
       <span><div class="bar"><i style="width:${pct}%"></i></div><small>${h.total.toFixed(1)} / ${h.capKg} kg${pct >= 100 ? ' · Dolu!' : ''}</small></span>
       <span>🐝 ${h.bees}/${h.capBees}</span><span class="tags">${tags}</span></li>`;

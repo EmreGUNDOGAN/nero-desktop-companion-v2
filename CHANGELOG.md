@@ -2,6 +2,65 @@
 
 Her sürümde eklenenler, değişenler ve düzeltilenler burada. En yeni sürüm en üstte.
 
+
+## 5.5.3: Tohum envanteri ve arayüz iyileştirmeleri
+
+### Yeni
+- Sürüm değiştiğinde Arıcılık ilk açılışında bir kez görünen cozy **“Çiftlikte neler değişti?”** penceresi.
+- Rehber içinden tekrar açılabilen **📋 Sürüm Yenilikleri**.
+- Mağazadan alınan tohumlar için ortak **tohum envanteri**.
+
+### Değişti
+- **Yonca +%5**, **Papatya +%10** üretim bonusu sağlar.
+- Mağazadan alınan tohumlar anında yerleştirilmek yerine envantere eklenir; ekimde önce envanter kullanıldığı için ikinci kez ücret alınmaz.
+- Tohum mağazasında mevcut envanter adedi görünür.
+
+### Düzeltildi
+- Günlük görevler tamamlandığında görev panelinin eski görünüme dönmesi engellendi; kompakt ikon ve açılır panel düzeni korunur.
+
+### Korunanlar
+- 5.5.2 mekanikleri ve mevcut ses davranışı değişmez.
+- Genişletilmiş mektup sistemi bu patch'e dahil değildir.
+
+Ayrıntılar: `CHANGELOG-5.5.3.md`
+
+## 5.5.2: Arıcılık yaşam kalitesi ve denge
+
+### Yeni
+- Kovanlarda **🌾 Erzak: X gün** göstergesi ve aktif Ballı Şurup etkisi.
+- Sol altta, zilin yanında açılır **📋 günlük görev ikonu**.
+- Ayarlar → Ses altında tek tek seçilebilir **İleri Ses Ayarları**.
+- **50 kg toplam üretimde Çiçekçi Ezgi** açılışı, tek seferlik hoş geldin tohumu ve günlük **Ezgi'nin Seçimi**.
+
+### Değişti
+- Standart şurup **15 kg** verir; günlük temel tüketim kovan başına **1 kg**.
+- Eksik günlük erzak artık tamamen tüketilir ve kovan beslenmiş sayılmaz.
+- Seyyah Yakup ürün fiyatları satın alma düğmelerinde görünür; hedefe bağlı fiyatlar canlı güncellenir.
+- **Kışlık Şurup Fıçısı: 105 🪙 → 45 kg**.
+- Arıcılık son görülmeden **3 gerçek saat** sonra üretimle birlikte takvim ve bütün oyun simülasyonu tamamen durur; dönüşte geriye dönük ilerleme yapılmaz.
+- Oyun/ortam sesleri yalnız Arıcılık görünürken; bildirim sesleri ise oyun penceresi kapalıyken de Nero üzerinden çalışabilir.
+
+### Korunanlar
+- 5.5.1 ses paketi ile 5.5.0'ın **57 topic / 2.133 repliği** korunur.
+- Genişletilmiş mektup sistemi bu patch'e dahil değildir.
+
+Ayrıntılar: `CHANGELOG-5.5.2.md`
+
+## 5.5.1: Arıcılık ses entegrasyonu
+
+### Yeni
+- Arıcılık bölümüne **20 gerçek OGG ses kaydı** eklendi.
+- Coin, zil, başarı, yerleştirme, ekim, kâğıt, hasat ve hata olayları gerçek sample kullanıyor.
+- Kuş, arı, yağmur ve rüzgâr için kamera/hava/mevsim duyarlı yeni ambient motoru eklendi.
+- Arı uğultusu stereo konumlandırma ve kovan yakınlığına göre değişiyor.
+- Efekt ve ortam sesleri birbirinden bağımsız kapatılabiliyor.
+- Mevcut sentez sesleri sample yüklenemezse fallback olarak korunuyor.
+
+### Korunanlar
+- 5.5.0'ın **57 topic / 2.133 repliği** ve tüm arıcılık mekanikleri değişmeden devam ediyor.
+
+Ayrıntılar: `CHANGELOG-5.5.1.md`
+
 ## 5.5.0: Arıcılık dünyası genişliyor
 
 ### Yeni

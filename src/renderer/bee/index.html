@@ -51,12 +51,20 @@
   </header>
 
   <button class="merchant-chip" id="merchant-chip" type="button" hidden>🛒 <b>Seyyah Yakup köyde</b> <span id="merchant-left"></span></button>
-  <div class="notice" id="notice" hidden>Uzun süredir bakmadığın için üretim durmuştu. Tekrar başladı!</div>
+  <div class="notice" id="notice" hidden>Arıcılığa 3 saatten uzun bakmadığın için oyun tamamen durmuştu. Kaldığın yerden devam ediyor!</div>
 
   <!-- Alt bar -->
-  <!-- Günlük görevler -->
-  <section class="quests card" id="quests">
-    <button class="quests-head" id="quests-toggle" type="button"><span>📋 Bugünün görevleri</span><b id="quests-count"></b></button>
+  <!-- Günlük görevler: varsayılan olarak yalnız ikon görünür -->
+  <button class="task-bell" id="quests-icon" type="button" aria-label="Bugünün görevleri" title="Bugünün görevleri">📋</button>
+  <section class="quests card" id="quests" hidden>
+    <div class="quests-head">
+      <span class="quests-title">📋 Bugünün görevleri</span>
+      <button class="quests-close" id="quests-toggle" type="button" aria-label="Görevleri kapat">✕</button>
+    </div>
+    <div class="quests-summary">
+      <div class="quests-progress" aria-hidden="true"><i id="quests-progress-fill"></i></div>
+      <b id="quests-count">0 / 3 tamamlandı</b>
+    </div>
     <ul class="quest-list" id="quest-list"></ul>
   </section>
 
@@ -78,7 +86,7 @@
         <h2>🌱 Tohum seç</h2>
         <button class="round small" id="seed-close" type="button" aria-label="Kapat">✕</button>
       </div>
-      <p class="modal-sub">Her çiçek, kovanın o çiçekten ürettiği bala kendi yüzdesini ekler. Mevsimi dışında üretimi azalır.</p>
+      <p class="modal-sub">Her çiçek, kovanın o çiçekten ürettiği bala kendi yüzdesini ekler. Mevsimi dışında üretimi azalır. Envanterinde tohum varsa önce o kullanılır.</p>
       <ul class="seed-list" id="seed-list"></ul>
     </div>
   </div>
@@ -216,7 +224,7 @@
         <h2>🛒 Mağaza</h2>
         <button class="round small" id="shop-close" type="button" aria-label="Kapat">✕</button>
       </div>
-      <p class="modal-sub">Satın al, sonra adada yerleştirmek istediğin kareye tıkla. Bir karede ya kovan ya da çiçek olur.</p>
+      <p class="modal-sub">Tohum satın alımları envanterine eklenir; boş bir tarha ekerken önce envanterindeki tohum kullanılır. Kovan, arazi ve dekorları satın alırken yerleştireceğin kareyi seçersin.</p>
       <div class="shop-tabs" role="tablist">
         <button type="button" data-tab="seeds" class="on">🌱 Tohumlar</button>
         <button type="button" data-tab="hive">🐝 Kovan</button>
@@ -238,16 +246,17 @@
         <div class="guide-intro">
           <b>Bu oyun uzun vadeli ilerler.</b>
           <span>Kovan kur, yanına çiçek ek, balı hasat et; pazarda sat veya daha kârlı siparişlere yetiştir. Nero açıkken çiftliğin arka planda da yaşamaya devam eder.</span>
+          <button type="button" class="guide-release-btn" id="open-whats-new">📋 Sürüm Yenilikleri</button>
         </div>
 
         <details class="guide-topic" open>
           <summary>🚀 İlk 10 dakikada ne yapmalıyım?</summary>
           <ol>
-            <li>İlk kovanın yanındaki boş karelerden birine <b>yonca</b> ek. Kovan yalnızca komşu 6 karedeki çiçeklerden üretir.</li>
+            <li>İlk kovanın yanındaki boş karelerden birine <b>yonca</b> ek. Yonca artık <b>+%5</b> üretim bonusu verir; Papatya <b>+%10</b> verir. Kovan yalnızca komşu 6 karedeki çiçeklerden üretir.</li>
             <li>Kovan dolmaya başladığında kovana tıkla ve üretim hızını kontrol et.</li>
             <li><b>Hasat Et</b> ile arıcıyı gönder. Bal önce depoya gelir.</li>
             <li>Balı hemen Pazar'da satabilir ya da Siparişler'de daha yüksek ödeme bekleyebilirsin.</li>
-            <li>İlk yatırımlarda önce çiçek sayısını, sonra arı/kraliçe kapasitesini artırmak daha verimlidir.</li>
+            <li>Mağazadan aldığın tohumlar envantere girer; boş bir tarha ekerken önce envanter kullanılır ve ikinci kez ücret alınmaz. İlk yatırımlarda önce çiçek sayısını, sonra arı/kraliçe kapasitesini artırmak daha verimlidir.</li>
           </ol>
         </details>
 
@@ -450,6 +459,25 @@
     </div>
   </div>
 
+  <!-- Sürüm yenilikleri -->
+  <div class="modal-bg whats-new-bg" id="whats-new-modal" hidden>
+    <div class="modal card whats-new-card">
+      <div class="whats-new-decor" aria-hidden="true">✿　🐝　✿</div>
+      <div class="whats-new-head">
+        <div class="whats-new-mark" aria-hidden="true">🐝</div>
+        <div>
+          <small id="whats-new-version"></small>
+          <h2 id="whats-new-title">Çiftlikte neler değişti?</h2>
+          <p id="whats-new-intro"></p>
+        </div>
+      </div>
+      <div class="whats-new-list" id="whats-new-list"></div>
+      <div class="whats-new-foot">
+        <button type="button" class="act primary" id="whats-new-close">Çiftliğe Dön</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Oyun ayarları -->
   <div class="modal-bg" id="settings-modal" hidden>
     <div class="modal card gsettings-card">
@@ -462,8 +490,13 @@
       </section>
       <section class="gs-sec">
         <h3>🔊 Ses</h3>
-        <label class="gs-row"><span>Efekt sesleri</span><input type="checkbox" id="gs-sfx"></label>
-        <label class="gs-row"><span>Ortam sesleri<small>Kuşlar, arılar, cırcır böcekleri, yağmur</small></span><input type="checkbox" id="gs-ambient"></label>
+        <label class="gs-row"><span>Oyun sesleri<small>Hasat, jeton, ekim ve diğer oyun efektleri</small></span><input type="checkbox" id="gs-sfx"></label>
+        <label class="gs-row"><span>Ortam sesleri<small>Kuşlar, arılar, cırcır böcekleri, yağmur ve rüzgâr</small></span><input type="checkbox" id="gs-ambient"></label>
+        <label class="gs-row"><span>Bildirim sesleri<small>Arıcılık penceresi kapalıyken de önemli bildirimler duyulur</small></span><input type="checkbox" id="gs-notification-sound"></label>
+        <details class="gs-advanced" id="gs-advanced-audio">
+          <summary>İleri Ses Ayarları</summary>
+          <div class="gs-audio-groups" id="gs-audio"></div>
+        </details>
       </section>
       <section class="gs-sec">
         <h3>🔔 Masaüstündeki Nero haber versin</h3>
