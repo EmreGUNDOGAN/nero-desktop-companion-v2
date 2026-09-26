@@ -50,7 +50,7 @@ jobs:
 
           Remove-Item "update.patch.xz","update.patch" -Force
           Remove-Item ".release" -Recurse -Force
-          Remove-Item ".github/workflows/bootstrap-v6.0.0.yml" -Force
+
           git add -A
           git diff --cached --check 2>&1 | Write-Host
           $global:LASTEXITCODE = 0
@@ -143,7 +143,7 @@ jobs:
             $hash = (Get-FileHash $f -Algorithm SHA256).Hash.ToLowerInvariant()
             "$hash  $([IO.Path]::GetFileName($f))"
           }
-          Set-Content -Path "SHA256SUMS.txt" -Value $lines -Encoding ascii
+          Set-Content -Path "SHA256SUMS-6.0.0.txt" -Value $lines -Encoding ascii
 
       - name: Upload classic Nero 6.0.0 final bundle
         uses: actions/upload-artifact@v4
@@ -156,7 +156,7 @@ jobs:
             Nero-v6_0_0-source.zip
             OYUN-REHBERI.md
             CHANGELOG-6.0.0.md
-            SHA256SUMS.txt
+            SHA256SUMS-6.0.0.txt
           if-no-files-found: error
           retention-days: 30
 
