@@ -141,7 +141,7 @@ test('6.0.0 turnuva popupı şeffaf kategori kartlarını ve doğru ödülleri g
   assert.match(js, /250/);
   assert.match(js, /\+%20 üretim/);
   assert.match(css, /\.cup-category-grid/);
-  assert.match(css, /\.cup-prize-card/);
+  assert.match(css, /\.cup-reward-box/);
 });
 
 test('6.0.0 Festival Cilası yalnız Bal Kalitesine +20 olarak anlatılır', () => {
