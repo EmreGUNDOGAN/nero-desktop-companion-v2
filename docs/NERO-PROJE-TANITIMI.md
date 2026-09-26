@@ -283,3 +283,7 @@ süreleriyle gösterir; Odak Bonusu en üsttedir.
 - Exe'yi ben istediğimde çıkar; aradaki değişiklikleri biriktir.
 - Cevaplar kısa olsun; uzun tablo ve paragraflardan kaçın, gerekli olanı yaz.
 - Yeni özellik ya da kural değişince **oyuncu rehberini (docs/ARICILIK-REHBERI.md) ve oyun içi Rehber'i güncellemeyi unutma**.
+
+## 5.6.0 Arıcılık arayüzü
+
+`src/renderer/bee/ui-icons.js` çizilmiş simgeler, `ui-v2.css` yeni görünüm, `ui-v2.js` mevcut düğmelerin kimliklerini koruyan arayüz katmanıdır. Yeni simgeler bu sette tanımlanır. Rakiplerin günlük çiftlik durumu `src/main/bee.js` içinde kaydedilir; sürüm notlarının geçmişi `src/renderer/bee/release-notes.js` içindedir.

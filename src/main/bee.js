@@ -37,15 +37,23 @@ const ORDER_EVERY_MS = ORDER_EVERY_REAL_MS;
 const ORDER_MAX = 5;
 const ORDER_SWAP_COST = 19;
 const ORDER_PENALTY = 0.2;
-// Rakipler: her birinin kendi büyüme eğilimi (drift) ve oynaklığı (vol) var.
+// Rakiplerin satış, yatırım ve risk davranışı; aynı dünya koşullarını kullanırlar.
 const RIVALS = [
-  { id: 'ali', name: 'Temkinli Ali', style: 'Temkinli', drift: 0.015, vol: 0.02, luck: 0.03 },
-  { id: 'kaya', name: 'Riskçi Kaya', style: 'Riskçi', drift: 0.02, vol: 0.08, luck: 0.14 },
-  { id: 'nur', name: 'Dengeli Nur', style: 'Dengeli', drift: 0.018, vol: 0.04, luck: 0.07 }
+  { id: 'ali', name: 'Temkinli Ali', style: 'Temkinli' },
+  { id: 'kaya', name: 'Riskçi Kaya', style: 'Riskçi' },
+  { id: 'nur', name: 'Dengeli Nur', style: 'Dengeli' }
 ];
-const RIVAL_GOOD = ['büyük bir sipariş kaptı', 'yeni bir kovan kurdu', 'festivalde tüm balını sattı', 'yeni bir çayır satın aldı'];
-const RIVAL_BAD = ['kovanları hastalandı', 'depoda bal döküldü', 'kötü bir hasat geçirdi', 'arıları kaçtı'];
-const HISTORY_NW = 14;
+const RIVAL_STYLE = {
+  ali: { sellShare: .8, sellAt: 0, invest: .3, investAt: 400, flowerBuff: .08, syrupChance: 1, sick: .02 },
+  nur: { sellShare: .6, sellAt: 1, invest: .5, investAt: 300, flowerBuff: .18, syrupChance: .8, sick: .03 },
+  kaya: { sellShare: 1, sellAt: 1.15, invest: .8, investAt: 200, flowerBuff: .45, syrupChance: .5, sick: .06 }
+};
+// 32 bit tam sayı işlemleriyle kararlı, rakip/gün bazlı rastgelelik.
+function rivalRandom(day, id) {
+  let n = (Math.imul(day + 1, 374761393) ^ Math.imul(id.charCodeAt(0), 668265263)) >>> 0;
+  return () => { n ^= n << 13; n ^= n >>> 17; n ^= n << 5; return (n >>> 0) / 4294967296; };
+}
+const HISTORY_NW = 60;                  // net değer geçmişi (istatistik ekranı 7/14/tümü)
 
 // Hava durumu: her gün mevsime göre seçilir, üretimi etkiler
 const WEATHER = {
@@ -73,7 +81,7 @@ const QUEST_TYPES = [
 ];
 const LABEL_DESIGNS = { klasik: 'Klasik', cicekli: 'Çiçekli', petek: 'Petek', sade: 'Sade' };
 const LABEL_BONUS = 0.05;          // etiketli kavanoz: müdavimler %5 fazla öder
-const HISTORY_KEEP = 20;
+const HISTORY_KEEP = 60;                // günlük istatistik geçmişi
 const SICK_CHANCE = 0.03;          // kış dışında, kovan başına günlük hastalanma ihtimali
 const SICK_MULT = 0.7;             // hasta kovan %30 daha az üretir
 const MEDICINE_COST = 90;
@@ -396,7 +404,8 @@ class BeeGame {
     const L0 = this.state.ledger;
     Object.assign(L0, { deliveredKgBy: {}, deliveredOrdersBy: {}, deliveredTo: {}, syrupGiven: 0, cured: 0, cleanWinters: 0, muhtarlikDone: 0, ...L0 });
     this.state.winterDeaths = this.state.winterDeaths || 0;
-    this.dayStart = { produced: this.state.counters.produced, earned: this.state.counters.earned };
+    this.state.counters.soldBy = this.state.counters.soldBy || {};   // bal türüne göre toplam satış (istatistik: "Ne sattın?")
+    this.dayStart = { produced: this.state.counters.produced, earned: this.state.counters.earned, soldBy: { ...this.state.counters.soldBy } };
     // Eski kayıtlarda mevsime uymayan hava kalmışsa (ör. kışın güneş) düzelt
     const season0 = this.calendar().season;
     if (!WEATHER_ODDS[season0].some(([w]) => w === this.state.weather)) this.rollWeather(season0, true);
@@ -410,6 +419,17 @@ class BeeGame {
       const base = this.netWorth();
       this.state.rivals = RIVALS.map((r, i) => ({ id: r.id, nw: Math.round(base * (0.85 + i * 0.12)), history: [], last: 0 }));
       this.state.nwHistory = [];
+    }
+    for (const r of this.state.rivals) {
+      const style = RIVAL_STYLE[r.id];
+      if (!style) continue;
+      if (!r.farm) {
+        // Önceki kayıtların sıralama değeri mümkün olduğunca korunur.
+        const hives = Math.max(1, Math.floor((r.nw || 0) / 1800));
+        const bees = 4;
+        r.farm = { coins: Math.max(0, (r.nw || 0) - hives * (HIVE_COST * .5 + bees * 5)),
+          hives, bees, honey: 0, syrupDays: 0, buff: style.flowerBuff };
+      }
     }
     this.lastTickAt = Date.now();
     this.save();
@@ -486,6 +506,14 @@ class BeeGame {
   winterFeedNeed(hive, day = this.dayIndex()) {
     const insulated = day >= (hive.insulationFromDay || Infinity) && day < (hive.insulationUntilDay || -Infinity);
     return insulated ? 0.5 : 1;
+  }
+
+  // Bal türüne göre satış sayacı (pazar + sipariş + satıcı)
+  countSold(f, kg) { const s = this.state.counters.soldBy; s[f] = (s[f] || 0) + kg; }
+  // Verilen andan bu yana bal türüne göre satılan kg
+  soldSince(base = {}) {
+    return Object.fromEntries(Object.entries(this.state.counters.soldBy || {})
+      .map(([f, kg]) => [f, Math.round((kg - (base[f] || 0)) * 10) / 10]).filter(([, kg]) => kg > 0));
   }
 
   feedDays(hive, day = this.dayIndex()) {
@@ -622,13 +650,14 @@ class BeeGame {
     this.state.history = [...(this.state.history || []), {
       day: dayIdx - 1,
       produced: Math.round((c.produced - this.dayStart.produced) * 10) / 10,
-      earned: Math.round(c.earned - this.dayStart.earned)
+      earned: Math.round(c.earned - this.dayStart.earned),
+      sold: this.soldSince(this.dayStart.soldBy)
     }].slice(-HISTORY_KEEP);
-    this.dayStart = { produced: c.produced, earned: c.earned };
+    this.dayStart = { produced: c.produced, earned: c.earned, soldBy: { ...c.soldBy } };
     this.rollMarket();
-    this.rollRivals();
     const season = SEASONS[Math.floor(dayIdx / DAYS_PER_SEASON) % 4];
     this.rollWeather(season);
+    this.rollRivals(dayIdx);
     if (dayIdx % (DAYS_PER_SEASON * 4) === 0 && dayIdx > 0) this.judgeFestival(Math.floor(dayIdx / (DAYS_PER_SEASON * 4)));
     for (const t of Object.values(this.state.tiles)) {
       if (t.item && t.item.type === 'flower' && !t.item.wilted && dayIdx - (t.item.plantedDay || 0) >= FLOWER_LIFE_DAYS + this.fx('flowerLife')) {
@@ -1191,6 +1220,7 @@ class BeeGame {
     this.state.coins += gain;
     this.state.counters.earned += gain;
     const L = this.ledgerHoney(f); L.soldKg += amount; L.earned += gain;
+    this.countSold(f, amount);
     this.questEvent('merchantSell', { kg: amount, flower: f, gain });
     this.save();
     return { ok: true, msg: `Seyyah Yakup ${amount.toFixed(1)} kg ${FLOWERS[f].name} balını aldı (+${gain} 🪙).` };
@@ -1935,6 +1965,7 @@ class BeeGame {
     this.state.counters.earned += gain;
     const L = this.ledgerHoney(f);
     L.soldKg += kg;
+    this.countSold(f, kg);
     L.earned += gain;
     const realizedUnit = gain / kg;
     if (!L.bestPrice || realizedUnit > L.bestPrice) L.bestPrice = Math.round(realizedUnit * 10) / 10;
@@ -2062,6 +2093,7 @@ class BeeGame {
     this.state.ledger.ordersDone += 1;
     const LD = this.state.ledger;
     LD.deliveredKgBy[ord.flower] = (LD.deliveredKgBy[ord.flower] || 0) + ord.kg;
+    this.countSold(ord.flower, ord.kg);
     LD.deliveredOrdersBy[ord.flower] = (LD.deliveredOrdersBy[ord.flower] || 0) + 1;
     LD.deliveredTo[ord.who] = (LD.deliveredTo[ord.who] || 0) + 1;
     if (ord.special === 'muhtarlik') LD.muhtarlikDone += 1;
@@ -2149,30 +2181,73 @@ class BeeGame {
     return Math.round(v);
   }
 
-  // Her gün: rakiplerin net değeri kendi tarzlarına göre değişir. Hep yukarı gitmez.
-  rollRivals() {
+  // Günlük rakip çiftlikleri: tekrar çağrı aynı günü iki kez üretmez.
+  rollRivals(day = this.dayIndex()) {
+    if (this.state.rivalsLastDay != null && day <= this.state.rivalsLastDay) return;
+    const season = SEASONS[Math.floor(day / DAYS_PER_SEASON) % 4];
+    const weather = WEATHER[this.state.weather] || WEATHER.bulutlu;
+    const price = this.price('yonca');
+    const marketMult = this.state.market.mult.yonca || 1;
     const me = this.netWorth();
     this.state.nwHistory = [...(this.state.nwHistory || []), me].slice(-HISTORY_NW);
     for (const r of this.state.rivals) {
-      const def = RIVALS.find((x) => x.id === r.id);
-      // oyuncudan çok uzaklaşırsa yavaşlar, çok geride kalırsa hızlanır (yarış hep canlı kalsın)
+      const st = RIVAL_STYLE[r.id];
+      if (!st || !r.farm) continue;
+      const f = r.farm;
+      const rnd = rivalRandom(day, r.id);
+      const notes = [];
+      // Çiçek erişimi ile hava/mevsim etkisi oyuncunun çarpanlarından gelir.
+      const winter = season === 'kis' ? (f.syrupDays > 0 ? WINTER_SYRUP_FACTOR : WINTER_FACTOR) : 1;
+      const seasonalFlower = season === 'kis' || season === 'sonbahar' ? OUT_OF_SEASON : 1;
+      const produced = Math.min(f.hives * 20, f.hives * f.bees * BASE_KG_PER_BEE_HOUR *
+        (1 + f.buff) * weather.mult * winter * seasonalFlower * 8 * (.9 + rnd() * .2));
+      f.honey += produced;
+      if (marketMult >= st.sellAt && f.honey > 0) {
+        const sold = f.honey * st.sellShare;
+        f.coins += sold * price;
+        f.honey -= sold;
+        if (st.sellAt > 1) notes.push({ good: true, text: 'yüksek fiyattan bal sattı' });
+      }
+      if (season === 'kis') {
+        if (f.syrupDays <= 0 && rnd() < st.syrupChance && f.coins >= SYRUP_COST * f.hives) {
+          f.coins -= SYRUP_COST * f.hives;
+          f.syrupDays = 6;
+          notes.push({ good: true, text: 'kış için şurup aldı' });
+        }
+        if (f.syrupDays > 0) f.syrupDays--;
+        else if (f.bees > 4) { f.bees--; notes.push({ good: false, text: 'şurupsuz kaldı, arı kaybetti' }); }
+      } else if (rnd() < st.sick && f.bees > 4) {
+        f.bees = Math.max(4, f.bees - 2);
+        notes.push({ good: false, text: 'kovanları hastalandı, arı kaybetti' });
+      }
       const gap = me > 0 ? r.nw / me : 1;
-      const rubber = gap > 1.6 ? -0.015 : gap < 0.6 ? 0.02 : 0;
-      const noise = (Math.random() + Math.random() + Math.random() - 1.5) * 2 * def.vol;
-      let change = def.drift + rubber + noise;
-      if (Math.random() < def.luck) {
-        const good = Math.random() < 0.55;
-        const size = 0.08 + Math.random() * (def.style === 'Riskçi' ? 0.2 : 0.08);
-        change += good ? size : -size;
-        const list = good ? RIVAL_GOOD : RIVAL_BAD;
-        const what = list[Math.floor(Math.random() * list.length)];
-        this.events.push({ msg: `${def.name}: ${what} (${good ? '+' : '-'}%${Math.round(size * 100)})`, err: !good });
+      const budget = f.coins * st.invest * (gap > 1.5 ? .5 : gap < .7 ? 1.3 : 1);
+      if (f.coins > st.investAt && season !== 'kis') {
+        if (f.bees < 20) {
+          const count = Math.min(20 - f.bees, Math.floor(budget / 40));
+          if (count > 0) { f.bees += count; f.coins -= count * 40; notes.push({ good: true, text: `${count} arı aldı` }); }
+        } else if (budget >= HIVE_COST && f.coins >= HIVE_COST) {
+          // Kovan başına ortalama arı sayısı; yeni kovan boşluktan değer üretmez.
+          f.bees = Math.max(4, Math.round((f.bees * f.hives) / (f.hives + 1)));
+          f.hives++;
+          f.coins -= HIVE_COST;
+          notes.push({ good: true, text: 'yeni bir kovan kurdu' });
+        }
       }
       const before = r.nw;
-      r.nw = Math.max(50, Math.round(r.nw * (1 + change)));
+      // Oyuncunun hiveValue mantığı: kurulum yatırımının yarısı + arı değeri.
+      r.nw = Math.max(50, Math.round(f.coins + f.honey * price +
+        f.hives * (HIVE_COST * .5 + f.bees * 5)));
       r.last = before ? (r.nw - before) / before : 0;
       r.history = [...(r.history || []), r.nw].slice(-HISTORY_NW);
+      r.reason = notes.length ? notes[notes.length - 1].text : (produced > 0 ? 'bal üretti' : 'sakin bir gün');
+      r.reasonGood = notes.length ? notes[notes.length - 1].good : true;
+      if (notes.length && Math.abs(r.last) >= .05) {
+        const def = RIVALS.find((x) => x.id === r.id);
+        this.events.push({ msg: `${def.name}: ${r.reason} (${r.last >= 0 ? '+' : '-'}%${Math.round(Math.abs(r.last) * 100)})`, err: !r.reasonGood });
+      }
     }
+    this.state.rivalsLastDay = day;
   }
 
   leaderboard() {
@@ -2184,7 +2259,7 @@ class BeeGame {
       { id: 'me', name: 'Sen', style: 'Oyuncu', nw: me, last: meLast, history: [...hist, me].slice(-HISTORY_NW), me: true },
       ...this.state.rivals.map((r) => {
         const def = RIVALS.find((x) => x.id === r.id);
-        return { id: r.id, name: def.name, style: def.style, nw: r.nw, last: r.last, history: r.history, me: false };
+        return { id: r.id, name: def.name, style: def.style, nw: r.nw, last: r.last, history: r.history, reason: r.reason || '', reasonGood: r.reasonGood !== false, hives: r.farm ? r.farm.hives : 0, me: false };
       })
     ];
     rows.sort((a, b) => b.nw - a.nw);
@@ -2594,7 +2669,8 @@ class BeeGame {
       history: this.state.history,
       today: {
         produced: Math.round((this.state.counters.produced - this.dayStart.produced) * 10) / 10,
-        earned: Math.round(this.state.counters.earned - this.dayStart.earned)
+        earned: Math.round(this.state.counters.earned - this.dayStart.earned),
+        sold: this.soldSince(this.dayStart.soldBy)
       },
       label: this.state.label,
       labelDesigns: LABEL_DESIGNS,

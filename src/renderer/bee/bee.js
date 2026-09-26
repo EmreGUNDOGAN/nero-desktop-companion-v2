@@ -2,6 +2,7 @@ import * as THREE from './vendor/three.module.min.js';
 import { buildOccupant, villageGround, VM, buildMerchantCart } from './village.js';
 import { pickBeeDialogue } from './bee-dialogues.js';
 import { RELEASE_NOTES } from './release-notes.js';
+import { initUiV2 } from './ui-v2.js';
 
 // ============================================================================
 // Nero · Arıcılık — 3D ada ve arayüz
@@ -133,7 +134,40 @@ function isBuyable(t) {
   });
 }
 
+// Sahip olunan arazinin çevresine bal sarısı bir sınır (ui-v2)
+let farmBorder = null;
+let farmBorderSig = '';
+function buildFarmBorder() {
+  const owned = Object.values(view.tiles).filter((t) => t.owned);
+  const sig = owned.map((t) => `${t.q},${t.r}`).join('|');
+  if (sig === farmBorderSig) return;
+  farmBorderSig = sig;
+  if (farmBorder) { scene.remove(farmBorder); farmBorder.traverse((o) => o.geometry && o.geometry.dispose()); }
+  farmBorder = new THREE.Group();
+  const mat = new THREE.MeshStandardMaterial({ color: 0xF2B33D, emissive: 0xE9A21E, emissiveIntensity: 0.35, roughness: 0.5 });
+  const centers = owned.map((t) => { const p = hexToWorld(t.q, t.r); return new THREE.Vector3(p.x, 0, p.z); });
+  owned.forEach((t, i) => {
+    const c = centers[i];
+    const y = topY(t) + 0.035;
+    const verts = [];
+    for (let k = 0; k < 6; k++) { const a = (k / 6) * Math.PI * 2; verts.push(new THREE.Vector3(c.x + Math.sin(a) * R * 0.985, y, c.z + Math.cos(a) * R * 0.985)); }
+    for (let k = 0; k < 6; k++) {
+      const v1 = verts[k];
+      const v2 = verts[(k + 1) % 6];
+      const mid = v1.clone().add(v2).multiplyScalar(0.5);
+      const across = c.clone().add(mid.clone().setY(0).sub(c).multiplyScalar(2));
+      if (centers.some((o) => Math.hypot(o.x - across.x, o.z - across.z) < 0.35)) continue; // komşu da bizimse sınır çizilmez
+      const bar = new THREE.Mesh(new THREE.BoxGeometry(0.07, 0.07, v1.distanceTo(v2) + 0.06), mat);
+      bar.position.copy(mid);
+      bar.lookAt(v2.x, y, v2.z);
+      farmBorder.add(bar);
+    }
+  });
+  scene.add(farmBorder);
+}
+
 function buildTiles() {
+  setTimeout(buildFarmBorder, 0);
   for (const [k, t] of Object.entries(view.tiles)) {
     let mesh = tileMeshes.get(k);
     if (!mesh) {
@@ -1112,25 +1146,10 @@ function barChart(values, color, unit) {
   return `<svg viewBox="0 0 600 104" preserveAspectRatio="none" aria-hidden="true">${bars}<line x1="0" y1="100.5" x2="600" y2="100.5" stroke="#E3D3A9"/></svg>`;
 }
 
+// İstatistik ekranı ui-v2.js'e taşındı (7/14/tümü, özet kartlar, birleşik grafik, net değer eğrisi, satış dökümü, kayıtlar)
 function renderStats(force = false) {
   if (!statsOpen || !view) return;
-  const sig = JSON.stringify([view.history, view.today, view.soldTotalKg]);
-  if (!force && sig === statsSig) return;
-  statsSig = sig;
-  const hist = (view.history || []).slice(-14);
-  const nw = (view.leaderboard.find((r) => r.me) || {}).nw || 0;
-  const rec = (label, val) => `<div class="rec"><small>${label}</small><b>${val}</b></div>`;
-  $('stats-body').innerHTML = `
-    <div class="sold-total"><small>🍯 Oyun boyunca satılan toplam bal (pazar + siparişler)</small>
-      <b>${(view.soldTotalKg / 1000).toLocaleString('tr-TR', { minimumFractionDigits: 3, maximumFractionDigits: 3 })} ton</b><span>${view.soldTotalKg.toLocaleString('tr-TR')} kg</span></div>
-    <div class="stat-today">
-      ${rec('Bugün üretilen', `${view.today.produced.toLocaleString('tr-TR')} kg`)}
-      ${rec('Bugün kazanılan', `${view.today.earned.toLocaleString('tr-TR')} 🪙`)}
-      ${rec('Net değer', `${nw.toLocaleString('tr-TR')} 🪙`)}
-    </div>
-    <div class="chart"><h3>🍯 Günlük bal üretimi (son ${hist.length || 0} oyun günü)</h3>${barChart(hist.map((d) => d.produced), '#F2B33D', 'kg')}</div>
-    <div class="chart"><h3>🪙 Günlük kazanç</h3>${barChart(hist.map((d) => d.earned), '#6FAF7F', 'jeton')}</div>
-    <div class="chart"><h3>🏆 Net değer (son 14 gün)</h3>${barChart((view.leaderboard.find((r) => r.me) || {}).history || [], '#9C7BD6', 'jeton')}</div>`;
+  ui.renderStats(view, force);
 }
 
 // ---------------------------------------------------------------------------
@@ -1254,28 +1273,53 @@ $('guide-close').addEventListener('click', () => { $('guide-modal').hidden = tru
 $('guide-modal').addEventListener('click', (e) => { if (e.target === $('guide-modal')) $('guide-modal').hidden = true; });
 
 const RELEASE_SEEN_KEY = 'neroBeeLastReleaseSeen';
-function showWhatsNew(markSeen = true) {
-  $('whats-new-version').textContent = RELEASE_NOTES.eyebrow;
-  $('whats-new-title').textContent = RELEASE_NOTES.title;
-  $('whats-new-intro').textContent = RELEASE_NOTES.intro;
-  $('whats-new-list').innerHTML = RELEASE_NOTES.items.map((item) =>
+let releaseQueue = [];
+let releaseManual = false;
+function versionParts(v) { return String(v).split('.').map((n) => Number(n)); }
+function compareVersions(a, b) {
+  const x = versionParts(a); const y = versionParts(b);
+  for (let i = 0; i < 3; i++) { if ((x[i] || 0) !== (y[i] || 0)) return (x[i] || 0) - (y[i] || 0); }
+  return 0;
+}
+function renderReleaseNote() {
+  const note = releaseQueue[0];
+  if (!note) { $('whats-new-modal').hidden = true; return; }
+  $('whats-new-version').textContent = `Nero Arıcılık · ${note.version}`;
+  $('whats-new-title').textContent = note.title;
+  $('whats-new-intro').textContent = releaseQueue.length > 1 ? `${releaseQueue.length} sürümün yenilikleri kaldı.` : 'Çiftlikte neler değişti?';
+  $('whats-new-list').innerHTML = note.items.map((item) =>
     `<article class="whats-new-item"><span class="ico">${esc(item.icon)}</span><div><b>${esc(item.title)}</b><p>${esc(item.text)}</p></div></article>`
   ).join('');
+  $('whats-new-close').textContent = releaseQueue.length > 1 ? 'Sonraki Sürüm' : 'Çiftliğe Dön';
   $('whats-new-modal').hidden = false;
-  if (markSeen) {
-    try { localStorage.setItem(RELEASE_SEEN_KEY, RELEASE_NOTES.version); } catch (_) { /* depolama kapalıysa sessiz geç */ }
-  }
 }
-function closeWhatsNew() { $('whats-new-modal').hidden = true; }
+function closeWhatsNew() { $('whats-new-modal').hidden = true; releaseQueue = []; }
 function maybeShowWhatsNew() {
   if (!view || !view.tutorialDone || !$('whats-new-modal').hidden) return;
   let seen = null;
-  try { seen = localStorage.getItem(RELEASE_SEEN_KEY); } catch (_) { /* sessiz geç */ }
-  if (seen !== RELEASE_NOTES.version) showWhatsNew(true);
+  try { seen = localStorage.getItem(RELEASE_SEEN_KEY); } catch (_) { /* depolama kapalıysa sonraki açılışta tekrar göster */ }
+  if (seen && !/^\d+\.\d+\.\d+$/.test(seen)) seen = null;
+  const current = RELEASE_NOTES[RELEASE_NOTES.length - 1];
+  if (seen === current.version) return;
+  // Eski kayıt bulunmuyorsa hangi ara sürümlerin görüldüğü bilinemez: günceli göster.
+  releaseQueue = RELEASE_NOTES.filter((note) => seen ? compareVersions(note.version, seen) > 0 : note.version === current.version);
+  releaseManual = false;
+  if (releaseQueue.length) renderReleaseNote();
 }
-$('whats-new-close').addEventListener('click', closeWhatsNew);
+$('whats-new-close').addEventListener('click', () => {
+  const done = releaseQueue.shift();
+  if (!releaseManual && done) {
+    try { localStorage.setItem(RELEASE_SEEN_KEY, done.version); } catch (_) { /* sessiz geç */ }
+  }
+  if (releaseQueue.length) renderReleaseNote(); else closeWhatsNew();
+});
 $('whats-new-modal').addEventListener('click', (e) => { if (e.target === $('whats-new-modal')) closeWhatsNew(); });
-$('open-whats-new').addEventListener('click', () => { $('guide-modal').hidden = true; showWhatsNew(false); });
+$('open-whats-new').addEventListener('click', () => {
+  $('guide-modal').hidden = true;
+  releaseQueue = [...RELEASE_NOTES];
+  releaseManual = true;
+  renderReleaseNote();
+});
 
 // ---------------------------------------------------------------------------
 // Sesler: gerçek OGG kayıtları + sentez fallback
@@ -1581,7 +1625,9 @@ function applySeason(season) {
   M.leaf.color.setHex(c.leaf);
   M.leafLight.color.setHex(c.leaf2);
   M.pine.color.setHex(c.pine);
-  document.body.className = `season-${season}`;
+  // Sadece mevsim sınıfını değiştir: className'i baştan yazmak ui2 ve night sınıflarını da siliyordu
+  document.body.classList.remove('season-ilkbahar', 'season-yaz', 'season-sonbahar', 'season-kis');
+  document.body.classList.add(`season-${season}`);
   weatherFx();
   if (!first) {
     sayTopic('season_changed');
@@ -1688,20 +1734,33 @@ $('board-modal').addEventListener('click', (e) => { if (e.target === $('board-mo
 
 function renderBoard(force = false) {
   if (!boardOpen || !view) return;
-  const rows = view.leaderboard;
-  const sig = JSON.stringify(rows.map((r) => [r.id, r.nw, r.rank]));
+  const rows = view.leaderboard || [];
+  const sig = JSON.stringify(rows.map((r) => [r.id, r.nw, r.rank, r.reason, r.last, r.history]));
   if (!force && sig === boardSig) return;
   boardSig = sig;
+  const me = rows.find((r) => r.me);
+  const ahead = me && rows[me.rank - 2];
+  const behind = me && rows[me.rank];
+  if (me) {
+    const gap = ahead ? Math.max(0, ahead.nw - me.nw) : 0;
+    const pct = ahead ? Math.max(0, Math.min(100, (me.nw / Math.max(1, ahead.nw)) * 100)) : 100;
+    $('board-goal').innerHTML = `<small>Senin sıran: ${me.rank}. ${ahead ? '' : '· lider'}</small>
+      <b>${ahead ? `${gap.toLocaleString('tr-TR')} 🪙 kaldı — ${esc(ahead.name)}’u geçebilirsin!` : `Liderdesin! ${behind ? `${(me.nw - behind.nw).toLocaleString('tr-TR')} 🪙 öndesin.` : ''}`}</b>
+      <div class="board-goal-track"><i style="width:${pct}%"></i></div>`;
+  }
   $('board-list').innerHTML = rows.map((r) => {
     const pct = Math.round(r.last * 1000) / 10;
     const cls = pct > 0 ? 'up' : pct < 0 ? 'down' : 'flat';
-    const txt = pct > 0 ? `+%${pct}` : pct < 0 ? `-%${Math.abs(pct)}` : '%0';
+    const txt = pct > 0 ? `▲ %${pct}` : pct < 0 ? `▼ %${Math.abs(pct)}` : '%0';
+    const difference = behind && r.id === behind.id ? `<small class="board-gap">senden ${(me.nw - r.nw).toLocaleString('tr-TR')} 🪙 geride</small>` : '';
+    const detail = r.me ? `Çiftliğin · ${Object.keys(view.hives || {}).length} kovan` : esc(r.style);
+    const reason = !r.me && r.reason ? `<span class="board-reason ${r.reasonGood === false ? 'bad' : 'good'}">${esc(r.reason)}</span>` : '';
     return `<li class="brow${r.me ? ' me' : ''}">
-      <span class="rk">${r.rank}</span>
+      <span class="rk rank-${r.rank}">${r.rank}</span>
       <span class="av">${BOARD_AV[r.id] || '🙂'}</span>
-      <span class="nm"><b>${esc(r.name)}</b><small>${esc(r.style)}</small></span>
+      <span class="nm"><b>${esc(r.name)}</b><small>${detail} ${reason}</small></span>
       ${sparkline(r.history)}
-      <span class="nw"><b>${r.nw.toLocaleString('tr-TR')} 🪙</b><small class="${cls}">${txt} dün</small></span>
+      <span class="nw"><b>${r.nw.toLocaleString('tr-TR')} 🪙</b><small class="${cls}">${txt} dün</small>${difference}</span>
     </li>`;
   }).join('');
 }
@@ -2149,6 +2208,7 @@ const SEASON_ICON = { ilkbahar: '🌸', yaz: '☀️', sonbahar: '🍂', kis: '�
 let noticeShown = false;
 
 function applyView(v) {
+  setTimeout(() => { if (view) ui.onView(view); }, 0);
   const prev = view;
   setTimeout(() => {
     if (!view) return;
@@ -2233,14 +2293,12 @@ function updateLabels() {
     if (!el) {
       el = document.createElement('div');
       el.className = 'hive-tag';
-      el.innerHTML = '<span></span><i><b></b></i>';
+      ui.ringInit(el); // yazılı etiket yerine bal doluluk halkası
       labelsEl.appendChild(el);
       tagEls.set(id, el);
     }
     const pct = Math.min(100, Math.round((h.total / h.capKg) * 100));
-    el.querySelector('span').textContent = `${h.sick ? '🤒 ' : ''}${pct >= 100 ? 'Dolu!' : `%${pct}`}`;
-    el.querySelector('b').style.width = `${pct}%`;
-    el.classList.toggle('full', pct >= 100);
+    ui.ringUpdate(el, h, pct);
     el.classList.toggle('sick', !!h.sick);
     const p = obj.pos.clone().add(new THREE.Vector3(0, 1.0, 0)).project(camera);
     el.style.left = `${(p.x + 1) / 2 * window.innerWidth}px`;
@@ -2899,23 +2957,21 @@ $('hive-next').addEventListener('click', () => cycleHive(1));
 // Kovanlar özeti ve toplu şurup
 // ---------------------------------------------------------------------------
 function openHives() { renderHives(); $('hives-modal').hidden = false; }
+// Kovanlar paneli ui-v2.js'e taşındı (durum rengi, önceliğe göre sıralama, satırdan işlem, çiçek noktaları, özet)
 function renderHives() {
-  const hives = Object.values(view.hives);
-  $('hives-list').innerHTML = hives.map((h) => {
-    const pct = Math.min(100, (h.total / h.capKg) * 100);
-    const tags = [h.sick ? '🤒 hasta' : '', h.immuneDays > 0 && !h.sick ? `🛡️ ${h.immuneDays}g` : '', `🌾 ${h.feedDays} gün`, h.boostDays > 0 ? `🍯 +%50 · ${h.boostDays}g` : '', h.queued ? '🧺 yolda' : ''].filter(Boolean).join(' · ');
-    return `<li class="hrow" data-hive="${h.id}"><span><b>${esc(h.name)}</b><br><small>${h.ratePerHour.toFixed(1)} kg/sa · 👑 ${esc(h.queenName)}</small></span>
-      <span><div class="bar"><i style="width:${pct}%"></i></div><small>${h.total.toFixed(1)} / ${h.capKg} kg${pct >= 100 ? ' · Dolu!' : ''}</small></span>
-      <span>🐝 ${h.bees}/${h.capBees}</span><span class="tags">${tags}</span></li>`;
-  }).join('');
-  const sa = $('syrup-all');
-  sa.textContent = `💧 Tüm kovanlara şurup ver · ${view.syrupAllCost} 🪙`;
-  sa.disabled = view.coins < view.syrupAllCost;
+  ui.renderHives(view);
 }
 $('open-hives').addEventListener('click', openHives);
 $('hives-close').addEventListener('click', () => { $('hives-modal').hidden = true; });
 $('hives-modal').addEventListener('click', (e) => { if (e.target === $('hives-modal')) $('hives-modal').hidden = true; });
-$('hives-list').addEventListener('click', (e) => { const r = e.target.closest('[data-hive]'); if (r) focusHive(r.dataset.hive); });
+$('hives-list').addEventListener('click', async (e) => {
+  // Satırdaki işlem düğmeleri kovanı açmadan iş yapar; satırın geri kalanı kovana götürür
+  const b = e.target.closest('[data-hact]');
+  if (b) { e.stopPropagation(); if (!b.disabled) { await doAct(b.dataset.hact, b.dataset.id); renderHives(); } return; }
+  const r = e.target.closest('[data-hive]');
+  if (r) focusHive(r.dataset.hive);
+});
+$('hives-harvest-all').addEventListener('click', async () => { await doAct('harvestAll'); renderHives(); });
 $('syrup-all').addEventListener('click', async () => {
   if (!window.confirm(`${Object.keys(view.hives).length} kovana şurup verilsin mi? Toplam ${view.syrupAllCost} 🪙`)) return;
   await doAct('syrupAll');
@@ -2984,6 +3040,9 @@ function loop() {
   renderer.render(scene, camera);
   requestAnimationFrame(loop);
 }
+
+// Arayüz v2: özel simgeler, tek parça üst çubuk, ☰ menü, yakınlaştırma grubu, kovan halkaları, istatistik ve kovanlar paneli
+const ui = initUiV2({ $, esc });
 
 (async function start() {
   placeCamera();

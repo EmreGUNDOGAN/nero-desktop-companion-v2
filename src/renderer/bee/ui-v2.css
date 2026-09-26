@@ -1,0 +1,194 @@
+/* ===========================================================================
+   Nero Arıcılık · Arayüz v2 (ui-v2.js ile birlikte)
+   Tek parça üst çubuk, özel simgeler, bulutlu arka plan, kovan halkaları,
+   yeni alt menü ve istatistik ekranı. Eski stillerin üstüne yazar.
+   =========================================================================== */
+.ico { display: inline-block; width: 24px; height: 24px; flex: none; }
+.ico svg { width: 100%; height: 100%; display: block; }
+
+/* --- Arka plan: bulutlar ve kenar gölgesi --- */
+body.ui2 { background: linear-gradient(180deg, #9FD3F0 0%, #CDEBF7 42%, #F7EBD3 100%); }
+body.ui2.season-yaz { background: linear-gradient(180deg, #8FCFF2 0%, #CFEFFB 45%, #FBF0D6 100%); }
+body.ui2.season-sonbahar { background: linear-gradient(180deg, #E9CFA8 0%, #F4E4CC 50%, #F3DFC0 100%); }
+body.ui2.season-kis { background: linear-gradient(180deg, #BFD0E3 0%, #E6EEF6 55%, #F4F6F9 100%); }
+#ui2-clouds { position: fixed; inset: 0; z-index: 0; pointer-events: none; transition: opacity 2s; }
+#ui2-clouds i { position: absolute; background: #fff; border-radius: 999px; opacity: .75; filter: blur(2px); animation: ui2-drift linear infinite; }
+@keyframes ui2-drift { from { transform: translateX(-40px); } to { transform: translateX(40px); } }
+body.night #ui2-clouds { opacity: .12; }
+#ui2-vignette { position: fixed; inset: 0; pointer-events: none; z-index: 2; background: radial-gradient(ellipse at 50% 55%, transparent 55%, rgba(74, 58, 34, .16) 100%); }
+body.ui2 #scene { position: relative; z-index: 1; }
+
+/* --- Kart görünümü --- */
+.ui2 .ui2-card, .ui2 .hud-left, .ui2 .season.card, .ui2 .hud-right .round, .ui2 .zoom-group, .ui2 .hud-bottom, .ui2 .bell, .ui2 .tasks-btn {
+  background: rgba(255, 251, 241, .94); border-radius: 18px; border: 0;
+  box-shadow: 0 6px 18px rgba(74, 58, 34, .16), inset 0 -3px 0 rgba(233, 208, 160, .6);
+}
+body.ui2.night .hud-left, body.ui2.night .season.card, body.ui2.night .hud-right .round, body.ui2.night .zoom-group,
+body.ui2.night .hud-bottom, body.ui2.night .bell, body.ui2.night .tasks-btn { background: rgba(236, 226, 205, .86); }
+
+/* --- Sol üst: jeton + depo tek kartta --- */
+.ui2 .hud-left { display: flex; align-items: center; gap: 12px; height: 58px; padding: 0 16px; flex-wrap: nowrap; }
+.ui2 .hud-left .chip { background: none; box-shadow: none; padding: 0; height: auto; gap: 8px; }
+.ui2 .hud-left .chip .ico { width: 26px; height: 26px; }
+.ui2 .hud-left .chip b { font-size: 20px; font-weight: 900; }
+.ui2 .hud-left .ui2-div { width: 1.5px; height: 30px; background: #EADCC0; }
+.ui2 #storage-chip { position: relative; padding-bottom: 6px; }
+.ui2 .ui2-jar { position: absolute; left: 34px; right: 0; bottom: -4px; height: 6px; border-radius: 3px; background: #EFE3C6; overflow: hidden; }
+.ui2 .ui2-jar i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, #F2B33D, #E9A21E); transition: width .6s; }
+.ui2 .ui2-jar.full i { background: #E9822E; }
+.ui2 #boost-chip { font-size: 13px; }
+.ui2-float { position: fixed; z-index: 30; font-weight: 900; font-size: 15px; pointer-events: none; text-shadow: 0 1px 0 #fff; animation: ui2-float 1.6s ease-out forwards; }
+.ui2-float.up { color: #3E8F52; } .ui2-float.down { color: #C9574C; }
+@keyframes ui2-float { from { transform: translateY(0); opacity: 1; } to { transform: translateY(-26px); opacity: 0; } }
+
+/* --- Orta: mevsim + hız --- */
+.ui2 .season.card { height: 58px; padding: 0 8px 0 14px; gap: 12px; }
+.ui2 .season-ico { width: 34px; height: 34px; background: none !important; font-size: 0; }
+.ui2 .season-ico .ico { width: 34px; height: 34px; }
+.ui2 .speeds { background: #F3E6C9; border-radius: 13px; padding: 4px; gap: 2px; }
+.ui2 .speeds button { border-radius: 10px; min-width: 40px; height: 34px; font-weight: 900; }
+.ui2 .speeds button.on { background: #F2B33D; color: #fff; box-shadow: inset 0 -3px 0 #D9961C; }
+.ui2 .speeds .ico { width: 18px; height: 18px; vertical-align: middle; }
+
+/* --- Sağ üst: 4 düğme + ☰ menü --- */
+.ui2 .hud-right { gap: 10px; }
+.ui2 .hud-right [hidden], .ui2 .hive-tag .ring-warn[hidden] { display: none !important; }
+.ui2 .hud-right .round { width: 52px !important; height: 52px !important; border-radius: 16px; display: grid; place-items: center; position: relative; }
+.ui2 .hud-right .round .ico { width: 28px; height: 28px; }
+.ui2 [data-tip]:hover::after { content: attr(data-tip); position: absolute; top: calc(100% + 8px); right: 0; white-space: nowrap; background: #4A3A22; color: #FFF6E0; font-weight: 800; font-size: 12.5px; padding: 6px 10px; border-radius: 10px; z-index: 40; pointer-events: none; }
+.ui2-menu { position: absolute; top: calc(100% + 8px); right: 0; z-index: 40; min-width: 210px; padding: 8px; display: flex; flex-direction: column; gap: 2px; }
+.ui2-menu[hidden] { display: none; }
+.ui2-menu button { display: flex !important; align-items: center; gap: 10px; width: 100% !important; height: 42px !important; border: 0; background: transparent !important; box-shadow: none !important; border-radius: 10px !important; padding: 0 10px; font-weight: 800; font-size: 13.5px; color: #4A3A22; text-align: left; }
+.ui2-menu button:hover { background: #F6ECD6 !important; }
+.ui2-menu button .ico { width: 22px; height: 22px; }
+.ui2-menu kbd { margin-left: auto; }
+
+/* --- Sağ alt: yakınlaştırma grubu --- */
+.ui2 .zoom-group { position: fixed; right: 22px; bottom: 170px; z-index: 6; display: flex; flex-direction: column; overflow: hidden; }
+.ui2 .zoom-group button { width: 46px !important; height: 44px !important; border: 0; background: transparent !important; box-shadow: none !important; border-radius: 0 !important; display: grid; place-items: center; }
+.ui2 .zoom-group button + button { border-top: 1.5px solid #EADCC0; }
+.ui2 .zoom-group .ico { width: 22px; height: 22px; }
+.ui2 #recenter { position: fixed; left: 148px; bottom: 14px; z-index: 9; width: 58px; height: 58px; border-radius: 16px; display: grid; place-items: center; background: rgba(255, 251, 241, .94); box-shadow: 0 6px 18px rgba(74, 58, 34, .16); }
+.ui2 #recenter .ico { width: 29px; height: 29px; }
+
+/* --- Alt menü --- */
+.ui2 .hud-bottom { bottom: 16px; padding: 10px 14px; border-radius: 26px; gap: 10px; align-items: flex-end; }
+.ui2 .hexbtn { clip-path: none !important; width: 86px !important; height: 78px !important; border-radius: 18px; background: transparent !important; box-shadow: none !important; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; font-weight: 800; font-size: 12.5px; color: #4A3A22; }
+.ui2 .hexbtn:hover { background: #F6ECD6 !important; }
+.ui2 .hexbtn > .ico { width: 32px; height: 32px; }
+.ui2 .hexbtn.big { width: 124px !important; height: 96px !important; margin-top: -24px; background: linear-gradient(180deg, #F7C45C, #EAA42A) !important; color: #4A2F10; box-shadow: 0 6px 16px rgba(233, 162, 42, .45), inset 0 -4px 0 #C98612 !important; font-size: 13.5px; }
+.ui2 .hexbtn.big > .ico { width: 40px; height: 40px; }
+.ui2 .hexbtn.big { clip-path: polygon(25% 3%, 75% 3%, 100% 50%, 75% 97%, 25% 97%, 0 50%) !important; border-radius: 0; outline: 2px solid #fff; }
+.ui2 .hexbtn.big.idle { filter: saturate(.55) brightness(1.04); opacity: .8; }
+.ui2 .hexbtn:active, .ui2 .round:active { transform: translateY(1px) scale(.98); }
+.ui2 .badge-n { top: -6px !important; right: -4px !important; }
+.ui2 .badge-n.ok { background: #3E8F52; }
+
+/* --- Sol alt: zil + görevler --- */
+.ui2 .bell { width: 56px; height: 56px; border-radius: 16px; font-size: 0; display: grid; place-items: center; }
+.ui2 .bell .ico { width: 30px; height: 30px; }
+.ui2 .tasks-btn, .ui2 .task-bell { position: fixed; left: 84px; bottom: 16px; z-index: 9; width: 56px; height: 56px; border-radius: 16px; display: grid; place-items: center; border: 0; font-size: 0; }
+.ui2 .tasks-btn .ico { width: 30px; height: 30px; }
+.ui2 .toasts { bottom: 86px; }
+
+/* Liderlik: oyuncunun hedefi ve rakiplerin gerçek günlük geçmişi. */
+.ui2 .board-card { width: min(690px, 92vw); background: #FFF8EA; }
+.ui2 .board-goal { background: linear-gradient(105deg, #FFE8AC, #F8CD6C); border-radius: 20px; padding: 14px 20px; margin: 12px 0; }
+.ui2 .board-goal small { display: block; font-weight: 800; color: #72572E; }
+.ui2 .board-goal b { display: block; font-size: 17px; margin: 5px 0 10px; }
+.ui2 .board-goal-track { height: 9px; border-radius: 10px; background: #FFF2D0; overflow: hidden; }
+.ui2 .board-goal-track i { display: block; height: 100%; border-radius: inherit; background: #E9822E; }
+.ui2 .board-list { display: grid; gap: 9px; }
+.ui2 .brow { grid-template-columns: 40px 44px minmax(100px, 1fr) 88px 120px; min-height: 72px; box-shadow: none; }
+.ui2 .brow.me { background: #FFF4D6; box-shadow: 0 0 0 2px #F2B33D inset; }
+.ui2 .brow .rk { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: #EDE1C3; color: white; font: 900 17px/1 Georgia, serif; }
+.ui2 .brow .rank-1 { background: #E9B93A; } .ui2 .brow .rank-2 { background: #B9BEC6; } .ui2 .brow .rank-3 { background: #C98A4E; }
+.ui2 .brow .av { clip-path: none; border-radius: 12px; }
+.ui2 .board-reason { display: inline-block; border-radius: 20px; padding: 2px 7px; margin-left: 4px; background: #DDF0D8; color: #557050; font-size: 10px; }
+.ui2 .board-reason.bad { background: #FBE2DE; color: #AE5A52; }
+.ui2 .board-gap { color: #987956; font-weight: 700 !important; }
+.ui2 .board-explain { margin: 12px 2px 0; font-size: 11px; }
+
+/* --- Kovan doluluk halkası --- */
+.ui2 .hive-tag { width: 46px; height: 46px; padding: 0 !important; background: none !important; box-shadow: none !important; border-radius: 50%; }
+.ui2 .hive-tag .ring-bg { position: absolute; inset: 0; border-radius: 50%; background: rgba(255, 251, 241, .95); box-shadow: 0 3px 8px rgba(74, 58, 34, .22); }
+.ui2 .hive-tag svg.ring { position: absolute; inset: 0; width: 46px; height: 46px; }
+.ui2 .hive-tag .ring-ico { position: absolute; inset: 11px; }
+.ui2 .hive-tag .ring-warn { position: absolute; right: -9px; top: -6px; width: 22px; height: 22px; border-radius: 50%; background: #FFF6E0; display: grid; place-items: center; font-size: 12px; box-shadow: 0 2px 5px rgba(0, 0, 0, .15); }
+.ui2 .hive-tag.full { filter: drop-shadow(0 0 8px rgba(233, 130, 46, .7)); animation: ui2-bob 1.4s ease-in-out infinite; }
+@keyframes ui2-bob { 50% { margin-top: -4px; } }
+
+/* --- İstatistikler --- */
+.ui2 .stats-card { width: min(760px, 95vw); }
+.st2-tabs { display: flex; background: #F3E6C9; border-radius: 12px; padding: 3px; gap: 2px; width: max-content; margin-bottom: 12px; }
+.st2-tabs button { border: 0; background: transparent; padding: 6px 12px; border-radius: 9px; font-weight: 800; font-size: 12.5px; color: #7A6444; }
+.st2-tabs button.on { background: #fff; color: #4A3A22; box-shadow: 0 1px 3px rgba(0, 0, 0, .08); }
+.st2-kpis { display: grid; grid-template-columns: 1.3fr 1fr 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+.st2-k { background: #fff; border-radius: 16px; padding: 12px 14px; position: relative; }
+.st2-k small { display: block; font-weight: 800; font-size: 11.5px; color: #9A8466; }
+.st2-k b { display: block; font-size: 22px; font-weight: 900; margin-top: 2px; }
+.st2-k em { font-style: normal; font-weight: 800; font-size: 11.5px; color: #9A8466; }
+.st2-k em.up { color: #3E8F52; } .st2-k em.dn { color: #C9574C; }
+.st2-k.hero { background: linear-gradient(135deg, #FFE7A8, #F7C55A); }
+.st2-k.hero small, .st2-k.hero em { color: #7A5A1A; }
+.st2-k .ico { position: absolute; right: 10px; top: 10px; width: 22px; height: 22px; }
+.st2-card { background: #fff; border-radius: 18px; padding: 14px 16px; margin-bottom: 10px; position: relative; }
+.st2-ct { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+.st2-ct b { font-size: 14px; }
+.st2-lg { display: flex; gap: 12px; font-weight: 800; font-size: 11.5px; color: #7A6444; }
+.st2-lg i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 4px; vertical-align: -1px; }
+.st2-card svg { width: 100%; display: block; overflow: visible; }
+.st2-card svg text { font-family: Nunito, sans-serif; font-weight: 800; fill: #A8957A; font-size: 10.5px; }
+.st2-card svg .hit { fill: transparent; cursor: pointer; }
+.st2-row { display: grid; grid-template-columns: 1.25fr 1fr; gap: 10px; }
+.st2-bar { display: flex; align-items: center; gap: 8px; margin: 7px 0; font-weight: 800; font-size: 12.5px; }
+.st2-bar span:first-child { width: 70px; }
+.st2-bar .tr { flex: 1; height: 10px; background: #F3EBDA; border-radius: 5px; overflow: hidden; }
+.st2-bar .tr i { display: block; height: 100%; border-radius: 5px; }
+.st2-bar .v { width: 70px; text-align: right; color: #7A6444; }
+.st2-rec { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.st2-rc { background: #FBF3E2; border-radius: 12px; padding: 9px 11px; }
+.st2-rc small { display: block; font-weight: 800; font-size: 11px; color: #9A8466; }
+.st2-rc b { font-size: 14.5px; }
+.st2-tip { position: absolute; z-index: 5; pointer-events: none; background: #4A3A22; color: #FFF6E0; border-radius: 9px; padding: 6px 9px; font-weight: 800; font-size: 11.5px; line-height: 1.35; white-space: nowrap; }
+.st2-empty { color: #9A8466; font-weight: 700; font-size: 13px; padding: 26px 0; text-align: center; }
+
+/* --- Kovanlar paneli --- */
+.ui2 .hives-card { width: min(1000px, 96vw) !important; max-width: 96vw !important; }
+.hives-summary { background: #FBF3E2; border-radius: 12px; padding: 9px 12px; font-weight: 700; font-size: 13px; margin: 0 0 10px; }
+.hives-summary .hs-ready { color: #C7701F; font-weight: 800; }
+.hives-summary .hs-bad { color: #C9574C; font-weight: 800; }
+.hives-list { gap: 8px !important; }
+.hrow2 { display: grid; grid-template-columns: 6px 190px minmax(140px, 1fr) 64px 150px 290px; align-items: center; gap: 12px; background: #fff; border-radius: 14px; padding: 10px 12px 10px 0; cursor: pointer; overflow: hidden; }
+.hrow2:hover { box-shadow: 0 0 0 2px #F2B33D inset; }
+.hrow2 .hs { align-self: stretch; margin: -10px 0; border-radius: 0 4px 4px 0; }
+.hrow2 .hn b { font-size: 14.5px; display: block; }
+.hrow2 .hn small { display: block; color: #9A8466; font-weight: 700; font-size: 11.5px; margin-top: 1px; }
+.hrow2 .dots { display: flex; gap: 3px; margin-top: 5px; }
+.hrow2 .dots i { width: 9px; height: 9px; border-radius: 50%; border: 1px solid rgba(74, 58, 34, .25); }
+.hrow2 .dots i.empty { background: transparent; border-style: dashed; }
+.hrow2 .hf .bar { height: 8px; border-radius: 4px; background: #EFE3C6; overflow: hidden; }
+.hrow2 .hf .bar i { display: block; height: 100%; }
+.hrow2 .hf small { display: block; font-weight: 700; font-size: 11.5px; color: #7A6444; margin-top: 4px; }
+.hrow2 .hb { display: flex; align-items: center; gap: 5px; font-size: 13px; }
+.hrow2 .hb .ico { width: 20px; height: 20px; }
+.hrow2 .htags { display: flex; flex-wrap: wrap; gap: 4px; }
+.ht { border-radius: 999px; padding: 3px 8px; font-weight: 800; font-size: 11px; background: #F3EBDA; color: #7A6444; white-space: nowrap; }
+.ht.ok { background: #DDF0D8; color: #2F6E3E; }
+.ht.warn { background: #FFF1CC; color: #9A6A12; }
+.ht.bad { background: #FBE2DE; color: #9E3D33; }
+.ht.gold { background: #FFE7A8; color: #7A5A1A; }
+.hrow2 .hacts { display: flex; align-items: center; gap: 5px; justify-content: flex-end; }
+.ha { border: 0; border-radius: 9px; padding: 6px 9px; font-weight: 800; font-size: 12px; background: #F3E6C9; color: #4A3A22; display: flex; align-items: center; gap: 4px; white-space: nowrap; }
+.ha .ico { width: 16px; height: 16px; }
+.ha.primary { background: #F2B33D; color: #fff; box-shadow: 0 2px 0 #D9961C; }
+.ha.danger { background: #D9573F; color: #fff; box-shadow: 0 2px 0 #A83E2B; }
+.ha.up { background: #E6F0DD; color: #2F6E3E; }
+.ha:disabled { opacity: .45; }
+.hrow2 .hopen { color: #B5A385; font-weight: 800; font-size: 12px; opacity: 0; transition: opacity .15s; }
+.hrow2:hover .hopen { opacity: 1; }
+.hives-actions { display: flex; gap: 8px; margin-top: 12px; }
+.hives-actions .act { flex: 1; margin: 0; display: flex; align-items: center; justify-content: center; gap: 6px; }
+.hives-actions .act .ico { width: 20px; height: 20px; }
+#syrup-all.primary { background: #F2B33D !important; color: #fff !important; box-shadow: 0 3px 0 #D9961C !important; }
+#syrup-all.subtle { background: #F3E6C9 !important; color: #7A6444 !important; box-shadow: none !important; flex: 0 0 auto; padding: 0 14px; }

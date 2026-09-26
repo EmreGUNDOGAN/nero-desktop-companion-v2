@@ -7,6 +7,7 @@
   <title>Nero · Arıcılık</title>
   <link rel="stylesheet" href="../fonts/fonts.css">
   <link rel="stylesheet" href="bee.css">
+  <link rel="stylesheet" href="ui-v2.css">
 </head>
 <body>
   <div class="sky-layer sky-dusk" id="sky-dusk"></div>
@@ -71,7 +72,7 @@
   <nav class="hud-bottom">
     <button class="hexbtn" type="button" id="open-shop"><span>🛒</span>Mağaza</button>
     <button class="hexbtn" type="button" id="open-market"><span>🍯</span>Pazar</button>
-    <button class="hexbtn big" type="button" id="harvest-all"><span>🧺</span>Hepsini Hasat Et</button>
+    <button class="hexbtn big" type="button" id="harvest-all"><span>🧺</span>Hasat Et</button>
     <button class="hexbtn" type="button" id="open-orders"><span>📜</span>Siparişler<em class="badge-n" id="orders-badge" hidden>0</em></button>
     <button class="hexbtn" type="button" id="open-guide"><span>📖</span>Rehber</button>
   </nav>
@@ -206,8 +207,9 @@
         <h2>🏆 Liderlik</h2>
         <button class="round small" id="board-close" type="button" aria-label="Kapat">✕</button>
       </div>
-      <p class="modal-sub">Sıralama net değere göre: jeton + depodaki balın piyasa değeri + kovanların ve arıların değeri. Rakipler her gün kazanıp kaybedebilir.</p>
+      <div class="board-goal" id="board-goal"></div>
       <ul class="board-list" id="board-list"></ul>
+      <p class="modal-sub board-explain">Net değer = jeton + depodaki balın piyasa değeri + kovanlar, arılar ve diğer çiftlik varlıkları. Rakipler her gün kazanıp kaybedebilir.</p>
     </div>
   </div>
 
@@ -385,7 +387,6 @@
       <ellipse cx="86" cy="108" rx="21" ry="25" fill="#FFFBF4" stroke="#4A3A36" stroke-width="5"/>
       <ellipse cx="134" cy="108" rx="21" ry="25" fill="#FFFBF4" stroke="#4A3A36" stroke-width="5"/>
       <circle class="pupil" cx="84" cy="112" r="8" fill="#4A3A36"/><circle class="pupil" cx="132" cy="112" r="8" fill="#4A3A36"/>
-      <path class="lid" d="M66 97 Q86 90 106 97 L106 86 Q86 80 66 86Z M114 97 Q134 90 154 97 L154 86 Q134 80 114 86Z" fill="#A0B595"/>
       <path d="M68 72 Q86 68 104 72M116 72 Q134 68 152 72" fill="none" stroke="#4A3A36" stroke-width="7" stroke-linecap="round"/>
       <path class="mouth" d="M92 170 Q110 164 128 170" fill="none" stroke="#4A3A36" stroke-width="6" stroke-linecap="round"/>
     </svg>
@@ -519,9 +520,13 @@
   <div class="modal-bg" id="hives-modal" hidden>
     <div class="modal card hives-card">
       <div class="modal-head"><h2>🐝 Kovanlar</h2><button class="round small" id="hives-close" type="button" aria-label="Kapat">✕</button></div>
-      <p class="modal-sub">Bir kovana tıklayınca kamera oraya gider ve kovan açılır.</p>
+      <p class="hives-summary" id="hives-summary"></p>
       <ul class="hives-list" id="hives-list"></ul>
-      <button type="button" class="act primary" id="syrup-all"></button>
+      <div class="hives-actions">
+        <button type="button" class="act primary" id="hives-harvest-all">Hepsini hasat et</button>
+        <button type="button" class="act" id="syrup-all"></button>
+      </div>
+      <p class="modal-sub">Satıra tıklayınca kamera o kovana gider ve kovan açılır. Düğmeler kovanı açmadan iş yapar.</p>
     </div>
   </div>
 

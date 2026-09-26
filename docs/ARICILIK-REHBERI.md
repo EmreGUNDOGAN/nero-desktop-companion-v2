@@ -55,19 +55,19 @@ Oyun ayrı bir pencerede açılır. Pencereyi kapatsan da Nero açıkken çiftli
 - Hız: **❚❚** duraklat, **1x**, **2x**, **4x**.
 
 **Üst sağ**
-- 📖 **Bal Defteri** · 📊 **İstatistikler** · 📷 **Fotoğraf** · 🐝 **Kovanlar** · ⌖ **Adaya dön** · ⚙️ **Ayarlar** · 🏆 **Liderlik** · ＋ / － yakınlaştırma.
+- **Bal Defteri · Kovanlar · Liderlik · İstatistikler · ☰ Menü**. Fotoğraf ve Ayarlar menüde. Yakınlaştırma düğmeleri sağ altta; **Adaya dön** sol altta (R).
 - Ses ve ortam sesi düğmeleri oyun içi Ayarlar'daki tercihlere göre yönetilir.
 
 **Sol alt**
 - 🔔 **Bildirimler** ve hemen yanında 📋 **Bugünün görevleri** ikonu bulunur. Görev ikonuna tıklayınca mevcut görev kartı açılır; kartı kapattığında yeniden yalnız ikon kalır.
 
 **Alt çubuk**
-- 🛒 **Mağaza** · 🍯 **Pazar** · 🧺 **Hepsini Hasat Et** · 📜 **Siparişler** (kırmızı sayı: bekleyen sipariş) · 📖 **Rehber**
+- **Mağaza · Pazar · Hasat Et · Siparişler · Rehber** tek parça krem menüde. Hasat ortada büyük altıgen düğmedir; sayılar yapılabilecek işlemleri gösterir.
 
 **Sağ alt:** Nero. Olan bitene yorum yapar; tıklarsan konuşur.
 
 **Ada üzerinde gezinmek:** sürükleyerek kaydır, fare tekerleğiyle yakınlaş/uzaklaş.
-Kovanların üstünde doluluk yüzdesi yazar; dolunca **Dolu!**, hastaysa 🤒 görünür.
+Kovanların üstündeki halkalar gerçek bal doluluğunu gösterir; dolunca turuncuya döner. Hastalık ve erzak uyarıları ayrıca görünür.
 
 ---
 
@@ -331,7 +331,7 @@ Oyun Nero'nun asıl amacıyla bağlantılı: **sen çalıştıkça çiftlik büy
 
 **İsimler:** kovan ekranında kovanın adına tıklayıp değiştir (ör. "Papatya Konağı"). Çiftliğinin adını Bal Defteri'nin başında adına tıklayarak değiştirirsin.
 
-**📊 İstatistikler:** en üstte **oyun boyunca satılan toplam bal (ton)** (pazar + siparişler); ardından bugün üretilen bal, bugün kazanılan jeton, net değer; son günlerin üretim ve kazanç grafikleri ve net değerinin gidişi.
+**İstatistikler:** toplam satılan bal 1.000 kg altında kilogramla gösterilir. 7 gün / 14 gün / tümü seçimi, üretim ve kazanç karşılaştırmaları, net değer grafiği ve bal türüne göre satışlar bulunur.
 
 **📷 Fotoğraf modu** (📷 ya da **F**): arayüz bir anlığına gizlenir, adanın fotoğrafı **Resimler\Nero Arıcılık** klasörüne kaydedilir. Çıkan bildirime tıklayınca klasör açılır.
 
@@ -585,3 +585,7 @@ Oyun Nero'nun asıl amacıyla bağlantılı: **sen çalıştıkça çiftlik büy
 | Çeşme yakını | +%5 |
 | Anadolu / İtalyan ırkı | ×1.1 / ×0.95 |
 | Odak bonusu | ×1.25 |
+
+**Liderlik (5.6.0):** Rakipler aynı mevsim ve pazar koşullarında üretim, satış ve yatırım yapar. Bir üst sıraya kalan fark ve rakiplerin günlük değişim nedenleri listede görünür.
+
+**Sürüm yenilikleri:** Rehberden eski notları tekrar okuyabilirsin. Birkaç sürüm atlandıysa arşivde bulunan yenilikler sırayla görünür; yarıda bıraktığın sürümler sonra tekrar açılır.
