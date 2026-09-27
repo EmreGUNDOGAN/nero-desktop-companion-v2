@@ -10,6 +10,44 @@ class MemoryStore {
 }
 const start = () => new BeeGame(new MemoryStore());
 
+test('rivals produce for one game day, and inflated old saves are repaired once', () => {
+  const bee = start();
+  const rival = bee.state.rivals[0];
+  const before = rival.farm.honey;
+  bee.state.market.mult.yonca = 0.5; // temkinli rakip bu fiyatta satış yapmaz
+  bee.rollRivals(1);
+  assert.ok(rival.farm.honey - before < 2, 'one day should not contain eight hours of production');
+  const old = structuredClone(bee.state);
+  old.rivalDayRateFixed = false;
+  old.rivals[0].nw = 180000;
+  old.rivals[0].farm.coins = 170000;
+  old.rivals[0].history = [150000, 180000];
+  const loaded = new BeeGame(new MemoryStore(old));
+  assert.ok(loaded.state.rivals[0].nw < loaded.netWorth() * 2);
+  assert.equal(loaded.state.rivalDayRateFixed, true);
+  const reloaded = new BeeGame(new MemoryStore(structuredClone(loaded.state)));
+  assert.equal(reloaded.state.rivals[0].nw, loaded.state.rivals[0].nw);
+});
+
+test('orders can request stored premium honey after its flower is removed', () => {
+  const bee = start();
+  bee.state.storage.kestane = 12;
+  for (const tile of Object.values(bee.state.tiles)) if (tile.item?.type === 'flower') tile.item = null;
+  const order = bee.makeOrder();
+  assert.ok(order);
+  assert.equal(order.flower, 'kestane');
+});
+
+test('winter suppresses out-of-season flowers and wax provides modest extra income', () => {
+  const bee = start();
+  const id = Object.keys(bee.state.hives)[0];
+  bee.state.gameMs = 45 * 15 * 60 * 1000;
+  const winter = bee.hiveRates(id).yonca;
+  bee.state.gameMs = 60 * 15 * 60 * 1000;
+  assert.ok(winter < bee.hiveRates(id).yonca);
+  assert.equal(bee.candlePrice() <= 30, true);
+});
+
 test('winter heather migrates all saved honey and old references without losing quantity', () => {
   const old = start();
   old.state.storage.ihlamur = 2.3;

@@ -114,6 +114,7 @@ let homeCache = null;
 let resize = null;
 let panelDrag = null;
 let petTimes = [];
+let petAngryUntil = 0;
 let dizzyUntil = 0;
 let lastDesktopJokeAt = 0;
 let peek = null;              // sürpriz ziyaret sürerken { home, done }
@@ -932,7 +933,7 @@ function say(category, vars = {}, { force = false, interrupt = true } = {}) {
   const payload = { ...line, id: uid(), silent: muted };
   if (line.expr === 'dizzy') dizzyUntil = Math.max(dizzyUntil, Date.now() + 20000);
   if (!muted) {
-    speakingUntil = Date.now() + Math.min(15000, 2500 + line.text.length * 70);
+    speakingUntil = Date.now() + 2 * Math.min(15000, 2500 + line.text.length * 70);
   }
   sendTo(charWin, 'say', payload);
 }
@@ -1336,9 +1337,15 @@ function petNero() {
   if (currentOutfit() === 'pajama' && new Date().getHours() < 5 && stats.summary().today.todos === 0) stats.award('secret_yeterli');
   const woke = wakeNap('pet');
   stats.pet({ stage: preStage, ignoredMs, dizzy: Date.now() < dizzyUntil });
-  if (woke) { mood.interact('pet'); broadcastState(); return; }
+  if (woke && now >= petAngryUntil) { mood.interact('pet'); broadcastState(); return; }
+  if (now < petAngryUntil) {
+    say('pet_too_much');
+    broadcastState();
+    return;
+  }
   petTimes = [...petTimes.filter((t) => now - t < 2 * MIN), now];
   if (petTimes.length >= 3) {
+    petAngryUntil = now + 5 * MIN;
     mood.interact('pet_too_much');
     updateBaseline();
     say('pet_too_much');

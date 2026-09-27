@@ -1196,7 +1196,8 @@ function renderLedger(force = false) {
       }
       return `<div class="page"><div class="jar" style="background:${def.color}"></div><b>${esc(def.name)} Balı</b>
         <small>İlk kavanoz: ${h.first.year}. yıl, ${esc(h.first.season)}, ${h.first.day}. gün</small>
-        <small>Toplam hasat: ${n(h.kg)} kg · Satılan: ${n(h.soldKg)} kg</small>
+        <small>Tüm zamanlarda hasat: ${n(h.kg)} kg · Şu an depoda: ${n(view.storage[f] || 0)} kg</small>
+        <small>Toplam satılan: ${n(h.soldKg)} kg</small>
         <small>Kazanç: ${n(h.earned, 0)} 🪙 · En iyi fiyat: ${h.bestPrice ? `${n(h.bestPrice)} 🪙/kg` : '—'}</small></div>`;
     }).join('')}</div>`;
   } else if (ledgerTab === 'records') {
@@ -1583,10 +1584,6 @@ const NERO = {
 };
 let bubbleTimer = null;
 function say(text) {
-  if (islandNero.active && $('nero').style.visibility === 'hidden') {
-    actorBubble(islandNero.fig, text, 4800);
-    return;
-  }
   const b = $('nero-bubble');
   b.textContent = text;
   b.hidden = false;
@@ -3197,10 +3194,6 @@ function loop() {
     const p = obj.position.clone().add(new THREE.Vector3(0, 0.63, 0)).project(camera);
     el.style.left = `${(p.x + 1) * window.innerWidth / 2}px`;
     el.style.top = `${(1 - p.y) * window.innerHeight / 2}px`;
-  }
-  if (islandNero.active) {
-    const p = islandNero.fig.position.clone().project(camera);
-    $('nero').style.visibility = Math.abs(p.x) <= 1 && Math.abs(p.y) <= 1 && p.z < 1 ? 'hidden' : '';
   }
   animateFireflies(t);
   animateBees(t);

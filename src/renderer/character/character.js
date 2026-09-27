@@ -296,7 +296,7 @@
         clearInterval(current.mouthTimer);
         state.talking = false;
         render();
-        const readMs = Math.max(2400, Math.min(9000, chars.length * 55));
+        const readMs = 2 * Math.max(2400, Math.min(9000, chars.length * 55));
         current.hideTimer = setTimeout(endSpeech, readMs);
       }
     }, 38);

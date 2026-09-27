@@ -1,5 +1,13 @@
 # Nero 6.0.0 — Yaşayan köy
 
+## Test sürümü düzeltmeleri
+
+- Adada dolaşan Nero ile sağ alt köşedeki Nero birlikte görünür.
+- Masaüstü Nero'nun konuşma balonu iki kat uzun kalır; yeni konuşma gerektiğinde hemen değişebilir. Üst üste sevilip kızdıktan sonra 5 dakika boyunca sevilmekten mutlu olmaz.
+- Hasat düğmelerinin yazısı ortalandı; Bal Defteri'nde tüm zamanların hasadı ile depodaki güncel bal ayrıldı.
+- Rakiplerin günlük üretimi oyun gününün gerçek süresine bağlandı; eski aşırı şişmiş rakip kayıtları bir kez dengelenir.
+- Depoda veya kovanda bulunan bütün bal türleri normal siparişlere girebilir. Balmumu 25 g/kg, mum taban fiyatı 20 jeton oldu.
+
 **Köy artık yalnızca arka plan değil; hareket ediyor, yarışıyor ve mevsimlerle birlikte değişiyor.**
 
 - **Yaşayan köy:** Köylüler gündüz evlerinden çıkar, köy içinde yürür, sipariş teslimlerinden sonra ziyarete gelir ve akşam evlerine döner. Aktif yürüyen karakter sayısı grafik kalitesine göre ayarlanır.

@@ -244,9 +244,9 @@ Bir kovana tıklayınca **kovanın içi** açılır: solda canlı petek (ortada 
 ---
 
 ## 11. Balmumu ve mum
-- Her 1 kg hasatta **50 g balmumu** çıkar.
+- Her 1 kg hasatta **25 g balmumu** çıkar.
 - Depo panelinde **Mum yap:** 500 g balmumu → 1 mum.
-- **Mumları sat:** mum yaklaşık 45 jeton; **kışın %40 daha değerli**.
+- **Mumları sat:** mum yaklaşık 20 jeton; **kışın %40 daha değerli**.
 - Satmadığın mumlar net değerine sayılır.
 
 ---
@@ -566,7 +566,7 @@ Oyun Nero'nun asıl amacıyla bağlantılı: **sen çalıştıkça çiftlik büy
 | Sipariş sıklığı / en fazla | gerçek zamanla 5 dk / 5 (uzun aradan sonra en fazla 3 birikir) |
 | Sipariş değiştirme | 19 jeton · Reddetmek: ilişki −%2 |
 | Ceza | ödemenin %20'si |
-| Mum | 500 g balmumu, ~45 jeton (kışın ×1.4) |
+| Mum | 500 g balmumu, ~20 jeton (kışın ×1.4) |
 | Arıcılık görülmezse tam duraklama | **3 gerçek saat** |
 | Gece modu | 19:00–07:00 (sadece görünüş) |
 | Etiket bahşişi | %5 (müdavimler) |

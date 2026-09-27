@@ -1,0 +1,44 @@
+name: Nero 6.0.0 Feedback Windows Build
+
+on:
+  push:
+    branches: [fix/bee-v6.0.0-feedback]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run dialogue:check
+      - run: npm run dist
+      - name: Source and guide
+        shell: pwsh
+        run: |
+          git archive --format=zip --output=Nero-6.0.0-feedback-source.zip HEAD
+          Copy-Item docs/ARICILIK-REHBERI.md OYUN-REHBERI.md
+          if (-not (Test-Path dist/Nero-Setup-6.0.0.exe)) { throw 'Installer missing' }
+          if (-not (Test-Path dist/Nero-Setup-6.0.0.exe.blockmap)) { throw 'Blockmap missing' }
+          if (-not (Test-Path dist/latest.yml)) { throw 'Update metadata missing' }
+      - name: Upload test files
+        uses: actions/upload-artifact@v4
+        with:
+          name: Nero-6.0.0-feedback-Windows
+          path: |
+            dist/Nero-Setup-6.0.0.exe
+            dist/Nero-Setup-6.0.0.exe.blockmap
+            dist/latest.yml
+            Nero-6.0.0-feedback-source.zip
+            OYUN-REHBERI.md
+            CHANGELOG-6.0.0.md
+          if-no-files-found: error
+          retention-days: 30
