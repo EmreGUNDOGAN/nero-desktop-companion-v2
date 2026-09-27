@@ -1,7 +1,7 @@
 {
   "name": "nero",
   "productName": "Nero",
-  "version": "6.1.0",
+  "version": "6.2.0",
   "description": "Nero - huysuz ama seni seven masaüstü arkadaşın",
   "main": "src/main/main.js",
   "author": {

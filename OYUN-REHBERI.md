@@ -594,3 +594,11 @@ Oyun Nero'nun asıl amacıyla bağlantılı: **sen çalıştıkça çiftlik büy
 Köylüler gündüz evlerinden çıkar, yürüyerek köydeki yerlere uğrar ve akşam evlerine döner. Aktif görünen sayı grafik ayarına göre 12/6/2 ile sınırlıdır. Sipariş teslim edince ilgili kişi eve uğrayıp teşekkür eder. Nero gündüz adada gezer, karşılaştığı köylülerle konuşur, geceleri evin yanında uyur; ona tıklayabilirsin. Bu hareketler oyun ekonomisini değiştirmez.
 
 Gece gökyüzünde küçük, parlayan ve nadiren kayan yıldızlar görünür. **Hafif** grafik modunda yıldız hareketleri ve meteor kapalıdır. Alt menüde Hasat Et üstündeki sayı sıraya alınabilecek kovanları gösterir. Son tohum/kovan yerleşimini 10 gerçek saniye içinde **Geri al** ile iptal edebilirsin. Bildirimler Önemli / Köy / Tümü sekmelerinde; sonbaharda kışın ilk günü için erzağı yetersiz kovanlara toplu şurup düğmesi çıkar. Sipariş kartı kabul etmeden önce mevcut hıza göre yetişme tahmini verir; üretim hızı değişirse tahmin de değişir.
+
+
+## 6.2.0 görsel yenilikleri
+
+- Köyün 78 yapısı sahibine özgü görünür; uzakta üzerine gelince, yakınlaştırınca hepsinin ad ve tür etiketi açılır. Pencereler gece aydınlanır.
+- Arıcı eklemli yürür, hasatta körük ve petek çerçevesiyle çalışır.
+- Çiftlik evi 2/4/7 kovan veya 10/18/30 kareyle gelişir. Kovanın katları seviyesiyle, rengi arı ırkıyla, taç işareti kraliçe yükseltmesiyle değişir.
+- Tarhlar sıralı, göller dalgalı; arılar polenle kavisli uçar. Seyyah Yakup'un arabası yenilendi. Doğal süsler tarh ve kovan yerleştirmeye engel olmaz.

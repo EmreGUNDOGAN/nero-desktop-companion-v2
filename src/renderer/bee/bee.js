@@ -6,6 +6,14 @@ import { initUiV2 } from './ui-v2.js';
 import { createWalkers } from './walkers.js';
 import { createVillageLife } from './village-life.js';
 import { createIslandNero } from './nero-3d.js';
+import { buildHouse } from './evler/index.js';
+import { buildKeeper } from './keeper.js';
+import { makeHiveV2 } from './gorsel/kovan.js';
+import { makeFarmHouse, farmStage } from './gorsel/ciftlik-evi.js';
+import { makeBeeV2, beeArc } from './gorsel/ari.js';
+import { makeWaterDeco } from './gorsel/gol.js';
+import { makeFlowerBed } from './gorsel/tarh.js';
+import { makeMerchantWagon } from './gorsel/satici.js';
 
 // ============================================================================
 // Nero · Arıcılık — 3D ada ve arayüz
@@ -419,7 +427,7 @@ function naturalDetail(t) {
     }
     const flower = new THREE.Mesh(new THREE.IcosahedronGeometry(0.045, 0), petalMat('#F4C9D7'));
     flower.position.set(0.12, 0.05, 0.06); g.add(flower);
-  } else if (h < 0.09) {
+  } else if (h < 0.07) {
     for (let i = 0; i < 4; i++) {
       const x = (i % 2 ? 1 : -1) * (0.08 + i * 0.035), z = (i - 1.5) * 0.07;
       const stem = new THREE.Mesh(new THREE.CylinderGeometry(0.008, 0.01, 0.09, 4), M.stem);
@@ -427,14 +435,29 @@ function naturalDetail(t) {
       const bloom = new THREE.Mesh(new THREE.IcosahedronGeometry(0.045, 0), petalMat(i % 2 ? '#F3C54F' : '#EFA5BA'));
       bloom.position.set(x, 0.1, z); g.add(bloom);
     }
-  } else if (h < 0.13) {
+  } else if (h < 0.09) {
     for (let i = 0; i < 3; i++) {
       const reed = new THREE.Mesh(new THREE.ConeGeometry(0.022, 0.18 + i * 0.035, 4), M.stem);
       reed.position.set(i * 0.08 - 0.08, 0.09, i * 0.04); g.add(reed);
     }
-  } else {
+  } else if (h < 0.11) {
     const stone = new THREE.Mesh(new THREE.IcosahedronGeometry(0.12, 0), mat(0xA8A59B));
     stone.scale.set(1.2, 0.45, 0.8); stone.position.y = 0.05; g.add(stone);
+  } else if (h < 0.13) {
+    for (const x of [-0.09, 0.08]) {
+      const stem = new THREE.Mesh(new THREE.CylinderGeometry(0.019, 0.022, 0.08, 5), M.wall);
+      stem.position.set(x, 0.04, 0); g.add(stem);
+      const cap = new THREE.Mesh(new THREE.SphereGeometry(0.052, 7, 4, 0, Math.PI * 2, 0, Math.PI / 2), M.roof);
+      cap.position.set(x, 0.08, 0); g.add(cap);
+    }
+  } else if (h < 0.145 || t.owned) {
+    const log = new THREE.Mesh(new THREE.CylinderGeometry(0.055, 0.07, 0.4, 7), M.wood);
+    log.rotation.z = Math.PI / 2; log.position.y = 0.07; g.add(log);
+  } else {
+    const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.05, 0.32, 5), M.trunk);
+    trunk.position.y = 0.16; g.add(trunk);
+    const bloom = new THREE.Mesh(new THREE.IcosahedronGeometry(0.25, 0), petalMat('#F4C4D4'));
+    bloom.position.y = 0.4; g.add(bloom);
   }
   return g;
 }
@@ -491,27 +514,31 @@ function festivalScene(t) {
   return g;
 }
 
+const itemAnims = [];
 function buildItems() {
   setTimeout(buildNightLights, 0);
   itemGroup.clear();
+  itemAnims.length = 0;
   hiveObjects.clear();
   for (const [k, t] of Object.entries(view.tiles)) {
     const p = hexToWorld(t.q, t.r);
     const y = topY(t);
     let obj = null;
     const seed = (t.q + 7) * 131 + (t.r + 7) * 17;
-    if (t.item && t.item.type === 'house') obj = makeHouse();
+    if (t.item && t.item.type === 'house') obj = makeFarmHouse(farmStage(view));
     else if (t.item && t.item.type === 'hive') {
-      obj = makeHive();
+      obj = makeHiveV2(view.hives[t.item.id]);
       obj.scale.setScalar(1.22);
       hiveObjects.set(t.item.id, { group: obj, pos: new THREE.Vector3(p.x, y, p.z), key: k });
-    } else if (t.item && t.item.type === 'flower') obj = makeFlowerPlot(view.flowers[t.item.flower], seed, t.item.wilted);
+    } else if (t.item && t.item.type === 'flower') obj = makeFlowerBed(view.flowers[t.item.flower], seed, t.item.wilted, R);
     else if (t.kind === 'festival') obj = festivalScene(t);
+    else if (t.kind === 'water') obj = makeWaterDeco(t, view.tiles, R, seed);
     else if (t.tree) obj = makeTree(seed);
     if (obj) {
       obj.position.x += p.x;
       obj.position.z += p.z;
       obj.position.y = y;
+      obj.traverse((part) => { if (typeof part.userData?.animate === 'function') itemAnims.push(part.userData.animate); });
       obj.userData.key = k;
       itemGroup.add(obj);
     }
@@ -542,36 +569,7 @@ function buildItems() {
 // Arıcı: hasır şapkalı, beyaz tulumlu; evden kovana yürür, kovanda çalışır
 // ---------------------------------------------------------------------------
 const keeper = (() => {
-  const g = new THREE.Group();
-  const suit = mat(0xF7F2E6);
-  const skin = mat(0xF2C9A0);
-  const straw = mat(0xE8C98A);
-  const band = mat(0xD9573F);
-  const boots = mat(0x7A4E2C);
-  const body = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.2, 0.42, 8), suit);
-  body.position.y = 0.36;
-  const head = new THREE.Mesh(new THREE.SphereGeometry(0.14, 10, 8), skin);
-  head.position.y = 0.68;
-  const brim = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.3, 0.03, 16), straw);
-  brim.position.y = 0.78;
-  const crown = new THREE.Mesh(new THREE.CylinderGeometry(0.13, 0.15, 0.13, 12), straw);
-  crown.position.y = 0.85;
-  const ribbon = new THREE.Mesh(new THREE.CylinderGeometry(0.151, 0.151, 0.035, 12), band);
-  ribbon.position.y = 0.8;
-  const legL = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 0.18, 6), boots);
-  legL.position.set(-0.07, 0.09, 0);
-  const legR = legL.clone();
-  legR.position.x = 0.07;
-  const armL = new THREE.Mesh(new THREE.CylinderGeometry(0.045, 0.045, 0.3, 6), suit);
-  armL.position.set(-0.21, 0.38, 0);
-  armL.rotation.z = 0.25;
-  const armR = armL.clone();
-  armR.position.x = 0.21;
-  armR.rotation.z = -0.25;
-  g.add(body, head, brim, crown, ribbon, legL, legR, armL, armR);
-  g.userData = { legL, legR, armL, armR };
-  shadowAll(g);
-  g.scale.setScalar(1.25);
+  const g = buildKeeper();
   scene.add(g);
   return g;
 })();
@@ -622,6 +620,7 @@ function animateKeeper(t) {
   u.armL.rotation.x = working ? -1.2 + Math.sin(t * 9) * 0.35 : -swing;
   u.armR.rotation.x = working ? -1.2 - Math.sin(t * 9) * 0.35 : swing;
   keeper.position.y += moving ? Math.abs(Math.sin(t * 12)) * 0.04 : 0;
+  if (u.tick) u.tick(t, moving, working);
 }
 
 // ---------------------------------------------------------------------------
@@ -663,7 +662,7 @@ function buildBees() {
     }
     const count = Math.min(h.bees, GFX[gfx].bees);
     for (let i = 0; i < count; i++) {
-      const b = makeBee();
+      const b = makeBeeV2();
       b.scale.setScalar(1.7);
       b.userData = {
         ...b.userData,
@@ -699,12 +698,11 @@ function animateBees(t) {
     const from = u.home;
     const to = u.target;
     const wobble = Math.sin(t * 5 + u.phase) * 0.12;
-    b.position.set(
-      from.x + (to.x - from.x) * e + wobble,
-      from.y + (to.y - from.y) * e + Math.sin(e * Math.PI) * 0.5,
-      from.z + (to.z - from.z) * e - wobble
-    );
+    b.position.copy(beeArc(from, to, e, u.phase));
+    b.position.x += wobble * 0.4;
+    b.position.z -= wobble * 0.4;
     const dir = cycle < 1 ? 1 : -1;
+    if (u.pollen) for (const pouch of u.pollen) pouch.visible = dir < 0;
     b.rotation.y = Math.atan2((to.x - from.x) * dir, (to.z - from.z) * dir) - Math.PI / 2;
     if (u.targets.length > 1 && cycle > 1.98) u.target = u.targets[Math.floor(Math.random() * u.targets.length)];
   }
@@ -2470,7 +2468,7 @@ function applyView(v) {
   if (v.unattended && !noticeShown) { $('notice').hidden = false; noticeShown = true; setTimeout(() => { $('notice').hidden = true; }, 5000); }
 
   // Karo ve nesneler sadece yerleşim değişince yeniden kurulur
-  const sig = JSON.stringify(Object.values(v.tiles).map((t) => [t.owned, t.item, t.tree, t.decor, t.kind])) + Object.values(v.hives).map((h) => h.bees).join(',') + (v.festival.cups || []).length + v.festival.open + v.calendar.season;
+  const sig = JSON.stringify(Object.values(v.tiles).map((t) => [t.owned, t.item, t.tree, t.decor, t.kind])) + Object.values(v.hives).map((h) => `${h.bees}:${h.level}:${h.breed}:${h.queens}`).join(',') + farmStage(v) + (v.festival.cups || []).length + v.festival.open + v.calendar.season;
   if (sig !== itemsSig) {
     itemsSig = sig;
     buildTiles();
@@ -2855,7 +2853,7 @@ function buildVillage() {
     villageGroup.add(g);
     const res = bySlot.get(k);
     if (view.merchant.active && view.merchant.slot === k) {
-      const cart = buildMerchantCart();
+      const cart = makeMerchantWagon();
       cart.position.set(p.x, 0.065, p.z);
       cart.rotation.y = Math.atan2(-p.x, -p.z) + Math.PI / 2;
       cart.userData.key = 'm:cart';
@@ -2863,7 +2861,7 @@ function buildVillage() {
       villageGroup.add(cart);
       if (cart.userData.animate) villageAnims.push(cart.userData.animate);
     } else if (res) {
-      const o = buildOccupant(res.n);
+      const o = buildHouse(res.n, res) || buildOccupant(res.n);
       if (o) {
         o.position.set(p.x, 0.065, p.z);
         // Yapılar adaya (merkeze) baksın
@@ -3276,7 +3274,15 @@ function checkHints() {
 }
 
 const clock = new THREE.Clock();
+function updateHouseLabels() {
+  const showAll = zoom >= 1.25;
+  for (const o of villageGroup.children) {
+    const label = o.userData?.label;
+    if (label) label.visible = showAll || hoverKey === o.userData.key;
+  }
+}
 function loop() {
+  updateHouseLabels();
   const dt = clock.getDelta();
   const t = clock.elapsedTime;
   const now = new Date();
@@ -3290,7 +3296,10 @@ function loop() {
   }
   animateFireflies(t);
   animateBees(t);
-  if (GFX[gfx].anim) for (const o of villageAnims) o(t);
+  if (GFX[gfx].anim) {
+    for (const o of villageAnims) o(t);
+    for (const animate of itemAnims) animate(t);
+  }
   animateKeeper(t);
   drawComb(t);
   drawSnow(t);

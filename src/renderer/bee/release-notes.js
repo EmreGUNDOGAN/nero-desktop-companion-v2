@@ -42,9 +42,12 @@ export const RELEASE_NOTES = [
     { icon: '🏆', title: 'Dört mevsim turnuvası', text: 'Kategori puanları, kupalar, 750/500/250 jeton ödülleri ve şampiyona sonraki yıl aynı mevsim +%20 üretim.' },
     { icon: '🌿', title: 'Çiçekler ve kovanlar', text: 'Yedi çiçeğin bonusları dengelendi, Ihlamur yerine Kış Fundası geldi; yeni kovan fiyatları kademelendi.' },
     { icon: '🔔', title: 'Yeni kolaylıklar', text: 'Bildirim sekmeleri, 10 saniyelik geri alma, sipariş süre tahmini, hasat rozeti ve gece yıldızları.' }] },
-  { version: '6.1.0', title: 'Ada genişliyor', items: [
-    { icon: '🏝️', title: 'Üç yeni halka', text: 'Ada üç tam ekilebilir halka büyüdü; eski kayıtlar ve mevcut tarhlar korunur.' },
-    { icon: '🎪', title: 'Festival meydanı', text: 'Su kenarındaki beş kare mevsimsel festival alanına dönüştü; festival günlerinde köylüler kısa ziyaretler yapar.' },
-    { icon: '🐝', title: 'Kovan paneli', text: 'Bal, polen ve yavru göstergeleri; arı ırkı açıklamaları ve yeni çiçekli arı illüstrasyonu eklendi.' },
-    { icon: '⚖️', title: 'Denge düzeltmeleri', text: 'Balmumu 25 g/kg, mum 45 jeton taban fiyatı; rakip üretimi ve sipariş bal seçimi düzeltildi.' }] }
+  { version: '6.1.0', title: 'Büyüyen ada ve festival alanı', items: [
+    { icon: '🌿', title: 'Üç yeni tarh halkası', text: 'Ada genişledi, köy evleri dışa taşındı; boş karelerde seyrek doğal süsler var.' },
+    { icon: '🎉', title: 'Festival meydanı', text: 'Mevsime göre süslenen alana festival sırasında köylüler ziyarete gelir.' },
+    { icon: '🐝', title: 'Sipariş ve denge', text: 'Siparişler ekili çiçeklere göre gelir, rakip gelişimi ve balmumu kazancı yeniden dengelendi.' }] },
+  { version: '6.2.0', title: 'Köy ve çiftlik yeni bir yüz kazandı', items: [
+    { icon: '🏡', title: '78 özgün köy yapısı', text: 'Köylülerin evleri, dükkânları ve binaları yenilendi; yakından bakınca adları görünür.' },
+    { icon: '🧑‍🌾', title: 'Yeni arıcı', text: 'Yürüyüş ve hasatta eklemli hareketler, körük dumanı ve kovan aletleri.' },
+    { icon: '🐝', title: 'Canlanan ada', text: 'Büyüyen çiftlik evi; ırka ve seviyeye göre kovanlar; yeni arılar, tarhlar, göller ve satıcı arabası.' }] }
 ];
