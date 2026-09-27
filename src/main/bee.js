@@ -16,7 +16,8 @@ const START_COINS = 200;
 const FLOWER_LIFE_DAYS = 30;             // çiçekler 2 oyun ayı/mevsim dönemi sonra solar
 const OUT_OF_SEASON = 0.25; // opposite-season contribution; adjacent seasons use 0.5              // mevsimi dışındaki çiçek
 const WINTER_FACTOR = 0.1;               // kışın (şurup 2. aşamada)
-const ISLAND_RADIUS = 5;
+const ISLAND_RADIUS = 8;
+const FESTIVAL_KEYS = ['-5,1', '-5,2', '-6,1', '-6,2', '-4,2'];
 const WINTER_SYRUP_FACTOR = 0.35;        // kışın şurubu olan kovan biraz daha üretir
 const SYRUP_COST = 45;
 const SYRUP_KG = 15;
@@ -234,7 +235,7 @@ const BREEDS = {
 const BREED_CHANGE_COST = 225;
 
 // 6) Balmumu ve mum
-const WAX_PER_KG = 0.05;                  // her 1 kg hasatta 50 g balmumu
+const WAX_PER_KG = 0.025;                 // her 1 kg hasatta 25 g balmumu
 const CANDLE_WAX = 0.5;                   // 1 mum = 0.5 kg balmumu
 const CANDLE_PRICE = 45;
 
@@ -309,7 +310,10 @@ function makeIsland() {
   }
   // Ağaçlar: sahip olunmayan bazı çim karelerde süs
   const decor = ['-4,2', '2,-4', '4,-1', '-2,-2', '1,3', '-4,4', '3,1', '-1,4', '4,-4', '-5,3', '0,5', '5,-2'];
-  for (const k of decor) if (tiles[k] && tiles[k].kind === 'grass' && !tiles[k].owned) tiles[k].tree = true;
+  for (const k of decor) if (tiles[k] && tiles[k].kind === 'grass' && !tiles[k].owned && !FESTIVAL_KEYS.includes(k)) tiles[k].tree = true;
+  for (const k of FESTIVAL_KEYS) if (tiles[k] && tiles[k].kind === 'grass') {
+    tiles[k].kind = 'festival'; tiles[k].owned = false; tiles[k].tree = false;
+  }
   return tiles;
 }
 
@@ -365,6 +369,19 @@ class BeeGame {
     this.store = store;
     const s = store.get();
     this.state = s && s.v === 1 && s.tiles ? s : freshState();
+    // Expand old saves without overwriting the player's land or structures.
+    if (!this.state.islandExpanded61) {
+      const expanded = makeIsland();
+      for (const [k, t] of Object.entries(expanded)) if (!this.state.tiles[k]) this.state.tiles[k] = t;
+      for (const k of FESTIVAL_KEYS) {
+        const t = this.state.tiles[k];
+        if (t && !t.owned && !t.item) { t.kind = 'festival'; t.tree = false; t.decor = null; }
+      }
+      if (this.state.village?.slots) for (const n of Object.keys(this.state.village.slots))
+        this.state.village.slots[n] = this.villageSlot(Number(n));
+      if (this.state.merchant) this.state.merchant.slot = null;
+      this.state.islandExpanded61 = true;
+    }
     const restoredPlacement = this.state.undoPlacement;
     if (restoredPlacement) { // restarting closes the undo window and commits the placement
       const t = this.state.tiles[restoredPlacement.key];
@@ -464,6 +481,26 @@ class BeeGame {
         r.farm = { coins: Math.max(0, (r.nw || 0) - hives * (HIVE_COST * .5 + bees * 5)),
           hives, bees, honey: 0, syrupDays: 0, buff: style.flowerBuff };
       }
+    }
+    // Eski sürümde rakiplere oyun günü başına sekiz saatlik üretim yazılıyordu.
+    // Bu şişmiş kayıtları bir kez oyuncunun mevcut çiftlik ölçeğine taşı.
+    if (!this.state.rivalDayRateFixed) {
+      const mine = this.netWorth();
+      const myHives = Object.values(this.state.hives);
+      for (const [i, r] of this.state.rivals.entries()) {
+        if (!r.farm || r.nw <= Math.max(10000, mine * 3)) continue;
+        const f = r.farm;
+        const old = r.nw;
+        f.hives = Math.min(f.hives, myHives.length + 1);
+        f.bees = Math.min(f.bees, Math.max(6, ...myHives.map((h) => h.bees + 2)));
+        f.honey = Math.min(f.honey, f.hives * 2);
+        const target = Math.round(mine * [0.95, 1.2, 1.1][i]);
+        f.coins = Math.max(0, target - f.honey * this.price('yonca') - f.hives * (HIVE_COST * .5 + f.bees * 5));
+        r.nw = Math.round(f.coins + f.honey * this.price('yonca') + f.hives * (HIVE_COST * .5 + f.bees * 5));
+        r.history = (r.history || []).map((value) => Math.max(0, Math.round(value * r.nw / old)));
+        r.last = 0;
+      }
+      this.state.rivalDayRateFixed = true;
     }
     if (restoredPlacement) {
       if (restoredPlacement.kind === 'hive' && this.state.hives[restoredPlacement.id])
@@ -1506,7 +1543,7 @@ class BeeGame {
     return Math.min(VILLAGE.length, n);
   }
 
-  // Adanın (yarıçap 5) etrafındaki halka: yarıçap 6 (36 kare) ve 7 (42 kare)
+  // Köyün dış halkaları genişleyen adanın dışında kalır.
   ringKeys(radius) {
     const out = [];
     let q = -radius;
@@ -1519,9 +1556,9 @@ class BeeGame {
 
   // n. yerleşimcinin karesi: halkanın etrafına aralıklı dağılır (7 ve 11 adımla)
   villageSlot(n) {
-    if (n <= 36) { const ring = this.ringKeys(ISLAND_RADIUS + 1); return ring[((n - 1) * 7) % 36]; }
+    if (n <= 36) { const ring = this.ringKeys(ISLAND_RADIUS + 1); return ring[((n - 1) * 7) % ring.length]; }
     const ring = this.ringKeys(ISLAND_RADIUS + 2);
-    return ring[((n - 37) * 11) % 42];
+    return ring[((n - 37) * 11) % ring.length];
   }
 
   checkVillage(silent = false) {
@@ -2130,7 +2167,7 @@ class BeeGame {
     const who = person.name;
     let f = planted[Math.floor(Math.random() * planted.length)];
     let fav = false;
-    if (person && person.fav && planted.includes(person.fav) && Math.random() < 0.6) { f = person.fav; fav = true; }
+    if (person && person.fav && planted.includes(person.fav) && Math.random() < 0.35) { f = person.fav; fav = true; }
     else if (this.fx('favorOrders') && Math.random() < 0.3) {
       const pick = ['kekik', 'kisfundasi'].filter((x) => planted.includes(x));
       if (pick.length) f = pick[Math.floor(Math.random() * pick.length)];
@@ -2335,7 +2372,7 @@ class BeeGame {
       const winter = season === 'kis' ? (f.syrupDays > 0 ? WINTER_SYRUP_FACTOR : WINTER_FACTOR) : 1;
       const seasonalFlower = season === 'kis' || season === 'sonbahar' ? OUT_OF_SEASON : 1;
       const produced = Math.min(f.hives * 20, f.hives * f.bees * BASE_KG_PER_BEE_HOUR *
-        (1 + f.buff) * weather.mult * winter * seasonalFlower * 8 * (.9 + rnd() * .2));
+        (1 + f.buff) * weather.mult * winter * seasonalFlower * (DAY_GAME_MS / HOUR_MS) * (.9 + rnd() * .2));
       f.honey += produced;
       f.seasonProduction = (f.seasonProduction || 0) + produced;
       if (marketMult >= st.sellAt && f.honey > 0) {
@@ -2590,7 +2627,7 @@ class BeeGame {
   // Sahip olunan bir kareye komşu mu (satın alınabilir mi)
   isBuyable(k) {
     const t = this.state.tiles[k];
-    if (!t || t.owned || t.kind === 'water') return false;
+    if (!t || t.owned || t.kind !== 'grass') return false;
     return DIRS.some(([dq, dr]) => {
       const n = this.state.tiles[key(t.q + dq, t.r + dr)];
       return n && n.owned;

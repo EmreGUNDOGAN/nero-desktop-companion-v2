@@ -62,20 +62,20 @@ export function buildVillager(opts = {}) {
 // Adadaki Nero: mevcut oval, yarı uykulu karakterin düşük poligonlu 3D karşılığı.
 export function buildNero() {
   const g = new THREE.Group();
-  const green = M(0xB8C5B1);
+  const green = M(0xBCCDB3);
   const body = mesh(new THREE.SphereGeometry(0.16, 16, 12), green, 0, 0.24, 0);
-  body.scale.set(1.16, 0.96, 0.95);
+  body.scale.set(1.16, 1.28, 0.95);
   const feet = [-0.06, 0.06].map((x) => { const f = mesh(new THREE.SphereGeometry(0.045, 10, 6), M(0xA3B899), x, 0.03, 0.02); f.scale.set(1.2, 0.5, 1.4); return f; });
   const eyeW = M(0xFFFBF4), pupilM = M(0x4A3A36);
-  const eyes = [-0.05, 0.05].map((x) => { const e = mesh(new THREE.SphereGeometry(0.034, 12, 10), eyeW, x, 0.295, 0.145); e.scale.set(1, 0.52, 0.6); return e; });
+  const eyeOutlines = [-0.05, 0.05].map((x) => { const e = mesh(new THREE.SphereGeometry(0.039, 12, 10), pupilM, x, 0.295, 0.146); e.scale.set(1, 0.67, 0.62); return e; });
+  const eyes = [-0.05, 0.05].map((x) => { const e = mesh(new THREE.SphereGeometry(0.034, 12, 10), eyeW, x, 0.295, 0.152); e.scale.set(1, 0.55, 0.6); return e; });
   const pupils = [-0.05, 0.05].map((x) => mesh(new THREE.SphereGeometry(0.012, 8, 6), pupilM, x, 0.287, 0.164));
-  const lids = [-0.05, 0.05].map((x) => mesh(new THREE.BoxGeometry(0.071, 0.014, 0.018), green, x, 0.308, 0.167));
   const brows = [-0.05, 0.05].map((x, i) => { const b = mesh(new THREE.BoxGeometry(0.043, 0.009, 0.01), pupilM, x, 0.333, 0.15); b.rotation.z = i ? -0.13 : 0.13; return b; });
   const mouth = mesh(new THREE.BoxGeometry(0.05, 0.008, 0.01), pupilM, 0, 0.22, 0.15);
-  g.add(body, ...feet, ...eyes, ...pupils, ...lids, ...brows, mouth);
+  g.add(body, ...feet, ...eyeOutlines, ...eyes, ...pupils, ...brows, mouth);
   g.userData.walk = (stride) => { const s = Math.sin(stride); feet[0].position.z += (0.02 + s * 0.03 - feet[0].position.z) * 0.25; feet[1].position.z += (0.02 - s * 0.03 - feet[1].position.z) * 0.25; body.position.y = 0.24 + Math.abs(s) * 0.007; body.rotation.z = s * 0.025; };
   g.userData.idle = (t) => { body.position.y = 0.24 + Math.sin(t * 2) * 0.004; pupils.forEach((p, i) => { p.position.x = (i ? 0.05 : -0.05) + Math.sin(t * 0.5) * 0.006; }); };
-  g.userData.sleep = (t) => { body.scale.y = 0.94 + Math.sin(t * 1.5) * 0.02; eyes.forEach((e) => { e.scale.y = 0.1; }); pupils.forEach((p) => { p.visible = false; }); };
-  g.userData.wake = () => { eyes.forEach((e) => { e.scale.y = 0.52; }); pupils.forEach((p) => { p.visible = true; }); body.scale.y = 0.96; };
+  g.userData.sleep = (t) => { body.scale.y = 1.25 + Math.sin(t * 1.5) * 0.02; eyes.forEach((e) => { e.scale.y = 0.1; }); pupils.forEach((p) => { p.visible = false; }); };
+  g.userData.wake = () => { eyes.forEach((e) => { e.scale.y = 0.55; }); pupils.forEach((p) => { p.visible = true; }); body.scale.y = 1.28; };
   return g;
 }

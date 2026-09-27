@@ -3,6 +3,19 @@
 Her sürümde eklenenler, değişenler ve düzeltilenler burada. En yeni sürüm en üstte.
 
 
+## 6.1.0: Ada genişliyor
+
+- Ada üç tam ekilebilir halka genişledi; köy dış çepere taşındı ve eski kayıtlar korunarak yeni alanlara taşındı.
+- Su kenarında beş karelik mevsimsel festival meydanı eklendi; festival günlerinde köylüler alanı ziyaret eder.
+- Yeni halkalara seyrek doğal çiçek, saz, taş ve suya nilüfer dekorları eklendi; bunlar tarh ve kovan yerleştirmeyi engellemez.
+- Kovan paneli bal/polen/yavru göstergeleri, arı ırkı açıklamaları ve yeni çiçekli arı görseliyle yenilendi.
+- Balmumu üretimi 25 g/kg oldu; mumun taban fiyatı tekrar 45 jetona alındı. Rakip günlük üretimi 15 dakikalık oyun gününe göre düzeltildi ve eski şişmiş rakip kayıtları bir kez dengelenir.
+- Siparişlerde istenen bal türü depoya göre değil, ekili ve solmamış çiçeklere göre seçilir.
+- Masaüstü Nero konuşmaları iki kat uzun görünür; fazla sevilince 5 dakika boyunca tıklamaya kızgın tepki verir.
+- Hasat düğmelerindeki içerik ortalandı.
+
+Ayrıntılar: `CHANGELOG-6.1.0.md`
+
 ## 6.0.0: Yaşayan köy
 
 - Güncel 3D sahneye yürüyen köy sakinleri, sipariş teslimi ziyaretleri ve adada dolaşıp geceleri uyuyan Nero eklendi. Yürüyen karakter sayısı grafik ayarına bağlıdır.

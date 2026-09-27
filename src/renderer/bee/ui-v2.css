@@ -82,6 +82,8 @@ body.ui2.night .hud-bottom, body.ui2.night .bell, body.ui2.night .tasks-btn { ba
 .ui2 .hexbtn.big.idle { filter: saturate(.55) brightness(1.04); opacity: .8; }
 .ui2 .hexbtn.big:disabled { cursor: default; pointer-events: none; }
 .ui2 #harvest-all .badge-n { top: 7px !important; right: 12px !important; }
+.ui2 #harvest-all { text-align: center; line-height: 1.15; }
+.ui2 #harvest-all > .ico { flex: none; margin-inline: auto; }
 .ui2 .hexbtn:active, .ui2 .round:active { transform: translateY(1px) scale(.98); }
 .ui2 .badge-n { top: -6px !important; right: -4px !important; }
 .ui2 .badge-n.ok { background: #3E8F52; }
@@ -191,6 +193,27 @@ body.ui2.night .hud-bottom, body.ui2.night .bell, body.ui2.night .tasks-btn { ba
 .hrow2:hover .hopen { opacity: 1; }
 .hives-actions { display: flex; gap: 8px; margin-top: 12px; }
 .hives-actions .act { flex: 1; margin: 0; display: flex; align-items: center; justify-content: center; gap: 6px; }
+.hives-actions #hives-harvest-all { text-align: center; }
 .hives-actions .act .ico { width: 20px; height: 20px; }
 #syrup-all.primary { background: #F2B33D !important; color: #fff !important; box-shadow: 0 3px 0 #D9961C !important; }
 #syrup-all.subtle { background: #F3E6C9 !important; color: #7A6444 !important; box-shadow: none !important; flex: 0 0 auto; padding: 0 14px; }
+.hive-card .comb-tag { display: flex; align-items: center; gap: 5px; white-space: nowrap; }
+.comb-tag i { display: inline-block; height: 10px; width: 10px; border-radius: 3px; margin-left: 6px; }
+.comb-tag .legend-honey { background: #f6c549; }
+.comb-tag .legend-pollen { background: #b7db8b; }
+.comb-tag .legend-young { background: #efecdc; }
+.hive-card .hive-side { background: #fff8eb; }
+.hive-card .hex-badge { display: none; }
+.hive-card .stat-row { gap: 0; background: #fff; border-radius: 14px; }
+.hive-card .stat-row .stat { box-shadow: none; }
+.hive-card .breed-box { position: relative; }
+.hive-card .breed-opts { position: relative; }
+.hive-card .breed-opts button:hover::after { content: attr(data-breed-tip); position: absolute; z-index: 60; bottom: calc(100% + 8px); right: 0; max-width: 280px; padding: 9px 12px; border-radius: 10px; background: #4a3924; color: #fff8e5; white-space: normal; font-size: 12px; text-align: left; pointer-events: none; box-shadow: 0 5px 16px #4a392455; }
+.hive-meadow { flex: none; height: 94px; position: relative; overflow: hidden; border-radius: 14px; background: #c6e6f1; }
+.meadow-hill { position: absolute; bottom: -46px; left: -10%; width: 120%; height: 88px; border-radius: 50% 50% 0 0; background: #94c477; box-shadow: 0 -7px 0 #b4d993 inset; }
+.meadow-bee { position: absolute; z-index: 2; font-size: 14px; }
+.bee-a { top: 20px; left: 22%; } .bee-b { top: 12px; right: 29%; } .bee-c { top: 37px; right: 18%; }
+.meadow-hive { position: absolute; z-index: 2; bottom: 11px; left: 50%; transform: translateX(-50%); width: 42px; height: 34px; background: #dfa532; border: 3px solid #8c6128; border-radius: 7px 7px 5px 5px; box-shadow: 0 -11px 0 -2px #f6bf43, 0 -13px 0 -1px #b9812b; }
+.meadow-hive::after { content: ''; position: absolute; bottom: 6px; left: 12px; width: 13px; height: 4px; border-radius: 5px; background: #815120; }
+.meadow-flowers { position: absolute; z-index: 2; bottom: 4px; left: 4%; right: 4%; display: flex; justify-content: space-between; font-size: 13px; }
+.hive-card .harvest-btn { display: flex; align-items: center; justify-content: center; text-align: center; }

@@ -96,7 +96,7 @@
   <div class="modal-bg" id="hive-modal" hidden>
     <div class="hive-card card">
       <div class="comb-wrap">
-        <span class="comb-tag">Kovanın içi</span>
+        <span class="comb-tag">Kovanın içi <i class="legend-honey"></i> bal <i class="legend-pollen"></i> polen <i class="legend-young"></i> yavru</span>
         <canvas id="comb" width="520" height="560"></canvas>
       </div>
       <div class="hive-side">
@@ -126,6 +126,12 @@
           <b id="h-breed"></b>
           <p class="breed-desc" id="h-breed-desc"></p>
           <div class="breed-opts" id="h-breeds"></div>
+        </div>
+        <div class="hive-meadow" aria-label="Çiçeklerin üzerinde uçan arılar ve küçük kovan">
+          <span class="meadow-sky"></span><span class="meadow-hill"></span>
+          <span class="meadow-bee bee-a">🐝</span><span class="meadow-bee bee-b">🐝</span><span class="meadow-bee bee-c">🐝</span>
+          <span class="meadow-hive" aria-hidden="true"></span>
+          <span class="meadow-flowers" aria-hidden="true">🌼　🌸　🌼　🌸　🌼</span>
         </div>
         <div class="sick-banner" id="h-sick" hidden>
           <span id="h-sick-text">🤒 Bu kovan hasta: üretim %30 düştü.</span>
@@ -254,7 +260,7 @@
         <details class="guide-topic" open>
           <summary>🚀 İlk 10 dakikada ne yapmalıyım?</summary>
           <ol>
-            <li>İlk kovanın yanındaki boş karelerden birine <b>yonca</b> ek. Yonca artık <b>+%5</b> üretim bonusu verir; Papatya <b>+%10</b> verir. Kovan yalnızca komşu 6 karedeki çiçeklerden üretir.</li>
+            <li>İlk kovanın yanındaki boş karelerden birine <b>yonca</b> ek. Yonca <b>+%2</b>, Papatya <b>+%4</b> üretim bonusu verir. Kovan yalnızca komşu 6 karedeki çiçeklerden üretir.</li>
             <li>Kovan dolmaya başladığında kovana tıkla ve üretim hızını kontrol et.</li>
             <li><b>Hasat Et</b> ile arıcıyı gönder. Bal önce depoya gelir.</li>
             <li>Balı hemen Pazar'da satabilir ya da Siparişler'de daha yüksek ödeme bekleyebilirsin.</li>
@@ -272,7 +278,7 @@
 
         <details class="guide-topic">
           <summary>🏘️ Köy ve komşular</summary>
-          <p>Adanı çevreleyen iki halkada bir köy yaşar. Bu karelere yalnızca köylüler yerleşir; senin adana dokunmazlar. Siparişlerle teslim ettiğin toplam bal arttıkça köy büyür: başlangıçta 6 yerleşimci vardır; <b>50, 150, 400 ve 1.000 kg</b>'da birer kişi, sonra <b>her 500 kg'de bir</b> yeni köylü, dükkân ya da bina gelir. İlk halka yaklaşık 14.000 kg'da dolar, son yerleşimci 35.000 kg'da gelir. İlk halka (36 kare) dolunca ikinci halka (42 kare) açılır; 78 yerleşimciyle köy tamamlanır.</p>
+          <p>Adanı çevreleyen iki halkada bir köy yaşar. Bu karelere yalnızca köylüler yerleşir; senin adana dokunmazlar. Siparişlerle teslim ettiğin toplam bal arttıkça köy büyür: başlangıçta 6 yerleşimci vardır; <b>50, 150, 400 ve 1.000 kg</b>'da birer kişi, sonra <b>her 500 kg'de bir</b> yeni köylü, dükkân ya da bina gelir. İlk 36 yerleşimci iç halkaya (54 kare), sonraki 42 yerleşimci dış halkaya (60 kare) yerleşir; son yerleşimci 35.000 kg'da gelir. 78 yerleşimciyle köy tamamlanır.</p>
           <p><b>Köylüler:</b> her birinin sevdiği bir bal var; o bal ekiliyse siparişlerinde sık sık onu ister ve %15 daha iyi öder. <b>Dükkânlar ve binalar</b> kalıcı etkiler getirir: Fırın, Pastane ve Muhtarlık düzenli siparişler verir; Bal Dükkânı pazar fiyatlarını %10, Çiçekçi tohumları %10 ucuzlatır, Kahveci odak bonusunu uzatır, Postane sipariş sürelerini 1 gün artırır, Pazar Yeri sipariş sınırını 6'ya çıkarır… En sonda gelen Bal Müzesi tüm üretimi %5 artırır.</p>
           <p>Köydeki bir yapıya tıklayınca kim olduğunu ve etkisini görürsün. Bal Defteri'nin <b>Köy</b> sekmesinde bütün yerleşimciler, kalpleri ve sıradaki yerleşimci için gereken bal yazar.</p>
         </details>
@@ -329,7 +335,7 @@
 
         <details class="guide-topic">
           <summary>❄️ Kış, şurup ve hastalık</summary>
-          <p>Kışın üretim çok düşer. Şurupsuz kovan arı kaybedebilir; <b>45 jetonluk şurup 6 kg erzak</b> verir ve her oyun gününde tüketilir. Kıştan önce her kovana erzak koymak güvenlidir.</p>
+          <p>Kışın üretim çok düşer. Şurupsuz kovan arı kaybedebilir; <b>45 jetonluk şurup 15 kg erzak</b> verir ve her oyun gününde tüketilir. Kıştan önce her kovana erzak koymak güvenlidir.</p>
           <p>Kış dışında, 4 arıdan kalabalık kovanlar hastalanabilir. Hasta kovan %30 daha az üretir ve tedavi edilmezse 2 günde bir arı kaybedebilir. Tek bir hastalıkta, hastalık başladığındaki arı sayısının en fazla yaklaşık <b>üçte biri</b> ölür (en yakın tam sayıya yuvarlanır); kovan 4 arıya düşerse hastalık hemen biter. Hastalık doğal olarak bittiğinde de ilaçla iyileştiğinde de <b>1 oyun yılı bağışıklık</b> başlar. <b>İlaç 90 jeton</b> ve anında iyileştirir.</p>
         </details>
 

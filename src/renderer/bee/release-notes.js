@@ -41,5 +41,10 @@ export const RELEASE_NOTES = [
     { icon: '🏘️', title: 'Köy canlanıyor', text: 'Köylüler gündüz dolaşır, teslimat sonrası seni ziyaret eder; Nero da adada yürür ve geceleri uyur.' },
     { icon: '🏆', title: 'Dört mevsim turnuvası', text: 'Kategori puanları, kupalar, 750/500/250 jeton ödülleri ve şampiyona sonraki yıl aynı mevsim +%20 üretim.' },
     { icon: '🌿', title: 'Çiçekler ve kovanlar', text: 'Yedi çiçeğin bonusları dengelendi, Ihlamur yerine Kış Fundası geldi; yeni kovan fiyatları kademelendi.' },
-    { icon: '🔔', title: 'Yeni kolaylıklar', text: 'Bildirim sekmeleri, 10 saniyelik geri alma, sipariş süre tahmini, hasat rozeti ve gece yıldızları.' }] }
+    { icon: '🔔', title: 'Yeni kolaylıklar', text: 'Bildirim sekmeleri, 10 saniyelik geri alma, sipariş süre tahmini, hasat rozeti ve gece yıldızları.' }] },
+  { version: '6.1.0', title: 'Ada genişliyor', items: [
+    { icon: '🏝️', title: 'Üç yeni halka', text: 'Ada üç tam ekilebilir halka büyüdü; eski kayıtlar ve mevcut tarhlar korunur.' },
+    { icon: '🎪', title: 'Festival meydanı', text: 'Su kenarındaki beş kare mevsimsel festival alanına dönüştü; festival günlerinde köylüler kısa ziyaretler yapar.' },
+    { icon: '🐝', title: 'Kovan paneli', text: 'Bal, polen ve yavru göstergeleri; arı ırkı açıklamaları ve yeni çiçekli arı illüstrasyonu eklendi.' },
+    { icon: '⚖️', title: 'Denge düzeltmeleri', text: 'Balmumu 25 g/kg, mum 45 jeton taban fiyatı; rakip üretimi ve sipariş bal seçimi düzeltildi.' }] }
 ];

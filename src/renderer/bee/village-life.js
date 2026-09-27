@@ -1,7 +1,7 @@
 import { buildVillager } from './figures.js';
 import { lookFor } from './villager-looks.js';
 
-export function createVillageLife({ scene, walkers, graphics, house, bubble }) {
+export function createVillageLife({ scene, walkers, graphics, house, bubble, festival = () => [] }) {
   const people = new Map();
   let residents = [], lastDay = -1;
   const seed = (n, day) => ((n * 2654435761 + day * 1013904223) >>> 0) / 4294967296;
@@ -57,6 +57,13 @@ export function createVillageLife({ scene, walkers, graphics, house, bubble }) {
         p.next = 0;
       }
       if (!p.fig.visible || p.agent.path.length || now.getTime() < p.next) continue;
+      const plaza = festival();
+      // Visits happen only during the festival; the normal wandering schedule resumes afterwards.
+      if (plaza.length && hour >= 10 && hour < 17 && seed(id + 7, Math.floor(now.getTime() / 60000)) < 0.28) {
+        p.next = now.getTime() + (2 + seed(id + 8, day) * 3) * 60000;
+        walkers.move(p.agent, plaza[id % plaza.length]);
+        continue;
+      }
       const targets = residents.filter((r) => r.slot && r.slot !== p.agent.key && (r.type !== 'koylu' || r.n % 3 === id % 3));
       const target = targets[Math.floor(seed(id, Math.floor(now.getTime() / 60000)) * targets.length)];
       p.next = now.getTime() + (1 + seed(id + 4, day) * 3) * 60000;

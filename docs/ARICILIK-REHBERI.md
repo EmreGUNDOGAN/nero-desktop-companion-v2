@@ -244,9 +244,9 @@ Bir kovana tıklayınca **kovanın içi** açılır: solda canlı petek (ortada 
 ---
 
 ## 11. Balmumu ve mum
-- Her 1 kg hasatta **50 g balmumu** çıkar.
+- Her 1 kg hasatta **25 g balmumu** çıkar.
 - Depo panelinde **Mum yap:** 500 g balmumu → 1 mum.
-- **Mumları sat:** mum yaklaşık 45 jeton; **kışın %40 daha değerli**.
+- **Mumları sat:** mumun taban fiyatı 45 jeton; **kışın %40 daha değerli**. Piyasa ve etkinlik bonusları ayrıca uygulanır.
 - Satmadığın mumlar net değerine sayılır.
 
 ---
@@ -358,7 +358,7 @@ Oyun Nero'nun asıl amacıyla bağlantılı: **sen çalıştıkça çiftlik büy
 
 ## 15c. Köy ve komşular
 
-- Adanı çevreleyen **iki halkada** (36 + 42 kare) bir köy yaşar. Bu karelere yalnızca köylüler yerleşir; senin adana dokunmazlar, ada hep tam altıgen kalır.
+- Adanı çevreleyen **iki halkada** (54 + 60 kare) bir köy yaşar. Bu karelere yalnızca köylüler yerleşir; senin adana dokunmazlar, ada hep tam altıgen kalır. İlk 36 yerleşimci iç halkaya, sonraki 42 yerleşimci dış halkaya yerleşir; halkalardaki diğer kareler boş kalabilir.
 - Köyün ana büyümesi **siparişlerle teslim ettiğin toplam bala** göre devam eder. Bunun tek erken oyun istisnası **50 kg toplam bal üretimi**dir: bu eşikte Çiçekçi Ezgi gelir. Diğer eşiklerde yine her seferinde yalnızca 1 yeni yerleşimci açılır:
 
 | Teslim edilen toplam bal | Gelen | Köydeki toplam |
@@ -566,7 +566,7 @@ Oyun Nero'nun asıl amacıyla bağlantılı: **sen çalıştıkça çiftlik büy
 | Sipariş sıklığı / en fazla | gerçek zamanla 5 dk / 5 (uzun aradan sonra en fazla 3 birikir) |
 | Sipariş değiştirme | 19 jeton · Reddetmek: ilişki −%2 |
 | Ceza | ödemenin %20'si |
-| Mum | 500 g balmumu, ~45 jeton (kışın ×1.4) |
+| Mum | 500 g balmumu, 45 jeton taban fiyatı (kışın ×1.4, piyasa ve bonuslar ayrıca uygulanır) |
 | Arıcılık görülmezse tam duraklama | **3 gerçek saat** |
 | Gece modu | 19:00–07:00 (sadece görünüş) |
 | Etiket bahşişi | %5 (müdavimler) |

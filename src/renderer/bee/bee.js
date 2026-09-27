@@ -44,7 +44,7 @@ renderer.outputColorSpace = THREE.SRGBColorSpace;
 
 const scene = new THREE.Scene();
 
-let zoom = 1.3;
+let zoom = 0.83;
 const camera = new THREE.OrthographicCamera(-10, 10, 10, -10, 0.1, 200);
 const camTarget = new THREE.Vector3(0, 0, 0);
 const camOffset = new THREE.Vector3(18, 20, 18);
@@ -74,7 +74,7 @@ const sun = new THREE.DirectionalLight(0xFFF1D6, 1.6);
 sun.position.set(-10, 22, 8);
 sun.castShadow = true;
 sun.shadow.mapSize.set(2048, 2048);
-Object.assign(sun.shadow.camera, { left: -18, right: 18, top: 18, bottom: -18, near: 1, far: 70 });
+Object.assign(sun.shadow.camera, { left: -27, right: 27, top: 27, bottom: -27, near: 1, far: 90 });
 sun.shadow.bias = -0.0006;
 scene.add(sun);
 
@@ -137,7 +137,8 @@ function actorBubble(obj, message, duration = 2000) {
   worldBubbles.add(bubble);
   setTimeout(() => { el.remove(); worldBubbles.delete(bubble); }, duration);
 }
-const villageLife = createVillageLife({ scene: actors, walkers, graphics: () => gfx, house: houseApproach, bubble: actorBubble });
+const villageLife = createVillageLife({ scene: actors, walkers, graphics: () => gfx, house: houseApproach, bubble: actorBubble,
+  festival: () => view?.festival?.open ? ['-5,2', '-6,2', '-4,2'] : [] });
 const islandNero = createIslandNero({ scene: actors, walkers, house: houseApproach,
   targets: () => [...hiveObjects.values()].map((x) => x.key).concat(Object.entries(view?.tiles || {})
     .filter(([, t]) => t.item?.type === 'flower').map(([k]) => k)),
@@ -154,7 +155,7 @@ function tileMaterials(t) {
 }
 
 function isBuyable(t) {
-  if (t.owned || t.kind === 'water') return false;
+  if (t.owned || t.kind !== 'grass') return false;
   const dirs = [[1, 0], [1, -1], [0, -1], [-1, 0], [-1, 1], [0, 1]];
   return dirs.some(([dq, dr]) => {
     const n = view.tiles[`${t.q + dq},${t.r + dr}`];
@@ -400,6 +401,96 @@ function makeCup(kind) {
 
 const hiveObjects = new Map(); // hiveId -> { group, pos }
 
+// Decorations are deterministic and remain cosmetic on otherwise empty tiles.
+function tileHash(q, r) {
+  let n = Math.imul(q + 137, 73856093) ^ Math.imul(r + 311, 19349663);
+  n ^= n >>> 13;
+  return (n >>> 0) / 4294967296;
+}
+function naturalDetail(t) {
+  if (t.kind !== 'water' && (t.kind !== 'grass' || t.item || t.tree || t.decor)) return null;
+  const h = tileHash(t.q, t.r);
+  if (h > (t.kind === 'water' ? 0.22 : 0.16)) return null;
+  const g = new THREE.Group();
+  if (t.kind === 'water') {
+    for (const x of [-0.12, 0.12]) {
+      const leaf = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.11, 0.015, 8), M.leaf);
+      leaf.position.set(x, 0.02, x / 2); g.add(leaf);
+    }
+    const flower = new THREE.Mesh(new THREE.IcosahedronGeometry(0.045, 0), petalMat('#F4C9D7'));
+    flower.position.set(0.12, 0.05, 0.06); g.add(flower);
+  } else if (h < 0.09) {
+    for (let i = 0; i < 4; i++) {
+      const x = (i % 2 ? 1 : -1) * (0.08 + i * 0.035), z = (i - 1.5) * 0.07;
+      const stem = new THREE.Mesh(new THREE.CylinderGeometry(0.008, 0.01, 0.09, 4), M.stem);
+      stem.position.set(x, 0.045, z); g.add(stem);
+      const bloom = new THREE.Mesh(new THREE.IcosahedronGeometry(0.045, 0), petalMat(i % 2 ? '#F3C54F' : '#EFA5BA'));
+      bloom.position.set(x, 0.1, z); g.add(bloom);
+    }
+  } else if (h < 0.13) {
+    for (let i = 0; i < 3; i++) {
+      const reed = new THREE.Mesh(new THREE.ConeGeometry(0.022, 0.18 + i * 0.035, 4), M.stem);
+      reed.position.set(i * 0.08 - 0.08, 0.09, i * 0.04); g.add(reed);
+    }
+  } else {
+    const stone = new THREE.Mesh(new THREE.IcosahedronGeometry(0.12, 0), mat(0xA8A59B));
+    stone.scale.set(1.2, 0.45, 0.8); stone.position.y = 0.05; g.add(stone);
+  }
+  return g;
+}
+function festivalScene(t) {
+  const g = new THREE.Group(), k = `${t.q},${t.r}`;
+  const season = view.calendar.season;
+  const seasonal = petalMat({ ilkbahar: '#EFA7BA', yaz: '#F3C54F', sonbahar: '#CF8655', kis: '#CEE0EA' }[season] || '#F3C54F');
+  if (k === '-5,1' || k === '-6,1') {
+    const deck = new THREE.Mesh(new THREE.CylinderGeometry(0.49, 0.49, 0.07, 6), M.wood);
+    deck.position.y = 0.035; g.add(deck);
+    if (k === '-5,1') {
+      for (const x of [-0.38, 0.38]) {
+        const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.022, 0.022, 0.75, 5), M.wood);
+        pole.position.set(x, 0.39, -0.26); g.add(pole);
+      }
+      if (view.festival.open) for (let i = 0; i < 5; i++) {
+        const flag = new THREE.Mesh(new THREE.ConeGeometry(0.055, 0.11, 3), seasonal);
+        flag.position.set(-0.34 + i * 0.17, 0.72, -0.26); flag.rotation.z = Math.PI; g.add(flag);
+      }
+    } else {
+      const counter = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.26, 0.3), M.wood);
+      counter.position.y = 0.16; g.add(counter);
+      const roof = new THREE.Mesh(new THREE.ConeGeometry(0.38, 0.19, 4), seasonal);
+      roof.position.y = 0.55; roof.rotation.y = Math.PI / 4; g.add(roof);
+      for (const x of [-0.26, 0.26]) {
+        const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.018, 0.018, 0.35, 5), M.wood);
+        pole.position.set(x, 0.37, 0); g.add(pole);
+      }
+      if (view.festival.open) {
+        if (season === 'sonbahar') {
+          const basket = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.09, 0.13, 8), mat(0xAE773F));
+          basket.position.set(-0.31, 0.08, 0.24); g.add(basket);
+        } else if (season === 'kis') {
+          for (const x of [-0.3, 0.3]) {
+            const lantern = new THREE.Mesh(new THREE.BoxGeometry(0.07, 0.09, 0.07), M.lamp);
+            lantern.position.set(x, 0.53, 0); g.add(lantern);
+          }
+        } else {
+          for (let i = 0; i < 3; i++) {
+            const bloom = new THREE.Mesh(new THREE.IcosahedronGeometry(0.04, 0), petalMat(season === 'ilkbahar' ? '#EE94B7' : '#F5CE4C'));
+            bloom.position.set(-0.14 + i * 0.14, 0.33, 0.17); g.add(bloom);
+          }
+        }
+      }
+    }
+  } else {
+    const prop = makeDecor(k === '-4,2' ? 'fener' : 'bank');
+    prop.scale.setScalar(0.65); prop.position.set(0.38, 0, 0.26); g.add(prop);
+    for (let i = 0; i < 3; i++) {
+      const blossom = new THREE.Mesh(new THREE.IcosahedronGeometry(0.04, 0), petalMat(i % 2 ? '#EF9EB7' : '#F3CC55'));
+      blossom.position.set(-0.38 + i * 0.12, 0.045, -0.32); g.add(blossom);
+    }
+  }
+  return g;
+}
+
 function buildItems() {
   setTimeout(buildNightLights, 0);
   itemGroup.clear();
@@ -415,6 +506,7 @@ function buildItems() {
       obj.scale.setScalar(1.22);
       hiveObjects.set(t.item.id, { group: obj, pos: new THREE.Vector3(p.x, y, p.z), key: k });
     } else if (t.item && t.item.type === 'flower') obj = makeFlowerPlot(view.flowers[t.item.flower], seed, t.item.wilted);
+    else if (t.kind === 'festival') obj = festivalScene(t);
     else if (t.tree) obj = makeTree(seed);
     if (obj) {
       obj.position.x += p.x;
@@ -423,6 +515,8 @@ function buildItems() {
       obj.userData.key = k;
       itemGroup.add(obj);
     }
+    const natural = naturalDetail(t);
+    if (natural) { natural.position.set(p.x, y + (t.kind === 'water' ? 0.04 : 0), p.z); itemGroup.add(natural); }
     // Dekor: karenin ön-sağ kenarına
     if (t.decor && t.decor !== 'kupa') {
       const d = makeDecor(t.decor);
@@ -1583,10 +1677,6 @@ const NERO = {
 };
 let bubbleTimer = null;
 function say(text) {
-  if (islandNero.active && $('nero').style.visibility === 'hidden') {
-    actorBubble(islandNero.fig, text, 4800);
-    return;
-  }
   const b = $('nero-bubble');
   b.textContent = text;
   b.hidden = false;
@@ -2264,8 +2354,8 @@ function renderHive() {
   $('h-breed').textContent = br.name;
   $('h-breed-desc').textContent = br.desc;
   $('h-breeds').innerHTML = Object.entries(view.breeds).map(([id, b]) => id === h.breed
-    ? `<button type="button" class="on" disabled>${esc(b.name)}</button>`
-    : `<button type="button" data-breed="${id}" ${view.coins < view.breedChangeCost ? 'disabled' : ''}>${esc(b.name)} · ${view.breedChangeCost} 🪙</button>`).join('');
+    ? `<button type="button" class="on" disabled data-breed-tip="${esc(b.desc)}">${esc(b.name)}</button>`
+    : `<button type="button" data-breed="${id}" data-breed-tip="${esc(b.desc)}" ${view.coins < view.breedChangeCost ? 'disabled' : ''}>${esc(b.name)} · ${view.breedChangeCost} 🪙</button>`).join('');
   $('h-sick').hidden = !h.sick;
   if (h.sick) {
     $('h-sick-text').textContent = `🤒 Bu kovan hasta: üretim %30 düştü. Bu vakada ${h.sickDeaths}/${h.sickDeathLimit} arı kaybedildi; 4 arıya düşerse hastalık biter.`;
@@ -2380,7 +2470,7 @@ function applyView(v) {
   if (v.unattended && !noticeShown) { $('notice').hidden = false; noticeShown = true; setTimeout(() => { $('notice').hidden = true; }, 5000); }
 
   // Karo ve nesneler sadece yerleşim değişince yeniden kurulur
-  const sig = JSON.stringify(Object.values(v.tiles).map((t) => [t.owned, t.item, t.tree, t.decor])) + Object.values(v.hives).map((h) => h.bees).join(',') + (v.festival.cups || []).length;
+  const sig = JSON.stringify(Object.values(v.tiles).map((t) => [t.owned, t.item, t.tree, t.decor, t.kind])) + Object.values(v.hives).map((h) => h.bees).join(',') + (v.festival.cups || []).length + v.festival.open + v.calendar.season;
   if (sig !== itemsSig) {
     itemsSig = sig;
     buildTiles();
@@ -3082,7 +3172,7 @@ canvas.addEventListener('pointerleave', () => { $('hover-tip').hidden = true; })
 // ---------------------------------------------------------------------------
 // Adaya dön (R) ve bir kovana odaklan
 // ---------------------------------------------------------------------------
-function recenter() { camTarget.set(0, 0, 0); zoom = 1.3; placeCamera(); resize(); closePopup(); }
+function recenter() { camTarget.set(0, 0, 0); zoom = 0.83; placeCamera(); resize(); closePopup(); }
 $('recenter').addEventListener('click', recenter);
 function focusHive(id) {
   const o = hiveObjects.get(id);
@@ -3197,10 +3287,6 @@ function loop() {
     const p = obj.position.clone().add(new THREE.Vector3(0, 0.63, 0)).project(camera);
     el.style.left = `${(p.x + 1) * window.innerWidth / 2}px`;
     el.style.top = `${(1 - p.y) * window.innerHeight / 2}px`;
-  }
-  if (islandNero.active) {
-    const p = islandNero.fig.position.clone().project(camera);
-    $('nero').style.visibility = Math.abs(p.x) <= 1 && Math.abs(p.y) <= 1 && p.z < 1 ? 'hidden' : '';
   }
   animateFireflies(t);
   animateBees(t);
