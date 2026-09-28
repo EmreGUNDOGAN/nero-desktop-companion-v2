@@ -6,16 +6,16 @@ const ACHIEVEMENTS = require('../data/achievements');
 const { CORE_INTERACTIONS } = ACHIEVEMENTS;
 
 const DESK_ITEMS = [
-  { id: 'fincan', hours: 1, icon: '☕', title: 'Kahve fincanı' },
-  { id: 'defter', hours: 3, icon: '📓', title: 'Not defteri' },
-  { id: 'saksi1', hours: 6, icon: '🌱', title: 'Küçük saksı' },
-  { id: 'kitaplar', hours: 10, icon: '📚', title: 'Kitap yığını' },
-  { id: 'lamba', hours: 15, icon: '💡', title: 'Masa lambası' },
-  { id: 'cerceve', hours: 25, icon: '🖼️', title: 'Fotoğraf çerçevesi' },
-  { id: 'plak', hours: 40, icon: '🎵', title: 'Plak çalar' },
-  { id: 'saat', hours: 60, icon: '🕰️', title: 'Duvar saati' },
-  { id: 'saksi2', hours: 85, icon: '🌸', title: 'Çiçek açan saksı' },
-  { id: 'gramofon', hours: 120, icon: '📻', title: 'Eski radyo' }
+  { id: 'fincan', hours: 0.5, icon: '☕', title: 'Kahve fincanı' },
+  { id: 'defter', hours: 1, icon: '📓', title: 'Not defteri' },
+  { id: 'saksi1', hours: 1.5, icon: '🌱', title: 'Küçük saksı' },
+  { id: 'kitaplar', hours: 2, icon: '📚', title: 'Kitap yığını' },
+  { id: 'lamba', hours: 2.5, icon: '💡', title: 'Masa lambası' },
+  { id: 'cerceve', hours: 3, icon: '🖼️', title: 'Fotoğraf çerçevesi' },
+  { id: 'plak', hours: 3.5, icon: '🎵', title: 'Plak çalar' },
+  { id: 'saat', hours: 4, icon: '🕰️', title: 'Duvar saati' },
+  { id: 'saksi2', hours: 4.5, icon: '🌸', title: 'Çiçek açan saksı' },
+  { id: 'gramofon', hours: 5, icon: '📻', title: 'Eski radyo' }
 ];
 
 const DAY_MS = 24 * 60 * 60 * 1000;
@@ -429,7 +429,7 @@ class Stats {
     const next = DESK_ITEMS.find((i) => !this.data.desk[i.id]);
     return {
       items: DESK_ITEMS.map((i) => ({ id: i.id, icon: i.icon, title: i.title, hours: i.hours, unlockedAt: this.data.desk[i.id] || null })),
-      next: next ? { title: next.title, hoursLeft: Math.max(0, Math.ceil(next.hours - hours)) } : null
+      next: next ? { title: next.title, minutesLeft: Math.max(0, Math.ceil(next.hours * 60 - this.data.totals.focusMin)) } : null
     };
   }
 

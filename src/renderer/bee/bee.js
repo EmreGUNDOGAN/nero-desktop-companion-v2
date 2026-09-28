@@ -10,6 +10,7 @@ import { buildHouse } from './evler/index.js';
 import { buildKeeper } from './keeper.js';
 import { makeHiveV2 } from './gorsel/kovan.js';
 import { makeFarmHouse, farmStage } from './gorsel/ciftlik-evi.js';
+import { makeStorage } from './gorsel/depo.js';
 import { makeBeeV2, beeArc } from './gorsel/ari.js';
 import { makeWaterDeco } from './gorsel/gol.js';
 import { makeFlowerBed } from './gorsel/tarh.js';
@@ -56,6 +57,27 @@ let zoom = 0.83;
 const camera = new THREE.OrthographicCamera(-10, 10, 10, -10, 0.1, 200);
 const camTarget = new THREE.Vector3(0, 0, 0);
 const camOffset = new THREE.Vector3(18, 20, 18);
+const baseCamAngle = Math.atan2(18, 18);
+let camAngle = baseCamAngle;
+let camAngleTarget = baseCamAngle;
+function rotateCamera(delta, immediate = false) {
+  camAngleTarget += delta;
+  if (immediate) {
+    camAngle = camAngleTarget;
+    const radius = Math.hypot(camOffset.x, camOffset.z);
+    camOffset.x = Math.sin(camAngle) * radius; camOffset.z = Math.cos(camAngle) * radius;
+    placeCamera();
+  }
+}
+function animateCameraTurn(dt) {
+  const remaining = camAngleTarget - camAngle;
+  if (Math.abs(remaining) < 0.0001) return;
+  camAngle += remaining * Math.min(1, dt * 12);
+  const radius = Math.hypot(camOffset.x, camOffset.z);
+  camOffset.x = Math.sin(camAngle) * radius;
+  camOffset.z = Math.cos(camAngle) * radius;
+  placeCamera();
+}
 function placeCamera() {
   camera.position.copy(camTarget).add(camOffset);
   camera.lookAt(camTarget);
@@ -328,6 +350,7 @@ function makeFlowerPlot(flowerDef, seed, wilted = false) {
 function makeTree(seed) {
   const g = new THREE.Group();
   const rnd = seeded(seed);
+  const season = view?.gameSettings?.seasonalAppearance === false ? 'yaz' : view?.calendar?.season;
   if (rnd() < 0.45) {
     const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.08, 0.35, 5), M.trunk);
     trunk.position.y = 0.17;
@@ -336,6 +359,10 @@ function makeTree(seed) {
     const c2 = new THREE.Mesh(new THREE.ConeGeometry(0.32, 0.55, 6), M.pine);
     c2.position.y = 0.95;
     g.add(trunk, c1, c2);
+    if (season === 'kis') {
+      const snow = new THREE.Mesh(new THREE.ConeGeometry(0.24, 0.2, 6), mat(0xEDF4F6));
+      snow.position.y = 1.18; g.add(snow);
+    }
   } else {
     const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.09, 0.4, 5), M.trunk);
     trunk.position.y = 0.2;
@@ -344,10 +371,33 @@ function makeTree(seed) {
     const crown2 = new THREE.Mesh(new THREE.IcosahedronGeometry(0.28, 0), M.leafLight);
     crown2.position.set(0.22, 0.58, 0.1);
     g.add(trunk, crown, crown2);
+    if (season === 'ilkbahar') for (let i = 0; i < 5; i++) {
+      const bloom = new THREE.Mesh(new THREE.IcosahedronGeometry(0.045, 0), mat(i % 2 ? 0xF6C3D1 : 0xFFF0D9));
+      bloom.position.set(Math.sin(i * 2.4) * 0.33, 0.65 + Math.cos(i * 3) * 0.22, Math.cos(i * 2.4) * 0.24);
+      g.add(bloom);
+    }
+    if (season === 'sonbahar') for (let i = 0; i < 4; i++) {
+      const leaf = new THREE.Mesh(new THREE.PlaneGeometry(0.07, 0.09), mat(i % 2 ? 0xDB8743 : 0xDDB052, { side: THREE.DoubleSide }));
+      leaf.rotation.x = -Math.PI / 2; leaf.rotation.z = i;
+      leaf.position.set(Math.sin(i * 4) * 0.37, 0.015, Math.cos(i * 4) * 0.3);
+      g.add(leaf);
+    }
   }
   g.position.set((rnd() - 0.5) * 0.4, 0, (rnd() - 0.5) * 0.4);
   g.rotation.y = rnd() * Math.PI;
   return shadowAll(g);
+}
+
+function snowOnRoofs(group) {
+  if (view?.gameSettings?.seasonalAppearance === false || view?.calendar?.season !== 'kis') return;
+  const roofs = [];
+  group.traverse((piece) => { if (piece.isMesh && piece.userData.seasonalRoof) roofs.push(piece); });
+  for (const roof of roofs) {
+    const snow = new THREE.Mesh(roof.geometry, mat(0xF4F8FA, { transparent: true, opacity: 0.86, depthWrite: false, side: THREE.DoubleSide }));
+    snow.position.copy(roof.position); snow.position.y += 0.014;
+    snow.rotation.copy(roof.rotation); snow.scale.copy(roof.scale).multiplyScalar(1.025);
+    roof.parent.add(snow);
+  }
 }
 
 function makeDecor(id) {
@@ -526,6 +576,7 @@ function buildItems() {
     let obj = null;
     const seed = (t.q + 7) * 131 + (t.r + 7) * 17;
     if (t.item && t.item.type === 'house') obj = makeFarmHouse(farmStage(view));
+    else if (t.kind === 'storage') obj = makeStorage(view.storageBaseCap, view.storageKg / view.storageCap);
     else if (t.item && t.item.type === 'hive') {
       obj = makeHiveV2(view.hives[t.item.id]);
       obj.scale.setScalar(1.22);
@@ -535,6 +586,7 @@ function buildItems() {
     else if (t.kind === 'water') obj = makeWaterDeco(t, view.tiles, R, seed);
     else if (t.tree) obj = makeTree(seed);
     if (obj) {
+      if (t.item?.type === 'house' || t.kind === 'storage') snowOnRoofs(obj);
       obj.position.x += p.x;
       obj.position.z += p.z;
       obj.position.y = y;
@@ -570,6 +622,15 @@ function buildItems() {
 // ---------------------------------------------------------------------------
 const keeper = (() => {
   const g = buildKeeper();
+  const jar = new THREE.Group();
+  const honey = new THREE.Mesh(new THREE.CylinderGeometry(0.045, 0.04, 0.085, 10), mat(0xE6AC40, { transparent: true, opacity: 0.85 }));
+  jar.add(honey);
+  const lid = new THREE.Mesh(new THREE.CylinderGeometry(0.049, 0.049, 0.018, 10), M.wood);
+  lid.position.y = 0.05; jar.add(lid);
+  jar.position.set(0, -0.25, 0.09);
+  g.userData.armL.userData.fore.add(jar);
+  g.userData.jar = jar;
+  jar.visible = false;
   scene.add(g);
   return g;
 })();
@@ -596,6 +657,7 @@ function animateKeeper(t) {
   const job = view.keeper && view.keeper.job;
   const now = Date.now() + clockSkew;
   const u = keeper.userData;
+  u.jar.visible = !!view.keeper?.carrying && !!job;
   let pos;
   let moving = false;
   let working = false;
@@ -621,6 +683,29 @@ function animateKeeper(t) {
   u.armR.rotation.x = working ? -1.2 - Math.sin(t * 9) * 0.35 : swing;
   keeper.position.y += moving ? Math.abs(Math.sin(t * 12)) * 0.04 : 0;
   if (u.tick) u.tick(t, moving, working);
+  if (u.jar.visible) u.frame.visible = false;
+}
+
+const harvestGlints = [];
+function sparkleAt(key) {
+  if (!view?.tiles[key]) return;
+  const pos = tileTop(key);
+  const group = new THREE.Group();
+  for (let i = 0; i < 3; i++) {
+    const drop = new THREE.Mesh(new THREE.SphereGeometry(0.055, 6, 6), mat(0xFFD262, { emissive: 0xA66B09, emissiveIntensity: 0.7 }));
+    drop.position.set(Math.sin(i * 2.4) * 0.17, 0.5 + i * 0.08, Math.cos(i * 2.4) * 0.17);
+    group.add(drop);
+  }
+  group.position.copy(pos); scene.add(group);
+  harvestGlints.push({ group, at: performance.now() });
+}
+function animateHarvestGlints(now) {
+  for (let i = harvestGlints.length - 1; i >= 0; i--) {
+    const effect = harvestGlints[i]; const age = (now - effect.at) / 1000;
+    if (age > 0.85) { scene.remove(effect.group); harvestGlints.splice(i, 1); continue; }
+    effect.group.position.y += 0.003;
+    effect.group.scale.setScalar(1 + Math.sin(age * Math.PI / 0.85) * 0.3);
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -742,19 +827,22 @@ function pickTile(clientX, clientY) {
 
 let drag = null;
 canvas.addEventListener('pointerdown', (e) => {
-  drag = { x: e.clientX, y: e.clientY, moved: false, target: camTarget.clone() };
+  if (e.button !== 0 && e.button !== 2) return;
+  drag = { x: e.clientX, y: e.clientY, moved: false, target: camTarget.clone(), angle: camAngle, button: e.button };
   canvas.setPointerCapture(e.pointerId);
 });
+canvas.addEventListener('contextmenu', (e) => e.preventDefault());
 canvas.addEventListener('pointermove', (e) => {
   if (drag) {
     const dx = e.clientX - drag.x;
     const dy = e.clientY - drag.y;
     if (Math.abs(dx) + Math.abs(dy) > 4) drag.moved = true;
     if (drag.moved) {
+      if (drag.button === 2) { rotateCamera(drag.angle + dx * 0.008 - camAngleTarget, true); return; }
       // ekran hareketini dünya düzlemine çevir (izometrik)
       const scale = (camera.right - camera.left) / window.innerWidth;
-      const right = new THREE.Vector3(1, 0, -1).normalize();
-      const fwd = new THREE.Vector3(1, 0, 1).normalize();
+      const right = new THREE.Vector3(camOffset.z, 0, -camOffset.x).normalize();
+      const fwd = new THREE.Vector3(camOffset.x, 0, camOffset.z).normalize();
       camTarget.copy(drag.target)
         .addScaledVector(right, -dx * scale)
         .addScaledVector(fwd, -dy * scale * 1.35);
@@ -772,7 +860,8 @@ canvas.addEventListener('pointermove', (e) => {
 canvas.addEventListener('pointerup', (e) => {
   const d = drag;
   drag = null;
-  if (d && !d.moved) {
+  if (d?.button === 2 && d.moved) rotateCamera(Math.round((camAngle - baseCamAngle) / (Math.PI / 3)) * Math.PI / 3 + baseCamAngle - camAngleTarget);
+  if (d && d.button === 0 && !d.moved) {
     mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
     mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
     raycaster.setFromCamera(mouse, camera);
@@ -871,6 +960,7 @@ function onTileClick(k, x, y) {
         <h3>🥀 ${esc(f.name)} tarhı soldu</h3>
         <p class="sub">Solmuş tarh bal vermez. Tohum fiyatının %${Math.round(view.reviveRate * 100)}'una canlandırırsan ${view.flowerLife} gün daha yaşar.</p>
         <button class="act primary" data-act="replant" ${view.coins < Math.max(1, Math.round(f.seed * view.reviveRate)) ? 'disabled' : ''}>🌱 Canlandır <small>${Math.max(1, Math.round(f.seed * view.reviveRate))} 🪙</small></button>
+        <button class="act" data-act="reviveAll">🌼 Tüm çiçekleri canlandır</button>
         <button class="act danger" data-act="removeFlower">Tarhı temizle</button>`);
       return;
     }
@@ -1053,6 +1143,7 @@ async function doAct(action, a, b) {
 }
 
 $('harvest-all').addEventListener('click', () => doAct('harvestAll'));
+$('revive-all').addEventListener('click', async () => { await doAct('reviveAll'); $('seed-modal').hidden = true; });
 $('placement-undo').addEventListener('click', () => doAct('undoPlacement'));
 setInterval(() => {
   const pending = view?.undoPlacement;
@@ -1076,7 +1167,9 @@ window.addEventListener('keydown', (e) => {
   }
   // Yazı yazarken ya da tanıtım açıkken kısayollar çalışmasın
   if (e.target.closest('input, textarea, select') || !$('tour').hidden || e.ctrlKey || e.altKey || e.metaKey) return;
+  if (document.querySelector('.modal:not([hidden]), dialog[open]')) return;
   const k = e.code;
+  if (k === 'KeyQ' || k === 'KeyE') { e.preventDefault(); rotateCamera((k === 'KeyQ' ? -1 : 1) * Math.PI / 3); return; }
   if (k === 'KeyH') { e.preventDefault(); doAct('harvestAll'); }
   else if (k === 'KeyP') { e.preventDefault(); openMarket(); }
   else if (k === 'KeyS') { e.preventDefault(); openOrders(); }
@@ -1796,7 +1889,11 @@ function reactEvent(e) {
   else if (!topic && /Temkinli Ali|Riskçi Kaya|Dengeli Nur/.test(m)) topic = 'rival_event';
   else if (!topic && m.includes("Nero'da bir iş bitirdin")) topic = 'nero_todo_coin_reward';
 
-  if (m.includes('depoya eklendi')) SFX.harvest();
+  if (m.includes('depoya eklendi')) {
+    SFX.harvest();
+    const current = view?.keeper?.job;
+    if (current?.kind === 'home' && current.from) sparkleAt(current.from);
+  }
   else if (m.includes('yeni bir arı doğdu')) SFX.buzz();
   else if (m.startsWith('📜 Yeni sipariş') || m.includes('Sipariş yetişmedi')) playNotification('orders');
   else if (m.startsWith('🤒') || m.includes('öldü') || m.includes('Şurup ver')) playNotification('hive');
@@ -1818,10 +1915,12 @@ const SEASON_COLORS = {
 };
 let currentSeason = null;
 function applySeason(season) {
-  if (season === currentSeason) return;
+  const active = view?.gameSettings?.seasonalAppearance !== false;
+  const signature = `${season}:${active}`;
+  if (signature === currentSeason) return;
   const first = currentSeason === null;
-  currentSeason = season;
-  const c = SEASON_COLORS[season];
+  currentSeason = signature;
+  const c = SEASON_COLORS[active ? season : 'yaz'];
   M.grassOwned.color.setHex(c.owned);
   M.grassWild.color.setHex(c.wild);
   M.grassBuy.color.setHex(c.buy);
@@ -2468,7 +2567,7 @@ function applyView(v) {
   if (v.unattended && !noticeShown) { $('notice').hidden = false; noticeShown = true; setTimeout(() => { $('notice').hidden = true; }, 5000); }
 
   // Karo ve nesneler sadece yerleşim değişince yeniden kurulur
-  const sig = JSON.stringify(Object.values(v.tiles).map((t) => [t.owned, t.item, t.tree, t.decor, t.kind])) + Object.values(v.hives).map((h) => `${h.bees}:${h.level}:${h.breed}:${h.queens}`).join(',') + farmStage(v) + (v.festival.cups || []).length + v.festival.open + v.calendar.season;
+  const sig = JSON.stringify(Object.values(v.tiles).map((t) => [t.owned, t.item, t.tree, t.decor, t.kind])) + Object.values(v.hives).map((h) => `${h.bees}:${h.level}:${h.breed}:${h.queens}`).join(',') + farmStage(v) + (v.festival.cups || []).length + v.festival.open + v.calendar.season + v.storageBaseCap + (v.storageKg / v.storageCap >= 0.9) + (v.gameSettings?.seasonalAppearance !== false);
   if (sig !== itemsSig) {
     itemsSig = sig;
     buildTiles();
@@ -2509,6 +2608,7 @@ function updateLabels() {
       tagEls.set(id, el);
     }
     const pct = Math.min(100, Math.round((h.total / h.capKg) * 100));
+    el.hidden = pct < 10 && !h.sick;
     ui.ringUpdate(el, h, pct);
     el.classList.toggle('sick', !!h.sick);
     const p = obj.pos.clone().add(new THREE.Vector3(0, 1.0, 0)).project(camera);
@@ -2522,7 +2622,7 @@ function updateLabels() {
 // Döngü
 // ---------------------------------------------------------------------------
 // ---------------------------------------------------------------------------
-// Gece modu: gerçek saatle 19:00–07:00 (sadece görünüş, üretim etkilenmez)
+// Gün ışığı: gerçek yerel saat, yalnızca görünüş değişir.
 // ---------------------------------------------------------------------------
 const DAY_LIGHT = { hemi: 1.15, sun: 1.6, hemiColor: new THREE.Color(0xFFF6E0), sunColor: new THREE.Color(0xFFF1D6) };
 const NIGHT_LIGHT = { hemi: 0.62, sun: 0.45, hemiColor: new THREE.Color(0x7F8FC8), sunColor: new THREE.Color(0x9FB0E0) };
@@ -2535,8 +2635,8 @@ let fireflies = null;
 function nightLevel(d = new Date()) {
   const h = d.getHours() + d.getMinutes() / 60;
   const ramp = (x, a, b) => Math.min(1, Math.max(0, (x - a) / (b - a)));
-  if (h >= 12) return ramp(h, 18.5, 19.25);
-  return 1 - ramp(h, 6.75, 7.5);
+  if (h >= 12) return ramp(h, 18.7, 19.25);
+  return 1 - ramp(h, 6.75, 7.35);
 }
 
 function buildNightLights() {
@@ -2568,11 +2668,20 @@ function buildNightLights() {
 }
 
 function applyNight() {
-  night = view && view.gameSettings && !view.gameSettings.night ? 0 : nightLevel();
+  const enabled = view?.gameSettings?.night !== false;
+  night = enabled ? nightLevel() : 0;
+  const date = new Date(), h = date.getHours() + date.getMinutes() / 60;
+  const rise = (a, b) => Math.min(1, Math.max(0, (h - a) / (b - a)));
+  const dawn = enabled ? (1 - rise(8.35, 9)) * rise(6.75, 7.4) : 0;
+  const dusk = enabled ? rise(16.5, 17.25) * (1 - rise(18.55, 19.25)) : 0;
   hemi.intensity = DAY_LIGHT.hemi + (NIGHT_LIGHT.hemi - DAY_LIGHT.hemi) * night;
   sun.intensity = DAY_LIGHT.sun + (NIGHT_LIGHT.sun - DAY_LIGHT.sun) * night;
   hemi.color.copy(DAY_LIGHT.hemiColor).lerp(NIGHT_LIGHT.hemiColor, night);
   sun.color.copy(DAY_LIGHT.sunColor).lerp(NIGHT_LIGHT.sunColor, night);
+  sun.color.lerp(new THREE.Color(0xFFC2AD), dawn * 0.5).lerp(new THREE.Color(0xFFAC65), dusk * 0.7);
+  hemi.color.lerp(new THREE.Color(0xF5CADA), dawn * 0.3);
+  const low = Math.max(dawn, dusk);
+  sun.position.set(-10 - low * 11, 22 - low * 14, 8 + dusk * 8);
   M.window.emissive.setHex(0xFFB84A);
   M.window.emissiveIntensity = night * 1.6;
   M.lamp.emissiveIntensity = 0.3 + night * 1.2;
@@ -2582,7 +2691,7 @@ function applyNight() {
   if (houseLight) houseLight.intensity = night * 2;
   // Gökyüzü: şafak/gün batımı tonu geçişin ortasında en belirgin
   $('sky-night').style.opacity = String(night * 0.92);
-  $('sky-dusk').style.opacity = String(Math.min(1, 4 * night * (1 - night)) * 0.85);
+  $('sky-dusk').style.opacity = String(Math.max(dawn * 0.4, dusk * 0.8, Math.min(1, 4 * night * (1 - night)) * 0.6));
   document.body.classList.toggle('night', night > 0.5);
 }
 const nightSky = $('sky-night');
@@ -2837,7 +2946,7 @@ let villageSig = '';
 let villageAnims = [];
 function buildVillage() {
   const V = view.village;
-  const sig = V.residents.map((r) => `${r.n}@${r.slot}`).join(',') + '|' + V.rings + '|' + (view.merchant.active ? view.merchant.slot : '');
+  const sig = V.residents.map((r) => `${r.n}@${r.slot}`).join(',') + '|' + V.rings + '|' + (view.merchant.active ? view.merchant.slot : '') + '|' + (view.gameSettings?.seasonalAppearance === false ? 'off' : view.calendar.season);
   if (sig === villageSig) return;
   villageSig = sig;
   villageGroup.clear();
@@ -2863,6 +2972,7 @@ function buildVillage() {
     } else if (res) {
       const o = buildHouse(res.n, res) || buildOccupant(res.n);
       if (o) {
+        snowOnRoofs(o);
         o.position.set(p.x, 0.065, p.z);
         // Yapılar adaya (merkeze) baksın
         o.rotation.y = Math.atan2(-p.x, -p.z);
@@ -3101,6 +3211,7 @@ function renderSettings() {
   const s = view.gameSettings;
   for (const b of document.querySelectorAll('#gs-graphics button')) b.classList.toggle('on', b.dataset.g === s.graphics);
   $('gs-night').checked = s.night;
+  $('gs-seasonal').checked = s.seasonalAppearance !== false;
   $('gs-sfx').checked = s.sfx;
   $('gs-ambient').checked = s.ambient;
   $('gs-notification-sound').checked = s.notificationSound !== false;
@@ -3113,6 +3224,7 @@ $('settings-modal').addEventListener('click', (e) => { if (e.target === $('setti
 const setSetting = async (k, v) => { await doAct('setting', k, v); renderSettings(); };
 $('gs-graphics').addEventListener('click', (e) => { const b = e.target.closest('[data-g]'); if (b) setSetting('graphics', b.dataset.g); });
 $('gs-night').addEventListener('change', (e) => setSetting('night', e.target.checked));
+$('gs-seasonal').addEventListener('change', (e) => setSetting('seasonalAppearance', e.target.checked));
 $('gs-sfx').addEventListener('change', (e) => setSetting('sfx', e.target.checked));
 $('gs-ambient').addEventListener('change', (e) => setSetting('ambient', e.target.checked));
 $('gs-notification-sound').addEventListener('change', (e) => setSetting('notificationSound', e.target.checked));
@@ -3170,7 +3282,7 @@ canvas.addEventListener('pointerleave', () => { $('hover-tip').hidden = true; })
 // ---------------------------------------------------------------------------
 // Adaya dön (R) ve bir kovana odaklan
 // ---------------------------------------------------------------------------
-function recenter() { camTarget.set(0, 0, 0); zoom = 0.83; placeCamera(); resize(); closePopup(); }
+function recenter() { camTarget.set(0, 0, 0); zoom = 0.83; rotateCamera(baseCamAngle - camAngleTarget); resize(); closePopup(); }
 $('recenter').addEventListener('click', recenter);
 function focusHive(id) {
   const o = hiveObjects.get(id);
@@ -3284,6 +3396,7 @@ function updateHouseLabels() {
 function loop() {
   updateHouseLabels();
   const dt = clock.getDelta();
+  animateCameraTurn(dt);
   const t = clock.elapsedTime;
   const now = new Date();
   villageLife.update(now);
@@ -3301,6 +3414,7 @@ function loop() {
     for (const animate of itemAnims) animate(t);
   }
   animateKeeper(t);
+  animateHarvestGlints(performance.now());
   drawComb(t);
   drawSnow(t);
   updateLabels();

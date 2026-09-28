@@ -279,7 +279,7 @@
           </label>
           <label class="todo-time" title="Hatırlatma saati (isteğe bağlı)">
             <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5.5 8.5a4.5 4.5 0 0 1 9 0c0 5 2 5 2 6H3.5c0-1 2-1 2-6zM8 16.2a2.2 2.2 0 0 0 4 0"/></svg>
-            <input id="todo-time" type="time" aria-label="Hatırlatma saati">
+            <input id="todo-time" type="text" inputmode="numeric" maxlength="5" pattern="([01][0-9]|2[0-3]):[0-5][0-9]" placeholder="ss:dd" aria-label="Hatırlatma saati, 24 saat biçiminde (00:00–23:59)" title="24 saat biçiminde yaz: 18:30">
           </label>
           <button class="add" type="submit" aria-label="Ekle">
             <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v10M3 8h10"/></svg>
@@ -365,6 +365,15 @@
             <span>Boyut <output id="scale-out">100%</output></span>
             <input id="set-scale" type="range" min="50" max="200" step="5">
           </label>
+        </div>
+
+        <div class="card wardrobe-card">
+          <h2>Kıyafet Dolabı</h2>
+          <p class="hint" id="wardrobe-status">Nero için bir kıyafet seç.</p>
+          <div class="wardrobe-tabs" id="wardrobe-tabs" role="tablist" aria-label="Kıyafet grupları"></div>
+          <div class="wardrobe-grid" id="wardrobe-grid"></div>
+          <button class="chip" id="wardrobe-remove" type="button">Tüm kıyafetleri çıkar</button>
+          <p class="hint">Gece pijama rastgele seçilir. Özel gün kıyafeti o gün otomatik giyilir.</p>
         </div>
 
         <div class="card">

@@ -49,5 +49,9 @@ export const RELEASE_NOTES = [
   { version: '6.2.0', title: 'Köy ve çiftlik yeni bir yüz kazandı', items: [
     { icon: '🏡', title: '78 özgün köy yapısı', text: 'Köylülerin evleri, dükkânları ve binaları yenilendi; yakından bakınca adları görünür.' },
     { icon: '🧑‍🌾', title: 'Yeni arıcı', text: 'Yürüyüş ve hasatta eklemli hareketler, körük dumanı ve kovan aletleri.' },
-    { icon: '🐝', title: 'Canlanan ada', text: 'Büyüyen çiftlik evi; ırka ve seviyeye göre kovanlar; yeni arılar, tarhlar, göller ve satıcı arabası.' }] }
+    { icon: '🐝', title: 'Canlanan ada', text: 'Büyüyen çiftlik evi; ırka ve seviyeye göre kovanlar; yeni arılar, tarhlar, göller ve satıcı arabası.' }] },
+  { version: '6.3.0', title: 'Nero giyiniyor, ada mevsimi yaşıyor', items: [
+    { icon: '🌸', title: 'Dört mevsim', text: 'Köy çatıları, ağaçlar ve ada mevsime göre giyinir. Görünümü oyun ayarlarından açıp kapatabilirsin.' },
+    { icon: '🏠', title: 'Depo ve köy', text: 'Evin yakınında gelişen depo ve her 150 kg sipariş teslimatında gelen yeni bir köy evi.' },
+    { icon: '🍯', title: 'Hasat ve kamera', text: 'Arıcının bal kavanozu, hasat parıltısı ve Q/E ile döndürülebilen ada.' }] }
 ];

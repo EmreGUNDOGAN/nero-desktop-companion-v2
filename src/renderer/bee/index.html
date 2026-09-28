@@ -89,6 +89,7 @@
       </div>
       <p class="modal-sub">Her çiçek, kovanın o çiçekten ürettiği bala kendi yüzdesini ekler. Mevsimi dışında üretimi azalır. Envanterinde tohum varsa önce o kullanılır.</p>
       <ul class="seed-list" id="seed-list"></ul>
+      <button type="button" class="act primary" id="revive-all">🌼 Tüm çiçekleri canlandır</button>
     </div>
   </div>
 
@@ -391,11 +392,15 @@
       <ellipse cx="78" cy="243" rx="24" ry="11" fill="#A3B899" stroke="#4A3A36" stroke-width="5"/>
       <ellipse cx="142" cy="243" rx="24" ry="11" fill="#A3B899" stroke="#4A3A36" stroke-width="5"/>
       <path d="M110 22 C170 22 188 70 188 130 C188 200 170 238 110 238 C50 238 32 200 32 130 C32 70 50 22 110 22 Z" fill="#BCCDB3" stroke="#4A3A36" stroke-width="6"/>
-      <ellipse cx="86" cy="108" rx="21" ry="25" fill="#FFFBF4" stroke="#4A3A36" stroke-width="5"/>
-      <ellipse cx="134" cy="108" rx="21" ry="25" fill="#FFFBF4" stroke="#4A3A36" stroke-width="5"/>
+      <path d="M55 186 Q110 174 165 186 L170 229 Q110 250 50 229Z" fill="#F2E4BD" stroke="#4A3A36" stroke-width="4"/>
+      <path d="M85 184 L105 211 L92 231 M135 184 L115 211 L128 231" fill="none" stroke="#C38B57" stroke-width="5"/>
+      <path d="M48 57 Q37 25 80 18 Q130 0 174 37 L166 62 Q109 35 48 57Z" fill="#EAC779" stroke="#4A3A36" stroke-width="5"/>
+      <path d="M48 55 Q108 30 172 57" fill="none" stroke="#AB8350" stroke-width="8"/>
+      <ellipse cx="84" cy="108" rx="21" ry="24" fill="#FFFBF4" stroke="#4A3A36" stroke-width="5"/>
+      <ellipse cx="136" cy="108" rx="21" ry="24" fill="#FFFBF4" stroke="#4A3A36" stroke-width="5"/>
       <circle class="pupil" cx="84" cy="112" r="8" fill="#4A3A36"/><circle class="pupil" cx="132" cy="112" r="8" fill="#4A3A36"/>
-      <path d="M68 72 Q86 68 104 72M116 72 Q134 68 152 72" fill="none" stroke="#4A3A36" stroke-width="7" stroke-linecap="round"/>
-      <path class="mouth" d="M92 170 Q110 164 128 170" fill="none" stroke="#4A3A36" stroke-width="6" stroke-linecap="round"/>
+      <path d="M63 101 Q84 80 105 101 M115 101 Q136 80 157 101" fill="#BCCDB3" stroke="#4A3A36" stroke-width="5" stroke-linecap="round"/>
+      <path class="mouth" d="M92 170 Q110 164 128 170" fill="none" stroke="#4A3A36" stroke-width="5" stroke-linecap="round"/>
     </svg>
   </div>
 
@@ -496,6 +501,7 @@
         <div class="gs-row"><span>Grafik kalitesi<small>Hafif: eski bilgisayarlar için. Arı sayısı sadece görüntü; üretim etkilenmez.</small></span>
           <div class="seg" id="gs-graphics"><button type="button" data-g="yuksek">Yüksek</button><button type="button" data-g="dengeli">Dengeli</button><button type="button" data-g="hafif">Hafif</button></div></div>
         <label class="gs-row"><span>Gece modu<small>Gerçek saatle 19:00–07:00 arası karanlık görünüm</small></span><input type="checkbox" id="gs-night"></label>
+        <label class="gs-row"><span>Mevsimsel görünüm<small>Adanın ve köy çatılarının mevsim süslerini açar</small></span><input type="checkbox" id="gs-seasonal"></label>
       </section>
       <section class="gs-sec">
         <h3>🔊 Ses</h3>

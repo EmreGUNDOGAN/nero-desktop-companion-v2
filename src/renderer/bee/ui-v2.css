@@ -84,6 +84,10 @@ body.ui2.night .hud-bottom, body.ui2.night .bell, body.ui2.night .tasks-btn { ba
 .ui2 #harvest-all .badge-n { top: 7px !important; right: 12px !important; }
 .ui2 #harvest-all { text-align: center; line-height: 1.15; }
 .ui2 #harvest-all > .ico { flex: none; margin-inline: auto; }
+.ui2 #harvest-all { box-sizing: border-box; padding: 15px 24px 10px !important; gap: 3px !important; justify-content: center !important; align-items: center !important; }
+.ui2 #harvest-all .badge-n { position: absolute !important; top: 11px !important; right: 17px !important; }
+.ui2 #harvest-all > .ico { width: 35px; height: 35px; }
+.hives-actions #hives-harvest-all { display: inline-flex; justify-content: center; align-items: center; gap: 7px; }
 .ui2 .hexbtn:active, .ui2 .round:active { transform: translateY(1px) scale(.98); }
 .ui2 .badge-n { top: -6px !important; right: -4px !important; }
 .ui2 .badge-n.ok { background: #3E8F52; }

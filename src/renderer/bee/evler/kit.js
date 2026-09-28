@@ -61,6 +61,7 @@ export function body(o) {
   else if (roofType === 'dome') { r = sph(Math.max(w, d) * 0.55, roof, 0, h, 0, 12); r.scale.y = 0.6; }
   else r = box(w + 0.08, 0.06, d + 0.08, roof, 0, h + 0.03, 0);
   g.add(r);
+  r.userData.seasonalRoof = true;
   if (chimney) g.add(box(0.09, 0.24, 0.09, chimney, w * 0.24, h + roofH * 0.55, -d * 0.18));
   g.userData.h = h; g.userData.top = h + (roofType === 'flat' ? 0.06 : roofH); g.userData.w = w; g.userData.d = d;
   return g;

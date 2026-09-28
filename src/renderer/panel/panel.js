@@ -737,10 +737,25 @@
       const at = todo.remindAt ? new Date(todo.remindAt) : null;
       bell.innerHTML = '<svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="11" r="6.5"/><path d="M10 7.5V11l2.2 1.6"/></svg>';
       const tInput = document.createElement('input');
-      tInput.type = 'time';
-      tInput.setAttribute('aria-label', 'Hatırlatma saati');
+      tInput.type = 'text';
+      tInput.inputMode = 'numeric';
+      tInput.maxLength = 5;
+      tInput.pattern = '([01][0-9]|2[0-3]):[0-5][0-9]';
+      tInput.placeholder = 'ss:dd';
+      tInput.setAttribute('aria-label', 'Hatırlatma saati, 24 saat biçiminde');
+      tInput.title = '24 saat biçiminde yaz: 18:30';
       if (at) tInput.value = `${String(at.getHours()).padStart(2, '0')}:${String(at.getMinutes()).padStart(2, '0')}`;
-      tInput.addEventListener('change', () => api.invoke('todos:setReminder', todo.id, tInput.value));
+      tInput.addEventListener('change', () => {
+        const value = tInput.value.trim();
+        if (value && !/^([01]\d|2[0-3]):[0-5]\d$/.test(value)) {
+          tInput.setCustomValidity('Saati 24 saat biçiminde yaz: 18:30');
+          tInput.reportValidity();
+          return;
+        }
+        tInput.setCustomValidity('');
+        api.invoke('todos:setReminder', todo.id, value);
+      });
+      tInput.addEventListener('input', () => tInput.setCustomValidity(''));
       bell.appendChild(tInput);
       if (todo.done) bell.hidden = true;
 
@@ -877,6 +892,42 @@
   // Ayarlar
   // ---------------------------------------------------------------------------
   const set = (key, value) => api.invoke('settings:set', key, value);
+  const wardrobeGroups = { costume: 'Sevimli', daily: 'Gündelik', spring: 'İlkbahar', summer: 'Yaz', autumn: 'Sonbahar', winter: 'Kış' };
+  let wardrobeGroup = 'daily';
+  function renderWardrobe() {
+    const locked = !!state.specialOutfit;
+    const builtin = state.themes.some((t) => t.id === state.currentThemeId && t.source === 'builtin');
+    const tabs = $('wardrobe-tabs');
+    tabs.replaceChildren();
+    for (const [group, label] of Object.entries(wardrobeGroups)) {
+      const button = document.createElement('button');
+      button.type = 'button'; button.textContent = label;
+      button.setAttribute('role', 'tab'); button.setAttribute('aria-selected', String(group === wardrobeGroup));
+      button.addEventListener('click', () => { wardrobeGroup = group; renderWardrobe(); });
+      tabs.appendChild(button);
+    }
+    const grid = $('wardrobe-grid');
+    grid.replaceChildren();
+    for (const item of (state.wardrobe || []).filter((item) => item.group === wardrobeGroup)) {
+      const button = document.createElement('button');
+      button.className = 'wardrobe-item'; button.type = 'button'; button.disabled = locked || !builtin;
+      button.setAttribute('aria-pressed', String(state.settings.wardrobeOutfit === item.id));
+      const portrait = document.createElement('span'); portrait.className = 'wardrobe-portrait';
+      const base = document.createElement('img'); base.src = `nero-theme://${state.currentThemeId}/assets/body.svg`; base.alt = '';
+      const garment = document.createElement('img'); garment.src = `nero-theme://${state.currentThemeId}/assets/outfit-${item.id}.svg`; garment.alt = '';
+      portrait.append(base, garment);
+      const label = document.createElement('span'); label.textContent = item.name;
+      button.append(portrait, label);
+      button.addEventListener('click', () => set('wardrobeOutfit', item.id));
+      grid.appendChild(button);
+    }
+    $('wardrobe-remove').disabled = locked || !builtin;
+    $('wardrobe-status').textContent = locked ? 'Bugün özel gün kıyafeti giyiliyor; yarın seçtiğin kıyafet geri dönecek.'
+      : !builtin ? 'Dolap Nero ile gelen temalarda kullanılabilir.'
+      : (new Date().getHours() >= 21 || new Date().getHours() < 6) ? 'Nero şimdi gecenin pijamasını giyiyor. Gündüz seçimin saklı.'
+      : 'Giydirmek için bir kıyafete dokun.';
+  }
+  $('wardrobe-remove').addEventListener('click', () => set('wardrobeOutfit', null));
 
   function renderSettings() {
     const s = state.settings;
@@ -930,6 +981,7 @@
     $('char-hide').textContent = s.hidden ? 'Nero\'yu göster' : 'Nero\'yu gizle';
     $('app-version').textContent = `v${state.version}`;
     $('version').textContent = `Nero ${state.version}, Stenwick'ten sevgilerle`;
+    renderWardrobe();
   }
 
   $('set-theme').addEventListener('change', (e) => set('themeId', e.target.value));
@@ -1139,13 +1191,13 @@
   function renderDesk() {
     const d = state.desk;
     if (!d) return;
-    $('desk-next').textContent = d.next ? `sıradaki: ${d.next.hoursLeft} saat kaldı` : 'hepsi açıldı';
+    $('desk-next').textContent = d.next ? `sıradaki: ${d.next.minutesLeft} dk kaldı` : 'hepsi açıldı';
     const grid = $('desk-grid');
     grid.textContent = '';
     for (const item of d.items) {
       const li = document.createElement('li');
       li.className = `desk-item${item.unlockedAt ? ' on' : ''}`;
-      li.title = item.unlockedAt ? item.title : `${item.title} — ${item.hours} saat odaklanınca açılır`;
+      li.title = item.unlockedAt ? item.title : `${item.title} — toplam ${item.hours * 60} dk odaklanınca açılır`;
       li.textContent = item.unlockedAt ? item.icon : '?';
       grid.appendChild(li);
     }

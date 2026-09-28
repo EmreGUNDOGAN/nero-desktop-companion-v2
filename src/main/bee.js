@@ -125,7 +125,7 @@ const LETTERS_GENERIC = [
 
 // Ayarlar (oyun içi): görüntü, ses, bildirim tercihleri
 const GAME_SETTINGS_DEFAULT = {
-  graphics: 'dengeli', night: true, sfx: true, ambient: true, notificationSound: true,
+  graphics: 'dengeli', night: true, seasonalAppearance: true, sfx: true, ambient: true, notificationSound: true,
   audio: {
     coin: true, harvest: true, place: true, plant: true, paper: true, success: true, error: true,
     birds: true, bees: true, rain: true, wind: true, crickets: true,
@@ -314,6 +314,7 @@ function makeIsland() {
   for (const k of FESTIVAL_KEYS) if (tiles[k] && tiles[k].kind === 'grass') {
     tiles[k].kind = 'festival'; tiles[k].owned = false; tiles[k].tree = false;
   }
+  tiles['-2,1'].kind = 'storage';
   return tiles;
 }
 
@@ -394,7 +395,17 @@ class BeeGame {
       migrateWinterHeather(this.state);
       this.state.winterHeatherMigrated = true;
     }
+    // On existing saves, preserve any player-placed item and use an adjacent free site.
+    const storeTile = ['-2,1', '-2,0', '-1,2'].find((k) => {
+      const t = this.state.tiles[k]; return t && t.kind !== 'water' && t.kind !== 'festival' && !t.item;
+    });
+    if (storeTile) {
+      for (const t of Object.values(this.state.tiles)) if (t.kind === 'storage' && t !== this.state.tiles[storeTile]) t.kind = 'grass';
+      this.state.tiles[storeTile].kind = 'storage';
+      this.state.tiles[storeTile].owned = false;
+    }
     this.state.keeper = this.state.keeper || { queue: [], job: null };
+    if (!this.state.keeper.job) this.state.keeper.carrying = false;
     if (!Number.isInteger(this.state.hivesPurchased)) this.state.hivesPurchased = Math.max(0, Object.keys(this.state.hives).length - 1);
     for (const h of Object.values(this.state.hives)) {
       Object.assign(h, { level: 0, queens: 0, syrup: 0, beesBought: 0, invested: 0, breedDay: 0, sickDeaths: 0, ...h });
@@ -1081,7 +1092,7 @@ class BeeGame {
   setGameSetting(keyName, value) {
     const s = this.state.gameSettings;
     if (keyName === 'graphics' && ['yuksek', 'dengeli', 'hafif'].includes(value)) s.graphics = value;
-    else if (['night', 'sfx', 'ambient', 'notificationSound'].includes(keyName)) s[keyName] = !!value;
+    else if (['night', 'seasonalAppearance', 'sfx', 'ambient', 'notificationSound'].includes(keyName)) s[keyName] = !!value;
     else if (keyName.startsWith('audio.') && keyName.slice(6) in s.audio) s.audio[keyName.slice(6)] = !!value;
     else if (keyName.startsWith('notify.') && keyName.slice(7) in s.notify) s.notify[keyName.slice(7)] = !!value;
     else return this.fail('Geçersiz ayar.');
@@ -1534,13 +1545,8 @@ class BeeGame {
   }
 
   villageTarget(kg) {
-    // Başlangıçta 6 yerleşimci; sonra her eşikte yalnızca 1 kişi gelir
-    let n = 6;
-    if (kg >= 50) n += 1;
-    if (kg >= 150) n += 1;
-    if (kg >= 400) n += 1;
-    if (kg >= 1000) n += 1 + Math.floor((kg - 1000) / 500);
-    return Math.min(VILLAGE.length, n);
+    // İlk ev 50 kg'da, ardından her 150 kg sipariş teslimatında bir ev.
+    return Math.min(VILLAGE.length, 6 + (kg >= 50 ? 1 + Math.floor((kg - 50) / 150) : 0));
   }
 
   // Köyün dış halkaları genişleyen adanın dışında kalır.
@@ -1655,7 +1661,7 @@ class BeeGame {
     const kg = v.deliveredKg;
     const n = v.arrived.length;
     let nextKg = null;
-    if (n < VILLAGE.length) { let x = kg; while (this.villageTarget(x) <= n) x = Math.floor(x / 50 + 1) * 50; nextKg = x; }
+    if (n < VILLAGE.length) nextKg = 50 + Math.max(0, n - 6) * 150;
     return {
       deliveredKg: Math.round(kg * 10) / 10,
       nextKg,
@@ -2471,6 +2477,10 @@ class BeeGame {
     return '0,0';
   }
 
+  storageKey() {
+    return Object.keys(this.state.tiles).find((k) => this.state.tiles[k].kind === 'storage') || this.houseKey();
+  }
+
   walkMs(fromKey, toKey) {
     const [q1, r1] = parse(fromKey);
     const [q2, r2] = parse(toKey);
@@ -2489,7 +2499,7 @@ class BeeGame {
       this.events.push({ msg: `Arıcı ${this.state.hives[hiveId].name}'e gidiyor…` });
       return;
     }
-    const home = this.houseKey();
+    const home = kp.carrying ? this.storageKey() : this.houseKey();
     if (fromKey !== home) {
       const walk = this.walkMs(fromKey, home);
       kp.job = { kind: 'home', from: fromKey, to: home, startAt: now, arriveAt: now + walk, doneAt: now + walk };
@@ -2508,7 +2518,10 @@ class BeeGame {
     const job = kp.job;
     if (job.kind === 'harvest') {
       const r = this.harvestHive(job.hiveId);
+      if (r.ok) kp.carrying = true;
       this.events.push({ msg: r.msg, err: !r.ok });
+    } else if (job.kind === 'home') {
+      kp.carrying = false;
     }
     this.startNextJob(now, job.to);
     this.save();
@@ -2737,6 +2750,21 @@ class BeeGame {
     return { ok: true, msg: `${def.name} yeniden canlandı (-${seedCost} 🪙).` };
   }
 
+  reviveAll() {
+    const wilted = Object.values(this.state.tiles).filter((t) => t.item?.type === 'flower' && t.item.wilted);
+    if (!wilted.length) return this.fail('Canlandırılacak solmuş çiçek yok.');
+    const cost = wilted.reduce((sum, t) => sum + this.reviveCost(t.item.flower), 0);
+    if (this.state.coins < cost) return this.fail(`Tümünü canlandırmak için ${cost} jeton gerekli.`);
+    this.state.coins -= cost;
+    for (const t of wilted) {
+      t.item.plantedDay = this.dayIndex(); t.item.wilted = false;
+      this.questEvent('plant', { flower: t.item.flower });
+      this.questEvent('revive', { flower: t.item.flower });
+    }
+    this.save();
+    return { ok: true, msg: `${wilted.length} tarh canlandı (-${cost} 🪙).` };
+  }
+
   removeFlower(k) {
     const t = this.state.tiles[k];
     if (!t || !t.item || t.item.type !== 'flower') return this.fail('Burada çiçek yok.');
@@ -2824,6 +2852,7 @@ class BeeGame {
       storage: s.storage,
       storageKg,
       storageCap: s.storageCap,
+      storageBaseCap: s.storageBaseCap,
       calendar: this.calendar(),
       tiles: s.tiles,
       hives,
@@ -2904,6 +2933,7 @@ class BeeGame {
       seasonPrice: SEASON_PRICE[this.calendar().season],
       nextStorage: (() => { const u = this.nextStorage(); if (!u) return null; const coupon = !!(this.state.merchantEffects && this.state.merchantEffects.storageCoupon); return { ...u, cost: Math.round(u.cost * (coupon ? 0.8 : 1)), baseCost: u.cost, coupon }; })(),
       houseKey: this.houseKey(),
+      storageKey: this.storageKey(),
       now: Date.now(),
       flowers: Object.fromEntries(Object.entries(FLOWERS).map(([k, f]) => [k, { ...f, seed: this.seedCost(k) }])),
       village: this.villageView(),

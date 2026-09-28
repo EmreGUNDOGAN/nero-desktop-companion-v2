@@ -662,3 +662,4 @@ kbd { display: inline-block; min-width: 22px; text-align: center; background: va
 .ezgi-choice small.choice-note { color: #A94C68; font-weight: 800; }
 .ezgi-welcome { background: #FFF1F4; border-radius: 12px; padding: 10px; margin-top: 8px; }
 .ezgi-welcome b { display: block; margin-bottom: 4px; }
+.hive-tag[hidden] { display: none !important; }
