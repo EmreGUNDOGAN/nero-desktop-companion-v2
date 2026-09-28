@@ -68,7 +68,7 @@ jobs:
 
           $release = Get-Content CHANGELOG-6.3.1.md -Raw
           $aggregate = if (Test-Path CHANGELOG.md) { Get-Content CHANGELOG.md -Raw } else { "# Nero — Değişiklik Günlüğü`r`n`r`n" }
-          if ($aggregate -notmatch '(?m)^##? Nero 6\\.3\\.1|^## 6\\.3\\.1') {
+          if ($aggregate -notmatch '(?m)^##? Nero 6\.3\.1|^## 6\.3\.1') {
             $aggregate = $aggregate.TrimEnd() + "`r`n`r`n" + $release.Trim() + "`r`n"
             Set-Content CHANGELOG.md -Value $aggregate -Encoding utf8
           }
@@ -96,7 +96,7 @@ jobs:
           $themes = @("cilek","default","disket","ege","gece","kar","kasaba","latte","mum","pazartesi","yagmur")
           foreach ($theme in $themes) {
             $json = Get-Content "themes/$theme/theme.json" -Raw
-            $pngRefs = ([regex]::Matches($json, 'assets/outfit-[^"]+\\.png')).Count
+            $pngRefs = ([regex]::Matches($json, 'assets/outfit-[^"]+\.png')).Count
             if ($pngRefs -ne 88) { throw "Expected 88 PNG wardrobe refs in $theme, got $pngRefs" }
           }
 
@@ -127,8 +127,8 @@ jobs:
             $f = $_
             if ($f -like ".release631/*") { return }
             if ($f -like "base/*" -or $f -like "project/*") { return }
-            if ($f -match '^Nero-v.*-source\\.zip$') { return }
-            if ($f -match '\\.(patch|gz)$' -or $f -match '\\.raw\\.patch$') { return }
+            if ($f -match '^Nero-v.*-source\.zip$') { return }
+            if ($f -match '\.(patch|gz)$' -or $f -match '\.raw\.patch$') { return }
             if ($f -match '^SHA256SUMS-[0-9]') { return }
             $dest = Join-Path $stage $f
             $parent = Split-Path $dest -Parent
@@ -150,8 +150,8 @@ jobs:
           }
 
           $metadata = Get-Content dist/latest.yml -Raw
-          if ($metadata -notmatch 'version: 6\\.3\\.1') { throw "latest.yml version mismatch" }
-          if ($metadata -notmatch 'Nero-Setup-6\\.3\\.1\\.exe') { throw "latest.yml installer mismatch" }
+          if ($metadata -notmatch 'version: 6\.3\.1') { throw "latest.yml version mismatch" }
+          if ($metadata -notmatch 'Nero-Setup-6\.3\.1\.exe') { throw "latest.yml installer mismatch" }
 
           $lines = foreach ($f in $required) {
             $hash = (Get-FileHash $f -Algorithm SHA256).Hash.ToLowerInvariant()
