@@ -29,8 +29,8 @@ jobs:
         shell: pwsh
         run: |
           $ErrorActionPreference = "Stop"
-          $payload = ".release631\\nero631_delta.tar.xz"
-          $parts = Get-ChildItem ".release631\\part-*" | Sort-Object Name
+          $payload = ".release631/nero631_delta.tar.xz"
+          $parts = Get-ChildItem ".release631/part-*" | Sort-Object Name
           if ($parts.Count -ne 7) { throw "Expected 7 payload parts, got $($parts.Count)" }
           $out = [System.IO.File]::Create($payload)
           try {
@@ -40,11 +40,11 @@ jobs:
             }
           } finally { $out.Dispose() }
 
-          $expected = (Get-Content ".release631\\PAYLOAD-SHA256.txt" -Raw).Trim().ToLowerInvariant()
+          $expected = (Get-Content ".release631/PAYLOAD-SHA256.txt" -Raw).Trim().ToLowerInvariant()
           $actual = (Get-FileHash $payload -Algorithm SHA256).Hash.ToLowerInvariant()
           if ($actual -ne $expected) { throw "Payload SHA256 mismatch: $actual" }
 
-          $sevenZip = "C:\\Program Files\\7-Zip\\7z.exe"
+          $sevenZip = "C:\Program Files\7-Zip\7z.exe"
           if (-not (Test-Path $sevenZip)) { throw "7-Zip not found" }
           & $sevenZip x -y $payload "-o$PWD"
           if ($LASTEXITCODE -ne 0) { throw "Could not unpack xz payload" }
