@@ -913,9 +913,8 @@
       button.className = 'wardrobe-item'; button.type = 'button'; button.disabled = locked || !builtin;
       button.setAttribute('aria-pressed', String(state.settings.wardrobeOutfit === item.id));
       const portrait = document.createElement('span'); portrait.className = 'wardrobe-portrait';
-      const base = document.createElement('img'); base.src = `nero-theme://${state.currentThemeId}/assets/body.svg`; base.alt = '';
-      const garment = document.createElement('img'); garment.src = `nero-theme://${state.currentThemeId}/assets/outfit-${item.id}.svg`; garment.alt = '';
-      portrait.append(base, garment);
+      const garment = document.createElement('img'); garment.src = `nero-theme://default/assets/outfit-${item.id}.png`; garment.alt = '';
+      portrait.append(garment);
       const label = document.createElement('span'); label.textContent = item.name;
       button.append(portrait, label);
       button.addEventListener('click', () => set('wardrobeOutfit', item.id));

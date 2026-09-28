@@ -84,10 +84,14 @@ class ThemeManager {
       for (const [variant, def] of Object.entries(variants)) {
         const spec = typeof def === 'string' ? { src: def } : (def || {});
         if (!spec.src) { errors.push(`${layerName}.${variant}: src yok`); continue; }
-        const abs = path.join(dir, spec.src);
+        // The illustrated wardrobe is shared by built-in themes. User themes
+        // continue to resolve their own outfit artwork from their own folder.
+        const sharedWardrobe = layerName === 'outfit' && /\/outfit-[\w-]+\.png$/.test(spec.src) &&
+          path.resolve(dir).startsWith(path.resolve(this.builtinDir) + path.sep);
+        const abs = sharedWardrobe ? path.join(this.builtinDir, 'default', spec.src) : path.join(dir, spec.src);
         if (!fs.existsSync(abs)) errors.push(`${layerName}.${variant}: dosya bulunamadı (${spec.src})`);
         layers[layerName][variant] = {
-          url: toUrl(spec.src),
+          url: sharedWardrobe ? `${SCHEME}://default/${spec.src}` : toUrl(spec.src),
           x: Number(spec.x) || 0,
           y: Number(spec.y) || 0,
           w: Number(spec.width) || canvas.width,

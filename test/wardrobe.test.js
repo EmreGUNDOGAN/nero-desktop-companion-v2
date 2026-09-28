@@ -11,9 +11,11 @@ test('all approved wardrobe entries resolve to real transparent costume layers',
   for (const id of [...w.ITEMS.map((x) => x.id), ...w.SLEEP.map((_, i) => `sleep-${i}`), ...Object.values(w.SPECIAL).map((id) => `special-${id}`), 'special-birthday']) {
     const rel = manifest.layers.outfit[id];
     assert.ok(rel, id);
-    const svg = fs.readFileSync(path.join(__dirname, '..', 'themes/default', rel), 'utf8');
-    assert.match(svg, /width="220" height="260"/);
-    assert.doesNotMatch(svg, /<rect[^>]*width="220"[^>]*height="260"/);
+    assert.match(rel, /\.png$/);
+    const png = fs.readFileSync(path.join(__dirname, '..', 'themes/default', rel));
+    assert.equal(png.subarray(0, 8).toString('hex'), '89504e470d0a1a0a');
+    assert.equal(png.readUInt32BE(16), 220);
+    assert.equal(png.readUInt32BE(20), 260);
   }
 });
 
