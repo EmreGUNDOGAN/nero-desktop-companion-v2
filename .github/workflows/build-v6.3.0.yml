@@ -93,7 +93,7 @@ jobs:
           $themes = @("cilek","default","disket","ege","gece","kar","kasaba","latte","mum","pazartesi","yagmur")
           foreach ($theme in $themes) {
             $count = (Get-ChildItem "themes/$theme/assets/outfit-*.svg").Count
-            if ($count -ne 88) { throw "Expected 88 wardrobe assets in $theme, got $count" }
+            if ($count -ne 91) { throw "Expected 91 wardrobe assets in $theme, got $count" }
           }
 
       - name: Run Node tests
