@@ -56,5 +56,8 @@ export const RELEASE_NOTES = [
     { icon: '🍯', title: 'Hasat ve kamera', text: 'Arıcının bal kavanozu, hasat parıltısı ve Q/E ile döndürülebilen ada.' }] },
   { version: '6.3.1', title: 'Kıyafet çizimleri düzeltildi', items: [
     { icon: '👕', title: 'Onaylı kıyafetler', text: 'Kıyafet Dolabı artık hazırlanan 88 özgün PNG çizimini doğrudan kullanır.' },
-    { icon: '✨', title: 'Temiz görünüm', text: 'Kıyafetli Nero üzerinde ikinci yüz katmanları çizilmez; tema değişimlerinde aynı onaylı çizimler korunur.' }] }
+    { icon: '✨', title: 'Temiz görünüm', text: 'Kıyafetli Nero üzerinde ikinci yüz katmanları çizilmez; tema değişimlerinde aynı onaylı çizimler korunur.' }] },
+  { version: '6.3.2', title: 'Nero’nun kıyafetleri', items: [
+    { icon: '👕', title: 'Tam karakter çizimleri', text: 'Her kıyafet Nero’nun tüm görünümünü değiştirir.' },
+    { icon: '🌙', title: 'Dolap seçimi', text: 'Seçilen kıyafet hemen görünür; gece pijaması varsayılan olarak otomatik seçilir.' }] }
 ];

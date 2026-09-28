@@ -917,13 +917,16 @@
       portrait.append(garment);
       const label = document.createElement('span'); label.textContent = item.name;
       button.append(portrait, label);
-      button.addEventListener('click', () => set('wardrobeOutfit', item.id));
+      button.addEventListener('click', async () => {
+        await set('wardrobeOutfit', item.id);
+        button.blur();
+      });
       grid.appendChild(button);
     }
     $('wardrobe-remove').disabled = locked || !builtin;
     $('wardrobe-status').textContent = locked ? 'Bugün özel gün kıyafeti giyiliyor; yarın seçtiğin kıyafet geri dönecek.'
       : !builtin ? 'Dolap Nero ile gelen temalarda kullanılabilir.'
-      : (new Date().getHours() >= 21 || new Date().getHours() < 6) ? 'Nero şimdi gecenin pijamasını giyiyor. Gündüz seçimin saklı.'
+      : (new Date().getHours() >= 21 || new Date().getHours() < 6) ? 'Gece pijaması otomatik seçilir; dolaptan seçtiğin kıyafet hemen giyilir.'
       : 'Giydirmek için bir kıyafete dokun.';
   }
   $('wardrobe-remove').addEventListener('click', () => set('wardrobeOutfit', null));

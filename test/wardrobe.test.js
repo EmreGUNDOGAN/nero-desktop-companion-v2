@@ -5,7 +5,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const w = require('../src/main/wardrobe');
 
-test('all approved wardrobe entries resolve to real transparent costume layers', () => {
+test('all approved wardrobe entries resolve to full character portraits', () => {
   const manifest = require('../themes/default/theme.json');
   assert.equal(w.ITEMS.length, 72);
   for (const id of [...w.ITEMS.map((x) => x.id), ...w.SLEEP.map((_, i) => `sleep-${i}`), ...Object.values(w.SPECIAL).map((id) => `special-${id}`), 'special-birthday']) {
@@ -26,6 +26,17 @@ test('nightly sleepwear stays chosen through midnight and application restart', 
   assert.equal(w.choose(s, new Date(2026, 8, 29, 5, 59), persist, () => 0).outfit, 'sleep-6');
   assert.equal(w.choose(s, new Date(2026, 8, 29, 6), persist).outfit, w.ITEMS[0].id);
   assert.equal(w.choose(s, new Date(2026, 8, 29, 21), persist, () => 0).outfit, 'sleep-0');
+});
+
+test('a wardrobe click changes Nero immediately at night, then pajamas resume the next night', () => {
+  const outfit = w.ITEMS[5].id;
+  const s = { birthday: '', wardrobeOutfit: outfit, wardrobeSelectedNight: w.sleepNight(new Date(2026, 8, 28, 22)) };
+  const persist = (patch) => Object.assign(s, patch);
+  assert.equal(w.choose(s, new Date(2026, 8, 28, 22), persist).outfit, outfit);
+  assert.equal(w.choose(s, new Date(2026, 8, 29, 5), persist).outfit, outfit);
+  assert.equal(w.choose(s, new Date(2026, 8, 29, 21), persist, () => 0).outfit, 'sleep-0');
+  s.wardrobeSelectedNight = '';
+  assert.equal(w.choose(s, new Date(2026, 8, 29, 22), persist).outfit, 'sleep-0');
 });
 
 test('special-day clothing overrides sleepwear and restores previous choice', () => {
