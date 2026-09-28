@@ -172,6 +172,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
+          git reset -- dist/ Nero-v6_3_0-source.zip SHA256SUMS-6.3.0.txt
           git diff --cached --check 2>&1 | Write-Host
           $global:LASTEXITCODE = 0
           git diff --cached --quiet
