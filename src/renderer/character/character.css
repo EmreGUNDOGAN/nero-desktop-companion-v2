@@ -58,13 +58,9 @@ html, body {
   image-rendering: auto;
 }
 .layer.on { display: block; }
-/* The selected full-character artwork is rebuilt on Nero's canonical body.
-   Hide the live face only during that short conversion to avoid a double face. */
-.illustrated-preparing .layer-eyes,
-.illustrated-preparing .pupils-wrap,
-.illustrated-preparing .layer-lids,
-.illustrated-preparing .layer-brows,
-.illustrated-preparing .layer-mouth { visibility: hidden; }
+/* While a source outfit is being rebuilt, keep Nero's normal body and
+   live face visible and hide only the old full-character PNG. */
+.illustrated-preparing .layer-outfit { visibility: hidden; }
 
 .pupils-wrap {
   position: absolute;
