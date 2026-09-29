@@ -77,10 +77,6 @@
         img.alt = '';
         img.className = `layer layer-${layerName}${layerName === 'effects' ? ` fx fx-${variant}` : ''}`;
         img.dataset.variant = variant;
-        if (layerName === 'outfit' && /\.png(?:$|\?)/i.test(spec.url)) {
-          img.dataset.illustrated = '1';
-          img.dataset.originalSrc = spec.url;
-        }
         Object.assign(img.style, {
           left: `${spec.x * s}px`,
           top: `${spec.y * s}px`,
@@ -113,37 +109,6 @@
     for (const [name, img] of Object.entries(imgs)) img.classList.toggle('on', name === variant);
   }
 
-  function prepareIllustratedOutfit(outfit) {
-    const img = layerImgs.outfit?.[outfit];
-    if (!img || img.dataset.illustrated !== '1' || img.dataset.canonicalized === '1') return;
-    if (img.dataset.canonicalizing === '1') return;
-
-    const bodyImg = layerImgs.body?.default || Object.values(layerImgs.body || {})[0];
-    const bodySrc = bodyImg?.src;
-    const outfitSrc = img.dataset.originalSrc || img.src;
-    if (!bodySrc || !window.NeroWardrobeCanonical) return;
-
-    img.dataset.canonicalizing = '1';
-    charEl.classList.add('illustrated-preparing');
-    window.NeroWardrobeCanonical.build(outfitSrc, bodySrc)
-      .then((src) => {
-        img.dataset.canonicalizing = '';
-        img.dataset.canonicalized = '1';
-        img.addEventListener('load', () => {
-          if (img.classList.contains('on')) charEl.classList.remove('illustrated-preparing');
-          render();
-          scheduleHitmap();
-        }, { once: true });
-        img.src = src;
-      })
-      .catch((error) => {
-        img.dataset.canonicalizing = '';
-        // Keep the unprocessed full-character PNG hidden rather than showing
-        // a wrong Nero silhouette if a single outfit cannot be rebuilt.
-        console.error('[wardrobe] canonical Nero render failed', error);
-      });
-  }
-
   // ---------------------------------------------------------------------------
   // Çizim: ifadeyi katmanlara dök
   // ---------------------------------------------------------------------------
@@ -154,20 +119,15 @@
     state.expr = exprName;
 
     const outfit = expr.outfit !== undefined ? expr.outfit : state.outfit;
-    const outfitImg = outfit ? layerImgs.outfit?.[outfit] : null;
-    const illustrated = !!(outfitImg && outfitImg.dataset.illustrated === '1');
     const prevBody = currentBody;
     currentBody = resolveVariant('body', expr.body, [expr.body, 'default']);
-    const canonicalReady = illustrated && outfitImg.dataset.canonicalized === '1';
-    show('body', canonicalReady ? null : currentBody);
-    show('outfit', outfitImg ? outfit : null);
-    charEl.classList.toggle('illustrated-outfit', illustrated);
-    if (illustrated) prepareIllustratedOutfit(outfit);
-    else charEl.classList.remove('illustrated-preparing');
+    show('body', currentBody);
+    show('outfit', outfit && layerImgs.outfit?.[outfit] ? outfit : null);
+    charEl.classList.remove('illustrated-outfit', 'illustrated-preparing');
     show('eyes', resolveVariant('eyes', expr.eyes, ['default']));
     show('pupils', resolveVariant('pupils', expr.pupils, ['default']));
-    const front = Object.keys(layerImgs.front || {}).length ? resolveVariant('front', expr.front, ['default']) : null;
-    show('front', illustrated || expr.front === null ? null : front);
+    const front = expr.front && layerImgs.front?.[expr.front] ? expr.front : null;
+    show('front', front);
 
     // Göz kapakları: kırpma > ifade
     let lids = expr.lids || null;
