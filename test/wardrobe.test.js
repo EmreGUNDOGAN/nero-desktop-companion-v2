@@ -5,43 +5,55 @@ const fs = require('node:fs');
 const path = require('node:path');
 const w = require('../src/main/wardrobe');
 
-test('all approved wardrobe entries resolve to the original full-character wardrobe artwork', () => {
+test('6.3.3 exposes exactly the first ten Nero-native outfits', () => {
   const manifest = require('../themes/default/theme.json');
-  assert.equal(w.ITEMS.length, 72);
-  for (const id of [...w.ITEMS.map((x) => x.id), ...w.SLEEP.map((_, i) => `sleep-${i}`), ...Object.values(w.SPECIAL).map((id) => `special-${id}`), 'special-birthday']) {
+  assert.equal(w.ITEMS.length, 10);
+  const ids = w.ITEMS.map((x) => x.id);
+  assert.deepEqual(ids, [
+    'daily-kot-ceket',
+    'daily-cizgili-tisort',
+    'daily-soft-yesil-hoodie',
+    'daily-kamp-gunu',
+    'daily-baharlik-gomlek',
+    'daily-krem-hirka',
+    'winter-kar-tanesi-kazagi',
+    'winter-kis-montu',
+    'sleep-pijamalari',
+    'special-parti-kiyafeti'
+  ]);
+  for (const id of ids) {
     const rel = manifest.layers.outfit[id];
     assert.ok(rel, id);
-    assert.match(rel, /\.png$/);
-    const png = fs.readFileSync(path.join(__dirname, '..', 'themes/default', rel));
-    assert.equal(png.subarray(0, 8).toString('hex'), '89504e470d0a1a0a');
-    assert.equal(png.readUInt32BE(16), 220);
-    assert.equal(png.readUInt32BE(20), 260);
+    assert.match(rel, /^assets\/wardrobe-v2\/.+\.svg$/);
+    const svg = fs.readFileSync(path.join(__dirname, '..', 'themes/default', rel), 'utf8');
+    assert.match(svg, /viewBox="0 0 220 260"/);
+    assert.match(svg, /#4A3A36/);
   }
 });
 
-
-test('nightly sleepwear stays chosen through midnight and application restart', () => {
-  const s = { birthday: '', wardrobeOutfit: w.ITEMS[0].id };
+test('night uses the redesigned pajamas and returns to daytime selection', () => {
+  const s = { wardrobeOutfit: 'daily-kot-ceket', wardrobeSelectedNight: '' };
   const persist = (patch) => Object.assign(s, patch);
-  assert.equal(w.choose(s, new Date(2026, 8, 28, 21, 1), persist, () => 0.75).outfit, 'sleep-6');
-  assert.equal(w.choose(s, new Date(2026, 8, 29, 5, 59), persist, () => 0).outfit, 'sleep-6');
-  assert.equal(w.choose(s, new Date(2026, 8, 29, 6), persist).outfit, w.ITEMS[0].id);
-  assert.equal(w.choose(s, new Date(2026, 8, 29, 21), persist, () => 0).outfit, 'sleep-0');
+  assert.equal(w.choose(s, new Date(2026, 8, 28, 21, 1), persist).outfit, 'sleep-pijamalari');
+  assert.equal(w.choose(s, new Date(2026, 8, 29, 5, 59), persist).outfit, 'sleep-pijamalari');
+  assert.equal(w.choose(s, new Date(2026, 8, 29, 6), persist).outfit, 'daily-kot-ceket');
 });
 
-test('a wardrobe click changes Nero immediately at night, then pajamas resume next night', () => {
-  const outfit = w.ITEMS[5].id;
+test('manual wardrobe click wins immediately for the current night', () => {
   const night = w.sleepNight(new Date(2026, 8, 28, 22));
-  const s = { birthday: '', wardrobeOutfit: outfit, wardrobeSelectedNight: night };
-  const persist = (patch) => Object.assign(s, patch);
-  assert.equal(w.choose(s, new Date(2026, 8, 28, 22), persist).outfit, outfit);
-  assert.equal(w.choose(s, new Date(2026, 8, 29, 5), persist).outfit, outfit);
-  assert.equal(w.choose(s, new Date(2026, 8, 29, 21), persist, () => 0).outfit, 'sleep-0');
+  const s = {
+    wardrobeOutfit: 'winter-kar-tanesi-kazagi',
+    wardrobeSelectedNight: night,
+    sleepNight: night,
+    sleepOutfit: 'sleep-pijamalari'
+  };
+  assert.equal(w.choose(s, new Date(2026, 8, 28, 22), () => {}).outfit, 'winter-kar-tanesi-kazagi');
+  assert.equal(w.choose(s, new Date(2026, 8, 29, 5), () => {}).outfit, 'winter-kar-tanesi-kazagi');
+  assert.equal(w.choose(s, new Date(2026, 8, 29, 21), () => {}).outfit, 'sleep-pijamalari');
 });
 
-test('special-day clothing overrides sleepwear and restores previous choice', () => {
-  const s = { birthday: '05-20', wardrobeOutfit: w.ITEMS[1].id };
-  assert.equal(w.choose(s, new Date(2026, 4, 20, 23), () => {}).outfit, 'special-birthday');
-  assert.equal(w.choose(s, new Date(2026, 4, 21, 12), () => {}).outfit, w.ITEMS[1].id);
-  assert.equal(w.choose({ ...s, birthday: '' }, new Date(2026, 3, 1, 10), () => {}).outfit, 'special-april');
+test('retired wardrobe ids are no longer valid', () => {
+  assert.equal(w.VALID.has('daily-spor-gunu'), false);
+  assert.equal(w.VALID.has('summer-limonata'), false);
+  assert.equal(w.special(new Date(2026, 3, 1)), null);
 });
