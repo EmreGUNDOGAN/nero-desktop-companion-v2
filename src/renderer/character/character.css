@@ -58,10 +58,6 @@ html, body {
   image-rendering: auto;
 }
 .layer.on { display: block; }
-/* While a source outfit is being rebuilt, keep Nero's normal body and
-   live face visible and hide only the old full-character PNG. */
-.illustrated-preparing .layer-outfit { visibility: hidden; }
-
 .pupils-wrap {
   position: absolute;
   inset: 0;
