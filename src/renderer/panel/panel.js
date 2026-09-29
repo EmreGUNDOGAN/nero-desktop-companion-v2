@@ -894,6 +894,43 @@
   const set = (key, value) => api.invoke('settings:set', key, value);
   const wardrobeGroups = { costume: 'Sevimli', daily: 'Gündelik', spring: 'İlkbahar', summer: 'Yaz', autumn: 'Sonbahar', winter: 'Kış' };
   let wardrobeGroup = 'daily';
+  const WARDROBE_PREVIEW_SCALE = 1.24;
+  function buildWardrobePreview(src, portrait) {
+    const image = new Image();
+    image.crossOrigin = 'anonymous';
+    image.alt = '';
+    image.addEventListener('load', () => {
+      try {
+        const source = document.createElement('canvas');
+        source.width = image.naturalWidth || 220;
+        source.height = image.naturalHeight || 260;
+        const sourceCtx = source.getContext('2d');
+        sourceCtx.drawImage(image, 0, 0);
+        const canvas = document.createElement('canvas');
+        canvas.width = source.width;
+        canvas.height = source.height;
+        const ctx = canvas.getContext('2d');
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+        for (let y = 0; y < source.height; y += 1) {
+          let scale = WARDROBE_PREVIEW_SCALE;
+          if (y >= 230) scale = 1;
+          else if (y > 145) {
+            const t = (y - 145) / 85;
+            scale = WARDROBE_PREVIEW_SCALE + (1 - WARDROBE_PREVIEW_SCALE) * t;
+          }
+          const dw = source.width * scale;
+          const dx = (source.width - dw) / 2;
+          ctx.drawImage(source, 0, y, source.width, 1, dx, y, dw, 1);
+        }
+        portrait.replaceChildren(canvas);
+      } catch (_) {
+        portrait.replaceChildren(image);
+      }
+    }, { once: true });
+    portrait.append(image);
+    image.src = src;
+  }
   function renderWardrobe() {
     const locked = !!state.specialOutfit;
     const builtin = state.themes.some((t) => t.id === state.currentThemeId && t.source === 'builtin');
@@ -913,10 +950,7 @@
       button.className = 'wardrobe-item'; button.type = 'button'; button.disabled = locked || !builtin;
       button.setAttribute('aria-pressed', String(state.settings.wardrobeOutfit === item.id));
       const portrait = document.createElement('span'); portrait.className = 'wardrobe-portrait';
-      const preview = document.createElement('img');
-      preview.src = `nero-theme://default/assets/outfit-${item.id}.png`;
-      preview.alt = '';
-      portrait.append(preview);
+      buildWardrobePreview(`nero-theme://default/assets/outfit-${item.id}.png`, portrait);
       const label = document.createElement('span'); label.textContent = item.name;
       button.append(portrait, label);
       button.addEventListener('click', async () => {

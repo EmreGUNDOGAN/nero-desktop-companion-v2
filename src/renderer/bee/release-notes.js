@@ -56,5 +56,9 @@ export const RELEASE_NOTES = [
     { icon: '🍯', title: 'Hasat ve kamera', text: 'Arıcının bal kavanozu, hasat parıltısı ve Q/E ile döndürülebilen ada.' }] },
   { version: '6.3.1', title: 'Kıyafetler gerçekten Nero’nun üzerinde', items: [
     { icon: '👕', title: 'Tam tasarım geri geldi', text: '88 kıyafet, hazırlanan tam karakter çizimleriyle gösterilir; ayrı bir giysiyi Nero’nun üstüne yapıştırma yöntemi kullanılmaz.' },
-    { icon: '✨', title: 'Mimikler yine canlı', text: 'Çizimdeki sabit yüz çalışma anında temizlenir; Nero’nun göz kırpma, konuşma, bakış, kaş ve ağız animasyonları kıyafetin içinde çalışır.' }] }
+    { icon: '✨', title: 'Mimikler yine canlı', text: 'Çizimdeki sabit yüz çalışma anında temizlenir; Nero’nun göz kırpma, konuşma, bakış, kaş ve ağız animasyonları kıyafetin içinde çalışır.' }] },
+  { version: '6.3.2', title: 'Kıyafetler gerçek Nero gövdesine oturdu', items: [
+    { icon: '🧥', title: 'Asıl Nero silueti', text: 'Tüm kıyafet çizimleri Nero’nun 1.0.0’dan beri kullanılan geniş oval gövde oranına çalışma anında yeniden biçimlenir.' },
+    { icon: '👀', title: 'Gerçek yüz ve mimikler', text: 'Kıyafetin sabit yüzü temizlenir; Nero’nun kendi göz, kaş, ağız, bakış ve konuşma animasyonları aynı oranlarla çalışır.' },
+    { icon: '🪞', title: 'Dolap önizlemesi eşleşiyor', text: 'Ayarlar içindeki kıyafet kartları da masaüstündeki yeni Nero oranını gösterir.' }] }
 ];

@@ -21,7 +21,10 @@
   let pupilsWrap = null;
   let facePlacement = { eyeDx: 0, eyeDy: 0 };
   const cleanOutfitCache = new Map();
-  const FACE_BASE = Object.freeze({ eyeX: 109.52, eyeY: 107.5, browY: 72.315, mouthY: 167.789 });
+  const FACE_BASE = Object.freeze({ eyeX: 110, eyeY: 108 });
+  const WARDROBE_SHAPE_SCALE = 1.24;
+  const WARDROBE_SHAPE_FLAT_UNTIL = 145;
+  const WARDROBE_SHAPE_RETURN_AT = 230;
 
   const state = {
     baseline: 'normal',
@@ -131,13 +134,8 @@
     }
     const eyeDx = (metrics.eyeX - FACE_BASE.eyeX) * s;
     const eyeDy = (metrics.eyeY - FACE_BASE.eyeY) * s;
-    const browDy = (metrics.browY - FACE_BASE.browY) * s;
-    const mouthDy = (metrics.mouthY - FACE_BASE.mouthY) * s;
     facePlacement = { eyeDx, eyeDy };
-    setLayerOffset('eyes', eyeDx, eyeDy);
-    setLayerOffset('lids', eyeDx, eyeDy);
-    setLayerOffset('brows', eyeDx, browDy);
-    setLayerOffset('mouth', eyeDx, mouthDy);
+    for (const layerName of ['eyes', 'lids', 'brows', 'mouth']) setLayerOffset(layerName, eyeDx, eyeDy);
   }
 
   function collectComponents(mask, width, height) {
@@ -177,11 +175,33 @@
     const height = img.naturalHeight;
     if (!width || !height) return null;
 
+    const source = document.createElement('canvas');
+    source.width = width;
+    source.height = height;
+    const sourceCtx = source.getContext('2d', { willReadFrequently: true });
+    sourceCtx.drawImage(img, 0, 0);
+
     const canvas = document.createElement('canvas');
     canvas.width = width;
     canvas.height = height;
     const ctx = canvas.getContext('2d', { willReadFrequently: true });
-    ctx.drawImage(img, 0, 0);
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+
+    for (let y = 0; y < height; y += 1) {
+      let scale = WARDROBE_SHAPE_SCALE;
+      if (y >= WARDROBE_SHAPE_RETURN_AT) {
+        scale = 1;
+      } else if (y > WARDROBE_SHAPE_FLAT_UNTIL) {
+        const t = (y - WARDROBE_SHAPE_FLAT_UNTIL) /
+          (WARDROBE_SHAPE_RETURN_AT - WARDROBE_SHAPE_FLAT_UNTIL);
+        scale = WARDROBE_SHAPE_SCALE + (1 - WARDROBE_SHAPE_SCALE) * t;
+      }
+      const dw = width * scale;
+      const dx = (width - dw) / 2;
+      ctx.drawImage(source, 0, y, width, 1, dx, y, dw, 1);
+    }
+
     const frame = ctx.getImageData(0, 0, width, height);
     const data = frame.data;
     const count = width * height;
@@ -196,9 +216,29 @@
       }
     }
     const whiteComponents = collectComponents(whiteMask, width, height)
-      .filter((c) => c.area > 80 && c.width >= 15 && c.width <= 45 && c.height >= 10 && c.height <= 40);
-    const leftEye = whiteComponents.filter((c) => c.cx < width / 2).sort((a, b) => b.area - a.area)[0];
-    const rightEye = whiteComponents.filter((c) => c.cx >= width / 2).sort((a, b) => b.area - a.area)[0];
+      .filter((c) => c.area > 60 && c.area < 1200 &&
+        c.width >= 12 && c.width <= 55 && c.height >= 10 && c.height <= 50 &&
+        c.cy >= 65 && c.cy <= 150);
+    let leftEye = null;
+    let rightEye = null;
+    let eyePairCost = Infinity;
+    for (const left of whiteComponents.filter((c) => c.cx >= 58 && c.cx <= 110)) {
+      for (const right of whiteComponents.filter((c) => c.cx >= 110 && c.cx <= 162)) {
+        const separation = right.cx - left.cx;
+        if (separation < 28 || separation > 65) continue;
+        const meanY = (left.cy + right.cy) / 2;
+        const cost =
+          (left.cx - 86) ** 2 +
+          (right.cx - 134) ** 2 +
+          3 * (left.cy - right.cy) ** 2 +
+          0.5 * (meanY - 108) ** 2;
+        if (cost < eyePairCost) {
+          eyePairCost = cost;
+          leftEye = left;
+          rightEye = right;
+        }
+      }
+    }
 
     const greenMask = new Uint8Array(count);
     for (let p = 0; p < count; p += 1) {
@@ -293,12 +333,7 @@
     const eyeY = leftEye && rightEye ? (leftEye.cy + rightEye.cy) / 2 : Math.max(99, head.minY + 38);
     return {
       src: canvas.toDataURL('image/png'),
-      metrics: {
-        eyeX,
-        eyeY,
-        browY: Math.max(eyeY - 36, head.minY + 15),
-        mouthY: Math.min(eyeY + 37, head.maxY - 11)
-      }
+      metrics: { eyeX, eyeY }
     };
   }
 

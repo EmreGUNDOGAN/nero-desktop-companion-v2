@@ -1,0 +1,108 @@
+name: Build Nero 6.3.2 Final Bundle
+
+on:
+  push:
+    branches: [feature/bee-v6.3.2]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  release:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Verify Nero 6.3.2 canonical wardrobe source
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $pkg = Get-Content package.json -Raw | ConvertFrom-Json
+          if ($pkg.version -ne '6.3.2') { throw 'Wrong package version' }
+          if ($pkg.build.appId -ne 'com.stenwick.nero') { throw 'appId changed unexpectedly' }
+
+          $outfits = @(Get-ChildItem themes/default/assets/outfit-*.png)
+          if ($outfits.Count -ne 88) { throw "Expected 88 full-character wardrobe PNGs, found $($outfits.Count)" }
+
+          $character = Get-Content src/renderer/character/character.js -Raw
+          if ($character -notmatch 'cleanIllustratedFace' -or
+              $character -notmatch 'WARDROBE_SHAPE_SCALE' -or
+              $character -notmatch 'ctx.drawImage\(source, 0, y, width, 1') {
+            throw 'Canonical Nero wardrobe reshape is missing'
+          }
+          $panel = Get-Content src/renderer/panel/panel.js -Raw
+          if ($panel -match 'body-dressed\.svg' -or $panel -match 'hands-dressed\.svg') {
+            throw 'Wardrobe preview is still using the pasted-layer implementation'
+          }
+
+          node --check src/main/main.js
+          node --check src/main/wardrobe.js
+          node --check src/renderer/character/character.js
+          node --check src/renderer/panel/panel.js
+          Get-Content src/renderer/bee/release-notes.js -Raw | node --input-type=module --check
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm test
+
+      - name: Validate dialogue
+        run: npm run dialogue:check
+
+      - name: Bee window smoke test
+        run: npx electron test/bee-window-electron-smoke.js
+
+      - name: Build Windows installer
+        run: npm run dist
+
+      - name: Prepare release files and checksums
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          Copy-Item docs/ARICILIK-REHBERI.md OYUN-REHBERI.md -Force
+          git archive --format=zip -o Nero-v6_3_2-source.zip HEAD
+          if ($LASTEXITCODE -ne 0) { throw 'Source archive failed' }
+
+          $required = @(
+            'dist/Nero-Setup-6.3.2.exe',
+            'dist/Nero-Setup-6.3.2.exe.blockmap',
+            'dist/latest.yml',
+            'Nero-v6_3_2-source.zip',
+            'CHANGELOG-6.3.2.md',
+            'OYUN-REHBERI.md'
+          )
+          foreach ($f in $required) {
+            if (-not (Test-Path $f)) { throw "Missing final file: $f" }
+          }
+
+          $metadata = Get-Content dist/latest.yml -Raw
+          if ($metadata -notmatch 'version: 6\.3\.1' -or $metadata -notmatch 'Nero-Setup-6\.3\.1\.exe') {
+            throw 'Updater metadata mismatch'
+          }
+
+          $hashes = foreach ($f in $required) {
+            "$((Get-FileHash $f -Algorithm SHA256).Hash.ToLowerInvariant())  $([IO.Path]::GetFileName($f))"
+          }
+          Set-Content SHA256SUMS-6.3.2.txt -Value $hashes -Encoding ascii
+
+      - name: Upload Nero 6.3.2 final bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: Nero-6.3.2-final-bundle
+          path: |
+            dist/Nero-Setup-6.3.2.exe
+            dist/Nero-Setup-6.3.2.exe.blockmap
+            dist/latest.yml
+            Nero-v6_3_2-source.zip
+            CHANGELOG-6.3.2.md
+            OYUN-REHBERI.md
+            SHA256SUMS-6.3.2.txt
+          if-no-files-found: error
+          retention-days: 30
