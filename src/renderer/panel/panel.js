@@ -892,25 +892,28 @@
   // Ayarlar
   // ---------------------------------------------------------------------------
   const set = (key, value) => api.invoke('settings:set', key, value);
-  const wardrobeGroups = { costume: 'Sevimli', daily: 'Gündelik', spring: 'İlkbahar', summer: 'Yaz', autumn: 'Sonbahar', winter: 'Kış' };
+  const wardrobeGroups = { daily: 'Gündelik', winter: 'Kış', sleep: 'Uyku', special: 'Özel' };
   let wardrobeGroup = 'daily';
   function buildWardrobePreview(src, portrait) {
-    const bodySrc = 'nero-theme://default/assets/body.svg';
-    portrait.classList.add('wardrobe-loading');
-    if (!window.NeroWardrobeCanonical) return;
-    window.NeroWardrobeCanonical.renderInto(src, bodySrc, portrait)
-      .catch((error) => {
-        console.error('[wardrobe] preview render failed', error);
-        const image = new Image();
-        image.src = src;
-        image.alt = '';
-        portrait.replaceChildren(image);
-      })
-      .finally(() => portrait.classList.remove('wardrobe-loading'));
+    const add = (asset, className = '') => {
+      const image = new Image();
+      image.alt = '';
+      image.draggable = false;
+      image.src = asset;
+      if (className) image.className = className;
+      portrait.appendChild(image);
+    };
+    add('nero-theme://default/assets/body.svg');
+    add(src, 'wardrobe-preview-outfit');
+    add('nero-theme://default/assets/eyes.svg');
+    add('nero-theme://default/assets/pupils.svg');
+    add('nero-theme://default/assets/lids-heavy.svg');
+    add('nero-theme://default/assets/brows-normal.svg');
+    add('nero-theme://default/assets/mouth-neutral.svg');
   }
   function renderWardrobe() {
     const locked = !!state.specialOutfit;
-    const builtin = state.themes.some((t) => t.id === state.currentThemeId && t.source === 'builtin');
+    const builtin = state.currentThemeId === 'default';
     const tabs = $('wardrobe-tabs');
     tabs.replaceChildren();
     for (const [group, label] of Object.entries(wardrobeGroups)) {
@@ -927,7 +930,7 @@
       button.className = 'wardrobe-item'; button.type = 'button'; button.disabled = locked || !builtin;
       button.setAttribute('aria-pressed', String(state.settings.wardrobeOutfit === item.id));
       const portrait = document.createElement('span'); portrait.className = 'wardrobe-portrait';
-      buildWardrobePreview(`nero-theme://default/assets/outfit-${item.id}.png`, portrait);
+      buildWardrobePreview(`nero-theme://default/assets/wardrobe-v2/${item.id}.svg`, portrait);
       const label = document.createElement('span'); label.textContent = item.name;
       button.append(portrait, label);
       button.addEventListener('click', async () => {
@@ -938,7 +941,7 @@
     }
     $('wardrobe-remove').disabled = locked || !builtin;
     $('wardrobe-status').textContent = locked ? 'Bugün özel gün kıyafeti giyiliyor; yarın seçtiğin kıyafet geri dönecek.'
-      : !builtin ? 'Dolap Nero ile gelen temalarda kullanılabilir.'
+      : !builtin ? 'Yeni kıyafetler şimdilik yalnızca Default Nero’da kullanılabilir.'
       : (new Date().getHours() >= 21 || new Date().getHours() < 6) ? 'Gece pijaması otomatik seçilir; dolaptan seçtiğin kıyafet hemen giyilir.'
       : 'Giydirmek için bir kıyafete dokun.';
   }
