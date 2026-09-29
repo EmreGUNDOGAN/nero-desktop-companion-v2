@@ -131,13 +131,15 @@
         img.dataset.canonicalized = '1';
         img.addEventListener('load', () => {
           if (img.classList.contains('on')) charEl.classList.remove('illustrated-preparing');
+          render();
           scheduleHitmap();
         }, { once: true });
         img.src = src;
       })
       .catch((error) => {
         img.dataset.canonicalizing = '';
-        charEl.classList.remove('illustrated-preparing');
+        // Keep the unprocessed full-character PNG hidden rather than showing
+        // a wrong Nero silhouette if a single outfit cannot be rebuilt.
         console.error('[wardrobe] canonical Nero render failed', error);
       });
   }
@@ -156,7 +158,8 @@
     const illustrated = !!(outfitImg && outfitImg.dataset.illustrated === '1');
     const prevBody = currentBody;
     currentBody = resolveVariant('body', expr.body, [expr.body, 'default']);
-    show('body', illustrated ? null : currentBody);
+    const canonicalReady = illustrated && outfitImg.dataset.canonicalized === '1';
+    show('body', canonicalReady ? null : currentBody);
     show('outfit', outfitImg ? outfit : null);
     charEl.classList.toggle('illustrated-outfit', illustrated);
     if (illustrated) prepareIllustratedOutfit(outfit);
