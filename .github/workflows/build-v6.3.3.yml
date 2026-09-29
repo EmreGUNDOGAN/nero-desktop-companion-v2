@@ -1,0 +1,112 @@
+name: Build Nero 6.3.3 Wardrobe V2
+
+on:
+  push:
+    branches: [feature/bee-v6.3.3]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  release:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Verify Nero 6.3.3 wardrobe v2
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $pkg = Get-Content package.json -Raw | ConvertFrom-Json
+          if ($pkg.version -ne '6.3.3') { throw 'Wrong package version' }
+          if ($pkg.build.appId -ne 'com.stenwick.nero') { throw 'appId changed unexpectedly' }
+
+          $wardrobe = Get-ChildItem themes/default/assets/wardrobe-v2/*.svg
+          if ($wardrobe.Count -ne 10) { throw "Expected 10 new Nero-native outfits, found $($wardrobe.Count)" }
+          foreach ($f in $wardrobe) {
+            $svg = Get-Content $f.FullName -Raw
+            if ($svg -notmatch 'viewBox="0 0 220 260"') { throw "Wrong canvas: $($f.Name)" }
+            if ($svg -notmatch '#4A3A36') { throw "Missing Nero outline: $($f.Name)" }
+          }
+
+          $character = Get-Content src/renderer/character/character.js -Raw
+          if ($character -match 'NeroWardrobeCanonical' -or $character -match 'canonicalized') {
+            throw 'Old wardrobe reconstruction code is still active'
+          }
+          $panel = Get-Content src/renderer/panel/panel.js -Raw
+          if ($panel -notmatch 'wardrobe-v2') { throw 'Settings preview is not using wardrobe v2' }
+          if (Test-Path src/renderer/shared/wardrobe-canonical.js) {
+            throw 'Old wardrobe canonical renderer should be removed'
+          }
+
+          node --check src/main/main.js
+          node --check src/main/wardrobe.js
+          node --check src/renderer/character/character.js
+          node --check src/renderer/panel/panel.js
+          Get-Content src/renderer/bee/release-notes.js -Raw | node --input-type=module --check
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm test
+
+      - name: Validate dialogue
+        run: npm run dialogue:check
+
+      - name: Bee window smoke test
+        run: npx electron test/bee-window-electron-smoke.js
+
+      - name: Build Windows installer
+        run: npm run dist
+
+      - name: Prepare release files and checksums
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          Copy-Item docs/ARICILIK-REHBERI.md OYUN-REHBERI.md -Force
+          git archive --format=zip -o Nero-v6_3_3-source.zip HEAD
+          if ($LASTEXITCODE -ne 0) { throw 'Source archive failed' }
+
+          $required = @(
+            'dist/Nero-Setup-6.3.3.exe',
+            'dist/Nero-Setup-6.3.3.exe.blockmap',
+            'dist/latest.yml',
+            'Nero-v6_3_3-source.zip',
+            'CHANGELOG-6.3.3.md',
+            'OYUN-REHBERI.md'
+          )
+          foreach ($f in $required) {
+            if (-not (Test-Path $f)) { throw "Missing final file: $f" }
+          }
+
+          $metadata = Get-Content dist/latest.yml -Raw
+          if ($metadata -notmatch 'version: 6\.3\.3' -or $metadata -notmatch 'Nero-Setup-6\.3\.3\.exe') {
+            throw 'Updater metadata mismatch'
+          }
+
+          $hashes = foreach ($f in $required) {
+            "$((Get-FileHash $f -Algorithm SHA256).Hash.ToLowerInvariant())  $([IO.Path]::GetFileName($f))"
+          }
+          Set-Content SHA256SUMS-6.3.3.txt -Value $hashes -Encoding ascii
+
+      - name: Upload Nero 6.3.3 final bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: Nero-6.3.3-final-bundle
+          path: |
+            dist/Nero-Setup-6.3.3.exe
+            dist/Nero-Setup-6.3.3.exe.blockmap
+            dist/latest.yml
+            Nero-v6_3_3-source.zip
+            CHANGELOG-6.3.3.md
+            OYUN-REHBERI.md
+            SHA256SUMS-6.3.3.txt
+          if-no-files-found: error
+          retention-days: 30
