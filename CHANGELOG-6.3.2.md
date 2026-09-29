@@ -1,18 +1,18 @@
-# Nero 6.3.2 — Kıyafetler Gerçek Nero Gövdesinde
+# Nero 6.3.2 — Kanonik Nero Kıyafet Sistemi
 
 ## Masaüstü Nero
 
-- 88 kıyafetin tamamı, Nero’nun 1.0.0’dan beri kullandığı geniş ve yumuşak oval gövde oranına göre yeniden uyarlanır.
-- Tam karakter kıyafet çizimleri korunur; ayrı bir PNG’yi Nero’nun üstüne bırakma yöntemine geri dönülmez.
-- Kıyafet çizimi önce üst gövde ve omuzlarda yatay olarak Nero’nun gerçek oranına genişletilir; aşağı indikçe dönüşüm yumuşak biçimde sıfıra iner. Böylece ayaklar ve alt gövde gereksiz yere genişlemez.
-- Dönüşümün ardından çizimdeki sabit yüz temizlenir. Nero’nun gerçek gözleri, göz kırpması, bakışı, kaşları, ağzı ve konuşma animasyonu kıyafetin içinde çalışmaya devam eder.
-- Yüz katmanları ayrı ayrı esnetilmez; Nero’nun kendi yüz geometrisi korunur ve yalnızca kıyafetin doğal yüz konumuna birlikte taşınır.
-- Şapka, bere, kapüşon ve özel kostümlerde yüz konumu görselden otomatik bulunur.
-- Ayarlar > Kıyafet Dolabı önizlemeleri de aynı gövde düzeltmesini kullanır; seçilen kıyafetin kartı masaüstündeki biçime karşılık gelir.
-- 6.3.1’de düzeltilen anlık kıyafet seçimi, gece pijaması ve özel gün kilidi davranışları korunur.
+- Kıyafetlerin oturma sistemi tekrar düzenlendi. Kaynak kıyafet çizimleri korunuyor ancak artık çizimlerdeki farklı/şişkin karakter gövdesi doğrudan kullanılmıyor.
+- Her PNG çalışma anında Nero’nun gerçek `body.svg` siluetine yeniden kuruluyor: uzun oval gövde, küçük yan eller, ayrı oval ayaklar ve Nero’nun kendi gövde oranları korunuyor.
+- Kaynak çizimdeki sabit kafa, gözler, kaşlar, ağız, eller ve ayaklar ayrıştırılıyor. Kıyafetin kumaşı, yaka/kapüşon/ceket formu ve şapka gibi aksesuarları korunarak kanonik Nero gövdesine oturtuluyor.
+- Omuz ve yaka bölgesi özel bir geçiş deformasyonuyla yeniden şekillendiriliyor; kıyafet gövdenin üstüne bırakılmış bir PNG gibi değil, Nero için çizilmiş gibi oturuyor.
+- Kıyafetli Nero’da canlı göz takibi, göz kırpma, kaşlar, konuşma ağızları ve ifadeler kanonik koordinatlarda çalışmaya devam ediyor.
+- Kıyafet Dolabı önizlemeleri de masaüstündeki aynı kanonik dönüştürme motorunu kullanıyor; kartta görülen tasarım ile Nero’nun giydiği tasarım aynı.
+- 88 mevcut kıyafet kaynağı korunuyor; ayrı ayrı yeniden export edilmiş ikinci bir karakter seti gerekmiyor.
+- Gece manuel seçim düzeltmesi ve özel gün kıyafet kilidi korunuyor.
 
-## Teknik
+## Kontrol
 
-- Sürüm `6.3.2`.
-- `appId` değişmedi: `com.stenwick.nero`.
-- 88 tam karakter PNG kaynağı korunur; düzeltme çalışma anında uygulanır, böylece tek bir kanonik kıyafet seti bütün yerleşik temalarda kullanılır.
+- Sürüm `6.3.2`, `appId` `com.stenwick.nero`.
+- Ortak kıyafet dönüştürücü hem karakter penceresi hem Kıyafet Dolabı tarafından kullanılır.
+- Kaynakta 88 adet 220×260 kıyafet PNG’si doğrulanır; JavaScript sözdizimi, testler, diyalog kontrolü, Electron smoke testi ve Windows paketlemesi GitHub Actions üzerinde çalıştırılır.
