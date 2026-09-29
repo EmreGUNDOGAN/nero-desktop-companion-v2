@@ -58,8 +58,8 @@ html, body {
   image-rendering: auto;
 }
 .layer.on { display: block; }
-/* Full-character art is shown exactly as designed. While its baked face is
-   cleaned, avoid double-drawing the animated facial layers. */
+/* The selected full-character artwork is rebuilt on Nero's canonical body.
+   Hide the live face only during that short conversion to avoid a double face. */
 .illustrated-preparing .layer-eyes,
 .illustrated-preparing .pupils-wrap,
 .illustrated-preparing .layer-lids,
