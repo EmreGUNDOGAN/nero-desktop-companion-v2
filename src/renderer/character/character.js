@@ -118,17 +118,18 @@
     const expr = manifest.expressions[exprName] || manifest.expressions.normal || {};
     state.expr = exprName;
 
-    const prevBody = currentBody;
-    currentBody = resolveVariant('body', expr.body, ['default']);
-    show('body', currentBody);
     const outfit = expr.outfit !== undefined ? expr.outfit : state.outfit;
+    const prevBody = currentBody;
+    currentBody = resolveVariant('body', outfit ? 'dressed' : expr.body, [expr.body, 'default']);
+    show('body', currentBody);
     const illustrated = !!(outfit && layerImgs.outfit?.[outfit] && layerImgs.outfit[outfit].src.endsWith('.png'));
     show('outfit', outfit && layerImgs.outfit?.[outfit] ? outfit : null);
     charEl.classList.toggle('illustrated-outfit', illustrated);
     show('eyes', resolveVariant('eyes', expr.eyes, ['default']));
     show('pupils', resolveVariant('pupils', expr.pupils, ['default']));
-    const front = Object.keys(layerImgs.front || {}).length ? resolveVariant('front', expr.front, ['default']) : null;
-    show('front', expr.front === null ? null : front);
+    const front = outfit && layerImgs.front?.['dressed-hands'] ? 'dressed-hands'
+      : Object.keys(layerImgs.front || {}).length ? resolveVariant('front', expr.front, ['default']) : null;
+    show('front', !outfit && expr.front === null ? null : front);
 
     // Göz kapakları: kırpma > ifade
     let lids = expr.lids || null;

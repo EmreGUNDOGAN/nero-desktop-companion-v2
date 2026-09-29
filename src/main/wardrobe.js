@@ -28,6 +28,9 @@ function choose(settings, date, persist, random = Math.random) {
   if (celebration) return { outfit: `special-${celebration}`, special: celebration };
   if (date.getHours() >= 21 || date.getHours() < 6) {
     const night = sleepNight(date);
+    if (VALID.has(settings.wardrobeOutfit) && settings.wardrobeSelectedNight === night) {
+      return { outfit: settings.wardrobeOutfit };
+    }
     if (settings.sleepNight !== night || !/^sleep-[0-7]$/.test(settings.sleepOutfit || '')) {
       const picked = `sleep-${Math.min(7, Math.floor(Math.max(0, random()) * 8))}`;
       persist({ sleepNight: night, sleepOutfit: picked });

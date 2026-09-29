@@ -58,14 +58,8 @@ html, body {
   image-rendering: auto;
 }
 .layer.on { display: block; }
-/* The approved illustrations contain Nero's painted face. Avoid drawing a
-   second pair of eyes and mouth on top of the illustration. */
-.illustrated-outfit .layer-body,
-.illustrated-outfit .layer-eyes,
-.illustrated-outfit .layer-pupils,
-.illustrated-outfit .layer-lids,
-.illustrated-outfit .layer-brows,
-.illustrated-outfit .layer-mouth { display: none !important; }
+/* The outfit ends at the painted collar. Lift Nero's live mouth above it. */
+.illustrated-outfit .layer-mouth { transform: translateY(-26px); }
 
 .pupils-wrap {
   position: absolute;

@@ -93,6 +93,7 @@ const DEFAULT_SETTINGS = {
   breakEvery: 60,       // kesintisiz çalışma sonrası mola hatırlatması (dakika), 0 = kapalı
   birthday: '',         // "AA-GG"
   wardrobeOutfit: null,
+  wardrobeSelectedNight: '',
   sleepNight: '',
   sleepOutfit: '',
   lastSummaryDay: '',
@@ -1412,7 +1413,14 @@ function setSetting(key, value) {
   switch (key) {
     case 'wardrobeOutfit':
       if (wardrobe.special(new Date(), s.birthday)) return s;
-      settingsStore.patch({ wardrobeOutfit: wardrobe.VALID.has(value) ? value : null });
+      {
+        const now = new Date();
+        const night = now.getHours() >= 21 || now.getHours() < 6;
+        settingsStore.patch({
+          wardrobeOutfit: wardrobe.VALID.has(value) ? value : null,
+          wardrobeSelectedNight: night && wardrobe.VALID.has(value) ? wardrobe.sleepNight(now) : ''
+        });
+      }
       updateBaseline(true);
       break;
     case 'themeId': {

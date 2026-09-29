@@ -1172,3 +1172,4 @@ button.archive-entry-main { cursor: pointer; }
 .wardrobe-item > span:last-child { display: block; min-height: 28px; line-height: 1.2; }
 .wardrobe-portrait { display: block; position: relative; height: 98px; width: 84px; max-width: 100%; margin: auto; }
 .wardrobe-portrait img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+.wardrobe-portrait .wardrobe-preview-mouth { transform: translateY(-10px); }

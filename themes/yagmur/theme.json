@@ -24,7 +24,8 @@
   },
   "layers": {
     "body": {
-      "default": "assets/body.svg"
+      "default": "assets/body.svg",
+      "dressed": "assets/body-dressed.svg"
     },
     "outfit": {
       "pajama": "assets/outfit-pajama.svg",
@@ -151,7 +152,9 @@
       "sleepy": "assets/mouth-sleepy.svg",
       "smirk": "assets/mouth-smirk.svg"
     },
-    "front": {},
+    "front": {
+      "dressed-hands": "assets/hands-dressed.svg"
+    },
     "effects": {
       "blush": "assets/fx-blush.svg",
       "sweat": "assets/fx-sweat.svg",

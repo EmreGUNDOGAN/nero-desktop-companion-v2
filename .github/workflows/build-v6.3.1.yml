@@ -3,163 +3,94 @@ name: Build Nero 6.3.1 Final Bundle
 on:
   push:
     branches: [feature/bee-v6.3.1]
-    paths:
-      - ".release631/**"
-      - ".github/workflows/build-v6.3.1.yml"
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   release:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          persist-credentials: true
 
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
 
-      - name: Verify and apply Nero 6.3.1 payload
+      - name: Verify Nero 6.3.1 live wardrobe source
         shell: pwsh
         run: |
-          $ErrorActionPreference = "Stop"
-          $payload = ".release631/nero631_delta.tar.xz"
-          $parts = Get-ChildItem ".release631/part-*" | Sort-Object Name
-          if ($parts.Count -ne 7) { throw "Expected 7 payload parts, got $($parts.Count)" }
-          $out = [System.IO.File]::Create($payload)
-          try {
-            foreach ($part in $parts) {
-              $bytes = [System.IO.File]::ReadAllBytes($part.FullName)
-              $out.Write($bytes, 0, $bytes.Length)
-            }
-          } finally { $out.Dispose() }
-
-          $expected = (Get-Content ".release631/PAYLOAD-SHA256.txt" -Raw).Trim().ToLowerInvariant()
-          $actual = (Get-FileHash $payload -Algorithm SHA256).Hash.ToLowerInvariant()
-          if ($actual -ne $expected) { throw "Payload SHA256 mismatch: $actual" }
-
-          $sevenZip = "C:\Program Files\7-Zip\7z.exe"
-          if (-not (Test-Path $sevenZip)) { throw "7-Zip not found" }
-          & $sevenZip x -y $payload "-o$PWD"
-          if ($LASTEXITCODE -ne 0) { throw "Could not unpack xz payload" }
-          if (-not (Test-Path "nero631_delta.tar")) { throw "Payload tar was not produced" }
-          & $sevenZip x -y "nero631_delta.tar" "-o$PWD"
-          if ($LASTEXITCODE -ne 0) { throw "Could not unpack tar payload" }
-          Remove-Item "nero631_delta.tar" -Force
-
-          $keep = @("outfit-pajama.svg","outfit-party.svg","outfit-winter.svg")
-          Get-ChildItem "themes/*/assets/outfit-*.svg" -ErrorAction SilentlyContinue | Where-Object {
-            $keep -notcontains $_.Name
-          } | Remove-Item -Force
-          if (Test-Path "scripts/build-wardrobe.js") { Remove-Item "scripts/build-wardrobe.js" -Force }
-          Remove-Item ".release631" -Recurse -Force
-
+          $ErrorActionPreference = 'Stop'
           $pkg = Get-Content package.json -Raw | ConvertFrom-Json
-          if ($pkg.version -ne "6.3.1") { throw "package.json is not 6.3.1" }
-          if ($pkg.build.appId -ne "com.stenwick.nero") { throw "appId changed unexpectedly" }
+          if ($pkg.version -ne '6.3.1') { throw 'Wrong package version' }
+          if ($pkg.build.appId -ne 'com.stenwick.nero') { throw 'appId changed unexpectedly' }
 
-          Copy-Item docs/ARICILIK-REHBERI.md OYUN-REHBERI.md -Force
+          $outfits = @(Get-ChildItem themes/default/assets/outfit-*.png)
+          if ($outfits.Count -ne 88) { throw "Expected 88 tailored garment PNGs, found $($outfits.Count)" }
 
-          $release = Get-Content CHANGELOG-6.3.1.md -Raw
-          $aggregate = if (Test-Path CHANGELOG.md) { Get-Content CHANGELOG.md -Raw } else { "# Nero — Değişiklik Günlüğü`r`n`r`n" }
-          if ($aggregate -notmatch '(?m)^##? Nero 6\.3\.1|^## 6\.3\.1') {
-            $aggregate = $aggregate.TrimEnd() + "`r`n`r`n" + $release.Trim() + "`r`n"
-            Set-Content CHANGELOG.md -Value $aggregate -Encoding utf8
+          foreach ($theme in Get-ChildItem themes -Directory) {
+            if (-not (Test-Path "$($theme.FullName)/theme.json")) { continue }
+            $json = Get-Content "$($theme.FullName)/theme.json" -Raw
+            if ($json -notmatch 'body-dressed\.svg') { throw "Missing dressed body mapping: $($theme.Name)" }
+            if ($json -notmatch 'hands-dressed\.svg') { throw "Missing dressed hands mapping: $($theme.Name)" }
+            if (-not (Test-Path "$($theme.FullName)/assets/body-dressed.svg")) { throw "Missing body-dressed.svg: $($theme.Name)" }
+            if (-not (Test-Path "$($theme.FullName)/assets/hands-dressed.svg")) { throw "Missing hands-dressed.svg: $($theme.Name)" }
           }
+
+          node --check src/main/main.js
+          node --check src/main/wardrobe.js
+          node --check src/renderer/character/character.js
+          node --check src/renderer/panel/panel.js
+          Get-Content src/renderer/bee/release-notes.js -Raw | node --input-type=module --check
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Check JavaScript syntax and illustrated wardrobe
-        shell: pwsh
-        run: |
-          $ErrorActionPreference = "Stop"
-          $mainFiles = @(
-            "src/main/themes.js",
-            "src/renderer/character/character.js",
-            "src/renderer/panel/panel.js"
-          )
-          foreach ($m in $mainFiles) {
-            node --check $m
-            if ($LASTEXITCODE -ne 0) { throw "Syntax failed: $m" }
-          }
-
-          $pngs = @(Get-ChildItem "themes/default/assets/outfit-*.png")
-          if ($pngs.Count -ne 88) { throw "Expected 88 approved wardrobe PNGs, got $($pngs.Count)" }
-
-          $themes = @("cilek","default","disket","ege","gece","kar","kasaba","latte","mum","pazartesi","yagmur")
-          foreach ($theme in $themes) {
-            $json = Get-Content "themes/$theme/theme.json" -Raw
-            $pngRefs = ([regex]::Matches($json, 'assets/outfit-[^"]+\.png')).Count
-            if ($pngRefs -ne 88) { throw "Expected 88 PNG wardrobe refs in $theme, got $pngRefs" }
-          }
-
-      - name: Run Node tests
+      - name: Run tests
         run: npm test
 
-      - name: Validate desktop dialogue data
+      - name: Validate dialogue
         run: npm run dialogue:check
 
-      - name: Bee window Electron smoke
+      - name: Bee window smoke test
         run: npx electron test/bee-window-electron-smoke.js
 
       - name: Build Windows installer
         run: npm run dist
 
-      - name: Prepare classic 6.3.1 release files
+      - name: Prepare release files and checksums
         shell: pwsh
         run: |
-          $ErrorActionPreference = "Stop"
+          $ErrorActionPreference = 'Stop'
           Copy-Item docs/ARICILIK-REHBERI.md OYUN-REHBERI.md -Force
-
-          git add -A
-          $stage = Join-Path $env:RUNNER_TEMP "nero-source-6.3.1"
-          if (Test-Path $stage) { Remove-Item $stage -Recurse -Force }
-          New-Item -ItemType Directory -Force -Path $stage | Out-Null
-
-          git ls-files | ForEach-Object {
-            $f = $_
-            if ($f -like ".release631/*") { return }
-            if ($f -like "base/*" -or $f -like "project/*") { return }
-            if ($f -match '^Nero-v.*-source\.zip$') { return }
-            if ($f -match '\.(patch|gz)$' -or $f -match '\.raw\.patch$') { return }
-            if ($f -match '^SHA256SUMS-[0-9]') { return }
-            $dest = Join-Path $stage $f
-            $parent = Split-Path $dest -Parent
-            if ($parent) { New-Item -ItemType Directory -Force -Path $parent | Out-Null }
-            Copy-Item -LiteralPath $f -Destination $dest
-          }
-          Compress-Archive -Path (Join-Path $stage "*") -DestinationPath "Nero-v6_3_1-source.zip" -CompressionLevel Optimal
+          git archive --format=zip -o Nero-v6_3_1-source.zip HEAD
+          if ($LASTEXITCODE -ne 0) { throw 'Source archive failed' }
 
           $required = @(
-            "dist/Nero-Setup-6.3.1.exe",
-            "dist/Nero-Setup-6.3.1.exe.blockmap",
-            "dist/latest.yml",
-            "Nero-v6_3_1-source.zip",
-            "OYUN-REHBERI.md",
-            "CHANGELOG-6.3.1.md"
+            'dist/Nero-Setup-6.3.1.exe',
+            'dist/Nero-Setup-6.3.1.exe.blockmap',
+            'dist/latest.yml',
+            'Nero-v6_3_1-source.zip',
+            'CHANGELOG-6.3.1.md',
+            'OYUN-REHBERI.md'
           )
           foreach ($f in $required) {
             if (-not (Test-Path $f)) { throw "Missing final file: $f" }
           }
 
           $metadata = Get-Content dist/latest.yml -Raw
-          if ($metadata -notmatch 'version: 6\.3\.1') { throw "latest.yml version mismatch" }
-          if ($metadata -notmatch 'Nero-Setup-6\.3\.1\.exe') { throw "latest.yml installer mismatch" }
-
-          $lines = foreach ($f in $required) {
-            $hash = (Get-FileHash $f -Algorithm SHA256).Hash.ToLowerInvariant()
-            "$hash  $([IO.Path]::GetFileName($f))"
+          if ($metadata -notmatch 'version: 6\.3\.1' -or $metadata -notmatch 'Nero-Setup-6\.3\.1\.exe') {
+            throw 'Updater metadata mismatch'
           }
-          Set-Content -Path "SHA256SUMS-6.3.1.txt" -Value $lines -Encoding ascii
 
-      - name: Upload classic Nero 6.3.1 final bundle
+          $hashes = foreach ($f in $required) {
+            "$((Get-FileHash $f -Algorithm SHA256).Hash.ToLowerInvariant())  $([IO.Path]::GetFileName($f))"
+          }
+          Set-Content SHA256SUMS-6.3.1.txt -Value $hashes -Encoding ascii
+
+      - name: Upload Nero 6.3.1 final bundle
         uses: actions/upload-artifact@v4
         with:
           name: Nero-6.3.1-final-bundle
@@ -168,26 +99,8 @@ jobs:
             dist/Nero-Setup-6.3.1.exe.blockmap
             dist/latest.yml
             Nero-v6_3_1-source.zip
-            OYUN-REHBERI.md
             CHANGELOG-6.3.1.md
+            OYUN-REHBERI.md
             SHA256SUMS-6.3.1.txt
           if-no-files-found: error
           retention-days: 30
-
-      - name: Commit finalized 6.3.1 source last
-        shell: pwsh
-        run: |
-          $ErrorActionPreference = "Stop"
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A
-          git reset -- dist/ Nero-v6_3_1-source.zip SHA256SUMS-6.3.1.txt
-          git diff --cached --check 2>&1 | Write-Host
-          $global:LASTEXITCODE = 0
-          git diff --cached --quiet
-          if ($LASTEXITCODE -eq 0) {
-            Write-Host "No source changes to commit."
-            exit 0
-          }
-          git commit -m "Release Nero 6.3.1 illustrated wardrobe fix"
-          git push origin HEAD:feature/bee-v6.3.1

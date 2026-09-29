@@ -5,7 +5,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const w = require('../src/main/wardrobe');
 
-test('all approved wardrobe entries resolve to real transparent costume layers', () => {
+test('all approved wardrobe entries resolve to tailored transparent garment layers', () => {
   const manifest = require('../themes/default/theme.json');
   assert.equal(w.ITEMS.length, 72);
   for (const id of [...w.ITEMS.map((x) => x.id), ...w.SLEEP.map((_, i) => `sleep-${i}`), ...Object.values(w.SPECIAL).map((id) => `special-${id}`), 'special-birthday']) {
@@ -19,12 +19,32 @@ test('all approved wardrobe entries resolve to real transparent costume layers',
   }
 });
 
+test('built-in themes expose the dressed Nero body and front hands used by live outfits', () => {
+  for (const theme of ["cilek","default","disket","ege","gece","kar","kasaba","latte","mum","pazartesi","yagmur"]) {
+    const manifest = require(`../themes/${theme}/theme.json`);
+    assert.equal(manifest.layers.body.dressed, 'assets/body-dressed.svg', theme);
+    assert.equal(manifest.layers.front['dressed-hands'], 'assets/hands-dressed.svg', theme);
+    assert.ok(fs.existsSync(path.join(__dirname, '..', 'themes', theme, 'assets', 'body-dressed.svg')), theme);
+    assert.ok(fs.existsSync(path.join(__dirname, '..', 'themes', theme, 'assets', 'hands-dressed.svg')), theme);
+  }
+});
+
 test('nightly sleepwear stays chosen through midnight and application restart', () => {
   const s = { birthday: '', wardrobeOutfit: w.ITEMS[0].id };
   const persist = (patch) => Object.assign(s, patch);
   assert.equal(w.choose(s, new Date(2026, 8, 28, 21, 1), persist, () => 0.75).outfit, 'sleep-6');
   assert.equal(w.choose(s, new Date(2026, 8, 29, 5, 59), persist, () => 0).outfit, 'sleep-6');
   assert.equal(w.choose(s, new Date(2026, 8, 29, 6), persist).outfit, w.ITEMS[0].id);
+  assert.equal(w.choose(s, new Date(2026, 8, 29, 21), persist, () => 0).outfit, 'sleep-0');
+});
+
+test('a wardrobe click changes Nero immediately at night, then pajamas resume next night', () => {
+  const outfit = w.ITEMS[5].id;
+  const night = w.sleepNight(new Date(2026, 8, 28, 22));
+  const s = { birthday: '', wardrobeOutfit: outfit, wardrobeSelectedNight: night };
+  const persist = (patch) => Object.assign(s, patch);
+  assert.equal(w.choose(s, new Date(2026, 8, 28, 22), persist).outfit, outfit);
+  assert.equal(w.choose(s, new Date(2026, 8, 29, 5), persist).outfit, outfit);
   assert.equal(w.choose(s, new Date(2026, 8, 29, 21), persist, () => 0).outfit, 'sleep-0');
 });
 

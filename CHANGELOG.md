@@ -637,18 +637,21 @@ Ayrıntılar: `CHANGELOG-5.5.0.md`
 - `npm test`: 114 test geçti; değişen JavaScript dosyalarının sözdizimi kontrol edildi.
 - Windows kurulum dosyası bu Linux ortamında oluşturulup Windows üzerinde denenmedi.
 
-# Nero 6.3.1 — Kıyafet Görselleri Düzeltmesi
+# Nero 6.3.1 — Hareketli Kıyafet Dolabı
 
 ## Masaüstü Nero
 
-- Kıyafet Dolabı artık onaylanan 88 şeffaf PNG çizimini doğrudan kullanır; otomatik üretilmiş SVG kıyafetler yerine hazırlanan özgün çizimler gösterilir.
-- Yerleşik temalar aynı onaylı kıyafet görsellerini paylaşır; tema değiştirildiğinde kıyafet görünümü bozulmaz veya farklı bir çizime dönüşmez.
-- Kıyafet önizlemeleri Ayarlar içindeki dolapta doğrudan gerçek PNG çizimiyle gösterilir.
-- İllüstrasyonların kendi Nero yüzü bulunduğu için kıyafet giyiliyken ikinci göz, kaş ve ağız katmanlarının üst üste binmesi engellendi.
-- Kıyafet yokken mevcut Nero yüzü, mimikleri ve tema davranışı aynen korunur.
+- Kıyafet sistemi yeniden kuruldu: 88 kıyafet artık Nero’nun yerine konan tam karakter PNG’leri değildir. Her kıyafet Nero’nun 220×260 gövdesine özel hazırlanmış şeffaf PNG giysi katmanı olarak kullanılır.
+- Kıyafet giyildiğinde Nero’nun kendi gövdesi `body-dressed.svg` ile kıyafete uygun siluete geçer; eller `hands-dressed.svg` ile önde kalır. Böylece kol, yaka ve kenarlar Nero’ya tam oturur.
+- Nero’nun gerçek göz, pupil, göz kapağı, kaş, ağız ve efekt katmanları kıyafetin üstünde aktif kalır. Göz kırpma, konuşma, mutlu, kızgın, normal ve diğer mevcut mimikler kıyafetliyken de çalışır.
+- Eski “kıyafet PNG’sinin içindeki sabit yüzü göster, canlı yüzü gizle” yaklaşımı kaldırıldı.
+- Kıyafet çizgileri ve Nero’nun dış çizgileri tam opak tutulur; soluk/çift çizgi görünümü engellenir.
+- Ayarlar > Kıyafet Dolabı önizlemeleri oyundaki aynı katman mantığıyla oluşturulur: giyinik Nero gövdesi + seçilen PNG + canlı Nero yüzü + eller.
+- Bir kıyafete tıklanınca seçim tamamlanması beklenir ve Nero hemen güncellenir. Gece yapılan manuel seçim o gece anında görünür; sonraki gece otomatik pijama döngüsü yeniden devreye girer.
+- Özel gün kıyafet kilidi ve mevcut 6.1.0/6.3.x davranışları korunur.
 
 ## Kontrol
 
-- Kıyafet testleri 88 PNG dosyasının varlığını, PNG imzasını ve 220×260 ölçülerini doğrular.
-- Sürüm numarası `6.3.1` olarak güncellendi; `appId` `com.stenwick.nero` olarak korunur.
-
+- 72 seçilebilir kıyafet, 8 gece görünümü ve 8 özel görünüm olmak üzere 88 şeffaf PNG doğrulanır.
+- 11 yerleşik temada giyinik gövde ve el katmanları doğrulanır.
+- Sürüm `6.3.1`, `appId` `com.stenwick.nero` olarak korunur.
