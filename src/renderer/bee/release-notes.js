@@ -57,8 +57,7 @@ export const RELEASE_NOTES = [
   { version: '6.3.1', title: 'Kıyafetler gerçekten Nero’nun üzerinde', items: [
     { icon: '👕', title: 'Tam tasarım geri geldi', text: '88 kıyafet, hazırlanan tam karakter çizimleriyle gösterilir; ayrı bir giysiyi Nero’nun üstüne yapıştırma yöntemi kullanılmaz.' },
     { icon: '✨', title: 'Mimikler yine canlı', text: 'Çizimdeki sabit yüz çalışma anında temizlenir; Nero’nun göz kırpma, konuşma, bakış, kaş ve ağız animasyonları kıyafetin içinde çalışır.' }] },
-  { version: '6.3.2', title: 'Kıyafetler gerçek Nero gövdesine oturdu', items: [
-    { icon: '🧥', title: 'Asıl Nero silueti', text: 'Tüm kıyafet çizimleri Nero’nun 1.0.0’dan beri kullanılan geniş oval gövde oranına çalışma anında yeniden biçimlenir.' },
-    { icon: '👀', title: 'Gerçek yüz ve mimikler', text: 'Kıyafetin sabit yüzü temizlenir; Nero’nun kendi göz, kaş, ağız, bakış ve konuşma animasyonları aynı oranlarla çalışır.' },
-    { icon: '🪞', title: 'Dolap önizlemesi eşleşiyor', text: 'Ayarlar içindeki kıyafet kartları da masaüstündeki yeni Nero oranını gösterir.' }] }
+  { version: '6.3.2', title: 'Nero kendi formunda giyiniyor', items: [
+    { icon: '👕', title: 'Gerçek Nero gövdesi', text: 'Kıyafet çizimleri artık Nero’nun kanonik oval gövdesi, küçük elleri ve ayakları üzerine yeniden oturtulur.' },
+    { icon: '✨', title: 'Canlı yüz korunuyor', text: 'Kıyafet tasarımı sabit kalırken göz kırpma, bakış, kaş ve konuşma ağızları Nero’nun gerçek konumlarında çalışmaya devam eder.' }] }
 ];
