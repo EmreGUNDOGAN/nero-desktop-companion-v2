@@ -28,15 +28,15 @@ jobs:
           if ($pkg.build.appId -ne 'com.stenwick.nero') { throw 'appId changed unexpectedly' }
 
           $outfits = @(Get-ChildItem themes/default/assets/outfit-*.png)
-          if ($outfits.Count -ne 88) { throw "Expected 88 tailored garment PNGs, found $($outfits.Count)" }
+          if ($outfits.Count -ne 88) { throw "Expected 88 full-character wardrobe PNGs, found $($outfits.Count)" }
 
-          foreach ($theme in Get-ChildItem themes -Directory) {
-            if (-not (Test-Path "$($theme.FullName)/theme.json")) { continue }
-            $json = Get-Content "$($theme.FullName)/theme.json" -Raw
-            if ($json -notmatch 'body-dressed\.svg') { throw "Missing dressed body mapping: $($theme.Name)" }
-            if ($json -notmatch 'hands-dressed\.svg') { throw "Missing dressed hands mapping: $($theme.Name)" }
-            if (-not (Test-Path "$($theme.FullName)/assets/body-dressed.svg")) { throw "Missing body-dressed.svg: $($theme.Name)" }
-            if (-not (Test-Path "$($theme.FullName)/assets/hands-dressed.svg")) { throw "Missing hands-dressed.svg: $($theme.Name)" }
+          $character = Get-Content src/renderer/character/character.js -Raw
+          if ($character -notmatch 'cleanIllustratedFace' -or $character -notmatch 'collectComponents') {
+            throw 'Runtime full-character face cleaner is missing'
+          }
+          $panel = Get-Content src/renderer/panel/panel.js -Raw
+          if ($panel -match 'body-dressed\.svg' -or $panel -match 'hands-dressed\.svg') {
+            throw 'Wardrobe preview is still using the pasted-layer implementation'
           }
 
           node --check src/main/main.js

@@ -913,22 +913,10 @@
       button.className = 'wardrobe-item'; button.type = 'button'; button.disabled = locked || !builtin;
       button.setAttribute('aria-pressed', String(state.settings.wardrobeOutfit === item.id));
       const portrait = document.createElement('span'); portrait.className = 'wardrobe-portrait';
-      const previewLayer = (asset, className = '') => {
-        const image = document.createElement('img');
-        image.src = `nero-theme://default/assets/${asset}`;
-        image.alt = '';
-        if (className) image.className = className;
-        return image;
-      };
-      portrait.append(
-        previewLayer('body-dressed.svg'),
-        previewLayer(`outfit-${item.id}.png`),
-        previewLayer('eyes.svg'),
-        previewLayer('pupils.svg'),
-        previewLayer('brows-normal.svg'),
-        previewLayer('mouth-neutral.svg', 'wardrobe-preview-mouth'),
-        previewLayer('hands-dressed.svg')
-      );
+      const preview = document.createElement('img');
+      preview.src = `nero-theme://default/assets/outfit-${item.id}.png`;
+      preview.alt = '';
+      portrait.append(preview);
       const label = document.createElement('span'); label.textContent = item.name;
       button.append(portrait, label);
       button.addEventListener('click', async () => {

@@ -19,6 +19,9 @@
   // katman adı -> { varyant adı -> img }
   let layerImgs = {};
   let pupilsWrap = null;
+  let facePlacement = { eyeDx: 0, eyeDy: 0 };
+  const cleanOutfitCache = new Map();
+  const FACE_BASE = Object.freeze({ eyeX: 109.52, eyeY: 107.5, browY: 72.315, mouthY: 167.789 });
 
   const state = {
     baseline: 'normal',
@@ -59,6 +62,7 @@
     inner.innerHTML = '';
     layerImgs = {};
     pupilsWrap = null;
+    facePlacement = { eyeDx: 0, eyeDy: 0 };
 
     for (const layerName of manifest.layerOrder) {
       const variants = manifest.layers[layerName] || {};
@@ -77,6 +81,10 @@
         img.alt = '';
         img.className = `layer layer-${layerName}${layerName === 'effects' ? ` fx fx-${variant}` : ''}`;
         img.dataset.variant = variant;
+        if (layerName === 'outfit' && /\.png(?:$|\?)/i.test(spec.url)) {
+          img.dataset.illustrated = '1';
+          img.dataset.originalSrc = spec.url;
+        }
         Object.assign(img.style, {
           left: `${spec.x * s}px`,
           top: `${spec.y * s}px`,
@@ -109,6 +117,235 @@
     for (const [name, img] of Object.entries(imgs)) img.classList.toggle('on', name === variant);
   }
 
+  function setLayerOffset(layerName, dx, dy) {
+    const value = (dx || dy) ? `translate(${dx.toFixed(2)}px, ${dy.toFixed(2)}px)` : '';
+    for (const img of Object.values(layerImgs[layerName] || {})) img.style.transform = value;
+  }
+
+  function applyFaceMetrics(metrics) {
+    const s = layout?.scale || 1;
+    if (!metrics) {
+      facePlacement = { eyeDx: 0, eyeDy: 0 };
+      for (const layerName of ['eyes', 'lids', 'brows', 'mouth']) setLayerOffset(layerName, 0, 0);
+      return;
+    }
+    const eyeDx = (metrics.eyeX - FACE_BASE.eyeX) * s;
+    const eyeDy = (metrics.eyeY - FACE_BASE.eyeY) * s;
+    const browDy = (metrics.browY - FACE_BASE.browY) * s;
+    const mouthDy = (metrics.mouthY - FACE_BASE.mouthY) * s;
+    facePlacement = { eyeDx, eyeDy };
+    setLayerOffset('eyes', eyeDx, eyeDy);
+    setLayerOffset('lids', eyeDx, eyeDy);
+    setLayerOffset('brows', eyeDx, browDy);
+    setLayerOffset('mouth', eyeDx, mouthDy);
+  }
+
+  function collectComponents(mask, width, height) {
+    const seen = new Uint8Array(mask.length);
+    const components = [];
+    const stack = [];
+    for (let start = 0; start < mask.length; start += 1) {
+      if (!mask[start] || seen[start]) continue;
+      let area = 0, minX = width, maxX = -1, minY = height, maxY = -1, sumX = 0, sumY = 0;
+      const pixels = [];
+      stack.push(start);
+      seen[start] = 1;
+      while (stack.length) {
+        const i = stack.pop();
+        const x = i % width;
+        const y = Math.floor(i / width);
+        pixels.push(i);
+        area += 1; sumX += x; sumY += y;
+        if (x < minX) minX = x; if (x > maxX) maxX = x;
+        if (y < minY) minY = y; if (y > maxY) maxY = y;
+        if (x > 0) { const q = i - 1; if (mask[q] && !seen[q]) { seen[q] = 1; stack.push(q); } }
+        if (x + 1 < width) { const q = i + 1; if (mask[q] && !seen[q]) { seen[q] = 1; stack.push(q); } }
+        if (y > 0) { const q = i - width; if (mask[q] && !seen[q]) { seen[q] = 1; stack.push(q); } }
+        if (y + 1 < height) { const q = i + width; if (mask[q] && !seen[q]) { seen[q] = 1; stack.push(q); } }
+      }
+      components.push({
+        area, pixels, minX, maxX, minY, maxY,
+        width: maxX - minX + 1, height: maxY - minY + 1,
+        cx: sumX / area, cy: sumY / area
+      });
+    }
+    return components;
+  }
+
+  function cleanIllustratedFace(img) {
+    const width = img.naturalWidth;
+    const height = img.naturalHeight;
+    if (!width || !height) return null;
+
+    const canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+    const ctx = canvas.getContext('2d', { willReadFrequently: true });
+    ctx.drawImage(img, 0, 0);
+    const frame = ctx.getImageData(0, 0, width, height);
+    const data = frame.data;
+    const count = width * height;
+
+    const whiteMask = new Uint8Array(count);
+    for (let y = 45; y < Math.min(height, 180); y += 1) {
+      for (let x = 50; x < Math.min(width, 170); x += 1) {
+        const p = y * width + x;
+        const o = p * 4;
+        const r = data[o], g = data[o + 1], b = data[o + 2], a = data[o + 3];
+        if (a > 150 && r > 220 && g > 220 && b > 215) whiteMask[p] = 1;
+      }
+    }
+    const whiteComponents = collectComponents(whiteMask, width, height)
+      .filter((c) => c.area > 80 && c.width >= 15 && c.width <= 45 && c.height >= 10 && c.height <= 40);
+    const leftEye = whiteComponents.filter((c) => c.cx < width / 2).sort((a, b) => b.area - a.area)[0];
+    const rightEye = whiteComponents.filter((c) => c.cx >= width / 2).sort((a, b) => b.area - a.area)[0];
+
+    const greenMask = new Uint8Array(count);
+    for (let p = 0; p < count; p += 1) {
+      const o = p * 4;
+      const r = data[o], g = data[o + 1], b = data[o + 2], a = data[o + 3];
+      const spread = Math.max(r, g, b) - Math.min(r, g, b);
+      if (a > 100 && r > 135 && g > 150 && b > 125 && g >= r - 3 && g >= b - 3 && spread < 80) greenMask[p] = 1;
+    }
+    const head = collectComponents(greenMask, width, height)
+      .filter((c) => c.area > 1000 && Math.abs(c.cx - width / 2) < 35 && c.minY < height * 0.55)
+      .sort((a, b) => b.area - a.area)[0];
+    if (!head) return null;
+
+    const headMask = new Uint8Array(count);
+    for (const p of head.pixels) headMask[p] = 1;
+
+    const outside = new Uint8Array(count);
+    const stack = [];
+    const pushOutside = (p) => {
+      if (!headMask[p] && !outside[p]) { outside[p] = 1; stack.push(p); }
+    };
+    for (let x = 0; x < width; x += 1) { pushOutside(x); pushOutside((height - 1) * width + x); }
+    for (let y = 0; y < height; y += 1) { pushOutside(y * width); pushOutside(y * width + width - 1); }
+    while (stack.length) {
+      const i = stack.pop();
+      const x = i % width;
+      const y = Math.floor(i / width);
+      if (x > 0) pushOutside(i - 1);
+      if (x + 1 < width) pushOutside(i + 1);
+      if (y > 0) pushOutside(i - width);
+      if (y + 1 < height) pushOutside(i + width);
+    }
+
+    const holes = new Uint8Array(count);
+    const cleanMask = new Uint8Array(count);
+    for (let y = head.minY; y <= head.maxY; y += 1) {
+      for (let x = head.minX; x <= head.maxX; x += 1) {
+        const p = y * width + x;
+        if (headMask[p] || outside[p]) continue;
+        holes[p] = 1;
+        if (x < head.minX + 6 || x > head.maxX - 6 || y < head.minY + 8 || y > head.maxY - 4) continue;
+        const o = p * 4;
+        const bright = data[o] > 220 && data[o + 1] > 220 && data[o + 2] > 210;
+        if (bright && y < 60) continue;
+        cleanMask[p] = 1;
+      }
+    }
+
+    const expanded = new Uint8Array(cleanMask);
+    for (let p = 0; p < count; p += 1) {
+      if (!cleanMask[p]) continue;
+      const x = p % width;
+      const y = Math.floor(p / width);
+      for (let oy = -1; oy <= 1; oy += 1) {
+        for (let ox = -1; ox <= 1; ox += 1) {
+          const nx = x + ox, ny = y + oy;
+          if (nx < 0 || nx >= width || ny < 0 || ny >= height) continue;
+          const q = ny * width + nx;
+          if (headMask[q] || holes[q]) expanded[q] = 1;
+        }
+      }
+    }
+
+    let n = 0, sumY = 0, sumYY = 0;
+    const sumC = [0, 0, 0], sumYC = [0, 0, 0];
+    for (const p of head.pixels) {
+      const y = Math.floor(p / width);
+      const o = p * 4;
+      n += 1; sumY += y; sumYY += y * y;
+      for (let c = 0; c < 3; c += 1) {
+        sumC[c] += data[o + c];
+        sumYC[c] += y * data[o + c];
+      }
+    }
+    const denom = n * sumYY - sumY * sumY;
+    const slope = [0, 0, 0], intercept = [196, 216, 190];
+    if (Math.abs(denom) > 1e-6) {
+      for (let c = 0; c < 3; c += 1) {
+        slope[c] = (n * sumYC[c] - sumY * sumC[c]) / denom;
+        intercept[c] = (sumC[c] - slope[c] * sumY) / n;
+      }
+    }
+    for (let p = 0; p < count; p += 1) {
+      if (!expanded[p]) continue;
+      const y = Math.floor(p / width);
+      const o = p * 4;
+      for (let c = 0; c < 3; c += 1) data[o + c] = Math.max(0, Math.min(255, Math.round(slope[c] * y + intercept[c])));
+    }
+    ctx.putImageData(frame, 0, 0);
+
+    const eyeX = leftEye && rightEye ? (leftEye.cx + rightEye.cx) / 2 : width / 2;
+    const eyeY = leftEye && rightEye ? (leftEye.cy + rightEye.cy) / 2 : Math.max(99, head.minY + 38);
+    return {
+      src: canvas.toDataURL('image/png'),
+      metrics: {
+        eyeX,
+        eyeY,
+        browY: Math.max(eyeY - 36, head.minY + 15),
+        mouthY: Math.min(eyeY + 37, head.maxY - 11)
+      }
+    };
+  }
+
+  function prepareIllustratedOutfit(outfit) {
+    const img = layerImgs.outfit?.[outfit];
+    if (!img || img.dataset.illustrated !== '1') return;
+
+    const activate = (metrics) => {
+      if (!img.classList.contains('on')) return;
+      applyFaceMetrics(metrics);
+      charEl.classList.remove('illustrated-preparing');
+      scheduleHitmap();
+    };
+
+    const cached = cleanOutfitCache.get(outfit);
+    if (cached) {
+      charEl.classList.add('illustrated-preparing');
+      if (img.src !== cached.src) {
+        img.addEventListener('load', () => activate(cached.metrics), { once: true });
+        img.src = cached.src;
+      } else {
+        activate(cached.metrics);
+      }
+      return;
+    }
+    if (img.dataset.cleaning === '1') return;
+
+    const run = () => {
+      if (img.dataset.faceCleaned === '1') return;
+      img.dataset.cleaning = '1';
+      const result = cleanIllustratedFace(img);
+      img.dataset.cleaning = '';
+      if (!result) {
+        charEl.classList.remove('illustrated-preparing');
+        return;
+      }
+      cleanOutfitCache.set(outfit, result);
+      img.dataset.faceCleaned = '1';
+      img.addEventListener('load', () => activate(result.metrics), { once: true });
+      img.src = result.src;
+    };
+
+    charEl.classList.add('illustrated-preparing');
+    if (img.complete && img.naturalWidth) run();
+    else img.addEventListener('load', run, { once: true });
+  }
+
   // ---------------------------------------------------------------------------
   // Çizim: ifadeyi katmanlara dök
   // ---------------------------------------------------------------------------
@@ -119,17 +356,24 @@
     state.expr = exprName;
 
     const outfit = expr.outfit !== undefined ? expr.outfit : state.outfit;
+    const outfitImg = outfit ? layerImgs.outfit?.[outfit] : null;
+    const illustrated = !!(outfitImg && outfitImg.dataset.illustrated === '1');
     const prevBody = currentBody;
-    currentBody = resolveVariant('body', outfit ? 'dressed' : expr.body, [expr.body, 'default']);
-    show('body', currentBody);
-    const illustrated = !!(outfit && layerImgs.outfit?.[outfit] && layerImgs.outfit[outfit].src.endsWith('.png'));
-    show('outfit', outfit && layerImgs.outfit?.[outfit] ? outfit : null);
+    currentBody = resolveVariant('body', expr.body, [expr.body, 'default']);
+    show('body', illustrated ? null : currentBody);
+    show('outfit', outfitImg ? outfit : null);
     charEl.classList.toggle('illustrated-outfit', illustrated);
+    if (illustrated) {
+      applyFaceMetrics(null);
+      prepareIllustratedOutfit(outfit);
+    } else {
+      charEl.classList.remove('illustrated-preparing');
+      applyFaceMetrics(null);
+    }
     show('eyes', resolveVariant('eyes', expr.eyes, ['default']));
     show('pupils', resolveVariant('pupils', expr.pupils, ['default']));
-    const front = outfit && layerImgs.front?.['dressed-hands'] ? 'dressed-hands'
-      : Object.keys(layerImgs.front || {}).length ? resolveVariant('front', expr.front, ['default']) : null;
-    show('front', !outfit && expr.front === null ? null : front);
+    const front = Object.keys(layerImgs.front || {}).length ? resolveVariant('front', expr.front, ['default']) : null;
+    show('front', illustrated || expr.front === null ? null : front);
 
     // Göz kapakları: kırpma > ifade
     let lids = expr.lids || null;
@@ -211,7 +455,11 @@
     }
     eye.x += (eye.tx - eye.x) * 0.22;
     eye.y += (eye.ty - eye.y) * 0.22;
-    if (pupilsWrap) pupilsWrap.style.transform = `translate(${eye.x.toFixed(2)}px, ${eye.y.toFixed(2)}px)`;
+    if (pupilsWrap) {
+      const px = facePlacement.eyeDx + eye.x;
+      const py = facePlacement.eyeDy + eye.y;
+      pupilsWrap.style.transform = `translate(${px.toFixed(2)}px, ${py.toFixed(2)}px)`;
+    }
     requestAnimationFrame(frame);
   }
 

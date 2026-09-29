@@ -58,8 +58,13 @@ html, body {
   image-rendering: auto;
 }
 .layer.on { display: block; }
-/* The outfit ends at the painted collar. Lift Nero's live mouth above it. */
-.illustrated-outfit .layer-mouth { transform: translateY(-26px); }
+/* Full-character art is shown exactly as designed. While its baked face is
+   cleaned, avoid double-drawing the animated facial layers. */
+.illustrated-preparing .layer-eyes,
+.illustrated-preparing .pupils-wrap,
+.illustrated-preparing .layer-lids,
+.illustrated-preparing .layer-brows,
+.illustrated-preparing .layer-mouth { visibility: hidden; }
 
 .pupils-wrap {
   position: absolute;

@@ -54,7 +54,7 @@ export const RELEASE_NOTES = [
     { icon: '🌸', title: 'Dört mevsim', text: 'Köy çatıları, ağaçlar ve ada mevsime göre giyinir. Görünümü oyun ayarlarından açıp kapatabilirsin.' },
     { icon: '🏠', title: 'Depo ve köy', text: 'Evin yakınında gelişen depo ve her 150 kg sipariş teslimatında gelen yeni bir köy evi.' },
     { icon: '🍯', title: 'Hasat ve kamera', text: 'Arıcının bal kavanozu, hasat parıltısı ve Q/E ile döndürülebilen ada.' }] },
-  { version: '6.3.1', title: 'Hareketli Kıyafet Dolabı', items: [
-    { icon: '👕', title: 'Nero’ya oturan 88 kıyafet', text: 'Kıyafetler artık tam karakter resmi değildir; Nero’nun gövdesine göre hazırlanmış şeffaf PNG giysi katmanlarıdır.' },
-    { icon: '✨', title: 'Mimikler kıyafetliyken de canlı', text: 'Göz kırpma, konuşma, bakış, kaş ve ağız animasyonları kıyafet değiştirildiğinde çalışmaya devam eder.' }] }
+  { version: '6.3.1', title: 'Kıyafetler gerçekten Nero’nun üzerinde', items: [
+    { icon: '👕', title: 'Tam tasarım geri geldi', text: '88 kıyafet, hazırlanan tam karakter çizimleriyle gösterilir; ayrı bir giysiyi Nero’nun üstüne yapıştırma yöntemi kullanılmaz.' },
+    { icon: '✨', title: 'Mimikler yine canlı', text: 'Çizimdeki sabit yüz çalışma anında temizlenir; Nero’nun göz kırpma, konuşma, bakış, kaş ve ağız animasyonları kıyafetin içinde çalışır.' }] }
 ];

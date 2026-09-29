@@ -5,7 +5,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const w = require('../src/main/wardrobe');
 
-test('all approved wardrobe entries resolve to tailored transparent garment layers', () => {
+test('all approved wardrobe entries resolve to the original full-character wardrobe artwork', () => {
   const manifest = require('../themes/default/theme.json');
   assert.equal(w.ITEMS.length, 72);
   for (const id of [...w.ITEMS.map((x) => x.id), ...w.SLEEP.map((_, i) => `sleep-${i}`), ...Object.values(w.SPECIAL).map((id) => `special-${id}`), 'special-birthday']) {
@@ -19,15 +19,6 @@ test('all approved wardrobe entries resolve to tailored transparent garment laye
   }
 });
 
-test('built-in themes expose the dressed Nero body and front hands used by live outfits', () => {
-  for (const theme of ["cilek","default","disket","ege","gece","kar","kasaba","latte","mum","pazartesi","yagmur"]) {
-    const manifest = require(`../themes/${theme}/theme.json`);
-    assert.equal(manifest.layers.body.dressed, 'assets/body-dressed.svg', theme);
-    assert.equal(manifest.layers.front['dressed-hands'], 'assets/hands-dressed.svg', theme);
-    assert.ok(fs.existsSync(path.join(__dirname, '..', 'themes', theme, 'assets', 'body-dressed.svg')), theme);
-    assert.ok(fs.existsSync(path.join(__dirname, '..', 'themes', theme, 'assets', 'hands-dressed.svg')), theme);
-  }
-});
 
 test('nightly sleepwear stays chosen through midnight and application restart', () => {
   const s = { birthday: '', wardrobeOutfit: w.ITEMS[0].id };
