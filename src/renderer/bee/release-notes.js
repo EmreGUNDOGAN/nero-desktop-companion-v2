@@ -59,5 +59,8 @@ export const RELEASE_NOTES = [
     { icon: '✨', title: 'Mimikler yine canlı', text: 'Çizimdeki sabit yüz çalışma anında temizlenir; Nero’nun göz kırpma, konuşma, bakış, kaş ve ağız animasyonları kıyafetin içinde çalışır.' }] },
   { version: '6.3.2', title: 'Nero kendi formunda giyiniyor', items: [
     { icon: '👕', title: 'Gerçek Nero gövdesi', text: 'Kıyafet çizimleri artık Nero’nun kanonik oval gövdesi, küçük elleri ve ayakları üzerine yeniden oturtulur.' },
-    { icon: '✨', title: 'Canlı yüz korunuyor', text: 'Kıyafet tasarımı sabit kalırken göz kırpma, bakış, kaş ve konuşma ağızları Nero’nun gerçek konumlarında çalışmaya devam eder.' }] }
+    { icon: '✨', title: 'Canlı yüz korunuyor', text: 'Kıyafet tasarımı sabit kalırken göz kırpma, bakış, kaş ve konuşma ağızları Nero’nun gerçek konumlarında çalışmaya devam eder.' }] },
+  { version: '6.3.3', title: 'Kıyafetler baştan çizildi', items: [
+    { icon: '👕', title: 'İlk 10 Nero-native tasarım', text: 'Kot ceket, çizgili tişört, hoodie, kamp kıyafeti, baharlık gömlek, krem hırka, kar tanesi kazağı, pijama, parti kıyafeti ve kış montu doğrudan gerçek Nero gövdesi için çizildi.' },
+    { icon: '✨', title: 'Animasyon gerçek Nero’dan', text: 'Kıyafetler yalnızca giysi katmanıdır; göz kırpma, bakış, kaş ve konuşma ağızları Nero’nun mevcut animasyon sisteminden gelir.' }] }
 ];
