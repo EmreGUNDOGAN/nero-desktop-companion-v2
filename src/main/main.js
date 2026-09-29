@@ -1032,6 +1032,8 @@ function scheduleRestAfterAllDone() {
 }
 
 function currentOutfit(date = new Date()) {
+  // 6.3.3 wardrobe v2 is authored against the canonical Default Nero only.
+  if (settings().themeId !== 'default') return null;
   return wardrobe.choose(settings(), date, (change) => settingsStore.patch(change)).outfit;
 }
 
