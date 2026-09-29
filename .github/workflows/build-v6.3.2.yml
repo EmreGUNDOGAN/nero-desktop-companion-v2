@@ -30,11 +30,15 @@ jobs:
           $outfits = @(Get-ChildItem themes/default/assets/outfit-*.png)
           if ($outfits.Count -ne 88) { throw "Expected 88 full-character wardrobe PNGs, found $($outfits.Count)" }
 
+          $canonical = Get-Content src/renderer/shared/wardrobe-canonical.js -Raw
+          if ($canonical -notmatch 'extractGarmentAndHeadwear' -or
+              $canonical -notmatch 'warpCollar' -or
+              $canonical -notmatch 'ctx.drawImage\(body, 0, 0, width, height\)') {
+            throw 'Canonical Nero wardrobe renderer is missing'
+          }
           $character = Get-Content src/renderer/character/character.js -Raw
-          if ($character -notmatch 'cleanIllustratedFace' -or
-              $character -notmatch 'WARDROBE_SHAPE_SCALE' -or
-              $character -notmatch 'ctx.drawImage\(source, 0, y, width, 1') {
-            throw 'Canonical Nero wardrobe reshape is missing'
+          if ($character -notmatch 'NeroWardrobeCanonical\.build') {
+            throw 'Character window is not using the canonical wardrobe renderer'
           }
           $panel = Get-Content src/renderer/panel/panel.js -Raw
           if ($panel -match 'body-dressed\.svg' -or $panel -match 'hands-dressed\.svg') {
@@ -43,6 +47,7 @@ jobs:
 
           node --check src/main/main.js
           node --check src/main/wardrobe.js
+          node --check src/renderer/shared/wardrobe-canonical.js
           node --check src/renderer/character/character.js
           node --check src/renderer/panel/panel.js
           Get-Content src/renderer/bee/release-notes.js -Raw | node --input-type=module --check
