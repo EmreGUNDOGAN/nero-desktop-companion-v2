@@ -57,6 +57,11 @@
   <!-- Günlük görevler: varsayılan olarak yalnız ikon görünür -->
   <button class="task-bell" id="quests-icon" type="button" aria-label="Bugünün görevleri" title="Bugünün görevleri">📋</button>
   <button class="round recenter-bottom" id="recenter" type="button" aria-label="Adaya dön" title="Adaya dön (R)">⌖</button>
+  <button class="warning-bottom" id="warning-center" type="button" aria-label="Çiftlik uyarıları" title="Çiftlik uyarıları" hidden>!</button>
+  <section class="warning-panel ui2-card" id="warning-panel" hidden>
+    <div class="warning-head"><b>Uyarılar</b><button type="button" id="warning-close" aria-label="Kapat">✕</button></div>
+    <ul id="warning-list"></ul>
+  </section>
   <section class="quests card" id="quests" hidden>
     <div class="quests-head">
       <span class="quests-title">📋 Bugünün görevleri</span>
@@ -370,8 +375,15 @@
 
         <details class="guide-topic">
           <summary>🏆 Mevsim Turnuvaları ve rakipler</summary>
-          <p>Her mevsimin son 3 gününde turnuva açılır. En fazla 10 kg bal gönderirsin; sonuç sonraki mevsimin ilk günü açıklanır. Bal Kalitesi 400, Arıcılık 250, Üretim 200, Köy İtibarı 150 puandır. İlk üçe 750 / 500 / 250 jeton ve kupa verilir. Birinciye gelecek yıl aynı mevsim +%20 üretim sağlanır. Kupalar ve ayrıntılı sonuçlar Bal Defteri’nde görünür.</p>
-          <p>Temkinli Ali, Riskçi Kaya ve Dengeli Nur arka planda büyür. Liderlik yalnız jetona değil; bal, kovanlar, arılar, arazi ve mumların toplam değerine bakar.</p>
+          <p><b>Nasıl katılırım?</b> Her mevsimin son 3 gününde turnuva açılır. En fazla <b>10 kg</b> bal gönderirsin; sonuç sonraki mevsimin ilk gününde açıklanır. Toplam puan <b>1000</b>: Bal Kalitesi 400 + Arıcılık 250 + Üretim 200 + Köy İtibarı 150.</p>
+          <p><b>🍯 Bal Kalitesi — 400:</b> 110 taban + gönderdiğin her 1 kg için 15 puan + balın taban değerinin 2 katı + bal kendi doğal mevsimindeyse 45 puan + Festival Cilası varsa 20 puan + aktif turnuva bonusları. Bal taban katkıları: Yonca +16, Papatya +24, Ayçiçeği +36, Kekik +52, Lavanta +76, Kış Fundası +110, Kestane +160. Kategori 400'de durur.</p>
+          <p><b>Örnek:</b> Sonbaharda 10 kg Kestane balı: 110 + 150 + 160 + 45 = 465 → kategori sınırı nedeniyle <b>400 / 400</b>.</p>
+          <p><b>🐝 Arıcılık — 250:</b> 60 taban + sağlıklı kovan oranı ×130 + yaşayan her arı için 2,5 puan − o mevsimde ölen her arı için 12 puan. Sonuç 0–250 arasında sınırlandırılır.</p>
+          <p><b>📦 Üretim — 200:</b> son 15 oyun gününde ürettiğin toplam kg ×7 + kovan başına aynı üretimin ×4 katkısı. Toplam üretim kadar kovan verimliliği de puan getirir.</p>
+          <p><b>💛 Köy İtibarı — 150:</b> o mevsimde tamamlanan her başarılı sipariş +16 puan, tüm köylülerdeki her kalp +5 puan.</p>
+          <p><b>🎯 Puanı yükseltmek için:</b> doğru mevsimde değerli bal gönder, 10 kg kotayı doldur, kovanları sağlıklı tut, arı kaybını azalt, üretimi verimli büyüt, siparişleri tamamla ve köylülerle kalp biriktir.</p>
+          <p><b>🥇 Ödüller:</b> 1. 750 🪙 + Altın Kupa, 2. 500 🪙 + Gümüş Kupa, 3. 250 🪙 + Bronz Kupa. Altın Kupa gelecek yıl aynı mevsimde <b>+%20 bal üretimi</b> sağlar. Kupalar ve kategori sonuçları Bal Defteri’nde görünür.</p>
+          <p><b>Rakipler:</b> Temkinli Ali, Riskçi Kaya ve Dengeli Nur oyuncuyla birebir aynı puan formülünü kullanmaz; kendi üretim, arı, kovan, hazırlık, çiftlik bonusu ve net değer simülasyonlarından puan üretir. Her mevsimde kontrollü bir değişkenlik de vardır.</p>
         </details>
 
         <details class="guide-topic">
@@ -481,12 +493,14 @@
         <div class="whats-new-mark" aria-hidden="true">🐝</div>
         <div>
           <small id="whats-new-version"></small>
+          <button type="button" class="whats-new-release-link" id="whats-new-release-link" hidden>↗ GitHub'da CHANGELOG'u görüntüle</button>
           <h2 id="whats-new-title">Çiftlikte neler değişti?</h2>
           <p id="whats-new-intro"></p>
         </div>
       </div>
       <div class="whats-new-list" id="whats-new-list"></div>
       <div class="whats-new-foot">
+        <button type="button" class="act" id="whats-new-prev">← Önceki Sürüm</button>
         <button type="button" class="act primary" id="whats-new-close">Çiftliğe Dön</button>
       </div>
     </div>

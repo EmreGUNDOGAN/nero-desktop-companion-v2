@@ -1569,53 +1569,46 @@ $('guide-close').addEventListener('click', () => { $('guide-modal').hidden = tru
 $('guide-modal').addEventListener('click', (e) => { if (e.target === $('guide-modal')) $('guide-modal').hidden = true; });
 
 const RELEASE_SEEN_KEY = 'neroBeeLastReleaseSeen';
-let releaseQueue = [];
+let releaseList = [];
+let releaseIndex = -1;
 let releaseManual = false;
-function versionParts(v) { return String(v).split('.').map((n) => Number(n)); }
-function compareVersions(a, b) {
-  const x = versionParts(a); const y = versionParts(b);
-  for (let i = 0; i < 3; i++) { if ((x[i] || 0) !== (y[i] || 0)) return (x[i] || 0) - (y[i] || 0); }
-  return 0;
-}
 function renderReleaseNote() {
-  const note = releaseQueue[0];
+  const note = releaseList[releaseIndex];
   if (!note) { $('whats-new-modal').hidden = true; return; }
   $('whats-new-version').textContent = `Nero Arıcılık · ${note.version}`;
   $('whats-new-title').textContent = note.title;
-  $('whats-new-intro').textContent = releaseQueue.length > 1 ? `${releaseQueue.length} sürümün yenilikleri kaldı.` : 'Çiftlikte neler değişti?';
-  $('whats-new-list').innerHTML = note.items.map((item) =>
-    `<article class="whats-new-item"><span class="ico">${esc(item.icon)}</span><div><b>${esc(item.title)}</b><p>${esc(item.text)}</p></div></article>`
-  ).join('');
-  $('whats-new-close').textContent = releaseQueue.length > 1 ? 'Sonraki Sürüm' : 'Çiftliğe Dön';
+  $('whats-new-intro').textContent = `${releaseIndex + 1} / ${releaseList.length} sürüm`;
+  $('whats-new-list').innerHTML = note.items.map((item) => `<article class="whats-new-item"><span class="ico">${esc(item.icon)}</span><div><b>${esc(item.title)}</b><p>${esc(item.text)}</p></div></article>`).join('');
+  $('whats-new-prev').disabled = releaseIndex <= 0;
+  $('whats-new-close').textContent = releaseIndex < releaseList.length - 1 ? 'Sonraki Sürüm →' : 'Çiftliğe Dön';
+  const link = $('whats-new-release-link'); link.hidden = !note.releaseUrl; link.dataset.url = note.releaseUrl || '';
   $('whats-new-modal').hidden = false;
 }
-function closeWhatsNew() { $('whats-new-modal').hidden = true; releaseQueue = []; }
+function closeWhatsNew() { $('whats-new-modal').hidden = true; releaseList = []; releaseIndex = -1; }
+function readSeenVersion() { try { return localStorage.getItem(RELEASE_SEEN_KEY); } catch (_) { return null; } }
+function writeSeenVersion(version) {
+  const seen = readSeenVersion();
+  if (!seen || compareVersions(version, seen) > 0) try { localStorage.setItem(RELEASE_SEEN_KEY, version); } catch (_) {}
+}
 function maybeShowWhatsNew() {
   if (!view || !view.tutorialDone || !$('whats-new-modal').hidden) return;
-  let seen = null;
-  try { seen = localStorage.getItem(RELEASE_SEEN_KEY); } catch (_) { /* depolama kapalıysa sonraki açılışta tekrar göster */ }
-  if (seen && !/^\d+\.\d+\.\d+$/.test(seen)) seen = null;
   const current = RELEASE_NOTES[RELEASE_NOTES.length - 1];
+  const seen = readSeenVersion();
   if (seen === current.version) return;
-  // Eski kayıt bulunmuyorsa hangi ara sürümlerin görüldüğü bilinemez: günceli göster.
-  releaseQueue = RELEASE_NOTES.filter((note) => seen ? compareVersions(note.version, seen) > 0 : note.version === current.version);
-  releaseManual = false;
-  if (releaseQueue.length) renderReleaseNote();
+  releaseList = [...RELEASE_NOTES];
+  releaseIndex = seen ? RELEASE_NOTES.findIndex((note) => compareVersions(note.version, seen) > 0) : RELEASE_NOTES.length - 1;
+  if (releaseIndex < 0) releaseIndex = RELEASE_NOTES.length - 1;
+  releaseManual = false; renderReleaseNote();
 }
+$('whats-new-prev').addEventListener('click', () => { if (releaseIndex > 0) { releaseIndex -= 1; renderReleaseNote(); } });
 $('whats-new-close').addEventListener('click', () => {
-  const done = releaseQueue.shift();
-  if (!releaseManual && done) {
-    try { localStorage.setItem(RELEASE_SEEN_KEY, done.version); } catch (_) { /* sessiz geç */ }
-  }
-  if (releaseQueue.length) renderReleaseNote(); else closeWhatsNew();
+  const note = releaseList[releaseIndex];
+  if (!releaseManual && note) writeSeenVersion(note.version);
+  if (releaseIndex < releaseList.length - 1) { releaseIndex += 1; renderReleaseNote(); } else closeWhatsNew();
 });
+$('whats-new-release-link').addEventListener('click', async () => { const url = $('whats-new-release-link').dataset.url; if (url) await window.bee.openRelease(url); });
 $('whats-new-modal').addEventListener('click', (e) => { if (e.target === $('whats-new-modal')) closeWhatsNew(); });
-$('open-whats-new').addEventListener('click', () => {
-  $('guide-modal').hidden = true;
-  releaseQueue = [...RELEASE_NOTES];
-  releaseManual = true;
-  renderReleaseNote();
-});
+$('open-whats-new').addEventListener('click', () => { releaseList = [...RELEASE_NOTES]; releaseIndex = RELEASE_NOTES.length - 1; releaseManual = true; renderReleaseNote(); });
 
 // ---------------------------------------------------------------------------
 // Sesler: gerçek OGG kayıtları + sentez fallback
@@ -2550,6 +2543,7 @@ function applyView(v) {
   else if (!first && prevUnattended && !v.unattended) sayTopic('farm_production_resumed');
   $('coins').textContent = Math.floor(v.coins).toLocaleString('tr-TR');
   $('storage').textContent = kg(v.storageKg);
+  setTimeout(renderWarnings, 0);
   $('storage-cap').textContent = `/ ${v.storageCap} kg`;
   $('boost-chip').hidden = !v.focusBoostLeftMs;
   if (v.focusBoostLeftMs) $('boost-text').textContent = `Odak bonusu +%${Math.round(v.focusBoost * 100)} · ${Math.ceil(v.focusBoostLeftMs / 60000)} dk`;
@@ -3290,6 +3284,33 @@ function focusHive(id) {
   $('hives-modal').hidden = true;
   openHive(id);
 }
+function focusTile(key, open = true) {
+  if (!view || !key || !view.tiles[key]) return;
+  const t = view.tiles[key], p = hexToWorld(t.q, t.r);
+  camTarget.set(p.x, 0, p.z); zoom = Math.max(zoom, 1.4); placeCamera(); resize();
+  if (open) onTileClick(key, Math.round(window.innerWidth / 2), Math.round(window.innerHeight / 2));
+}
+function activeWarnings(v) {
+  if (!v) return [];
+  const out = [];
+  for (const h of Object.values(v.hives || {})) if (h.sick) out.push({ type:'hive', target:h.id, title:`${h.name} hasta`, text:'Tedavi veya bakım gerekiyor.' });
+  for (const [key,t] of Object.entries(v.tiles || {})) if (t.item?.type === 'flower' && t.item.wilted) {
+    const f=v.flowers?.[t.item.flower]; out.push({ type:'flower', target:key, title:`${f?.name || 'Çiçek'} tarhı soldu`, text:'Canlandır veya tarhı temizle.' });
+  }
+  if (v.storageCap > 0 && v.storageKg >= v.storageCap - 0.001) out.push({ type:'storage', target:'storage', title:'Depo dolu', text:`${v.storageKg.toFixed(1)} / ${v.storageCap} kg · Hasat için yer aç.` });
+  return out;
+}
+function renderWarnings() {
+  const btn=$('warning-center'), panel=$('warning-panel'); if (!btn || !panel || !view) return;
+  const items=activeWarnings(view); btn.hidden=!items.length;
+  if (!items.length) { panel.hidden=true; return; }
+  $('warning-list').innerHTML=items.map((w,i)=>`<li><button type="button" data-warning="${i}"><span class="warning-dot">!</span><span><b>${esc(w.title)}</b><small>${esc(w.text)}</small></span><em>Git ›</em></button></li>`).join('');
+  panel._warningItems=items;
+}
+$('warning-center').addEventListener('click',(e)=>{e.stopPropagation();renderWarnings();$('warning-panel').hidden=!$('warning-panel').hidden;});
+$('warning-close').addEventListener('click',()=>{$('warning-panel').hidden=true;});
+$('warning-list').addEventListener('click',(e)=>{const b=e.target.closest('[data-warning]');if(!b)return;const w=$('warning-panel')._warningItems?.[Number(b.dataset.warning)];if(!w)return;$('warning-panel').hidden=true;if(w.type==='hive')focusHive(w.target);else if(w.type==='flower')focusTile(w.target,true);else if(w.type==='storage')openMarket();});
+
 function cycleHive(dir) {
   const ids = Object.keys(view.hives);
   if (!ids.length || !openHiveId) return;

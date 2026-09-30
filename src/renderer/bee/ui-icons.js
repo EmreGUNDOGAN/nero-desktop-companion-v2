@@ -22,6 +22,7 @@ export const ICONS = {
   minus: wrap(`<path d="M6 12h12"/>`),
   target: wrap(`<circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2.3" fill="${H}"/><path d="M12 2.5V5M12 19v2.5M2.5 12H5M19 12h2.5"/>`),
   pause: wrap(`<path d="M9 6.5v11M15 6.5v11" stroke-width="2.6"/>`),
+  warning: wrap(`<path d="M12 4.5v9" stroke="${S}" stroke-width="5"/><path d="M12 4.5v9" stroke="${H}" stroke-width="2.5"/><circle cx="12" cy="18.2" r="2.2" fill="${H}" stroke="${S}" stroke-width="2"/>`),
   flower: wrap(`<circle cx="12" cy="12" r="2.5" fill="${H}"/><circle cx="12" cy="6.5" r="2.6" fill="#F5B8C6"/><circle cx="17.2" cy="10.3" r="2.6" fill="#F5B8C6"/><circle cx="15.2" cy="16.4" r="2.6" fill="#F5B8C6"/><circle cx="8.8" cy="16.4" r="2.6" fill="#F5B8C6"/><circle cx="6.8" cy="10.3" r="2.6" fill="#F5B8C6"/><circle cx="12" cy="12" r="2.5" fill="${H}"/>`),
   leaf: wrap(`<path d="M5 19c0-8 5-13 14-14-1 9-6 14-14 14Z" fill="#E9822E"/><path d="M5 19 13 11"/>`),
   snow: wrap(`<path d="M12 3v18M4.2 7.5l15.6 9M4.2 16.5l15.6-9M9.5 4.5 12 6.5l2.5-2M9.5 19.5 12 17.5l2.5 2" stroke="#6FA3D9"/>`),

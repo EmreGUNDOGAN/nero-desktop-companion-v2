@@ -663,3 +663,10 @@ kbd { display: inline-block; min-width: 22px; text-align: center; background: va
 .ezgi-welcome { background: #FFF1F4; border-radius: 12px; padding: 10px; margin-top: 8px; }
 .ezgi-welcome b { display: block; margin-bottom: 4px; }
 .hive-tag[hidden] { display: none !important; }
+
+.whats-new-release-link { display:inline-flex; margin:1px 0 8px; padding:0; border:0; background:transparent; color:#9B6A18; font-weight:900; font-size:12px; cursor:pointer; text-decoration:underline; text-underline-offset:2px; }
+.whats-new-release-link[hidden] { display:none; }
+.whats-new-foot { justify-content:space-between; gap:10px; }
+.whats-new-foot .act { flex:1; }
+.whats-new-foot .act:disabled { opacity:.4; cursor:default; }
+@media (max-width:520px) { .whats-new-foot { flex-direction:column-reverse; } }

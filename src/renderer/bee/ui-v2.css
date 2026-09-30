@@ -85,7 +85,7 @@ body.ui2.night .hud-bottom, body.ui2.night .bell, body.ui2.night .tasks-btn { ba
 .ui2 #harvest-all { text-align: center; line-height: 1.15; }
 .ui2 #harvest-all > .ico { flex: none; margin-inline: auto; }
 .ui2 #harvest-all { box-sizing: border-box; padding: 15px 24px 10px !important; gap: 3px !important; justify-content: center !important; align-items: center !important; }
-.ui2 #harvest-all .badge-n { position: absolute !important; top: 11px !important; right: 17px !important; }
+.ui2 #harvest-all .badge-n { position: absolute !important; top: 11px !important; right: 12px !important; }
 .ui2 #harvest-all > .ico { width: 35px; height: 35px; }
 .hives-actions #hives-harvest-all { display: inline-flex; justify-content: center; align-items: center; gap: 7px; }
 .ui2 .hexbtn:active, .ui2 .round:active { transform: translateY(1px) scale(.98); }
@@ -221,3 +221,19 @@ body.ui2.night .hud-bottom, body.ui2.night .bell, body.ui2.night .tasks-btn { ba
 .meadow-hive::after { content: ''; position: absolute; bottom: 6px; left: 12px; width: 13px; height: 4px; border-radius: 5px; background: #815120; }
 .meadow-flowers { position: absolute; z-index: 2; bottom: 4px; left: 4%; right: 4%; display: flex; justify-content: space-between; font-size: 13px; }
 .hive-card .harvest-btn { display: flex; align-items: center; justify-content: center; text-align: center; }
+
+/* 6.3.4 — sol alt koşullu uyarı merkezi */
+.ui2 #warning-center { position: fixed; left: 216px; bottom: 16px; z-index: 9; width: 56px; height: 56px; border: 0; border-radius: 16px; display: grid; place-items: center; background: rgba(255,251,241,.94); box-shadow: 0 6px 18px rgba(74,58,34,.16), inset 0 -3px 0 rgba(233,208,160,.6); }
+.ui2 #warning-center[hidden] { display: none !important; }
+.ui2 #warning-center .ico { width: 31px; height: 31px; }
+.warning-panel { position: fixed; left: 216px; bottom: 82px; z-index: 13; width: min(360px, calc(100vw - 232px)); max-height: 55vh; overflow: auto; padding: 12px; }
+.warning-panel[hidden] { display: none !important; }
+.warning-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; font-family: "Fraunces", Georgia, serif; }
+.warning-head button { border: 0; background: transparent; color: #6B4A2B; font-size: 17px; cursor: pointer; }
+#warning-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 7px; }
+#warning-list li button { width: 100%; display: grid; grid-template-columns: 28px minmax(0,1fr) auto; gap: 9px; align-items: center; border: 1px solid #EADFCA; border-radius: 12px; background: #fff; color: #4A3A22; padding: 9px 10px; text-align: left; cursor: pointer; }
+#warning-list li button:hover { background: #FFF6DF; }
+.warning-dot { width: 26px; height: 26px; display: grid; place-items: center; border-radius: 9px; background: #F2B33D; color: #6B4A2B; font-weight: 1000; font-size: 19px; box-shadow: inset 0 -2px 0 #D9961C; }
+#warning-list b, #warning-list small { display: block; }
+#warning-list small { margin-top: 2px; color: #8A7358; font-weight: 700; }
+#warning-list em { font-style: normal; color: #9B6A18; font-weight: 900; }

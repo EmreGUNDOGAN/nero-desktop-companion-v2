@@ -93,6 +93,7 @@ export function initUiV2({ $, esc }) {
   });
   const recenter = $('recenter');
   if (recenter) { recenter.innerHTML = icon('target'); recenter.title = 'Adaya dön (R)'; }
+  setIco('warning-center', 'warning', 'Çiftlik uyarıları');
 
   // Alt menü simgeleri
   const hexIco = (id, name) => { const el = $(id); if (el) { const s = el.querySelector('span'); if (s) s.outerHTML = icon(name); } };
@@ -148,7 +149,7 @@ export function initUiV2({ $, esc }) {
     }
     last = { coins: v.coins, storageKg: v.storageKg };
     // Hasada hazır kovan sayısı
-    const ready = Object.values(v.hives).filter((h) => h.total >= 0.05 && !h.queued).length;
+    const ready = Object.values(v.hives).filter((h) => h.capKg > 0 && (h.total / h.capKg) >= 0.10 && !h.queued).length;
     harvestBadge.hidden = !ready;
     harvestBadge.textContent = String(ready);
     $('harvest-all').classList.toggle('idle', !ready);
