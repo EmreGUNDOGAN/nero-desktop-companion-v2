@@ -77,5 +77,10 @@ export const RELEASE_NOTES = [
     { icon: '🎨', title: '12 yeni program teması', text: 'Sonbahar Kütüphanesi’nden 90’lar Kırtasiye’ye, Kış Tramvayı’ndan Pastel Mutfak’a kadar on iki ayrı çizilmiş görsel dünya eklendi.' },
     { icon: '⚡', title: 'Üretim etkileri görünür', text: 'Kovanın saatlik üretimine gelince aktif buff ve debuff’ların gerçek çarpanlarını görebilirsin.' },
     { icon: '❄️', title: 'Kış hazırlığı', text: 'Kışa bir gün kala şurupsuz kovan varsa Nero bir kez Windows bildirimi gönderir.' },
-    { icon: '🛠️', title: 'Küçük ama önemli düzeltmeler', text: 'Sonbahar ikon flicker’ı ve Nero’nun takılı kalan konuşma animasyonu giderildi; uyarı ve Hasat Et renkleri yumuşatıldı.' }] }
+    { icon: '🛠️', title: 'Küçük ama önemli düzeltmeler', text: 'Sonbahar ikon flicker’ı ve Nero’nun takılı kalan konuşma animasyonu giderildi; uyarı ve Hasat Et renkleri yumuşatıldı.' }] },
+  { version: '6.3.7', title: 'Temalar düzeldi, panel yine panel gibi davranıyor', items: [
+    { icon: '🪟', title: 'Gerçek tema sahneleri', text: '12 program teması, dev ve anlamsız çizgiler yerine kendi dünyasını anlatan ayrı vektör sahneleriyle yeniden hazırlandı.' },
+    { icon: '↔️', title: 'Boyutlandırma geri geldi', text: 'Tema katmanının resize tutamaçlarını bozmasına neden olan CSS kaldırıldı; pencere yeniden normal biçimde büyüyüp küçülüyor.' },
+    { icon: '🧭', title: 'Menüler yerinde', text: 'Yeni temalar artık sekme ve kart geometrisini değiştirmiyor; mevcut Nero panel düzeni aynen korunuyor.' },
+    { icon: '🏅', title: 'Rozetler aynı sistem', text: 'Rozet ikonları, boyutları ve davranışı değişmedi; yalnız tema rengi arka plana uygulanıyor.' }] }
 ];
