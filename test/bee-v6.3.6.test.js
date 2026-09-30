@@ -27,7 +27,7 @@ test('6.3.6 beekeeping Nero stops talking exactly when its bubble hides', () => 
 
 test('6.3.6 warning exclamation and harvest button use approved soft palettes', () => {
   const css = fs.readFileSync(path.join(root, 'src/renderer/bee/ui-v2.css'), 'utf8');
-  assert.match(css, /#warning-center[^}]*color:\s*#D96F67[^}]*#8E4A45[^}]*#B85B55/s);
+  assert.match(css, /#warning-center[^}]*color:\s*#D7655F[^}]*#8B4743[^}]*#B95752/s);
   assert.match(css, /\.hexbtn\.big[^}]*#A8C88A[^}]*#789B60/s);
   assert.match(css, /\.hexbtn\.big:hover[^}]*#96BA76/s);
 });
