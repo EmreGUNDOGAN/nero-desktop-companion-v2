@@ -16,4 +16,4 @@
 
 - Release bağlantıları yalnız izin verilen GitHub Releases adreslerini harici tarayıcıda açar.
 - Uyarı durumu save'e eski veri olarak yazılmaz; mevcut çiftlik state'inden canlı hesaplanır.
-- 50×100 mektup verisi paketlenmiş gzip JSON parçaları olarak yüklenir ve sabit içerik kimlikleri seçim geçmişinde kullanılır.
+- 50×100 mektup verisi doğrulanmış JSON veri paketleri olarak yüklenir ve sabit içerik kimlikleri seçim geçmişinde kullanılır.
