@@ -1,0 +1,135 @@
+name: Build Nero 6.3.4 Final
+
+on:
+  push:
+    branches: [feature/bee-v6.3.4]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  release:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Verify Nero 6.3.4 source
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+
+          $pkg = Get-Content package.json -Raw | ConvertFrom-Json
+          if ($pkg.version -ne '6.3.4') { throw "Wrong package version: $($pkg.version)" }
+          if ($pkg.build.appId -ne 'com.stenwick.nero') { throw 'appId changed unexpectedly' }
+
+          # 6.3.x manual wardrobe must be gone; only the legacy automatic
+          # pajama / party / winter assets may remain in live themes.
+          if (Test-Path src/main/wardrobe.js) { throw 'Manual wardrobe backend still exists' }
+          if (Test-Path test/wardrobe.test.js) { throw 'Obsolete wardrobe test still exists' }
+          $badWardrobe = Get-ChildItem themes -Recurse -File | Where-Object {
+            $_.FullName -match 'wardrobe-v2|body-dressed|hands-dressed'
+          }
+          if ($badWardrobe) { throw "Wardrobe-v2/dressed assets remain: $($badWardrobe.FullName -join ', ')" }
+
+          $outfits = Get-ChildItem themes -Recurse -File | Where-Object { $_.Name -like 'outfit-*' }
+          $allowed = @('outfit-pajama.svg','outfit-party.svg','outfit-winter.svg')
+          $badOutfits = $outfits | Where-Object { $allowed -notcontains $_.Name }
+          if ($badOutfits) { throw "Non-legacy outfit assets remain: $($badOutfits.FullName -join ', ')" }
+
+          $theme = Get-Content themes/default/theme.json -Raw
+          if ($theme -match 'wardrobe-v2|dressed') { throw 'Default theme still references wardrobe-v2/dressed layers' }
+          foreach ($legacy in @('outfit-pajama.svg','outfit-party.svg','outfit-winter.svg')) {
+            if ($theme -notmatch [regex]::Escape($legacy)) { throw "Legacy outfit missing from default theme: $legacy" }
+          }
+
+          node --check src/main/main.js
+          node --check src/main/bee.js
+          node --check src/main/village-letters.js
+          node --check src/renderer/character/character.js
+          node --check src/renderer/panel/panel.js
+          Get-Content src/renderer/bee/bee.js -Raw | node --input-type=module --check
+          Get-Content src/renderer/bee/ui-v2.js -Raw | node --input-type=module --check
+          Get-Content src/renderer/bee/release-notes.js -Raw | node --input-type=module --check
+
+          node -e "const {LETTERS_BY_NAME}=require('./src/main/village-letters'); const e=Object.entries(LETTERS_BY_NAME); if(e.length!==50) throw new Error('Expected 50 letter senders, got '+e.length); for(const [n,a] of e){if(!Array.isArray(a)||a.length!==100||new Set(a).size!==100) throw new Error('Bad letter pool: '+n+' / '+(a&&a.length));} console.log('Letter pool OK: 50 x 100 = 5000');"
+
+          $bee = Get-Content src/main/bee.js -Raw
+          if ($bee -notmatch 'letterSenderHistory') { throw 'Letter sender cooldown persistence missing' }
+          if ($bee -notmatch 'letterRecentBySender') { throw 'Letter content cooldown persistence missing' }
+          if ($bee -notmatch 'this\.state\.speed === 0 \|\| this\.state\.pauseStartedAt') { throw 'Explicit rival pause guard missing' }
+
+          $renderer = Get-Content src/renderer/bee/bee.js -Raw
+          if ($renderer -notmatch 'function activeWarnings') { throw 'Warning center logic missing' }
+          if ($renderer -notmatch 'releaseIndex') { throw 'Release history cursor missing' }
+
+          $html = Get-Content src/renderer/bee/index.html -Raw
+          if ($html -notmatch 'Mevsim Turnuvaları ve rakipler') { throw 'Tournament guide missing' }
+          if ($html -notmatch 'whats-new-prev') { throw 'Previous release navigation missing' }
+          if ($html -notmatch 'whats-new-release-link') { throw 'Release changelog link missing' }
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm test
+
+      - name: Validate dialogue
+        run: npm run dialogue:check
+
+      - name: Bee window smoke test
+        run: npx electron test/bee-window-electron-smoke.js
+
+      - name: Build Windows installer
+        run: npm run dist
+
+      - name: Prepare release files and checksums
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+
+          Copy-Item docs/ARICILIK-REHBERI.md OYUN-REHBERI.md -Force
+          git archive --format=zip -o Nero-v6_3_4-source.zip HEAD
+          if ($LASTEXITCODE -ne 0) { throw 'Source archive failed' }
+
+          $required = @(
+            'dist/Nero-Setup-6.3.4.exe',
+            'dist/Nero-Setup-6.3.4.exe.blockmap',
+            'dist/latest.yml',
+            'Nero-v6_3_4-source.zip',
+            'CHANGELOG-6.3.4.md',
+            'OYUN-REHBERI.md'
+          )
+          foreach ($f in $required) {
+            if (-not (Test-Path $f)) { throw "Missing final file: $f" }
+          }
+
+          $metadata = Get-Content dist/latest.yml -Raw
+          if ($metadata -notmatch 'version: 6\.3\.4' -or $metadata -notmatch 'Nero-Setup-6\.3\.4\.exe') {
+            throw 'Updater metadata mismatch'
+          }
+
+          $hashes = foreach ($f in $required) {
+            "$((Get-FileHash $f -Algorithm SHA256).Hash.ToLowerInvariant())  $([IO.Path]::GetFileName($f))"
+          }
+          Set-Content SHA256SUMS-6.3.4.txt -Value $hashes -Encoding ascii
+
+      - name: Upload Nero 6.3.4 final bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: Nero-6.3.4-final-bundle
+          path: |
+            dist/Nero-Setup-6.3.4.exe
+            dist/Nero-Setup-6.3.4.exe.blockmap
+            dist/latest.yml
+            Nero-v6_3_4-source.zip
+            CHANGELOG-6.3.4.md
+            OYUN-REHBERI.md
+            SHA256SUMS-6.3.4.txt
+          if-no-files-found: error
+          retention-days: 30
