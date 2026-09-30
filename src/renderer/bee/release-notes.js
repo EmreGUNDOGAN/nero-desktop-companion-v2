@@ -82,5 +82,10 @@ export const RELEASE_NOTES = [
     { icon: '🪟', title: 'Gerçek tema sahneleri', text: '12 program teması, dev ve anlamsız çizgiler yerine kendi dünyasını anlatan ayrı vektör sahneleriyle yeniden hazırlandı.' },
     { icon: '↔️', title: 'Boyutlandırma geri geldi', text: 'Tema katmanının resize tutamaçlarını bozmasına neden olan CSS kaldırıldı; pencere yeniden normal biçimde büyüyüp küçülüyor.' },
     { icon: '🧭', title: 'Menüler yerinde', text: 'Yeni temalar artık sekme ve kart geometrisini değiştirmiyor; mevcut Nero panel düzeni aynen korunuyor.' },
-    { icon: '🏅', title: 'Rozetler aynı sistem', text: 'Rozet ikonları, boyutları ve davranışı değişmedi; yalnız tema rengi arka plana uygulanıyor.' }] }
+    { icon: '🏅', title: 'Rozetler aynı sistem', text: 'Rozet ikonları, boyutları ve davranışı değişmedi; yalnız tema rengi arka plana uygulanıyor.' }] },
+  { version: '6.3.8', title: '90’lar Kırtasiye artık gerçek asset sistemiyle', items: [
+    { icon: '✏️', title: 'Tek dev arka plan yok', text: 'Kalemler, washi bantlar, sticky note, ataçlar, kaset ve diğer kırtasiye detayları ayrı assetlere bölündü.' },
+    { icon: '📒', title: 'Sayfaya göre kompozisyon', text: 'Bugün, Sayaç ve çalışma ekranları aynı assetleri farklı yerleşimlerle kullanıyor; pencere büyüyünce sahne bozulmuyor.' },
+    { icon: '🏅', title: 'Rozetler klasik', text: 'Rozet ikonlarına ve SVG’lerine dokunulmadı; sadece mevcut daire arka planları pastel palete uyarlanıyor.' },
+    { icon: '↔️', title: 'Layout ve resize korunuyor', text: 'Sekme sırası, panel yapısı ve boyutlandırma sistemi değiştirilmedi.' }] }
 ];
