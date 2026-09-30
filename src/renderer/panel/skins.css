@@ -1167,7 +1167,7 @@
 /* ==========================================================================
    ÇİLEKLİ PİKNİK ve MUM IŞIĞI (arka planı resimli temalar)
    ========================================================================== */
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) {
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) {
   --serif: "Fraunces", Georgia, serif;
   --text: "Patrick Hand", "Segoe UI", sans-serif;
   --hand: "Caveat", "Segoe Print", cursive;
@@ -1182,16 +1182,16 @@
   --on-scene: #FBEBD6;
   --on-scene-shadow: 0 1px 3px rgba(0, 0, 0, .85), 0 0 10px rgba(0, 0, 0, .6);
 }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) body { font-size: 15.5px; font-weight: 400; }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .scene-row { display: flex; }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .shell {
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) body { font-size: 15.5px; font-weight: 400; }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .scene-row { display: flex; }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .shell {
   background-image: none;
   border: 2px solid var(--ink);
   border-radius: 24px;
   box-shadow: 0 16px 36px rgba(0, 0, 0, .4);
 }
 /* Sekmeye göre değişen arka plan sahnesi */
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .shell::before {
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .shell::before {
   content: ""; position: absolute; inset: 0; z-index: 0;
   background: no-repeat center / cover;
 }
@@ -1201,19 +1201,19 @@
 [data-skin="mum"][data-tab="timer"] .shell::before { background-image: url("deco/mum/bg-sayac.png"); }
 [data-skin="cilek"]:is([data-tab="notes"], [data-tab="settings"], [data-tab="badges"]) .shell::before { background-image: url("deco/cilek/bg-hafta.png"); }
 [data-skin="mum"]:is([data-tab="notes"], [data-tab="settings"], [data-tab="badges"]) .shell::before { background-image: url("deco/mum/bg-hafta.png"); }
-.no-scene :is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .shell::before,
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]).no-scene .shell::before { display: none; }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) :is(.top, .tabs, main, .update-banner, .app-version, .grip) { position: relative; z-index: 1; }
+.no-scene :is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .shell::before,
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]).no-scene .shell::before { display: none; }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) :is(.top, .tabs, main, .update-banner, .app-version, .grip) { position: relative; z-index: 1; }
 /* Notlar, ayarlar ve rozetlerde sahne biraz soluklaşsın ki yazılar okunsun */
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]):is([data-tab="notes"], [data-tab="settings"], [data-tab="badges"]) main::before {
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]):is([data-tab="notes"], [data-tab="settings"], [data-tab="badges"]) main::before {
   content: ""; position: absolute; inset: 0; z-index: 0;
   background: rgba(255, 248, 243, .28);
 }
 [data-skin="mum"]:is([data-tab="notes"], [data-tab="settings"], [data-tab="badges"]) main::before { background: rgba(20, 12, 8, .35); }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .view { position: relative; z-index: 1; }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .view { position: relative; z-index: 1; }
 
 /* Başlık */
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .top {
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .top {
   position: relative; overflow: hidden; min-height: 112px; box-sizing: border-box;
   padding: 14px 18px 12px 22px; border-bottom: 2px solid var(--ink);
   background: no-repeat center / cover;
@@ -1221,52 +1221,52 @@
 [data-skin="cilek"] .top { background-image: url("deco/cilek/baslik.png"); color: var(--ink); }
 [data-skin="mum"] .top { background-image: url("deco/mum/baslik.png"); color: #FBEBD6; }
 [data-skin="mum"] :is(.top h1, .tagline, .mood-note, #mood-label) { color: #FBEBD6; text-shadow: 0 1px 3px rgba(0, 0, 0, .75); }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) h1 {
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) h1 {
   display: flex; align-items: center; gap: 8px;
   font: 600 38px/1 var(--serif); font-variation-settings: normal;
 }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) h1::after {
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) h1::after {
   content: ""; width: 34px; height: 34px; background: no-repeat center / contain;
 }
 [data-skin="cilek"] h1::after { background-image: url("deco/cilek/ic-cilek.png"); }
 [data-skin="mum"] h1::after { background-image: url("deco/mum/ic-mum.png"); }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .tagline { display: block; margin: 4px 0 0; font: 600 20px/1 var(--hand); }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .mood-note { margin-top: 2px; font: 400 15px/1.2 var(--text); }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .close {
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .tagline { display: block; margin: 4px 0 0; font: 600 20px/1 var(--hand); }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .mood-note { margin-top: 2px; font: 400 15px/1.2 var(--text); }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .close {
   top: 14px; width: 32px; height: 32px; border-radius: 10px;
   border: 2px solid var(--ink); background: var(--glass); box-shadow: none;
 }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .close:not(.minimize):not(.pin-btn):not(.settings-btn) { background: var(--accent); }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .close:not(.minimize):not(.pin-btn):not(.settings-btn) svg { stroke: #fff; }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .close.minimize { right: 54px; }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .close.pin-btn { right: 92px; }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .close svg { stroke: var(--ink); stroke-width: 2; }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .close:not(.minimize):not(.pin-btn):not(.settings-btn) { background: var(--accent); }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .close:not(.minimize):not(.pin-btn):not(.settings-btn) svg { stroke: #fff; }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .close.minimize { right: 54px; }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .close.pin-btn { right: 92px; }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .close svg { stroke: var(--ink); stroke-width: 2; }
 
 /* Sekmeler */
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .tabs { background: transparent; padding: 0; margin: 10px 14px 4px; gap: 6px; border-radius: 0; }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .tabs button {
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .tabs { background: transparent; padding: 0; margin: 10px 14px 4px; gap: 6px; border-radius: 0; }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .tabs button {
   height: 36px; min-width: 0; border-radius: 10px; border: 2px solid var(--ink); background: var(--glass);
   font: 400 14px/1 var(--text); color: var(--ink); padding: 0 4px;
 }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .tabs svg { stroke: var(--ink); width: 14px; height: 14px; }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .tabs button[aria-selected="true"] { background: var(--accent); color: #fff; box-shadow: none; }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .tabs button[aria-selected="true"] svg { stroke: #fff; }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .tabs svg { stroke: var(--ink); width: 14px; height: 14px; }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .tabs button[aria-selected="true"] { background: var(--accent); color: #fff; box-shadow: none; }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .tabs button[aria-selected="true"] svg { stroke: #fff; }
 
 /* Kartlar */
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .card {
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .card {
   border: 2px solid var(--ink); border-radius: 16px; background: var(--glass); box-shadow: none; overflow: hidden;
 }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) :is(.pill, .chip) {
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) :is(.pill, .chip) {
   border: 2px solid var(--ink); border-radius: 12px; box-shadow: none; background: var(--glass);
   font-family: var(--text); font-weight: 400;
 }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .pill.primary { background: var(--accent); color: #fff; }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) :is(.hello h2, .card h3, .tile strong, #view-settings h2, .quote blockquote) { font-variation-settings: normal; }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) :is(.hello, .todo-footer, .empty, .save-state, .version, .app-version) { color: var(--on-scene); text-shadow: var(--on-scene-shadow); }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .hello h2 { font: 600 30px/1 var(--serif); }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .pill.primary { background: var(--accent); color: #fff; }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) :is(.hello h2, .card h3, .tile strong, #view-settings h2, .quote blockquote) { font-variation-settings: normal; }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) :is(.hello, .todo-footer, .empty, .save-state, .version, .app-version) { color: var(--on-scene); text-shadow: var(--on-scene-shadow); }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .hello h2 { font: 600 30px/1 var(--serif); }
 
 /* Bugün: kutucuklar kart görselleriyle */
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .tile {
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .tile {
   min-height: 92px; padding: 10px 12px 11px; justify-content: center;
   background: no-repeat center / cover; color: var(--ink); text-shadow: none;
 }
@@ -1278,7 +1278,7 @@
 [data-skin="mum"] .tile:nth-child(2) { background-image: url("deco/mum/kart2.png"); }
 [data-skin="mum"] .tile:nth-child(3) { background-image: url("deco/mum/kart4.png"); }
 [data-skin="mum"] .tile:nth-child(4) { background-image: url("deco/mum/kart1.png"); }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .tile::before {
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .tile::before {
   content: ""; position: absolute; left: 12px; top: 10px; width: 26px; height: 26px; background: no-repeat center / contain;
 }
 [data-skin="cilek"] .tile:nth-child(1)::before { background-image: url("deco/cilek/ic-yaprak.png"); }
@@ -1289,36 +1289,36 @@
 [data-skin="mum"] .tile:nth-child(2)::before { background-image: url("deco/mum/ic-kupa.png"); }
 [data-skin="mum"] .tile:nth-child(3)::before { background-image: url("deco/mum/ic-kitap.png"); }
 [data-skin="mum"] .tile:nth-child(4)::before { background-image: url("deco/mum/ic-ay.png"); }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .tile strong { font: 800 26px/1.1 "Nunito", sans-serif; color: var(--ink); }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .tile span { font: 400 15px/1.2 var(--text); color: var(--ink); }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .tile strong { font: 800 26px/1.1 "Nunito", sans-serif; color: var(--ink); }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .tile span { font: 400 15px/1.2 var(--text); color: var(--ink); }
 
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .nero-says {
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .nero-says {
   margin-right: 0; padding: 12px 14px 14px 46px;
   background: var(--glass) no-repeat 12px center / 26px 26px;
 }
 [data-skin="cilek"] .nero-says { background-image: url("deco/cilek/ic-cilek.png"); }
 [data-skin="mum"] .nero-says { background-image: url("deco/mum/ic-mum.png"); }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .nero-says::before {
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .nero-says::before {
   top: auto; bottom: -9px; left: 26px; width: 14px; height: 14px; rotate: 45deg; border-radius: 2px;
   background: var(--glass); border-right: 2px solid var(--ink); border-bottom: 2px solid var(--ink);
 }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .nero-says p { font-weight: 400; }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .refresh { border: 2px solid var(--ink); background: var(--glass); }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .week { min-height: 112px; background: no-repeat center 60% / cover; border: 2px solid var(--ink); }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .nero-says p { font-weight: 400; }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .refresh { border: 2px solid var(--ink); background: var(--glass); }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .week { min-height: 112px; background: no-repeat center 60% / cover; border: 2px solid var(--ink); }
 [data-skin="cilek"] .week { background-image: url("deco/cilek/bg-hafta.png"); }
 [data-skin="mum"] .week { background-image: url("deco/mum/bg-hafta.png"); }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .week :is(h3, .card-head span, .bar span) { color: #FFF6EC; text-shadow: 0 1px 3px rgba(0, 0, 0, .8); }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .bar i { background: rgba(255, 250, 244, .9); border: 1.5px solid var(--ink); border-radius: 7px 7px 3px 3px; max-width: 16px; }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .bar.today i { background: var(--accent); }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .quote figcaption { font-size: 20px; }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .week :is(h3, .card-head span, .bar span) { color: #FFF6EC; text-shadow: 0 1px 3px rgba(0, 0, 0, .8); }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .bar i { background: rgba(255, 250, 244, .9); border: 1.5px solid var(--ink); border-radius: 7px 7px 3px 3px; max-width: 16px; }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .bar.today i { background: var(--accent); }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .quote figcaption { font-size: 20px; }
 
 /* Notlar */
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .notes li {
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .notes li {
   border: 2px solid var(--ink); border-radius: 16px; rotate: 0deg;
   background: no-repeat center / cover; color: var(--ink);
   padding: 14px 12px 10px; min-height: 120px;
 }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .notes li::before { display: none; }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .notes li::before { display: none; }
 [data-skin="cilek"] .notes li:nth-child(5n+2) { background-image: url("deco/cilek/kart1.png"); }
 [data-skin="cilek"] .notes li:nth-child(5n+3) { background-image: url("deco/cilek/kart2.png"); }
 [data-skin="cilek"] .notes li:nth-child(5n+4) { background-image: url("deco/cilek/kart3.png"); }
@@ -1329,78 +1329,78 @@
 [data-skin="mum"] .notes li:nth-child(5n+4) { background-image: url("deco/mum/kart3.png"); }
 [data-skin="mum"] .notes li:nth-child(5n) { background-image: url("deco/mum/kart4.png"); }
 [data-skin="mum"] .notes li:nth-child(5n+1) { background-image: url("deco/mum/kart5.png"); }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .note-title { font: 600 17px/1.15 var(--serif); }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .note-preview { font-size: 14.5px; color: var(--muted); }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .notes li.new-note {
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .note-title { font: 600 17px/1.15 var(--serif); }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .note-preview { font-size: 14.5px; color: var(--muted); }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .notes li.new-note {
   border: 2px dashed var(--ink); background: var(--glass); color: var(--ink); font: 400 18px/1 var(--text);
 }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .notes li.new-note .plus { color: var(--accent); }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .paper { background: var(--glass); border: 2px solid var(--ink); border-radius: 16px; }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .paper .tape { display: none; }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .notes li.new-note .plus { color: var(--accent); }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .paper { background: var(--glass); border: 2px solid var(--ink); border-radius: 16px; }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .paper .tape { display: none; }
 
 /* İşler */
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) :is(.todo-add > #todo-input, .soft-input, .todo-duration, .todo-time) {
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) :is(.todo-add > #todo-input, .soft-input, .todo-duration, .todo-time) {
   border: 2px solid var(--ink); border-radius: 12px; box-shadow: none; background: var(--glass); font: 400 16px/1 var(--text);
 }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .add { border: 2px solid var(--ink); border-radius: 12px; background: var(--accent); }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .add svg { stroke: #fff; }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .todos li + li { border-top: 2px dotted rgba(0, 0, 0, .18); }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .check { width: 24px; height: 24px; border: 2px solid var(--ink); background: #fff; }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .todos li.done .check { background: var(--accent); }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .check svg { stroke: #fff; }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .todo-text { font-size: 16.5px; }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .todo-footer { font: 600 20px/1 var(--hand); }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .todo-bell.set { background: var(--accent); color: #fff; }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .add { border: 2px solid var(--ink); border-radius: 12px; background: var(--accent); }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .add svg { stroke: #fff; }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .todos li + li { border-top: 2px dotted rgba(0, 0, 0, .18); }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .check { width: 24px; height: 24px; border: 2px solid var(--ink); background: #fff; }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .todos li.done .check { background: var(--accent); }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .check svg { stroke: #fff; }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .todo-text { font-size: 16.5px; }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .todo-footer { font: 600 20px/1 var(--hand); }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .todo-bell.set { background: var(--accent); color: #fff; }
 
 /* Sayaç: sahnenin önünde tek kart */
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) #view-timer {
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) #view-timer {
   display: flex; flex-direction: column; align-items: center; padding-top: 14px;
 }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) #view-timer[hidden] { display: none; }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .dial {
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) #view-timer[hidden] { display: none; }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .dial {
   width: 100%; max-width: 300px; height: auto; margin: 0 0 10px; padding: 14px 16px 10px; box-sizing: border-box;
   border: 2px solid var(--ink); border-radius: 20px; background: var(--glass);
   display: flex; flex-direction: column; align-items: center;
 }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .ring { width: 180px; height: 180px; }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .ring-track { fill: transparent; stroke: color-mix(in srgb, var(--accent) 45%, #fff); stroke-width: 12; }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .ring-fill { stroke: var(--accent); stroke-width: 12; }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .dial { position: relative; }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .dial-center {
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .ring { width: 180px; height: 180px; }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .ring-track { fill: transparent; stroke: color-mix(in srgb, var(--accent) 45%, #fff); stroke-width: 12; }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .ring-fill { stroke: var(--accent); stroke-width: 12; }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .dial { position: relative; }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .dial-center {
   position: absolute; top: 14px; left: 0; right: 0; height: 180px;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
 }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .digits { font: 800 46px/1 "Nunito", sans-serif; color: var(--ink); }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .dial-label { font: 600 20px/1.1 var(--hand); color: var(--muted); max-width: 200px; }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .timer-setup { width: 100%; max-width: 300px; }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .presets { justify-content: center; }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .presets > button {
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .digits { font: 800 46px/1 "Nunito", sans-serif; color: var(--ink); }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .dial-label { font: 600 20px/1.1 var(--hand); color: var(--muted); max-width: 200px; }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .timer-setup { width: 100%; max-width: 300px; }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .presets { justify-content: center; }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .presets > button {
   flex: none; width: 44px; height: 44px; border-radius: 50%; border: 2px solid var(--ink);
   background: var(--glass); box-shadow: none; font: 800 14px/1 "Nunito", sans-serif; color: var(--ink);
 }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .presets > button.on { background: var(--accent); color: #fff; }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .presets .custom { background: var(--glass); border: 2px solid var(--ink); box-shadow: none; }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .timer-actions .pill { padding: 12px 28px; border-radius: 999px; font-size: 18px; }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .timer-actions .link.danger {
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .presets > button.on { background: var(--accent); color: #fff; }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .presets .custom { background: var(--glass); border: 2px solid var(--ink); box-shadow: none; }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .timer-actions .pill { padding: 12px 28px; border-radius: 999px; font-size: 18px; }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .timer-actions .link.danger {
   color: var(--ink); background: var(--glass); border: 2px solid var(--ink); border-radius: 999px; padding: 10px 20px;
 }
 
 /* Rozetler ve ayarlar */
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .badge-icon { border-color: var(--ink); background: var(--glass); }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .badge.on .badge-icon { background: var(--accent); color: #fff; }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) #view-settings h2 { font: 600 19px/1.2 var(--serif); }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .row { font-size: 16px; }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) :is(.row select, .name-input, .bday select) {
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .badge-icon { border-color: var(--ink); background: var(--glass); }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .badge.on .badge-icon { background: var(--accent); color: #fff; }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) #view-settings h2 { font: 600 19px/1.2 var(--serif); }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .row { font-size: 16px; }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) :is(.row select, .name-input, .bday select) {
   border: 2px solid var(--ink); border-radius: 10px; background: var(--glass); font: 400 15px/1 var(--text);
 }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .toggle input { border: 2px solid var(--ink); background: color-mix(in srgb, var(--accent) 16%, #fff); width: 44px; height: 26px; box-sizing: border-box; }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .toggle input::after { top: 2px; left: 2px; width: 18px; height: 18px; background: #fff; border: 1.5px solid var(--ink); box-sizing: border-box; box-shadow: none; }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .toggle input:checked { background: var(--accent); }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .segmented { border: 2px solid var(--ink); border-radius: 10px; background: var(--glass); }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .segmented button { border-radius: 7px; font: 400 14px/1 var(--text); color: var(--ink); }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .segmented button[aria-checked="true"] { background: var(--accent); color: #fff; }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .update-banner { background: var(--accent); color: #fff; border: 2px solid var(--ink); }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .grip::after { border-color: var(--ink); }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .toggle input { border: 2px solid var(--ink); background: color-mix(in srgb, var(--accent) 16%, #fff); width: 44px; height: 26px; box-sizing: border-box; }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .toggle input::after { top: 2px; left: 2px; width: 18px; height: 18px; background: #fff; border: 1.5px solid var(--ink); box-sizing: border-box; box-shadow: none; }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .toggle input:checked { background: var(--accent); }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .segmented { border: 2px solid var(--ink); border-radius: 10px; background: var(--glass); }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .segmented button { border-radius: 7px; font: 400 14px/1 var(--text); color: var(--ink); }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .segmented button[aria-checked="true"] { background: var(--accent); color: #fff; }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .update-banner { background: var(--accent); color: #fff; border: 2px solid var(--ink); }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .grip::after { border-color: var(--ink); }
 
 /* Yenile tuşu yazıya binmesin (resimli ve hava temalarında da) */
 :is([data-skin="yagmur"], [data-skin="kar"], [data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .nero-says { padding-right: 52px; }
@@ -1413,8 +1413,8 @@
 }
 [data-skin="disket"] .tile { display: block; }
 [data-skin="disket"] .tile::before { position: static; }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .ritual { background: var(--glass); }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .rest-card { background: var(--glass); }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .ritual { background: var(--glass); }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .rest-card { background: var(--glass); }
 [data-skin="disket"] .rest-card { border-radius: 0; border: 2px solid var(--ink); box-shadow: var(--bevel); }
 [data-skin="disket"] .rest-title { font-family: "Pixelify Sans", monospace; }
 
@@ -1545,11 +1545,11 @@
 :is([data-skin="yagmur"], [data-skin="kar"]) .todo-stopwatch.running { background: var(--secondary); color: #fff; }
 :is([data-skin="yagmur"], [data-skin="kar"]) .todo-meta { color: var(--ink); }
 
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .todo-stopwatch {
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .todo-stopwatch {
   border: 2px solid var(--ink); border-radius: 10px; background: var(--glass); color: var(--ink);
 }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .todo-stopwatch.running { background: var(--accent); color: #fff; }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .todo-meta { color: var(--ink); }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .todo-stopwatch.running { background: var(--accent); color: #fff; }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .todo-meta { color: var(--ink); }
 
 /* --------------------------------------------------------------------------
    4.3.0 Aşama 3: ana sayfa yardım ikonları + güvenli reset modalı
@@ -1613,15 +1613,15 @@
 :is([data-skin="yagmur"], [data-skin="kar"]) .section-tooltip::before { background: var(--surface); border-color: color-mix(in srgb, var(--ink) 42%, transparent); }
 :is([data-skin="yagmur"], [data-skin="kar"]) .confirm-nero { background: var(--secondary); color: #fff; }
 
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) :is(.section-help, .stats-reset) {
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) :is(.section-help, .stats-reset) {
   border: 2px solid var(--ink); background: var(--glass); color: var(--ink);
 }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .section-tooltip,
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .confirm-card {
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .section-tooltip,
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .confirm-card {
   background: var(--glass); border: 2px solid var(--ink); box-shadow: none; backdrop-filter: blur(8px);
 }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .section-tooltip::before { background: var(--glass); border-color: var(--ink); }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .confirm-nero { border: 2px solid var(--ink); background: var(--accent); color: #fff; }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .section-tooltip::before { background: var(--glass); border-color: var(--ink); }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .confirm-nero { border: 2px solid var(--ink); background: var(--accent); color: #fff; }
 
 /* --------------------------------------------------------------------------
    4.2.0 UI polish: istatistik metin hizası + başlık kontrol hit-area'ları
@@ -1707,7 +1707,7 @@
 [data-skin="disket"] .settings-btn { right: 110px; border-radius: 0; }
 [data-skin="kasaba"] .settings-btn { right: 126px; border-radius: 50%; background: var(--surface); }
 :is([data-skin="yagmur"], [data-skin="kar"]) .settings-btn { right: 138px; background: #F7F4EE; }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .settings-btn { right: 138px; background: var(--glass); }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .settings-btn { right: 138px; background: var(--glass); }
 [data-skin="mum"] .settings-btn svg { stroke: #3A2A24; }
 
 /* Genel moodboard yüzeyi her temanın kendi kağıt/çizgi renklerini kullanır. */
@@ -1755,15 +1755,15 @@
 :is([data-skin="yagmur"], [data-skin="kar"]) .mood-day { border-color: color-mix(in srgb, var(--ink) 42%, transparent); box-shadow: 0 3px 10px rgba(48, 62, 86, .10); }
 :is([data-skin="yagmur"], [data-skin="kar"]) .archive-month { background: color-mix(in srgb, var(--surface) 78%, transparent); backdrop-filter: blur(4px); }
 
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .moodboards,
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .archive-month {
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .moodboards,
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .archive-month {
   background: var(--glass); border: 2px solid var(--ink); box-shadow: none;
 }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .mood-board + .mood-board { border-top: 2px solid var(--ink); }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .mood-day { border: 2px solid var(--ink); box-shadow: none; }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .mood-day.empty { background: color-mix(in srgb, var(--glass) 78%, transparent); border-style: dashed; }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .mood-picker { background: var(--glass); border: 2px solid var(--ink); box-shadow: none; }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .archive-entry { background: color-mix(in srgb, var(--glass) 88%, transparent); }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .mood-board + .mood-board { border-top: 2px solid var(--ink); }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .mood-day { border: 2px solid var(--ink); box-shadow: none; }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .mood-day.empty { background: color-mix(in srgb, var(--glass) 78%, transparent); border-style: dashed; }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .mood-picker { background: var(--glass); border: 2px solid var(--ink); box-shadow: none; }
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .archive-entry { background: color-mix(in srgb, var(--glass) 88%, transparent); }
 
 /* 4.3.0 — moodboard geçmiş seçici ve kompakt ay navigasyonu */
 [data-skin="latte"] :is(.mood-history-toggle, .mood-nav-btn, .mood-current-btn, .mood-history-popover, .mood-history-month) {
@@ -1817,13 +1817,13 @@
 }
 :is([data-skin="yagmur"], [data-skin="kar"]) .mood-history-month.active { background: var(--secondary); color: #fff; }
 
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) :is(.mood-history-toggle, .mood-nav-btn, .mood-current-btn, .mood-history-month) {
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) :is(.mood-history-toggle, .mood-nav-btn, .mood-current-btn, .mood-history-month) {
   border: 2px solid var(--ink); background: var(--glass); color: var(--ink);
 }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .mood-history-popover {
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .mood-history-popover {
   background: var(--glass); border: 2px solid var(--ink); box-shadow: none; backdrop-filter: blur(8px);
 }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .mood-history-month.active {
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .mood-history-month.active {
   background: var(--accent); color: #fff;
 }
 
@@ -1888,7 +1888,7 @@
   border: 1.5px solid color-mix(in srgb, var(--ink) 42%, transparent);
   backdrop-filter: blur(8px);
 }
-:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"]) .section-tooltip-layer {
+:is([data-skin="cilek"], [data-skin="mum"], [data-skin="ege"], [data-skin="doksanlar-kirtasiye"]) .section-tooltip-layer {
   background: var(--glass);
   border: 2px solid var(--ink);
   box-shadow: none;
@@ -2134,3 +2134,180 @@ html.no-scene:is(
   [data-skin="analog-radyo"],
   [data-skin="pastel-mutfak"]
 ) .shell { background-image: none !important; }
+
+
+/* ==========================================================================
+   6.3.8 — 90'LAR KIRTASİYE / GERÇEK ASSET MİMARİSİ
+   Bu tema tek büyük sahne kullanmaz. Ayrı kırtasiye assetleri CSS ile
+   kompoze edilir; Nero panelinin layout ve resize sistemi aynen korunur.
+   ========================================================================== */
+[data-skin="doksanlar-kirtasiye"] {
+  --serif: "Fraunces", Georgia, serif;
+  --text: "Nunito", "Segoe UI", sans-serif;
+  --hand: "Caveat", "Segoe Print", cursive;
+  --glass: rgba(255, 252, 247, .91);
+  --on-scene: #263D68;
+  --on-scene-shadow: 0 1px 2px rgba(255,255,255,.96), 0 0 7px rgba(255,255,255,.82);
+  --soft-shadow: 0 3px 12px rgba(38,61,104,.11);
+}
+
+/* 6.3.7'nin geçici büyük SVG sahnesini bu temada kesin olarak kapat. */
+[data-skin="doksanlar-kirtasiye"] .shell {
+  background-image: none !important;
+  background-color: #F8F4EC;
+  border-color: #263D68;
+}
+
+/* ATOMİK ASSET KATMANI — her obje kendi ölçüsünde ölçeklenir, cover yok. */
+[data-skin="doksanlar-kirtasiye"] .shell::before {
+  display: block !important;
+  background-color: #F8F4EC;
+  background-image:
+    url("deco/doksanlar-kirtasiye/asset-pencilcase.svg"),
+    url("deco/doksanlar-kirtasiye/asset-pens.svg"),
+    url("deco/doksanlar-kirtasiye/asset-washi.svg"),
+    url("deco/doksanlar-kirtasiye/asset-clips.svg"),
+    url("deco/doksanlar-kirtasiye/asset-stickers.svg"),
+    repeating-linear-gradient(0deg, rgba(108,139,186,.08) 0 1px, transparent 1px 27px),
+    linear-gradient(#F8F4EC,#F8F4EC);
+  background-repeat: no-repeat,no-repeat,no-repeat,no-repeat,no-repeat,repeat,no-repeat;
+  background-size: 25% auto, 30% auto, 20% auto, 16% auto, 15% auto, auto, auto;
+  background-position:
+    -4% 19%,
+    103% 38%,
+    97% 90%,
+    4% 88%,
+    92% 16%,
+    0 0,
+    0 0;
+}
+
+/* Sayaç: merkez tamamen temiz, dekor köşelere çekilir. */
+[data-skin="doksanlar-kirtasiye"][data-tab="timer"] .shell::before {
+  background-image:
+    url("deco/doksanlar-kirtasiye/asset-sticky.svg"),
+    url("deco/doksanlar-kirtasiye/asset-cassette.svg"),
+    url("deco/doksanlar-kirtasiye/asset-pens.svg"),
+    url("deco/doksanlar-kirtasiye/asset-clips.svg"),
+    url("deco/doksanlar-kirtasiye/asset-washi.svg"),
+    repeating-linear-gradient(90deg, rgba(108,139,186,.07) 0 1px, transparent 1px 28px),
+    repeating-linear-gradient(0deg, rgba(108,139,186,.07) 0 1px, transparent 1px 28px),
+    linear-gradient(#F8F4EC,#F8F4EC);
+  background-repeat: no-repeat,no-repeat,no-repeat,no-repeat,no-repeat,repeat,repeat,no-repeat;
+  background-size: 18% auto, 22% auto, 25% auto, 16% auto, 18% auto, auto, auto, auto;
+  background-position:
+    4% 29%,
+    95% 88%,
+    103% 18%,
+    4% 93%,
+    92% 47%,
+    0 0,0 0,0 0;
+}
+
+/* Notlar / İşler / Rozetler / Ayarlar: defter sayfası + spiral + küçük objeler. */
+[data-skin="doksanlar-kirtasiye"]:is([data-tab="notes"],[data-tab="todos"],[data-tab="settings"],[data-tab="badges"]) .shell::before {
+  background-image:
+    url("deco/doksanlar-kirtasiye/asset-spiral.svg"),
+    url("deco/doksanlar-kirtasiye/asset-washi.svg"),
+    url("deco/doksanlar-kirtasiye/asset-sticky.svg"),
+    url("deco/doksanlar-kirtasiye/asset-clips.svg"),
+    url("deco/doksanlar-kirtasiye/asset-stickers.svg"),
+    repeating-linear-gradient(90deg, rgba(108,139,186,.065) 0 1px, transparent 1px 28px),
+    repeating-linear-gradient(0deg, rgba(108,139,186,.065) 0 1px, transparent 1px 28px),
+    linear-gradient(#F8F4EC,#F8F4EC);
+  background-repeat: no-repeat,no-repeat,no-repeat,no-repeat,no-repeat,repeat,repeat,no-repeat;
+  background-size: 7% 68%, 20% auto, 17% auto, 16% auto, 14% auto, auto, auto, auto;
+  background-position:
+    -1% 72%,
+    96% 18%,
+    94% 77%,
+    4% 91%,
+    8% 24%,
+    0 0,0 0,0 0;
+}
+
+html.no-scene[data-skin="doksanlar-kirtasiye"] .shell::before { display:none !important; }
+
+/* Başlık ayrı asset. Ortada metin ve pencere kontrolleri için boş alan bırakır. */
+[data-skin="doksanlar-kirtasiye"] .top {
+  background-color: #F7DDE4;
+  background-image: url("deco/doksanlar-kirtasiye/baslik.svg");
+  background-position: center;
+  background-size: cover;
+  color: #263D68;
+}
+[data-skin="doksanlar-kirtasiye"] :is(.top h1,.tagline,.mood-note,#mood-label) {
+  color: #263D68;
+  text-shadow: 0 1px 1px rgba(255,255,255,.8);
+}
+[data-skin="doksanlar-kirtasiye"] h1::after {
+  background-image: url("deco/doksanlar-kirtasiye/ic-kirtasiye.svg") !important;
+}
+[data-skin="doksanlar-kirtasiye"] .close:not(.minimize):not(.pin-btn):not(.settings-btn) {
+  background: #E986A6;
+}
+
+/* Ana sayfadaki dört kart gerçek ayrı assetlerdir. */
+[data-skin="doksanlar-kirtasiye"] .tile:nth-child(1) { background-image:url("deco/doksanlar-kirtasiye/card-pink.svg"); }
+[data-skin="doksanlar-kirtasiye"] .tile:nth-child(2) { background-image:url("deco/doksanlar-kirtasiye/card-mint.svg"); }
+[data-skin="doksanlar-kirtasiye"] .tile:nth-child(3) { background-image:url("deco/doksanlar-kirtasiye/card-lilac.svg"); }
+[data-skin="doksanlar-kirtasiye"] .tile:nth-child(4) { background-image:url("deco/doksanlar-kirtasiye/card-blue.svg"); }
+
+[data-skin="doksanlar-kirtasiye"] .tile:nth-child(1)::before { background-image:url("deco/doksanlar-kirtasiye/ic-notebook.svg"); }
+[data-skin="doksanlar-kirtasiye"] .tile:nth-child(2)::before { background-image:url("deco/doksanlar-kirtasiye/ic-check.svg"); }
+[data-skin="doksanlar-kirtasiye"] .tile:nth-child(3)::before { background-image:url("deco/doksanlar-kirtasiye/ic-plant.svg"); }
+[data-skin="doksanlar-kirtasiye"] .tile:nth-child(4)::before { background-image:url("deco/doksanlar-kirtasiye/ic-star.svg"); }
+
+[data-skin="doksanlar-kirtasiye"] .nero-says {
+  background-image:url("deco/doksanlar-kirtasiye/ic-notebook.svg");
+}
+
+/* Haftalık grafik: çizgili defter kartı. */
+[data-skin="doksanlar-kirtasiye"] .week {
+  background-color: rgba(255,252,247,.94);
+  background-image:
+    url("deco/doksanlar-kirtasiye/asset-washi.svg"),
+    repeating-linear-gradient(0deg, transparent 0 25px, rgba(115,151,199,.13) 25px 26px);
+  background-repeat: no-repeat,repeat;
+  background-size: 76px auto,auto;
+  background-position: right -8px top -10px,0 0;
+}
+[data-skin="doksanlar-kirtasiye"] .week :is(h3,.card-head span,.bar span) {
+  color:#263D68;
+  text-shadow:none;
+}
+[data-skin="doksanlar-kirtasiye"] .bar i {
+  border-color:#263D68;
+  background:#C8DDF4;
+}
+[data-skin="doksanlar-kirtasiye"] .bar.today i { background:#E986A6; }
+
+/* Notlar gerçek pastel kırtasiye kartlarına dönüşür; yapısal ölçüler değişmez. */
+[data-skin="doksanlar-kirtasiye"] .notes li:not(.new-note):nth-child(5n+1) { background-color:#F6BDD1; }
+[data-skin="doksanlar-kirtasiye"] .notes li:not(.new-note):nth-child(5n+2) { background-color:#BFE5D7; }
+[data-skin="doksanlar-kirtasiye"] .notes li:not(.new-note):nth-child(5n+3) { background-color:#D8C9F0; }
+[data-skin="doksanlar-kirtasiye"] .notes li:not(.new-note):nth-child(5n+4) { background-color:#C8DDF4; }
+[data-skin="doksanlar-kirtasiye"] .notes li:not(.new-note):nth-child(5n) { background-color:#F5D98E; }
+
+/* Sayaç kırtasiye dilinde, ama mevcut timer DOM ve davranışı aynen kalır. */
+[data-skin="doksanlar-kirtasiye"] .dial {
+  background:rgba(255,252,247,.92);
+  border-color:#E986A6;
+  box-shadow:0 8px 24px rgba(38,61,104,.12);
+}
+[data-skin="doksanlar-kirtasiye"] .ring-fill { stroke:#E986A6; }
+[data-skin="doksanlar-kirtasiye"] .presets > button.on { background:#E986A6; color:#fff; }
+
+/* KLASİK ROZETLER: ikon/şekil/ölçü değişmez. Yalnız mevcut daire arka planı renklenir. */
+[data-skin="doksanlar-kirtasiye"] .badges .badge:nth-child(5n+1).on .badge-icon { background:#F0A9C0 !important; border-color:#F0A9C0 !important; }
+[data-skin="doksanlar-kirtasiye"] .badges .badge:nth-child(5n+2).on .badge-icon { background:#9FD6C5 !important; border-color:#9FD6C5 !important; }
+[data-skin="doksanlar-kirtasiye"] .badges .badge:nth-child(5n+3).on .badge-icon { background:#C8B5E8 !important; border-color:#C8B5E8 !important; }
+[data-skin="doksanlar-kirtasiye"] .badges .badge:nth-child(5n+4).on .badge-icon { background:#AFCDEB !important; border-color:#AFCDEB !important; }
+[data-skin="doksanlar-kirtasiye"] .badges .badge:nth-child(5n).on .badge-icon { background:#F1D27A !important; border-color:#F1D27A !important; }
+
+/* Resize koruması: tema katmanları tutamaçların hit-area'sına dokunmaz. */
+[data-skin="doksanlar-kirtasiye"] .grip {
+  position:absolute !important;
+  z-index:1001 !important;
+  pointer-events:auto !important;
+}
