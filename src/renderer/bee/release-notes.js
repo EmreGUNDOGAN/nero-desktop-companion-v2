@@ -72,5 +72,10 @@ export const RELEASE_NOTES = [
     { icon: '🐝', title: 'Yeni arı ekonomisi', text: '5. arı 60 jetondan başlar; sonraki her sıra %15 pahalılaşır. Kış kaybı kovanı artık 4 arının altına düşüremez.' },
     { icon: '🛒', title: 'Yakup dengelendi', text: 'Seyyah Yakup aradığı balı artık pazarın %20 üstüne alır.' },
     { icon: '🌦️', title: 'Harita mevsimi gerçekten yaşıyor', text: 'İlkbahar çiçekleri, yaz güneşi, sonbahar yaprakları, kış kar lekeleri, karlı çatılar ve çıplak dallar haritaya yansır.' },
-    { icon: '🐙', title: 'Doğru Nero ve düzgün Hasat Et', text: 'Arıcılık köşesinde kanonik, animasyonlu ve kıyafetsiz Nero kullanılır; Hasat Et alt menüde dikey ortalanır.' }] }
+    { icon: '🐙', title: 'Doğru Nero ve düzgün Hasat Et', text: 'Arıcılık köşesinde kanonik, animasyonlu ve kıyafetsiz Nero kullanılır; Hasat Et alt menüde dikey ortalanır.' }] },
+  { version: '6.3.6', title: 'Yeni temalar ve daha temiz arıcılık', items: [
+    { icon: '🎨', title: '12 yeni program teması', text: 'Sonbahar Kütüphanesi’nden 90’lar Kırtasiye’ye, Kış Tramvayı’ndan Pastel Mutfak’a kadar on iki ayrı çizilmiş görsel dünya eklendi.' },
+    { icon: '⚡', title: 'Üretim etkileri görünür', text: 'Kovanın saatlik üretimine gelince aktif buff ve debuff’ların gerçek çarpanlarını görebilirsin.' },
+    { icon: '❄️', title: 'Kış hazırlığı', text: 'Kışa bir gün kala şurupsuz kovan varsa Nero bir kez Windows bildirimi gönderir.' },
+    { icon: '🛠️', title: 'Küçük ama önemli düzeltmeler', text: 'Sonbahar ikon flicker’ı ve Nero’nun takılı kalan konuşma animasyonu giderildi; uyarı ve Hasat Et renkleri yumuşatıldı.' }] }
 ];

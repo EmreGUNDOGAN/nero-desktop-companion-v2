@@ -28,7 +28,7 @@ Nero ekranın sağ alt köşesinde belirir. Tepside (saatin yanındaki gizli sim
 npm run dist
 ```
 
-Kurulum dosyası `dist\Nero-Setup-4.1.0.exe` olarak oluşur.
+Kurulum dosyası `dist\Nero-Setup-6.3.6.exe` olarak oluşur.
 
 Yeni sürüm çıkarırken `package.json` içindeki `"version"` değerini artır (ör. `3.0.1`). `appId` değerini (`com.stenwick.nero`) **değiştirme**; kurulum programı eski sürümü bu kimlikten tanıyıp kaldırır.
 
