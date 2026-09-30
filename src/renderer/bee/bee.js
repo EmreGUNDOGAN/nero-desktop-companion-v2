@@ -1572,6 +1572,14 @@ const RELEASE_SEEN_KEY = 'neroBeeLastReleaseSeen';
 let releaseList = [];
 let releaseIndex = -1;
 let releaseManual = false;
+function versionParts(v) { return String(v).split('.').map((n) => Number(n)); }
+function compareVersions(a, b) {
+  const x = versionParts(a); const y = versionParts(b);
+  for (let i = 0; i < 3; i++) {
+    if ((x[i] || 0) !== (y[i] || 0)) return (x[i] || 0) - (y[i] || 0);
+  }
+  return 0;
+}
 function renderReleaseNote() {
   const note = releaseList[releaseIndex];
   if (!note) { $('whats-new-modal').hidden = true; return; }
