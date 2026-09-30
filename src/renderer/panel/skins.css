@@ -2337,3 +2337,186 @@ html.no-scene[data-skin="doksanlar-kirtasiye"] .shell::before { display:none !im
   z-index:1001 !important;
   pointer-events:auto !important;
 }
+
+
+/* ==========================================================================
+   6.3.9 — 90'LAR KIRTASİYE / PNG ASSET UYGULAMASI
+   Onaylanan referanstaki görsel dil, gerçek PNG assetler ve sayfa bazlı
+   PNG arka planlarla uygulanır. Panel layout'u ve resize sistemi değişmez.
+   ========================================================================== */
+[data-skin="doksanlar-kirtasiye"] {
+  --serif: "Fraunces", Georgia, serif;
+  --text: "Nunito", "Segoe UI", sans-serif;
+  --hand: "Caveat", "Segoe Print", cursive;
+  --glass: rgba(255,252,247,.88);
+  --soft-shadow: 0 5px 16px rgba(38,61,104,.12);
+}
+
+/* Başarısız eski SVG kompozisyon katmanını canlı temada tamamen kapat. */
+[data-skin="doksanlar-kirtasiye"] .shell::before {
+  content:none !important;
+  display:none !important;
+  background:none !important;
+}
+
+[data-skin="doksanlar-kirtasiye"] .top {
+  background-color:#F7DDE4;
+  background-image:url("deco/doksanlar-kirtasiye/png/baslik.png") !important;
+  background-repeat:no-repeat;
+  background-position:center;
+  background-size:100% 100%;
+  color:#263D68;
+}
+[data-skin="doksanlar-kirtasiye"] :is(.top h1,.tagline,.mood-note,#mood-label) {
+  color:#263D68;
+  text-shadow:0 1px 2px rgba(255,255,255,.82);
+}
+[data-skin="doksanlar-kirtasiye"] .close:not(.minimize):not(.pin-btn):not(.settings-btn) { background:#E986A6; }
+
+/* Tek büyük scene yok: her gerçek Nero sayfasına ayrı hazırlanmış PNG zemin bağlanır. */
+[data-skin="doksanlar-kirtasiye"] :is(#view-home,#view-notes,#view-todos,#view-timer,#view-badges,#view-settings) {
+  background-color:#F8F4EC !important;
+  background-repeat:no-repeat !important;
+  background-position:center !important;
+  background-size:100% 100% !important;
+}
+[data-skin="doksanlar-kirtasiye"] #view-home { background-image:url("deco/doksanlar-kirtasiye/png/bg-bugun.png") !important; }
+[data-skin="doksanlar-kirtasiye"] #view-notes { background-image:url("deco/doksanlar-kirtasiye/png/bg-notlar.png") !important; }
+[data-skin="doksanlar-kirtasiye"] #view-todos { background-image:url("deco/doksanlar-kirtasiye/png/bg-isler.png") !important; }
+[data-skin="doksanlar-kirtasiye"] #view-timer { background-image:url("deco/doksanlar-kirtasiye/png/bg-sayac.png") !important; }
+[data-skin="doksanlar-kirtasiye"] #view-badges { background-image:url("deco/doksanlar-kirtasiye/png/bg-rozetler.png") !important; }
+[data-skin="doksanlar-kirtasiye"] #view-settings { background-image:url("deco/doksanlar-kirtasiye/png/bg-notlar.png") !important; }
+
+html.no-scene[data-skin="doksanlar-kirtasiye"] :is(#view-home,#view-notes,#view-todos,#view-timer,#view-badges,#view-settings) {
+  background-image:none !important;
+}
+
+[data-skin="doksanlar-kirtasiye"] :is(.card,.list-card,.timer-card,.settings-section,.badge-panel,.nero-says) {
+  background-color:rgba(255,252,247,.88);
+  border-color:rgba(201,211,227,.76);
+  box-shadow:0 5px 16px rgba(38,61,104,.11);
+  backdrop-filter:blur(1.5px);
+}
+
+/* Bugün kartları: gerçek PNG kırtasiye objeleri, mevcut sayaç/istatistik DOM'u korunur. */
+[data-skin="doksanlar-kirtasiye"] .tile {
+  position:relative;
+  overflow:hidden;
+  padding-left:62px;
+  color:#263D68;
+  border-color:rgba(38,61,104,.13);
+}
+[data-skin="doksanlar-kirtasiye"] .tile > :is(svg,.tile-icon) { display:none !important; }
+[data-skin="doksanlar-kirtasiye"] .tile::after {
+  content:"";
+  position:absolute;
+  left:11px;
+  top:50%;
+  translate:0 -50%;
+  width:43px;
+  height:43px;
+  background-repeat:no-repeat;
+  background-position:center;
+  background-size:contain;
+  pointer-events:none;
+}
+[data-skin="doksanlar-kirtasiye"] .tile:nth-child(1) { background-color:rgba(250,218,229,.92) !important; }
+[data-skin="doksanlar-kirtasiye"] .tile:nth-child(2) { background-color:rgba(210,239,228,.92) !important; }
+[data-skin="doksanlar-kirtasiye"] .tile:nth-child(3) { background-color:rgba(228,217,246,.92) !important; }
+[data-skin="doksanlar-kirtasiye"] .tile:nth-child(4) { background-color:rgba(214,231,249,.92) !important; }
+[data-skin="doksanlar-kirtasiye"] .tile:nth-child(1)::after { background-image:url("deco/doksanlar-kirtasiye/png/asset-notepad.png"); }
+[data-skin="doksanlar-kirtasiye"] .tile:nth-child(2)::after { background-image:url("deco/doksanlar-kirtasiye/png/asset-sticky.png"); }
+[data-skin="doksanlar-kirtasiye"] .tile:nth-child(3)::after { background-image:url("deco/doksanlar-kirtasiye/png/asset-flower.png"); }
+[data-skin="doksanlar-kirtasiye"] .tile:nth-child(4)::after { background-image:url("deco/doksanlar-kirtasiye/png/asset-pencilcase.png"); }
+
+[data-skin="doksanlar-kirtasiye"] .nero-says {
+  padding-left:58px;
+  background-image:url("deco/doksanlar-kirtasiye/png/asset-star.png");
+  background-repeat:no-repeat;
+  background-position:13px center;
+  background-size:34px 34px;
+}
+[data-skin="doksanlar-kirtasiye"] .nero-says::before { background:rgba(255,252,247,.92); }
+
+[data-skin="doksanlar-kirtasiye"] .week {
+  position:relative;
+  overflow:hidden;
+  background-color:rgba(255,252,247,.89);
+}
+[data-skin="doksanlar-kirtasiye"] .week::after {
+  content:"";
+  position:absolute;
+  right:-12px;
+  top:-18px;
+  width:96px;
+  height:96px;
+  background:url("deco/doksanlar-kirtasiye/png/asset-washi.png") center/contain no-repeat;
+  opacity:.78;
+  pointer-events:none;
+}
+[data-skin="doksanlar-kirtasiye"] .bar i { background:#C8DDF4; }
+[data-skin="doksanlar-kirtasiye"] .bar.today i { background:#E986A6; }
+
+/* Notlar: beş gerçek pastel spiral defter PNG kartı. Grid ve tıklama sistemi aynıdır. */
+[data-skin="doksanlar-kirtasiye"] .notes li:not(.new-note) {
+  min-height:156px;
+  padding:45px 25px 18px 48px;
+  border-radius:0;
+  background-color:transparent !important;
+  background-repeat:no-repeat !important;
+  background-position:center !important;
+  background-size:100% 100% !important;
+  box-shadow:none;
+}
+[data-skin="doksanlar-kirtasiye"] .notes li:not(.new-note)::before { display:none !important; }
+[data-skin="doksanlar-kirtasiye"] .notes li :is(.clip,.pin,.fname,.note-stamp) { display:none !important; }
+[data-skin="doksanlar-kirtasiye"] .notes li:not(.new-note):nth-child(5n+1) { background-image:url("deco/doksanlar-kirtasiye/png/note-card-pink.png") !important; }
+[data-skin="doksanlar-kirtasiye"] .notes li:not(.new-note):nth-child(5n+2) { background-image:url("deco/doksanlar-kirtasiye/png/note-card-mint.png") !important; }
+[data-skin="doksanlar-kirtasiye"] .notes li:not(.new-note):nth-child(5n+3) { background-image:url("deco/doksanlar-kirtasiye/png/note-card-lilac.png") !important; }
+[data-skin="doksanlar-kirtasiye"] .notes li:not(.new-note):nth-child(5n+4) { background-image:url("deco/doksanlar-kirtasiye/png/note-card-blue.png") !important; }
+[data-skin="doksanlar-kirtasiye"] .notes li:not(.new-note):nth-child(5n) { background-image:url("deco/doksanlar-kirtasiye/png/note-card-yellow.png") !important; }
+
+[data-skin="doksanlar-kirtasiye"] .notes li.new-note {
+  min-height:164px;
+  padding-top:125px;
+  border:0;
+  background-color:transparent !important;
+  background-image:url("deco/doksanlar-kirtasiye/png/asset-notepad.png") !important;
+  background-repeat:no-repeat !important;
+  background-position:center 7px !important;
+  background-size:118px auto !important;
+  box-shadow:none;
+}
+[data-skin="doksanlar-kirtasiye"] .notes li.new-note::before { display:none !important; }
+
+[data-skin="doksanlar-kirtasiye"] .paper {
+  background-color:rgba(255,252,247,.94);
+  background-image:
+    url("deco/doksanlar-kirtasiye/png/asset-washi.png"),
+    repeating-linear-gradient(transparent 0 25px,rgba(96,128,178,.15) 25px 26px);
+  background-repeat:no-repeat,repeat;
+  background-position:right -16px top -32px,0 0;
+  background-size:110px auto,auto;
+}
+[data-skin="doksanlar-kirtasiye"] .paper .tape { display:none; }
+
+[data-skin="doksanlar-kirtasiye"] .dial {
+  background:rgba(255,252,247,.91);
+  border-color:#F09AB8;
+  box-shadow:0 10px 26px rgba(38,61,104,.13);
+}
+[data-skin="doksanlar-kirtasiye"] .ring-fill { stroke:#E986A6; }
+[data-skin="doksanlar-kirtasiye"] .presets > button.on { background:#E986A6; color:#fff; }
+
+/* Klasik rozetler: mevcut SVG/ikon/ölçü değişmez. Sadece mevcut daire arka planı renklenir. */
+[data-skin="doksanlar-kirtasiye"] .badges .badge:nth-child(5n+1).on .badge-icon { background:#F0A9C0 !important; border-color:#F0A9C0 !important; }
+[data-skin="doksanlar-kirtasiye"] .badges .badge:nth-child(5n+2).on .badge-icon { background:#9FD6C5 !important; border-color:#9FD6C5 !important; }
+[data-skin="doksanlar-kirtasiye"] .badges .badge:nth-child(5n+3).on .badge-icon { background:#C8B5E8 !important; border-color:#C8B5E8 !important; }
+[data-skin="doksanlar-kirtasiye"] .badges .badge:nth-child(5n+4).on .badge-icon { background:#AFCDEB !important; border-color:#AFCDEB !important; }
+[data-skin="doksanlar-kirtasiye"] .badges .badge:nth-child(5n).on .badge-icon { background:#F1D27A !important; border-color:#F1D27A !important; }
+
+[data-skin="doksanlar-kirtasiye"] .grip {
+  position:absolute !important;
+  z-index:1001 !important;
+  pointer-events:auto !important;
+}

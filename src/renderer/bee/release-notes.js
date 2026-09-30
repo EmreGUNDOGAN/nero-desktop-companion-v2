@@ -87,5 +87,10 @@ export const RELEASE_NOTES = [
     { icon: '✏️', title: 'Tek dev arka plan yok', text: 'Kalemler, washi bantlar, sticky note, ataçlar, kaset ve diğer kırtasiye detayları ayrı assetlere bölündü.' },
     { icon: '📒', title: 'Sayfaya göre kompozisyon', text: 'Bugün, Sayaç ve çalışma ekranları aynı assetleri farklı yerleşimlerle kullanıyor; pencere büyüyünce sahne bozulmuyor.' },
     { icon: '🏅', title: 'Rozetler klasik', text: 'Rozet ikonlarına ve SVG’lerine dokunulmadı; sadece mevcut daire arka planları pastel palete uyarlanıyor.' },
-    { icon: '↔️', title: 'Layout ve resize korunuyor', text: 'Sekme sırası, panel yapısı ve boyutlandırma sistemi değiştirilmedi.' }] }
+    { icon: '↔️', title: 'Layout ve resize korunuyor', text: 'Sekme sırası, panel yapısı ve boyutlandırma sistemi değiştirilmedi.' }] },
+  { version: '6.3.9', title: '90’lar Kırtasiye artık PNG assetlerle', items: [
+    { icon: '✏️', title: 'Gerçek kırtasiye görselleri', text: 'Kalem kutusu, kalemler, washi bantlar, stickerlar ve not defterlerinden oluşan PNG asset seti kullanılıyor.' },
+    { icon: '📒', title: 'Her sayfaya ayrı arka plan', text: 'Bugün, Notlar, İşler, Sayaç ve Rozetler kendi PNG kırtasiye arka planına sahip.' },
+    { icon: '📝', title: 'Not kartları yeniden yapıldı', text: 'Notlar beş farklı pastel spiral defter PNG kartında gösteriliyor.' },
+    { icon: '🏅', title: 'Rozetler klasik kaldı', text: 'Rozet SVG ve ikon sistemi değiştirilmedi; yalnız mevcut dairelerin arka plan renkleri tema paletine uyarlandı.' }] }
 ];
