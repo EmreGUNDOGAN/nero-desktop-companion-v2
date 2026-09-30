@@ -133,10 +133,15 @@ export function initUiV2({ $, esc }) {
     setTimeout(() => f.remove(), 1700);
   }
   function onView(v) {
-    // Mevsim simgesi
+    // Mevsim ikonunun tek sahibi UI2'dir; yalnız mevsim değişince SVG yenilenir.
     const si = $('season-ico');
-    // Oyun mevsim değişince bu kutuya emoji yazabilir; simge yoksa ya da mevsim değiştiyse yeniden koy
-    if (si) { const want = SEASON_ICO[v.calendar.season]; if (si.dataset.ico !== want || !si.querySelector('svg')) { si.dataset.ico = want; si.innerHTML = icon(want); } }
+    if (si) {
+      const want = SEASON_ICO[v.calendar.season];
+      if (si.dataset.ico !== want) {
+        si.dataset.ico = want;
+        si.innerHTML = icon(want);
+      }
+    }
     // Depo çubuğu
     const bar = storage && storage.querySelector('.ui2-jar');
     if (bar) { const pct = Math.min(100, (v.storageKg / v.storageCap) * 100); bar.querySelector('i').style.width = `${pct}%`; bar.classList.toggle('full', pct >= 90); }

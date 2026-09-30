@@ -1852,7 +1852,11 @@ function say(text) {
   void $('nero').offsetWidth;
   $('nero').classList.add('talk');
   clearTimeout(bubbleTimer);
-  bubbleTimer = setTimeout(() => { b.hidden = true; }, 4800);
+  bubbleTimer = setTimeout(() => {
+    b.hidden = true;
+    $('nero').classList.remove('talk');
+    bubbleTimer = null;
+  }, 4800);
 }
 
 let lastDialogueTopic = null;
@@ -2537,6 +2541,15 @@ function renderHive() {
   $('h-sub').innerHTML = `Seviye ${h.level + 1} · 👑 ${esc(h.queenName)} · <span class="${feedClass}">🌾 Erzak: ${h.feedDays} gün</span>${h.boostDays > 0 ? ` · 🍯 +%50 üretim · ${h.boostDays} gün` : ''}${h.immuneDays > 0 && !h.sick ? ` · 🛡️ ${h.immuneDays} gün bağışık` : ''}`;
   $('h-bees').textContent = `${h.bees} / ${h.capBees}`;
   $('h-rate').textContent = `${h.ratePerHour.toFixed(1)} kg/sa`;
+  const prodTip = $('h-prod-effects');
+  if (prodTip) {
+    const rows = h.productionEffects || [];
+    prodTip.innerHTML = rows.length
+      ? `<strong>Üretim Etkileri</strong><div class="prod-effect-list">${rows.map((e) =>
+          `<div class="prod-effect ${e.kind === 'debuff' ? 'debuff' : 'buff'}"><span>${esc(e.label)}${e.detail ? ` <small>· ${esc(e.detail)}</small>` : ''}</span><b>${esc(e.value)}</b></div>`).join('')}</div>
+         <footer>Aktif üretim: <b>${h.ratePerHour.toFixed(1)} kg/sa</b></footer>`
+      : '<strong>Üretim Etkileri</strong><p>Şu an ek bir buff veya debuff yok.</p>';
+  }
   $('h-honey').textContent = `${h.total.toFixed(1)} kg / ${h.capKg} kg`;
   $('h-bar').style.width = `${Math.min(100, (h.total / h.capKg) * 100)}%`;
   $('h-chips').innerHTML = Object.entries(h.honey).filter(([, v]) => v >= 0.05)
@@ -2656,7 +2669,6 @@ function applyView(v) {
   const c = v.calendar;
   $('season-name').textContent = c.seasonName;
   $('season-day').innerHTML = `Gün ${c.day} · Yıl ${c.year} · <b>${v.weather.icon} ${v.weather.name}</b>`;
-  $('season-ico').textContent = SEASON_ICON[c.season];
   $('day-fill').style.width = `${Math.round(c.dayProgress * 100)}%`;
   const nextSeason = { ilkbahar: 'yaz', yaz: 'sonbahar', sonbahar: 'kış', kis: 'ilkbahar' }[c.season];
   const dayTip = `Günün %${Math.round(c.dayProgress * 100)}'i geçti · ${c.daysPerMonth - c.day + 1} oyun günü sonra ${nextSeason}`;

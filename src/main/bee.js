@@ -601,6 +601,75 @@ class BeeGame {
     return Math.max(0, Math.floor((Number(hive.syrup) || 0) / this.winterFeedNeed(hive, day)));
   }
 
+  // Kovan üretim tooltip'i için: canlı formülde gerçekten kullanılan aktif etkileri döndürür.
+  hiveProductionEffects(hiveId) {
+    const hive = this.state.hives[hiveId];
+    const hiveKey = this.hiveTileKey(hiveId);
+    if (!hive || !hiveKey) return [];
+    const near = this.flowerTilesNear(hiveKey);
+    if (!near.length) return [{ label: 'Menzilde çiçek yok', value: '×0', kind: 'debuff' }];
+
+    const season = this.calendar().season;
+    const day = this.dayIndex();
+    const weather = WEATHER[this.state.weather] || WEATHER.bulutlu;
+    const breed = BREEDS[hive.breed] || BREEDS.anadolu;
+    const effects = [];
+    const addMult = (label, mult, detail = '') => {
+      if (!Number.isFinite(mult) || Math.abs(mult - 1) < 0.0001) return;
+      effects.push({ label, value: `×${Number(mult.toFixed(2))}`, mult, kind: mult > 1 ? 'buff' : 'debuff', detail });
+    };
+    const addPct = (label, pct, detail = '') => {
+      if (!pct) return;
+      effects.push({ label, value: `${pct > 0 ? '+' : ''}%${Math.round(pct * 100)}`, mult: 1 + pct, kind: pct > 0 ? 'buff' : 'debuff', detail });
+    };
+    const seasonWeight = (flower, tile) => {
+      if (day < (tile?.item?.allSeasonUntil || 0)) return 1;
+      const distance = Math.abs(SEASONS.indexOf(season) - SEASONS.indexOf(FLOWERS[flower].seasons[0]));
+      return distance === 0 ? 1 : distance === 2 ? 0.25 : 0.5;
+    };
+
+    addMult(`${weather.icon} ${weather.name} hava`, weather.mult);
+    addMult(`🐝 ${breed.name}`, breed.prod);
+    if (hive.sick) addMult('🤒 Hasta kovan', SICK_MULT);
+    if (Date.now() < (this.state.focusBoostUntil || 0)) addMult('🎯 Odak bonusu', 1 + FOCUS_BOOST);
+    if (day < (hive.vitaminUntilDay || 0)) addMult('💊 Arı vitamini', 1.15);
+    if ((this.state.festival?.cups || []).some((cup) => cup.cup === 'altın'
+      && cup.season === season && cup.year === this.calendar().year - 1)) addMult('🏆 Altın kupa bonusu', 1.2);
+    if (day < (hive.boostUntilDay || 0)) addMult('🍯 Geçici kovan bonusu', 1.5);
+
+    const globalProd = this.fx('prodBonus') + this.storyFx('prodAll');
+    if (globalProd) addPct('🏘️ Köy ve hikâye etkileri', globalProd);
+
+    const pollenMult = day < (hive.pollenMixUntilDay || 0) ? 1.25 : 1;
+    const flowerBuff = near.reduce((total, { flower, key: tileKey }) =>
+      total + FLOWERS[flower].buff * seasonWeight(flower, this.state.tiles[tileKey]), 0) * pollenMult;
+    if (flowerBuff) addPct('🌼 Tarh üretim bonusları', flowerBuff);
+    if (pollenMult > 1) effects.push({ label: '🌼 Polen karışımı', value: 'tarh bonusu ×1.25', mult: 1.25, kind: 'buff', detail: '' });
+
+    const clusterCount = near.filter(({ key }) => this.clusterBonus(key) > 0).length;
+    if (clusterCount) addPct('🌸 3’lü tarh bonusu', CLUSTER_BONUS, `${clusterCount} tarh`);
+    const fountainCount = near.filter(({ key }) => this.fountainBonus(key) > 0).length;
+    if (fountainCount) addPct('⛲ Çeşme bonusu', DECOR.cesme.bonus, `${fountainCount} tarh`);
+    const fedFlowers = near.filter(({ key }) => day < ((this.state.tiles[key].item || {}).feedUntilDay || 0)).length;
+    if (fedFlowers) addMult('🌿 Çiçek besini', 1.25, `${fedFlowers} tarh`);
+
+    const weights = new Map();
+    for (const { flower, key } of near) {
+      const w = seasonWeight(flower, this.state.tiles[key]);
+      if (w < 1) weights.set(w, (weights.get(w) || 0) + 1);
+    }
+    for (const [w, count] of [...weights.entries()].sort((a,b)=>a[0]-b[0])) {
+      addMult('🍂 Mevsim uyumu', w, `${count} tarh`);
+    }
+
+    if (season === 'kis') {
+      const fed = hive.fedDay === day || hive.syrup >= this.winterFeedNeed(hive, day);
+      addMult(fed ? '❄️ Kış · erzaklı' : '❄️ Kış · erzak yok', fed ? WINTER_SYRUP_FACTOR : WINTER_FACTOR);
+    }
+
+    return effects;
+  }
+
   // Bal türü başına saatlik üretim (kg/saat, 1x hızda)
   hiveRates(hiveId) {
     const hive = this.state.hives[hiveId];
@@ -730,7 +799,7 @@ class BeeGame {
     this.merchantDay(dayIdx);
     if (dayIdx >= this.state.nextLetterDay) this.sendLetter(dayIdx);
     const seasonToday = SEASONS[Math.floor(dayIdx / DAYS_PER_SEASON) % 4];
-    if (seasonToday === 'sonbahar' && dayIdx % DAYS_PER_SEASON === DAYS_PER_SEASON - 2
+    if (seasonToday === 'sonbahar' && dayIdx % DAYS_PER_SEASON === DAYS_PER_SEASON - 1
       && this.state.winterAlertSeason !== Math.floor(dayIdx / DAYS_PER_SEASON)) {
       this.state.winterAlertSeason = Math.floor(dayIdx / DAYS_PER_SEASON);
       const hungry = this.winterHungryHives();
@@ -2024,6 +2093,21 @@ class BeeGame {
     };
   }
 
+  // Kıştan bir oyun günü önce tek Windows bildirimi için kalıcı claim.
+  claimWinterAdvanceNotice() {
+    const c = this.calendar();
+    if (c.season !== 'sonbahar' || c.day !== DAYS_PER_SEASON) return null;
+    const gs = this.state.gameSettings || GAME_SETTINGS_DEFAULT;
+    if (gs.notify && gs.notify.winter === false) return null;
+    const key = `${c.year}:kis`;
+    if (this.state.winterWindowsNoticeKey === key) return null;
+    const empty = Object.values(this.state.hives).filter((h) => (Number(h.syrup) || 0) <= 0);
+    if (!empty.length) return null;
+    this.state.winterWindowsNoticeKey = key;
+    this.save();
+    return { key, count: empty.length, hives: empty.map((h) => h.name) };
+  }
+
   notificationSoundEnabled(kind) {
     const s = this.state.gameSettings || GAME_SETTINGS_DEFAULT;
     if (s.notificationSound === false) return false;
@@ -2864,6 +2948,7 @@ class BeeGame {
         sickDeathLimit: h.sick ? this.sicknessDeathLimit(h) : 0,
         total: this.hiveTotal(h),
         ratePerHour: Object.values(rates).reduce((a, b) => a + b, 0),
+        productionEffects: this.hiveProductionEffects(h.id),
         near: this.flowersNear(this.hiveTileKey(h.id) || '0,0'),
         queenName: QUEEN_NAMES[h.queens] || QUEEN_NAMES[0],
         nextQueenName: QUEEN_NAMES[h.queens + 1] || null,

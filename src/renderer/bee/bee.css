@@ -130,6 +130,30 @@ button { font-family: inherit; color: inherit; cursor: pointer; }
 .stat { flex: 1; background: #fff; border-radius: 14px; padding: 10px 12px; box-shadow: 0 2px 6px rgba(74, 58, 34, .08); }
 .stat small { display: block; color: var(--muted); font-weight: 800; font-size: 12px; }
 .stat b { font-size: 20px; }
+.production-stat { position: relative; cursor: help; }
+.prod-effects {
+  position: absolute; z-index: 40; right: 8px; top: calc(100% + 8px);
+  width: min(330px, 72vw); padding: 11px 12px; border: 1px solid #E6D8BD; border-radius: 14px;
+  background: rgba(255, 251, 241, .98); color: #4A3A22;
+  box-shadow: 0 10px 28px rgba(74,58,34,.18);
+  opacity: 0; visibility: hidden; transform: translateY(-4px);
+  transition: opacity .14s ease, transform .14s ease, visibility .14s;
+  pointer-events: none;
+}
+.production-stat:hover .prod-effects, .production-stat:focus-within .prod-effects {
+  opacity: 1; visibility: visible; transform: translateY(0);
+}
+.prod-effects > strong { display: block; margin-bottom: 7px; font: 800 13px/1.2 "Fraunces", Georgia, serif; }
+.prod-effect-list { display: grid; gap: 5px; }
+.prod-effect { display: flex; align-items: center; justify-content: space-between; gap: 10px; border-radius: 9px; padding: 6px 8px; font-size: 11.5px; font-weight: 800; }
+.prod-effect span { min-width: 0; }
+.prod-effect small { font-size: 10.5px; opacity: .72; }
+.prod-effect b { flex: none; font-size: 12px; }
+.prod-effect.buff { background: #E4F1DE; color: #356B45; }
+.prod-effect.debuff { background: #F6E1DE; color: #914C47; }
+.prod-effects footer { margin-top: 8px; padding-top: 7px; border-top: 1px solid #E9DECA; font-size: 11.5px; color: #7A6444; }
+.prod-effects footer b { font-size: 11.5px; color: #4A3A22; }
+.prod-effects p { margin: 0; font-size: 11.5px; color: #7A6444; }
 .stat .bar { height: 8px; border-radius: 4px; background: #EFE3C6; overflow: hidden; margin: 6px 0 8px; }
 .stat .bar b { display: block; height: 100%; background: var(--amber); font-size: 0; }
 .stat .chips { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 4px; }

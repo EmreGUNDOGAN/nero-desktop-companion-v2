@@ -2193,6 +2193,17 @@ function startLoops() {
       if (Math.random() < 0.1) bee.save();
     }
 
+    const winterAdvance = bee.claimWinterAdvanceNotice();
+    if (winterAdvance && Notification.isSupported()) {
+      const count = winterAdvance.count;
+      new Notification({
+        title: 'Nero: Kış yarın geliyor',
+        body: `${count} kovanda hiç şurup yok. Arılar kışa hazırlıksız yakalanmasın.`,
+        icon: iconPath,
+        silent: !(settings().sound && bee.notificationSoundEnabled('bee_winter'))
+      }).show();
+    }
+
     // Arıcılık görünür değilken Nero önemli durumları haber verir; böylece çift ses çıkmaz.
     const alerts = bee.pendingAlerts();
     if (alerts.length && !gameVisible && Date.now() - lastBeeAlertAt > 90 * 1000) {
