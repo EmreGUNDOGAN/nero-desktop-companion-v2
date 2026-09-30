@@ -82,18 +82,19 @@ jobs:
           if ($themeFix -match '\.card\s*\{[^}]*\b(margin|padding|height|width|display|position|grid|flex)\s*:') { throw 'Theme changed card geometry' }
           if ($themeFix -notmatch '\.grip\s*\{[^}]*position:\s*absolute\s*!important') { throw 'Resize grip safety rule missing' }
 
-          $kirtasiyePng = $panelCss.Substring($panelCss.IndexOf("6.3.9 — 90'LAR KIRTASİYE / PNG ASSET DENEMESİ"))
+          $kirtasiye = $panelCss.Substring($panelCss.IndexOf("6.3.9 — 90'LAR KIRTASİYE"))
           foreach ($asset in @(
-            'png/kalemlik.png','png/kalemler.png','png/washi.png','png/yildiz.png',
-            'png/cicek.png','png/sticky.png','png/spiral-not.png',
-            'png/paper-grid.png','png/paper-lines.png','png/header-gingham.png'
+            'baslik.png','bg-bugun.png','bg-notlar.png','bg-isler.png','bg-sayac.png','bg-rozetler.png',
+            'asset-pencilcase.png','asset-pens.png','asset-washi.png','asset-binder.png','asset-clip.png',
+            'asset-flower.png','asset-star.png','asset-sticky.png','asset-notepad.png','asset-torn-note.png',
+            'note-card-pink.png','note-card-mint.png','note-card-lilac.png','note-card-blue.png','note-card-yellow.png'
           )) {
-            if (-not (Test-Path "src/renderer/panel/deco/doksanlar-kirtasiye/$asset")) { throw "6.3.9 PNG asset missing: $asset" }
+            if (-not (Test-Path "src/renderer/panel/deco/doksanlar-kirtasiye/$asset")) { throw "90lar Kirtasiye PNG missing: $asset" }
           }
-          if ($kirtasiyePng -match 'doksanlar-kirtasiye/[^)]*\.svg') { throw '6.3.9 active Kirtasiye CSS still references SVG art' }
-          if ($kirtasiyePng -match 'background-size:\s*cover') { throw '6.3.9 Kirtasiye returned to cover scene' }
-          if ($kirtasiyePng -notmatch 'paper-lines\.png' -or $kirtasiyePng -notmatch 'paper-grid\.png') { throw 'PNG paper backgrounds missing' }
-
+          foreach ($bg in @('bg-bugun.png','bg-notlar.png','bg-isler.png','bg-sayac.png','bg-rozetler.png')) {
+            if ($kirtasiye -notmatch [regex]::Escape($bg)) { throw "90lar Kirtasiye background not wired: $bg" }
+          }
+          if ($kirtasiye -match 'deco/doksanlar-kirtasiye/[^)"'']+\.svg') { throw '90lar Kirtasiye still references SVG theme art' }
           foreach ($id in $themeIds) {
             foreach ($asset in @('bg-main.svg','bg-timer.svg','bg-work.svg')) {
               if (-not (Test-Path "src/renderer/panel/deco/$id/$asset")) { throw "Missing 6.3.9 scene: $id/$asset" }

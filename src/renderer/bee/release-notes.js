@@ -96,5 +96,9 @@ export const RELEASE_NOTES = [
   { version: '6.3.9', title: '90’lar Kırtasiye gerçek PNG assetlerle', items: [
     { icon: '✏️', title: 'Gerçek kırtasiye assetleri', text: 'Kalemlik, pastel kalemler, washi bantlar, stickerlar ve not kağıtları artık ayrı PNG görseller.' },
     { icon: '📒', title: 'PNG arka plan dokuları', text: 'Çizgili ve kareli kağıt arka planlarıyla sayfalar kırtasiye dünyasına oturuyor.' },
-    { icon: '🏅', title: 'Rozetlere dokunulmadı', text: 'Klasik rozet sistemi aynen korunuyor; yalnız mevcut daire arka planları 90’lar paletine uyarlanıyor.' }] }
+    { icon: '🏅', title: 'Rozetlere dokunulmadı', text: 'Klasik rozet sistemi aynen korunuyor; yalnız mevcut daire arka planları 90’lar paletine uyarlanıyor.' }] },
+  { version: '6.3.9', title: '90’lar Kırtasiye gerçek PNG assetlerle', items: [
+    { icon: '🖍️', title: 'Gerçek kırtasiye görselleri', text: 'Kalem kutusu, kalemler, washi bantlar, ataçlar ve stickerlar PNG asset olarak kullanılıyor.' },
+    { icon: '📓', title: 'Her sayfaya ayrı arka plan', text: 'Bugün, Notlar, İşler, Sayaç ve Rozetler ekranlarının kendi PNG arka planı var.' },
+    { icon: '🏅', title: 'Rozetler klasik kaldı', text: 'Rozet ikonları ve yapısı değişmedi; yalnız mevcut daire arka plan renkleri pastel palete uyarlandı.' }] }
 ];

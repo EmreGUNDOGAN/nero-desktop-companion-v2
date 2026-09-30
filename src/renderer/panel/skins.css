@@ -2135,236 +2135,30 @@ html.no-scene:is(
   [data-skin="pastel-mutfak"]
 ) .shell { background-image: none !important; }
 
-
 /* ==========================================================================
-   6.3.8 — 90'LAR KIRTASİYE / GERÇEK ASSET MİMARİSİ
-   Bu tema tek büyük sahne kullanmaz. Ayrı kırtasiye assetleri CSS ile
-   kompoze edilir; Nero panelinin layout ve resize sistemi aynen korunur.
+   6.3.9 — 90'LAR KIRTASİYE / PNG ASSET TEMASI
+   Gerçek PNG assetler; layout ve resize sistemine dokunulmaz.
    ========================================================================== */
 [data-skin="doksanlar-kirtasiye"] {
-  --serif: "Fraunces", Georgia, serif;
-  --text: "Nunito", "Segoe UI", sans-serif;
-  --hand: "Caveat", "Segoe Print", cursive;
-  --glass: rgba(255, 252, 247, .91);
-  --on-scene: #263D68;
-  --on-scene-shadow: 0 1px 2px rgba(255,255,255,.96), 0 0 7px rgba(255,255,255,.82);
-  --soft-shadow: 0 3px 12px rgba(38,61,104,.11);
+  --serif:"Fraunces", Georgia, serif;
+  --text:"Nunito","Segoe UI",sans-serif;
+  --hand:"Caveat","Segoe Print",cursive;
+  --soft-shadow:0 4px 14px rgba(38,61,104,.10);
+  --theme-badge:#AFCDEB;
 }
-
-/* 6.3.7'nin geçici büyük SVG sahnesini bu temada kesin olarak kapat. */
 [data-skin="doksanlar-kirtasiye"] .shell {
-  background-image: none !important;
-  background-color: #F8F4EC;
-  border-color: #263D68;
+  background:#F8F4EC !important;
+  border-color:#C9D3E3;
 }
-
-/* ATOMİK ASSET KATMANI — her obje kendi ölçüsünde ölçeklenir, cover yok. */
-[data-skin="doksanlar-kirtasiye"] .shell::before {
-  display: block !important;
-  background-color: #F8F4EC;
-  background-image:
-    url("deco/doksanlar-kirtasiye/asset-pencilcase.svg"),
-    url("deco/doksanlar-kirtasiye/asset-pens.svg"),
-    url("deco/doksanlar-kirtasiye/asset-washi.svg"),
-    url("deco/doksanlar-kirtasiye/asset-clips.svg"),
-    url("deco/doksanlar-kirtasiye/asset-stickers.svg"),
-    repeating-linear-gradient(0deg, rgba(108,139,186,.08) 0 1px, transparent 1px 27px),
-    linear-gradient(#F8F4EC,#F8F4EC);
-  background-repeat: no-repeat,no-repeat,no-repeat,no-repeat,no-repeat,repeat,no-repeat;
-  background-size: 25% auto, 30% auto, 20% auto, 16% auto, 15% auto, auto, auto;
-  background-position:
-    -4% 19%,
-    103% 38%,
-    97% 90%,
-    4% 88%,
-    92% 16%,
-    0 0,
-    0 0;
-}
-
-/* Sayaç: merkez tamamen temiz, dekor köşelere çekilir. */
-[data-skin="doksanlar-kirtasiye"][data-tab="timer"] .shell::before {
-  background-image:
-    url("deco/doksanlar-kirtasiye/asset-sticky.svg"),
-    url("deco/doksanlar-kirtasiye/asset-cassette.svg"),
-    url("deco/doksanlar-kirtasiye/asset-pens.svg"),
-    url("deco/doksanlar-kirtasiye/asset-clips.svg"),
-    url("deco/doksanlar-kirtasiye/asset-washi.svg"),
-    repeating-linear-gradient(90deg, rgba(108,139,186,.07) 0 1px, transparent 1px 28px),
-    repeating-linear-gradient(0deg, rgba(108,139,186,.07) 0 1px, transparent 1px 28px),
-    linear-gradient(#F8F4EC,#F8F4EC);
-  background-repeat: no-repeat,no-repeat,no-repeat,no-repeat,no-repeat,repeat,repeat,no-repeat;
-  background-size: 18% auto, 22% auto, 25% auto, 16% auto, 18% auto, auto, auto, auto;
-  background-position:
-    4% 29%,
-    95% 88%,
-    103% 18%,
-    4% 93%,
-    92% 47%,
-    0 0,0 0,0 0;
-}
-
-/* Notlar / İşler / Rozetler / Ayarlar: defter sayfası + spiral + küçük objeler. */
-[data-skin="doksanlar-kirtasiye"]:is([data-tab="notes"],[data-tab="todos"],[data-tab="settings"],[data-tab="badges"]) .shell::before {
-  background-image:
-    url("deco/doksanlar-kirtasiye/asset-spiral.svg"),
-    url("deco/doksanlar-kirtasiye/asset-washi.svg"),
-    url("deco/doksanlar-kirtasiye/asset-sticky.svg"),
-    url("deco/doksanlar-kirtasiye/asset-clips.svg"),
-    url("deco/doksanlar-kirtasiye/asset-stickers.svg"),
-    repeating-linear-gradient(90deg, rgba(108,139,186,.065) 0 1px, transparent 1px 28px),
-    repeating-linear-gradient(0deg, rgba(108,139,186,.065) 0 1px, transparent 1px 28px),
-    linear-gradient(#F8F4EC,#F8F4EC);
-  background-repeat: no-repeat,no-repeat,no-repeat,no-repeat,no-repeat,repeat,repeat,no-repeat;
-  background-size: 7% 68%, 20% auto, 17% auto, 16% auto, 14% auto, auto, auto, auto;
-  background-position:
-    -1% 72%,
-    96% 18%,
-    94% 77%,
-    4% 91%,
-    8% 24%,
-    0 0,0 0,0 0;
-}
-
-html.no-scene[data-skin="doksanlar-kirtasiye"] .shell::before { display:none !important; }
-
-/* Başlık ayrı asset. Ortada metin ve pencere kontrolleri için boş alan bırakır. */
-[data-skin="doksanlar-kirtasiye"] .top {
-  background-color: #F7DDE4;
-  background-image: url("deco/doksanlar-kirtasiye/baslik.svg");
-  background-position: center;
-  background-size: cover;
-  color: #263D68;
-}
-[data-skin="doksanlar-kirtasiye"] :is(.top h1,.tagline,.mood-note,#mood-label) {
-  color: #263D68;
-  text-shadow: 0 1px 1px rgba(255,255,255,.8);
-}
-[data-skin="doksanlar-kirtasiye"] h1::after {
-  background-image: url("deco/doksanlar-kirtasiye/ic-kirtasiye.svg") !important;
-}
-[data-skin="doksanlar-kirtasiye"] .close:not(.minimize):not(.pin-btn):not(.settings-btn) {
-  background: #E986A6;
-}
-
-/* Ana sayfadaki dört kart gerçek ayrı assetlerdir. */
-[data-skin="doksanlar-kirtasiye"] .tile {
-  position:relative;
-  min-height:86px;
-  background-repeat:no-repeat;
-  background-position:center;
-  background-size:cover;
-  color:#263D68;
-}
-[data-skin="doksanlar-kirtasiye"] .tile::before {
-  content:"";
-  position:absolute;
-  left:12px;
-  top:10px;
-  width:26px;
-  height:26px;
-  background-repeat:no-repeat;
-  background-position:center;
-  background-size:contain;
-}
-[data-skin="doksanlar-kirtasiye"] .tile strong { color:#263D68; }
-[data-skin="doksanlar-kirtasiye"] .tile span { color:#536586; }
-[data-skin="doksanlar-kirtasiye"] .tile:nth-child(1) { background-image:url("deco/doksanlar-kirtasiye/card-pink.svg"); }
-[data-skin="doksanlar-kirtasiye"] .tile:nth-child(2) { background-image:url("deco/doksanlar-kirtasiye/card-mint.svg"); }
-[data-skin="doksanlar-kirtasiye"] .tile:nth-child(3) { background-image:url("deco/doksanlar-kirtasiye/card-lilac.svg"); }
-[data-skin="doksanlar-kirtasiye"] .tile:nth-child(4) { background-image:url("deco/doksanlar-kirtasiye/card-blue.svg"); }
-
-[data-skin="doksanlar-kirtasiye"] .tile:nth-child(1)::before { background-image:url("deco/doksanlar-kirtasiye/ic-notebook.svg"); }
-[data-skin="doksanlar-kirtasiye"] .tile:nth-child(2)::before { background-image:url("deco/doksanlar-kirtasiye/ic-check.svg"); }
-[data-skin="doksanlar-kirtasiye"] .tile:nth-child(3)::before { background-image:url("deco/doksanlar-kirtasiye/ic-plant.svg"); }
-[data-skin="doksanlar-kirtasiye"] .tile:nth-child(4)::before { background-image:url("deco/doksanlar-kirtasiye/ic-star.svg"); }
-
-[data-skin="doksanlar-kirtasiye"] .nero-says {
-  padding-left:46px;
-  background-color:rgba(255,252,247,.94);
-  background-image:url("deco/doksanlar-kirtasiye/ic-notebook.svg");
-  background-repeat:no-repeat;
-  background-position:12px center;
-  background-size:26px 26px;
-}
-
-/* Haftalık grafik: çizgili defter kartı. */
-[data-skin="doksanlar-kirtasiye"] .week {
-  background-color: rgba(255,252,247,.94);
-  background-image:
-    url("deco/doksanlar-kirtasiye/asset-washi.svg"),
-    repeating-linear-gradient(0deg, transparent 0 25px, rgba(115,151,199,.13) 25px 26px);
-  background-repeat: no-repeat,repeat;
-  background-size: 76px auto,auto;
-  background-position: right -8px top -10px,0 0;
-}
-[data-skin="doksanlar-kirtasiye"] .week :is(h3,.card-head span,.bar span) {
-  color:#263D68;
-  text-shadow:none;
-}
-[data-skin="doksanlar-kirtasiye"] .bar i {
-  border-color:#263D68;
-  background:#C8DDF4;
-}
-[data-skin="doksanlar-kirtasiye"] .bar.today i { background:#E986A6; }
-
-/* Notlar gerçek pastel kırtasiye kartlarına dönüşür; yapısal ölçüler değişmez. */
-[data-skin="doksanlar-kirtasiye"] .notes li:not(.new-note):nth-child(5n+1) { background-color:#F6BDD1; }
-[data-skin="doksanlar-kirtasiye"] .notes li:not(.new-note):nth-child(5n+2) { background-color:#BFE5D7; }
-[data-skin="doksanlar-kirtasiye"] .notes li:not(.new-note):nth-child(5n+3) { background-color:#D8C9F0; }
-[data-skin="doksanlar-kirtasiye"] .notes li:not(.new-note):nth-child(5n+4) { background-color:#C8DDF4; }
-[data-skin="doksanlar-kirtasiye"] .notes li:not(.new-note):nth-child(5n) { background-color:#F5D98E; }
-
-/* Sayaç kırtasiye dilinde, ama mevcut timer DOM ve davranışı aynen kalır. */
-[data-skin="doksanlar-kirtasiye"] .dial {
-  background:rgba(255,252,247,.92);
-  border-color:#E986A6;
-  box-shadow:0 8px 24px rgba(38,61,104,.12);
-}
-[data-skin="doksanlar-kirtasiye"] .ring-fill { stroke:#E986A6; }
-[data-skin="doksanlar-kirtasiye"] .presets > button.on { background:#E986A6; color:#fff; }
-
-/* KLASİK ROZETLER: ikon/şekil/ölçü değişmez. Yalnız mevcut daire arka planı renklenir. */
-[data-skin="doksanlar-kirtasiye"] .badges .badge:nth-child(5n+1).on .badge-icon { background:#F0A9C0 !important; border-color:#F0A9C0 !important; }
-[data-skin="doksanlar-kirtasiye"] .badges .badge:nth-child(5n+2).on .badge-icon { background:#9FD6C5 !important; border-color:#9FD6C5 !important; }
-[data-skin="doksanlar-kirtasiye"] .badges .badge:nth-child(5n+3).on .badge-icon { background:#C8B5E8 !important; border-color:#C8B5E8 !important; }
-[data-skin="doksanlar-kirtasiye"] .badges .badge:nth-child(5n+4).on .badge-icon { background:#AFCDEB !important; border-color:#AFCDEB !important; }
-[data-skin="doksanlar-kirtasiye"] .badges .badge:nth-child(5n).on .badge-icon { background:#F1D27A !important; border-color:#F1D27A !important; }
-
-/* Resize koruması: tema katmanları tutamaçların hit-area'sına dokunmaz. */
-[data-skin="doksanlar-kirtasiye"] .grip {
-  position:absolute !important;
-  z-index:1001 !important;
-  pointer-events:auto !important;
-}
-
-
-/* ==========================================================================
-   6.3.9 — 90'LAR KIRTASİYE / PNG ASSET UYGULAMASI
-   Onaylanan referanstaki görsel dil, gerçek PNG assetler ve sayfa bazlı
-   PNG arka planlarla uygulanır. Panel layout'u ve resize sistemi değişmez.
-   ========================================================================== */
-[data-skin="doksanlar-kirtasiye"] {
-  --serif: "Fraunces", Georgia, serif;
-  --text: "Nunito", "Segoe UI", sans-serif;
-  --hand: "Caveat", "Segoe Print", cursive;
-  --glass: rgba(255,252,247,.88);
-  --soft-shadow: 0 5px 16px rgba(38,61,104,.12);
-}
-
-/* Başarısız eski SVG kompozisyon katmanını canlı temada tamamen kapat. */
-[data-skin="doksanlar-kirtasiye"] .shell::before {
-  content:none !important;
-  display:none !important;
-  background:none !important;
-}
+[data-skin="doksanlar-kirtasiye"] .shell::before,
+[data-skin="doksanlar-kirtasiye"] .shell::after { display:none !important; }
 
 [data-skin="doksanlar-kirtasiye"] .top {
   background-color:#F7DDE4;
-  background-image:url("deco/doksanlar-kirtasiye/png/baslik.png") !important;
-  background-repeat:no-repeat;
-  background-position:center;
-  background-size:100% 100%;
+  background-image:url("deco/doksanlar-kirtasiye/baslik.png") !important;
+  background-size:100% 100% !important;
+  background-position:center !important;
+  background-repeat:no-repeat !important;
   color:#263D68;
 }
 [data-skin="doksanlar-kirtasiye"] :is(.top h1,.tagline,.mood-note,#mood-label) {
@@ -2373,142 +2167,114 @@ html.no-scene[data-skin="doksanlar-kirtasiye"] .shell::before { display:none !im
 }
 [data-skin="doksanlar-kirtasiye"] .close:not(.minimize):not(.pin-btn):not(.settings-btn) { background:#E986A6; }
 
-/* Tek büyük scene yok: her gerçek Nero sayfasına ayrı hazırlanmış PNG zemin bağlanır. */
 [data-skin="doksanlar-kirtasiye"] :is(#view-home,#view-notes,#view-todos,#view-timer,#view-badges,#view-settings) {
   background-color:#F8F4EC !important;
+  background-position:center top !important;
   background-repeat:no-repeat !important;
-  background-position:center !important;
   background-size:100% 100% !important;
 }
-[data-skin="doksanlar-kirtasiye"] #view-home { background-image:url("deco/doksanlar-kirtasiye/png/bg-bugun.png") !important; }
-[data-skin="doksanlar-kirtasiye"] #view-notes { background-image:url("deco/doksanlar-kirtasiye/png/bg-notlar.png") !important; }
-[data-skin="doksanlar-kirtasiye"] #view-todos { background-image:url("deco/doksanlar-kirtasiye/png/bg-isler.png") !important; }
-[data-skin="doksanlar-kirtasiye"] #view-timer { background-image:url("deco/doksanlar-kirtasiye/png/bg-sayac.png") !important; }
-[data-skin="doksanlar-kirtasiye"] #view-badges { background-image:url("deco/doksanlar-kirtasiye/png/bg-rozetler.png") !important; }
-[data-skin="doksanlar-kirtasiye"] #view-settings { background-image:url("deco/doksanlar-kirtasiye/png/bg-notlar.png") !important; }
+[data-skin="doksanlar-kirtasiye"] #view-home { background-image:url("deco/doksanlar-kirtasiye/bg-bugun.png") !important; }
+[data-skin="doksanlar-kirtasiye"] #view-notes { background-image:url("deco/doksanlar-kirtasiye/bg-notlar.png") !important; }
+[data-skin="doksanlar-kirtasiye"] #view-todos,
+[data-skin="doksanlar-kirtasiye"] #view-settings { background-image:url("deco/doksanlar-kirtasiye/bg-isler.png") !important; }
+[data-skin="doksanlar-kirtasiye"] #view-timer { background-image:url("deco/doksanlar-kirtasiye/bg-sayac.png") !important; }
+[data-skin="doksanlar-kirtasiye"] #view-badges { background-image:url("deco/doksanlar-kirtasiye/bg-rozetler.png") !important; }
 
-html.no-scene[data-skin="doksanlar-kirtasiye"] :is(#view-home,#view-notes,#view-todos,#view-timer,#view-badges,#view-settings) {
-  background-image:none !important;
+[data-skin="doksanlar-kirtasiye"] .tabs {
+  background:rgba(255,252,247,.92);
+  border-color:#D6DCE8;
+  box-shadow:0 4px 14px rgba(38,61,104,.10);
+  backdrop-filter:blur(3px);
+}
+[data-skin="doksanlar-kirtasiye"] .tabs button[aria-selected="true"] { background:#E986A6; color:#fff; }
+[data-skin="doksanlar-kirtasiye"] .card,
+[data-skin="doksanlar-kirtasiye"] .nero-says {
+  background:rgba(255,252,247,.88);
+  border-color:rgba(201,211,227,.92);
+  box-shadow:0 5px 16px rgba(38,61,104,.09);
+  backdrop-filter:blur(2px);
 }
 
-[data-skin="doksanlar-kirtasiye"] :is(.card,.list-card,.timer-card,.settings-section,.badge-panel,.nero-says) {
-  background-color:rgba(255,252,247,.88);
-  border-color:rgba(201,211,227,.76);
-  box-shadow:0 5px 16px rgba(38,61,104,.11);
-  backdrop-filter:blur(1.5px);
-}
-
-/* Bugün kartları: gerçek PNG kırtasiye objeleri, mevcut sayaç/istatistik DOM'u korunur. */
 [data-skin="doksanlar-kirtasiye"] .tile {
   position:relative;
   overflow:hidden;
-  padding-left:62px;
   color:#263D68;
-  border-color:rgba(38,61,104,.13);
 }
-[data-skin="doksanlar-kirtasiye"] .tile > :is(svg,.tile-icon) { display:none !important; }
 [data-skin="doksanlar-kirtasiye"] .tile::after {
   content:"";
   position:absolute;
-  left:11px;
-  top:50%;
-  translate:0 -50%;
-  width:43px;
-  height:43px;
-  background-repeat:no-repeat;
-  background-position:center;
-  background-size:contain;
+  right:8px; top:7px;
+  width:38px; height:38px;
+  background:center/contain no-repeat;
   pointer-events:none;
+  opacity:.95;
 }
-[data-skin="doksanlar-kirtasiye"] .tile:nth-child(1) { background-color:rgba(250,218,229,.92) !important; }
-[data-skin="doksanlar-kirtasiye"] .tile:nth-child(2) { background-color:rgba(210,239,228,.92) !important; }
-[data-skin="doksanlar-kirtasiye"] .tile:nth-child(3) { background-color:rgba(228,217,246,.92) !important; }
-[data-skin="doksanlar-kirtasiye"] .tile:nth-child(4) { background-color:rgba(214,231,249,.92) !important; }
-[data-skin="doksanlar-kirtasiye"] .tile:nth-child(1)::after { background-image:url("deco/doksanlar-kirtasiye/png/asset-notepad.png"); }
-[data-skin="doksanlar-kirtasiye"] .tile:nth-child(2)::after { background-image:url("deco/doksanlar-kirtasiye/png/asset-sticky.png"); }
-[data-skin="doksanlar-kirtasiye"] .tile:nth-child(3)::after { background-image:url("deco/doksanlar-kirtasiye/png/asset-flower.png"); }
-[data-skin="doksanlar-kirtasiye"] .tile:nth-child(4)::after { background-image:url("deco/doksanlar-kirtasiye/png/asset-pencilcase.png"); }
-
-[data-skin="doksanlar-kirtasiye"] .nero-says {
-  padding-left:58px;
-  background-image:url("deco/doksanlar-kirtasiye/png/asset-star.png");
-  background-repeat:no-repeat;
-  background-position:13px center;
-  background-size:34px 34px;
-}
-[data-skin="doksanlar-kirtasiye"] .nero-says::before { background:rgba(255,252,247,.92); }
+[data-skin="doksanlar-kirtasiye"] .tile:nth-child(1) { background-color:rgba(246,189,209,.82); }
+[data-skin="doksanlar-kirtasiye"] .tile:nth-child(2) { background-color:rgba(191,229,215,.84); }
+[data-skin="doksanlar-kirtasiye"] .tile:nth-child(3) { background-color:rgba(216,201,240,.84); }
+[data-skin="doksanlar-kirtasiye"] .tile:nth-child(4) { background-color:rgba(200,221,244,.84); }
+[data-skin="doksanlar-kirtasiye"] .tile:nth-child(1)::after { background-image:url("deco/doksanlar-kirtasiye/asset-notepad.png"); }
+[data-skin="doksanlar-kirtasiye"] .tile:nth-child(2)::after { background-image:url("deco/doksanlar-kirtasiye/asset-binder.png"); }
+[data-skin="doksanlar-kirtasiye"] .tile:nth-child(3)::after { background-image:url("deco/doksanlar-kirtasiye/asset-flower.png"); }
+[data-skin="doksanlar-kirtasiye"] .tile:nth-child(4)::after { background-image:url("deco/doksanlar-kirtasiye/asset-star.png"); }
+[data-skin="doksanlar-kirtasiye"] .tile :is(strong,span) { position:relative; z-index:1; color:#263D68; }
 
 [data-skin="doksanlar-kirtasiye"] .week {
   position:relative;
   overflow:hidden;
-  background-color:rgba(255,252,247,.89);
+  background:rgba(255,252,247,.90);
 }
 [data-skin="doksanlar-kirtasiye"] .week::after {
   content:"";
   position:absolute;
-  right:-12px;
-  top:-18px;
-  width:96px;
-  height:96px;
-  background:url("deco/doksanlar-kirtasiye/png/asset-washi.png") center/contain no-repeat;
-  opacity:.78;
+  right:-14px; top:-20px;
+  width:88px; height:88px;
+  background:url("deco/doksanlar-kirtasiye/asset-washi.png") center/contain no-repeat;
   pointer-events:none;
 }
 [data-skin="doksanlar-kirtasiye"] .bar i { background:#C8DDF4; }
 [data-skin="doksanlar-kirtasiye"] .bar.today i { background:#E986A6; }
 
-/* Notlar: beş gerçek pastel spiral defter PNG kartı. Grid ve tıklama sistemi aynıdır. */
-[data-skin="doksanlar-kirtasiye"] .notes li:not(.new-note) {
-  min-height:156px;
-  padding:45px 25px 18px 48px;
-  border-radius:0;
-  background-color:transparent !important;
-  background-repeat:no-repeat !important;
-  background-position:center !important;
-  background-size:100% 100% !important;
-  box-shadow:none;
+[data-skin="doksanlar-kirtasiye"] .notes { position:relative; }
+[data-skin="doksanlar-kirtasiye"] .notes::after {
+  content:"";
+  position:absolute;
+  right:4px; bottom:4px;
+  width:78px; height:98px;
+  background:url("deco/doksanlar-kirtasiye/asset-notepad.png") center/contain no-repeat;
+  pointer-events:none;
+  opacity:.55;
+  z-index:0;
 }
-[data-skin="doksanlar-kirtasiye"] .notes li:not(.new-note)::before { display:none !important; }
-[data-skin="doksanlar-kirtasiye"] .notes li :is(.clip,.pin,.fname,.note-stamp) { display:none !important; }
-[data-skin="doksanlar-kirtasiye"] .notes li:not(.new-note):nth-child(5n+1) { background-image:url("deco/doksanlar-kirtasiye/png/note-card-pink.png") !important; }
-[data-skin="doksanlar-kirtasiye"] .notes li:not(.new-note):nth-child(5n+2) { background-image:url("deco/doksanlar-kirtasiye/png/note-card-mint.png") !important; }
-[data-skin="doksanlar-kirtasiye"] .notes li:not(.new-note):nth-child(5n+3) { background-image:url("deco/doksanlar-kirtasiye/png/note-card-lilac.png") !important; }
-[data-skin="doksanlar-kirtasiye"] .notes li:not(.new-note):nth-child(5n+4) { background-image:url("deco/doksanlar-kirtasiye/png/note-card-blue.png") !important; }
-[data-skin="doksanlar-kirtasiye"] .notes li:not(.new-note):nth-child(5n) { background-image:url("deco/doksanlar-kirtasiye/png/note-card-yellow.png") !important; }
+[data-skin="doksanlar-kirtasiye"] .notes li { z-index:1; }
+[data-skin="doksanlar-kirtasiye"] .notes li:not(.new-note):nth-child(5n+1) { background-color:rgba(246,189,209,.92); }
+[data-skin="doksanlar-kirtasiye"] .notes li:not(.new-note):nth-child(5n+2) { background-color:rgba(191,229,215,.92); }
+[data-skin="doksanlar-kirtasiye"] .notes li:not(.new-note):nth-child(5n+3) { background-color:rgba(216,201,240,.92); }
+[data-skin="doksanlar-kirtasiye"] .notes li:not(.new-note):nth-child(5n+4) { background-color:rgba(200,221,244,.92); }
+[data-skin="doksanlar-kirtasiye"] .notes li:not(.new-note):nth-child(5n) { background-color:rgba(245,217,142,.92); }
 
-[data-skin="doksanlar-kirtasiye"] .notes li.new-note {
-  min-height:164px;
-  padding-top:125px;
-  border:0;
-  background-color:transparent !important;
-  background-image:url("deco/doksanlar-kirtasiye/png/asset-notepad.png") !important;
-  background-repeat:no-repeat !important;
-  background-position:center 7px !important;
-  background-size:118px auto !important;
-  box-shadow:none;
+[data-skin="doksanlar-kirtasiye"] .list-card {
+  position:relative;
+  background:rgba(255,252,247,.91);
 }
-[data-skin="doksanlar-kirtasiye"] .notes li.new-note::before { display:none !important; }
-
-[data-skin="doksanlar-kirtasiye"] .paper {
-  background-color:rgba(255,252,247,.94);
-  background-image:
-    url("deco/doksanlar-kirtasiye/png/asset-washi.png"),
-    repeating-linear-gradient(transparent 0 25px,rgba(96,128,178,.15) 25px 26px);
-  background-repeat:no-repeat,repeat;
-  background-position:right -16px top -32px,0 0;
-  background-size:110px auto,auto;
+[data-skin="doksanlar-kirtasiye"] .list-card::after {
+  content:"";
+  position:absolute;
+  right:8px; bottom:6px;
+  width:56px; height:56px;
+  background:url("deco/doksanlar-kirtasiye/asset-clip.png") center/contain no-repeat;
+  opacity:.38;
+  pointer-events:none;
 }
-[data-skin="doksanlar-kirtasiye"] .paper .tape { display:none; }
 
 [data-skin="doksanlar-kirtasiye"] .dial {
-  background:rgba(255,252,247,.91);
-  border-color:#F09AB8;
-  box-shadow:0 10px 26px rgba(38,61,104,.13);
+  background:rgba(255,252,247,.93);
+  border-color:#E986A6;
+  box-shadow:0 8px 24px rgba(38,61,104,.12);
 }
 [data-skin="doksanlar-kirtasiye"] .ring-fill { stroke:#E986A6; }
 [data-skin="doksanlar-kirtasiye"] .presets > button.on { background:#E986A6; color:#fff; }
 
-/* Klasik rozetler: mevcut SVG/ikon/ölçü değişmez. Sadece mevcut daire arka planı renklenir. */
 [data-skin="doksanlar-kirtasiye"] .badges .badge:nth-child(5n+1).on .badge-icon { background:#F0A9C0 !important; border-color:#F0A9C0 !important; }
 [data-skin="doksanlar-kirtasiye"] .badges .badge:nth-child(5n+2).on .badge-icon { background:#9FD6C5 !important; border-color:#9FD6C5 !important; }
 [data-skin="doksanlar-kirtasiye"] .badges .badge:nth-child(5n+3).on .badge-icon { background:#C8B5E8 !important; border-color:#C8B5E8 !important; }
@@ -2520,151 +2286,6 @@ html.no-scene[data-skin="doksanlar-kirtasiye"] :is(#view-home,#view-notes,#view-
   z-index:1001 !important;
   pointer-events:auto !important;
 }
-
-/* ==========================================================================
-   6.3.9 — 90'LAR KIRTASİYE / PNG ASSET DENEMESİ
-   Gerçek PNG assetleri + gerçek PNG kağıt arka planları.
-   Panel geometrisi, menü sırası, resize ve rozet sistemi korunur.
-   ========================================================================== */
-[data-skin="doksanlar-kirtasiye"] {
-  --serif:"Fraunces",Georgia,serif;
-  --text:"Nunito","Segoe UI",sans-serif;
-  --hand:"Caveat","Segoe Print",cursive;
-  --glass:rgba(255,252,247,.92);
-  --on-scene:#263D68;
-  --on-scene-shadow:0 1px 2px rgba(255,255,255,.96);
-}
-[data-skin="doksanlar-kirtasiye"] .shell {
-  position:relative;
-  background:#F8F4EC !important;
+html.no-scene[data-skin="doksanlar-kirtasiye"] :is(#view-home,#view-notes,#view-todos,#view-timer,#view-badges,#view-settings) {
   background-image:none !important;
-  overflow:hidden;
 }
-[data-skin="doksanlar-kirtasiye"] .shell::before {
-  content:"";
-  display:block !important;
-  position:absolute;
-  inset:0;
-  z-index:0;
-  pointer-events:none;
-  opacity:1;
-  background-color:#F8F4EC;
-  background-image:
-    url("deco/doksanlar-kirtasiye/png/kalemlik.png"),
-    url("deco/doksanlar-kirtasiye/png/kalemler.png"),
-    url("deco/doksanlar-kirtasiye/png/washi.png"),
-    url("deco/doksanlar-kirtasiye/png/yildiz.png"),
-    url("deco/doksanlar-kirtasiye/png/cicek.png"),
-    url("deco/doksanlar-kirtasiye/png/paper-lines.png");
-  background-repeat:no-repeat,no-repeat,no-repeat,no-repeat,no-repeat,repeat;
-  background-size:23% auto,22% auto,17% auto,6% auto,6% auto,192px 192px;
-  background-position:left -7% bottom 7%,right -6% top 33%,right 3% bottom -2%,left 2% top 42%,right 4% top 18%,0 0;
-}
-[data-skin="doksanlar-kirtasiye"] :is(.top,.tabs,main,.update-banner,.app-version){position:relative;z-index:1;}
-[data-skin="doksanlar-kirtasiye"] .grip{position:absolute !important;z-index:1001 !important;pointer-events:auto !important;}
-
-[data-skin="doksanlar-kirtasiye"][data-tab="notes"] .shell::before {
-  background-image:
-    url("deco/doksanlar-kirtasiye/png/spiral-not.png"),
-    url("deco/doksanlar-kirtasiye/png/washi.png"),
-    url("deco/doksanlar-kirtasiye/png/kalemler.png"),
-    url("deco/doksanlar-kirtasiye/png/yildiz.png"),
-    url("deco/doksanlar-kirtasiye/png/paper-grid.png");
-  background-repeat:no-repeat,no-repeat,no-repeat,no-repeat,repeat;
-  background-size:17% auto,18% auto,20% auto,6% auto,192px 192px;
-  background-position:left -5% bottom 9%,right -2% top 19%,right -6% bottom 11%,left 3% top 70%,0 0;
-}
-[data-skin="doksanlar-kirtasiye"][data-tab="todos"] .shell::before {
-  background-image:
-    url("deco/doksanlar-kirtasiye/png/sticky.png"),
-    url("deco/doksanlar-kirtasiye/png/kalemler.png"),
-    url("deco/doksanlar-kirtasiye/png/washi.png"),
-    url("deco/doksanlar-kirtasiye/png/cicek.png"),
-    url("deco/doksanlar-kirtasiye/png/paper-lines.png");
-  background-repeat:no-repeat,no-repeat,no-repeat,no-repeat,repeat;
-  background-size:15% auto,21% auto,17% auto,6% auto,192px 192px;
-  background-position:left -4% bottom 10%,right -5% top 26%,right 4% bottom 1%,left 3% top 45%,0 0;
-}
-[data-skin="doksanlar-kirtasiye"][data-tab="timer"] .shell::before {
-  background-image:
-    url("deco/doksanlar-kirtasiye/png/sticky.png"),
-    url("deco/doksanlar-kirtasiye/png/kalemlik.png"),
-    url("deco/doksanlar-kirtasiye/png/kalemler.png"),
-    url("deco/doksanlar-kirtasiye/png/yildiz.png"),
-    url("deco/doksanlar-kirtasiye/png/paper-grid.png");
-  background-repeat:no-repeat,no-repeat,no-repeat,no-repeat,repeat;
-  background-size:15% auto,25% auto,20% auto,6% auto,192px 192px;
-  background-position:left -3% top 34%,right -6% bottom 4%,left -7% bottom 3%,right 4% top 30%,0 0;
-}
-[data-skin="doksanlar-kirtasiye"][data-tab="badges"] .shell::before,
-[data-skin="doksanlar-kirtasiye"][data-tab="settings"] .shell::before {
-  background-image:
-    url("deco/doksanlar-kirtasiye/png/washi.png"),
-    url("deco/doksanlar-kirtasiye/png/yildiz.png"),
-    url("deco/doksanlar-kirtasiye/png/cicek.png"),
-    url("deco/doksanlar-kirtasiye/png/paper-grid.png");
-  background-repeat:no-repeat,no-repeat,no-repeat,repeat;
-  background-size:17% auto,6% auto,6% auto,192px 192px;
-  background-position:right 2% bottom -1%,left 2% top 24%,right 3% top 21%,0 0;
-}
-
-[data-skin="doksanlar-kirtasiye"] .top {
-  background-color:#F9E3EA !important;
-  background-image:url("deco/doksanlar-kirtasiye/png/header-gingham.png") !important;
-  background-repeat:repeat !important;
-  background-size:auto 100% !important;
-  color:#263D68 !important;
-}
-[data-skin="doksanlar-kirtasiye"] :is(.top h1,.tagline,.mood-note,#mood-label){color:#263D68 !important;text-shadow:0 1px 1px rgba(255,255,255,.86);}
-[data-skin="doksanlar-kirtasiye"] h1::after{background-image:url("deco/doksanlar-kirtasiye/png/cicek.png") !important;background-size:contain !important;}
-
-[data-skin="doksanlar-kirtasiye"] .tile{background-image:none !important;color:#263D68;}
-[data-skin="doksanlar-kirtasiye"] .tile:nth-child(1){background-color:rgba(246,189,209,.88) !important;}
-[data-skin="doksanlar-kirtasiye"] .tile:nth-child(2){background-color:rgba(191,229,215,.90) !important;}
-[data-skin="doksanlar-kirtasiye"] .tile:nth-child(3){background-color:rgba(216,201,240,.90) !important;}
-[data-skin="doksanlar-kirtasiye"] .tile:nth-child(4){background-color:rgba(200,221,244,.90) !important;}
-[data-skin="doksanlar-kirtasiye"] .tile::before{width:30px;height:30px;background-repeat:no-repeat;background-position:center;background-size:contain;}
-[data-skin="doksanlar-kirtasiye"] .tile:nth-child(1)::before{background-image:url("deco/doksanlar-kirtasiye/png/spiral-not.png") !important;}
-[data-skin="doksanlar-kirtasiye"] .tile:nth-child(2)::before{background-image:url("deco/doksanlar-kirtasiye/png/sticky.png") !important;}
-[data-skin="doksanlar-kirtasiye"] .tile:nth-child(3)::before{background-image:url("deco/doksanlar-kirtasiye/png/cicek.png") !important;}
-[data-skin="doksanlar-kirtasiye"] .tile:nth-child(4)::before{background-image:url("deco/doksanlar-kirtasiye/png/yildiz.png") !important;}
-
-[data-skin="doksanlar-kirtasiye"] .nero-says{
-  background-color:rgba(255,252,247,.95) !important;
-  background-image:url("deco/doksanlar-kirtasiye/png/yildiz.png") !important;
-  background-repeat:no-repeat !important;background-position:12px center !important;background-size:28px 28px !important;
-}
-[data-skin="doksanlar-kirtasiye"] .week{
-  background-color:rgba(255,252,247,.94) !important;
-  background-image:url("deco/doksanlar-kirtasiye/png/washi.png"),url("deco/doksanlar-kirtasiye/png/paper-lines.png") !important;
-  background-repeat:no-repeat,repeat !important;
-  background-size:92px auto,192px 192px !important;
-  background-position:right -14px top -14px,0 0 !important;
-}
-[data-skin="doksanlar-kirtasiye"] .week :is(h3,.card-head span,.bar span){color:#263D68 !important;text-shadow:none !important;}
-
-[data-skin="doksanlar-kirtasiye"] .notes li:not(.new-note){
-  background-image:url("deco/doksanlar-kirtasiye/png/washi.png") !important;
-  background-repeat:no-repeat !important;
-  background-size:72px auto !important;
-  background-position:right -12px top -14px !important;
-  border-color:#AEBED8 !important;
-}
-[data-skin="doksanlar-kirtasiye"] .notes li:not(.new-note):nth-child(5n+1){background-color:rgba(246,189,209,.94) !important;}
-[data-skin="doksanlar-kirtasiye"] .notes li:not(.new-note):nth-child(5n+2){background-color:rgba(191,229,215,.94) !important;}
-[data-skin="doksanlar-kirtasiye"] .notes li:not(.new-note):nth-child(5n+3){background-color:rgba(216,201,240,.94) !important;}
-[data-skin="doksanlar-kirtasiye"] .notes li:not(.new-note):nth-child(5n+4){background-color:rgba(200,221,244,.94) !important;}
-[data-skin="doksanlar-kirtasiye"] .notes li:not(.new-note):nth-child(5n){background-color:rgba(245,217,142,.94) !important;}
-[data-skin="doksanlar-kirtasiye"] .paper{
-  background-color:rgba(255,252,247,.96) !important;
-  background-image:url("deco/doksanlar-kirtasiye/png/paper-lines.png") !important;
-  background-repeat:repeat !important;background-size:192px 192px !important;
-}
-
-[data-skin="doksanlar-kirtasiye"] .badges .badge:nth-child(5n+1).on .badge-icon{background:#F0A9C0 !important;border-color:#F0A9C0 !important;}
-[data-skin="doksanlar-kirtasiye"] .badges .badge:nth-child(5n+2).on .badge-icon{background:#9FD6C5 !important;border-color:#9FD6C5 !important;}
-[data-skin="doksanlar-kirtasiye"] .badges .badge:nth-child(5n+3).on .badge-icon{background:#C8B5E8 !important;border-color:#C8B5E8 !important;}
-[data-skin="doksanlar-kirtasiye"] .badges .badge:nth-child(5n+4).on .badge-icon{background:#AFCDEB !important;border-color:#AFCDEB !important;}
-[data-skin="doksanlar-kirtasiye"] .badges .badge:nth-child(5n).on .badge-icon{background:#F1D27A !important;border-color:#F1D27A !important;}
-html.no-scene[data-skin="doksanlar-kirtasiye"] .shell::before{display:none !important;}
-
