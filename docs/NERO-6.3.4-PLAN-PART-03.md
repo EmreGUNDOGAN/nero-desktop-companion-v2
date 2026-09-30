@@ -1,6 +1,6 @@
 # Nero 6.3.4 Plan — Part 03
 
-Bu dosya 6.3.4 için kilitlenen 7–8. maddeleri içerir. Kullanıcının talebi doğrultusunda maddeler plan aşamasında tek tek kilitlenmektedir. Bu aşamada yalnızca plan güncellenmiştir; uygulama koduna henüz başlanmayacaktır.
+Bu dosya 6.3.4 için kilitlenen 7–9. maddeleri içerir. Kullanıcının talebi doğrultusunda maddeler plan aşamasında tek tek kilitlenmiştir. Bu aşamada yalnızca plan güncellenmiştir; uygulama koduna henüz başlanmayacaktır.
 
 ## 7. Köylü mektup sistemi 50 karakter × 100 özel mektuba genişletilecek
 
@@ -105,6 +105,78 @@ Bu görev uygulanırken en az şu davranışlar test edilecek:
 5. Mevcut `bee-rivals-v5.6.test.js` davranışları bozulmamalı; aynı gün rakip simülasyonunun iki kez çalışmaması korunmalı.
 6. Save/restart sonrası pause state'i varsa rakipler yanlışlıkla bir veya daha fazla gün ilerlememeli.
 
+## 9. Harita için koşullu uyarı merkezi ve ünlem ikonu
+
+Ana arıcılık haritasının sol alt bölümünde, mevcut üç kare durum butonunun **hemen sağındaki işaretlenen konuma** yeni bir uyarı ikonu eklenecek.
+
+### 9.1. Onaylanan ikon tasarımı
+
+- İkon **yalnızca ünlem işareti** olacak; petek, arı, üçgen, çerçeve, metin veya başka sembol eklenmeyecek.
+- Stil mevcut sol-alt ikonlarla uyumlu olacak:
+  - sıcak altın / bal sarısı dolgu,
+  - koyu kahverengi dış hat,
+  - hafif parlak / yumuşak hacimli görünüm,
+  - temiz ve okunaklı küçük boyut.
+- Kullanıcı tarafından son onaylanan **altın ünlem** görseli referans alınacak.
+- İkonun kendisi mevcut sol-alt üç ikonun yanına yerleşecek; ayrı bir büyük panel veya kalıcı metin gösterilmeyecek.
+- Uyarı gerektiren hiçbir durum yoksa ikon **tamamen gizlenecek**.
+
+### 9.2. İkonun görünme koşulları
+
+Aşağıdaki koşullardan **en az biri** aktif olduğunda ünlem ikonu görünecek:
+
+1. Herhangi bir kovanda aktif **hastalık** bulunması.
+2. Haritada herhangi bir **ölmüş / tamamen solmuş çiçek veya tarh** bulunması.
+3. Genel deponun kapasitesine ulaşıp **dolu** olması.
+
+Birden fazla koşul aynı anda sağlanıyorsa ikon yine tek kez gösterilecek; ayrıntılar açılan uyarı listesinde ayrı ayrı gösterilecek.
+
+### 9.3. Uyarı listesi
+
+Ünlem ikonuna tıklandığında kompakt bir **Uyarılar** paneli açılacak.
+
+- Panel yalnızca o anda gerçekten aktif olan sorunları gösterecek.
+- Sorun çözüldüğünde ilgili satır listeden otomatik kalkacak.
+- Hiç aktif sorun kalmazsa panel kapanabilecek ve ünlem ikonu gizlenecek.
+- Aynı anda birden fazla hasta kovan veya birden fazla ölü çiçek/tarh varsa bunlar kullanıcıyı doğru hedefe götürebilecek şekilde ayrı sorunlar olarak temsil edilecek veya açıkça adet bilgisiyle gruplanacak; hangi gösterim kullanılırsa kullanılsın hiçbir hedef erişilemez hâle gelmeyecek.
+- Uyarı paneli bilgi amaçlı olacak; kendi başına kaynak tüketmeyecek veya sorunu otomatik çözmeyecek.
+
+Örnek uyarı türleri:
+
+- **Kovan hastalığı** — ilgili kovan
+- **Ölü / solmuş çiçek** — ilgili çiçek/tarh
+- **Depo dolu** — genel depo
+
+### 9.4. Uyarıdan doğrudan soruna gitme
+
+Her uyarı satırı tıklanabilir olacak.
+
+- **Hasta kovan** uyarısına tıklanınca kamera/harita ilgili kovana götürülecek ve mevcut kovan etkileşimi açılabilecek.
+- **Ölü çiçek/tarh** uyarısına tıklanınca kamera ilgili harita hücresine / tarha götürülecek.
+- **Depo dolu** uyarısına tıklanınca kullanıcı mevcut depo kapasitesi / depo yönetimiyle ilgili uygun ekrana veya mevcut depo göstergesine götürülecek.
+- Birden fazla aynı tip sorun varsa kullanıcı her bir aktif hedefe erişebilecek.
+- Navigasyon mevcut zoom/pan sistemini bozmayacak; yalnızca hedefi görünür ve erişilebilir hâle getirecek.
+
+### 9.5. Canlı güncelleme ve güvenlik
+
+- Uyarı durumu oyun state'inden türetilecek; yalnızca yeni gün başladığında değil, ilgili state değiştiği anda yenilenecek.
+- Hastalık iyileştiğinde, ölü çiçek kaldırıldığında/canlandırıldığında veya depoda tekrar boş alan oluştuğunda uyarı otomatik güncellenecek.
+- Save/restart sonrasında mevcut sorunlar yeniden hesaplanacak; eski/stale uyarılar kalıcı state olarak saklanmayacak.
+- Uyarı sistemi oyunun hızından bağımsız bir UI göstergesi olacak; oyun pause durumundayken mevcut sorunları göstermeye devam edebilecek ancak kendisi simülasyonu ilerletmeyecek.
+
+### 9.6. Test kapsamı
+
+En az aşağıdaki senaryolar doğrulanacak:
+
+1. Hiç sorun yokken ünlem ikonu görünmemeli.
+2. Tek hasta kovan olduğunda ikon görünmeli ve tıklanan uyarı doğru kovana götürmeli.
+3. Birden fazla hasta kovan olduğunda tüm aktif hedeflere erişilebilmeli.
+4. Ölü/solmuş çiçek veya tarh olduğunda ilgili uyarı görünmeli ve doğru hücreye götürmeli.
+5. Depo tam kapasiteye ulaştığında depo uyarısı görünmeli.
+6. Hastalık + ölü çiçek + dolu depo aynı anda varsa tek ünlem ikonu altında üç uyarı türü birlikte gösterilmeli.
+7. Sorunlar çözüldükçe ilgili satırlar kalkmalı; son sorun da çözülünce ikon gizlenmeli.
+8. Save/restart sonrasında uyarılar gerçek mevcut state'ten yeniden ve doğru hesaplanmalı.
+
 ## Kilit Durumu
 
 - Madde 7: KİLİTLİ
@@ -116,4 +188,9 @@ Bu görev uygulanırken en az şu davranışlar test edilecek:
 - Oyun durduğunda rakiplerin tüm gelişiminin durması: KİLİTLİ
 - Pause sırasında catch-up rakip gelişimi yapılmaması: KİLİTLİ
 - Rakip pause davranışının explicit guard + test ile güvenceye alınması: KİLİTLİ
-- Madde 9: HENÜZ BELİRLENMEDİ
+- Madde 9: KİLİTLİ
+- Sol-alt yeni ünlem uyarı ikonu: KİLİTLİ
+- Yalnızca ünlem; mevcut ikonlarla uyumlu altın/kahverengi stil: KİLİTLİ
+- Hastalık + ölü/solmuş çiçek/tarh + dolu depo koşulları: KİLİTLİ
+- Uyarı panelinden ilgili sorun noktasına doğrudan navigasyon: KİLİTLİ
+- Part 03 (7–9): TAMAMLANDI
