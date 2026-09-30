@@ -82,18 +82,6 @@ jobs:
           if ($themeFix -match '\.card\s*\{[^}]*\b(margin|padding|height|width|display|position|grid|flex)\s*:') { throw 'Theme changed card geometry' }
           if ($themeFix -notmatch '\.grip\s*\{[^}]*position:\s*absolute\s*!important') { throw 'Resize grip safety rule missing' }
 
-          $kirtasiye = $panelCss.Substring($panelCss.IndexOf("6.3.9 — 90'LAR KIRTASİYE"))
-          foreach ($asset in @(
-            'asset-pencilcase.svg','asset-pens.svg','asset-washi.svg','asset-sticky.svg',
-            'asset-clips.svg','asset-stickers.svg','asset-cassette.svg','asset-spiral.svg',
-            'baslik.svg','card-pink.svg','card-mint.svg','card-lilac.svg','card-blue.svg',
-            'ic-kirtasiye.svg','ic-notebook.svg','ic-check.svg','ic-plant.svg','ic-star.svg'
-          )) {
-            if (-not (Test-Path "src/renderer/panel/deco/doksanlar-kirtasiye/$asset")) { throw "90lar Kirtasiye asset missing: $asset" }
-          }
-          $kirtasiyeShell = [regex]::Match($kirtasiye, '\[data-skin="doksanlar-kirtasiye"\] \.shell::before \{[\s\S]*?\n\}').Value
-          if ($kirtasiyeShell -match 'background-size:\s*cover') { throw '90lar Kirtasiye shell returned to single cover-scene architecture' }
-          if ($kirtasiye -notmatch 'asset-pencilcase\.svg' -or $kirtasiye -notmatch 'asset-cassette\.svg') { throw 'Atomic stationery composition missing' }
           $kirtasiyePng = $panelCss.Substring($panelCss.IndexOf("6.3.9 — 90'LAR KIRTASİYE / PNG ASSET DENEMESİ"))
           foreach ($asset in @(
             'png/kalemlik.png','png/kalemler.png','png/washi.png','png/yildiz.png',
