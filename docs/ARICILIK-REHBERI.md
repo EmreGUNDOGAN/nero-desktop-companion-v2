@@ -602,3 +602,17 @@ Gece gökyüzünde küçük, parlayan ve nadiren kayan yıldızlar görünür. *
 - Arıcı eklemli yürür, hasatta körük ve petek çerçevesiyle çalışır.
 - Çiftlik evi 2/4/7 kovan veya 10/18/30 kareyle gelişir. Kovanın katları seviyesiyle, rengi arı ırkıyla, taç işareti kraliçe yükseltmesiyle değişir.
 - Tarhlar sıralı, göller dalgalı; arılar polenle kavisli uçar. Seyyah Yakup'un arabası yenilendi. Doğal süsler tarh ve kovan yerleştirmeye engel olmaz.
+
+
+## Mevsim Turnuvası puanı nasıl hesaplanır?
+
+Toplam puan 1000'dir: **Bal Kalitesi 400 + Arıcılık 250 + Üretim 200 + Köy İtibarı 150**.
+
+- **Bal Kalitesi (400):** 110 taban + gönderilen kg × 15 + bal türünün taban fiyatı × 2 + doğal mevsimindeyse 45 + Festival Cilası varsa 20 + aktif festival bonusları. Bal taban katkıları: Yonca 16, Papatya 24, Ayçiçeği 36, Kekik 52, Lavanta 76, Kış Fundası 110, Kestane 160.
+- **Arıcılık (250):** 60 + sağlıklı kovan oranı × 130 + yaşayan arı sayısı × 2,5 − o mevsimde ölen arı sayısı × 12.
+- **Üretim (200):** son 15 oyun günündeki toplam üretim kg × 7 + kovan başına üretim × 4.
+- **Köy İtibarı (150):** o mevsimde tamamlanan başarılı sipariş × 16 + tüm köylülerdeki toplam kalp × 5.
+
+Örnek: Sonbaharda 10 kg Kestane balı = 110 + 150 + 160 + 45 = 465; kategori 400'de sınırlandığı için **400/400**.
+
+İlk üç ödülü 750 / 500 / 250 🪙 ve Altın / Gümüş / Bronz Kupa'dır. Altın Kupa gelecek yıl aynı mevsimde +%20 bal üretimi sağlar. Rakipler aynı formülü kullanmaz; kendi simüle edilen çiftlik değerleri ve kontrollü mevsimsel değişkenlikle puan üretir.

@@ -1,6 +1,6 @@
 # Nero 6.3.4 Plan — Part 04
 
-Bu dosya 6.3.4 için 10–12. maddelerin planını tutar. Şu anda **Madde 10 ve Madde 11** kilitlenmiştir. Kullanıcının onaylı çalışma kuralı gereği 12. madde belirlenmeden uygulama koduna başlanmayacaktır.
+Bu dosya 6.3.4 için son plan grubunu tutar. **Madde 10 ve Madde 11 kilitlenmiştir; kullanıcı kapsamın burada tamamlandığını onaylamış ve kodlama aşamasını başlatmıştır.**
 
 ## 10. Rehbere Mevsim Turnuvası puan hesaplama sistemi eklenecek
 
@@ -275,4 +275,4 @@ Mevcut sıcak krem / altın Sürüm Yenilikleri tasarımı korunacak.
 - Üst bölümde görüntülenen sürümün exact GitHub Releases / CHANGELOG linki: KİLİTLİ
 - Release kaydı yoksa sahte/404 link gösterilmemesi: KİLİTLİ
 - GitHub release sayfasının harici tarayıcıda güvenli biçimde açılması: KİLİTLİ
-- Madde 12: HENÜZ BELİRLENMEDİ
+- 6.3.4 plan kapsamı: TAMAMLANDI — yeni madde eklenmeyecek
