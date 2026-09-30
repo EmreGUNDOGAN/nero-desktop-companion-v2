@@ -1856,7 +1856,7 @@ function say(text) {
     b.hidden = true;
     $('nero').classList.remove('talk');
     bubbleTimer = null;
-  }, 4800);
+  }, 2400);
 }
 
 let lastDialogueTopic = null;

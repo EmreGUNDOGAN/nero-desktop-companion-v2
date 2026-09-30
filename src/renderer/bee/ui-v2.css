@@ -225,7 +225,7 @@ body.ui2.night .hud-bottom, body.ui2.night .bell, body.ui2.night .tasks-btn { ba
 .hive-card .harvest-btn { display: flex; align-items: center; justify-content: center; text-align: center; }
 
 /* 6.3.4 — sol alt koşullu uyarı merkezi */
-.ui2 #warning-center { position: fixed; left: 216px; bottom: 16px; z-index: 9; width: 56px; height: 56px; border: 0; border-radius: 16px; display: grid; place-items: center; background: rgba(255,251,241,.94); box-shadow: 0 6px 18px rgba(74,58,34,.16), inset 0 -3px 0 rgba(233,208,160,.6); color: #D96F67; font-family: Arial, sans-serif; font-size: 31px; font-weight: 1000; line-height: 1; -webkit-text-stroke: 1.6px #8E4A45; paint-order: stroke fill; text-shadow: 0 2px 0 #B85B55; cursor: pointer; }
+.ui2 #warning-center { position: fixed; left: 216px; bottom: 16px; z-index: 9; width: 56px; height: 56px; border: 0; border-radius: 16px; display: grid; place-items: center; background: rgba(255,251,241,.94); box-shadow: 0 6px 18px rgba(74,58,34,.16), inset 0 -3px 0 rgba(233,208,160,.6); color: #D7655F; font-family: Arial, sans-serif; font-size: 31px; font-weight: 1000; line-height: 1; -webkit-text-stroke: 1.6px #8B4743; paint-order: stroke fill; text-shadow: 0 2px 0 #B95752; cursor: pointer; }
 .ui2 #warning-center[hidden] { display: none !important; }
 .warning-panel { position: fixed; left: 216px; bottom: 82px; z-index: 13; width: min(360px, calc(100vw - 232px)); max-height: 55vh; overflow: auto; padding: 12px; }
 .warning-panel[hidden] { display: none !important; }
