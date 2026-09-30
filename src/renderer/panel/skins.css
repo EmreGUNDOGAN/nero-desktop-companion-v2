@@ -1895,3 +1895,452 @@
   backdrop-filter: blur(8px);
 }
 
+
+
+/* --------------------------------------------------------------------------
+   6.3.6 — yeni program tema ailesi
+   Kontrollü 2D sahneler; mevcut düzen ve rozet ikonları aynen korunur.
+   -------------------------------------------------------------------------- */
+[data-skin="sonbahar-kutuphanesi"] {
+  --theme-scene: url("deco/sonbahar-kutuphanesi/scene.svg");
+  --theme-mark: url("deco/sonbahar-kutuphanesi/mark.svg");
+  --theme-badge: #B7835A;
+  --theme-border: #D7BFA0;
+}
+
+[data-skin="amalfi-limonlari"] {
+  --theme-scene: url("deco/amalfi-limonlari/scene.svg");
+  --theme-mark: url("deco/amalfi-limonlari/mark.svg");
+  --theme-badge: #7FAEC9;
+  --theme-border: #BFD5E3;
+}
+
+[data-skin="ortancali-kir-evi"] {
+  --theme-scene: url("deco/ortancali-kir-evi/scene.svg");
+  --theme-mark: url("deco/ortancali-kir-evi/mark.svg");
+  --theme-badge: #91AEC2;
+  --theme-border: #C8D6DB;
+}
+
+[data-skin="kis-tramvayi"] {
+  --theme-scene: url("deco/kis-tramvayi/scene.svg");
+  --theme-mark: url("deco/kis-tramvayi/mark.svg");
+  --theme-badge: #9A5B59;
+  --theme-border: #D3B7A1;
+}
+
+[data-skin="doksanlar-kirtasiye"] {
+  --theme-scene: url("deco/doksanlar-kirtasiye/scene.svg");
+  --theme-mark: url("deco/doksanlar-kirtasiye/mark.svg");
+  --theme-badge: #C8DDF4;
+  --theme-border: #C9D3E3;
+}
+
+[data-skin="gece-treni"] {
+  --theme-scene: url("deco/gece-treni/scene.svg");
+  --theme-mark: url("deco/gece-treni/mark.svg");
+  --theme-badge: #657B9A;
+  --theme-border: #C9B4AA;
+}
+
+[data-skin="eski-fotografci"] {
+  --theme-scene: url("deco/eski-fotografci/scene.svg");
+  --theme-mark: url("deco/eski-fotografci/mark.svg");
+  --theme-badge: #9A7656;
+  --theme-border: #C5AE8E;
+}
+
+[data-skin="lavanta-aksami"] {
+  --theme-scene: url("deco/lavanta-aksami/scene.svg");
+  --theme-mark: url("deco/lavanta-aksami/mark.svg");
+  --theme-badge: #9B89AF;
+  --theme-border: #D7C9DB;
+}
+
+[data-skin="kis-bahcesi"] {
+  --theme-scene: url("deco/kis-bahcesi/scene.svg");
+  --theme-mark: url("deco/kis-bahcesi/mark.svg");
+  --theme-badge: #718B76;
+  --theme-border: #C5D0C0;
+}
+
+[data-skin="gece-masasi"] {
+  --theme-scene: url("deco/gece-masasi/scene.svg");
+  --theme-mark: url("deco/gece-masasi/mark.svg");
+  --theme-badge: #5E7396;
+  --theme-border: #A9B6C9;
+}
+
+[data-skin="analog-radyo"] {
+  --theme-scene: url("deco/analog-radyo/scene.svg");
+  --theme-mark: url("deco/analog-radyo/mark.svg");
+  --theme-badge: #637461;
+  --theme-border: #C2B69B;
+}
+
+[data-skin="pastel-mutfak"] {
+  --theme-scene: url("deco/pastel-mutfak/scene.svg");
+  --theme-mark: url("deco/pastel-mutfak/mark.svg");
+  --theme-badge: #8FB69A;
+  --theme-border: #C9D7CB;
+}
+
+:is(
+  [data-skin="sonbahar-kutuphanesi"],
+  [data-skin="amalfi-limonlari"],
+  [data-skin="ortancali-kir-evi"],
+  [data-skin="kis-tramvayi"],
+  [data-skin="doksanlar-kirtasiye"],
+  [data-skin="gece-treni"],
+  [data-skin="eski-fotografci"],
+  [data-skin="lavanta-aksami"],
+  [data-skin="kis-bahcesi"],
+  [data-skin="gece-masasi"],
+  [data-skin="analog-radyo"],
+  [data-skin="pastel-mutfak"]
+) {
+  --theme-card-alpha: 93%;
+}
+
+:is(
+  [data-skin="sonbahar-kutuphanesi"],
+  [data-skin="amalfi-limonlari"],
+  [data-skin="ortancali-kir-evi"],
+  [data-skin="kis-tramvayi"],
+  [data-skin="doksanlar-kirtasiye"],
+  [data-skin="gece-treni"],
+  [data-skin="eski-fotografci"],
+  [data-skin="lavanta-aksami"],
+  [data-skin="kis-bahcesi"],
+  [data-skin="gece-masasi"],
+  [data-skin="analog-radyo"],
+  [data-skin="pastel-mutfak"]
+) .shell {
+  background: var(--paper);
+  border: 1px solid color-mix(in srgb, var(--theme-border) 85%, transparent);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--ink) 8%, transparent), 0 12px 34px color-mix(in srgb, var(--ink) 24%, transparent);
+}
+
+:is(
+  [data-skin="sonbahar-kutuphanesi"],
+  [data-skin="amalfi-limonlari"],
+  [data-skin="ortancali-kir-evi"],
+  [data-skin="kis-tramvayi"],
+  [data-skin="doksanlar-kirtasiye"],
+  [data-skin="gece-treni"],
+  [data-skin="eski-fotografci"],
+  [data-skin="lavanta-aksami"],
+  [data-skin="kis-bahcesi"],
+  [data-skin="gece-masasi"],
+  [data-skin="analog-radyo"],
+  [data-skin="pastel-mutfak"]
+) .shell::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image: var(--theme-scene);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+
+:is(
+  [data-skin="sonbahar-kutuphanesi"],
+  [data-skin="amalfi-limonlari"],
+  [data-skin="ortancali-kir-evi"],
+  [data-skin="kis-tramvayi"],
+  [data-skin="doksanlar-kirtasiye"],
+  [data-skin="gece-treni"],
+  [data-skin="eski-fotografci"],
+  [data-skin="lavanta-aksami"],
+  [data-skin="kis-bahcesi"],
+  [data-skin="gece-masasi"],
+  [data-skin="analog-radyo"],
+  [data-skin="pastel-mutfak"]
+) .shell > * { position: relative; z-index: 1; }
+
+:is(
+  [data-skin="sonbahar-kutuphanesi"],
+  [data-skin="amalfi-limonlari"],
+  [data-skin="ortancali-kir-evi"],
+  [data-skin="kis-tramvayi"],
+  [data-skin="doksanlar-kirtasiye"],
+  [data-skin="gece-treni"],
+  [data-skin="eski-fotografci"],
+  [data-skin="lavanta-aksami"],
+  [data-skin="kis-bahcesi"],
+  [data-skin="gece-masasi"],
+  [data-skin="analog-radyo"],
+  [data-skin="pastel-mutfak"]
+) .top {
+  background: linear-gradient(180deg, color-mix(in srgb, var(--paper) 86%, transparent), color-mix(in srgb, var(--paper) 68%, transparent));
+  border-bottom: 1px solid color-mix(in srgb, var(--line) 72%, transparent);
+  backdrop-filter: blur(2px);
+}
+
+:is(
+  [data-skin="sonbahar-kutuphanesi"],
+  [data-skin="amalfi-limonlari"],
+  [data-skin="ortancali-kir-evi"],
+  [data-skin="kis-tramvayi"],
+  [data-skin="doksanlar-kirtasiye"],
+  [data-skin="gece-treni"],
+  [data-skin="eski-fotografci"],
+  [data-skin="lavanta-aksami"],
+  [data-skin="kis-bahcesi"],
+  [data-skin="gece-masasi"],
+  [data-skin="analog-radyo"],
+  [data-skin="pastel-mutfak"]
+) h1::after {
+  content: "";
+  display: inline-block;
+  width: 26px;
+  height: 26px;
+  margin-left: 9px;
+  vertical-align: -4px;
+  background: var(--theme-mark) center / contain no-repeat;
+}
+
+:is(
+  [data-skin="sonbahar-kutuphanesi"],
+  [data-skin="amalfi-limonlari"],
+  [data-skin="ortancali-kir-evi"],
+  [data-skin="kis-tramvayi"],
+  [data-skin="doksanlar-kirtasiye"],
+  [data-skin="gece-treni"],
+  [data-skin="eski-fotografci"],
+  [data-skin="lavanta-aksami"],
+  [data-skin="kis-bahcesi"],
+  [data-skin="gece-masasi"],
+  [data-skin="analog-radyo"],
+  [data-skin="pastel-mutfak"]
+) .tabs {
+  margin-inline: 16px;
+  padding: 4px;
+  border: 1px solid color-mix(in srgb, var(--line) 78%, transparent);
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  backdrop-filter: blur(4px);
+}
+
+:is(
+  [data-skin="sonbahar-kutuphanesi"],
+  [data-skin="amalfi-limonlari"],
+  [data-skin="ortancali-kir-evi"],
+  [data-skin="kis-tramvayi"],
+  [data-skin="doksanlar-kirtasiye"],
+  [data-skin="gece-treni"],
+  [data-skin="eski-fotografci"],
+  [data-skin="lavanta-aksami"],
+  [data-skin="kis-bahcesi"],
+  [data-skin="gece-masasi"],
+  [data-skin="analog-radyo"],
+  [data-skin="pastel-mutfak"]
+) .tabs button {
+  border-radius: 11px;
+  color: color-mix(in srgb, var(--ink) 80%, var(--muted));
+}
+
+:is(
+  [data-skin="sonbahar-kutuphanesi"],
+  [data-skin="amalfi-limonlari"],
+  [data-skin="ortancali-kir-evi"],
+  [data-skin="kis-tramvayi"],
+  [data-skin="doksanlar-kirtasiye"],
+  [data-skin="gece-treni"],
+  [data-skin="eski-fotografci"],
+  [data-skin="lavanta-aksami"],
+  [data-skin="kis-bahcesi"],
+  [data-skin="gece-masasi"],
+  [data-skin="analog-radyo"],
+  [data-skin="pastel-mutfak"]
+) .tabs button[aria-selected="true"] {
+  background: var(--accent);
+  color: var(--accent-ink);
+  box-shadow: 0 2px 7px color-mix(in srgb, var(--accent) 28%, transparent);
+}
+
+:is(
+  [data-skin="sonbahar-kutuphanesi"],
+  [data-skin="amalfi-limonlari"],
+  [data-skin="ortancali-kir-evi"],
+  [data-skin="kis-tramvayi"],
+  [data-skin="doksanlar-kirtasiye"],
+  [data-skin="gece-treni"],
+  [data-skin="eski-fotografci"],
+  [data-skin="lavanta-aksami"],
+  [data-skin="kis-bahcesi"],
+  [data-skin="gece-masasi"],
+  [data-skin="analog-radyo"],
+  [data-skin="pastel-mutfak"]
+) .tabs button[aria-selected="true"] svg { stroke: currentColor; }
+
+:is(
+  [data-skin="sonbahar-kutuphanesi"],
+  [data-skin="amalfi-limonlari"],
+  [data-skin="ortancali-kir-evi"],
+  [data-skin="kis-tramvayi"],
+  [data-skin="doksanlar-kirtasiye"],
+  [data-skin="gece-treni"],
+  [data-skin="eski-fotografci"],
+  [data-skin="lavanta-aksami"],
+  [data-skin="kis-bahcesi"],
+  [data-skin="gece-masasi"],
+  [data-skin="analog-radyo"],
+  [data-skin="pastel-mutfak"]
+) .view {
+  background: linear-gradient(180deg, color-mix(in srgb, var(--paper) 40%, transparent), color-mix(in srgb, var(--paper) 75%, transparent));
+}
+
+:is(
+  [data-skin="sonbahar-kutuphanesi"],
+  [data-skin="amalfi-limonlari"],
+  [data-skin="ortancali-kir-evi"],
+  [data-skin="kis-tramvayi"],
+  [data-skin="doksanlar-kirtasiye"],
+  [data-skin="gece-treni"],
+  [data-skin="eski-fotografci"],
+  [data-skin="lavanta-aksami"],
+  [data-skin="kis-bahcesi"],
+  [data-skin="gece-masasi"],
+  [data-skin="analog-radyo"],
+  [data-skin="pastel-mutfak"]
+) :is(.card, .notes li, .todo-list, .timer-card, .settings-section, .badge-panel) {
+  background-color: color-mix(in srgb, var(--surface) var(--theme-card-alpha), transparent);
+  border: 1px solid color-mix(in srgb, var(--line) 72%, transparent);
+  box-shadow: 0 4px 14px color-mix(in srgb, var(--ink) 10%, transparent);
+  backdrop-filter: blur(3px);
+}
+
+:is(
+  [data-skin="sonbahar-kutuphanesi"],
+  [data-skin="amalfi-limonlari"],
+  [data-skin="ortancali-kir-evi"],
+  [data-skin="kis-tramvayi"],
+  [data-skin="doksanlar-kirtasiye"],
+  [data-skin="gece-treni"],
+  [data-skin="eski-fotografci"],
+  [data-skin="lavanta-aksami"],
+  [data-skin="kis-bahcesi"],
+  [data-skin="gece-masasi"],
+  [data-skin="analog-radyo"],
+  [data-skin="pastel-mutfak"]
+) .deco-cat { display: none !important; }
+
+:is(
+  [data-skin="sonbahar-kutuphanesi"],
+  [data-skin="amalfi-limonlari"],
+  [data-skin="ortancali-kir-evi"],
+  [data-skin="kis-tramvayi"],
+  [data-skin="doksanlar-kirtasiye"],
+  [data-skin="gece-treni"],
+  [data-skin="eski-fotografci"],
+  [data-skin="lavanta-aksami"],
+  [data-skin="kis-bahcesi"],
+  [data-skin="gece-masasi"],
+  [data-skin="analog-radyo"],
+  [data-skin="pastel-mutfak"]
+) .sticky-note {
+  background: color-mix(in srgb, var(--secondary) 26%, var(--surface));
+  color: var(--ink);
+  border: 1px solid color-mix(in srgb, var(--secondary) 55%, transparent);
+  rotate: -1deg;
+}
+
+:is(
+  [data-skin="sonbahar-kutuphanesi"],
+  [data-skin="amalfi-limonlari"],
+  [data-skin="ortancali-kir-evi"],
+  [data-skin="kis-tramvayi"],
+  [data-skin="doksanlar-kirtasiye"],
+  [data-skin="gece-treni"],
+  [data-skin="eski-fotografci"],
+  [data-skin="lavanta-aksami"],
+  [data-skin="kis-bahcesi"],
+  [data-skin="gece-masasi"],
+  [data-skin="analog-radyo"],
+  [data-skin="pastel-mutfak"]
+) .week {
+  background: linear-gradient(135deg, color-mix(in srgb, var(--surface) 92%, transparent), color-mix(in srgb, var(--secondary) 20%, var(--surface)));
+}
+
+:is(
+  [data-skin="sonbahar-kutuphanesi"],
+  [data-skin="amalfi-limonlari"],
+  [data-skin="ortancali-kir-evi"],
+  [data-skin="kis-tramvayi"],
+  [data-skin="doksanlar-kirtasiye"],
+  [data-skin="gece-treni"],
+  [data-skin="eski-fotografci"],
+  [data-skin="lavanta-aksami"],
+  [data-skin="kis-bahcesi"],
+  [data-skin="gece-masasi"],
+  [data-skin="analog-radyo"],
+  [data-skin="pastel-mutfak"]
+) .badge.on .badge-icon {
+  background: var(--theme-badge) !important;
+  border-color: var(--theme-badge) !important;
+  color: var(--accent-ink) !important;
+  box-shadow: 0 2px 7px color-mix(in srgb, var(--theme-badge) 28%, transparent);
+}
+
+/* Rozet biçimi/ikonları default kalır; sadece dairesel arka plan renklendirilir. */
+[data-skin="doksanlar-kirtasiye"] .badges .badge:nth-child(5n+1).on .badge-icon { background:#F0A9C0 !important; border-color:#F0A9C0 !important; }
+[data-skin="doksanlar-kirtasiye"] .badges .badge:nth-child(5n+2).on .badge-icon { background:#9FD6C5 !important; border-color:#9FD6C5 !important; }
+[data-skin="doksanlar-kirtasiye"] .badges .badge:nth-child(5n+3).on .badge-icon { background:#C8B5E8 !important; border-color:#C8B5E8 !important; }
+[data-skin="doksanlar-kirtasiye"] .badges .badge:nth-child(5n+4).on .badge-icon { background:#AFCDEB !important; border-color:#AFCDEB !important; }
+[data-skin="doksanlar-kirtasiye"] .badges .badge:nth-child(5n).on .badge-icon { background:#F1D27A !important; border-color:#F1D27A !important; }
+
+/* Tema kimliğini renk değişiminden öteye taşıyan küçük yapısal ayrımlar. */
+[data-skin="sonbahar-kutuphanesi"] :is(.card,.notes li) { border-radius: 10px 18px 12px 10px; }
+[data-skin="sonbahar-kutuphanesi"] .week { border-top: 5px solid #79533F; }
+[data-skin="amalfi-limonlari"] .card { border-radius: 20px; border-color: color-mix(in srgb, #1F6FA8 32%, var(--line)); }
+[data-skin="amalfi-limonlari"] .week { box-shadow: inset 0 0 0 2px rgba(31,111,168,.10), 0 4px 14px rgba(23,63,105,.08); }
+[data-skin="ortancali-kir-evi"] .card { border-radius: 22px; }
+[data-skin="ortancali-kir-evi"] .notes li { border-radius: 8px 18px 18px 18px; }
+[data-skin="kis-tramvayi"] .tabs { border-radius: 9px; border-style: double; border-width: 3px; }
+[data-skin="kis-tramvayi"] .card { border-radius: 12px; box-shadow: inset 0 0 0 1px rgba(141,63,67,.08), 0 4px 14px rgba(75,41,42,.10); }
+[data-skin="doksanlar-kirtasiye"] .shell::after {
+  content:""; position:absolute; inset:0; z-index:0; pointer-events:none; opacity:.24;
+  background-image: linear-gradient(#91A7C8 1px, transparent 1px), linear-gradient(90deg,#91A7C8 1px,transparent 1px);
+  background-size:22px 22px;
+}
+[data-skin="doksanlar-kirtasiye"] .card { border-radius: 8px; }
+[data-skin="doksanlar-kirtasiye"] .tile:nth-child(1){background:#F6D2DDCC;} 
+[data-skin="doksanlar-kirtasiye"] .tile:nth-child(2){background:#CDE8DECC;} 
+[data-skin="doksanlar-kirtasiye"] .tile:nth-child(3){background:#DED5F0CC;} 
+[data-skin="doksanlar-kirtasiye"] .tile:nth-child(4){background:#D5E5F5CC;}
+[data-skin="gece-treni"] .top, [data-skin="gece-masasi"] .top { color:#F8F1E6; background:linear-gradient(180deg,rgba(31,47,77,.94),rgba(31,47,77,.78)); }
+[data-skin="gece-treni"] .top .mood-line, [data-skin="gece-masasi"] .top .mood-line { color:#DCE3EE; }
+[data-skin="gece-treni"] .tabs, [data-skin="gece-masasi"] .tabs { box-shadow:0 4px 16px rgba(19,29,48,.18); }
+[data-skin="eski-fotografci"] .top { border-bottom: 7px dotted rgba(62,51,40,.38); }
+[data-skin="eski-fotografci"] :is(.card,.notes li) { border-radius: 5px; }
+[data-skin="eski-fotografci"] .notes li { box-shadow: 0 4px 0 rgba(62,51,40,.12); }
+[data-skin="lavanta-aksami"] .card { border-radius: 22px 12px 22px 12px; }
+[data-skin="kis-bahcesi"] .shell { box-shadow: inset 0 0 0 4px rgba(79,109,85,.12), 0 12px 34px rgba(49,75,59,.20); }
+[data-skin="kis-bahcesi"] .card { border-color: rgba(79,109,85,.23); }
+[data-skin="gece-masasi"] .card { border-color: rgba(94,115,150,.28); }
+[data-skin="analog-radyo"] .card { border-radius: 9px; border-width: 2px; }
+[data-skin="analog-radyo"] .tabs { border-radius: 8px; box-shadow: inset 0 -3px 0 rgba(199,155,67,.25); }
+[data-skin="pastel-mutfak"] .tabs { background:
+  linear-gradient(90deg,rgba(120,169,142,.08) 50%,rgba(233,165,180,.08) 50%) 0 0/24px 24px,
+  color-mix(in srgb,var(--surface) 90%,transparent); }
+[data-skin="pastel-mutfak"] .card { border-radius: 18px 18px 12px 18px; }
+
+html.no-scene:is(
+  [data-skin="sonbahar-kutuphanesi"],
+  [data-skin="amalfi-limonlari"],
+  [data-skin="ortancali-kir-evi"],
+  [data-skin="kis-tramvayi"],
+  [data-skin="doksanlar-kirtasiye"],
+  [data-skin="gece-treni"],
+  [data-skin="eski-fotografci"],
+  [data-skin="lavanta-aksami"],
+  [data-skin="kis-bahcesi"],
+  [data-skin="gece-masasi"],
+  [data-skin="analog-radyo"],
+  [data-skin="pastel-mutfak"]
+) .shell::before,
+html.no-scene[data-skin="doksanlar-kirtasiye"] .shell::after { display:none; }

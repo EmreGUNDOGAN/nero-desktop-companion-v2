@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="220" height="260" viewBox="0 0 220 260">
+  <defs>
+    <clipPath id="govde"><path d="M110 22 C170 22 188 70 188 130 C188 200 170 238 110 238 C50 238 32 200 32 130 C32 70 50 22 110 22 Z"/></clipPath>
+    <pattern id="cizgi" width="12" height="12" patternUnits="userSpaceOnUse">
+      <rect width="12" height="12" fill="#C6D2F0"/>
+      <rect x="0" width="3.5" height="12" fill="#AFBFE8"/>
+    </pattern>
+  </defs>
+
+  <!-- pijama kolları -->
+  <path d="M40 150 Q16 170 26 196 Q34 206 46 196" fill="url(#cizgi)" stroke="#4A3A36" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M180 150 Q204 170 194 196 Q186 206 174 196" fill="url(#cizgi)" stroke="#4A3A36" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M28 191 Q35 199 44 193" fill="none" stroke="#FFFBF4" stroke-width="5" stroke-linecap="round"/>
+  <path d="M192 191 Q185 199 176 193" fill="none" stroke="#FFFBF4" stroke-width="5" stroke-linecap="round"/>
+
+  <!-- pijama üstü: ağzın altından başlar -->
+  <g clip-path="url(#govde)">
+    <path d="M20 192 Q110 180 200 192 V250 H20 Z" fill="url(#cizgi)"/>
+    <path d="M20 192 Q110 180 200 192" fill="none" stroke="#4A3A36" stroke-width="4"/>
+  </g>
+  <!-- küçük yuvarlak yaka -->
+  <path d="M110 186 Q98 186 90 184 Q92 198 106 199 Z" fill="#FFFBF4" stroke="#4A3A36" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M110 186 Q122 186 130 184 Q128 198 114 199 Z" fill="#FFFBF4" stroke="#4A3A36" stroke-width="3" stroke-linejoin="round"/>
+  <circle cx="110" cy="212" r="3.4" fill="#FFFBF4" stroke="#4A3A36" stroke-width="2.2"/>
+  <circle cx="110" cy="226" r="3.4" fill="#FFFBF4" stroke="#4A3A36" stroke-width="2.2"/>
+
+  <!-- gövde çizgisi -->
+  <path d="M110 22 C170 22 188 70 188 130 C188 200 170 238 110 238 C50 238 32 200 32 130 C32 70 50 22 110 22 Z" fill="none" stroke="#4A3A36" stroke-width="5"/>
+
+  <!-- gece külahı: tepeden yükselip sağa sarkar, alt kenarı başın kavsine oturur -->
+  <path d="M58 52 C58 12 146 -6 176 22 C191 36 197 58 194 80 C186 66 176 56 162 52 Q110 30 58 52 Z" fill="url(#cizgi)" stroke="#4A3A36" stroke-width="4" stroke-linejoin="round"/>
+  <circle cx="194" cy="84" r="9.5" fill="#FFFBF4" stroke="#4A3A36" stroke-width="3.5"/>
+</svg>

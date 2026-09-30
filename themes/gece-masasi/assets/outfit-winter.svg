@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="220" height="260" viewBox="0 0 220 260">
+  <defs>
+    <clipPath id="govde"><path d="M110 22 C170 22 188 70 188 130 C188 200 170 238 110 238 C50 238 32 200 32 130 C32 70 50 22 110 22 Z"/></clipPath>
+    <pattern id="orgu" width="14" height="14" patternUnits="userSpaceOnUse">
+      <rect width="14" height="14" fill="#D9695F"/>
+      <path d="M0 7 L7 0 L14 7" fill="none" stroke="#C4554C" stroke-width="2.5"/>
+    </pattern>
+  </defs>
+  <!-- atkı: ağzın altında gövdeyi sarar -->
+  <g clip-path="url(#govde)">
+    <path d="M20 186 Q110 176 200 186 L200 206 Q110 196 20 206 Z" fill="url(#orgu)" stroke="#4A3A36" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M24 196 Q110 187 196 196" fill="none" stroke="#F4D7C9" stroke-width="3" stroke-dasharray="2 7" stroke-linecap="round"/>
+  </g>
+  <!-- sarkan uç -->
+  <path d="M60 198 L54 238 L76 240 L78 200 Z" fill="url(#orgu)" stroke="#4A3A36" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M54 238 l-2 8 M60 239 l-1 8 M66 240 l0 8 M72 240 l1 8" stroke="#4A3A36" stroke-width="3" stroke-linecap="round"/>
+  <path d="M110 22 C170 22 188 70 188 130 C188 200 170 238 110 238 C50 238 32 200 32 130 C32 70 50 22 110 22 Z" fill="none" stroke="#4A3A36" stroke-width="5"/>
+</svg>
