@@ -97,7 +97,7 @@ Başlangıçta elinde:
 
 **Hız:** 2x ve 4x oyunu hızlandırır. **4x yalnızca oyun penceresi öndeyken** çalışır; pencere arka plandayken simülasyon en fazla 2x ilerler. Arıcının yürüyüşü ve odak bonusu gibi bazı şeyler gerçek zamanlıdır, hızdan etkilenmez.
 
-**Mevsimler:** İlkbahar → Yaz → Sonbahar → Kış. Görünüm de değişir: yazın canlı yeşil, sonbaharda sarı çimen ve turuncu yapraklar, kışın karla kaplı kareler ve kar yağışı.
+**Mevsimler:** İlkbahar → Yaz → Sonbahar → Kış. Harita mevsimle birlikte gerçekten görünüş değiştirir: ilkbaharda taze yeşiller ve çiçek kümeleri; yazın daha sıcak, parlak güneş ve canlı bitkiler; sonbaharda sarı-turuncu zemin ile yerde doğal yaprak kümeleri; kışın soğuk tonlu zemin, doğal kar lekeleri, çatılarda kar, karlı çamlar ve yaprağını dökmüş ağaçlar görünür. Karlı havada buna ek olarak kar yağışı da ekranda akar.
 
 - **Yaz:** bal bol ama pazarda **%15 ucuz**.
 - **Kış:** çiçekler neredeyse hiç üretmez (%10), ama bal pazarda **%35 pahalı**. Şurup vermezsen arılar ölür (§7).
@@ -158,7 +158,7 @@ Bir kovana tıklayınca **kovanın içi** açılır: solda canlı petek (ortada 
 **Üretim:** her arı saatte yaklaşık **0.5 kg** bal üretir; çiçek bonusu, hava, mevsim, ırk ve diğer etkilerle çarpılır. Kovanın üretimi menzilindeki tarhlar arasında eşit bölünür. **Kovan dolunca üretim durur**, hasat etmelisin.
 
 **İşlemler**
-- 🐝 **Arı Al:** fiyat artık satın alma geçmişine değil **arı sırasına** bağlıdır. İlk kovanda 7. arı 34 jetondur; sonraki her sıra +7 jeton (8. arı 41, 9. arı 48 … 20. arı 125). Yeni kovan 4 arıyla geldiği için 5. ve 6. arının sabit fiyatları sırasıyla 20 ve 27 jetondur. Arı ölürse sonraki alım fiyatı mevcut arı sayısına göre geri düşer. Kapasite doluysa alınamaz.
+- 🐝 **Arı Al:** fiyat satın alma geçmişine değil **arı sırasına** bağlıdır. 5. arı **60 jetondur**; sonraki her arı bir önceki sıraya göre **%15 daha pahalıdır** ve fiyat tam jetona yuvarlanır (6. arı 69, 7. arı 79 … 20. arı 488). Arı ölür veya satılırsa sonraki alım fiyatı mevcut arı sayısına göre geri düşer. Kapasite doluysa alınamaz.
 - 🐝 **Arı Sat:** satılan sıradaki arının sabit alış fiyatının **%50'si** (aşağı yuvarlanır). Kovanda en az 1 arı kalır.
 - 👑 **Kraliçe** ve 📦 **Kovanı Büyüt:** sırayla ilerler (aşağıdaki tablo). Sırası gelmeyen düğme ne yapman gerektiğini söyler.
 - 💧 **Şurup Ver:** taban fiyat **45 jeton = 15 kg** kış erzakı. Kovan ekranında **🌾 Erzak: X gün** görünür: 15+ gün yeşil, 7–14 gün sarı, 0–6 gün kırmızı. Arı sayısı ne olursa olsun günlük temel tüketim **1 kg**; Kovan Yalıtımı aktif olduğu kışta **0,5 kg**. Günlük ihtiyetten az erzak kalırsa kalan miktar o gün tamamen tüketilir ve kovan beslenmiş sayılmaz.
@@ -182,7 +182,7 @@ Bir kovana tıklayınca **kovanın içi** açılır: solda canlı petek (ortada 
 
 **Doğal üreme:** kış dışında, menzilde çiçek varsa ve kovan dolu değilse **2 günde bir 1 arı** doğar.
 
-**Kış:** günlük erzak ihtiyacını karşılayamayan kovan aç sayılır ve ırkının kış kaybı kuralına göre arı kaybedebilir. O gün yeterli erzakla beslenen kovan kışın daha iyi üretir (**×0,35**; beslenmeyen kovan **×0,10**).
+**Kış:** günlük erzak ihtiyacını karşılayamayan kovan aç sayılır ve ırkının kış kaybı kuralına göre arı kaybedebilir. **Kış kaybı hiçbir kovanı 4 arının altına düşüremez.** O gün yeterli erzakla beslenen kovan kışın daha iyi üretir (**×0,35**; beslenmeyen kovan **×0,10**).
 
 **Hastalık:** kış dışında, 4 arıdan kalabalık her kovan her gün küçük bir ihtimalle (%3) hastalanır. Hasta kovan **%30 az** üretir ve tedavi edilmezse **2 günde bir arı** kaybedebilir. Bir hastalık vakasında, hastalık başladığındaki arı sayısının en fazla yaklaşık **üçte biri** ölür (en yakın tam sayıya yuvarlanır: 5→1, 6→2, 7→2, 8→3, 9→3, 10→3). Kovan **4 arıya düşerse hastalık o gün otomatik biter**. İlaç anında iyileştirir. Hastalık ister doğal olarak bitsin ister ilaçla iyileştirilsin, ardından **1 oyun yılı bağışıklık** başlar (kovan ekranında 🛡️ kalan gün).
 
@@ -455,7 +455,7 @@ Oyun Nero'nun asıl amacıyla bağlantılı: **sen çalıştıkça çiftlik büy
 | 37 | 💎 Seyyah Satış Fişi | Yakup'a satışta en fazla 10 kg'a ek +%10 ödeme | 40 |
 | 38 | 🔄 Stok Değişim Jetonu | Henüz alınmamış bir Yakup teklifini yeniden çeker | 45 |
 
-- Ayrıca her ziyarette **bir bal türü arar** ve o baldan 10 kg'a kadar **pazarın %40 üstüne** satın alır.
+- Ayrıca her ziyarette **bir bal türü arar** ve o baldan 10 kg'a kadar **pazarın %20 üstüne** satın alır.
 
 **📖 Köylü hikâyeleri**
 - Sekiz köylünün 3 adımlık bir hikâyesi var. O köylüyle **ilişkin %50'yi geçince** açılır.
@@ -558,7 +558,7 @@ Oyun Nero'nun asıl amacıyla bağlantılı: **sen çalıştıkça çiftlik büy
 | Yeni kovan | İlk ek kovan 900, sonraki satın almalar ×1,25, en yakın 25 (4 arıyla) |
 | Depo üst sınırı | 10.000 kg (+ en fazla 30 kg depo sandığı) |
 | Yeni kare | 60, sonra her biri ×1.4 |
-| Arı alış / satış | sıradaki arı numarasına göre: 7. arı 34, her sıra +7 / ilgili sıra fiyatının %50’si |
+| Arı alış / satış | sıradaki arı numarasına göre: 5. arı 60, her sonraki sıra +%15 / ilgili sıra fiyatının %50’si |
 | Şurup | 45 jeton taban fiyat = **15 kg** · temel tüketim 1 kg/gün |
 | İlaç | 90 jeton · hastalık bitince 1 yıl bağışıklık |
 | Irk değiştirme | 225 jeton |

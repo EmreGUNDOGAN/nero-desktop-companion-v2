@@ -8,7 +8,8 @@
 
 /* --- Arka plan: bulutlar ve kenar gölgesi --- */
 body.ui2 { background: linear-gradient(180deg, #9FD3F0 0%, #CDEBF7 42%, #F7EBD3 100%); }
-body.ui2.season-yaz { background: linear-gradient(180deg, #8FCFF2 0%, #CFEFFB 45%, #FBF0D6 100%); }
+body.ui2.season-ilkbahar { background: linear-gradient(180deg, #96D8F5 0%, #DDF5FF 48%, #F4F1D5 100%); }
+body.ui2.season-yaz { background: linear-gradient(180deg, #79C9F3 0%, #C9F0FC 45%, #FBE7AF 100%); }
 body.ui2.season-sonbahar { background: linear-gradient(180deg, #E9CFA8 0%, #F4E4CC 50%, #F3DFC0 100%); }
 body.ui2.season-kis { background: linear-gradient(180deg, #BFD0E3 0%, #E6EEF6 55%, #F4F6F9 100%); }
 #ui2-clouds { position: fixed; inset: 0; z-index: 0; pointer-events: none; transition: opacity 2s; }
@@ -76,7 +77,7 @@ body.ui2.night .hud-bottom, body.ui2.night .bell, body.ui2.night .tasks-btn { ba
 .ui2 .hexbtn { clip-path: none !important; width: 86px !important; height: 78px !important; border-radius: 18px; background: transparent !important; box-shadow: none !important; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; font-weight: 800; font-size: 12.5px; color: #4A3A22; }
 .ui2 .hexbtn:hover { background: #F6ECD6 !important; }
 .ui2 .hexbtn > .ico { width: 32px; height: 32px; }
-.ui2 .hexbtn.big { width: 124px !important; height: 96px !important; margin-top: -18px; margin-bottom: -2px; flex: none; position: relative; background: linear-gradient(180deg, #F7C45C, #EAA42A) !important; color: #4A2F10; box-shadow: 0 6px 16px rgba(233, 162, 42, .45), inset 0 -4px 0 #C98612 !important; font-size: 13.5px; }
+.ui2 .hexbtn.big { width: 124px !important; height: 96px !important; margin-top: -9px; margin-bottom: -9px; flex: none; position: relative; background: linear-gradient(180deg, #F7C45C, #EAA42A) !important; color: #4A2F10; box-shadow: 0 6px 16px rgba(233, 162, 42, .45), inset 0 -4px 0 #C98612 !important; font-size: 13.5px; }
 .ui2 .hexbtn.big > .ico { width: 40px; height: 40px; }
 .ui2 .hexbtn.big { clip-path: polygon(25% 3%, 75% 3%, 100% 50%, 75% 97%, 25% 97%, 0 50%) !important; border-radius: 0; outline: 2px solid #fff; }
 .ui2 .hexbtn.big.idle { filter: saturate(.55) brightness(1.04); opacity: .8; }
@@ -84,7 +85,7 @@ body.ui2.night .hud-bottom, body.ui2.night .bell, body.ui2.night .tasks-btn { ba
 .ui2 #harvest-all .badge-n { top: 7px !important; right: 12px !important; }
 .ui2 #harvest-all { text-align: center; line-height: 1.15; }
 .ui2 #harvest-all > .ico { flex: none; margin-inline: auto; }
-.ui2 #harvest-all { box-sizing: border-box; padding: 15px 24px 10px !important; gap: 3px !important; justify-content: center !important; align-items: center !important; }
+.ui2 #harvest-all { box-sizing: border-box; padding: 12px 24px !important; gap: 3px !important; justify-content: center !important; align-items: center !important; align-self: center; }
 .ui2 #harvest-all .badge-n { position: absolute !important; top: 11px !important; right: 12px !important; }
 .ui2 #harvest-all > .ico { width: 35px; height: 35px; }
 .hives-actions #hives-harvest-all { display: inline-flex; justify-content: center; align-items: center; gap: 7px; }

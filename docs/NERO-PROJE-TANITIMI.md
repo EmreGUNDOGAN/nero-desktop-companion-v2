@@ -236,7 +236,7 @@ Tüm sabitler `src/main/bee.js` dosyasının başında.
 - **Köy:** adanın dışındaki 2 halkada (36 + 42 kare) 78 yerleşimci; teslim edilen bala göre büyür:
   başlangıç 6, sonra 50 / 150 / 400 / 1.000 kg'da **birer** kişi, sonra **her 500 kg'de 1**; ilk halka 14.000 kg, son yerleşimci 35.000 kg.
   Köylülerin sevdiği bal (+%15 sipariş); 28 dükkân/bina (etkili ve görsel yapılar); Fırın/Pastane/Muhtarlık düzenli siparişler.
-- **Gezgin satıcı Seyyah Yakup:** 6–9 günde bir, 2 gün kalır; 38 ürünlük havuzdan 4 ürün; **her üründen 1, ziyaret başına en fazla 2 ürün**; dekor satmaz; bir balı pazarın %40 üstüne alır.
+- **Gezgin satıcı Seyyah Yakup:** 6–9 günde bir, 2 gün kalır; 38 ürünlük havuzdan 4 ürün; **her üründen 1, ziyaret başına en fazla 2 ürün**; dekor satmaz; bir balı pazarın %20 üstüne alır.
 - **Köylü hikâyeleri:** 8 köylü, ilişki %50'de açılır, 3 adım; son ödül en fazla %5 kalıcı bonus; dekor görevi yok.
 - **Diğer:** günlük görevler, Bal Defteri (ballar, kayıtlar, Etkilerim, köy, mektuplar, etiket), istatistikler (toplam satılan ton),
   rakipler ve liderlik, yılda dört Mevsim Turnuvası ve kupa sistemi, dekorlar (çit, bank, fener, kemer, çeşme), hava (yaz hep güneşli,

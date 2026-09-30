@@ -87,11 +87,13 @@ const SICK_CHANCE = 0.03;          // kış dışında, kovan başına günlük 
 const SICK_MULT = 0.7;             // hasta kovan %30 daha az üretir
 const MEDICINE_COST = 90;
 const SICK_IMMUNE_YEARS = 1;              // hastalık bittiğinde 1 oyun yılı bağışıklık başlar
-const SICK_MIN_BEES = 4;                   // hastalık kovanı 4 arının altına düşüremez
+const HIVE_MIN_BEES = 4;                   // hastalık ve kış kaybı kovanı 4 arının altına düşüremez
+const SICK_MIN_BEES = HIVE_MIN_BEES;
 const SICK_DEATH_DIVISOR = 3;              // vaka başına başlangıç arılarının yaklaşık üçte biri ölebilir
-const BEE_PRICE_BASE_NUMBER = 7;           // ilk kovanda satın alınan ilk arı: 7. arı
-const BEE_PRICE_BASE = 34;
-const BEE_PRICE_STEP = 7;
+const BEE_PRICE_BASE_NUMBER = 5;           // yeni kovanın satın alınabilen ilk arısı: 5. arı
+const BEE_PRICE_BASE = 60;
+const BEE_PRICE_GROWTH = 1.15;             // her sonraki arı %15 daha pahalı
+const MERCHANT_HONEY_MULT = 1.20;          // Seyyah Yakup balı pazarın %20 üstüne alır
 const REVIVE_RATE = 0.1;                  // solan çiçeği canlandırmak: tohum fiyatının %10'u
 const REJECT_REL = 0.2;                   // reddetmek ilişkiyi %2 azaltır (1 teslim = %10)
 const NOTIF_KEEP = 20;
@@ -797,7 +799,7 @@ class BeeGame {
           // Yarım erzak sonraki güne "hayalet stok" olarak taşınmaz.
           if (h.syrup > 0) h.syrup = 0;
           h.fedDay = null;
-          if (h.bees > 1 && dayIdx % (BREEDS[h.breed] || BREEDS.anadolu).winter === 0) {
+          if (h.bees > HIVE_MIN_BEES && dayIdx % (BREEDS[h.breed] || BREEDS.anadolu).winter === 0) {
             if (h.winterShield) { h.winterShield = 0; this.events.push({ msg: `🧯 ${h.name}: Acil Kış Paketi bir arı kaybını engelledi.` }); }
             else { h.bees -= 1; this.state.counters.died += 1; this.state.winterDeaths = (this.state.winterDeaths || 0) + 1; this.events.push({ msg: `${h.name}: kışın aç kalan bir arı öldü. Şurup ver!`, err: true }); }
           }
@@ -1396,7 +1398,7 @@ class BeeGame {
     const have = this.state.storage[f] || 0;
     const amount = Math.min(m.wantsLeft, have, kg === 'all' ? Infinity : Number(kg) || 0);
     if (amount < 0.05) return this.fail(`Depoda ${FLOWERS[f].name} balı yok ya da satıcı yeterince aldı.`);
-    const unit = this.price(f) * 1.4;
+    const unit = this.price(f) * MERCHANT_HONEY_MULT;
     const ticketKg = Math.min(amount, m.salesTicketKg || 0);
     const gain = Math.round(amount * unit + ticketKg * unit * 0.10);
     this.state.storage[f] = have - amount;
@@ -1417,7 +1419,7 @@ class BeeGame {
     if (!m.active) return { active: false };
     return {
       active: true, slot: m.slot, leftMs: Math.max(0, m.until * DAY_GAME_MS - this.state.gameMs), maxBuy: MERCHANT_MAX_BUY, bought: m.bought.length,
-      wants: m.wants, wantsLeft: Math.round(m.wantsLeft * 10) / 10, wantsPrice: Math.round(this.price(m.wants) * 1.4 * 10) / 10, salesTicketKg: Math.max(0, m.salesTicketKg || 0),
+      wants: m.wants, wantsLeft: Math.round(m.wantsLeft * 10) / 10, wantsPrice: Math.round(this.price(m.wants) * MERCHANT_HONEY_MULT * 10) / 10, salesTicketKg: Math.max(0, m.salesTicketKg || 0),
       stock: m.stock.map((x) => ({ ...x, ...MERCHANT_ITEMS[x.id], contents: (x.seeds || []).map((z) => FLOWERS[z].name), basePrice: this.merchantPrice(x.id, null, x) }))
     };
   }
@@ -2572,7 +2574,9 @@ class BeeGame {
 
   // --- Arı alım/satım -----------------------------------------------------
   beeNumberPrice(number) {
-    return Math.max(1, BEE_PRICE_BASE + (Number(number) - BEE_PRICE_BASE_NUMBER) * BEE_PRICE_STEP);
+    const n = Number(number);
+    if (!Number.isFinite(n)) return BEE_PRICE_BASE;
+    return Math.max(1, Math.round(BEE_PRICE_BASE * Math.pow(BEE_PRICE_GROWTH, n - BEE_PRICE_BASE_NUMBER)));
   }
 
   beePrice(h) { return this.beeNumberPrice(h.bees + 1); }

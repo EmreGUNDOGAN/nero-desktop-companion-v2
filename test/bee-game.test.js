@@ -120,26 +120,28 @@ test('beekeeping reset is exposed in the in-game settings with a backup-first fl
 });
 
 
-test('5.4.2 arı fiyatı satın alma sayacından değil arı sırasından hesaplanır', () => {
+test('6.3.5 arı fiyatı 5. arıda 60 başlar ve her sırada yüzde 15 artar', () => {
   const bee = new BeeGame(new MemoryStore({}));
   const hive = Object.values(bee.state.hives)[0];
   assert.equal(hive.bees, 6);
-  assert.equal(bee.beePrice(hive), 34); // 7. arı
-  assert.equal(bee.beeNumberPrice(8), 41);
-  assert.equal(bee.beeNumberPrice(20), 125);
-  assert.equal(Array.from({ length: 14 }, (_, i) => bee.beeNumberPrice(7 + i)).reduce((a, b) => a + b, 0), 1113);
+  assert.equal(bee.beePrice(hive), 79); // 7. arı
+  assert.equal(bee.beeNumberPrice(5), 60);
+  assert.equal(bee.beeNumberPrice(6), 69);
+  assert.equal(bee.beeNumberPrice(8), 91);
+  assert.equal(bee.beeNumberPrice(20), 488);
+  assert.equal(Array.from({ length: 14 }, (_, i) => bee.beeNumberPrice(7 + i)).reduce((a, b) => a + b, 0), 3215);
 
   hive.bees = 7;
-  hive.beesBought = 99; // eski sayaç artık fiyatı etkilememeli
-  assert.equal(bee.beePrice(hive), 41);
-  assert.equal(bee.beeSellPrice(hive), 17);
-  hive.bees = 6; // ölüm sonrası fiyat geri düşer
-  assert.equal(bee.beePrice(hive), 34);
+  hive.beesBought = 99;
+  assert.equal(bee.beePrice(hive), 91);
+  assert.equal(bee.beeSellPrice(hive), 39);
+  hive.bees = 6;
+  assert.equal(bee.beePrice(hive), 79);
 
-  hive.bees = 4; // yeni kovanın ilk iki sabit sırası da geriye doğru aynı +7 dizisini sürdürür
-  assert.equal(bee.beePrice(hive), 20);
+  hive.bees = 4;
+  assert.equal(bee.beePrice(hive), 60);
   hive.bees = 5;
-  assert.equal(bee.beePrice(hive), 27);
+  assert.equal(bee.beePrice(hive), 69);
 });
 
 test('5.4.2 hastalık kaybı vaka başına üçte birle sınırlıdır ve 4 arı tabanı vardır', () => {

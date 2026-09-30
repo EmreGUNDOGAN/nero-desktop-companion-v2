@@ -305,6 +305,10 @@ function petalMat(hex) {
   if (!petalMats.has(hex)) petalMats.set(hex, mat(new THREE.Color(hex)));
   return petalMats.get(hex);
 }
+const seasonalDecorMats = {
+  snow: mat(0xF4F8FA, { transparent: true, opacity: 0.88, roughness: 0.96, depthWrite: false }),
+  autumn: [0xD97A35, 0xE1A33E, 0xB96836].map((c) => mat(c, { side: THREE.DoubleSide }))
+};
 
 // Tohum her karede aynı dizilsin diye basit sahte-rastgele
 function seeded(seed) {
@@ -360,27 +364,51 @@ function makeTree(seed) {
     c2.position.y = 0.95;
     g.add(trunk, c1, c2);
     if (season === 'kis') {
-      const snow = new THREE.Mesh(new THREE.ConeGeometry(0.24, 0.2, 6), mat(0xEDF4F6));
-      snow.position.y = 1.18; g.add(snow);
+      const snowMat = mat(0xF3F8FA, { roughness: 0.95 });
+      const snowLow = new THREE.Mesh(new THREE.ConeGeometry(0.35, 0.15, 6), snowMat);
+      snowLow.position.y = 0.83;
+      const snowHigh = new THREE.Mesh(new THREE.ConeGeometry(0.27, 0.13, 6), snowMat);
+      snowHigh.position.y = 1.13;
+      g.add(snowLow, snowHigh);
     }
   } else {
     const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.09, 0.4, 5), M.trunk);
     trunk.position.y = 0.2;
-    const crown = new THREE.Mesh(new THREE.IcosahedronGeometry(0.42, 0), M.leaf);
-    crown.position.y = 0.7;
-    const crown2 = new THREE.Mesh(new THREE.IcosahedronGeometry(0.28, 0), M.leafLight);
-    crown2.position.set(0.22, 0.58, 0.1);
-    g.add(trunk, crown, crown2);
-    if (season === 'ilkbahar') for (let i = 0; i < 5; i++) {
-      const bloom = new THREE.Mesh(new THREE.IcosahedronGeometry(0.045, 0), mat(i % 2 ? 0xF6C3D1 : 0xFFF0D9));
-      bloom.position.set(Math.sin(i * 2.4) * 0.33, 0.65 + Math.cos(i * 3) * 0.22, Math.cos(i * 2.4) * 0.24);
-      g.add(bloom);
-    }
-    if (season === 'sonbahar') for (let i = 0; i < 4; i++) {
-      const leaf = new THREE.Mesh(new THREE.PlaneGeometry(0.07, 0.09), mat(i % 2 ? 0xDB8743 : 0xDDB052, { side: THREE.DoubleSide }));
-      leaf.rotation.x = -Math.PI / 2; leaf.rotation.z = i;
-      leaf.position.set(Math.sin(i * 4) * 0.37, 0.015, Math.cos(i * 4) * 0.3);
-      g.add(leaf);
+    g.add(trunk);
+    if (season === 'kis') {
+      const snowMat = mat(0xF3F8FA, { roughness: 0.95 });
+      const branches = [
+        [-0.12, 0.48, 0, -0.72, 0.34],
+        [0.13, 0.55, 0.02, 0.72, 0.32],
+        [-0.03, 0.65, 0.03, -0.28, 0.28]
+      ];
+      branches.forEach(([x, y, z, rot, len], i) => {
+        const branch = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.035, len, 5), M.trunk);
+        branch.position.set(x, y, z); branch.rotation.z = rot; g.add(branch);
+        if (i < 2) {
+          const cap = new THREE.Mesh(new THREE.IcosahedronGeometry(0.07, 0), snowMat);
+          cap.scale.set(1.3, 0.45, 0.9);
+          cap.position.set(x + Math.sin(rot) * len * 0.45, y + Math.cos(rot) * len * 0.45 + 0.035, z);
+          g.add(cap);
+        }
+      });
+    } else {
+      const crown = new THREE.Mesh(new THREE.IcosahedronGeometry(0.42, 0), M.leaf);
+      crown.position.y = 0.7;
+      const crown2 = new THREE.Mesh(new THREE.IcosahedronGeometry(0.28, 0), M.leafLight);
+      crown2.position.set(0.22, 0.58, 0.1);
+      g.add(crown, crown2);
+      if (season === 'ilkbahar') for (let i = 0; i < 7; i++) {
+        const bloom = new THREE.Mesh(new THREE.IcosahedronGeometry(0.045, 0), petalMat(i % 2 ? '#F6C3D1' : '#FFF0D9'));
+        bloom.position.set(Math.sin(i * 2.4) * 0.33, 0.65 + Math.cos(i * 3) * 0.22, Math.cos(i * 2.4) * 0.24);
+        g.add(bloom);
+      }
+      if (season === 'sonbahar') for (let i = 0; i < 6; i++) {
+        const leaf = new THREE.Mesh(new THREE.PlaneGeometry(0.07, 0.09), mat(i % 2 ? 0xDB8743 : 0xDDB052, { side: THREE.DoubleSide }));
+        leaf.rotation.x = -Math.PI / 2; leaf.rotation.z = i * 0.7;
+        leaf.position.set(Math.sin(i * 4) * 0.37, 0.015, Math.cos(i * 4) * 0.3);
+        g.add(leaf);
+      }
     }
   }
   g.position.set((rnd() - 0.5) * 0.4, 0, (rnd() - 0.5) * 0.4);
@@ -465,6 +493,52 @@ function tileHash(q, r) {
   n ^= n >>> 13;
   return (n >>> 0) / 4294967296;
 }
+function seasonalGroundDetail(t) {
+  if (view?.gameSettings?.seasonalAppearance === false || t.kind !== 'grass' || t.item || t.decor) return null;
+  const season = view?.calendar?.season || 'yaz';
+  // Mevsim + karo koordinatı aynı görünümü üretir; oyunu kapatıp açınca dekorlar zıplamaz.
+  const base = (t.q + 71) * 977 + (t.r + 113) * 131 + ({ ilkbahar: 11, yaz: 23, sonbahar: 37, kis: 53 }[season] || 0);
+  const rnd = seeded(base);
+  const density = { ilkbahar: 0.34, yaz: 0.25, sonbahar: 0.46, kis: 0.58 }[season] || 0;
+  if (rnd() > density) return null;
+  const g = new THREE.Group();
+  if (season === 'kis') {
+    const snow = seasonalDecorMats.snow;
+    const count = 1 + Math.floor(rnd() * 3);
+    for (let i = 0; i < count; i++) {
+      const patch = new THREE.Mesh(new THREE.CircleGeometry(0.20 + rnd() * 0.22, 8), snow);
+      patch.rotation.x = -Math.PI / 2;
+      patch.scale.set(1.1 + rnd() * 0.75, 0.7 + rnd() * 0.35, 1);
+      patch.rotation.z = rnd() * Math.PI;
+      patch.position.set((rnd() - 0.5) * 0.8, 0.016 + i * 0.0005, (rnd() - 0.5) * 0.75);
+      g.add(patch);
+    }
+  } else if (season === 'sonbahar') {
+    const leafMats = seasonalDecorMats.autumn;
+    const count = 4 + Math.floor(rnd() * 5);
+    for (let i = 0; i < count; i++) {
+      const leaf = new THREE.Mesh(new THREE.PlaneGeometry(0.045 + rnd() * 0.035, 0.075 + rnd() * 0.035), leafMats[i % leafMats.length]);
+      leaf.rotation.x = -Math.PI / 2;
+      leaf.rotation.z = rnd() * Math.PI;
+      leaf.position.set((rnd() - 0.5) * 0.92, 0.018, (rnd() - 0.5) * 0.82);
+      g.add(leaf);
+    }
+  } else {
+    const spring = season === 'ilkbahar';
+    const colors = spring ? ['#FFFFFF', '#F4B5CF', '#F1D35A'] : ['#F6DA52', '#FFFFFF', '#EBAE4D'];
+    const count = spring ? 4 + Math.floor(rnd() * 5) : 2 + Math.floor(rnd() * 4);
+    for (let i = 0; i < count; i++) {
+      const x = (rnd() - 0.5) * 0.9, z = (rnd() - 0.5) * 0.8;
+      const stem = new THREE.Mesh(new THREE.CylinderGeometry(0.006, 0.008, 0.07 + rnd() * 0.04, 4), M.stem);
+      stem.position.set(x, 0.04, z);
+      const bloom = new THREE.Mesh(new THREE.IcosahedronGeometry(spring ? 0.035 : 0.03, 0), petalMat(colors[i % colors.length]));
+      bloom.position.set(x, 0.085 + rnd() * 0.025, z);
+      g.add(stem, bloom);
+    }
+  }
+  return g;
+}
+
 function naturalDetail(t) {
   if (t.kind !== 'water' && (t.kind !== 'grass' || t.item || t.tree || t.decor)) return null;
   const h = tileHash(t.q, t.r);
@@ -596,6 +670,8 @@ function buildItems() {
     }
     const natural = naturalDetail(t);
     if (natural) { natural.position.set(p.x, y + (t.kind === 'water' ? 0.04 : 0), p.z); itemGroup.add(natural); }
+    const seasonal = seasonalGroundDetail(t);
+    if (seasonal) { seasonal.position.set(p.x, y + 0.018, p.z); itemGroup.add(seasonal); }
     // Dekor: karenin ön-sağ kenarına
     if (t.decor && t.decor !== 'kupa') {
       const d = makeDecor(t.decor);
@@ -1799,16 +1875,25 @@ function hiveFromMessage(msg) {
 $('nero').addEventListener('click', () => { const h = view && view.hints && view.hints[0]; say(h && Math.random() < 0.6 ? h.text : pick(NERO.click)); });
 setInterval(() => { if ($('nero-bubble').hidden && Math.random() < 0.5) say(pick(NERO.idle)); }, 70000);
 
-// Göz takibi ve göz kırpma
+// Ana Nero ile aynı canlılık: göz takibi + doğal göz kırpma. Arıcılıkta outfit katmanı hiç yoktur.
 document.addEventListener('mousemove', (e) => {
   const r = $('nero').getBoundingClientRect();
   const dx = Math.max(-1, Math.min(1, (e.clientX - (r.left + r.width / 2)) / 300));
   const dy = Math.max(-1, Math.min(1, (e.clientY - (r.top + r.height * 0.4)) / 300));
-  document.querySelectorAll('#nero .pupil').forEach((p, i) => {
-    p.setAttribute('cx', (i ? 132 : 84) + dx * 6);
-    p.setAttribute('cy', 112 + dy * 7);
-  });
+  const pupils = document.querySelector('#nero .nero-pupils-wrap');
+  if (pupils) pupils.style.transform = `translate(${(dx * 3).toFixed(2)}px, ${(dy * 3.5).toFixed(2)}px)`;
 });
+(function scheduleNeroBlink() {
+  const delay = 3200 + Math.random() * 4200;
+  setTimeout(() => {
+    const nero = $('nero');
+    if (nero) {
+      nero.classList.add('blink');
+      setTimeout(() => nero.classList.remove('blink'), 150);
+    }
+    scheduleNeroBlink();
+  }, delay);
+})();
 
 function react(action, res, a, b) {
   if (!res.ok) { SFX.err(); return; }
@@ -1909,10 +1994,17 @@ function reactEvent(e) {
 // Mevsime göre görünüm: çim, yapraklar, gökyüzü, kışın kar
 // ---------------------------------------------------------------------------
 const SEASON_COLORS = {
-  ilkbahar: { owned: 0x86CC55, wild: 0x9AAE6B, buy: 0xAFC47C, leaf: 0x5FA24E, leaf2: 0x77B85E, pine: 0x3F8A57 },
-  yaz:      { owned: 0x9AD14E, wild: 0xB3B866, buy: 0xC4CC7A, leaf: 0x4F9A3E, leaf2: 0x6CB04C, pine: 0x357A49 },
+  ilkbahar: { owned: 0x8FD45A, wild: 0xA3C978, buy: 0xB9D18A, leaf: 0x5FAE50, leaf2: 0x7BC967, pine: 0x3F8A57 },
+  yaz:      { owned: 0xA7D94D, wild: 0xB9C56B, buy: 0xCFD47F, leaf: 0x4F9A3E, leaf2: 0x6CB04C, pine: 0x357A49 },
   sonbahar: { owned: 0xB9B45A, wild: 0xC0A162, buy: 0xCDB478, leaf: 0xD9803A, leaf2: 0xE6A33E, pine: 0x4F7A4A },
-  kis:      { owned: 0xE9EEF2, wild: 0xD6DEE4, buy: 0xDDE6EC, leaf: 0xB9C8C2, leaf2: 0xD5DEDA, pine: 0x5E8A72 }
+  // Kış zemini tamamen beyaz değildir; kar ayrı, doğal lekeler halinde serilir.
+  kis:      { owned: 0xC5CEB8, wild: 0xB5C2B3, buy: 0xCDD5C8, leaf: 0xAAB8B1, leaf2: 0xC8D1CB, pine: 0x4E7865 }
+};
+const SEASON_LIGHTING = {
+  ilkbahar: { hemi: 0xFFF8E7, ground: 0x78A766, hemiI: 1.18, sun: 0xFFF0CF, sunI: 1.58 },
+  yaz:      { hemi: 0xFFF5D5, ground: 0x83A95A, hemiI: 1.25, sun: 0xFFE1A0, sunI: 1.78 },
+  sonbahar: { hemi: 0xFFE9C7, ground: 0x9A764B, hemiI: 1.10, sun: 0xFFD19A, sunI: 1.48 },
+  kis:      { hemi: 0xEAF4FF, ground: 0x758D86, hemiI: 1.06, sun: 0xDCEBFA, sunI: 1.30 }
 };
 let currentSeason = null;
 function applySeason(season) {
@@ -1928,6 +2020,12 @@ function applySeason(season) {
   M.leaf.color.setHex(c.leaf);
   M.leafLight.color.setHex(c.leaf2);
   M.pine.color.setHex(c.pine);
+  const light = SEASON_LIGHTING[active ? season : 'yaz'] || SEASON_LIGHTING.yaz;
+  hemi.color.setHex(light.hemi);
+  hemi.groundColor.setHex(light.ground);
+  hemi.intensity = light.hemiI;
+  sun.color.setHex(light.sun);
+  sun.intensity = light.sunI;
   // Sadece mevsim sınıfını değiştir: className'i baştan yazmak ui2 ve night sınıflarını da siliyordu
   document.body.classList.remove('season-ilkbahar', 'season-yaz', 'season-sonbahar', 'season-kis');
   document.body.classList.add(`season-${season}`);

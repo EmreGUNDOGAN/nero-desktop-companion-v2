@@ -67,5 +67,10 @@ export const RELEASE_NOTES = [
     { icon: '✉️', title: '5.000 kişisel köylü mektubu', text: '50 köylünün her biri 100 farklı mektup yazar; gönderen ve metin tekrarları uzun süre engellenir.' },
     { icon: '!', title: 'Yeni uyarı merkezi', text: 'Hasta kovan, solmuş tarh ve dolu depo tek ünlem altında görünür; uyarıdan doğrudan soruna gidebilirsin.' },
     { icon: '🏆', title: 'Turnuva rehberi ve rakip dengesi', text: 'Turnuva puanlarının tam hesabı rehberde; oyun durduğunda rakiplerin gelişimi de durur.' },
-    { icon: '📋', title: 'Sürüm geçmişi', text: 'Yenilikler ekranında önceki sürümlere dönebilir ve varsa GitHub CHANGELOG sayfasını açabilirsin.' }] }
+    { icon: '📋', title: 'Sürüm geçmişi', text: 'Yenilikler ekranında önceki sürümlere dönebilir ve varsa GitHub CHANGELOG sayfasını açabilirsin.' }] },
+  { version: '6.3.5', title: 'Dört mevsim, daha dengeli arıcılık', items: [
+    { icon: '🐝', title: 'Yeni arı ekonomisi', text: '5. arı 60 jetondan başlar; sonraki her sıra %15 pahalılaşır. Kış kaybı kovanı artık 4 arının altına düşüremez.' },
+    { icon: '🛒', title: 'Yakup dengelendi', text: 'Seyyah Yakup aradığı balı artık pazarın %20 üstüne alır.' },
+    { icon: '🌦️', title: 'Harita mevsimi gerçekten yaşıyor', text: 'İlkbahar çiçekleri, yaz güneşi, sonbahar yaprakları, kış kar lekeleri, karlı çatılar ve çıplak dallar haritaya yansır.' },
+    { icon: '🐙', title: 'Doğru Nero ve düzgün Hasat Et', text: 'Arıcılık köşesinde kanonik, animasyonlu ve kıyafetsiz Nero kullanılır; Hasat Et alt menüde dikey ortalanır.' }] }
 ];
