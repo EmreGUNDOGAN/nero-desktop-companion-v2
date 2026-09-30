@@ -51,7 +51,9 @@ test('5.5.3 Yenilikler penceresi ve tekrar açma girişi rendererda bulunur', ()
   assert.ok(html.includes('Çiftliğe Dön'));
   assert.match(js, /neroBeeLastReleaseSeen/);
   assert.match(js, /maybeShowWhatsNew/);
-  assert.match(notes, /version: '5\.5\.4'/);
+  assert.match(notes, /RELEASES_PAGE_URL/);
+  assert.doesNotMatch(notes, /version:\s*['"]5\.5\.4['"]/);
+  assert.match(js, /window\.bee\.releases\(\)/);
 });
 
 test('5.5.3 görev paneli tamamlanınca açık kalabilir ve tek tasarımı korur', () => {
