@@ -1,6 +1,6 @@
 # Nero 6.3.4 Plan — Part 04
 
-Bu dosya 6.3.4 için 10–12. maddelerin planını tutar. Şu anda yalnızca **Madde 10** kilitlenmiştir. Kullanıcının onaylı çalışma kuralı gereği 11–12 belirlenmeden uygulama koduna başlanmayacaktır.
+Bu dosya 6.3.4 için 10–12. maddelerin planını tutar. Şu anda **Madde 10 ve Madde 11** kilitlenmiştir. Kullanıcının onaylı çalışma kuralı gereği 12. madde belirlenmeden uygulama koduna başlanmayacaktır.
 
 ## 10. Rehbere Mevsim Turnuvası puan hesaplama sistemi eklenecek
 
@@ -177,6 +177,91 @@ Kod incelemesinde **Arıcılar Derneği** için `village-data.js` içinde açık
 
 Bu fark şu anda davranış değişikliği olarak kilitlenmemiştir. Madde 10 uygulanırken rehber gerçek hesapla uyumlu yazılacak; Arıcılar Derneği'nin bonus davranışının mı yoksa yalnızca görünen açıklamasının mı düzeltileceği ayrıca kararlaştırılabilir.
 
+## 11. Sürüm Yenilikleri penceresine geri navigasyon ve GitHub CHANGELOG bağlantısı
+
+Mevcut **📋 Sürüm Yenilikleri** penceresi yalnızca ileri doğru (`Sonraki Sürüm`) ilerliyor. 6.3.4 ile bu ekran küçük bir sürüm arşivi gibi çalışacak: kullanıcı hem daha yeni hem daha eski kayıtlar arasında dolaşabilecek ve görüntülediği sürümün GitHub Releases sayfasındaki gerçek CHANGELOG/release kaydını açabilecek.
+
+### 11.1. Önceki / sonraki sürüm navigasyonu
+
+- Pencerenin alt kısmına **← Önceki Sürüm** butonu eklenecek.
+- Mevcut **Sonraki Sürüm →** davranışı korunacak.
+- Kullanıcı bir sürümün içindeyken:
+  - **Önceki Sürüm** bir önceki `RELEASE_NOTES` kaydına gider.
+  - **Sonraki Sürüm** bir sonraki kayda gider.
+- Arşivin en eski kaydında **Önceki Sürüm** pasif olacak.
+- Arşivin en yeni kaydında ileri butonu **Çiftliğe Dön** davranışına geçebilecek.
+- Kullanıcı ileri/geri giderken modal kapanıp yeniden açılmayacak; içerik aynı pencere içinde değişecek.
+- Başlık, sürüm numarası, açıklama kartları ve sayaç her geçişte görüntülenen sürüme göre yenilenecek.
+- İstenirse küçük bir `X / Y sürüm` konum göstergesi gösterilecek; ancak ana tasarım sade kalacak.
+
+### 11.2. Otomatik güncelleme akışı ile arşiv gezintisi birbirinden ayrılacak
+
+Mevcut `neroBeeLastReleaseSeen` davranışı korunacak.
+
+- Uygulama yeni sürüm sonrası otomatik açıldığında, görülmemiş sürümlerin işaretlenme mantığı ileri yönde çalışmaya devam edecek.
+- Kullanıcının **geri dönüp eski bir sürümü incelemesi**, `lastReleaseSeen` değerini geriye çekmeyecek.
+- Daha önce görülmüş bir sürüme dönmek, onu yeniden “okunmamış” yapmayacak.
+- Rehberdeki **Sürüm Yenilikleri** butonundan manuel açılan arşivde kullanıcı serbestçe ileri/geri gezebilecek.
+- Manuel arşiv gezintisi seen-state'i yanlışlıkla değiştirmeyecek.
+- Bu nedenle mevcut `releaseQueue.shift()` yaklaşımı yerine sürüm listesini bozmayan bir **cursor/index** yaklaşımı tercih edilecek.
+
+### 11.3. En üstte GitHub CHANGELOG / Release bağlantısı
+
+Her sürüm ekranının **üst bölümünde**, sürüm numarasının hemen yakınında görünür fakat tasarımı bozmayan bir bağlantı olacak:
+
+> **↗ GitHub'da CHANGELOG'u görüntüle**
+
+- Bağlantı o anda ekranda bulunan **tam sürümün GitHub Releases sayfasına** gidecek.
+- Örnek: `6.3.0` görüntüleniyorsa hedef gerçek `releases/tag/v6.3.0` kaydı olacak.
+- Link genel repository veya genel Releases listesine değil, mümkün olduğunda **o sürümün birebir release sayfasına** gitmeli.
+- URL sürüm notu verisinde açık metadata olarak tutulacak (ör. `releaseUrl`); renderer sürüm numarasından körlemesine URL üretmeyecek.
+- Böylece tag adı farklı olan veya release sayfası bulunmayan sürümlerde yanlış link üretilmeyecek.
+- Release kaydı bulunmayan eski bir sürümde link **gizlenecek veya pasif** olacak; kullanıcı yanlış / 404 sayfasına gönderilmeyecek.
+- 6.3.4 release'i yayınlandığında onun gerçek release URL'si de aynı metadata'ya eklenecek.
+
+### 11.4. Bağlantı güvenli biçimde harici tarayıcıda açılacak
+
+- GitHub linkine tıklamak oyun penceresini GitHub sayfasına çevirmeyecek.
+- Electron main process tarafında `shell.openExternal(...)` kullanan güvenli bir IPC eylemi eklenecek.
+- Renderer yalnızca izin verilen GitHub Releases URL'sini bu IPC üzerinden açacak.
+- Keyfi URL çalıştırmaya izin veren genel amaçlı bir kanal oluşturulmayacak; repository release alanı doğrulanacak.
+- Link tıklandığında Sürüm Yenilikleri penceresi açık kalabilir; oyun state'i veya seen-state değişmeyecek.
+
+### 11.5. Mevcut release arşiviyle uyumluluk
+
+Kod incelemesinde `release-notes.js` içinde 5.1.0–6.3.3 arası paketlenmiş sürüm özetleri mevcut.
+
+GitHub repository'sinin mevcut Releases listesinde ise bu sürümlerin tamamının birebir release kaydı bulunmuyor. Örneğin bazı ara sürümler paket içi geçmişte mevcutken GitHub'da aynı tag ile yayınlanmış release yok.
+
+Bu nedenle:
+
+- Var olan gerçek GitHub release'leri metadata ile eşleştirilecek.
+- Release sayfası bulunmayan kayıtlar için sahte link üretilmeyecek.
+- Gelecekte eksik release sayfası eklenirse yalnızca ilgili `releaseUrl` metadata'sı eklenerek link aktif hâle getirilebilecek.
+- Sürüm notunun oyun içinde görüntülenmesi GitHub release sayfasının bulunmasına bağlı olmayacak.
+
+### 11.6. Görsel davranış
+
+Mevcut sıcak krem / altın Sürüm Yenilikleri tasarımı korunacak.
+
+- GitHub bağlantısı başlığın üst/başlık bölgesinde küçük ve ikincil aksiyon olarak yer alacak.
+- **Önceki Sürüm** butonu mevcut alt buton stil ailesiyle uyumlu olacak fakat ana sarı CTA kadar baskın olmayacak.
+- İleri butonu ana aksiyon olarak kalacak.
+- Küçük ekranlarda butonlar taşmayacak; gerekirse alt bölüm iki sütun veya mobilde alt alta davranacak.
+- Mevcut kartlar, ikonlar ve sürüm başlığı tasarımı değiştirilmeyecek.
+
+### 11.7. Test kapsamı
+
+1. Arşivin ortasındaki bir sürümde hem önceki hem sonraki butonu çalışmalı.
+2. En eski sürümde geri butonu pasif olmalı.
+3. En yeni sürümde ileri aksiyon doğru şekilde **Çiftliğe Dön** olmalı.
+4. Geri gidip tekrar ileri gelmek aynı içerikleri doğru sırayla göstermeli.
+5. Geri navigasyon `neroBeeLastReleaseSeen` değerini düşürmemeli.
+6. Manuel arşiv gezintisi unread/seen durumunu bozmamalı.
+7. Release URL'si bulunan sürümde GitHub CHANGELOG bağlantısı doğru **exact release page**'i harici tarayıcıda açmalı.
+8. Release URL'si olmayan sürümde yanlış bağlantı gösterilmemeli.
+9. GitHub linkine tıklamak oyun penceresini başka sayfaya yönlendirmemeli ve oyun state'ini değiştirmemeli.
+
 ## Kilit Durumu
 
 - Madde 10: KİLİTLİ
@@ -184,5 +269,10 @@ Bu fark şu anda davranış değişikliği olarak kilitlenmemiştir. Madde 10 uy
 - Bal Kalitesi 400 / Arıcılık 250 / Üretim 200 / Köy İtibarı 150: KİLİTLİ
 - Rehberin gerçek `judgeFestival()` formülüyle birebir tutarlı olması: KİLİTLİ
 - Örnek hesap ve puan artırma ipuçları: KİLİTLİ
-- Madde 11: HENÜZ BELİRLENMEDİ
+- Madde 11: KİLİTLİ
+- Sürüm Yenilikleri ekranında ← Önceki Sürüm navigasyonu: KİLİTLİ
+- İleri/geri gezinmede seen-state'in bozulmaması: KİLİTLİ
+- Üst bölümde görüntülenen sürümün exact GitHub Releases / CHANGELOG linki: KİLİTLİ
+- Release kaydı yoksa sahte/404 link gösterilmemesi: KİLİTLİ
+- GitHub release sayfasının harici tarayıcıda güvenli biçimde açılması: KİLİTLİ
 - Madde 12: HENÜZ BELİRLENMEDİ
