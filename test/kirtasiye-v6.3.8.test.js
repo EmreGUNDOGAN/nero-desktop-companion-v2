@@ -33,5 +33,6 @@ test("6.3.8 uses the proven illustrated layout family without changing tab order
   const order=['data-tab="home"','data-tab="notes"','data-tab="todos"','data-tab="timer"','data-tab="badges"'];
   let last=-1;
   for(const token of order){const i=html.indexOf(token); assert.ok(i>last); last=i;}
-  assert.match(css,/:is\(\[data-skin="cilek"\], \[data-skin="mum"\], \[data-skin="ege"\], \[data-skin="doksanlar-kirtasiye"\]\)/);
+  assert.match(css,/\[data-skin="doksanlar-kirtasiye"\] \.tile \{/);
+  assert.match(css,/\[data-skin="doksanlar-kirtasiye"\] \.week \{/);
 });
