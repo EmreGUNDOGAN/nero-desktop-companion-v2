@@ -7,6 +7,7 @@ contextBridge.exposeInMainWorld('bee', {
   photo: () => ipcRenderer.invoke('bee:photo'),
   openPhotos: () => ipcRenderer.invoke('bee:openPhotos'),
   openRelease: (url) => ipcRenderer.invoke('bee:openRelease', url),
+  releases: () => ipcRenderer.invoke('bee:releases'),
   sounds: () => ipcRenderer.invoke('bee:sounds'),
   exportSave: () => ipcRenderer.invoke('bee:export'),
   importSave: () => ipcRenderer.invoke('bee:import'),

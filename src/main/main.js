@@ -1552,9 +1552,42 @@ function registerIpc() {
     return { ok: true, file };
   });
   ipcMain.handle('bee:openPhotos', () => shell.openPath(path.join(app.getPath('pictures'), 'Nero Arıcılık')));
+  const NERO_RELEASES_PAGE = 'https://github.com/EmreGUNDOGAN/nero-desktop-companion-v2/releases';
+  const NERO_RELEASES_API = 'https://api.github.com/repos/EmreGUNDOGAN/nero-desktop-companion-v2/releases?per_page=100';
+  let beeReleasesCache = { at: 0, data: null };
+
+  ipcMain.handle('bee:releases', async () => {
+    if (beeReleasesCache.data && Date.now() - beeReleasesCache.at < 10 * 60 * 1000) return beeReleasesCache.data;
+    try {
+      const response = await net.fetch(NERO_RELEASES_API, {
+        headers: {
+          Accept: 'application/vnd.github+json',
+          'User-Agent': 'Nero-Desktop-Companion'
+        }
+      });
+      if (!response.ok) throw new Error(`GitHub Releases HTTP ${response.status}`);
+      const raw = await response.json();
+      const data = (Array.isArray(raw) ? raw : [])
+        .filter((r) => !r.draft && r.html_url && String(r.html_url).startsWith(NERO_RELEASES_PAGE + '/tag/'))
+        .map((r) => ({
+          tag_name: String(r.tag_name || ''),
+          name: String(r.name || ''),
+          body: String(r.body || ''),
+          html_url: String(r.html_url || ''),
+          published_at: String(r.published_at || '')
+        }));
+      beeReleasesCache = { at: Date.now(), data };
+      return data;
+    } catch (err) {
+      log(`GitHub Releases alınamadı: ${err.message}`);
+      return [];
+    }
+  });
+
   ipcMain.handle('bee:openRelease', async (_e, rawUrl) => {
     const url = String(rawUrl || '');
-    const allowed = /^https:\/\/github\.com\/EmreGUNDOGAN\/nero-desktop-companion-v2\/releases\/tag\/[A-Za-z0-9._-]+$/.test(url);
+    const allowed = url === NERO_RELEASES_PAGE ||
+      /^https:\/\/github\.com\/EmreGUNDOGAN\/nero-desktop-companion-v2\/releases\/tag\/[A-Za-z0-9._-]+$/.test(url);
     if (!allowed) return false;
     try { await shell.openExternal(url); return true; } catch (_) { return false; }
   });

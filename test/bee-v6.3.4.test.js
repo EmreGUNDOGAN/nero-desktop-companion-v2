@@ -100,5 +100,8 @@ test('6.3.4 UI includes warning center, exact tournament guide, and release hist
   assert.match(js, /function versionParts/);
   assert.match(js, /function compareVersions/);
   assert.match(js, /openRelease/);
-  assert.match(notes, /version: '6\.3\.4'/);
+  assert.match(notes, /RELEASES_PAGE_URL/);
+  assert.doesNotMatch(notes, /version:\s*['"]6\.3\.4['"]/);
+  assert.match(js, /window\.bee\.releases\(\)/);
+  assert.match(html, /id="whats-new-all-releases-link"/);
 });

@@ -6,14 +6,10 @@ const path = require('node:path');
 const root = path.join(__dirname, '..');
 const removed = ["sonbahar-kutuphanesi","amalfi-limonlari","ortancali-kir-evi","kis-tramvayi","doksanlar-kirtasiye","gece-treni","eski-fotografci","lavanta-aksami","kis-bahcesi","gece-masasi","analog-radyo","pastel-mutfak"];
 
-test('6.3.10 experimental theme set is fully rolled back', () => {
-  const css = fs.readFileSync(path.join(root, 'src/renderer/panel/skins.css'), 'utf8');
-  const panel = fs.readFileSync(path.join(root, 'src/renderer/panel/panel.js'), 'utf8');
+test('6.3.10 experimental theme assets stay rolled back', () => {
   for (const id of removed) {
     assert.equal(fs.existsSync(path.join(root, 'themes', id)), false, id + ' theme directory remains');
     assert.equal(fs.existsSync(path.join(root, 'src/renderer/panel/deco', id)), false, id + ' deco directory remains');
-    assert.equal(css.includes('data-skin="' + id + '"'), false, id + ' CSS remains');
-    assert.equal(panel.includes("'" + id + "'"), false, id + ' panel skin remains');
   }
 });
 

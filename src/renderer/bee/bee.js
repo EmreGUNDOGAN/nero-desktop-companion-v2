@@ -1,7 +1,7 @@
 import * as THREE from './vendor/three.module.min.js';
 import { buildOccupant, villageGround, VM, buildMerchantCart } from './village.js';
 import { pickBeeDialogue } from './bee-dialogues.js';
-import { RELEASE_NOTES } from './release-notes.js';
+import { RELEASES_PAGE_URL, releaseToNote } from './release-notes.js';
 import { initUiV2 } from './ui-v2.js';
 import { createWalkers } from './walkers.js';
 import { createVillageLife } from './village-life.js';
@@ -1648,6 +1648,7 @@ const RELEASE_SEEN_KEY = 'neroBeeLastReleaseSeen';
 let releaseList = [];
 let releaseIndex = -1;
 let releaseManual = false;
+let officialReleasePromise = null;
 function versionParts(v) { return String(v).split('.').map((n) => Number(n)); }
 function compareVersions(a, b) {
   const x = versionParts(a); const y = versionParts(b);
@@ -1656,16 +1657,29 @@ function compareVersions(a, b) {
   }
   return 0;
 }
+async function loadOfficialReleaseNotes(force = false) {
+  if (!officialReleasePromise || force) {
+    officialReleasePromise = Promise.resolve(window.bee.releases())
+      .then((rows) => (Array.isArray(rows) ? rows : [])
+        .map(releaseToNote)
+        .filter(Boolean)
+        .sort((a, b) => compareVersions(a.version, b.version)))
+      .catch(() => []);
+  }
+  return officialReleasePromise;
+}
 function renderReleaseNote() {
   const note = releaseList[releaseIndex];
   if (!note) { $('whats-new-modal').hidden = true; return; }
   $('whats-new-version').textContent = `Nero Arıcılık · ${note.version}`;
   $('whats-new-title').textContent = note.title;
-  $('whats-new-intro').textContent = `${releaseIndex + 1} / ${releaseList.length} sürüm`;
+  $('whats-new-intro').textContent = `${releaseIndex + 1} / ${releaseList.length} yayımlanmış sürüm`;
   $('whats-new-list').innerHTML = note.items.map((item) => `<article class="whats-new-item"><span class="ico">${esc(item.icon)}</span><div><b>${esc(item.title)}</b><p>${esc(item.text)}</p></div></article>`).join('');
   $('whats-new-prev').disabled = releaseIndex <= 0;
   $('whats-new-close').textContent = releaseIndex < releaseList.length - 1 ? 'Sonraki Sürüm →' : 'Çiftliğe Dön';
-  const link = $('whats-new-release-link'); link.hidden = !note.releaseUrl; link.dataset.url = note.releaseUrl || '';
+  const link = $('whats-new-release-link');
+  link.hidden = !note.releaseUrl;
+  link.dataset.url = note.releaseUrl || '';
   $('whats-new-modal').hidden = false;
 }
 function closeWhatsNew() { $('whats-new-modal').hidden = true; releaseList = []; releaseIndex = -1; }
@@ -1674,15 +1688,18 @@ function writeSeenVersion(version) {
   const seen = readSeenVersion();
   if (!seen || compareVersions(version, seen) > 0) try { localStorage.setItem(RELEASE_SEEN_KEY, version); } catch (_) {}
 }
-function maybeShowWhatsNew() {
+async function maybeShowWhatsNew() {
   if (!view || !view.tutorialDone || !$('whats-new-modal').hidden) return;
-  const current = RELEASE_NOTES[RELEASE_NOTES.length - 1];
+  const notes = await loadOfficialReleaseNotes();
+  if (!notes.length) return;
+  const current = notes[notes.length - 1];
   const seen = readSeenVersion();
-  if (seen === current.version) return;
-  releaseList = [...RELEASE_NOTES];
-  releaseIndex = seen ? RELEASE_NOTES.findIndex((note) => compareVersions(note.version, seen) > 0) : RELEASE_NOTES.length - 1;
-  if (releaseIndex < 0) releaseIndex = RELEASE_NOTES.length - 1;
-  releaseManual = false; renderReleaseNote();
+  if (seen && compareVersions(seen, current.version) >= 0) return;
+  releaseList = notes;
+  releaseIndex = seen ? notes.findIndex((note) => compareVersions(note.version, seen) > 0) : notes.length - 1;
+  if (releaseIndex < 0) releaseIndex = notes.length - 1;
+  releaseManual = false;
+  renderReleaseNote();
 }
 $('whats-new-prev').addEventListener('click', () => { if (releaseIndex > 0) { releaseIndex -= 1; renderReleaseNote(); } });
 $('whats-new-close').addEventListener('click', () => {
@@ -1690,9 +1707,20 @@ $('whats-new-close').addEventListener('click', () => {
   if (!releaseManual && note) writeSeenVersion(note.version);
   if (releaseIndex < releaseList.length - 1) { releaseIndex += 1; renderReleaseNote(); } else closeWhatsNew();
 });
-$('whats-new-release-link').addEventListener('click', async () => { const url = $('whats-new-release-link').dataset.url; if (url) await window.bee.openRelease(url); });
+$('whats-new-release-link').addEventListener('click', async () => {
+  const url = $('whats-new-release-link').dataset.url;
+  if (url) await window.bee.openRelease(url);
+});
+$('whats-new-all-releases-link').addEventListener('click', async () => { await window.bee.openRelease(RELEASES_PAGE_URL); });
 $('whats-new-modal').addEventListener('click', (e) => { if (e.target === $('whats-new-modal')) closeWhatsNew(); });
-$('open-whats-new').addEventListener('click', () => { releaseList = [...RELEASE_NOTES]; releaseIndex = RELEASE_NOTES.length - 1; releaseManual = true; renderReleaseNote(); });
+$('open-whats-new').addEventListener('click', async () => {
+  const notes = await loadOfficialReleaseNotes(true);
+  if (!notes.length) { await window.bee.openRelease(RELEASES_PAGE_URL); return; }
+  releaseList = notes;
+  releaseIndex = notes.length - 1;
+  releaseManual = true;
+  renderReleaseNote();
+});
 
 // ---------------------------------------------------------------------------
 // Sesler: gerçek OGG kayıtları + sentez fallback
@@ -3420,9 +3448,14 @@ function activeWarnings(v) {
 }
 function renderWarnings() {
   const btn=$('warning-center'), panel=$('warning-panel'); if (!btn || !panel || !view) return;
-  const items=activeWarnings(view); btn.hidden=!items.length;
-  if (!items.length) { panel.hidden=true; return; }
-  $('warning-list').innerHTML=items.map((w,i)=>`<li><button type="button" data-warning="${i}"><span class="warning-dot">!</span><span><b>${esc(w.title)}</b><small>${esc(w.text)}</small></span><em>Git ›</em></button></li>`).join('');
+  const items=activeWarnings(view);
+  btn.hidden=false;
+  btn.classList.toggle('empty', !items.length);
+  btn.setAttribute('aria-label', items.length ? `${items.length} aktif uyarı` : 'Aktif uyarı yok');
+  btn.title = items.length ? `${items.length} aktif uyarı` : 'Aktif uyarı yok';
+  $('warning-list').innerHTML = items.length
+    ? items.map((w,i)=>`<li><button type="button" data-warning="${i}"><span class="warning-dot">!</span><span><b>${esc(w.title)}</b><small>${esc(w.text)}</small></span><em>Git ›</em></button></li>`).join('')
+    : '<li class="warning-empty">Şu an aktif uyarı yok.</li>';
   panel._warningItems=items;
 }
 $('warning-center').addEventListener('click',(e)=>{e.stopPropagation();renderWarnings();$('warning-panel').hidden=!$('warning-panel').hidden;});

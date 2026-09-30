@@ -179,6 +179,106 @@
       }
     }
   };
+  const NEW_THEME_TABS = { home: 'Bugün', badges: 'Rozetler', notes: 'Notlar', todos: 'İşler', timer: 'Sayaç', settings: 'Ayarlar' };
+  Object.assign(SKINS, {
+    'sonbahar-kutuphanesi': {
+      ...SKINS.cilek, tabs: { ...NEW_THEME_TABS },
+      todoPlaceholder: "Raflar kapanmadan ne bitecek?",
+      todoLeft: (n) => `${n} iş kaldı. kitap ayracı burada.`,
+      allDone: "hepsi bitti. şimdi bir sayfa oku.",
+      timerIdle: "sessiz raflar, derin odak.", timerRunning: "sessiz raflar, derin odak.", timerPaused: "kitap ayracı molası…",
+      tagline: "iyi kitaplar, sakin akşamlar.", sticky: "bir sayfa daha, sonra gerçekten bırakırım."
+    },
+    'amalfi-limonlari': {
+      ...SKINS.cilek, tabs: { ...NEW_THEME_TABS },
+      todoPlaceholder: "Güneş batmadan ne bitecek?",
+      todoLeft: (n) => `${n} iş kaldı. deniz bekler.`,
+      allDone: "hepsi bitti. gölgeye geçebilirsin.",
+      timerIdle: "aynı gökyüzü, tek bir iş.", timerRunning: "aynı gökyüzü, tek bir iş.", timerPaused: "limonata molası…",
+      tagline: "güneş, limon, biraz nefes.", sticky: "aynı gökyüzü altında daha hafif günler."
+    },
+    'ortancali-kir-evi': {
+      ...SKINS.cilek, tabs: { ...NEW_THEME_TABS },
+      todoPlaceholder: "Bahçe sessizken ne bitecek?",
+      todoLeft: (n) => `${n} iş kaldı. ortancalar acele etmiyor.`,
+      allDone: "hepsi bitti. pencereyi aç.",
+      timerIdle: "sakin bir ev, tek bir odak.", timerRunning: "sakin bir ev, tek bir odak.", timerPaused: "bahçe molası…",
+      tagline: "mavi çiçekler, açık pencereler.", sticky: "küçük adımlar, büyük günler."
+    },
+    'kis-tramvayi': {
+      ...SKINS.cilek, tabs: { ...NEW_THEME_TABS },
+      todoPlaceholder: "Son durağa kadar ne bitecek?",
+      todoLeft: (n) => `${n} iş kaldı. tramvay ilerliyor.`,
+      allDone: "hepsi bitti. camdan karı izle.",
+      timerIdle: "rayların ritminde odak.", timerRunning: "rayların ritminde odak.", timerPaused: "bir duraklık mola…",
+      tagline: "dışarıda kar, içeride yol.", sticky: "bir durak daha, bir iş daha."
+    },
+    'doksanlar-kirtasiye': {
+      ...SKINS.cilek, tabs: { ...NEW_THEME_TABS },
+      todoPlaceholder: "Yeni sayfaya ne yazıyoruz?",
+      todoLeft: (n) => `${n} iş kaldı. fosforlu kalem hazır.`,
+      allDone: "hepsi bitti. çıkartmayı hak ettin.",
+      timerIdle: "derin odak, güzel şeyler biriktir.", timerRunning: "derin odak, güzel şeyler biriktir.", timerPaused: "kalem kapağı molası…",
+      tagline: "tanıdık araçlar, daha üretken yarınlar.", sticky: "planla · adım at · tamamla · tekrar et."
+    },
+    'gece-treni': {
+      ...SKINS.cilek, tabs: { ...NEW_THEME_TABS },
+      todoPlaceholder: "Bir sonraki istasyona kadar ne bitecek?",
+      todoLeft: (n) => `${n} iş kaldı. tren durmuyor.`,
+      allDone: "hepsi bitti. ışığı biraz kıs.",
+      timerIdle: "rayların sesinde tek bir hedef.", timerRunning: "rayların sesinde tek bir hedef.", timerPaused: "kompartıman molası…",
+      tagline: "uzun yollar, sakin planlar.", sticky: "gece uzun; tek bir adım yeter."
+    },
+    'eski-fotografci': {
+      ...SKINS.cilek, tabs: { ...NEW_THEME_TABS },
+      todoPlaceholder: "Kare dolmadan ne bitecek?",
+      todoLeft: (n) => `${n} iş kaldı. film bitmeden.`,
+      allDone: "hepsi bitti. şimdi baskıya geç.",
+      timerIdle: "netle, kadrajla, odaklan.", timerRunning: "netle, kadrajla, odaklan.", timerPaused: "film değiştirme molası…",
+      tagline: "anları sakla, günü yakala.", sticky: "bazı anlar hiç solmaz."
+    },
+    'lavanta-aksami': {
+      ...SKINS.cilek, tabs: { ...NEW_THEME_TABS },
+      todoPlaceholder: "Gün batmadan ne bitecek?",
+      todoLeft: (n) => `${n} iş kaldı. lavanta kokusu kaçmıyor.`,
+      allDone: "hepsi bitti. feneri yak.",
+      timerIdle: "akşamın sessizliğinde odak.", timerRunning: "akşamın sessizliğinde odak.", timerPaused: "veranda molası…",
+      tagline: "aynı dinginlik, daha güzel yarınlar.", sticky: "akşam acele etmez."
+    },
+    'kis-bahcesi': {
+      ...SKINS.cilek, tabs: { ...NEW_THEME_TABS },
+      todoPlaceholder: "Sera ışıkları sönmeden ne bitecek?",
+      todoLeft: (n) => `${n} iş kaldı. yapraklar bekliyor.`,
+      allDone: "hepsi bitti. feneri açık bırak.",
+      timerIdle: "sessiz sera, temiz odak.", timerRunning: "sessiz sera, temiz odak.", timerPaused: "bitkilere bakma molası…",
+      tagline: "camın ardında kış, içeride hayat.", sticky: "soğuk dışarıda kalsın."
+    },
+    'gece-masasi': {
+      ...SKINS.cilek, tabs: { ...NEW_THEME_TABS },
+      todoPlaceholder: "Işık kapanmadan ne bitecek?",
+      todoLeft: (n) => `${n} iş kaldı. gece sakin.`,
+      allDone: "hepsi bitti. ekranı kapat.",
+      timerIdle: "gece mavisinde derin odak.", timerRunning: "gece mavisinde derin odak.", timerPaused: "masa lambası molası…",
+      tagline: "gece sessiz, masa hazır.", sticky: "tek ışık, tek hedef."
+    },
+    'analog-radyo': {
+      ...SKINS.cilek, tabs: { ...NEW_THEME_TABS },
+      todoPlaceholder: "Şarkı bitmeden ne bitecek?",
+      todoLeft: (n) => `${n} iş kaldı. frekans açık.`,
+      allDone: "hepsi bitti. sesi biraz aç.",
+      timerIdle: "tek frekans, tek odak.", timerRunning: "tek frekans, tek odak.", timerPaused: "kaseti çevirme molası…",
+      tagline: "frekansı bul, gerisini sustur.", sticky: "iyi fikirler bazen parazitin arasından gelir."
+    },
+    'pastel-mutfak': {
+      ...SKINS.cilek, tabs: { ...NEW_THEME_TABS },
+      todoPlaceholder: "Tezgâh toparlanmadan ne bitecek?",
+      todoLeft: (n) => `${n} iş kaldı. tarif kartı açık.`,
+      allDone: "hepsi bitti. mutfak kapandı.",
+      timerIdle: "ölçülü zaman, temiz odak.", timerRunning: "ölçülü zaman, temiz odak.", timerPaused: "tarif kartı molası…",
+      tagline: "ölç, karıştır, bitir.", sticky: "iyi tarifler gibi iyi günler de adım adım."
+    }
+  });
+
   let skinName = 'cozy';
   const skin = () => SKINS[skinName] || SKINS.cozy;
 

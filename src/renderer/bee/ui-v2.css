@@ -238,3 +238,11 @@ body.ui2.night .hud-bottom, body.ui2.night .bell, body.ui2.night .tasks-btn { ba
 #warning-list b, #warning-list small { display: block; }
 #warning-list small { margin-top: 2px; color: #8A7358; font-weight: 700; }
 #warning-list em { font-style: normal; color: #9B6A18; font-weight: 900; }
+
+
+/* 6.3.11 — uyarı merkezi butonu her zaman görünür; uyarı yoksa bilgi durumu gösterir. */
+.ui2 #warning-center.empty { opacity: .86; }
+#warning-list .warning-empty {
+  list-style: none; padding: 10px 12px; border-radius: 12px;
+  background: rgba(255,255,255,.72); color: #8A7358; font-weight: 800; text-align: center;
+}
