@@ -100,20 +100,7 @@ const NOTIF_KEEP = 20;
 const LETTER_EVERY = [3, 5];
 const LETTER_KEEP = 30;
 // Belirli köylülere özel mektuplar; diğerleri rolüne göre genel mektuplardan seçer
-const LETTERS_BY_NAME = {
-  'Ayşe Teyze': ['Torunum doğdu! Mahalleye lokum dağıtıyorum, sana da ayırdım.', 'Eski bir tarif defteri buldum. Bal kurabiyesi var içinde, bir gün yaparım.', 'Pencereye yeni saksılar koydum. Arıların uğrarsa ayıp olmaz.'],
-  'Mehmet Usta': ['Kovanlarının kapakları gıcırdıyorsa söyle, bir bakarım.', 'Bisikletimi tamir ettim. Artık yokuşları sadece ben değil o da sevmiyor.'],
-  'Küçük Elif': ['Sana arı resmi çizdim! Kanatları biraz büyük oldu ama o uçabiliyor.', 'Okulda arıları anlattım. Herkes senin kovanlarını merak etti.', 'Bugün bir arı elime kondu ve ısırmadı. Arkadaş olduk sanırım.'],
-  'Hacer Nine': ['Kapının önünde oturup arılarını izledim. Eskiden de böyle çalışırdık.', 'Ihlamur çayı demledim. Balın olsa daha güzel olurdu, haber veriyorum.'],
-  'Muhtar Rıza': ['Köy toplantısında adın geçti. İyi anlamda, merak etme.', 'Muhtarlık panosuna senin balını astık. Herkes soruyor.'],
-  'Balıkçı Kemal': ['Bu sabah gölde dev bir sazan gördüm. Tutamadım ama gördüm, o da bir şey.', 'Ağlarımı onarırken arılarının vızıltısı iyi geldi.'],
-  'Kasabalı Cem': ['Kasabada senin balını anlattım. Bir arkadaşım ziyarete gelmek istiyor.', 'Köy hayatına alışıyorum. Sessizlik bazen fazla sessiz.'],
-  'Öğretmen Selin': ['Öğrencilerim bal hakkında kompozisyon yazdı. En iyisi "Arılar yorulmaz mı?" diye bitiyordu.', 'Kütüphaneye arıcılık kitabı sipariş ettim. Bitince sana da veririm.'],
-  'Doktor Aslı': ['Ballı ıhlamur boğaza iyi gelir. Reçete değil, tavsiye.', 'Köyde bu kış kimse hastalanmadı. Senin balının payı var bence.'],
-  'Arıcı Hasan': ['Kovanlarının sesi iyi geliyor, bu işi seviyorsun belli.', 'Gençken bir kovanım oğul verdi, üç gün peşinden koştum. Sen koşma, izle.'],
-  'Ressam Deniz': ['Arılarını resmettim. Bir tanesi fırçama kondu, imzası da resimde.', 'Gün batımında kovanların çok güzel görünüyor. Işık sende.'],
-  'Kerim Dede ve Kedileri': ['Kedilerden biri bu sabah kovanının oraya gitmiş. Arılar kovalayınca geri döndü, gururu kırıldı.', 'Yedinci kedi yavruladı. Sekiz oldular. Hesap tutamıyorum artık.']
-};
+const { LETTERS_BY_NAME } = require('./village-letters');
 const LETTERS_GENERIC = [
   'Bugün pencereden arılarını izledim. Çok çalışkanlar, biraz kıskandım.',
   'Kahvaltıda senin balını yedik. Çocuklar kavanozu sıyırdı.',
@@ -347,6 +334,8 @@ function freshState() {
     market: null,
     orders: { list: [], nextAt: ORDER_EVERY_MS },
     rivals: null,
+    letterSenderHistory: [],
+    letterRecentBySender: {},
     nwHistory: [],
     weather: 'gunesli',
     tutorialDone: false,
@@ -454,6 +443,9 @@ class BeeGame {
     this.state.storageCap = this.state.storageBaseCap + crateBonus;
     if (!this.state.stories) this.state.stories = {};
     if (!this.state.letters) this.state.letters = [];
+    if (!Array.isArray(this.state.letterSenderHistory)) this.state.letterSenderHistory = [];
+    this.state.letterSenderHistory = this.state.letterSenderHistory.slice(-10);
+    if (!this.state.letterRecentBySender || typeof this.state.letterRecentBySender !== 'object') this.state.letterRecentBySender = {};
     if (this.state.nextLetterDay == null) this.state.nextLetterDay = this.dayIndex() + 2;
     const gs = this.state.gameSettings || {};
     this.state.gameSettings = {
@@ -2361,6 +2353,8 @@ class BeeGame {
 
   // Günlük rakip çiftlikleri: tekrar çağrı aynı günü iki kez üretmez.
   rollRivals(day = this.dayIndex()) {
+    // Oyuncunun simülasyonu duruyorsa rakipler de aynı takvimde donar.
+    if (this.state.speed === 0 || this.state.pauseStartedAt) return;
     if (this.state.rivalsLastDay != null && day <= this.state.rivalsLastDay) return;
     const season = SEASONS[Math.floor(day / DAYS_PER_SEASON) % 4];
     const weather = WEATHER[this.state.weather] || WEATHER.bulutlu;
