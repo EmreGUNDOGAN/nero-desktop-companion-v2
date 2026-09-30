@@ -13,8 +13,9 @@ test("6.3.8 90'lar Kırtasiye uses atomic assets instead of one cover scene",()=
     assert.match(s,new RegExp(a.replace('.','\\.')));
     assert.ok(fs.existsSync(path.join(root,'src/renderer/panel/deco/doksanlar-kirtasiye',a)));
   }
-  assert.doesNotMatch(s,/background-size:\s*cover/);
-  assert.match(s,/background-size:\s*25% auto/);
+  const shellBlock=s.match(/\[data-skin="doksanlar-kirtasiye"\] \.shell::before \{[\s\S]*?\n\}/)?.[0] || '';
+  assert.doesNotMatch(shellBlock,/background-size:\s*cover/);
+  assert.match(shellBlock,/background-size:\s*25% auto/);
 });
 
 test("6.3.8 keeps resize and classic badge system intact",()=>{

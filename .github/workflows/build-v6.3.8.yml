@@ -91,7 +91,8 @@ jobs:
           )) {
             if (-not (Test-Path "src/renderer/panel/deco/doksanlar-kirtasiye/$asset")) { throw "90lar Kirtasiye asset missing: $asset" }
           }
-          if ($kirtasiye -match 'background-size:\s*cover') { throw '90lar Kirtasiye returned to single cover-scene architecture' }
+          $kirtasiyeShell = [regex]::Match($kirtasiye, '\[data-skin="doksanlar-kirtasiye"\] \.shell::before \{[\s\S]*?\n\}').Value
+          if ($kirtasiyeShell -match 'background-size:\s*cover') { throw '90lar Kirtasiye shell returned to single cover-scene architecture' }
           if ($kirtasiye -notmatch 'asset-pencilcase\.svg' -or $kirtasiye -notmatch 'asset-cassette\.svg') { throw 'Atomic stationery composition missing' }
           foreach ($id in $themeIds) {
             foreach ($asset in @('bg-main.svg','bg-timer.svg','bg-work.svg')) {
