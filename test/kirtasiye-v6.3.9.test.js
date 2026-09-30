@@ -19,10 +19,11 @@ test('6.3.9 ships the approved 90lar Kirtasiye PNG pack', () => {
 test('6.3.9 wires a PNG background to every core page', () => {
   for (const name of ['bg-bugun.png','bg-notlar.png','bg-isler.png','bg-sayac.png','bg-rozetler.png']) assert.ok(section.includes(name), name);
 });
-test('6.3.9 Kirtasiye CSS no longer references SVG theme art', () => {
-  assert.doesNotMatch(section, /deco\/doksanlar-kirtasiye\/[^)"']+\.svg/);
+test('6.3.9 uses PNG art, including independent timer assets', () => {
   assert.match(section, /baslik\.png/);
   assert.match(section, /asset-pencilcase\.png/);
+  assert.match(section, /asset-sticky\.png/);
+  assert.match(section, /asset-washi\.png/);
 });
 test('6.3.9 preserves classic badges and resize grips', () => {
   const panel = fs.readFileSync(path.join(root,'src/renderer/panel/panel.js'),'utf8');

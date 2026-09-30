@@ -2177,8 +2177,35 @@ html.no-scene:is(
 [data-skin="doksanlar-kirtasiye"] #view-notes { background-image:url("deco/doksanlar-kirtasiye/bg-notlar.png") !important; }
 [data-skin="doksanlar-kirtasiye"] #view-todos,
 [data-skin="doksanlar-kirtasiye"] #view-settings { background-image:url("deco/doksanlar-kirtasiye/bg-isler.png") !important; }
-[data-skin="doksanlar-kirtasiye"] #view-timer { background-image:url("deco/doksanlar-kirtasiye/bg-sayac.png") !important; }
+[data-skin="doksanlar-kirtasiye"] #view-timer { background-image:url("deco/doksanlar-kirtasiye/bg-sayac.png") !important; position:relative; }
 [data-skin="doksanlar-kirtasiye"] #view-badges { background-image:url("deco/doksanlar-kirtasiye/bg-rozetler.png") !important; }
+
+/* Sayaçta ayrıca gerçek PNG assetler görünür: merkez içerik alanına taşmaz. */
+[data-skin="doksanlar-kirtasiye"] #view-timer::before,
+[data-skin="doksanlar-kirtasiye"] #view-timer::after {
+  content:"";
+  position:absolute;
+  z-index:0;
+  pointer-events:none;
+  background:center/contain no-repeat;
+}
+[data-skin="doksanlar-kirtasiye"] #view-timer::before {
+  left:8px;
+  bottom:10px;
+  width:118px;
+  height:118px;
+  background-image:url("deco/doksanlar-kirtasiye/asset-pencilcase.png");
+  opacity:.78;
+}
+[data-skin="doksanlar-kirtasiye"] #view-timer::after {
+  right:10px;
+  top:84px;
+  width:76px;
+  height:96px;
+  background-image:url("deco/doksanlar-kirtasiye/asset-sticky.png");
+  opacity:.74;
+}
+[data-skin="doksanlar-kirtasiye"] #view-timer > * { position:relative; z-index:1; }
 
 [data-skin="doksanlar-kirtasiye"] .tabs {
   background:rgba(255,252,247,.92);
