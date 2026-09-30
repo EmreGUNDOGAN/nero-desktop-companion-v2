@@ -2520,3 +2520,151 @@ html.no-scene[data-skin="doksanlar-kirtasiye"] :is(#view-home,#view-notes,#view-
   z-index:1001 !important;
   pointer-events:auto !important;
 }
+
+/* ==========================================================================
+   6.3.9 — 90'LAR KIRTASİYE / PNG ASSET DENEMESİ
+   Gerçek PNG assetleri + gerçek PNG kağıt arka planları.
+   Panel geometrisi, menü sırası, resize ve rozet sistemi korunur.
+   ========================================================================== */
+[data-skin="doksanlar-kirtasiye"] {
+  --serif:"Fraunces",Georgia,serif;
+  --text:"Nunito","Segoe UI",sans-serif;
+  --hand:"Caveat","Segoe Print",cursive;
+  --glass:rgba(255,252,247,.92);
+  --on-scene:#263D68;
+  --on-scene-shadow:0 1px 2px rgba(255,255,255,.96);
+}
+[data-skin="doksanlar-kirtasiye"] .shell {
+  position:relative;
+  background:#F8F4EC !important;
+  background-image:none !important;
+  overflow:hidden;
+}
+[data-skin="doksanlar-kirtasiye"] .shell::before {
+  content:"";
+  display:block !important;
+  position:absolute;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  opacity:1;
+  background-color:#F8F4EC;
+  background-image:
+    url("deco/doksanlar-kirtasiye/png/kalemlik.png"),
+    url("deco/doksanlar-kirtasiye/png/kalemler.png"),
+    url("deco/doksanlar-kirtasiye/png/washi.png"),
+    url("deco/doksanlar-kirtasiye/png/yildiz.png"),
+    url("deco/doksanlar-kirtasiye/png/cicek.png"),
+    url("deco/doksanlar-kirtasiye/png/paper-lines.png");
+  background-repeat:no-repeat,no-repeat,no-repeat,no-repeat,no-repeat,repeat;
+  background-size:23% auto,22% auto,17% auto,6% auto,6% auto,192px 192px;
+  background-position:left -7% bottom 7%,right -6% top 33%,right 3% bottom -2%,left 2% top 42%,right 4% top 18%,0 0;
+}
+[data-skin="doksanlar-kirtasiye"] :is(.top,.tabs,main,.update-banner,.app-version){position:relative;z-index:1;}
+[data-skin="doksanlar-kirtasiye"] .grip{position:absolute !important;z-index:1001 !important;pointer-events:auto !important;}
+
+[data-skin="doksanlar-kirtasiye"][data-tab="notes"] .shell::before {
+  background-image:
+    url("deco/doksanlar-kirtasiye/png/spiral-not.png"),
+    url("deco/doksanlar-kirtasiye/png/washi.png"),
+    url("deco/doksanlar-kirtasiye/png/kalemler.png"),
+    url("deco/doksanlar-kirtasiye/png/yildiz.png"),
+    url("deco/doksanlar-kirtasiye/png/paper-grid.png");
+  background-repeat:no-repeat,no-repeat,no-repeat,no-repeat,repeat;
+  background-size:17% auto,18% auto,20% auto,6% auto,192px 192px;
+  background-position:left -5% bottom 9%,right -2% top 19%,right -6% bottom 11%,left 3% top 70%,0 0;
+}
+[data-skin="doksanlar-kirtasiye"][data-tab="todos"] .shell::before {
+  background-image:
+    url("deco/doksanlar-kirtasiye/png/sticky.png"),
+    url("deco/doksanlar-kirtasiye/png/kalemler.png"),
+    url("deco/doksanlar-kirtasiye/png/washi.png"),
+    url("deco/doksanlar-kirtasiye/png/cicek.png"),
+    url("deco/doksanlar-kirtasiye/png/paper-lines.png");
+  background-repeat:no-repeat,no-repeat,no-repeat,no-repeat,repeat;
+  background-size:15% auto,21% auto,17% auto,6% auto,192px 192px;
+  background-position:left -4% bottom 10%,right -5% top 26%,right 4% bottom 1%,left 3% top 45%,0 0;
+}
+[data-skin="doksanlar-kirtasiye"][data-tab="timer"] .shell::before {
+  background-image:
+    url("deco/doksanlar-kirtasiye/png/sticky.png"),
+    url("deco/doksanlar-kirtasiye/png/kalemlik.png"),
+    url("deco/doksanlar-kirtasiye/png/kalemler.png"),
+    url("deco/doksanlar-kirtasiye/png/yildiz.png"),
+    url("deco/doksanlar-kirtasiye/png/paper-grid.png");
+  background-repeat:no-repeat,no-repeat,no-repeat,no-repeat,repeat;
+  background-size:15% auto,25% auto,20% auto,6% auto,192px 192px;
+  background-position:left -3% top 34%,right -6% bottom 4%,left -7% bottom 3%,right 4% top 30%,0 0;
+}
+[data-skin="doksanlar-kirtasiye"][data-tab="badges"] .shell::before,
+[data-skin="doksanlar-kirtasiye"][data-tab="settings"] .shell::before {
+  background-image:
+    url("deco/doksanlar-kirtasiye/png/washi.png"),
+    url("deco/doksanlar-kirtasiye/png/yildiz.png"),
+    url("deco/doksanlar-kirtasiye/png/cicek.png"),
+    url("deco/doksanlar-kirtasiye/png/paper-grid.png");
+  background-repeat:no-repeat,no-repeat,no-repeat,repeat;
+  background-size:17% auto,6% auto,6% auto,192px 192px;
+  background-position:right 2% bottom -1%,left 2% top 24%,right 3% top 21%,0 0;
+}
+
+[data-skin="doksanlar-kirtasiye"] .top {
+  background-color:#F9E3EA !important;
+  background-image:url("deco/doksanlar-kirtasiye/png/header-gingham.png") !important;
+  background-repeat:repeat !important;
+  background-size:auto 100% !important;
+  color:#263D68 !important;
+}
+[data-skin="doksanlar-kirtasiye"] :is(.top h1,.tagline,.mood-note,#mood-label){color:#263D68 !important;text-shadow:0 1px 1px rgba(255,255,255,.86);}
+[data-skin="doksanlar-kirtasiye"] h1::after{background-image:url("deco/doksanlar-kirtasiye/png/cicek.png") !important;background-size:contain !important;}
+
+[data-skin="doksanlar-kirtasiye"] .tile{background-image:none !important;color:#263D68;}
+[data-skin="doksanlar-kirtasiye"] .tile:nth-child(1){background-color:rgba(246,189,209,.88) !important;}
+[data-skin="doksanlar-kirtasiye"] .tile:nth-child(2){background-color:rgba(191,229,215,.90) !important;}
+[data-skin="doksanlar-kirtasiye"] .tile:nth-child(3){background-color:rgba(216,201,240,.90) !important;}
+[data-skin="doksanlar-kirtasiye"] .tile:nth-child(4){background-color:rgba(200,221,244,.90) !important;}
+[data-skin="doksanlar-kirtasiye"] .tile::before{width:30px;height:30px;background-repeat:no-repeat;background-position:center;background-size:contain;}
+[data-skin="doksanlar-kirtasiye"] .tile:nth-child(1)::before{background-image:url("deco/doksanlar-kirtasiye/png/spiral-not.png") !important;}
+[data-skin="doksanlar-kirtasiye"] .tile:nth-child(2)::before{background-image:url("deco/doksanlar-kirtasiye/png/sticky.png") !important;}
+[data-skin="doksanlar-kirtasiye"] .tile:nth-child(3)::before{background-image:url("deco/doksanlar-kirtasiye/png/cicek.png") !important;}
+[data-skin="doksanlar-kirtasiye"] .tile:nth-child(4)::before{background-image:url("deco/doksanlar-kirtasiye/png/yildiz.png") !important;}
+
+[data-skin="doksanlar-kirtasiye"] .nero-says{
+  background-color:rgba(255,252,247,.95) !important;
+  background-image:url("deco/doksanlar-kirtasiye/png/yildiz.png") !important;
+  background-repeat:no-repeat !important;background-position:12px center !important;background-size:28px 28px !important;
+}
+[data-skin="doksanlar-kirtasiye"] .week{
+  background-color:rgba(255,252,247,.94) !important;
+  background-image:url("deco/doksanlar-kirtasiye/png/washi.png"),url("deco/doksanlar-kirtasiye/png/paper-lines.png") !important;
+  background-repeat:no-repeat,repeat !important;
+  background-size:92px auto,192px 192px !important;
+  background-position:right -14px top -14px,0 0 !important;
+}
+[data-skin="doksanlar-kirtasiye"] .week :is(h3,.card-head span,.bar span){color:#263D68 !important;text-shadow:none !important;}
+
+[data-skin="doksanlar-kirtasiye"] .notes li:not(.new-note){
+  background-image:url("deco/doksanlar-kirtasiye/png/washi.png") !important;
+  background-repeat:no-repeat !important;
+  background-size:72px auto !important;
+  background-position:right -12px top -14px !important;
+  border-color:#AEBED8 !important;
+}
+[data-skin="doksanlar-kirtasiye"] .notes li:not(.new-note):nth-child(5n+1){background-color:rgba(246,189,209,.94) !important;}
+[data-skin="doksanlar-kirtasiye"] .notes li:not(.new-note):nth-child(5n+2){background-color:rgba(191,229,215,.94) !important;}
+[data-skin="doksanlar-kirtasiye"] .notes li:not(.new-note):nth-child(5n+3){background-color:rgba(216,201,240,.94) !important;}
+[data-skin="doksanlar-kirtasiye"] .notes li:not(.new-note):nth-child(5n+4){background-color:rgba(200,221,244,.94) !important;}
+[data-skin="doksanlar-kirtasiye"] .notes li:not(.new-note):nth-child(5n){background-color:rgba(245,217,142,.94) !important;}
+[data-skin="doksanlar-kirtasiye"] .paper{
+  background-color:rgba(255,252,247,.96) !important;
+  background-image:url("deco/doksanlar-kirtasiye/png/paper-lines.png") !important;
+  background-repeat:repeat !important;background-size:192px 192px !important;
+}
+
+[data-skin="doksanlar-kirtasiye"] .badges .badge:nth-child(5n+1).on .badge-icon{background:#F0A9C0 !important;border-color:#F0A9C0 !important;}
+[data-skin="doksanlar-kirtasiye"] .badges .badge:nth-child(5n+2).on .badge-icon{background:#9FD6C5 !important;border-color:#9FD6C5 !important;}
+[data-skin="doksanlar-kirtasiye"] .badges .badge:nth-child(5n+3).on .badge-icon{background:#C8B5E8 !important;border-color:#C8B5E8 !important;}
+[data-skin="doksanlar-kirtasiye"] .badges .badge:nth-child(5n+4).on .badge-icon{background:#AFCDEB !important;border-color:#AFCDEB !important;}
+[data-skin="doksanlar-kirtasiye"] .badges .badge:nth-child(5n).on .badge-icon{background:#F1D27A !important;border-color:#F1D27A !important;}
+html.no-scene[data-skin="doksanlar-kirtasiye"] .shell::before{display:none !important;}
+

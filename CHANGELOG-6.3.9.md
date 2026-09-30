@@ -1,21 +1,14 @@
-# Nero 6.3.9 — 90'lar Kırtasiye PNG Tema Onarımı
+# Nero 6.3.9 — 90'lar Kırtasiye PNG Asset Denemesi
 
-## 90'lar Kırtasiye
-- Tema artık basit SVG temsilleri yerine **gerçek PNG asset setini** kullanıyor.
-- Bugün, Notlar, İşler, Sayaç ve Rozetler için ayrı PNG arka planlar eklendi.
-- Üst başlık alanı ayrı PNG asset olarak bağlandı.
-- Şeffaf pembe kalem kutusu, pastel kalemler, washi bantlar, binder clip, ataç, çiçek, yıldız, sticky note ve spiral not defteri assetleri eklendi.
-- Bugün kartlarında gerçek PNG kırtasiye objeleri kullanılıyor.
-- Haftalık odak alanında PNG washi dekoru var.
-- Notlar beş farklı pastel spiral defter PNG kartıyla gösteriliyor.
-- Yeni Not kartında gerçek spiral not defteri PNG'si kullanılıyor.
+Bu patch yalnızca **90'lar Kırtasiye** temasını düzeltmek için hazırlandı.
 
-## Korunanlar
-- Menü sırası ve ana Nero panel layout'u değişmedi.
-- Resize tutamaçlarına dokunulmadı.
-- Rozetlerin mevcut ikon/SVG/ölçü sistemi değişmedi; yalnız daire arka plan renkleri tema paletine uyarlandı.
-- Arıcılık tarafındaki 6.3.5–6.3.8 düzeltmeleri korunuyor.
+- Basitleştirilmiş SVG kırtasiye çizimleri aktif temadan çıkarıldı.
+- Ayrı **PNG assetleri** kullanılıyor: şeffaf pembe kalemlik, pastel kalem seti, washi bant, yıldız, çiçek, sticky ve spiral not kağıdı.
+- Çizgili ve kareli **PNG arka plan dokuları** ile pembe gingham başlık zemini eklendi.
+- Bugün / Notlar / İşler / Sayaç / Rozetler için dekor yerleşimleri ayrı.
+- Tek büyük cover sahnesi yok; orta içerik alanları boş bırakılıyor.
+- Menü düzeni, resize davranışı ve klasik rozet sistemi korunuyor.
+- Diğer yeni temalara bu patchte dokunulmadı.
 
-## Sürüm
-- Nero **6.3.9**
-- Branch: `feature/bee-v6.3.9`
+Sürüm: **6.3.9**
+Branch: `feature/bee-v6.3.9`
