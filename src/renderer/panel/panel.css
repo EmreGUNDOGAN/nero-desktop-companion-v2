@@ -1162,13 +1162,3 @@ button.archive-entry-main { cursor: pointer; }
   .mood-day-wrap { height: 32px; }
   .mood-day { width: 32px; height: 32px; }
 }
-.wardrobe-tabs { display: flex; gap: 6px; overflow-x: auto; padding: 3px 0 10px; }
-.wardrobe-tabs button { flex: 0 0 auto; padding: 7px 10px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); color: var(--ink); font: inherit; cursor: pointer; }
-.wardrobe-tabs button[aria-selected="true"] { background: var(--secondary); color: #fff; border-color: var(--secondary); }
-.wardrobe-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 0 0 12px; }
-.wardrobe-item { min-width: 0; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); color: var(--ink); cursor: pointer; padding: 5px; font: inherit; font-size: 11px; }
-.wardrobe-item[aria-pressed="true"] { outline: 2px solid var(--accent); outline-offset: -2px; }
-.wardrobe-item:disabled { opacity: .55; cursor: default; }
-.wardrobe-item > span:last-child { display: block; min-height: 28px; line-height: 1.2; }
-.wardrobe-portrait { display: block; position: relative; height: 98px; width: 84px; max-width: 100%; margin: auto; }
-.wardrobe-portrait img, .wardrobe-portrait canvas { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }

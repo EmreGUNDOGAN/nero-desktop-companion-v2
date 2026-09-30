@@ -18,7 +18,6 @@ app.commandLine.appendSwitch('enable-unsafe-swiftshader');
 
 const { JsonStore } = require('./store');
 const { ThemeManager, SCHEME } = require('./themes');
-const wardrobe = require('./wardrobe');
 const { Dialogue } = require('./dialogue');
 const { Mood, HOUR, MIN } = require('./mood');
 const { Timer } = require('./timer');
@@ -92,10 +91,6 @@ const DEFAULT_SETTINGS = {
   waterEvery: 0,        // dakika, 0 = kapalı
   breakEvery: 60,       // kesintisiz çalışma sonrası mola hatırlatması (dakika), 0 = kapalı
   birthday: '',         // "AA-GG"
-  wardrobeOutfit: null,
-  wardrobeSelectedNight: '',
-  sleepNight: '',
-  sleepOutfit: '',
   lastSummaryDay: '',
   lastSpecialDay: '',
   lastBackupDay: '',
@@ -736,7 +731,7 @@ function homeDialogueContext(nowMs = Date.now()) {
     sessionMinutes: homeDialogue ? (nowMs - homeDialogue.sessionStartedAt) / MIN : 0,
     selfMood: selfMood?.type || null,
     moodStage: mood.stage,
-    isPajama: wearingSleepwear(),
+    isPajama: currentOutfit() === 'pajama',
     isFocusRunning: timer.snapshot().status === 'running',
     absenceHours: homeDialogue?.pendingReturnAbsenceHours || 0,
     totalFocusMin: sum.totals.focusMin
@@ -1032,12 +1027,15 @@ function scheduleRestAfterAllDone() {
 }
 
 function currentOutfit(date = new Date()) {
-  // 6.3.3 wardrobe v2 is authored against the canonical Default Nero only.
-  if (settings().themeId !== 'default') return null;
-  return wardrobe.choose(settings(), date, (change) => settingsStore.patch(change)).outfit;
+  const h = date.getHours();
+  if (h >= 21 || h < 6) return 'pajama';
+  if (isBirthday(date)) return 'party';
+  const m = date.getMonth() + 1;
+  const d = date.getDate();
+  if ((m === 12 && d >= 15) || m === 1 || (m === 2 && d <= 15)) return 'winter';
+  return null;
 }
 
-function wearingSleepwear() { return /^sleep-/.test(currentOutfit() || ''); }
 
 function updateBaseline(force = false) {
   const expr = Date.now() < dizzyUntil ? 'dizzy' : mood.baselineExpression();
@@ -1045,9 +1043,8 @@ function updateBaseline(force = false) {
   if (outfit) stats.recordOutfit(outfit);
   const key = `${expr}|${outfit}`;
   if (lastOutfit !== undefined && outfit !== lastOutfit && !settings().muted) {
-    const category = /^sleep-/.test(outfit || '') ? 'pajama_on'
-      : /^special-/.test(outfit || '') ? 'outfit_party'
-      : /^sleep-/.test(lastOutfit || '') ? 'pajama_off' : null;
+    const category = { pajama: 'pajama_on', party: 'outfit_party', winter: 'outfit_winter' }[outfit]
+      || (lastOutfit === 'pajama' ? 'pajama_off' : null);
     if (category) setTimeout(() => say(category, {}, { interrupt: false }), 1200);
   }
   lastOutfit = outfit;
@@ -1064,7 +1061,7 @@ function napGap(night) {
 }
 
 function startNap() {
-  const night = wearingSleepwear();
+  const night = currentOutfit() === 'pajama';
   napStartedAt = Date.now();
   stats.recordInteraction('nap', { stage: mood.stage });
   napUntil = Date.now() + (night ? rand(10, 25) : rand(4, 9)) * MIN;
@@ -1079,7 +1076,7 @@ function wakeNap(reason) {
   mood.setNap(false);
   napUntil = 0;
   groggyUntil = Date.now() + 90 * 1000;
-  nextNapAt = Date.now() + napGap(wearingSleepwear());
+  nextNapAt = Date.now() + napGap(currentOutfit() === 'pajama');
   updateBaseline(true);
   if (reason === 'click' || reason === 'drag' || reason === 'pet') {
     stats.award('uyandirdin');
@@ -1106,7 +1103,7 @@ function napTick() {
     }
     return;
   }
-  const night = wearingSleepwear();
+  const night = currentOutfit() === 'pajama';
   if (!nextNapAt) nextNapAt = now + (night ? rand(8, 20) * MIN : napGap(false));
   // Akşam 9 olunca gündüzden kalan uzun bekleme süresini kısalt.
   if (night && nextNapAt - now > 35 * MIN) nextNapAt = now + rand(8, 20) * MIN;
@@ -1178,8 +1175,6 @@ function fullState() {
     mood: mood.summary(),
     timer: timer.snapshot(),
     themes: themes.list(),
-    wardrobe: wardrobe.ITEMS,
-    specialOutfit: wardrobe.special(new Date(), settings().birthday),
     currentThemeId: currentTheme.id,
     ui: currentTheme.manifest.ui,
     stats: stats.summary(),
@@ -1340,7 +1335,7 @@ function petNero() {
   markUserInteraction();
   if (silentAgreement) stats.award('secret_sessiz_anlasma');
   if (Date.now() < dizzyUntil) stats.award('secret_dunya_donuyor');
-  if (wearingSleepwear() && new Date().getHours() < 5 && stats.summary().today.todos === 0) stats.award('secret_yeterli');
+  if (currentOutfit() === 'pajama' && new Date().getHours() < 5 && stats.summary().today.todos === 0) stats.award('secret_yeterli');
   const woke = wakeNap('pet');
   stats.pet({ stage: preStage, ignoredMs, dizzy: Date.now() < dizzyUntil });
   if (woke && now >= petAngryUntil) { mood.interact('pet'); broadcastState(); return; }
@@ -1413,18 +1408,6 @@ function setSetting(key, value) {
   if (!(key in DEFAULT_SETTINGS) || key === 'position') return settings();
   const s = settings();
   switch (key) {
-    case 'wardrobeOutfit':
-      if (wardrobe.special(new Date(), s.birthday)) return s;
-      {
-        const now = new Date();
-        const night = now.getHours() >= 21 || now.getHours() < 6;
-        settingsStore.patch({
-          wardrobeOutfit: wardrobe.VALID.has(value) ? value : null,
-          wardrobeSelectedNight: night && wardrobe.VALID.has(value) ? wardrobe.sleepNight(now) : ''
-        });
-      }
-      updateBaseline(true);
-      break;
     case 'themeId': {
       const previous = currentTheme.id;
       loadTheme(String(value));
@@ -1569,6 +1552,12 @@ function registerIpc() {
     return { ok: true, file };
   });
   ipcMain.handle('bee:openPhotos', () => shell.openPath(path.join(app.getPath('pictures'), 'Nero Arıcılık')));
+  ipcMain.handle('bee:openRelease', async (_e, rawUrl) => {
+    const url = String(rawUrl || '');
+    const allowed = /^https:\/\/github\.com\/EmreGUNDOGAN\/nero-desktop-companion-v2\/releases\/tag\/[A-Za-z0-9._-]+$/.test(url);
+    if (!allowed) return false;
+    try { await shell.openExternal(url); return true; } catch (_) { return false; }
+  });
   // Arıcılık gerçek ses kayıtları: renderer Web Audio ile decode eder.
   ipcMain.handle('bee:sounds', () => {
     const dir = path.join(__dirname, '..', 'renderer', 'bee', 'sounds');
@@ -2156,7 +2145,7 @@ function wireTimer() {
   timer.on('done', ({ minutes, label }) => {
     const now = new Date();
     if (now.getHours() === 23 && now.getMinutes() === 59) stats.award('secret_son_dakikaci');
-    stats.focus(minutes, true, { pajama: wearingSleepwear(), pauseResumeCount: timerPauseResumeCount });
+    stats.focus(minutes, true, { pajama: currentOutfit() === 'pajama', pauseResumeCount: timerPauseResumeCount });
     stats.recordInteraction('timer_done', { stage: mood.stage });
     timerPauseResumeCount = 0;
     if (bee && bee.focusCompleted(minutes)) sendBee();
@@ -2178,7 +2167,7 @@ function wireTimer() {
     broadcastState();
   });
   timer.on('cancelled', ({ progress, minutes }) => {
-    stats.focus(minutes * progress, false, { pajama: wearingSleepwear(), pauseResumeCount: timerPauseResumeCount });
+    stats.focus(minutes * progress, false, { pajama: currentOutfit() === 'pajama', pauseResumeCount: timerPauseResumeCount });
     timerPauseResumeCount = 0;
     homeDialogue.recordTimerResult(false);
     mood.interact('timer_cancel');

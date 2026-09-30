@@ -123,8 +123,7 @@
     currentBody = resolveVariant('body', expr.body, [expr.body, 'default']);
     show('body', currentBody);
     show('outfit', outfit && layerImgs.outfit?.[outfit] ? outfit : null);
-    charEl.classList.remove('illustrated-outfit', 'illustrated-preparing');
-    show('eyes', resolveVariant('eyes', expr.eyes, ['default']));
+      show('eyes', resolveVariant('eyes', expr.eyes, ['default']));
     show('pupils', resolveVariant('pupils', expr.pupils, ['default']));
     const front = expr.front && layerImgs.front?.[expr.front] ? expr.front : null;
     show('front', front);

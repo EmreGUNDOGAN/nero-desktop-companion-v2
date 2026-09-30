@@ -892,61 +892,6 @@
   // Ayarlar
   // ---------------------------------------------------------------------------
   const set = (key, value) => api.invoke('settings:set', key, value);
-  const wardrobeGroups = { daily: 'Gündelik', winter: 'Kış', sleep: 'Uyku', special: 'Özel' };
-  let wardrobeGroup = 'daily';
-  function buildWardrobePreview(src, portrait) {
-    const add = (asset, className = '') => {
-      const image = new Image();
-      image.alt = '';
-      image.draggable = false;
-      image.src = asset;
-      if (className) image.className = className;
-      portrait.appendChild(image);
-    };
-    add('nero-theme://default/assets/body.svg');
-    add(src, 'wardrobe-preview-outfit');
-    add('nero-theme://default/assets/eyes.svg');
-    add('nero-theme://default/assets/pupils.svg');
-    add('nero-theme://default/assets/lids-heavy.svg');
-    add('nero-theme://default/assets/brows-normal.svg');
-    add('nero-theme://default/assets/mouth-neutral.svg');
-  }
-  function renderWardrobe() {
-    const locked = !!state.specialOutfit;
-    const builtin = state.currentThemeId === 'default';
-    const tabs = $('wardrobe-tabs');
-    tabs.replaceChildren();
-    for (const [group, label] of Object.entries(wardrobeGroups)) {
-      const button = document.createElement('button');
-      button.type = 'button'; button.textContent = label;
-      button.setAttribute('role', 'tab'); button.setAttribute('aria-selected', String(group === wardrobeGroup));
-      button.addEventListener('click', () => { wardrobeGroup = group; renderWardrobe(); });
-      tabs.appendChild(button);
-    }
-    const grid = $('wardrobe-grid');
-    grid.replaceChildren();
-    for (const item of (state.wardrobe || []).filter((item) => item.group === wardrobeGroup)) {
-      const button = document.createElement('button');
-      button.className = 'wardrobe-item'; button.type = 'button'; button.disabled = locked || !builtin;
-      button.setAttribute('aria-pressed', String(state.settings.wardrobeOutfit === item.id));
-      const portrait = document.createElement('span'); portrait.className = 'wardrobe-portrait';
-      buildWardrobePreview(`nero-theme://default/assets/wardrobe-v2/${item.id}.svg`, portrait);
-      const label = document.createElement('span'); label.textContent = item.name;
-      button.append(portrait, label);
-      button.addEventListener('click', async () => {
-        await set('wardrobeOutfit', item.id);
-        button.blur();
-      });
-      grid.appendChild(button);
-    }
-    $('wardrobe-remove').disabled = locked || !builtin;
-    $('wardrobe-status').textContent = locked ? 'Bugün özel gün kıyafeti giyiliyor; yarın seçtiğin kıyafet geri dönecek.'
-      : !builtin ? 'Yeni kıyafetler şimdilik yalnızca Default Nero’da kullanılabilir.'
-      : (new Date().getHours() >= 21 || new Date().getHours() < 6) ? 'Gece pijaması otomatik seçilir; dolaptan seçtiğin kıyafet hemen giyilir.'
-      : 'Giydirmek için bir kıyafete dokun.';
-  }
-  $('wardrobe-remove').addEventListener('click', () => set('wardrobeOutfit', null));
-
   function renderSettings() {
     const s = state.settings;
     const select = $('set-theme');
@@ -999,7 +944,6 @@
     $('char-hide').textContent = s.hidden ? 'Nero\'yu göster' : 'Nero\'yu gizle';
     $('app-version').textContent = `v${state.version}`;
     $('version').textContent = `Nero ${state.version}, Stenwick'ten sevgilerle`;
-    renderWardrobe();
   }
 
   $('set-theme').addEventListener('change', (e) => set('themeId', e.target.value));
