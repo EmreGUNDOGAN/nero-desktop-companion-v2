@@ -24,20 +24,12 @@
   },
   "layers": {
     "body": {
-      "default": "assets/body.svg",
-      "dressed": "assets/body-dressed.svg"
+      "default": "assets/body.svg"
     },
     "outfit": {
-      "daily-kot-ceket": "assets/wardrobe-v2/daily-kot-ceket.svg",
-      "daily-cizgili-tisort": "assets/wardrobe-v2/daily-cizgili-tisort.svg",
-      "daily-soft-yesil-hoodie": "assets/wardrobe-v2/daily-soft-yesil-hoodie.svg",
-      "daily-kamp-gunu": "assets/wardrobe-v2/daily-kamp-gunu.svg",
-      "daily-baharlik-gomlek": "assets/wardrobe-v2/daily-baharlik-gomlek.svg",
-      "daily-krem-hirka": "assets/wardrobe-v2/daily-krem-hirka.svg",
-      "winter-kar-tanesi-kazagi": "assets/wardrobe-v2/winter-kar-tanesi-kazagi.svg",
-      "sleep-pijamalari": "assets/wardrobe-v2/sleep-pijamalari.svg",
-      "special-parti-kiyafeti": "assets/wardrobe-v2/special-parti-kiyafeti.svg",
-      "winter-kis-montu": "assets/wardrobe-v2/winter-kis-montu.svg"
+      "pajama": "assets/outfit-pajama.svg",
+      "party": "assets/outfit-party.svg",
+      "winter": "assets/outfit-winter.svg"
     },
     "eyes": {
       "default": "assets/eyes.svg"
@@ -71,9 +63,7 @@
       "sleepy": "assets/mouth-sleepy.svg",
       "smirk": "assets/mouth-smirk.svg"
     },
-    "front": {
-      "dressed-hands": "assets/hands-dressed.svg"
-    },
+    "front": {},
     "effects": {
       "blush": "assets/fx-blush.svg",
       "sweat": "assets/fx-sweat.svg",
