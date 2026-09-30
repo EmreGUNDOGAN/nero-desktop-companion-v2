@@ -52,7 +52,7 @@ jobs:
           $beeCss = Get-Content src/renderer/bee/ui-v2.css -Raw
           if ($beeCss -notmatch 'margin-top:\s*-9px;\s*margin-bottom:\s*-9px') { throw 'Harvest vertical centering rule missing' }
           if ($beeCss -notmatch 'align-self:\s*center') { throw 'Harvest alignment guard missing' }
-          foreach ($color in @('#A8C88A','#96BA76','#789B60','#D96F67','#8E4A45','#B85B55')) {
+          foreach ($color in @('#A8C88A','#96BA76','#789B60','#D7655F','#8B4743','#B95752')) {
             if ($beeCss -notmatch [regex]::Escape($color)) { throw "6.3.10 approved UI color missing: $color" }
           }
 
@@ -74,7 +74,7 @@ jobs:
           }
           $panelCss = Get-Content src/renderer/panel/skins.css -Raw
           foreach ($id in $removedThemeIds) {
-            if ($panelCss -match [regex]::Escape("data-skin=\"$id\"")) { throw "Rolled-back skin selector still exists: $id" }
+            if ($panelCss -match [regex]::Escape($id)) { throw "Rolled-back skin selector still exists: $id" }
           }
           if ($beeRenderer -notmatch '\}, 2400\);') { throw 'Bee Nero bubble duration is not 2400 ms' }
           foreach ($color in @('#D7655F','#8B4743','#B95752')) {
