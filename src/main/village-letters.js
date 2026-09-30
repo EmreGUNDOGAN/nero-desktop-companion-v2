@@ -6,9 +6,11 @@ const path = require('path');
 const zlib = require('zlib');
 
 const LETTERS_BY_NAME = {};
-for (const suffix of ['a', 'b', 'c', 'd']) {
-  const file = path.join(__dirname, 'letters', `village-letters-${suffix}.json.gz`);
-  const pack = JSON.parse(zlib.gunzipSync(fs.readFileSync(file)).toString('utf8'));
+for (let i = 1; i <= 12; i += 1) {
+  const suffix = String(i).padStart(2, '0');
+  const file = path.join(__dirname, 'letters', `village-letters-${suffix}.b64`);
+  const compressed = Buffer.from(fs.readFileSync(file, 'utf8').trim(), 'base64');
+  const pack = JSON.parse(zlib.gunzipSync(compressed).toString('utf8'));
   Object.assign(LETTERS_BY_NAME, pack);
 }
 
