@@ -1037,20 +1037,52 @@ class BeeGame {
   }
 
   sendLetter(day) {
-    this.state.nextLetterDay = day + LETTER_EVERY[0] + Math.floor(Math.random() * (LETTER_EVERY[1] - LETTER_EVERY[0] + 1));
     const people = this.state.village.arrived.map((n) => VILLAGE[n - 1]).filter((e) => e.type === 'koylu');
-    if (!people.length) return;
-    const p = people[Math.floor(Math.random() * people.length)];
-    const own = LETTERS_BY_NAME[p.name];
-    const pool = own && Math.random() < 0.75 ? own : LETTERS_GENERIC;
-    const text = pool[Math.floor(Math.random() * pool.length)];
+    if (!people.length) { this.state.nextLetterDay = day + 1; return; }
+
+    // Aynı köylü, kendi mektubundan sonra gelen 10 mektup boyunca tekrar seçilemez.
+    const senderHistory = Array.isArray(this.state.letterSenderHistory) ? this.state.letterSenderHistory.slice(-10) : [];
+    const candidates = people.filter((p) => !senderHistory.includes(p.name));
+    if (!candidates.length) {
+      // Cooldown'u sessizce gevşetmek yerine bir sonraki oyun gününde tekrar dene.
+      this.state.nextLetterDay = day + 1;
+      return;
+    }
+    const p = candidates[Math.floor(Math.random() * candidates.length)];
+    const own = LETTERS_BY_NAME[p.name] || [];
+    const recentBySender = this.state.letterRecentBySender || (this.state.letterRecentBySender = {});
+    const recent = new Set(Array.isArray(recentBySender[p.name]) ? recentBySender[p.name].slice(-30) : []);
+
+    const ownEntries = own.map((text, i) => ({ id: `personal:${p.name}:${String(i + 1).padStart(3, '0')}`, text }));
+    const genericEntries = LETTERS_GENERIC.map((text, i) => ({ id: `generic:${String(i + 1).padStart(3, '0')}`, text }));
+    const available = (entries) => entries.filter((entry) => !recent.has(entry.id));
+    const preferOwn = ownEntries.length > 0 && Math.random() < 0.75;
+    let pool = available(preferOwn ? ownEntries : genericEntries);
+    if (!pool.length) pool = available(preferOwn ? genericEntries : ownEntries);
+    if (!pool.length) {
+      // 30'luk içerik cooldown'u da hiçbir koşulda gevşetilmez.
+      this.state.nextLetterDay = day + 1;
+      return;
+    }
+    const selected = pool[Math.floor(Math.random() * pool.length)];
+
+    // Toplam hediye olasılığı %34 kalır; hediye çıktıysa dağılım %66 jeton / %33 balmumu / %1 tohumdur.
     let gift = null;
-    const r = Math.random();
-    if (r < 0.2) gift = { coins: 10 + Math.floor(Math.random() * 3) * 10 };
-    else if (r < 0.3) gift = { wax: 0.1 };
-    else if (r < 0.34) gift = { seed: ['papatya', 'aycicegi', 'kekik'][Math.floor(Math.random() * 3)] };
-    const letter = { id: uid(), from: p.name, role: p.role, text, gift, day, read: false, claimed: false };
+    if (Math.random() < 0.34) {
+      const g = Math.random();
+      if (g < 0.66) gift = { coins: 10 + Math.floor(Math.random() * 3) * 10 };
+      else if (g < 0.99) gift = { wax: 0.1 };
+      else gift = { seed: ['papatya', 'aycicegi', 'kekik'][Math.floor(Math.random() * 3)] };
+    }
+
+    const letter = {
+      id: uid(), contentId: selected.id, from: p.name, role: p.role, text: selected.text,
+      gift, day, read: false, claimed: false
+    };
     this.state.letters = [...this.state.letters, letter].slice(-LETTER_KEEP);
+    this.state.letterSenderHistory = [...senderHistory, p.name].slice(-10);
+    recentBySender[p.name] = [...(recentBySender[p.name] || []), selected.id].slice(-30);
+    this.state.nextLetterDay = day + LETTER_EVERY[0] + Math.floor(Math.random() * (LETTER_EVERY[1] - LETTER_EVERY[0] + 1));
     this.events.push({ msg: `✉️ ${p.name} sana bir mektup gönderdi${gift ? ' (içinde küçük bir hediye var)' : ''}.`, go: { to: 'letters' } });
   }
 
