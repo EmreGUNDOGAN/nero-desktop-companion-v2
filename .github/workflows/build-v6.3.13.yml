@@ -84,6 +84,7 @@ jobs:
           )) {
             if ($panelLayoutCss -notmatch [regex]::Escape($rule)) { throw "6.3.13 settings layout guard missing: $rule" }
           }
+          $mainSource = Get-Content src/main/main.js -Raw
           foreach ($rule in @(
             'resizable: true',
             'minWidth: PANEL_MIN.width',
