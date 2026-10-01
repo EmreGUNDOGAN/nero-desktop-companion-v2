@@ -1649,6 +1649,8 @@ let releaseList = [];
 let releaseIndex = -1;
 let releaseManual = false;
 let officialReleasePromise = null;
+let whatsNewAutoAttempted = false;
+let whatsNewAutoShowing = false;
 function versionParts(v) { return String(v).split('.').map((n) => Number(n)); }
 function compareVersions(a, b) {
   const x = versionParts(a); const y = versionParts(b);
@@ -1689,17 +1691,27 @@ function writeSeenVersion(version) {
   if (!seen || compareVersions(version, seen) > 0) try { localStorage.setItem(RELEASE_SEEN_KEY, version); } catch (_) {}
 }
 async function maybeShowWhatsNew() {
-  if (!view || !view.tutorialDone || !$('whats-new-modal').hidden) return;
-  const notes = await loadOfficialReleaseNotes();
-  if (!notes.length) return;
-  const current = notes[notes.length - 1];
-  const seen = readSeenVersion();
-  if (seen && compareVersions(seen, current.version) >= 0) return;
-  releaseList = notes;
-  releaseIndex = seen ? notes.findIndex((note) => compareVersions(note.version, seen) > 0) : notes.length - 1;
-  if (releaseIndex < 0) releaseIndex = notes.length - 1;
-  releaseManual = false;
-  renderReleaseNote();
+  // Oyun state'i çalışırken sık güncelleniyor. Otomatik changelog kontrolü oturumda yalnız bir kez başlatılır;
+  // aksi halde aynı async GitHub isteğinin birden fazla devamı modalı tekrar tekrar açabilir.
+  if (whatsNewAutoAttempted || whatsNewAutoShowing || !view || !view.tutorialDone || !$('whats-new-modal').hidden) return;
+  whatsNewAutoAttempted = true;
+  whatsNewAutoShowing = true;
+  try {
+    const notes = await loadOfficialReleaseNotes();
+    if (!notes.length || !$('whats-new-modal').hidden) return;
+    const current = notes[notes.length - 1];
+    const seen = readSeenVersion();
+    if (seen && compareVersions(seen, current.version) >= 0) return;
+    releaseList = notes;
+    releaseIndex = seen ? notes.findIndex((note) => compareVersions(note.version, seen) > 0) : notes.length - 1;
+    if (releaseIndex < 0) releaseIndex = notes.length - 1;
+    releaseManual = false;
+    // Gösterildiği anda görüldü sayılır. Böylece dışarı tıklayarak kapatılsa veya state tick'i gelse bile yeniden açılmaz.
+    writeSeenVersion(current.version);
+    renderReleaseNote();
+  } finally {
+    whatsNewAutoShowing = false;
+  }
 }
 $('whats-new-prev').addEventListener('click', () => { if (releaseIndex > 0) { releaseIndex -= 1; renderReleaseNote(); } });
 $('whats-new-close').addEventListener('click', () => {
@@ -1712,7 +1724,12 @@ $('whats-new-release-link').addEventListener('click', async () => {
   if (url) await window.bee.openRelease(url);
 });
 $('whats-new-all-releases-link').addEventListener('click', async () => { await window.bee.openRelease(RELEASES_PAGE_URL); });
-$('whats-new-modal').addEventListener('click', (e) => { if (e.target === $('whats-new-modal')) closeWhatsNew(); });
+$('whats-new-modal').addEventListener('click', (e) => {
+  if (e.target !== $('whats-new-modal')) return;
+  const note = releaseList[releaseIndex];
+  if (!releaseManual && note) writeSeenVersion(note.version);
+  closeWhatsNew();
+});
 $('open-whats-new').addEventListener('click', async () => {
   const notes = await loadOfficialReleaseNotes(true);
   if (!notes.length) { await window.bee.openRelease(RELEASES_PAGE_URL); return; }

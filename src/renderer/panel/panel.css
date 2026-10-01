@@ -597,24 +597,27 @@ main { overflow: hidden; position: relative; flex: 1 1 auto; min-height: 0; }
 
 /* ---------- Boyutlandırma tutamaçları ---------- */
 .grip {
+  -webkit-app-region: no-drag;
   position: absolute;
   bottom: 0;
-  width: 22px; height: 22px;
+  width: 34px; height: 34px;
   border: 0; padding: 0;
   background: transparent;
-  opacity: .35;
+  opacity: .45;
   transition: opacity .15s ease;
-  z-index: 5;
+  z-index: 5000 !important;
+  pointer-events: auto !important;
+  touch-action: none;
 }
 .grip::after {
-  content: ""; position: absolute; bottom: 7px; width: 9px; height: 9px;
+  content: ""; position: absolute; bottom: 8px; width: 11px; height: 11px;
   border-bottom: 2px solid var(--muted);
 }
 .grip-right { right: 0; cursor: nwse-resize; }
-.grip-right::after { right: 7px; border-right: 2px solid var(--muted); border-bottom-right-radius: 3px; }
+.grip-right::after { right: 8px; border-right: 2px solid var(--muted); border-bottom-right-radius: 3px; }
 .grip-left { left: 0; cursor: nesw-resize; }
-.grip-left::after { left: 7px; border-left: 2px solid var(--muted); border-bottom-left-radius: 3px; }
-.grip:hover { opacity: 1; }
+.grip-left::after { left: 8px; border-left: 2px solid var(--muted); border-bottom-left-radius: 3px; }
+.grip:hover, .grip:active { opacity: 1; }
 
 /* ---------- Ana sayfa ---------- */
 .home-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 11px; }

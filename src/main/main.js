@@ -461,7 +461,11 @@ function createPanelWindow() {
     alwaysOnTop: settings().alwaysOnTop,
     show: false,
     frame: false,
-    resizable: false,
+    resizable: true,
+    minWidth: PANEL_MIN.width,
+    minHeight: PANEL_MIN.height,
+    maxWidth: PANEL_MAX.width,
+    maxHeight: PANEL_MAX.height,
     maximizable: false,
     fullscreenable: false,
     skipTaskbar: false,
@@ -493,6 +497,14 @@ function createPanelWindow() {
     if (!charWin) return;
     const b = charWin.getBounds();
     settingsStore.patch({ position: { x: b.x, y: b.y } });
+  });
+  // Frameless panel native kenarlardan da yeniden boyutlandırılabilir.
+  // Özel köşe grip'i sürüklenirken kayıt stopResize() içinde yapılır; native resize burada kalıcılaştırılır.
+  panelWin.on('resized', () => {
+    if (!panelWin || resize) return;
+    const b = panelWin.getBounds();
+    settingsStore.patch({ panelSize: { width: b.width, height: b.height } });
+    captureLink();
   });
   panelWin.on('minimize', () => {
     resetWindowInteractionState();
