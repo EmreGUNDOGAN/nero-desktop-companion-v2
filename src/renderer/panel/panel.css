@@ -794,7 +794,21 @@ main { overflow: hidden; position: relative; flex: 1 1 auto; min-height: 0; }
   .view { padding-left: 26px; padding-right: 26px; }
   .dial { width: 280px; height: 280px; }
   .digits { font-size: 64px; }
-  #view-settings { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 14px; align-content: start; }
+  #view-settings {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    height: auto;
+    min-height: 100%;
+    grid-auto-rows: max-content;
+    column-gap: 14px;
+    row-gap: 14px;
+    align-content: start;
+    align-items: start;
+  }
+  #view-settings > .card {
+    min-height: max-content;
+    align-self: start;
+  }
   #view-settings .version { grid-column: 1 / -1; }
 }
 @container (max-width: 560px) {
@@ -1161,4 +1175,15 @@ button.archive-entry-main { cursor: pointer; }
   }
   .mood-day-wrap { height: 32px; }
   .mood-day { width: 32px; height: 32px; }
+}
+
+
+/* 6.3.12 — Ayarlar kartları içerik yüksekliğine göre büyür.
+   .view sabit yüksekliğinden dolayı grid satırlarının küçülüp kart içeriğini kesmesini engeller. */
+#view-settings {
+  height: auto;
+  min-height: 100%;
+}
+#view-settings > .card {
+  box-sizing: border-box;
 }
