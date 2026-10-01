@@ -2,7 +2,7 @@
 
 > **Bu dosyayı her yeni sohbetin başında ver.** Okuyan asistan, projeyi, kod yapısını, Nero'nun karakterini,
 > uygulamanın ve arıcılık oyununun özelliklerini ve bizim çalışma kurallarımızı buradan öğrenir.
-> Bu dosya 6.3.13 geliştirme dalı için güncellenmiştir; eski bölümlerde tarihsel sabitler bulunabilir. Kodla çelişki varsa **kod esastır**; farkı bana söyle.
+> Bu dosya 6.3.14 geliştirme dalı için güncellenmiştir; eski bölümlerde tarihsel sabitler bulunabilir. Kodla çelişki varsa **kod esastır**; farkı bana söyle.
 
 ---
 
@@ -26,7 +26,7 @@
 | Yayıncı | **Stenwick** |
 | Repo | `github.com/EmreGUNDOGAN/nero-desktop-companion-v2` (herkese açık) |
 | appId | `com.stenwick.nero` — **asla değiştirme** (kurulum eski sürümü bununla tanır) |
-| Geliştirme sürümü | 6.3.13 (`package.json` → `version`) |
+| Geliştirme sürümü | 6.3.14 (`package.json` → `version`) |
 | Otomatik güncelleme | `electron-updater`, GitHub Releases üzerinden |
 | Veri klasörü | `%APPDATA%\Nero\` (JSON dosyaları), günlük: `%APPDATA%\Nero\nero.log` |
 

@@ -800,8 +800,10 @@ main { overflow: hidden; position: relative; flex: 1 1 auto; min-height: 0; }
   #view-settings {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    height: auto;
-    min-height: 100%;
+    height: 100%;
+    min-height: 0;
+    overflow-y: auto;
+    scrollbar-gutter: stable;
     grid-auto-rows: max-content;
     column-gap: 14px;
     row-gap: 14px;
@@ -1181,12 +1183,30 @@ button.archive-entry-main { cursor: pointer; }
 }
 
 
-/* 6.3.12 — Ayarlar kartları içerik yüksekliğine göre büyür.
-   .view sabit yüksekliğinden dolayı grid satırlarının küçülüp kart içeriğini kesmesini engeller. */
+/* 6.3.14 — Ayarlar kartları küçülmez ama sayfa kendi viewport'u içinde kayar.
+   6.3.12'deki height:auto tüm görünümü uzatıp ayarlar scroll'unu devre dışı bırakıyordu. */
 #view-settings {
-  height: auto;
-  min-height: 100%;
+  height: 100%;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-gutter: stable;
 }
 #view-settings > .card {
   box-sizing: border-box;
+}
+
+
+/* 6.3.14 — Boyutlandırma pencerenin çevresindeki yerel Windows kenarından yapılır.
+   Eski yalnız-alt-köşe grip'leri artık görünmez ve hit-test'i engellemez. */
+.grip {
+  display: none !important;
+  pointer-events: none !important;
+}
+#view-settings::-webkit-scrollbar {
+  width: 8px;
+}
+#view-settings::-webkit-scrollbar-thumb {
+  background: var(--line);
+  border-radius: 8px;
+  border: 2px solid var(--paper);
 }
