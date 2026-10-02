@@ -1838,7 +1838,7 @@ class BeeGame {
     const ready = this.state.orders.list.filter((o) => (this.state.storage[o.flower] || 0) + 1e-6 >= o.kg).length;
     if (ready) out.push({ id: `ready:${ready}`, text: `${ready} siparişin depodan hemen karşılanabilir.`, go: { to: 'orders' } });
     const wilted = Object.values(this.state.tiles).filter((t) => t.item && t.item.type === 'flower' && t.item.wilted).length;
-    if (wilted) out.push({ id: `wilt:${wilted}`, text: `${wilted} tarh soldu. Tohumun %10'una canlandırabilirsin.` });
+    if (wilted) out.push({ id: `wilt:${wilted}`, text: `${wilted} tarh soldu. Tohumun %25'ine canlandırabilirsin.` });
     if (this.calendar().season === 'sonbahar' && this.calendar().day >= 12 && Object.values(this.state.hives).some((h) => h.syrup < 1)) {
       out.push({ id: 'prewinter', text: 'Kış yaklaşıyor ve bazı kovanlarda erzak yok. Toplu şurup verebilirsin.', go: { to: 'hives' } });
     }

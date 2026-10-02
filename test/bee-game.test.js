@@ -175,14 +175,15 @@ test('5.4.2 hastalık kaybı vaka başına üçte birle sınırlıdır ve 4 arı
   assert.equal(hive.immuneUntil, 71);
 });
 
-test('5.4.2 siparişleri gerçek zamanda 5 dakikada gelir ve dönüşte en fazla 3 birikir', () => {
+test('5.4.2 siparişleri gerçek aktif zamanda 5 dakikada gelir ve dönüşte en fazla 3 birikir', () => {
   const bee = new BeeGame(new MemoryStore({}));
   bee.state.orders.list = [];
-  bee.state.orders.nextAtReal = Date.now() - 17 * 60 * 1000;
+  bee.state.orderClockMs = 17 * 60 * 1000;
+  bee.state.orders.nextAtClock = 5 * 60 * 1000;
   bee.processOrders();
   const normal = bee.state.orders.list.filter((x) => !x.special);
   assert.equal(normal.length, 3);
-  assert.ok(bee.state.orders.nextAtReal > Date.now() - 5 * 60 * 1000);
+  assert.ok(bee.state.orders.nextAtClock > bee.state.orderClockMs - 5 * 60 * 1000);
 });
 
 test('5.4.2 depo kademeleri 10.000 kg kapasiteye kadar devam eder', () => {

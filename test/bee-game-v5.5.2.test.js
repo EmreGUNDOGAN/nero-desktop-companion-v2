@@ -83,12 +83,12 @@ test('5.5.2 tam duraklama sonrası normal sipariş sayacı kaldığı yerden sü
   const now = Date.now();
   bee.state.pauseStartedAt = now - 60 * 60 * 1000;
   bee.state.lastSeenAt = now - 4 * 60 * 60 * 1000;
-  bee.state.orders.nextAtReal = bee.state.pauseStartedAt + 2 * 60 * 1000;
+  bee.state.orderClockMs = 10 * 60 * 1000;
+  bee.state.orders.nextAtClock = bee.state.orderClockMs + 2 * 60 * 1000;
 
   bee.markSeen();
 
-  const remaining = bee.state.orders.nextAtReal - Date.now();
-  assert.ok(remaining > 90 * 1000 && remaining <= 2 * 60 * 1000 + 1000);
+  assert.equal(bee.state.orders.nextAtClock - bee.state.orderClockMs, 2 * 60 * 1000);
   assert.equal(bee.state.pauseStartedAt, null);
 });
 
