@@ -989,7 +989,8 @@ $('zoom-out').addEventListener('click', () => setZoom(zoom / 1.2));
 
 function updateHover() {
   const t = hoverKey && view && view.tiles[hoverKey];
-  const clickable = t && t.kind !== 'water' && (t.owned || isBuyable(t));
+  const specialBuilding = t && (t.kind === 'storage' || t.kind === 'workshop');
+  const clickable = t && t.kind !== 'water' && (specialBuilding || t.owned || isBuyable(t));
   hoverRing.visible = !!clickable;
   canvas.style.cursor = clickable || (hoverKey && (hoverKey.startsWith('v:') || hoverKey === 'm:cart')) ? 'pointer' : 'grab';
   if (clickable) {
