@@ -1281,7 +1281,7 @@ for (const b of document.querySelectorAll('[data-soon]')) {
 let lastSpeed = 1;
 window.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
-    closePopup(); $('seed-modal').hidden = true; closeHive(); closeMarket(); closeOrders(); closeBoard(); closeShop(); closeWorkshop();
+    closePopup(); $('seed-modal').hidden = true; closeHive(); closeMarket(); closeOrders(); closeBoard(); closeShop(); closeWorkshop(); closeWarehouse();
     $('guide-modal').hidden = true; closeWhatsNew(); cancelPlacing(); closeLedger(); closeStats(); closeNotifs(); closeMerchant();
     $('settings-modal').hidden = true; $('hives-modal').hidden = true; $('keys-modal').hidden = true;
     return;
@@ -2723,16 +2723,11 @@ function renderWorkshop(force = false) {
       ((locked || missing) ? ' disabled' : '') + '>Üret · ' + workshopTime(recipe.durationMs || 0) + '</button></article>';
   }).join('');
 
-  const hiveOpts = Object.values(view.hives).map((h) => '<option value="' + esc(h.id) + '">' + esc(h.name) + ' · ' + h.bees + '/' + h.capBees + ' arı</option>').join('');
-  $('workshop-products').innerHTML = (w.products || []).length ? w.products.map((p) => {
-    const utility = p.kind === 'utility';
-    const actions = utility
-      ? '<div class="workshop-product-actions"><select data-workshop-hive-for="' + esc(p.key) + '">' + hiveOpts + '</select><button type="button" data-workshop-use="' + esc(p.key) + '">Kovana uygula</button></div>'
-      : '<div class="workshop-product-actions"><button type="button" data-workshop-sell="' + esc(p.key) + '">Hepsini sat · +' + (p.count * p.sellValue).toLocaleString('tr-TR') + ' 🪙</button></div>';
-    return '<article class="workshop-product"><b>' + esc(p.name) + ' ×' + p.count + '</b><small>' +
-      (utility ? 'Kovana uygulanabilir işlenmiş ürün.' : 'Sabit atölye satış fiyatı: ' + p.sellValue + ' 🪙 / adet') +
-      '</small>' + actions + '</article>';
-  }).join('') : '<div class="workshop-locked-note">Henüz tamamlanmış ürün yok.</div>';
+  const productCount = (w.products || []).reduce((n, p) => n + (p.count || 0), 0) + (view.candles || 0);
+  $('workshop-products').innerHTML = '<div class="workshop-locked-note">' +
+    '<b>📦 Tamamlanan ürünler Depo’ya gider.</b><br>' +
+    (productCount ? 'Depoda şu an ' + productCount + ' işlenmiş ürün bulunuyor.' : 'Henüz tamamlanmış ürün yok.') +
+    '<div style="margin-top:8px"><button type="button" class="act primary small-act" data-workshop-depot>Depo → Ürünler</button></div></div>';
 }
 
 $('workshop-recipes').addEventListener('click', (e) => {
@@ -2741,13 +2736,10 @@ $('workshop-recipes').addEventListener('click', (e) => {
   doAct('workshopQueue', b.dataset.workshopRecipe, b.dataset.workshopFlower || null);
 });
 $('workshop-products').addEventListener('click', (e) => {
-  const use = e.target.closest('[data-workshop-use]');
-  const sell = e.target.closest('[data-workshop-sell]');
-  if (use) {
-    const keyName = use.dataset.workshopUse;
-    const sel = document.querySelector('[data-workshop-hive-for="' + CSS.escape(keyName) + '"]');
-    if (sel) doAct('workshopUse', keyName, sel.value);
-  } else if (sell) doAct('workshopSell', sell.dataset.workshopSell, 'all');
+  const depot = e.target.closest('[data-workshop-depot]');
+  if (!depot) return;
+  closeWorkshop();
+  openWarehouse('products');
 });
 
 // ---------------------------------------------------------------------------
@@ -3073,7 +3065,7 @@ function applyView(v) {
   setTimeout(() => { if (view && view.merchant) renderMerchant(); }, 0);
   setTimeout(renderNotifs, 0);
   setTimeout(() => { if (view && view.village) buildVillage(); }, 0);
-  setTimeout(() => { renderQuests(); renderLedger(); renderStats(); renderWorkshop(); }, 0);
+  setTimeout(() => { renderQuests(); renderLedger(); renderStats(); renderWorkshop(); renderWarehouse(); }, 0);
   const first = !view;
   const prevWeather = prev && prev.weather ? prev.weather.id : null;
   const prevFestivalOpen = !!(prev && prev.festival && prev.festival.open);
@@ -3118,7 +3110,7 @@ function applyView(v) {
   if (v.unattended && !noticeShown) { $('notice').hidden = false; noticeShown = true; setTimeout(() => { $('notice').hidden = true; }, 5000); }
 
   // Karo ve nesneler sadece yerleşim değişince yeniden kurulur
-  const sig = JSON.stringify(Object.values(v.tiles).map((t) => [t.owned, t.item, t.tree, t.decor, t.kind])) + Object.values(v.hives).map((h) => `${h.bees}:${h.level}:${h.breed}:${h.queens}`).join(',') + farmStage(v) + (v.festival.cups || []).length + v.festival.open + v.calendar.season + v.storageBaseCap + (v.storageKg / v.storageCap >= 0.9) + (v.gameSettings?.seasonalAppearance !== false);
+  const sig = JSON.stringify(Object.values(v.tiles).map((t) => [t.owned, t.item, t.tree, t.decor, t.kind])) + Object.values(v.hives).map((h) => `${h.bees}:${h.level}:${h.breed}:${h.queens}`).join(',') + farmStage(v) + (v.festival.cups || []).length + v.festival.open + v.calendar.season + v.storageBaseCap + (v.storageKg / v.storageCap >= 0.9) + (v.gameSettings?.seasonalAppearance !== false) + ':' + (v.workshop?.unlocked ? 1 : 0) + ':' + (v.workshop?.level || 0);
   if (sig !== itemsSig) {
     itemsSig = sig;
     buildTiles();
@@ -3128,6 +3120,7 @@ function applyView(v) {
   weatherFx();
   if (shopOpen) renderShop();
   if (marketOpen) renderMarket();
+  if (warehouseOpen) renderWarehouse();
   renderOrders();
   renderBoard();
   // Açık kovan ekranı canlı güncellensin
