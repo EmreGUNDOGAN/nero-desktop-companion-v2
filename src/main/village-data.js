@@ -406,7 +406,7 @@ module.exports = [
   "type": "bina",
   "name": "Arıcılar Derneği",
   "role": "Köy arıcıları buluşur",
-  "effectText": "Bal Festivali puanın +%10",
+  "effectText": "Mevsim turnuvasında Bal Kalitesi +10 puan",
   "effect": "festivalBonus",
   "value": 0.1
  },

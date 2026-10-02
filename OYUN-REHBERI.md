@@ -145,7 +145,7 @@ Başlangıçta elinde:
 
 - **Her çiçek kendi balını üretir.** Ballar karışmaz: kovanın içinde, depoda ve pazarda türüne göre ayrı durur ve ayrı fiyattan satılır.
 - Mevsim etkisi: kendi mevsimi ×1, komşu mevsim ×0,5, karşı mevsim ×0,25. Bu oran hem tarhın bal katkısına hem üretim bonusuna uygulanır. Menzildeki her aktif tarhın bonusu ayrıca toplanır.
-- **Ömür:** her çiçek **30 gün (iki oyun ayı)** yaşar. Tarha tıklayınca kalan ömrü görürsün. Solan tarh 🥀 bal vermez, arılar oraya uçmaz ve o baldan sipariş gelmez. Solmuş tarha tıklayıp tohum fiyatının **%10'una canlandır** ya da temizle.
+- **Ömür:** her çiçek **30 gün (iki oyun ayı)** yaşar. Tarha tıklayınca kalan ömrü görürsün. Solan tarh 🥀 bal vermez, arılar oraya uçmaz ve o baldan sipariş gelmez. Solmuş tarha tıklayıp tohum fiyatının **%25'ine canlandır** ya da temizle.
 - **Yan yana bonusu:** aynı çiçekten **en az 3 tarh birbirine değiyorsa** (zincir hâlinde), her biri **+%15** üretir. Çiçeğe tıklayınca bonus varsa görünür.
 - **Çeşme bonusu:** çeşmenin olduğu karede ve yanındaki karelerde bulunan tarhlar **+%5** üretir (§12).
 - **Tohum envanteri:** Mağaza'dan satın aldığın tohum doğrudan envantere eklenir. Boş bir tarha ekerken önce envanterdeki hak kullanılır; mağazada ödediğin tohum için ikinci kez jeton ödemezsin. Köylü, görev ve diğer sistemlerden gelen ücretsiz tohumlar da aynı envantere eklenir.
@@ -155,7 +155,7 @@ Başlangıçta elinde:
 ## 7. Kovanlar ve arılar
 Bir kovana tıklayınca **kovanın içi** açılır: solda canlı petek (ortada yavrular, çevresinde çiçek renginde polen, dışa doğru bal), sağda bilgiler ve işlemler.
 
-**Üretim:** her arı saatte yaklaşık **0.5 kg** bal üretir; çiçek bonusu, hava, mevsim, ırk ve diğer etkilerle çarpılır. Kovanın üretimi menzilindeki tarhlar arasında eşit bölünür. **Kovan dolunca üretim durur**, hasat etmelisin.
+**Üretim:** her arı saatte yaklaşık **0.5 kg** bal üretir; çiçek bonusu, hava, mevsim, ırk ve diğer etkilerle çarpılır. Kovanın üretimi mevsime daha uygun tarhlara ağırlık verecek şekilde bölünür; verimsiz bir tarh eklemek iyi tarhların üretimini gereksiz yere düşürmez. **Kovan dolunca üretim durur**, hasat etmelisin.
 
 **İşlemler**
 - 🐝 **Arı Al:** fiyat satın alma geçmişine değil **arı sırasına** bağlıdır. 5. arı **60 jetondur**; sonraki her arı bir önceki sıraya göre **%15 daha pahalıdır** ve fiyat tam jetona yuvarlanır (6. arı 69, 7. arı 79 … 20. arı 488). Arı ölür veya satılırsa sonraki alım fiyatı mevcut arı sayısına göre geri düşer. Kapasite doluysa alınamaz.
@@ -215,21 +215,21 @@ Bir kovana tıklayınca **kovanın içi** açılır: solda canlı petek (ortada 
 - Fiyatlar her gün taban fiyatın **%80'i ile %130'u** arasında, yumuşak şekilde dalgalanır.
 - Her balın yanında o günün kg fiyatı, dünden bugüne değişim ve son 7 günün küçük grafiği var.
 - Mevsim: yaz **%15 ucuz**, kış **%35 pahalı**.
-- **Pazar etkinliği:** ara sıra bir bal 2 gün boyunca **%50 değerlenir**; duyurulur ve listede vurgulanır.
+- **Pazar etkinliği:** ara sıra bir bal 2 gün boyunca **%15 değerlenir**; duyurulur ve listede vurgulanır.
 - Satış: **1 kg**, **5 kg** ya da **Hepsi**.
 
 ---
 
 
 ## 10. Siparişler ve köylüler
-- **Gerçek zamanla 5 dakikada bir** yeni sipariş gelir (oyun hızından bağımsız; oyun duraklatılmışsa gelmez). Uzun süre bakmadıysan geri döndüğünde tek seferde en fazla **3 yeni normal sipariş** birikir; aynı anda toplam sipariş sınırı yine **5** (Pazar Yeri varsa 6).
+- **Gerçek aktif zamanla 5 dakikada bir** yeni sipariş gelir. 2x/4x hız bunu hızlandırmaz; oyun duraklatılırsa sipariş saati de durur. Uzun süre bakmadıysan geri döndüğünde tek seferde en fazla **3 yeni normal sipariş** birikir; aynı anda toplam sipariş sınırı yine **5** (Pazar Yeri varsa 6).
 - **Aynı köylünün aynı anda yalnızca 1 normal siparişi** listede olabilir. O kişinin açık ya da kabul edilmiş siparişi varken yeni normal sipariş üretiminde adı kullanılmaz; sipariş listeden çıkınca tekrar gelebilir.
 - **Sadece şu an ekili (solmamış) çiçeklerin balı istenir.** Hiç Kış Fundası tarhın yoksa Kış Fundası balı siparişi gelmez.
-- Siparişler piyasadan **çok daha iyi öder** (piyasanın 1.4–1.8 katı).
+- Siparişler oluşturuldukları andaki **güncel piyasa fiyatının 1.4–1.8 katı** temel ödeme verir; ilişki ve köy bonusları bunun üstüne eklenir.
 - Kartta: kim, ne kadar ve hangi bal, ödül, süre, depodaki miktar (yetiyorsa yeşil).
 
 **İşlemler**
-- **Kabul et:** süre o an başlar (2–5 gün).
+- **Kabul et:** süre o an başlar (2–5 gerçek-zaman oyun günü; 1 gün = 15 dakika). 2x/4x bu süreyi kısaltmaz.
 - **Teslim et:** depoda yeterli bal varsa.
 - **Değiştir:** 19 jeton, anında yeni sipariş.
 - **Reddet:** jeton ödemezsin ama o kişiyle **ilişkin %2 azalır** (her teslim %10 kazandırır, ilişki %0'ın altına inmez; kalp eşiğinin altına düşersen kalp kaybedersin). Yerine hemen yenisi gelmez, normal sırayı bekler.
@@ -245,7 +245,7 @@ Bir kovana tıklayınca **kovanın içi** açılır: solda canlı petek (ortada 
 
 ## 11. Balmumu ve mum
 - Her 1 kg hasatta **25 g balmumu** çıkar.
-- Depo panelinde **Mum yap:** 500 g balmumu → 1 mum.
+- Mumcu gelmeden önce **Mum yap:** 500 g balmumu → 1 mum. Atölye I açıldıktan sonra aynı balmumu ile **2 mum** üretilir; üretim yarım oyun günü sürer.
 - **Mumları sat:** mumun taban fiyatı 45 jeton; **kışın %40 daha değerli**. Piyasa ve etkinlik bonusları ayrıca uygulanır.
 - Satmadığın mumlar net değerine sayılır.
 
@@ -282,6 +282,8 @@ Temkinli Ali, Riskçi Kaya ve Dengeli Nur kendi çiftlik verilerine göre puan a
 ---
 
 ## 14. Rakipler ve liderlik
+
+> **Liderlik net değeri:** jeton + balın gerçek piyasa değeri + kovan/arı yatırımları + arazi/depo yatırımları + mumlar ve satılabilir Atölye ürünleri birlikte sayılır. Balı kovandan depoya taşımak tek başına net değer yaratmaz.
 Üç komşu arıcı arka planda kendi çiftliklerini işletir:
 
 | Rakip | Tarzı |
@@ -394,7 +396,7 @@ Oyun Nero'nun asıl amacıyla bağlantılı: **sen çalıştıkça çiftlik büy
 | Pazar Yeri | Aynı anda 6 sipariş |
 | Eczane | İlaç %30 ucuz |
 | Reçelci | Kekik ve Kış Fundası siparişleri daha sık |
-| Arıcılar Derneği | Festival puanı +%10 |
+| Arıcılar Derneği | Mevsim turnuvasında Bal Kalitesi +10 puan |
 | Marangoz Atölyesi | Dekorlar %20 ucuz |
 | Lokumcu | Kışın siparişler %10 daha iyi |
 | Köy Serası | Çiçek ömrü +5 gün |
@@ -562,7 +564,7 @@ Oyun Nero'nun asıl amacıyla bağlantılı: **sen çalıştıkça çiftlik büy
 | Şurup | 45 jeton taban fiyat = **15 kg** · temel tüketim 1 kg/gün |
 | İlaç | 90 jeton · hastalık bitince 1 yıl bağışıklık |
 | Irk değiştirme | 225 jeton |
-| Çiçek ömrü | 30 gün · canlandırma tohumun %10'u |
+| Çiçek ömrü | 30 gün · canlandırma tohumun %25'i |
 | Sipariş sıklığı / en fazla | gerçek zamanla 5 dk / 5 (uzun aradan sonra en fazla 3 birikir) |
 | Sipariş değiştirme | 19 jeton · Reddetmek: ilişki −%2 |
 | Ceza | ödemenin %20'si |

@@ -1660,6 +1660,7 @@ function registerIpc() {
       makeCandle: () => bee.makeCandle(),
       sellCandles: () => bee.sellCandles(),
       workshopQueue: () => bee.enqueueWorkshop(arg1, arg2),
+      workshopCancel: () => bee.cancelWorkshopJob(arg1),
       workshopUse: () => bee.useWorkshopProduct(arg1, arg2),
       workshopSell: () => bee.sellWorkshopProduct(arg1, arg2),
       claimQuest: () => bee.claimQuest(arg1),

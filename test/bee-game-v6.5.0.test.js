@@ -119,3 +119,67 @@ test('6.5.0 Atölye tamamlanmış ürünleri kullanıcıya Depo üzerinden göst
   assert.match(js, /data-warehouse-use/);
   assert.match(js, /data-warehouse-sell/);
 });
+
+
+test('6.5.0 denge düzeltmesi: balmumu 25 g/kg ve canlandırma yüzde 25', () => {
+  const bee = freshGame();
+  assert.equal(bee.reviveCost('kestane'), Math.round(bee.seedCost('kestane') * 0.25));
+  const h = Object.values(bee.state.hives)[0];
+  h.honey = { yonca: 10 };
+  bee.state.storageCap = 999;
+  const beforeWax = bee.state.wax;
+  const res = bee.harvestHive(h.id);
+  assert.equal(res.ok, true);
+  assert.ok(Math.abs((bee.state.wax - beforeWax) - 0.25) < 1e-6);
+});
+
+test('6.5.0 denge düzeltmesi: sipariş 4x hızda daha hızlı sonlanmaz', () => {
+  const bee = freshGame();
+  const ord = bee.makeOrder();
+  bee.state.orders.list = [ord];
+  bee.acceptOrder(ord.id);
+  const left = ord.deadlineClock - bee.state.orderClockMs;
+  bee.state.speed = 4;
+  bee.lastTickAt = 1000;
+  bee.tick(61000);
+  const after = ord.deadlineClock - bee.state.orderClockMs;
+  assert.equal(Math.round(left - after), 60000);
+});
+
+test('6.5.0 denge düzeltmesi: köy 35 bin kg çizgisinde tamamlanır', () => {
+  const bee = freshGame();
+  assert.equal(bee.villageTarget(149), 6);
+  assert.equal(bee.villageTarget(150), 8);
+  assert.equal(bee.villageTarget(400), 9);
+  assert.equal(bee.villageTarget(1000), 10);
+  assert.equal(bee.villageTarget(35000), 78);
+});
+
+test('6.5.0 denge düzeltmesi: kış Ezgi seçimi Kış Fundasını seçebilir', () => {
+  const bee = freshGame();
+  bee.state.village.arrived = Array.from({ length: 7 }, (_, i) => i + 1);
+  bee.state.gameMs = 45 * bee.view().dayMs;
+  assert.equal(bee.calendar().season, 'kis');
+  assert.equal(bee.ezgiChoice(), 'kisfundasi');
+});
+
+test('6.5.0 denge düzeltmesi: Atölye kuyruk iptalinde malzemeler tam iade edilir', () => {
+  const bee = freshGame();
+  bee.state.village.arrived = Array.from({ length: 30 }, (_, i) => i + 1);
+  bee.state.workshop.active = [{ id: 'busy', recipe: 'candle', totalMs: 1000, remainingMs: 1000 }];
+  bee.state.wax = 2;
+  const before = bee.state.wax;
+  assert.equal(bee.enqueueWorkshop('candle').ok, true);
+  const queued = bee.state.workshop.queue[0];
+  assert.ok(queued && queued.refund);
+  assert.equal(bee.cancelWorkshopJob(queued.id).ok, true);
+  assert.ok(Math.abs(bee.state.wax - before) < 1e-9);
+});
+
+test('6.5.0 denge düzeltmesi: turnuva ödülü backend ile sonuç ekranında aynıdır', () => {
+  const root = path.join(__dirname, '..');
+  const js = fs.readFileSync(path.join(root, 'src/renderer/bee/bee.js'), 'utf8');
+  const core = fs.readFileSync(path.join(root, 'src/main/bee.js'), 'utf8');
+  assert.match(core, /coins: 750, cup: 'altın'/);
+  assert.match(js, /coins: 750/);
+});

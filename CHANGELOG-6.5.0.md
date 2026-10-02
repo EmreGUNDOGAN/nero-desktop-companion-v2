@@ -30,3 +30,14 @@
 - Mağazadan alınan tohumlar Depo stokuna gider; haritaya ekim yalnız stoktan yapılır.
 - Hediye tohumlar aynı Depo stoğunda görünür.
 - Mağazadan alınan dekorlar Depo stokuna gider ve yalnız **Depo → Dekorlar → Yerleştir** yoluyla haritaya çıkar.
+
+## Oyun Mekaniği Tutarlılık Geçişi
+- Liderlik net değeri artık kalıcı arazi/depo/kovan yatırımlarını ve kovandaki balı gerçek tür fiyatıyla hesaba katar.
+- Turnuva ödülleri backend ve sonuç ekranında 750 / 500 / 250 olarak eşitlendi; oyuncu ile rakipler aynı kategori puanlama fonksiyonunu kullanır.
+- Rakip çiftlikler mevsime uygun bal üretir, gerçek bal türü stokları tutar, sipariş teslim eder, 15 günlük şurup kullanır ve yatırımlarını gerçek maliyetle yapar.
+- Sipariş ödeme tabanı güncel piyasa fiyatına bağlandı; kabul süreleri gerçek aktif zamanda akar ve 2x/4x hızdan etkilenmez.
+- Tarh üretim payı mevsim uygunluğuna göre ağırlıklandırıldı; biyoçeşitlilik güçlendirildi, monokültüre üretim/hastalık bedeli eklendi.
+- Köy ilerleme eğrisi tekrar 150 → 400 → 1.000 → her 500 kg düzenine ve 35.000 kg finaline bağlandı.
+- Balmumu 25 g/kg'a, solmuş tarh canlandırma maliyeti tohumun %25'ine düzeltildi.
+- Atölyede premium/işlenmiş ürün değerleri düzeltildi, Mumcu açıldıktan sonra mum verimi 2 kata çıktı ve bekleyen üretim iptalinde tam malzeme iadesi eklendi.
+- Pazar geçmiş grafiği artık gerçek nihai satış fiyatlarını saklar; Kış Fundası kışın Ezgi'nin Seçimi havuzuna doğru şekilde girer.

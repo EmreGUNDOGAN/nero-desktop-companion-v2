@@ -1135,7 +1135,7 @@ function openSeeds(k) {
   const season = view.calendar.season;
   const list = $('seed-list');
   list.innerHTML = Object.entries(view.flowers).map(([id, f]) => {
-    const inSeason = season !== 'kis' && f.seasons.includes(season);
+    const inSeason = f.seasons.includes(season);
     const buff = Math.round(f.buff * 100);
     return `<li class="seed">
       <span class="dot" style="background:${f.color}"></span>
@@ -2703,6 +2703,7 @@ function renderWorkshop(force = false) {
 
   const job = (x, queued) => '<div class="workshop-job"><b>' + (queued ? '⏳ ' : '🔨 ') + esc(x.name) + '</b>' +
     '<small>' + (queued ? 'Sırada bekliyor' : 'Kalan: ' + workshopTime(x.remainingMs || 0)) + '</small>' +
+    (queued && x.canCancel ? '<button type="button" class="act danger small-act" data-workshop-cancel="' + esc(x.id) + '">İptal · malzemeleri iade et</button>' : '') +
     (queued ? '' : '<div class="bar"><b style="width:' + Math.max(0, Math.min(100, Math.round((x.progress || 0) * 100))) + '%"></b></div>') + '</div>';
   $('workshop-active').innerHTML = w.unlocked
     ? '<div class="workshop-active-grid">' + (w.active.length ? w.active.map((x) => job(x, false)).join('') : '<div class="workshop-locked-note">Aktif üretim yok.</div>') + '</div>'
@@ -2730,6 +2731,12 @@ function renderWorkshop(force = false) {
     (productCount ? 'Depoda şu an ' + productCount + ' işlenmiş ürün bulunuyor.' : 'Henüz tamamlanmış ürün yok.') +
     '<div style="margin-top:8px"><button type="button" class="act primary small-act" data-workshop-depot>Depo → Ürünler</button></div></div>';
 }
+
+$('workshop-queue').addEventListener('click', (e) => {
+  const b = e.target.closest('[data-workshop-cancel]');
+  if (!b || b.disabled) return;
+  doAct('workshopCancel', b.dataset.workshopCancel);
+});
 
 $('workshop-recipes').addEventListener('click', (e) => {
   const b = e.target.closest('[data-workshop-recipe]');
