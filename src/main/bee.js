@@ -605,6 +605,51 @@ class BeeGame {
     return Math.max(0, Math.floor((Number(hive.syrup) || 0) / this.winterFeedNeed(hive, day)));
   }
 
+  // 6.3.16 — Kovan çevresindeki aktif tarhların gerçek ekosistem özeti.
+  hiveEcosystem(hiveId) {
+    const hiveKey = this.hiveTileKey(hiveId);
+    if (!hiveKey) return { total: 0, typeCount: 0, counts: {}, dominant: null, dominantCount: 0, dominantRatio: 0, productionBonus: 0, level: 'Yok', monoculture: false, sicknessRiskMult: 1, nearTiles: [] };
+    const near = this.flowerTilesNear(hiveKey);
+    const counts = {};
+    for (const { flower } of near) counts[flower] = (counts[flower] || 0) + 1;
+    const entries = Object.entries(counts).sort((x, y) => y[1] - x[1]);
+    const total = near.length;
+    const typeCount = entries.length;
+    const dominant = entries[0]?.[0] || null;
+    const dominantCount = entries[0]?.[1] || 0;
+    const dominantRatio = total ? dominantCount / total : 0;
+    let productionBonus = 0;
+    let level = 'Yok';
+    if (typeCount >= 3 && dominantRatio < 0.70) { productionBonus = 0.08; level = 'Yüksek'; }
+    else if (typeCount >= 2 && dominantRatio < 0.80) { productionBonus = 0.04; level = 'Orta'; }
+    else if (typeCount >= 2) level = 'Dengesiz';
+    const monoculture = total >= 5 && dominantRatio >= 0.80;
+    return {
+      total, typeCount, counts, dominant, dominantCount, dominantRatio,
+      productionBonus, level, monoculture,
+      sicknessRiskMult: monoculture ? 1.05 : 1,
+      nearTiles: near.map((x) => x.key)
+    };
+  }
+
+  flowerEcosystemInfo(tileKey) {
+    const hives = [];
+    for (const hive of Object.values(this.state.hives)) {
+      const eco = this.hiveEcosystem(hive.id);
+      if (!eco.nearTiles.includes(tileKey)) continue;
+      hives.push({
+        id: hive.id, name: hive.name, level: eco.level, bonus: eco.productionBonus,
+        monoculture: eco.monoculture, dominant: eco.dominant, dominantRatio: eco.dominantRatio
+      });
+    }
+    return {
+      hives,
+      contributes: hives.some((x) => x.bonus > 0),
+      monoculture: hives.some((x) => x.monoculture),
+      maxBonus: hives.reduce((m, x) => Math.max(m, x.bonus || 0), 0)
+    };
+  }
+
   // Kovan üretim tooltip'i için: canlı formülde gerçekten kullanılan aktif etkileri döndürür.
   hiveProductionEffects(hiveId) {
     const hive = this.state.hives[hiveId];
@@ -643,6 +688,10 @@ class BeeGame {
 
     const globalProd = this.fx('prodBonus') + this.storyFx('prodAll');
     if (globalProd) addPct('🏘️ Köy ve hikâye etkileri', globalProd);
+
+    const ecosystem = this.hiveEcosystem(hiveId);
+    if (ecosystem.productionBonus) addPct('🌿 Biyoçeşitlilik', ecosystem.productionBonus,
+      `${ecosystem.typeCount} tür · baskın %${Math.round(ecosystem.dominantRatio * 100)}`);
 
     const pollenMult = day < (hive.pollenMixUntilDay || 0) ? 1.25 : 1;
     const flowerBuff = near.reduce((total, { flower, key: tileKey }) =>
@@ -694,6 +743,8 @@ class BeeGame {
     const pollenBuff = day < (hive.pollenMixUntilDay || 0) ? 1.25 : 1;
     const flowerBuff = near.reduce((total, { flower, key: tileKey }) =>
       total + FLOWERS[flower].buff * seasonWeight(flower, this.state.tiles[tileKey]), 0) * pollenBuff;
+    const ecosystem = this.hiveEcosystem(hiveId);
+    const ecosystemMult = 1 + ecosystem.productionBonus;
     for (const { flower: f, key: fk } of near) {
       const def = FLOWERS[f];
       const breed = BREEDS[hive.breed] || BREEDS.anadolu;
@@ -704,7 +755,7 @@ class BeeGame {
         && cup.season === season && cup.year === this.calendar().year - 1) ? 1.2 : 1;
       let mult = (1 + flowerBuff) * winnerBuff * weather.mult * (hive.sick ? SICK_MULT : 1) * (1 + this.clusterBonus(fk) + this.fountainBonus(fk))
         * breed.prod * focus * vitamin * flowerFeed * (1 + this.fx('prodBonus') + this.storyFx('prodAll'))
-        * (day < (hive.boostUntilDay || 0) ? 1.5 : 1);
+        * ecosystemMult * (day < (hive.boostUntilDay || 0) ? 1.5 : 1);
       // Çiçeğin mevsim uyumu her mevsimde hem bal katkısına hem buff hesabına uygulanır.
       // Kışın buna ek olarak kovanın beslenme kaynaklı genel kış çarpanı devreye girer.
       mult *= seasonWeight(f, this.state.tiles[fk]);
@@ -862,7 +913,7 @@ class BeeGame {
           this.events.push({ msg: `${h.name}: hasta kovanda bir arı öldü.`, err: true });
           if (h.bees <= SICK_MIN_BEES || h.sickDeaths >= limit) this.recoverHive(h, dayIdx);
         }
-      } else if (season !== 'kis' && h.bees > SICK_MIN_BEES && dayIdx >= (h.immuneUntil || 0) && Math.random() < SICK_CHANCE * (BREEDS[h.breed] || BREEDS.anadolu).sick * (1 - this.fx('sickReduce') - this.storyFx('sick')) * (dayIdx < (h.propolisUntilDay || 0) ? 0.5 : 1)) {
+      } else if (season !== 'kis' && h.bees > SICK_MIN_BEES && dayIdx >= (h.immuneUntil || 0) && Math.random() < SICK_CHANCE * (BREEDS[h.breed] || BREEDS.anadolu).sick * (1 - this.fx('sickReduce') - this.storyFx('sick')) * (dayIdx < (h.propolisUntilDay || 0) ? 0.5 : 1) * this.hiveEcosystem(h.id).sicknessRiskMult) {
         h.sick = true;
         h.sickSince = dayIdx;
         h.sickStartBees = h.bees;
@@ -3039,6 +3090,7 @@ class BeeGame {
         total: this.hiveTotal(h),
         ratePerHour: Object.values(rates).reduce((a, b) => a + b, 0),
         productionEffects: this.hiveProductionEffects(h.id),
+        ecosystem: this.hiveEcosystem(h.id),
         near: this.flowersNear(this.hiveTileKey(h.id) || '0,0'),
         queenName: QUEEN_NAMES[h.queens] || QUEEN_NAMES[0],
         nextQueenName: QUEEN_NAMES[h.queens + 1] || null,
@@ -3105,6 +3157,8 @@ class BeeGame {
       clusterBonus: CLUSTER_BONUS,
       clusterTiles: Object.fromEntries(Object.entries(this.state.tiles)
         .filter(([, t]) => t.item && t.item.type === 'flower').map(([k]) => [k, this.clusterBonus(k) > 0])),
+      flowerEcosystem: Object.fromEntries(Object.entries(this.state.tiles)
+        .filter(([, t]) => t.item && t.item.type === 'flower').map(([k]) => [k, this.flowerEcosystemInfo(k)])),
       leaderboard: this.leaderboard(),
       farmName: this.state.farmName,
       quests: (this.ensureQuests(), this.state.quests.list.map((q) => ({ ...q, text: this.questText(q) }))),
