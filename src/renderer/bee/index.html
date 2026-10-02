@@ -173,10 +173,14 @@
         </section>
 
         <section class="hive-tab-panel" data-hive-panel="byproduct" hidden>
-          <div class="future-panel">
-            <b>🌼 Yan Ürün Sistemi</b>
-            <p>Polen, Propolis ve Arı Sütü sistemi bir sonraki geliştirme maddesinde açılacak. Bu sürüm sahte miktar veya sahte potansiyel göstermiyor.</p>
-            <small>Hazır olduğunda bu sekme gerçek üretim potansiyelini, biriken miktarları ve nedenlerini gösterecek.</small>
+          <div class="byproduct-head">
+            <div><b>🌼 Yan Ürünler</b><p>Yan ürünler bal üretirken birikir; hasatla birlikte atölye deposuna taşınır.</p></div>
+            <small>Gösterilen değerler bu kovanın gerçek koşullarından hesaplanır.</small>
+          </div>
+          <div class="byproduct-grid">
+            <article class="byproduct-card" id="h-by-pollen"></article>
+            <article class="byproduct-card" id="h-by-propolis"></article>
+            <article class="byproduct-card" id="h-by-royal"></article>
           </div>
         </section>
 
@@ -238,8 +242,33 @@
           <button class="act" id="make-candle" type="button"></button>
           <button class="act primary" id="sell-candles" type="button"></button>
         </div>
+        <button class="act workshop-open" id="open-workshop" type="button">🔨 Arıcılık Atölyesi</button>
         <p class="depot-note">Depo dolarsa arıcı hasat edemez. Balını sat ya da depoyu büyüt.</p>
       </aside>
+    </div>
+  </div>
+
+  <!-- Arıcılık Atölyesi -->
+  <div class="modal-bg" id="workshop-modal" hidden>
+    <div class="modal card workshop-card">
+      <div class="modal-head">
+        <div><h2>🔨 Arıcılık Atölyesi</h2><p class="modal-sub" id="workshop-sub"></p></div>
+        <button class="round small" id="workshop-close" type="button" aria-label="Kapat">✕</button>
+      </div>
+      <div class="workshop-materials" id="workshop-materials"></div>
+      <section class="workshop-jobs">
+        <div class="workshop-section-head"><b>Üretim</b><small id="workshop-slots"></small></div>
+        <div id="workshop-active"></div>
+        <div id="workshop-queue"></div>
+      </section>
+      <section>
+        <div class="workshop-section-head"><b>Tarifler</b><small>Köy büyüdükçe yeni tarifler açılır.</small></div>
+        <div class="workshop-recipes" id="workshop-recipes"></div>
+      </section>
+      <section>
+        <div class="workshop-section-head"><b>Ürün Envanteri</b><small>Aktif ürünleri kovana uygula; ticari ürünleri sabit fiyattan sat.</small></div>
+        <div class="workshop-products" id="workshop-products"></div>
+      </section>
     </div>
   </div>
 
@@ -334,9 +363,16 @@
         <details class="guide-topic">
           <summary>🏘️ Köy ve komşular</summary>
           <p>Adanı çevreleyen iki halkada bir köy yaşar. Bu karelere yalnızca köylüler yerleşir; senin adana dokunmazlar. Siparişlerle teslim ettiğin toplam bal arttıkça köy büyür: başlangıçta 6 yerleşimci vardır; <b>50, 150, 400 ve 1.000 kg</b>'da birer kişi, sonra <b>her 500 kg'de bir</b> yeni köylü, dükkân ya da bina gelir. İlk 36 yerleşimci iç halkaya (54 kare), sonraki 42 yerleşimci dış halkaya (60 kare) yerleşir; son yerleşimci 35.000 kg'da gelir. 78 yerleşimciyle köy tamamlanır.</p>
-          <p><b>Köylüler:</b> her birinin sevdiği bir bal var; o bal ekiliyse siparişlerinde sık sık onu ister ve %15 daha iyi öder. <b>Dükkânlar ve binalar</b> kalıcı etkiler getirir: Fırın, Pastane ve Muhtarlık düzenli siparişler verir; Bal Dükkânı pazar fiyatlarını %10, Çiçekçi tohumları %10 ucuzlatır, Kahveci odak bonusunu uzatır, Postane sipariş sürelerini 1 gün artırır, Pazar Yeri sipariş sınırını 6'ya çıkarır… En sonda gelen Bal Müzesi tüm üretimi %5 artırır.</p>
+          <p><b>Köylüler:</b> her birinin sevdiği bir bal var; o bal ekiliyse siparişlerinde sık sık onu ister ve %15 daha iyi öder. <b>Dükkânlar ve binalar</b> kalıcı etkiler getirir: Fırın, Pastane ve Muhtarlık düzenli siparişler verir; Bal Dükkânı pazar fiyatlarını %10, Çiçekçi tohumları %10 ucuzlatır, Kahveci odak bonusunu uzatır, Postane sipariş sürelerini 1 gün artırır, Pazar Yeri sipariş sınırını 6'ya çıkarır… <b>Mumcu</b> Arıcılık Atölyesi'ni açar; <b>Eczane</b> propolis tariflerini, <b>Arıcılar Derneği</b> gelişmiş polen ve Arı Sütü tariflerini, <b>Köy Serası</b> Aromalı Balı, <b>Bal Müzesi</b> Hediye Seti'ni açar.</p>
           <p>Köydeki bir yapıya tıklayınca kim olduğunu ve etkisini görürsün. Bal Defteri'nin <b>Köy</b> sekmesinde bütün yerleşimciler, kalpleri ve sıradaki yerleşimci için gereken bal yazar. Köydeki 78 yapı kendine özgü görünüme sahiptir; uzaktayken üzerine geldiğin yapının, yakınlaştırdığında bütün yapıların adı görünür. Gece pencereleri aydınlanır.</p>
           <p>Çiftlik evi kovan ve arazi sayısıyla dört aşamada büyür. Kovanların görünümü seviyesi, arı ırkı ve kraliçe yükseltmesine göre değişir. Arıcı hasatta körük ve çerçeveyle çalışır; çiçek tarhları, arılar, göller ve Seyyah Yakup'un arabası yenilendi.</p>
+        </details>
+
+        <details class="guide-topic">
+          <summary>🔨 Yan ürünler ve Arıcılık Atölyesi</summary>
+          <p>Bal üretirken kovanda üç gerçek yan ürün birikir: <b>Polen</b>, <b>Propolis</b> ve <b>Arı Sütü</b>. Polen aktif çiçek ve biyoçeşitlilikten etkilenir; monokültür poleni azaltır. Propolis için sağlıklı ve en az 8 arılı koloni gerekir. Arı Sütü için sağlıklı, en az 12 arılı ve en az Sağlıklı Kraliçe seviyesine yükselmiş bir kovan gerekir. Yan ürünler balı hasat ettiğinde aynı oranda atölye deposuna taşınır.</p>
+          <p><b>Mumcu (30. yerleşimci)</b> Atölye I'i açar: premium bal kavanozları ve mum. <b>Eczane (44)</b> Atölye II'yi açar: Propolis Kalkanı ve Propolis Merhemi. <b>Arıcılar Derneği (53)</b> Atölye III'ü açar, aynı anda 2 üretim yapılabilir ve Polen Keki, Özel Polen Karışımı, Arı Sütü Kürü açılır. <b>Köy Serası (73)</b> Aromalı Bal Kavanozu, <b>Bal Müzesi (78)</b> Bal Hediye Seti tarifini açar.</p>
+          <p>Atölye üretimleri oyun zamanı ile ilerler ve oyun durduğunda durur. Ticari ürünler sabit fiyattan satılabilir; kovan ürünleri envanterden seçtiğin kovana uygulanır. Kışın normal bal fiyatı artık <b>+%15</b> mevsim bonusu alır.</p>
         </details>
 
         <details class="guide-topic">
