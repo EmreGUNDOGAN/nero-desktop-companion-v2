@@ -182,6 +182,16 @@ Bir kovana tıklayınca **kovanın içi** açılır: solda canlı petek (ortada 
 
 **Doğal üreme:** kış dışında, menzilde çiçek varsa ve kovan dolu değilse Anadolu ve Kafkas arısında **4 günde bir**, İtalyan arısında **2 günde bir 1 arı** doğar. Polen Keki bu doğal aralığı yarıya indirir. Kovan doluyken doğal üreme ve Arı Sütü yeni arı eklemez.
 
+**Çiçek Ekosistemi ve Tozlaşma (6.3.16):**
+- Her kovan panelinde **Genel · Ekosistem · Yan Ürün · Üretim · Ayrıntılar** sekmeleri vardır.
+- Ekosistem hesabı yalnız menzildeki aktif, solmamış tarhları kullanır.
+- En az **2 farklı tür** varsa ve baskın tür toplamın %80'inden azsa **+%4 bal üretimi**.
+- En az **3 farklı tür** varsa ve baskın tür toplamın %70'inden azsa **+%8 bal üretimi**.
+- En az 5 aktif tarhın **%80 veya fazlası aynı türse** monokültür baskısı oluşur. Bal üretimi doğrudan düşmez; kovanın doğal hastalanma ihtimali göreli **%5 artar**.
+- Ekosistem sekmesi türleri, adetleri, baskın tür oranını ve monokültür durumunu açıkça gösterir. Üretim sekmesinde biyoçeşitlilik gerçek üretim buff'ı olarak listelenir.
+- Tarha tıklayınca hangi kovanların ekosistemine katkı yaptığı görünür. Yüksek biyoçeşitlilikli tarhlar adada hafifçe daha canlı çizilir ve küçük tozlaştırıcı ambient detayı gösterebilir.
+- **Yan Ürün** sekmesi bu sürümde yalnız yer tutucudur; Polen / Propolis / Arı Sütü ekonomisi sonraki onaylı maddede kodlanacaktır.
+
 **Kış:** günlük erzak ihtiyacını karşılayamayan kovan aç sayılır ve ırkının kış kaybı kuralına göre arı kaybedebilir. **Kış kaybı hiçbir kovanı 4 arının altına düşüremez.** O gün yeterli erzakla beslenen kovan kışın daha iyi üretir (**×0,35**; beslenmeyen kovan **×0,10**).
 
 **Hastalık:** kış dışında, 4 arıdan kalabalık her kovan her gün küçük bir ihtimalle (%3) hastalanır. Hasta kovan **%30 az** üretir ve tedavi edilmezse **2 günde bir arı** kaybedebilir. Bir hastalık vakasında, hastalık başladığındaki arı sayısının en fazla yaklaşık **üçte biri** ölür (en yakın tam sayıya yuvarlanır: 5→1, 6→2, 7→2, 8→3, 9→3, 10→3). Kovan **4 arıya düşerse hastalık o gün otomatik biter**. İlaç anında iyileştirir. Hastalık ister doğal olarak bitsin ister ilaçla iyileştirilsin, ardından **1 oyun yılı bağışıklık** başlar (kovan ekranında 🛡️ kalan gün).
