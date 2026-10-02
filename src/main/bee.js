@@ -424,8 +424,8 @@ class BeeGame {
       this.state.winterHeatherMigrated = true;
     }
     // On existing saves, preserve any player-placed item and use an adjacent free site.
-    const storeTile = ['-2,1', '-2,0', '-1,2'].find((k) => {
-      const t = this.state.tiles[k]; return t && t.kind !== 'water' && t.kind !== 'festival' && !t.item;
+    const storeTile = ['-2,1', '-2,0', '-2,3', '-1,3'].find((k) => {
+      const t = this.state.tiles[k]; return t && k !== WORKSHOP_TILE && t.kind !== 'water' && t.kind !== 'festival' && !t.item && !t.decor;
     });
     if (storeTile) {
       for (const t of Object.values(this.state.tiles)) if (t.kind === 'storage' && t !== this.state.tiles[storeTile]) t.kind = 'grass';
@@ -433,6 +433,16 @@ class BeeGame {
       this.state.tiles[storeTile].owned = false;
     }
     this.reserveWorkshopTile();
+    // Çok eski kayıtta Depo tam Atölye karesindeyse Atölye rezervasyonu sonrası Depo kaybolmasın.
+    if (!Object.values(this.state.tiles).some((t) => t.kind === 'storage')) {
+      const fallback = ['-2,1', '-2,0', '-2,3', '-1,3'].find((k) => {
+        const t = this.state.tiles[k]; return t && k !== WORKSHOP_TILE && t.kind === 'grass' && !t.item && !t.decor && !t.tree;
+      });
+      if (fallback) {
+        this.state.tiles[fallback].kind = 'storage';
+        this.state.tiles[fallback].owned = false;
+      }
+    }
     this.state.keeper = this.state.keeper || { queue: [], job: null };
     if (!this.state.keeper.job) this.state.keeper.carrying = false;
     if (!Number.isInteger(this.state.hivesPurchased)) this.state.hivesPurchased = Math.max(0, Object.keys(this.state.hives).length - 1);
