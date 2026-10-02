@@ -11,6 +11,7 @@ import { buildKeeper } from './keeper.js';
 import { makeHiveV2 } from './gorsel/kovan.js';
 import { makeFarmHouse, farmStage } from './gorsel/ciftlik-evi.js';
 import { makeStorage } from './gorsel/depo.js';
+import { makeWorkshopBuilding } from './gorsel/atolye.js';
 import { makeBeeV2, beeArc } from './gorsel/ari.js';
 import { makeWaterDeco } from './gorsel/gol.js';
 import { makeFlowerBed } from './gorsel/tarh.js';
@@ -671,6 +672,7 @@ function buildItems() {
     const seed = (t.q + 7) * 131 + (t.r + 7) * 17;
     if (t.item && t.item.type === 'house') obj = makeFarmHouse(farmStage(view));
     else if (t.kind === 'storage') obj = makeStorage(view.storageBaseCap, view.storageKg / view.storageCap);
+    else if (t.kind === 'workshop') obj = makeWorkshopBuilding(!!view.workshop?.unlocked, view.workshop?.level || 0);
     else if (t.item && t.item.type === 'hive') {
       obj = makeHiveV2(view.hives[t.item.id]);
       obj.scale.setScalar(1.22);
@@ -687,7 +689,7 @@ function buildItems() {
     else if (t.kind === 'water') obj = makeWaterDeco(t, view.tiles, R, seed);
     else if (t.tree) obj = makeTree(seed);
     if (obj) {
-      if (t.item?.type === 'house' || t.kind === 'storage') snowOnRoofs(obj);
+      if (t.item?.type === 'house' || t.kind === 'storage' || t.kind === 'workshop') snowOnRoofs(obj);
       obj.position.x += p.x;
       obj.position.z += p.z;
       obj.position.y = y;
@@ -1024,6 +1026,12 @@ function onTileClick(k, x, y) {
   if (!k || !view) return;
   const t = view.tiles[k];
   if (!t || t.kind === 'water') return;
+  if (placing && (t.kind === 'storage' || t.kind === 'workshop')) {
+    toast(t.kind === 'workshop' ? 'Bu kare Arıcılık Atölyesi için ayrılmış.' : 'Bu kare Depo binasına ayrılmış.', true);
+    return;
+  }
+  if (!placing && t.kind === 'storage') { openWarehouse(); return; }
+  if (!placing && t.kind === 'workshop') { openWorkshop(); return; }
   if (placing) { placeAt(k, t); return; }
   popupKey = k;
 
@@ -1043,7 +1051,7 @@ function onTileClick(k, x, y) {
       <p class="sub">Bir karede ya kovan ya da çiçek olabilir.</p>
       <button class="act primary" data-act="placeHive" ${view.coins < view.hiveCost ? 'disabled' : ''}>🐝 Kovan yerleştir <small>${view.hiveCost} 🪙</small></button>
       <button class="act" data-act="openSeeds">🌱 Tohum ek <small>›</small></button>
-      ${t.decor ? `<button class="act danger" data-act="removeDecor">${esc(view.decor[t.decor].name)} kaldır <small>+${Math.floor(view.decor[t.decor].cost / 2)} 🪙</small></button>` : ''}`);
+      ${t.decor ? `<button class="act danger" data-act="removeDecor">${esc(view.decor[t.decor].name)} Depo'ya kaldır</button>` : ''}`);
     return;
   }
 
@@ -1085,7 +1093,7 @@ function onTileClick(k, x, y) {
         return `<div class="row"><span>🌿 Ekosistem katkısı</span><b>${eco.hives.length} kovan</b></div><p class="sub">${hiveNames} · ${contribution}${mono}</p>`;
       })()}
       <button class="act danger" data-act="removeFlower">Tarhı temizle</button>
-      ${t.decor ? `<button class="act danger" data-act="removeDecor">${esc(view.decor[t.decor].name)} kaldır <small>+${Math.floor(view.decor[t.decor].cost / 2)} 🪙</small></button>` : ''}`);
+      ${t.decor ? `<button class="act danger" data-act="removeDecor">${esc(view.decor[t.decor].name)} Depo'ya kaldır</button>` : ''}`);
     return;
   }
 
@@ -1135,7 +1143,7 @@ function openSeeds(k) {
         <span class="${inSeason ? 'insz' : 'outsz'}">${inSeason ? 'şu an mevsiminde' : 'mevsimi dışında, az üretir'}</span>
       </span>
       <span class="buff ${buff === 0 ? 'zero' : ''}">🐝 +%${buff} bal üretimi</span>
-      <button class="buy" type="button" data-seed="${id}" ${view.coins < f.seed && !(view.vouchers[id] > 0) ? 'disabled' : ''}>${view.vouchers[id] > 0 ? `🌱 Envanter ×${view.vouchers[id]}` : `${f.seed} 🪙`}</button>
+      <button class="buy" type="button" data-seed="${id}" ${(view.vouchers[id] || 0) < 1 ? 'disabled' : ''}>${view.vouchers[id] > 0 ? `🌱 Depoda ×${view.vouchers[id]}` : 'Depoda yok'}</button>
     </li>`;
   }).join('');
   $('seed-modal').hidden = false;
@@ -1588,6 +1596,7 @@ function startPlacing(p, text) {
   $('place-text').textContent = text;
   $('place-bar').hidden = false;
   closeShop();
+  closeWarehouse();
 }
 function cancelPlacing() { placing = null; $('place-bar').hidden = true; }
 $('place-cancel').addEventListener('click', cancelPlacing);
@@ -1595,7 +1604,7 @@ $('place-cancel').addEventListener('click', cancelPlacing);
 async function placeAt(k, t) {
   const p = placing;
   if (p.type === 'decor') {
-    if (!t.owned) { toast('Dekor sadece adandaki karelere konur.', true); return; }
+    if (!t.owned || t.kind !== 'grass') { toast('Dekor sadece çiftliğindeki kullanılabilir arazi karelerine konur.', true); return; }
     await doAct('placeDecor', k, p.decor);
     cancelPlacing();
     return;
@@ -1631,7 +1640,7 @@ for (const b of document.querySelectorAll('.shop-tabs button')) {
 
 function renderShop(force = false) {
   if (!shopOpen || !view) return;
-  const sig = JSON.stringify([shopTab, Math.floor(view.coins), view.tilePrice, view.calendar.season, view.ezgi, view.vouchers]);
+  const sig = JSON.stringify([shopTab, Math.floor(view.coins), view.tilePrice, view.calendar.season, view.ezgi, view.vouchers, view.decorInventory]);
   if (!force && sig === shopSig) return;
   shopSig = sig;
   const c = view.coins;
@@ -1655,8 +1664,8 @@ function renderShop(force = false) {
   } else if (shopTab === 'decor') {
     const icons = { cit: '🪵', bank: '🪑', fener: '🏮', kemer: '🌸', cesme: '⛲' };
     html = Object.entries(view.decor).filter(([, d]) => !d.prize).map(([id, d]) => `<div class="shop-item"><span class="big">${icons[id] || '✨'}</span>
-      <span class="info"><b>${esc(d.name)}</b><small>${esc(d.desc)} Karenin kenarına konur, kovan ya da çiçekle birlikte durabilir.</small></span>
-      <button type="button" data-buy="decor" data-decor="${id}" ${c < d.cost ? 'disabled' : ''}>${d.cost} 🪙</button></div>`).join('');
+      <span class="info"><b>${esc(d.name)}</b><small>${esc(d.desc)} Satın alındığında Depo → Dekorlar'a gider.</small><small>📦 Depoda: ×${(view.decorInventory && view.decorInventory[id]) || 0}</small></span>
+      <button type="button" data-buy="decor" data-decor="${id}" ${c < d.cost ? 'disabled' : ''}>Satın al · ${d.cost} 🪙</button></div>`).join('');
   } else {
     html = `<div class="shop-item"><span class="big">🌾</span>
       <span class="info"><b>Yeni arazi karesi</b><small>Adanı büyütür. Her yeni kare bir öncekinden pahalıdır.</small></span>
@@ -1673,7 +1682,10 @@ $('shop-body').addEventListener('click', async (e) => {
     renderShop(true);
   }
   else if (kind === 'hive') startPlacing({ type: 'hive' }, 'Kovanı koymak için boş bir kare seç');
-  else if (kind === 'decor') startPlacing({ type: 'decor', decor: b.dataset.decor }, `${view.decor[b.dataset.decor].name} için adandan bir kare seç`);
+  else if (kind === 'decor') {
+    await doAct('buyDecor', b.dataset.decor);
+    renderShop(true);
+  }
   else startPlacing({ type: 'land' }, 'Satın almak için adanın kenarından bir kare seç');
 });
 
@@ -2450,12 +2462,6 @@ function renderMarket(force = false) {
   $('depot-list').innerHTML = rows.length
     ? rows.map(([f, v]) => `<li><i style="background:${view.flowers[f].color}"></i><span>${esc(view.flowers[f].name)} Balı</span><b>${v.toFixed(1)} kg</b></li>`).join('')
     : '<li class="empty">Depo boş. Kovanlarını hasat et.</li>';
-  const mats = view.materials || { pollen: 0, propolis: 0, royalJelly: 0 };
-  $('depot-materials').innerHTML = [
-    ['🌼', 'Polen', mats.pollen || 0],
-    ['🛡️', 'Propolis', mats.propolis || 0],
-    ['🥛', 'Arı Sütü', mats.royalJelly || 0]
-  ].map(([icon, name, value]) => `<div class="depot-material"><span>${icon} ${name}</span><b>${Number(value).toLocaleString('tr-TR', { maximumFractionDigits: 1 })} g</b></div>`).join('');
   $('wax-info').textContent = `${Math.round(view.wax * 1000)} g balmumu · ${view.candles} mum · mum ${view.candlePrice} 🪙`;
   const mc = $('make-candle');
   mc.innerHTML = view.workshop && view.workshop.unlocked
@@ -3534,7 +3540,7 @@ function renderMerchant(force = false) {
   const have = view.storage[M.wants] || 0;
   const f = view.flowers[M.wants];
   const ticket = M.salesTicketKg > 0 ? ` · 💎 Satış Fişi aktif: kalan ${M.salesTicketKg.toFixed(1)} kg’a +%10` : '';
-  $('merchant-buy').innerHTML = `🍯 Seyyah Yakup <b>${esc(f.name)} balı</b> arıyor: kilosuna <b>${M.wantsPrice} 🪙</b> (pazarın %40 üstü). Kalan: ${M.wantsLeft} kg · Depoda: ${have.toFixed(1)} kg${ticket}
+  $('merchant-buy').innerHTML = `🍯 Seyyah Yakup <b>${esc(f.name)} balı</b> arıyor: kilosuna <b>${M.wantsPrice} 🪙</b> (pazarın %${M.honeyBonusPct || 15} üstü). Kalan: ${M.wantsLeft} kg · Depoda: ${have.toFixed(1)} kg${ticket}
     <div class="fest-row"><button type="button" data-msell="1" ${have < 1 || M.wantsLeft < 1 ? 'disabled' : ''}>1 kg sat</button><button type="button" data-msell="all" ${have < 0.05 || M.wantsLeft < 0.05 ? 'disabled' : ''}>Hepsini sat</button></div>`;
 }
 $('merchant-list').addEventListener('change', (e) => {
