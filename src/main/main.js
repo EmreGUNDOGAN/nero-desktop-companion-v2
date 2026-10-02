@@ -1622,6 +1622,7 @@ function registerIpc() {
       buyTile: () => bee.buyTile(arg1),
       placeHive: () => bee.placeHive(arg1),
       buySeed: () => bee.buySeed(arg1),
+      buyDecor: () => bee.buyDecor(arg1),
       plantSeed: () => bee.plantSeed(arg1, arg2),
       undoPlacement: () => bee.undoPlacement(),
       removeFlower: () => bee.removeFlower(arg1),
