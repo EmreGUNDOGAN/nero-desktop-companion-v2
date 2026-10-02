@@ -1429,7 +1429,7 @@ class BeeGame {
       this.state.candles += recipe.outputCount; this.state.ledger.candlesMade += recipe.outputCount; this.questEvent('candleMake');
     } else p[job.recipe] = (p[job.recipe] || 0) + recipe.outputCount;
     this.state.workshop.craftedOnce[job.recipe === 'premiumJar' ? 'premiumJar:' + job.flower : job.recipe] = true;
-    this.events.push({ msg: '🔨 Atölye tamamladı: ' + recipe.outputCount + ' × ' + recipe.name + ' · ürün Depo'ya gönderildi.' });
+    this.events.push({ msg: '🔨 Atölye tamamladı: ' + recipe.outputCount + ' × ' + recipe.name + " · ürün Depo'ya gönderildi." });
   }
 
   processWorkshop(gameDt) {
