@@ -2690,6 +2690,21 @@ function renderHive() {
     eco.monoculture ? '<span class="eco-effect debuff">⚠️ Doğal hastalık riski <b>+%5</b></span>' : '<span class="eco-effect neutral">❤️ Ek hastalık riski yok</span>'
   ].join('');
 
+  const bp = h.byproductProfile || {};
+  const raw = h.byproducts || {};
+  const byCard = (id, iconText, title, amount, profile) => {
+    const el = $(id);
+    if (!el) return;
+    const p = profile || { potential: 'Yok', rate: 0, reason: 'Şu an üretim yok.' };
+    el.innerHTML = '<header><b>' + iconText + ' ' + esc(title) + '</b><span>' + esc(p.potential || 'Yok') + '</span></header>' +
+      '<strong class="by-amount">' + (Math.round((amount || 0) * 10) / 10).toLocaleString('tr-TR') + ' g</strong>' +
+      '<small class="by-rate">' + (p.rate > 0 ? (Math.round(p.rate * 10) / 10).toLocaleString('tr-TR') + ' g / kg bal' : 'üretim yok') + '</small>' +
+      '<p>' + esc(p.reason || '') + '</p>';
+  };
+  byCard('h-by-pollen', '🌼', 'Polen', raw.pollen, bp.pollen);
+  byCard('h-by-propolis', '🛡️', 'Propolis', raw.propolis, bp.propolis);
+  byCard('h-by-royal', '🥛', 'Arı Sütü', raw.royalJelly, bp.royalJelly);
+
   $('h-prod-main').textContent = `${h.ratePerHour.toFixed(1)} kg/sa`;
   $('h-prod-eco').textContent = `+%${Math.round((eco.productionBonus || 0) * 100)}`;
   const productionRows = h.productionEffects || [];
