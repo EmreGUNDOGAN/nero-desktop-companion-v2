@@ -1654,6 +1654,7 @@ function registerIpc() {
       placeDecor: () => bee.placeDecor(arg1, arg2),
       removeDecor: () => bee.removeDecor(arg1),
       enterFestival: () => bee.enterFestival(arg1, arg2),
+      claimFestivalPrompt: () => bee.claimFestivalPrompt(),
       changeBreed: () => bee.changeBreed(arg1, arg2),
       makeCandle: () => bee.makeCandle(),
       sellCandles: () => bee.sellCandles(),
@@ -1666,7 +1667,7 @@ function registerIpc() {
       finishTutorial: () => bee.finishTutorial()
     };
     const fn = map[action];
-    if (fn && action !== 'undoPlacement' && !['readNotifs', 'merchantQuote', 'setting'].includes(action)) bee.commitPlacement();
+    if (fn && action !== 'undoPlacement' && !['readNotifs', 'merchantQuote', 'setting', 'claimFestivalPrompt'].includes(action)) bee.commitPlacement();
     const res = fn ? fn() : { ok: false, msg: 'Bilinmeyen işlem.' };
     return { res, view: bee.view(), events: bee.drainEvents() };
   });
@@ -2294,7 +2295,9 @@ function startLoops() {
     homeDialogue.noteActivity(userActive, now);
     if (userActive) stats.markActive();
     stats.sessionTick(dt, userActive);
-    journal.recordHappiness(mood.summary().happiness);
+    const moodNow = new Date();
+    journal.recordHappiness(mood.summary().happiness, moodNow);
+    journal.finalizeDue(moodNow);
     archiveClosedMoodboards();
     trackActivity(dt);
     if (settings().lastBackupDay !== new Date().toDateString()) autoBackup();
@@ -2876,6 +2879,8 @@ app.whenReady().then(() => {
   bee = new BeeGame(beeStore);
   bee.markAway();
   journal = new Journal({ moodStore: moodLogStore, archiveStore, jarStore });
+  // Nero Moodboard sonucu 23:00'te kesinleşir; uygulama o saatte kapalı kaldıysa önceki günü açılışta tamamla.
+  journal.finalizeDue(new Date());
   // Migration sırasında mevcut saatli görevler sayılır; onUnlock henüz bağlı olmadığı için eski
   // kullanıcı verileri için toplu Windows bildirimi spamı oluşmaz.
   stats.scheduledTodoCount(todosStore.get().filter((t) => !t.done && t.remindAt).length);

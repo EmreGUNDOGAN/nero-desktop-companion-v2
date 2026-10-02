@@ -2349,6 +2349,17 @@ function sparkline(values) {
 }
 
 let marketSig = '';
+
+function marketEffectTip(m) {
+  const effects = Array.isArray(m?.effects) ? m.effects : [];
+  const rows = effects.length ? effects.map((x) => {
+    const sign = x.pct > 0 ? '+' : '';
+    const value = x.kind === 'neutral' ? '' : `<strong>${sign}%${Math.abs(x.pct).toLocaleString('tr-TR', { maximumFractionDigits: 1 })}</strong>`;
+    return `<span class="market-effect-row ${esc(x.kind || 'neutral')}"><i>${esc(x.label)}</i>${value}${x.detail ? `<small>${esc(x.detail)}</small>` : ''}</span>`;
+  }).join('') : '<span class="market-effect-empty">Aktif ek fiyat etkisi yok.</span>';
+  return `<span class="market-effect-tip" role="tooltip"><b>Fiyat etkileri</b><span class="market-effect-base">Taban: ${Number(m.basePrice || 0).toFixed(1)} 🪙 / kg</span>${rows}</span>`;
+}
+
 function renderMarket(force = false) {
   if (!marketOpen || !view) return;
   const sig = JSON.stringify([view.market, view.marketForecast, view.storage, Math.floor(view.coins), view.storageCap, view.marketEvent, view.calendar.season, view.wax, view.candles, view.festival]);
@@ -2380,14 +2391,17 @@ function renderMarket(force = false) {
     const cls = m.change > 0 ? 'up' : m.change < 0 ? 'down' : 'flat';
     const sign = m.change > 0 ? '+' : m.change < 0 ? '-' : '';
     const dis = (kgNeed) => (have < Math.min(kgNeed, 0.05) || have < 0.05 ? 'disabled' : '');
+    const reserved = Number(m.reservedKg || 0);
+    const smartLeft = Number(m.sellableAfterOrders || 0);
     return `<li class="mrow${m.festival ? ' fest' : ''}">
       <span class="dot" style="background:${def.color}"></span>
-      <span class="nm"><b>${esc(def.name)} Balı</b><small>Depoda ${have.toFixed(1)} kg</small></span>
-      <span class="pr"><b>${m.price.toFixed(1)} 🪙</b><small class="${cls}">${sign}%${Math.abs(m.change)} · kg</small></span>
+      <span class="nm"><b>${esc(def.name)} Balı</b><small>Depoda ${have.toFixed(1)} kg${reserved > 0 ? ` · siparişe ${reserved.toFixed(1)} kg` : ''}</small></span>
+      <span class="pr market-price" tabindex="0"><b>${m.price.toFixed(1)} 🪙</b><small class="${cls}">${sign}%${Math.abs(m.change)} · kg</small>${marketEffectTip(m)}</span>
       ${sparkline(m.history)}
       <span class="sell">
         <button type="button" data-sell="${f}" data-kg="1" ${have < 1 ? 'disabled' : ''}>1 kg</button>
         <button type="button" data-sell="${f}" data-kg="5" ${have < 5 ? 'disabled' : ''}>5 kg</button>
+        <button type="button" class="reserve" data-sell="${f}" data-kg="orders" ${smartLeft < 0.05 ? 'disabled' : ''} title="Kabul edilmiş siparişler için gereken balı depoda bırak">Siparişleri bırak</button>
         <button type="button" class="all" data-sell="${f}" data-kg="all" ${dis(0)}>Hepsi</button>
       </span>
     </li>`;
@@ -2415,7 +2429,8 @@ function renderMarket(force = false) {
       .sort((a, b) => view.flowers[b[0]].price - view.flowers[a[0]].price)
       .map(([f, v]) => `<option value="${f}">${esc(view.flowers[f].name)} (${v.toFixed(1)} kg)</option>`).join('');
     fb.hidden = false;
-    fb.innerHTML = `<b>🏆 ${seasonsTr[view.calendar.season]} Turnuvası başvuruları açık!</b><br>Balını gönder (en fazla ${fest.maxKg} kg). Sonuçlar sonraki mevsimde açıklanır; ilk üçe 750 / 500 / 250 🪙 ve kupa verilir.
+    const prizes = (fest.prizes || []).map((p) => p.coins).join(' / ');
+    fb.innerHTML = `<b>🏆 ${seasonsTr[view.calendar.season]} Turnuvası başvuruları açık!</b><br>Balını gönder (en fazla ${fest.maxKg} kg). Başvuru 12–14. günlerde açıktır; 15. gün turnuva günüdür. İlk üçe ${prizes || '300 / 200 / 100'} 🪙 ve kupa verilir.
       <div class="fest-row">${opts ? `<select id="fest-flower">${opts}</select><input id="fest-kg" type="number" min="1" max="${fest.maxKg}" step="0.5" value="${fest.maxKg}"><button type="button" id="fest-send">Gönder</button>` : 'Depoda en az 1 kg bal olmalı.'}</div>
       ${cups ? `<p>Kupaların: ${cups}</p>` : ''}`;
   } else if (fest.entry) {
@@ -2666,6 +2681,23 @@ $('h-sellhive').addEventListener('click', () => {
 // ---------------------------------------------------------------------------
 const SEASON_ICON = { ilkbahar: '🌸', yaz: '☀️', sonbahar: '🍂', kis: '❄️' };
 let noticeShown = false;
+let festivalPromptClaiming = false;
+
+function maybeOpenFestivalPrompt(v) {
+  if (!v?.festival?.promptDue || festivalPromptClaiming) return;
+  festivalPromptClaiming = true;
+  setTimeout(async () => {
+    try {
+      const res = await doAct('claimFestivalPrompt');
+      if (res?.ok) {
+        openMarket();
+        sayTopic('honey_festival_application_opened');
+      }
+    } finally {
+      festivalPromptClaiming = false;
+    }
+  }, 0);
+}
 
 function applyView(v) {
   setTimeout(() => { if (view) ui.onView(view); }, 0);
@@ -2687,6 +2719,7 @@ function applyView(v) {
   const prevFocus = prev && prev.effects ? prev.effects.focus : null;
   const prevUnattended = !!(prev && prev.unattended);
   view = v;
+  maybeOpenFestivalPrompt(v);
   walkers.setMap(v.tiles, [...(v.village?.ring1 || []), ...(v.village?.ring2 || [])]);
   villageLife.sync(v);
   islandNero.sync();
@@ -2695,7 +2728,7 @@ function applyView(v) {
     if (v.weather.id === 'yagmurlu') sayTopic('rainy_day');
     else if (v.weather.id === 'karli') sayTopic('snowy_day');
   }
-  if (!first && !prevFestivalOpen && v.festival.open) sayTopic('honey_festival_application_opened');
+  if (!first && !prevFestivalOpen && v.festival.open && !v.festival.promptDue) sayTopic('honey_festival_application_opened');
   if (prevFocus && v.effects && v.effects.focus) {
     const cur = v.effects.focus;
     if (!prevFocus.active && cur.active) sayTopic('focus_bonus_started');
@@ -3468,6 +3501,7 @@ function renderWarnings() {
   const items=activeWarnings(view);
   btn.hidden=false;
   btn.classList.toggle('empty', !items.length);
+  btn.classList.toggle('has-warning', !!items.length);
   btn.setAttribute('aria-label', items.length ? `${items.length} aktif uyarı` : 'Aktif uyarı yok');
   btn.title = items.length ? `${items.length} aktif uyarı` : 'Aktif uyarı yok';
   $('warning-list').innerHTML = items.length

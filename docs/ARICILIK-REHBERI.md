@@ -180,7 +180,7 @@ Bir kovana tıklayınca **kovanın içi** açılır: solda canlı petek (ortada 
 | Efsane Kraliçe | 20 arı (üst sınır) | 6.300 |
 | Kovanı Büyüt | 80 kg | 6.750 |
 
-**Doğal üreme:** kış dışında, menzilde çiçek varsa ve kovan dolu değilse **2 günde bir 1 arı** doğar.
+**Doğal üreme:** kış dışında, menzilde çiçek varsa ve kovan dolu değilse Anadolu ve Kafkas arısında **4 günde bir**, İtalyan arısında **2 günde bir 1 arı** doğar. Polen Keki bu doğal aralığı yarıya indirir. Kovan doluyken doğal üreme ve Arı Sütü yeni arı eklemez.
 
 **Kış:** günlük erzak ihtiyacını karşılayamayan kovan aç sayılır ve ırkının kış kaybı kuralına göre arı kaybedebilir. **Kış kaybı hiçbir kovanı 4 arının altına düşüremez.** O gün yeterli erzakla beslenen kovan kışın daha iyi üretir (**×0,35**; beslenmeyen kovan **×0,10**).
 
@@ -192,7 +192,7 @@ Bir kovana tıklayınca **kovanın içi** açılır: solda canlı petek (ortada 
 |---|---|
 | Anadolu (varsayılan) | +%10 üretim, ama hastalanma ihtimali 1.5 kat |
 | Kafkas | Soğuğa dayanıklı: kışın arı kaybı yarıya iner |
-| İtalyan | Her gün çoğalır, üretim biraz düşük (×0.95) |
+| İtalyan | 2 günde bir çoğalır, üretim biraz düşük (×0.95) |
 
 **Yeni kovan:** ilk ek kovan 900 jeton, sonra her satın almada %25 artar ve en yakın 25 jetona yuvarlanır. İçinde 4 arıyla gelir.
 
@@ -212,7 +212,7 @@ Bir kovana tıklayınca **kovanın içi** açılır: solda canlı petek (ortada 
 **Depo:** 50 kg ile başlar. Büyütme: 100 kg (340), 200 kg (900), 400 kg (2.250), **800 kg (4.000), 1.500 kg (7.500), 2.500 kg (12.000), 4.000 kg (20.000), 6.000 kg (30.000), 10.000 kg (50.000)**. Seyyah Yakup'tan alınan depo sandıkları bu kapasiteye ayrıca kalıcı +10 kg ekler (en fazla 3). Ballar türüne göre ayrı listelenir.
 
 **Pazar**
-- Fiyatlar her gün taban fiyatın **%80'i ile %130'u** arasında, yumuşak şekilde dalgalanır.
+- Fiyatlar her gün taban fiyatın **%80'i ile %130'u** arasında, yumuşak şekilde dalgalanır. Rastgele iki günlük bal festivali seçilen balı **%15 daha değerli** yapar.
 - Her balın yanında o günün kg fiyatı, dünden bugüne değişim ve son 7 günün küçük grafiği var.
 - Mevsim: yaz **%15 ucuz**, kış **%35 pahalı**.
 - **Pazar etkinliği:** ara sıra bir bal 2 gün boyunca **%50 değerlenir**; duyurulur ve listede vurgulanır.
@@ -244,7 +244,7 @@ Bir kovana tıklayınca **kovanın içi** açılır: solda canlı petek (ortada 
 ---
 
 ## 11. Balmumu ve mum
-- Her 1 kg hasatta **25 g balmumu** çıkar.
+- Her 1 kg hasatta **12,5 g balmumu** çıkar.
 - Depo panelinde **Mum yap:** 500 g balmumu → 1 mum.
 - **Mumları sat:** mumun taban fiyatı 45 jeton; **kışın %40 daha değerli**. Piyasa ve etkinlik bonusları ayrıca uygulanır.
 - Satmadığın mumlar net değerine sayılır.
@@ -268,7 +268,7 @@ Kaldırmak için dekorlu kareye tıkla → **… kaldır**; fiyatın yarısı ge
 
 ## 13. Mevsim Turnuvaları
 
-Her yıl ilkbahar, yaz, sonbahar ve kış turnuvası düzenlenir. Mevsimin son üç gününde Pazar'dan 1–10 kg bal gönder; sonuç sonraki mevsimin ilk günü açıklanır. Katılım için depoda bal gerekir. Pazarın iki günlük fiyat artışı farklı bir etkinliktir.
+Her yıl ilkbahar, yaz, sonbahar ve kış turnuvası düzenlenir. Mevsimin **12, 13 ve 14. günlerinde** katılım popup'ı açılır; katılmadıysan sonraki uygun günde tekrar gösterilir. **15. gün turnuva günüdür ve başvuru kapanır.** 1–10 kg bal gönder; sonuç sonraki mevsimin ilk günü açıklanır. Katılım için depoda bal gerekir. Pazarın iki günlük fiyat artışı farklı bir etkinliktir.
 
 | Kategori | En yüksek puan | Oyun verisi |
 |---|---:|---|
@@ -277,7 +277,7 @@ Her yıl ilkbahar, yaz, sonbahar ve kış turnuvası düzenlenir. Mevsimin son �
 | Üretim Başarısı | 200 | Mevsimlik üretim ve kovan başına üretim |
 | Köy İtibarı | 150 | Teslim edilmiş siparişler ve ilişkiler |
 
-Temkinli Ali, Riskçi Kaya ve Dengeli Nur kendi çiftlik verilerine göre puan alır; senin puanının yüzdesiyle hesaplanmaz. İlk üçe sırasıyla **750, 500, 250 jeton** ve altın/gümüş/bronz kupa verilir. Birinci olursan **gelecek yıl aynı mevsim** boyunca üretimin %20 artar. Bal Defteri → **Kupalar** bölümünde sonraki turnuvaya kalan oyun günlerini, geçmiş sonuçları ve kategori puanlarını görürsün. Eski festival kupaların korunur.
+Temkinli Ali, Riskçi Kaya ve Dengeli Nur kendi çiftlik verilerine göre puan alır; senin puanının yüzdesiyle hesaplanmaz. İlk üçe sırasıyla **300, 200, 100 jeton** ve altın/gümüş/bronz kupa verilir. Birinci olursan **gelecek yıl aynı mevsim** boyunca üretimin %20 artar. Bal Defteri → **Kupalar** bölümünde sonraki turnuvaya kalan oyun günlerini, geçmiş sonuçları ve kategori puanlarını görürsün. Eski festival kupaların korunur.
 
 ---
 
@@ -300,10 +300,10 @@ Temkinli Ali, Riskçi Kaya ve Dengeli Nur kendi çiftlik verilerine göre puan a
 
 ## 15. Nero ile birlikte
 Oyun Nero'nun asıl amacıyla bağlantılı: **sen çalıştıkça çiftlik büyür.**
-- **Odak bonusu:** Nero'nun sayacıyla en az 10 dakikalık bir odak seansını bitirince kovanlar **+%25** hızlı üretir. 25 dakikalık seans = **1 saat** Arıcılık bonusu.
+- **Odak bonusu:** Nero'nun sayacıyla en az 10 dakikalık bir odak seansını bitirince kovanlar **+%10** hızlı üretir. 25 dakikalık seans = **1 saat** Arıcılık bonusu.
 - Bir gerçek takvim gününde Arıcılık için toplam **en fazla 4 saat bonus kazanabilirsin**. Bu yalnızca aynı anda biriktirme sınırı değildir: o gün kazandığın toplam süre 4 saate ulaştıysa süreyi tüketmiş olsan bile yeni seans ek bonus vermez. Günlük kazanım kotası gerçek gece yarısında sıfırlanır; o anda hâlâ aktif olan bonus süresi ise devam eder.
 - Bal Defteri → **✨ Etkilerim** sayfasının en üstünde Odak Bonusu kartı **kalan süreyi**, **bugün kazanılan süre / 4 saat** bilgisini ve günlük limiti gösterir. Günlük limit dolduğunda açıkça haber verir.
-- **İş ödülü:** Nero'da bir işi "bitti" olarak işaretleyince **+10 jeton**.
+- **İş ödülü:** Nero'da bir işi "bitti" olarak işaretleyince **+10 jeton**; bir gerçek günde en fazla **5 iş / 50 jeton** ödüllendirilir.
 - **Masaüstündeki Nero haber verir** (oyun penceresi önde değilken): kovan doldu, kabul ettiğin siparişe 1 günden az kaldı, bir kovan hastalandı, kış geldi ve erzak yok, bir rakip seni geçti. Aynı şeyi iki kez söylemez; sessiz modda ya da uyurken susar.
 - **Oyun içindeki Nero** artık Arıcılık olaylarını çok daha geniş bir havuzdan yorumlar: 57 olay başlığında toplam **2.133** onaylı replik bulunur.
 
@@ -500,7 +500,7 @@ Oyun Nero'nun asıl amacıyla bağlantılı: **sen çalıştıkça çiftlik büy
 - **⌖ Adaya dön (R):** kamera adanın ortasına döner.
 - **Üzerine gelince bilgi:** kovanın üstünde doluluk ve saatlik üretim, tarhın üstünde kalan ömür.
 - **Siparişler:** hemen karşılanabilenler **✓ hazır**; **Hazır olanların hepsini teslim et**; süreye / ödüle / hazır olanlara göre sıralama.
-- **Pazar:** "Sadece depomdakiler" filtresi; fiyata ya da miktara göre sıralama.
+- **Pazar:** "Sadece depomdakiler" filtresi; fiyata ya da miktara göre sıralama. Fiyatın üzerine gelince aktif buff/debuff'lar görünür. **Siparişleri bırak** satışı yalnız kabul edilmiş siparişlerin ihtiyacını depoda tutup kalan balı satar.
 - **Onay:** 500 🪙 ve üstündeki alımlarda onay istenir.
 - **Bildirimler:** zildeki bir bildirime tıklayınca ilgili yer açılır (sipariş, kovan, satıcı, mektup, köy).
 - **Nero'dan ipuçları:** köşedeki Nero depo dolmak üzereyken, yanında çiçek olmayan kovan varken, hazır sipariş varken ya da kış öncesi erzak yokken haber verir; ona tıklayınca da ipucu söyleyebilir.
@@ -583,7 +583,7 @@ Oyun Nero'nun asıl amacıyla bağlantılı: **sen çalıştıkça çiftlik büy
 | Yan yana 3 tarh | +%15 |
 | Çeşme yakını | +%5 |
 | Anadolu / İtalyan ırkı | ×1.1 / ×0.95 |
-| Odak bonusu | ×1.25 |
+| Odak bonusu | ×1.10 |
 
 **Liderlik (5.6.0):** Rakipler aynı mevsim ve pazar koşullarında üretim, satış ve yatırım yapar. Bir üst sıraya kalan fark ve rakiplerin günlük değişim nedenleri listede görünür.
 
@@ -615,4 +615,4 @@ Toplam puan 1000'dir: **Bal Kalitesi 400 + Arıcılık 250 + Üretim 200 + Köy 
 
 Örnek: Sonbaharda 10 kg Kestane balı = 110 + 150 + 160 + 45 = 465; kategori 400'de sınırlandığı için **400/400**.
 
-İlk üç ödülü 750 / 500 / 250 🪙 ve Altın / Gümüş / Bronz Kupa'dır. Altın Kupa gelecek yıl aynı mevsimde +%20 bal üretimi sağlar. Rakipler aynı formülü kullanmaz; kendi simüle edilen çiftlik değerleri ve kontrollü mevsimsel değişkenlikle puan üretir.
+İlk üç ödülü 300 / 200 / 100 🪙 ve Altın / Gümüş / Bronz Kupa'dır. Altın Kupa gelecek yıl aynı mevsimde +%20 bal üretimi sağlar. Rakipler aynı formülü kullanmaz; kendi simüle edilen çiftlik değerleri ve kontrollü mevsimsel değişkenlikle puan üretir.

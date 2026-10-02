@@ -191,9 +191,10 @@ const CLUSTER_BONUS = 0.15;        // aynı türden en az 3 tarh yan yanaysa
 const AWAY_SUMMARY_MS = 20 * 60 * 1000; // 5.5.0: dönüş özeti 20 gerçek dakikadan sonra
 
 // 1) Odak bonusu: Nero'da odaklandıkça arılar da coşar
-const FOCUS_BOOST = 0.25;                 // +%25 üretim
+const FOCUS_BOOST = 0.10;                 // +%10 üretim
 const FOCUS_BOOST_MS = 60 * 60 * 1000;    // odak seansı başına 1 gerçek saat (üst üste eklenir, en fazla 4 saat)
-const TODO_REWARD = 10;                   // Nero'da bitirilen her iş: +10 jeton
+const TODO_REWARD = 10;                   // Nero'da bitirilen ödüllü her iş: +10 jeton
+const TODO_REWARD_DAILY_LIMIT = 5;        // gerçek günde en fazla 5 iş ödülü (50 jeton)
 
 // 2) Müdavim köylüler
 const HEART_EVERY = 2;                    // her 2 teslimde +1 kalp
@@ -210,21 +211,22 @@ const DECOR = {
   kupa:   { name: 'Turnuva kupası', cost: 0, desc: 'Mevsim turnuvasında kazanıldı.', prize: true }
 };
 
-// Her mevsimin son üç gününde katılım, sonraki mevsimin ilk gününde sonuç.
-const FESTIVAL_OPEN_DAY = DAYS_PER_SEASON - 3;
+// Başvuru mevsimin 12, 13 ve 14. günlerinde; 15. gün turnuva günüdür.
+const FESTIVAL_OPEN_DAY = DAYS_PER_SEASON - 4;       // 0-based: 11 => 12. gün
+const FESTIVAL_CLOSE_DAY = DAYS_PER_SEASON - 2;      // 0-based: 13 => 14. gün
 const FESTIVAL_MAX_KG = 10;
-const FESTIVAL_PRIZES = [{ coins: 750, cup: 'altın' }, { coins: 500, cup: 'gümüş' }, { coins: 250, cup: 'bronz' }];
+const FESTIVAL_PRIZES = [{ coins: 300, cup: 'altın' }, { coins: 200, cup: 'gümüş' }, { coins: 100, cup: 'bronz' }];
 
 // 5) Arı ırkları
 const BREEDS = {
-  anadolu: { name: 'Anadolu arısı', desc: 'Çalışkan: +%10 üretim, ama hastalığa daha açık.', prod: 1.1, sick: 1.5, breedDays: 2, winter: 1 },
-  kafkas:  { name: 'Kafkas arısı', desc: 'Soğuğa dayanıklı: kışın yarı yarıya az kayıp.', prod: 1.0, sick: 1.0, breedDays: 2, winter: 2 },
-  italyan: { name: 'İtalyan arısı', desc: 'Hızlı çoğalır: her gün yeni arı, biraz daha az üretim.', prod: 0.95, sick: 1.0, breedDays: 1, winter: 1 }
+  anadolu: { name: 'Anadolu arısı', desc: 'Çalışkan: +%10 üretim; doğal olarak 4 günde bir yeni arı.', prod: 1.1, sick: 1.5, breedDays: 4, winter: 1 },
+  kafkas:  { name: 'Kafkas arısı', desc: 'Soğuğa dayanıklı; doğal olarak 4 günde bir yeni arı.', prod: 1.0, sick: 1.0, breedDays: 4, winter: 2 },
+  italyan: { name: 'İtalyan arısı', desc: 'Hızlı çoğalır: 2 günde bir yeni arı; üretimi biraz düşük.', prod: 0.95, sick: 1.0, breedDays: 2, winter: 1 }
 };
 const BREED_CHANGE_COST = 225;
 
 // 6) Balmumu ve mum
-const WAX_PER_KG = 0.025;                 // her 1 kg hasatta 25 g balmumu
+const WAX_PER_KG = 0.0125;                // her 1 kg hasatta 12,5 g balmumu
 const CANDLE_WAX = 0.5;                   // 1 mum = 0.5 kg balmumu
 const CANDLE_PRICE = 45;
 
@@ -345,6 +347,7 @@ function freshState() {
     away: null,
     focusBoostUntil: 0,
     focusDaily: { day: '', earnedMs: 0 },
+    todoRewardDaily: { day: '', count: 0, limitNotified: false },
     questRefresh: null,
     merchantEffects: {},
     marketLocks: {},
@@ -422,6 +425,7 @@ class BeeGame {
     if (this.state.festival.entry && this.state.festival.entry.seasonIndex == null)
       this.state.festival.entry.seasonIndex = Math.floor(this.dayIndex() / DAYS_PER_SEASON);
     this.state.focusDaily = this.state.focusDaily || { day: '', earnedMs: 0 };
+    this.state.todoRewardDaily = this.state.todoRewardDaily || { day: '', count: 0, limitNotified: false };
     this.state.merchantEffects = this.state.merchantEffects || {};
     this.state.marketLocks = this.state.marketLocks || {};
     for (const h of Object.values(this.state.hives)) if (!h.breed) h.breed = 'anadolu';
@@ -812,8 +816,16 @@ class BeeGame {
       this.state.winterDeaths = 0;
     }
     for (const h of Object.values(this.state.hives)) {
-      if ((h.milkDays || 0) > 0 && h.bees < h.capBees) { h.bees += 1; h.milkDays -= 1; this.state.counters.born += 1; this.events.push({ msg: `🥛 ${h.name}: arı sütü sayesinde yeni bir arı doğdu.` }); }
-      else if ((h.milkDays || 0) > 0) h.milkDays -= 1;
+      if ((h.milkDays || 0) <= 0) continue;
+      if (h.bees < h.capBees) {
+        const before = h.bees;
+        h.bees = Math.min(h.capBees, h.bees + 1);
+        if (h.bees > before) {
+          this.state.counters.born += 1;
+          this.events.push({ msg: `🥛 ${h.name}: arı sütü sayesinde yeni bir arı doğdu.` });
+        }
+      }
+      h.milkDays -= 1;
     }
     const c = this.state.counters;
     this.state.history = [...(this.state.history || []), {
@@ -874,10 +886,14 @@ class BeeGame {
           }
         }
       } else if (!wasSick && h.bees < h.capBees && this.flowersNear(k).length && dayIdx - h.breedDay >= Math.max(1, (BREEDS[h.breed] || BREEDS.anadolu).breedDays * (dayIdx < (h.pollenCakeUntilDay || 0) ? 0.5 : 1))) {
-        h.bees += 1;
-        h.breedDay = dayIdx;
-        this.state.counters.born += 1;
-        this.events.push({ msg: `${h.name}: yeni bir arı doğdu 🐝` });
+        // Kapasite doğum anında tekrar doğrulanır; dolu kovanda sayı da bildirim de üretilmez.
+        const before = h.bees;
+        h.bees = Math.min(h.capBees, h.bees + 1);
+        if (h.bees > before) {
+          h.breedDay = dayIdx;
+          this.state.counters.born += 1;
+          this.events.push({ msg: `${h.name}: yeni bir arı doğdu 🐝` });
+        }
       }
     }
     this.save();
@@ -916,9 +932,25 @@ class BeeGame {
   }
 
   todoCompleted() {
+    const day = this.todayKey();
+    if (!this.state.todoRewardDaily || this.state.todoRewardDaily.day !== day) {
+      this.state.todoRewardDaily = { day, count: 0, limitNotified: false };
+    }
+    const daily = this.state.todoRewardDaily;
+    if (daily.count >= TODO_REWARD_DAILY_LIMIT) {
+      if (!daily.limitNotified) {
+        daily.limitNotified = true;
+        this.events.push({ msg: `✅ Bugünkü Nero iş ödülü sınırına ulaştın: ${TODO_REWARD_DAILY_LIMIT} iş / ${TODO_REWARD * TODO_REWARD_DAILY_LIMIT} 🪙.` });
+      }
+      this.save();
+      return false;
+    }
+    daily.count += 1;
     this.state.coins += TODO_REWARD;
-    this.events.push({ msg: `✅ Nero'da bir iş bitirdin: +${TODO_REWARD} 🪙` });
+    this.state.counters.earned += TODO_REWARD;
+    this.events.push({ msg: `✅ Nero'da bir iş bitirdin: +${TODO_REWARD} 🪙 · bugün ${daily.count}/${TODO_REWARD_DAILY_LIMIT}` });
     this.save();
+    return true;
   }
 
   // --- 2) Müdavim köylüler --------------------------------------------------------
@@ -976,10 +1008,24 @@ class BeeGame {
   }
 
   // --- 4) Mevsim turnuvaları ---------------------------------------------------
-  festivalOpen() { return this.dayIndex() % DAYS_PER_SEASON >= FESTIVAL_OPEN_DAY; }
+  festivalOpen() {
+    const slot = this.dayIndex() % DAYS_PER_SEASON;
+    return slot >= FESTIVAL_OPEN_DAY && slot <= FESTIVAL_CLOSE_DAY;
+  }
+
+  festivalPromptDue() {
+    return this.festivalOpen() && !this.state.festival.entry && this.state.festival.promptedDay !== this.dayIndex();
+  }
+
+  claimFestivalPrompt() {
+    if (!this.festivalPromptDue()) return { ok: false };
+    this.state.festival.promptedDay = this.dayIndex();
+    this.save();
+    return { ok: true };
+  }
 
   enterFestival(flower, kg) {
-    if (!this.festivalOpen()) return this.fail('Turnuvaya katılım mevsimin son 3 gününde açılır.');
+    if (!this.festivalOpen()) return this.fail('Turnuva başvuruları mevsimin 12, 13 ve 14. günlerinde açıktır.');
     if (this.state.festival.entry) return this.fail('Bu mevsim zaten katıldın.');
     const have = this.state.storage[flower] || 0;
     const amount = Math.min(FESTIVAL_MAX_KG, Number(kg) || 0, have);
@@ -1001,6 +1047,7 @@ class BeeGame {
     const seasonIndex = Math.floor((dayIdx - 1) / DAYS_PER_SEASON);
     if (f.lastSeasonIndex != null && f.lastSeasonIndex >= seasonIndex) return;
     f.lastSeasonIndex = seasonIndex;
+    f.promptedDay = null;
     const year = Math.floor(seasonIndex / 4) + 1;
     const season = SEASONS[seasonIndex % 4];
     const entry = f.entry;
@@ -2187,9 +2234,40 @@ class BeeGame {
     if (!m.event && Math.random() < 0.12) {
       const keys = Object.keys(FLOWERS);
       const f = keys[Math.floor(Math.random() * keys.length)];
-      m.event = { flower: f, pct: 50, until: day + 2 };
-      this.events.push({ msg: `🎉 Festival! ${FLOWERS[f].name} balı 2 gün boyunca %50 daha değerli.` });
+      m.event = { flower: f, pct: 15, until: day + 2 };
+      this.events.push({ msg: `🎉 Festival! ${FLOWERS[f].name} balı 2 gün boyunca %15 daha değerli.` });
     }
+  }
+
+  marketPriceEffects(f) {
+    if (!FLOWERS[f]) return [];
+    const lock = this.state.marketLocks && this.state.marketLocks[f];
+    if (lock && this.dayIndex() < lock.untilDay) {
+      return [{ label: 'Fiyat Sabitleme Fişi', kind: 'neutral', pct: 0, detail: `${Number(lock.price).toFixed(1)} 🪙 fiyatı kilitli` }];
+    }
+    const m = this.state.market;
+    const season = this.calendar().season;
+    const out = [];
+    const pushPct = (label, value, detail = '') => {
+      const pct = Math.round(value * 1000) / 10;
+      if (Math.abs(pct) < 0.05) return;
+      out.push({ label, pct, kind: pct > 0 ? 'buff' : 'debuff', detail });
+    };
+    pushPct('Günlük pazar', (m.mult[f] || 1) - 1);
+    pushPct(`${SEASON_NAMES[season]} mevsimi`, (SEASON_PRICE[season] || 1) - 1);
+    if (m.event && m.event.flower === f) pushPct('Festival fiyatı', m.event.pct / 100, '2 günlük etkinlik');
+    const general = this.fx('marketBonus') + this.storyFx('market');
+    pushPct('Pazar / köy etkileri', general);
+    if (f === 'yonca') pushPct('Yonca hikâye bonusu', this.storyFx('yonca'));
+    const sealKg = Math.max(0, Number(this.state.merchantEffects?.marketSealKg) || 0);
+    if (sealKg > 0) out.push({ label: 'Pazar Mührü', pct: 15, kind: 'buff', detail: `sonraki satışta en fazla ${sealKg.toFixed(1)} kg` });
+    return out;
+  }
+
+  reservedOrderKg(f) {
+    return Math.round(this.state.orders.list
+      .filter((o) => o.status === 'accepted' && o.flower === f)
+      .reduce((sum, o) => sum + (Number(o.kg) || 0), 0) * 10) / 10;
   }
 
   price(f) {
@@ -2209,11 +2287,17 @@ class BeeGame {
     const out = {};
     for (const f of Object.keys(FLOWERS)) {
       const change = m.prev[f] ? (m.mult[f] - m.prev[f]) / m.prev[f] : 0;
+      const reservedKg = this.reservedOrderKg(f);
+      const have = this.state.storage[f] || 0;
       out[f] = {
         price: this.price(f),
+        basePrice: FLOWERS[f].price,
         change: Math.round(change * 100),
         history: (m.history[f] || []).map((x) => Math.round(FLOWERS[f].price * x * SEASON_PRICE[season] * 10) / 10),
-        festival: !!(m.event && m.event.flower === f)
+        festival: !!(m.event && m.event.flower === f),
+        effects: this.marketPriceEffects(f),
+        reservedKg,
+        sellableAfterOrders: Math.max(0, Math.round((have - reservedKg) * 10) / 10)
       };
     }
     return out;
@@ -2223,8 +2307,14 @@ class BeeGame {
     const have = this.state.storage[f] || 0;
     if (!FLOWERS[f]) return this.fail('Bilinmeyen bal.');
     if (have < 0.05) return this.fail(`Depoda ${FLOWERS[f].name} balı yok.`);
-    const kg = amount === 'all' ? have : Math.min(have, Number(amount) || 0);
-    if (kg < 0.05) return this.fail('Satılacak miktar yok.');
+    const reserved = this.reservedOrderKg(f);
+    const kg = amount === 'all' ? have
+      : amount === 'orders' ? Math.max(0, have - reserved)
+        : Math.min(have, Number(amount) || 0);
+    if (kg < 0.05) {
+      if (amount === 'orders' && reserved > 0) return this.fail(`Kabul edilmiş siparişler için ${reserved.toFixed(1)} kg ayırdım; satılabilir bal kalmadı.`);
+      return this.fail('Satılacak miktar yok.');
+    }
     const fx = this.state.merchantEffects || {};
     const marketUnit = this.price(f);
     const sealKg = Math.min(kg, fx.marketSealKg || 0);
@@ -3006,9 +3096,10 @@ class BeeGame {
       candles: this.state.candles,
       candleWax: (this.state.merchantEffects && this.state.merchantEffects.waxPressUses > 0) ? 0.3 : CANDLE_WAX,
       candlePrice: this.candlePrice(),
-      festival: { open: this.festivalOpen(), entry: this.state.festival.entry, cups: this.state.festival.cups,
+      festival: { open: this.festivalOpen(), promptDue: this.festivalPromptDue(), entry: this.state.festival.entry, cups: this.state.festival.cups,
         results: this.state.festival.results || [], nextInDays: DAYS_PER_SEASON - this.calendar().day + 1,
-        nextSeason: SEASON_NAMES[this.calendar().season], maxKg: FESTIVAL_MAX_KG },
+        nextSeason: SEASON_NAMES[this.calendar().season], maxKg: FESTIVAL_MAX_KG,
+        prizes: FESTIVAL_PRIZES.map((p) => ({ ...p })) },
       flowerLife: FLOWER_LIFE_DAYS + this.fx('flowerLife'),
       dayIndex: this.dayIndex(),
       clusterBonus: CLUSTER_BONUS,

@@ -44,16 +44,45 @@ class Journal {
   }
 
   // --- Duygu günlüğü ---------------------------------------------------
-  recordHappiness(value) {
+  recordHappiness(value, now = new Date()) {
     const data = this.moodStore.get();
-    const key = dayKey();
+    const key = dayKey(now);
     const day = data.days[key] || { sum: 0, count: 0 };
-    day.sum += value;
+    // 23:00'te sonuç kesinleştikten sonra o günün rengi artık değişmez.
+    if (Number.isFinite(day.finalValue)) return false;
+    day.sum += Number(value) || 0;
     day.count += 1;
+    day.lastValue = Number(value) || 0;
     data.days[key] = day;
     const keys = Object.keys(data.days).sort();
     while (keys.length > MOOD_KEEP_DAYS) delete data.days[keys.shift()];
     this.moodStore.set(data);
+    return true;
+  }
+
+  finalizeDue(now = new Date()) {
+    const data = this.moodStore.get();
+    const today = dayKey(now);
+    let changed = false;
+    for (const [key, row] of Object.entries(data.days || {})) {
+      if (!row || Number.isFinite(row.finalValue) || !row.count) continue;
+      const pastDay = key < today;
+      const currentDayReady = key === today && now.getHours() >= 23;
+      if (!pastDay && !currentDayReady) continue;
+      row.finalValue = Math.round(row.sum / row.count);
+      row.finalizedAt = now.getTime();
+      changed = true;
+    }
+    if (changed) this.moodStore.set(data);
+    return changed;
+  }
+
+  _dayFinalValue(row, date, now = new Date()) {
+    if (!row || !row.count) return null;
+    if (Number.isFinite(row.finalValue)) return Math.round(row.finalValue);
+    // 6.3.15 öncesindeki geçmiş kayıtların görünürlüğünü koru.
+    if (date < dayKey(now)) return Math.round(row.sum / row.count);
+    return null;
   }
 
   // Son 30 günü, en eskiden en yeniye, nokta listesi olarak döndürür.
@@ -65,7 +94,7 @@ class Journal {
       const d = new Date(Date.now() - i * DAY_MS);
       const key = dayKey(d);
       const day = data.days[key];
-      const avg = day && day.count ? Math.round(day.sum / day.count) : null;
+      const avg = this._dayFinalValue(day, key);
       const bucket = avg === null ? null : moodBucket(avg);
       out.push({ date: key, avg, cls: bucket ? bucket.cls : null, label: bucket ? bucket.label : null });
     }
@@ -85,7 +114,7 @@ class Journal {
     for (let dayNum = 1; dayNum <= count; dayNum++) {
       const date = `${year}-${String(month).padStart(2, '0')}-${String(dayNum).padStart(2, '0')}`;
       const row = data.days[date];
-      const avg = row && row.count ? Math.round(row.sum / row.count) : null;
+      const avg = this._dayFinalValue(row, date);
       const bucket = avg === null ? null : moodBucket(avg);
       out.push({ day: dayNum, date, avg, cls: bucket ? bucket.cls : null, label: bucket ? bucket.label : null });
     }

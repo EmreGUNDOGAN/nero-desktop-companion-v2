@@ -706,3 +706,36 @@ kbd { display: inline-block; min-width: 22px; text-align: center; background: va
 .whats-new-foot .act { flex:1; }
 .whats-new-foot .act:disabled { opacity:.4; cursor:default; }
 @media (max-width:520px) { .whats-new-foot { flex-direction:column-reverse; } }
+
+
+/* 6.3.15 — Pazar fiyatı buff/debuff hover'ı ve akıllı satış */
+.mrow .pr.market-price { position: relative; cursor: help; outline: none; }
+.market-effect-tip {
+  display: none;
+  position: absolute;
+  z-index: 120;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 260px;
+  padding: 10px 11px;
+  border-radius: 12px;
+  background: #4A3924;
+  color: #FFF8E5;
+  text-align: left;
+  box-shadow: 0 8px 24px rgba(50,35,18,.28);
+  pointer-events: none;
+}
+.market-price:hover .market-effect-tip,
+.market-price:focus .market-effect-tip,
+.market-price:focus-within .market-effect-tip { display: grid; gap: 5px; }
+.market-effect-tip > b { font-size: 12.5px !important; }
+.market-effect-base { font-size: 11px; color: #EAD7B2; font-weight: 750; }
+.market-effect-row { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 3px 8px; align-items: center; font-size: 11.5px; }
+.market-effect-row i { font-style: normal; font-weight: 800; }
+.market-effect-row strong { font-size: 11.5px !important; }
+.market-effect-row small { grid-column: 1 / -1; color: #EAD7B2 !important; font-weight: 650 !important; }
+.market-effect-row.buff strong { color: #9FE0A8; }
+.market-effect-row.debuff strong { color: #FFAAA0; }
+.market-effect-empty { font-size: 11.5px; color: #EAD7B2; }
+.mrow .sell { flex-wrap: wrap; justify-content: flex-end; }
+.mrow .sell button.reserve { background: #E7F0D9; color: #49613E; }
