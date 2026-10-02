@@ -2516,6 +2516,158 @@ $('fest-box').addEventListener('click', (e) => {
 });
 
 
+$('open-warehouse-from-market').addEventListener('click', () => { closeMarket(); openWarehouse(); });
+
+// ---------------------------------------------------------------------------
+// Merkez Depo: bal, arıcılık malzemeleri, tohumlar, dekorlar ve işlenmiş ürünler
+// ---------------------------------------------------------------------------
+let warehouseOpen = false;
+let warehouseTab = 'honey';
+let warehouseSig = '';
+
+function setWarehouseTab(tab) {
+  warehouseTab = tab || 'honey';
+  for (const b of document.querySelectorAll('[data-warehouse-tab]')) b.classList.toggle('on', b.dataset.warehouseTab === warehouseTab);
+}
+
+function openWarehouse(tab = 'honey') {
+  warehouseOpen = true;
+  setWarehouseTab(tab);
+  $('warehouse-modal').hidden = false;
+  renderWarehouse(true);
+}
+function closeWarehouse() {
+  warehouseOpen = false;
+  $('warehouse-modal').hidden = true;
+}
+$('warehouse-close').addEventListener('click', closeWarehouse);
+$('warehouse-modal').addEventListener('click', (e) => { if (e.target === $('warehouse-modal')) closeWarehouse(); });
+for (const b of document.querySelectorAll('[data-warehouse-tab]')) {
+  b.addEventListener('click', () => { setWarehouseTab(b.dataset.warehouseTab); renderWarehouse(true); });
+}
+
+function warehouseEmpty(icon, title, text) {
+  return '<div class="warehouse-empty"><span>' + icon + '</span><b>' + esc(title) + '</b><p>' + esc(text) + '</p></div>';
+}
+function warehouseItem(icon, title, amount, text, actions = '') {
+  return '<article class="warehouse-item"><span class="warehouse-item-icon">' + icon + '</span><div class="warehouse-item-info"><b>' + esc(title) +
+    '</b><strong>' + amount + '</strong>' + (text ? '<small>' + text + '</small>' : '') + '</div>' + actions + '</article>';
+}
+
+function renderWarehouse(force = false) {
+  if (!warehouseOpen || !view) return;
+  const w = view.workshop || { products: [], unlocked: false };
+  const sig = JSON.stringify([
+    warehouseTab, view.storage, view.storageCap, view.storageKg, view.nextStorage, view.materials,
+    view.wax, view.candles, view.vouchers, view.decorInventory, w.products, view.hives, Math.floor(view.coins)
+  ]);
+  if (!force && sig === warehouseSig) return;
+  warehouseSig = sig;
+
+  $('warehouse-capacity-text').textContent = view.storageKg.toFixed(1) + ' / ' + view.storageCap + ' kg';
+  $('warehouse-capacity-bar').style.width = Math.min(100, view.storageKg / view.storageCap * 100) + '%';
+
+  let html = '';
+  if (warehouseTab === 'honey') {
+    const rows = Object.entries(view.storage).filter(([, n]) => n >= 0.05)
+      .sort((a, b) => b[1] - a[1]);
+    html = rows.length ? '<div class="warehouse-list">' + rows.map(([f, amount]) => {
+      const def = view.flowers[f];
+      const market = view.market[f] || {};
+      const reserved = Number(market.reservedKg || 0);
+      const free = Math.max(0, amount - reserved);
+      const note = reserved > 0
+        ? 'Siparişe ayrılmış: ' + reserved.toFixed(1) + ' kg · kullanılabilir: ' + free.toFixed(1) + ' kg'
+        : 'Kullanılabilir stok: ' + amount.toFixed(1) + ' kg';
+      return warehouseItem('<i class="warehouse-honey-dot" style="background:' + def.color + '"></i>',
+        def.name + ' Balı', amount.toFixed(1) + ' kg', note);
+    }).join('') + '</div>' : warehouseEmpty('🍯', 'Henüz bal yok', 'Kovanlarını hasat ettiğinde balların burada görünür.');
+
+    const nx = view.nextStorage;
+    html += '<div class="warehouse-footer-actions"><button type="button" class="act primary" data-warehouse-market>🍯 Pazara Git</button>' +
+      '<button type="button" class="act" data-warehouse-upgrade' + (!nx || view.coins < nx.cost ? ' disabled' : '') + '>' +
+      (nx ? '📦 Bal kapasitesini ' + nx.cap + ' kg yap · ' + nx.cost + ' 🪙' : '📦 Bal kapasitesi maksimum') + '</button></div>';
+  } else if (warehouseTab === 'apiary') {
+    const m = view.materials || {};
+    html = '<div class="warehouse-list">' +
+      warehouseItem('🕯️', 'Balmumu', Math.round((view.wax || 0) * 1000).toLocaleString('tr-TR') + ' g', 'Hasatta bal miktarına göre elde edilir; mum ve Atölye tariflerinde kullanılır.') +
+      warehouseItem('🌼', 'Polen', Number(m.pollen || 0).toLocaleString('tr-TR', { maximumFractionDigits: 1 }) + ' g', 'Polen Keki, Özel Polen Karışımı ve bazı işlenmiş ürünlerde kullanılır.') +
+      warehouseItem('🛡️', 'Propolis', Number(m.propolis || 0).toLocaleString('tr-TR', { maximumFractionDigits: 1 }) + ' g', 'Propolis Kalkanı ve Propolis Merhemi üretiminde kullanılır.') +
+      warehouseItem('🥛', 'Arı Sütü', Number(m.royalJelly || 0).toLocaleString('tr-TR', { maximumFractionDigits: 1 }) + ' g', 'Nadir hammaddedir; Arı Sütü Kürü üretiminde kullanılır.') +
+      '</div><p class="warehouse-cap-note">Bu malzemeler Bal Kapasitesini kullanmaz.</p>' +
+      '<div class="warehouse-footer-actions"><button type="button" class="act primary" data-warehouse-workshop>🔨 Arıcılık Atölyesi</button></div>';
+  } else if (warehouseTab === 'seeds') {
+    const rows = Object.entries(view.flowers);
+    html = '<div class="warehouse-grid">' + rows.map(([id, f]) => {
+      const count = Number(view.vouchers[id] || 0);
+      const seasons = f.seasons.map((x) => seasonsTr[x]).join(' · ');
+      const action = '<button type="button" data-warehouse-seed="' + esc(id) + '"' + (count < 1 ? ' disabled' : '') + '>🌱 Ekim moduna geç</button>';
+      return '<article class="warehouse-stock-card' + (count < 1 ? ' empty-stock' : '') + '"><span class="seed-flower" style="color:' + f.color + '">✿</span>' +
+        '<div><b>' + esc(f.name) + ' Tohumu</b><strong>×' + count + '</strong><small>' + esc(seasons) + ' · +' + Math.round(f.buff * 100) + '% çiçek bonusu</small></div>' + action + '</article>';
+    }).join('') + '</div><p class="warehouse-cap-note">Hediye edilen ve Mağazadan satın alınan tüm tohumlar aynı stokta tutulur. Tohumlar Bal Kapasitesini kullanmaz.</p>';
+  } else if (warehouseTab === 'decor') {
+    const icons = { cit: '🪵', bank: '🪑', fener: '🏮', kemer: '🌸', cesme: '⛲' };
+    const rows = Object.entries(view.decor).filter(([, d]) => !d.prize);
+    html = '<div class="warehouse-grid">' + rows.map(([id, d]) => {
+      const count = Number((view.decorInventory || {})[id] || 0);
+      return '<article class="warehouse-stock-card' + (count < 1 ? ' empty-stock' : '') + '"><span>' + (icons[id] || '✨') + '</span><div><b>' +
+        esc(d.name) + '</b><strong>×' + count + '</strong><small>' + esc(d.desc) + '</small></div><button type="button" data-warehouse-decor="' +
+        esc(id) + '"' + (count < 1 ? ' disabled' : '') + '>Yerleştir</button></article>';
+    }).join('') + '</div><p class="warehouse-cap-note">Mağazadan aldığın ve haritadan kaldırdığın dekorlar burada saklanır. Dekorlar Bal Kapasitesini kullanmaz.</p>';
+  } else if (warehouseTab === 'products') {
+    const products = Array.isArray(w.products) ? w.products : [];
+    const hiveOpts = Object.values(view.hives).map((h) => '<option value="' + esc(h.id) + '">' + esc(h.name) + ' · ' + h.bees + '/' + h.capBees + ' arı</option>').join('');
+    const cards = [];
+    if (view.candles > 0) {
+      cards.push(warehouseItem('🕯️', 'Mum', '×' + view.candles, 'Satış fiyatı: ' + view.candlePrice + ' 🪙 / adet',
+        '<div class="warehouse-item-actions"><button type="button" data-warehouse-candles>Hepsini sat · +' + (view.candles * view.candlePrice).toLocaleString('tr-TR') + ' 🪙</button></div>'));
+    }
+    for (const p of products) {
+      const utility = p.kind === 'utility';
+      const actions = utility
+        ? '<div class="warehouse-item-actions"><select data-warehouse-hive-for="' + esc(p.key) + '">' + hiveOpts + '</select><button type="button" data-warehouse-use="' + esc(p.key) + '">Kovana uygula</button></div>'
+        : '<div class="warehouse-item-actions"><button type="button" data-warehouse-sell="' + esc(p.key) + '">Hepsini sat · +' + (p.count * p.sellValue).toLocaleString('tr-TR') + ' 🪙</button></div>';
+      cards.push(warehouseItem(p.key === 'giftSet' ? '🎁' : p.key === 'aromaticHoney' ? '🍯' : p.key.startsWith('premiumJar:') ? '🫙' : '🌿',
+        p.name, '×' + p.count, utility ? 'Kovana uygulanabilir Atölye ürünü.' : 'Sabit işlenmiş ürün değeri: ' + p.sellValue + ' 🪙 / adet', actions));
+    }
+    html = cards.length ? '<div class="warehouse-list">' + cards.join('') + '</div>' :
+      warehouseEmpty('🫙', 'Henüz işlenmiş ürün yok', 'Arıcılık Atölyesi üretimi tamamlandığında ürünler doğrudan buraya gelir.');
+    html += '<p class="warehouse-cap-note">İşlenmiş ürünler Bal Kapasitesini kullanmaz.</p>' +
+      '<div class="warehouse-footer-actions"><button type="button" class="act primary" data-warehouse-workshop>🔨 Atölyeye Git</button></div>';
+  }
+  $('warehouse-body').innerHTML = html;
+}
+
+$('warehouse-body').addEventListener('click', (e) => {
+  const market = e.target.closest('[data-warehouse-market]');
+  const upgrade = e.target.closest('[data-warehouse-upgrade]');
+  const workshop = e.target.closest('[data-warehouse-workshop]');
+  const seed = e.target.closest('[data-warehouse-seed]');
+  const decor = e.target.closest('[data-warehouse-decor]');
+  const use = e.target.closest('[data-warehouse-use]');
+  const sell = e.target.closest('[data-warehouse-sell]');
+  const candles = e.target.closest('[data-warehouse-candles]');
+  if (market) { closeWarehouse(); openMarket(); return; }
+  if (upgrade && !upgrade.disabled) { doAct('upgradeStorage'); return; }
+  if (workshop) { closeWarehouse(); openWorkshop(); return; }
+  if (seed && !seed.disabled) {
+    startPlacing({ type: 'seed', flower: seed.dataset.warehouseSeed }, view.flowers[seed.dataset.warehouseSeed].name + ' tohumu için boş bir tarla karesi seç');
+    return;
+  }
+  if (decor && !decor.disabled) {
+    startPlacing({ type: 'decor', decor: decor.dataset.warehouseDecor }, view.decor[decor.dataset.warehouseDecor].name + ' için çiftliğinden bir kare seç');
+    return;
+  }
+  if (use) {
+    const keyName = use.dataset.warehouseUse;
+    const sel = document.querySelector('[data-warehouse-hive-for="' + CSS.escape(keyName) + '"]');
+    if (sel) doAct('workshopUse', keyName, sel.value);
+    return;
+  }
+  if (sell) { doAct('workshopSell', sell.dataset.warehouseSell, 'all'); return; }
+  if (candles) doAct('sellCandles');
+});
+
 let workshopOpen = false;
 let workshopSig = '';
 function openWorkshop() {
