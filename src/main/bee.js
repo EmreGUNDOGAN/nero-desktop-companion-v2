@@ -1646,7 +1646,7 @@ class BeeGame {
     this.state.ezgiWelcomeClaimed = true;
     this.state.ezgiWelcomePending = false;
     this.save();
-    return { ok: true, msg: `🌷 Ezgi’nin hoş geldin hediyesi: 1 ${FLOWERS[flower].name} tohumu 🎁` };
+    return { ok: true, msg: `🌷 Ezgi’nin hoş geldin hediyesi Depo'ya eklendi: 1 ${FLOWERS[flower].name} tohumu 🎁` };
   }
 
   // --- Oyun ayarları ---------------------------------------------------------------
@@ -1874,7 +1874,7 @@ class BeeGame {
     let msg = '';
     if (id === 'surup') { h.boostUntilDay = Math.max(day, h.boostUntilDay || 0) + 1; msg = `${h.name}’e uygulandı · +%50 üretim · 1 gün.`; }
     if (id === 'kralice') { const u = this.nextUpgrade(h); h.level += 1; h.queens += 1; h.capBees = u.capBees; h.invested += price; msg = `${QUEEN_NAMES[h.queens]} geldi! (${h.name})`; }
-    if (id === 'tohum' || id === 'nadirTohum' || id === 'mevsimTohum') { for (const seed of item.seeds || []) this.state.vouchers[seed] = (this.state.vouchers[seed] || 0) + 1; msg = `Hediye tohumlar: ${(item.seeds || []).map((x) => FLOWERS[x].name).join(', ')}.`; }
+    if (id === 'tohum' || id === 'nadirTohum' || id === 'mevsimTohum') { for (const seed of item.seeds || []) this.state.vouchers[seed] = (this.state.vouchers[seed] || 0) + 1; msg = `Hediye tohumlar Depo'ya eklendi: ${(item.seeds || []).map((x) => FLOWERS[x].name).join(', ')}.`; }
     if (id === 'dortMevsim') { t.item.allSeasonUntil = Math.max(day, t.item.allSeasonUntil || 0) + 30; msg = 'Tarhın Dört Mevsim etkisi 30 gün uzadı.'; }
     if (id === 'suru') { h.bees += 3; msg = `${h.name}: +3 arı.`; }
     if (id === 'sut') { h.milkDays = (h.milkDays || 0) + 3; msg = `${h.name}: Arı Sütü etkisi +3 gün.`; }
@@ -3341,7 +3341,7 @@ class BeeGame {
     this.state.coins -= seedCost;
     this.state.vouchers[flower] = (this.state.vouchers[flower] || 0) + 1;
     this.save();
-    return { ok: true, msg: `${def.name} tohumu envantere eklendi (-${seedCost} 🪙). Envanter: ${this.state.vouchers[flower]}` };
+    return { ok: true, msg: `${def.name} tohumu Depo'ya eklendi (-${seedCost} 🪙). Depoda: ${this.state.vouchers[flower]}` };
   }
 
   plantSeed(k, flower) {
