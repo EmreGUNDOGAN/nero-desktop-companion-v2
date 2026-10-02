@@ -17,7 +17,8 @@ test('6.4.1 depot shows harvested beekeeping materials', () => {
   assert.match(css, /\.depot-material/);
 });
 
-test('6.4.1 package version', () => {
+test('6.4.1 regression runs on 6.4.1 or newer', () => {
   const pkg = require('../package.json');
-  assert.equal(pkg.version, '6.4.1');
+  const [major, minor, patch] = pkg.version.split('.').map(Number);
+  assert.ok(major > 6 || (major === 6 && (minor > 4 || (minor === 4 && patch >= 1))));
 });
