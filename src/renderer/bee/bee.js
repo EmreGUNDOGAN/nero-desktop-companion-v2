@@ -1448,7 +1448,7 @@ function renderLedger(force = false) {
         ${!l.read ? `<div><button type="button" class="act primary small-act" data-read="${l.id}">${l.gift ? 'Oku ve hediyeyi al' : 'Okundu'}</button></div>` : ''}</div>`).join('')
       : '<div class="page locked"><b>Henüz mektup yok</b><small>Köylüler birkaç günde bir sana mektup yazar.</small></div>';
   } else if (ledgerTab === 'effects') {
-    const E = view.effects || { focus: { active: false, icon: 'focus', title: 'Odak Bonusu', text: '+%25 bal üretimi', leftMs: 0, earnedTodayMs: 0, dailyLimitMs: 14400000 }, list: [] };
+    const E = view.effects || { focus: { active: false, icon: 'focus', title: 'Odak Bonusu', text: '+%10 bal üretimi', leftMs: 0, earnedTodayMs: 0, dailyLimitMs: 14400000 }, list: [] };
     const allowed = new Set(['focus', 'story', 'building', 'syrup', 'milk', 'season', 'immunity', 'storage']);
     const icon = (id) => `./assets/effects/${allowed.has(id) ? id : 'story'}.svg`;
     const hm = (ms) => {
@@ -1468,7 +1468,7 @@ function renderLedger(force = false) {
     const limit = hm(E.focus.dailyLimitMs);
     html = `<div class="effects-wrap">
       <div class="effect-focus${E.focus.active ? ' active' : ''}"><img class="effect-icon big" src="${icon('focus')}" alt=""><div>
-        <b>🔥 Odak Bonusu · +%25 üretim</b>
+        <b>🔥 ${esc(E.focus.title || 'Odak Bonusu')} · ${esc(E.focus.text || '+%10 bal üretimi')}</b>
         <small>Kalan: <strong>${leftClock(E.focus.leftMs)}</strong></small>
         <span>Bugün kazanılan: ${esc(earned)} / ${esc(limit)}</span>
         <span>Günlük limit: 4 saat</span>
@@ -2426,7 +2426,7 @@ function renderMarket(force = false) {
   const fc = view.marketForecast;
   $('m-forecast').hidden = !fc;
   if (fc) {
-    $('m-forecast').textContent = '🔮 Yarın: ' + fc.rows.map((x) => `${view.flowers[x.flower].name} ${x.direction === 'up' ? '↑ yükselebilir' : '↓ düşebilir'}`).join(' · ');
+    $('m-forecast').textContent = '🔮 Yarın: ' + fc.rows.map((x) => `${view.flowers[x.flower].name} ${x.direction === 'up' ? '↑' : '↓'} ${Number(x.predictedPrice || 0).toFixed(1)} 🪙`).join(' · ');
   }
 
   let entries = Object.entries(view.flowers);
@@ -2449,10 +2449,10 @@ function renderMarket(force = false) {
       <span class="pr market-price" tabindex="0"><b>${m.price.toFixed(1)} 🪙</b><small class="${cls}">${sign}%${Math.abs(m.change)} · kg</small>${marketEffectTip(m)}</span>
       ${sparkline(m.history)}
       <span class="sell">
-        <button type="button" data-sell="${f}" data-kg="1" ${have < 1 ? 'disabled' : ''}>1 kg</button>
-        <button type="button" data-sell="${f}" data-kg="5" ${have < 5 ? 'disabled' : ''}>5 kg</button>
+        <button type="button" data-sell="${f}" data-kg="1" ${smartLeft < 1 ? 'disabled' : ''}>1 kg</button>
+        <button type="button" data-sell="${f}" data-kg="5" ${smartLeft < 5 ? 'disabled' : ''}>5 kg</button>
         <button type="button" class="reserve" data-sell="${f}" data-kg="orders" ${smartLeft < 0.05 ? 'disabled' : ''} title="Kabul edilmiş siparişler için gereken balı depoda bırak">Siparişleri bırak</button>
-        <button type="button" class="all" data-sell="${f}" data-kg="all" ${dis(0)}>Hepsi</button>
+        <button type="button" class="all" data-sell="${f}" data-kg="all" ${smartLeft < 0.05 ? 'disabled' : ''}>Hepsi</button>
       </span>
     </li>`;
   }).join('');
@@ -2486,7 +2486,7 @@ function renderMarket(force = false) {
       .map(([f, v]) => `<option value="${f}">${esc(view.flowers[f].name)} (${v.toFixed(1)} kg)</option>`).join('');
     fb.hidden = false;
     const prizes = (fest.prizes || []).map((p) => p.coins).join(' / ');
-    fb.innerHTML = `<b>🏆 ${seasonsTr[view.calendar.season]} Turnuvası başvuruları açık!</b><br>Balını gönder (en fazla ${fest.maxKg} kg). Başvuru 12–14. günlerde açıktır; 15. gün turnuva günüdür. İlk üçe ${prizes || '300 / 200 / 100'} 🪙 ve kupa verilir.
+    fb.innerHTML = `<b>🏆 ${seasonsTr[view.calendar.season]} Turnuvası başvuruları açık!</b><br>Balını gönder (en fazla ${fest.maxKg} kg). Başvuru 12–14. günlerde açıktır; 15. gün turnuva günüdür. İlk üçe ${prizes || '750 / 500 / 250'} 🪙 ve kupa verilir.
       <div class="fest-row">${opts ? `<select id="fest-flower">${opts}</select><input id="fest-kg" type="number" min="1" max="${fest.maxKg}" step="0.5" value="${fest.maxKg}"><button type="button" id="fest-send">Gönder</button>` : 'Depoda en az 1 kg bal olmalı.'}</div>
       ${cups ? `<p>Kupaların: ${cups}</p>` : ''}`;
   } else if (fest.entry) {
@@ -2559,7 +2559,7 @@ function renderWarehouse(force = false) {
   if (!warehouseOpen || !view) return;
   const w = view.workshop || { products: [], unlocked: false };
   const sig = JSON.stringify([
-    warehouseTab, view.storage, view.storageCap, view.storageKg, view.nextStorage, view.materials,
+    warehouseTab, view.storage, view.storageCap, view.storageKg, view.pendingHoneyReturns, view.nextStorage, view.materials,
     view.wax, view.candles, view.vouchers, view.decorInventory, w.products, view.hives, Math.floor(view.coins)
   ]);
   if (!force && sig === warehouseSig) return;
@@ -2584,6 +2584,12 @@ function renderWarehouse(force = false) {
         def.name + ' Balı', amount.toFixed(1) + ' kg', note);
     }).join('') + '</div>' : warehouseEmpty('🍯', 'Henüz bal yok', 'Kovanlarını hasat ettiğinde balların burada görünür.');
 
+    const pendingReturns = Object.entries(view.pendingHoneyReturns || {}).filter(([, kg]) => Number(kg) >= 0.05);
+    if (pendingReturns.length) {
+      const pendingKg = pendingReturns.reduce((sum, [, kg]) => sum + Number(kg || 0), 0);
+      html += '<p class="warehouse-cap-note">📦 <b>Bekleyen bal iadesi: ' + pendingKg.toFixed(1) + ' kg.</b> Depoda yer açıldıkça otomatik geri alınır: ' +
+        pendingReturns.map(([f, kg]) => esc(view.flowers[f]?.name || f) + ' ' + Number(kg).toFixed(1) + ' kg').join(' · ') + '</p>';
+    }
     const nx = view.nextStorage;
     html += '<div class="warehouse-footer-actions"><button type="button" class="act primary" data-warehouse-market>🍯 Pazara Git</button>' +
       '<button type="button" class="act" data-warehouse-upgrade' + (!nx || view.coins < nx.cost ? ' disabled' : '') + '>' +
@@ -3691,10 +3697,13 @@ function renderMerchant(force = false) {
   }).join('');
   queueMicrotask(refreshMerchantQuotes);
   const have = view.storage[M.wants] || 0;
+  const available = Number(M.wantsAvailable || 0);
+  const reserved = Number(M.wantsReserved || 0);
   const f = view.flowers[M.wants];
   const ticket = M.salesTicketKg > 0 ? ` · 💎 Satış Fişi aktif: kalan ${M.salesTicketKg.toFixed(1)} kg’a +%10` : '';
-  $('merchant-buy').innerHTML = `🍯 Seyyah Yakup <b>${esc(f.name)} balı</b> arıyor: kilosuna <b>${M.wantsPrice} 🪙</b> (pazarın %${M.honeyBonusPct || 15} üstü). Kalan: ${M.wantsLeft} kg · Depoda: ${have.toFixed(1)} kg${ticket}
-    <div class="fest-row"><button type="button" data-msell="1" ${have < 1 || M.wantsLeft < 1 ? 'disabled' : ''}>1 kg sat</button><button type="button" data-msell="all" ${have < 0.05 || M.wantsLeft < 0.05 ? 'disabled' : ''}>Hepsini sat</button></div>`;
+  const reserveNote = reserved > 0 ? ` · Siparişe ayrılmış: ${reserved.toFixed(1)} kg · Satılabilir: ${available.toFixed(1)} kg` : '';
+  $('merchant-buy').innerHTML = `🍯 Seyyah Yakup <b>${esc(f.name)} balı</b> arıyor: kilosuna <b>${M.wantsPrice} 🪙</b> (pazarın %${M.honeyBonusPct || 15} üstü). Kalan: ${M.wantsLeft} kg · Depoda: ${have.toFixed(1)} kg${reserveNote}${ticket}
+    <div class="fest-row"><button type="button" data-msell="1" ${available < 1 || M.wantsLeft < 1 ? 'disabled' : ''}>1 kg sat</button><button type="button" data-msell="all" ${available < 0.05 || M.wantsLeft < 0.05 ? 'disabled' : ''}>Satılabilirin hepsini sat</button></div>`;
 }
 $('merchant-list').addEventListener('change', (e) => {
   const sel = e.target.closest('[data-target-for]');
@@ -3803,6 +3812,8 @@ function costOf(action, a, b) {
     case 'buyTile': return view.tilePrice;
     case 'buySeed': return (view.flowers[a] || {}).seed || 0;
     case 'plantSeed': return view.vouchers[b] > 0 ? 0 : (view.flowers[b] || {}).seed || 0;
+    case 'replant': { const t = view.tiles[a]; const f = t && t.item && view.flowers[t.item.flower]; return t && t.item && t.item.wilted && f ? Math.max(1, Math.round(f.seed * view.reviveRate)) : 0; }
+    case 'reviveAll': return Object.values(view.tiles || {}).filter((t) => t.item && t.item.type === 'flower' && t.item.wilted).reduce((sum, t) => { const f = view.flowers[t.item.flower]; return sum + (f ? Math.max(1, Math.round(f.seed * view.reviveRate)) : 0); }, 0);
     case 'upgradeStorage': return view.nextStorage ? view.nextStorage.cost : 0;
     case 'changeBreed': return view.breedChangeCost;
     case 'placeDecor': return (view.decor[b] || {}).cost || 0;

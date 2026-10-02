@@ -60,11 +60,11 @@ test('5.5.2 eksik günlük erzak tamamen tüketilir ve beslenmiş sayılmaz', ()
   assert.equal(hive.fedDay, null);
 });
 
-test('5.5.2 üç saat görünmeyen Arıcılıkta takvim ve üretim tamamen donar', () => {
+test('6.6.0 iki saat görünmeyen Arıcılıkta takvim ve üretim tamamen donar', () => {
   const bee = new BeeGame(new MemoryStore({}));
   const now = Date.now();
   bee.state.speed = 4;
-  bee.state.lastSeenAt = now - 3 * 60 * 60 * 1000 - 1000;
+  bee.state.lastSeenAt = now - 2 * 60 * 60 * 1000 - 1000;
   bee.state.gameMs = 123456;
   bee.lastDay = bee.dayIndex();
   bee.lastTickAt = now - 1000;

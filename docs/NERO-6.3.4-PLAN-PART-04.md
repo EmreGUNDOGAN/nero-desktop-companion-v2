@@ -1,5 +1,7 @@
 # Nero 6.3.4 Plan — Part 04
 
+> **ARŞİV NOTU (6.6.0):** Bu dosya 6.3.4 döneminin tarihsel planıdır. Turnuva formülü ve diğer sayısal kurallar daha sonra değişmiştir; güncel değerler için `docs/ARICILIK-REHBERI.md` ve `src/main/bee.js` esas alınır.
+
 Bu dosya 6.3.4 için son plan grubunu tutar. **Madde 10 ve Madde 11 kilitlenmiştir; kullanıcı kapsamın burada tamamlandığını onaylamış ve kodlama aşamasını başlatmıştır.**
 
 ## 10. Rehbere Mevsim Turnuvası puan hesaplama sistemi eklenecek

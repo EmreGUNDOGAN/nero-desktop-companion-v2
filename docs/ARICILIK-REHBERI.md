@@ -38,7 +38,7 @@ haftalar içinde büyüyen sakin bir çiftlik olarak tasarlandı.
 - **Panelden:** Nero'ya tıkla → **Bugün** sekmesinde aşağıdaki hızlı düğmelerden **🐝 Arıcılık**.
 - **Sağ tık menüsünden:** masaüstündeki Nero'ya sağ tıkla → **Arıcılık oyunu**.
 
-Oyun ayrı bir pencerede açılır. Pencereyi kapatsan da Nero açıkken çiftlik ilk **3 gerçek saat** çalışmaya devam eder; Arıcılık 3 saat boyunca hiç görülmezse oyun tamamen durur ve tekrar baktığında kaldığı yerden devam eder.
+Oyun ayrı bir pencerede açılır. Pencereyi kapatsan da Nero açıkken çiftlik ilk **2 gerçek saat** çalışmaya devam eder; Arıcılık 2 saat boyunca hiç görülmezse oyun tamamen durur ve tekrar baktığında kaldığı yerden devam eder.
 
 ---
 
@@ -185,12 +185,12 @@ Bir kovana tıklayınca **kovanın içi** açılır: solda canlı petek (ortada 
 **Çiçek Ekosistemi ve Tozlaşma (6.3.16):**
 - Her kovan panelinde **Genel · Ekosistem · Yan Ürün · Üretim · Ayrıntılar** sekmeleri vardır.
 - Ekosistem hesabı yalnız menzildeki aktif, solmamış tarhları kullanır.
-- En az **2 farklı tür** varsa ve baskın tür toplamın %80'inden azsa **+%4 bal üretimi**.
-- En az **3 farklı tür** varsa ve baskın tür toplamın %70'inden azsa **+%8 bal üretimi**.
-- En az 5 aktif tarhın **%80 veya fazlası aynı türse** monokültür baskısı oluşur. Bal üretimi doğrudan düşmez; kovanın doğal hastalanma ihtimali göreli **%5 artar**.
+- En az **2 farklı tür** varsa ve baskın tür toplamın %80'inden azsa **+%6 bal üretimi**.
+- En az **3 farklı tür** varsa ve baskın tür toplamın %70'inden azsa **+%12 bal üretimi**.
+- En az 5 aktif tarhın **%80 veya fazlası aynı türse** monokültür baskısı oluşur: kovanın bal üretimi **-%8** düşer ve doğal hastalanma riski göreli **×1,15** (yaklaşık +%15) olur.
 - Ekosistem sekmesi türleri, adetleri, baskın tür oranını ve monokültür durumunu açıkça gösterir. Üretim sekmesinde biyoçeşitlilik gerçek üretim buff'ı olarak listelenir.
 - Tarha tıklayınca hangi kovanların ekosistemine katkı yaptığı görünür. Yüksek biyoçeşitlilikli tarhlar adada hafifçe daha canlı çizilir ve küçük tozlaştırıcı ambient detayı gösterebilir.
-- **Yan Ürün** sekmesi bu sürümde yalnız yer tutucudur; Polen / Propolis / Arı Sütü ekonomisi sonraki onaylı maddede kodlanacaktır.
+- **Yan Ürün** sekmesi gerçek üretimi gösterir: Polen, Propolis ve Arı Sütü bal üretimi sırasında birikir; hasatta Atölye deposuna taşınır ve açılmış tariflerde kullanılır.
 
 **Kış:** günlük erzak ihtiyacını karşılayamayan kovan aç sayılır ve ırkının kış kaybı kuralına göre arı kaybedebilir. **Kış kaybı hiçbir kovanı 4 arının altına düşüremez.** O gün yeterli erzakla beslenen kovan kışın daha iyi üretir (**×0,35**; beslenmeyen kovan **×0,10**).
 
@@ -287,7 +287,7 @@ Her yıl ilkbahar, yaz, sonbahar ve kış turnuvası düzenlenir. Mevsimin **12,
 | Üretim Başarısı | 200 | Mevsimlik üretim ve kovan başına üretim |
 | Köy İtibarı | 150 | Teslim edilmiş siparişler ve ilişkiler |
 
-Temkinli Ali, Riskçi Kaya ve Dengeli Nur kendi çiftlik verilerine göre puan alır; senin puanının yüzdesiyle hesaplanmaz. İlk üçe sırasıyla **300, 200, 100 jeton** ve altın/gümüş/bronz kupa verilir. Birinci olursan **gelecek yıl aynı mevsim** boyunca üretimin %20 artar. Bal Defteri → **Kupalar** bölümünde sonraki turnuvaya kalan oyun günlerini, geçmiş sonuçları ve kategori puanlarını görürsün. Eski festival kupaların korunur.
+Temkinli Ali, Riskçi Kaya ve Dengeli Nur kendi çiftlik verilerine göre puan alır; senin puanının yüzdesiyle hesaplanmaz. İlk üçe sırasıyla **750, 500, 250 jeton** ve altın/gümüş/bronz kupa verilir. Birinci olursan **gelecek yıl aynı mevsim** boyunca üretimin %20 artar. Bal Defteri → **Kupalar** bölümünde sonraki turnuvaya kalan oyun günlerini, geçmiş sonuçları ve kategori puanlarını görürsün. Eski festival kupaların korunur.
 
 ---
 
@@ -525,9 +525,9 @@ Oyun Nero'nun asıl amacıyla bağlantılı: **sen çalıştıkça çiftlik büy
 
 
 ## 16. Sen yokken
-- Nero açıkken Arıcılık penceresini kapatsan ya da başka işlere geçsen de çiftlik **son görülmeden sonraki ilk 3 gerçek saat** çalışmaya devam eder.
-- Arıcılık **3 saat boyunca hiç görülmezse oyun tamamen durur**: üretim, takvim, mevsimler, hastalık, doğumlar, kış erzağı, Yakup'un kalış süresi, festival, oyun-zamanlı sipariş süreleri ve arıcının yürüyüşü ilerlemez.
-- Tekrar Arıcılık penceresine baktığında kaldığın noktadan devam eder; 3 saatten sonraki süre için geriye dönük üretim veya normal sipariş birikimi yapılmaz.
+- Nero açıkken Arıcılık penceresini kapatsan ya da başka işlere geçsen de çiftlik **son görülmeden sonraki ilk 2 gerçek saat** çalışmaya devam eder.
+- Arıcılık **2 saat boyunca hiç görülmezse oyun tamamen durur**: üretim, takvim, mevsimler, hastalık, doğumlar, kış erzağı, Yakup'un kalış süresi, festival, oyun-zamanlı sipariş süreleri ve arıcının yürüyüşü ilerlemez.
+- Tekrar Arıcılık penceresine baktığında kaldığın noktadan devam eder; 2 saatten sonraki süre için üretim/takvim/rakip simülasyonu yapılmaz. Normal siparişler gerçek-zaman saatinden bağımsız izlenir; uzun dönüşte tek seferde en fazla 3 yeni normal sipariş birikir.
 - **Nero tamamen kapalıyken** oyunun zamanı da durur.
 - Oyundan **20 gerçek dakika veya daha uzun** süre uzak kaldıysan geri döndüğünde **"Tekrar hoş geldin!"** kartı çıkar: ne kadar bal üretildiği, doğan ve ölen arılar, gelen siparişler, hasat bekleyen ve hasta kovanlar, sıralamadaki değişim gösterilir.
 
@@ -579,7 +579,7 @@ Oyun Nero'nun asıl amacıyla bağlantılı: **sen çalıştıkça çiftlik büy
 | Sipariş değiştirme | 19 jeton · Reddetmek: ilişki −%2 |
 | Ceza | ödemenin %20'si |
 | Mum | 500 g balmumu, 45 jeton taban fiyatı (kışın ×1.4, piyasa ve bonuslar ayrıca uygulanır) |
-| Arıcılık görülmezse tam duraklama | **3 gerçek saat** |
+| Arıcılık görülmezse tam duraklama | **2 gerçek saat** |
 | Gece modu | 19:00–07:00 (sadece görünüş) |
 | Etiket bahşişi | %5 (müdavimler) |
 
@@ -618,16 +618,14 @@ Gece gökyüzünde küçük, parlayan ve nadiren kayan yıldızlar görünür. *
 
 ## Mevsim Turnuvası puanı nasıl hesaplanır?
 
-Toplam puan 1000'dir: **Bal Kalitesi 400 + Arıcılık 250 + Üretim 200 + Köy İtibarı 150**.
+Toplam puan 1000'dir: **Bal Kalitesi 400 + Arıcılık 250 + Üretim 200 + Köy İtibarı 150**. Oyuncu ve rakipler aynı kategori hesaplayıcısından geçer; rakiplerin girdileri kendi gerçek simüle edilmiş stok, üretim, hastalık, sipariş ve ilişki verilerinden gelir.
 
-- **Bal Kalitesi (400):** 110 taban + gönderilen kg × 15 + bal türünün taban fiyatı × 2 + doğal mevsimindeyse 45 + Festival Cilası varsa 20 + aktif festival bonusları. Bal taban katkıları: Yonca 16, Papatya 24, Ayçiçeği 36, Kekik 52, Lavanta 76, Kış Fundası 110, Kestane 160.
-- **Arıcılık (250):** 60 + sağlıklı kovan oranı × 130 + yaşayan arı sayısı × 2,5 − o mevsimde ölen arı sayısı × 12.
-- **Üretim (200):** son 15 oyun günündeki toplam üretim kg × 7 + kovan başına üretim × 4.
-- **Köy İtibarı (150):** o mevsimde tamamlanan başarılı sipariş × 16 + tüm köylülerdeki toplam kalp × 5.
+- **Bal Kalitesi (400):** `70 + kg × 8 + min(100, bal taban fiyatı × 1,15) + doğal mevsim bonusu 50 + biyoçeşitlilik katkısı + Festival Cilası 20 + aktif düz turnuva bonusları`. Biyoçeşitlilik katkısında negatif değer ek puan yaratmaz; pozitif ekosistem bonusu en fazla +30 puanlık katkıya kadar hesaba girer.
+- **Arıcılık (250):** `40 + sağlıklı kovan oranı × 100 + min(90, yaşayan arı × 1,5) − mevsimde ölen arı × 10`.
+- **Üretim (200):** `min(125, mevsim üretimi kg × 2,2) + min(75, kovan başına üretim × 4)`.
+- **Köy İtibarı (150):** `başarılı mevsim siparişi × 15 + min(90, ilişki puanı)`.
 
-Örnek: Sonbaharda 10 kg Kestane balı = 110 + 150 + 160 + 45 = 465; kategori 400'de sınırlandığı için **400/400**.
-
-İlk üç ödülü 300 / 200 / 100 🪙 ve Altın / Gümüş / Bronz Kupa'dır. Altın Kupa gelecek yıl aynı mevsimde +%20 bal üretimi sağlar. Rakipler aynı formülü kullanmaz; kendi simüle edilen çiftlik değerleri ve kontrollü mevsimsel değişkenlikle puan üretir.
+Turnuvaya **1–10 kg** gerçek bal stokundan gönderilir ve gönderilen bal depodan düşer. Rakipler de kendi gerçek stoklarından en fazla 10 kg gönderir. İlk üç ödülü **750 / 500 / 250 🪙** ve Altın / Gümüş / Bronz Kupa'dır; derece alan rakibin ödül jetonu da kendi ekonomisine eklenir. Altın Kupa gelecek yıl aynı mevsimde +%20 bal üretimi sağlar.
 
 
 ### Haritadaki Arıcılık Atölyesi (6.5.0)

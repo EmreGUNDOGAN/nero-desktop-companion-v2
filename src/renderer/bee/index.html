@@ -51,7 +51,7 @@
   </header>
 
   <button class="merchant-chip" id="merchant-chip" type="button" hidden>🛒 <b>Seyyah Yakup köyde</b> <span id="merchant-left"></span></button>
-  <div class="notice" id="notice" hidden>Arıcılığa 3 saatten uzun bakmadığın için oyun tamamen durmuştu. Kaldığın yerden devam ediyor!</div>
+  <div class="notice" id="notice" hidden>Arıcılığa 2 saatten uzun bakmadığın için oyun tamamen durmuştu. Kaldığın yerden devam ediyor!</div>
 
   <!-- Alt bar -->
   <!-- Günlük görevler: varsayılan olarak yalnız ikon görünür -->
@@ -434,7 +434,7 @@
           <summary>🗓️ Zaman, aylar, mevsimler ve hız</summary>
           <p><b>1 oyun günü = 1x hızda 15 gerçek dakika.</b> Takvimde her mevsim bir oyun ayı gibi işler ve <b>15 gün</b> sürer. İlkbahar → Yaz → Sonbahar → Kış; bir yıl toplam <b>60 gün</b>.</p>
           <p>❚❚, 1x, 2x ve 4x hızlarını kullanabilirsin. <b>4x yalnız oyun penceresi öndeyken çalışır.</b> Oyun arka plandaysa seçimin 4x olsa bile simülasyon en fazla <b>2x</b> ilerler; tekrar oyuna dönünce seçtiğin 4x devam eder.</p>
-          <p>Oyuna 2 saat hiç bakmazsan <b>bal üretimi durur</b>, fakat takvim ve süreli olaylar ilerlemeye devam eder. Nero tamamen kapalıyken oyun zamanı ilerlemez.</p>
+          <p>Arıcılığa 2 saat hiç bakmazsan <b>üretim, takvim, rakipler ve oyun-zamanlı olaylar tamamen durur</b>. Tekrar baktığında kaldığın yerden devam eder. Normal sipariş gelişi gerçek zamana bağlıdır ve uzun dönüşte en fazla 3 yeni sipariş birikir.</p>
         </details>
 
         <details class="guide-topic">
@@ -449,7 +449,7 @@
           <p>Kovana tıklayınca arı sayısı, bal kapasitesi, saatlik üretim, menzildeki tarhlar ve kraliçe seviyesi görünür. Kovan dolarsa üretim tamamen durur. Arı fiyatı geçmişte kaç kez arı aldığına değil, <b>kovandaki sıradaki arı numarasına</b> bağlıdır: 5. arı 60 🪙, sonraki her arı bir önceki sıraya göre <b>%15 pahalıdır</b> (tam jetona yuvarlanır). Arı ölür veya satılırsa sonraki alım fiyatı mevcut arı sayısına göre geri düşer. Arı satışı, satılan sıradaki arının fiyatının %50'sidir (aşağı yuvarlanır).</p>
           <p>Gelişim sırası kraliçe → kovan kapasitesi → kraliçe şeklinde ilerler. Arı alımı üretimi artırır ama yeterli çiçek yoksa yeni arıların getirisi düşer.</p>
           <p><b>Anadolu:</b> +%10 üretim, doğal üreme 4 günde bir; hastalığa daha açıktır. <b>Kafkas:</b> doğal üreme 4 günde bir ve kış kaybına dayanıklıdır. <b>İtalyan:</b> doğal olarak <b>2 günde bir</b> yeni arı doğurur, üretimi biraz düşüktür. Kovan doluyken doğal veya Arı Sütü kaynaklı yeni arı doğmaz. Polen Keki doğal üreme aralığını yarıya indirir. Kış kaynaklı kayıplar hiçbir kovanı <b>4 arının altına</b> düşüremez.</p>
-          <p><b>🌿 Ekosistem:</b> Kovan panelindeki Ekosistem sekmesi menzildeki çiçek dağılımını açıklar. 2 dengeli tür <b>+%4</b>, 3+ dengeli tür <b>+%8</b> bal üretimi verir. En az 5 tarhın %80 veya fazlası tek türse monokültür baskısı oluşur; bal üretimi düşmez ancak doğal hastalık riski göreli <b>%5</b> artar. Üretim sekmesi bu bonusu gerçek buff/debuff listesinde gösterir.</p>
+          <p><b>🌿 Ekosistem:</b> Kovan panelindeki Ekosistem sekmesi menzildeki çiçek dağılımını açıklar. 2 dengeli tür <b>+%6</b>, 3+ dengeli tür <b>+%12</b> bal üretimi verir. En az 5 tarhın %80 veya fazlası tek türse monokültür baskısı oluşur; bal üretimi <b>-%8</b> düşer ve doğal hastalık riski göreli <b>×1,15</b> (yaklaşık +%15) olur. Üretim sekmesi bu bonusu gerçek buff/debuff listesinde gösterir.</p>
         </details>
 
         <details class="guide-topic">
@@ -469,7 +469,7 @@
           <summary>🍯 Pazar mı, sipariş mi?</summary>
           <p>Pazar fiyatları her gün değişir. Yazın bal daha ucuz, kışın daha pahalıdır. Acil jeton gerekiyorsa Pazar hızlıdır.</p>
           <p>Siparişler genellikle daha çok kazandırır ve köylülerle kalp biriktirir. Ancak kabul ettikten sonra süre başlar; yetiştiremezsen ödülün %20'si kadar ceza ödersin. Kabul etmeden önce depodaki miktarı kontrol et.</p>
-          <p>Yeni sipariş <b>gerçek zamanla 5 dakikada bir</b> gelir (oyun hızından bağımsız). Uzun süre bakmadıysan geri döndüğünde en fazla <b>3 yeni normal sipariş</b> birden birikir; toplam sipariş sınırı yine geçilmez. <b>Aynı köylünün aynı anda yalnızca 1 açık/kabul edilmiş normal siparişi</b> olabilir. Bir siparişi <b>reddetmek</b> o kişiyle ilişkini <b>%2</b> azaltır (her teslim %10 kazandırır; ilişki %0'ın altına inmez). Solan bir tarhı tohum fiyatının <b>%10'una canlandırabilirsin</b>.</p>
+          <p>Yeni sipariş <b>gerçek zamanla 5 dakikada bir</b> gelir (oyun hızından bağımsız). Uzun süre bakmadıysan geri döndüğünde en fazla <b>3 yeni normal sipariş</b> birden birikir; toplam sipariş sınırı yine geçilmez. <b>Aynı köylünün aynı anda yalnızca 1 açık/kabul edilmiş normal siparişi</b> olabilir. Bir siparişi <b>reddetmek</b> o kişiyle ilişkini <b>%2</b> azaltır (her teslim %10 kazandırır; ilişki %0'ın altına inmez). Solan bir tarhı tohum fiyatının <b>%25'ine canlandırabilirsin</b>.</p>
           <p>Sol alttaki 🔔 <b>zil</b> son 20 bildirimi gösterir; okunmamış bildirim varsa üstünde sayı çıkar. 📊 İstatistikler'in en üstünde oyun boyunca sattığın toplam bal (ton) yazar.</p>
         </details>
 
@@ -489,14 +489,13 @@
         <details class="guide-topic">
           <summary>🏆 Mevsim Turnuvaları ve rakipler</summary>
           <p><b>Nasıl katılırım?</b> Her mevsimin <b>12, 13 ve 14. günlerinde</b> katılım popup'ı açılır; katılmadıysan ertesi uygun gün tekrar gösterilir. <b>15. gün turnuva günüdür</b> ve başvuru alınmaz. En fazla <b>10 kg</b> bal gönderirsin; sonuç sonraki mevsimin ilk gününde açıklanır. Toplam puan <b>1000</b>: Bal Kalitesi 400 + Arıcılık 250 + Üretim 200 + Köy İtibarı 150.</p>
-          <p><b>🍯 Bal Kalitesi — 400:</b> 110 taban + gönderdiğin her 1 kg için 15 puan + balın taban değerinin 2 katı + bal kendi doğal mevsimindeyse 45 puan + Festival Cilası varsa 20 puan + aktif turnuva bonusları. Bal taban katkıları: Yonca +16, Papatya +24, Ayçiçeği +36, Kekik +52, Lavanta +76, Kış Fundası +110, Kestane +160. Kategori 400'de durur.</p>
-          <p><b>Örnek:</b> Sonbaharda 10 kg Kestane balı: 110 + 150 + 160 + 45 = 465 → kategori sınırı nedeniyle <b>400 / 400</b>.</p>
-          <p><b>🐝 Arıcılık — 250:</b> 60 taban + sağlıklı kovan oranı ×130 + yaşayan her arı için 2,5 puan − o mevsimde ölen her arı için 12 puan. Sonuç 0–250 arasında sınırlandırılır.</p>
-          <p><b>📦 Üretim — 200:</b> son 15 oyun gününde ürettiğin toplam kg ×7 + kovan başına aynı üretimin ×4 katkısı. Toplam üretim kadar kovan verimliliği de puan getirir.</p>
-          <p><b>💛 Köy İtibarı — 150:</b> o mevsimde tamamlanan her başarılı sipariş +16 puan, tüm köylülerdeki her kalp +5 puan.</p>
-          <p><b>🎯 Puanı yükseltmek için:</b> doğru mevsimde değerli bal gönder, 10 kg kotayı doldur, kovanları sağlıklı tut, arı kaybını azalt, üretimi verimli büyüt, siparişleri tamamla ve köylülerle kalp biriktir.</p>
-          <p><b>🥇 Ödüller:</b> 1. 300 🪙 + Altın Kupa, 2. 200 🪙 + Gümüş Kupa, 3. 100 🪙 + Bronz Kupa. Altın Kupa gelecek yıl aynı mevsimde <b>+%20 bal üretimi</b> sağlar. Kupalar ve kategori sonuçları Bal Defteri’nde görünür.</p>
-          <p><b>Rakipler:</b> Temkinli Ali, Riskçi Kaya ve Dengeli Nur oyuncuyla birebir aynı puan formülünü kullanmaz; kendi üretim, arı, kovan, hazırlık, çiftlik bonusu ve net değer simülasyonlarından puan üretir. Her mevsimde kontrollü bir değişkenlik de vardır.</p>
+          <p><b>🍯 Bal Kalitesi — 400:</b> 70 taban + gönderilen kg ×8 + min(100, balın taban fiyatı ×1,15) + doğal mevsimindeyse 50 puan + pozitif biyoçeşitlilik katkısı + Festival Cilası 20 + aktif düz turnuva bonusları. Kategori 400'de durur.</p>
+          <p><b>🐝 Arıcılık — 250:</b> 40 taban + sağlıklı kovan oranı ×100 + min(90, yaşayan arı ×1,5) − o mevsimde ölen arı ×10. Sonuç 0–250 arasında sınırlandırılır.</p>
+          <p><b>📦 Üretim — 200:</b> min(125, mevsim üretimi kg ×2,2) + min(75, kovan başına üretim ×4).</p>
+          <p><b>💛 Köy İtibarı — 150:</b> o mevsimde tamamlanan başarılı sipariş ×15 + min(90, ilişki puanı).</p>
+          <p><b>🎯 Puanı yükseltmek için:</b> doğru mevsimde değerli bal gönder, 10 kg kotayı doldur, biyoçeşitliliği koru, kovanları sağlıklı tut, arı kaybını azalt, verimli üret ve siparişleri tamamla.</p>
+          <p><b>🥇 Ödüller:</b> 1. 750 🪙 + Altın Kupa, 2. 500 🪙 + Gümüş Kupa, 3. 250 🪙 + Bronz Kupa. Altın Kupa gelecek yıl aynı mevsimde <b>+%20 bal üretimi</b> sağlar. Kupalar ve kategori sonuçları Bal Defteri’nde görünür.</p>
+          <p><b>Rakipler:</b> Temkinli Ali, Riskçi Kaya ve Dengeli Nur aynı kategori hesaplayıcısını kullanır; girdileri kendi gerçek simüle edilmiş stok, üretim, hastalık, sipariş ve ilişki verileridir. Turnuvaya gönderdikleri bal kendi stoklarından düşer ve kazandıkları ödül jetonu ekonomilerine eklenir.</p>
         </details>
 
         <details class="guide-topic">

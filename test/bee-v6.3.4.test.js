@@ -89,7 +89,8 @@ test('6.3.4 UI includes warning center, exact tournament guide, and release hist
   assert.match(css, /-webkit-text-stroke/);
 
   assert.match(html, /Bal Kalitesi — 400/);
-  assert.match(html, /110 \+ 150 \+ 160 \+ 45 = 465/);
+  assert.match(html, /70 taban \+ gönderilen kg ×8/);
+  assert.match(html, /min\(100, balın taban fiyatı ×1,15\)/);
   assert.match(html, /Arıcılık — 250/);
   assert.match(html, /Üretim — 200/);
   assert.match(html, /Köy İtibarı — 150/);

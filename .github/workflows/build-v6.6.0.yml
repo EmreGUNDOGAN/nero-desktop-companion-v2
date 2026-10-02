@@ -1,0 +1,366 @@
+name: Build Nero 6.6.0 Final
+
+on:
+  push:
+    branches: [feature/bee-v6.6.0]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  release:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Verify Nero 6.6.0 source
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+
+          $pkg = Get-Content package.json -Raw | ConvertFrom-Json
+          if ($pkg.version -ne '6.6.0') { throw "Wrong package version: $($pkg.version)" }
+          if ($pkg.build.appId -ne 'com.stenwick.nero') { throw 'appId changed unexpectedly' }
+
+          $beeCore = Get-Content src/main/bee.js -Raw
+          foreach ($rule in @(
+            "const MERCHANT_HONEY_MULT = 1.15",
+            "const WORKSHOP_TILE = '-1,2'",
+            'reserveWorkshopTile()',
+            'buyDecor(id)',
+            'decorInventory',
+            'const BYPRODUCT_G_PER_KG',
+            'const WORKSHOP_UNLOCK',
+            'byproductProfile(hiveId)',
+            'accrueByproducts(hive, producedKg)',
+            'transferHarvestByproducts(hive, scale)',
+            'workshopView()',
+            'enqueueWorkshop(id, flower = null)',
+            'processWorkshop(gameDt)',
+            'kis: 1.15'
+          )) {
+            if ($beeCore -notmatch [regex]::Escape($rule)) { throw "6.6.0 workshop/byproduct backend missing: $rule" }
+          }
+
+          $workshopHtml = Get-Content src/renderer/bee/index.html -Raw
+          foreach ($rule in @(
+            'id="warehouse-modal"',
+            'data-warehouse-tab="honey"',
+            'data-warehouse-tab="apiary"',
+            'data-warehouse-tab="seeds"',
+            'data-warehouse-tab="decor"',
+            'data-warehouse-tab="products"'
+          )) {
+            if ($workshopHtml -notmatch [regex]::Escape($rule)) { throw "6.6.0 central depot UI missing: $rule" }
+          }
+          foreach ($rule in @(
+            'id="workshop-modal"',
+            'id="workshop-recipes"',
+            'id="h-by-pollen"',
+            'id="h-by-propolis"',
+            'id="h-by-royal"'
+          )) {
+            if ($workshopHtml -notmatch [regex]::Escape($rule)) { throw "6.6.0 workshop/byproduct UI missing: $rule" }
+          }
+          $workshopRenderer = Get-Content src/renderer/bee/bee.js -Raw
+          foreach ($rule in @(
+            'renderWorkshop','workshopQueue','workshopUse','workshopSell',
+            'function openWarehouse','renderWarehouse','makeWorkshopBuilding',
+            "t.kind === 'workshop'","data-warehouse-seed","data-warehouse-decor",
+            'M.honeyBonusPct || 15'
+          )) {
+            if ($workshopRenderer -notmatch [regex]::Escape($rule)) { throw "6.6.0 workshop renderer missing: $rule" }
+          }
+          if (-not (Test-Path CHANGELOG-6.6.0.md)) { throw 'CHANGELOG-6.6.0.md missing' }
+          if (-not (Test-Path docs/Nero-Aricilik-Paket-06.md)) { throw 'Locked 6.6.0 package spec missing' }
+          if (-not (Test-Path src/renderer/bee/gorsel/atolye.js)) { throw 'Physical workshop asset missing' }
+          $workshopAsset = Get-Content src/renderer/bee/gorsel/atolye.js -Raw
+          if ($workshopAsset -notmatch 'makeWorkshopBuilding') { throw 'Workshop building function missing' }
+
+          foreach ($rule in @(
+            'hiveEcosystem(hiveId)',
+            'flowerEcosystemInfo(tileKey)',
+            "addPct('🌿 Biyoçeşitlilik'",
+            'ecosystemMult',
+            'sicknessRiskMult: monoculture ? 1.15 : 1'
+          )) {
+            if ($beeCore -notmatch [regex]::Escape($rule)) { throw "6.6.0 ecosystem backend missing: $rule" }
+          }
+          foreach ($rule in @(
+            'const FOCUS_BOOST = 0.10',
+            'const TODO_REWARD_DAILY_LIMIT = 5',
+            'const FESTIVAL_OPEN_DAY = DAYS_PER_SEASON - 4',
+            'const FESTIVAL_CLOSE_DAY = DAYS_PER_SEASON - 2',
+            "coins: 750, cup: 'altın'",
+            "coins: 500, cup: 'gümüş'",
+            "coins: 250, cup: 'bronz'",
+            'const WAX_PER_KG = 0.025',
+            'breedDays: 4',
+            'breedDays: 2',
+            'festivalPromptDue()',
+            'reservedOrderKg(f)',
+            'marketPriceEffects(f)'
+          )) {
+            if ($beeCore -notmatch [regex]::Escape($rule)) { throw "6.6.0 approved game rule missing: $rule" }
+          }
+          foreach ($rule in @(
+            'const HIVE_MIN_BEES = 4',
+            'const BEE_PRICE_BASE_NUMBER = 5',
+            'const BEE_PRICE_BASE = 60',
+            'const BEE_PRICE_GROWTH = 1.15',
+            'const MERCHANT_HONEY_MULT = 1.15',
+            'h.bees > HIVE_MIN_BEES'
+          )) {
+            if ($beeCore -notmatch [regex]::Escape($rule)) { throw "6.6.0 economy/winter rule missing: $rule" }
+          }
+
+          $beeHtml = Get-Content src/renderer/bee/index.html -Raw
+          if ($beeHtml -notmatch 'nero-assets/body\.svg') { throw 'Canonical beekeeping Nero body missing' }
+          if ($beeHtml -notmatch 'nero-assets/mouth-talk1\.svg') { throw 'Animated beekeeping Nero mouth layer missing' }
+
+          $beeRenderer = Get-Content src/renderer/bee/bee.js -Raw
+          foreach ($rule in @(
+            'setHiveTab(tab)',
+            'h-eco-level',
+            'h-prod-list',
+            'makePollinatorAccent',
+            'flowerEcosystem'
+          )) {
+            if ($beeRenderer -notmatch [regex]::Escape($rule)) { throw "6.6.0 hive ecosystem UI missing: $rule" }
+          }
+          foreach ($rule in @(
+            'claimFestivalPrompt',
+            'Siparişleri bırak',
+            'marketEffectTip',
+            "classList.toggle('has-warning'"
+          )) {
+            if ($beeRenderer -notmatch [regex]::Escape($rule)) { throw "6.6.0 renderer QoL missing: $rule" }
+          }
+          if ($beeRenderer -notmatch 'function seasonalGroundDetail') { throw 'Seasonal ground detail system missing' }
+          if ($beeRenderer -notmatch 'const SEASON_LIGHTING') { throw 'Seasonal lighting system missing' }
+          if ($beeRenderer -notmatch 'snowOnRoofs\(obj\)') { throw 'Winter roof snow hook missing' }
+
+          $beeCss = Get-Content src/renderer/bee/ui-v2.css -Raw
+          if ($beeCss -notmatch 'margin-top:\s*-9px;\s*margin-bottom:\s*-9px') { throw 'Harvest vertical centering rule missing' }
+          if ($beeCss -notmatch 'align-self:\s*center') { throw 'Harvest alignment guard missing' }
+          foreach ($color in @('#A8C88A','#96BA76','#789B60','#D7655F','#8B4743','#B95752')) {
+            if ($beeCss -notmatch [regex]::Escape($color)) { throw "6.6.0 approved UI color missing: $color" }
+          }
+
+          if ($beeRenderer -match "\$\('season-ico'\)\.textContent") { throw 'Season icon still has competing emoji writer' }
+          if ($beeRenderer -notmatch "classList\.remove\('talk'\)") { throw 'Bee Nero talk stop missing' }
+          if ($beeRenderer -notmatch 'h-prod-effects') { throw 'Production effect tooltip renderer missing' }
+          if ($beeCore -notmatch 'hiveProductionEffects') { throw 'Production effect backend missing' }
+          if ($beeCore -notmatch 'claimWinterAdvanceNotice') { throw 'Winter advance Windows notification claim missing' }
+
+          # 6.6.0: experimental program themes are intentionally removed.
+          $removedThemeIds = @(
+            'sonbahar-kutuphanesi','amalfi-limonlari','ortancali-kir-evi','kis-tramvayi',
+            'doksanlar-kirtasiye','gece-treni','eski-fotografci','lavanta-aksami',
+            'kis-bahcesi','gece-masasi','analog-radyo','pastel-mutfak'
+          )
+          foreach ($id in $removedThemeIds) {
+            if (Test-Path "themes/$id") { throw "Rolled-back theme still exists: $id" }
+            if (Test-Path "src/renderer/panel/deco/$id") { throw "Rolled-back theme deco still exists: $id" }
+          }
+          $panelCss = Get-Content src/renderer/panel/skins.css -Raw
+          if ($panelCss.Length -lt 140000) { throw 'Panel skin/layout rules were truncated again' }
+          $panelLayoutCss = Get-Content src/renderer/panel/panel.css -Raw
+          foreach ($rule in @(
+            'grid-auto-rows: max-content',
+            'row-gap: 14px',
+            'column-gap: 14px',
+            'align-items: start',
+            'min-height: max-content'
+          )) {
+            if ($panelLayoutCss -notmatch [regex]::Escape($rule)) { throw "6.6.0 settings layout guard missing: $rule" }
+          }
+          $mainSource = Get-Content src/main/main.js -Raw
+          $journalSource = Get-Content src/main/journal.js -Raw
+          foreach ($rule in @(
+            'journal.finalizeDue',
+            'finalizeDue(now = new Date())',
+            'finalValue'
+          )) {
+            if (($mainSource + $journalSource) -notmatch [regex]::Escape($rule)) { throw "6.6.0 moodboard finalization missing: $rule" }
+          }
+          foreach ($rule in @(
+            'resizable: true',
+            'minWidth: PANEL_MIN.width',
+            'minHeight: PANEL_MIN.height',
+            'maxWidth: PANEL_MAX.width',
+            'maxHeight: PANEL_MAX.height',
+            "panelWin.on('resized'"
+          )) {
+            if ($mainSource -notmatch [regex]::Escape($rule)) { throw "6.6.0 panel resize guard missing: $rule" }
+          }
+          foreach ($rule in @(
+            'height: 100%',
+            'min-height: 0',
+            'overflow-y: auto',
+            'scrollbar-gutter: stable',
+            'grid-auto-rows: max-content'
+          )) {
+            if ($panelLayoutCss -notmatch [regex]::Escape($rule)) { throw "6.6.0 settings scroll guard missing: $rule" }
+          }
+          foreach ($rule in @(
+            'display: none !important',
+            'pointer-events: none !important'
+          )) {
+            if ($panelLayoutCss -notmatch [regex]::Escape($rule)) { throw "6.6.0 native perimeter resize guard missing: $rule" }
+          }
+          foreach ($rule in @(
+            'whatsNewAutoAttempted',
+            'whatsNewAutoShowing',
+            'writeSeenVersion(current.version)'
+          )) {
+            if ($beeRenderer -notmatch [regex]::Escape($rule)) { throw "6.6.0 changelog repeat guard missing: $rule" }
+          }
+          if ($beeRenderer -notmatch '\}, 2400\);') { throw 'Bee Nero bubble duration is not 2400 ms' }
+          foreach ($color in @('#D7655F','#8B4743','#B95752')) {
+            if ($beeCss -notmatch [regex]::Escape($color)) { throw "Warning red palette missing: $color" }
+          }
+
+          # 6.3.x manual wardrobe must be gone; only the legacy automatic
+          # pajama / party / winter assets may remain in live themes.
+          if (Test-Path src/main/wardrobe.js) { throw 'Manual wardrobe backend still exists' }
+          if (Test-Path test/wardrobe.test.js) { throw 'Obsolete wardrobe test still exists' }
+          $badWardrobe = Get-ChildItem themes -Recurse -File | Where-Object {
+            $_.FullName -match 'wardrobe-v2|body-dressed|hands-dressed'
+          }
+          if ($badWardrobe) { throw "Wardrobe-v2/dressed assets remain: $($badWardrobe.FullName -join ', ')" }
+
+          $outfits = Get-ChildItem themes -Recurse -File | Where-Object { $_.Name -like 'outfit-*' }
+          $allowed = @('outfit-pajama.svg','outfit-party.svg','outfit-winter.svg')
+          $badOutfits = $outfits | Where-Object { $allowed -notcontains $_.Name }
+          if ($badOutfits) { throw "Non-legacy outfit assets remain: $($badOutfits.FullName -join ', ')" }
+
+          $theme = Get-Content themes/default/theme.json -Raw
+          if ($theme -match 'wardrobe-v2|dressed') { throw 'Default theme still references wardrobe-v2/dressed layers' }
+          foreach ($legacy in @('outfit-pajama.svg','outfit-party.svg','outfit-winter.svg')) {
+            if ($theme -notmatch [regex]::Escape($legacy)) { throw "Legacy outfit missing from default theme: $legacy" }
+          }
+
+          node --check src/main/main.js
+          node --check src/main/bee.js
+          node --check src/main/village-letters.js
+          node --check src/renderer/character/character.js
+          node --check src/renderer/panel/panel.js
+          Get-Content src/renderer/bee/bee.js -Raw | node --input-type=module --check
+          Get-Content src/renderer/bee/ui-v2.js -Raw | node --input-type=module --check
+          Get-Content src/renderer/bee/release-notes.js -Raw | node --input-type=module --check
+
+          node -e "const {LETTERS_BY_NAME}=require('./src/main/village-letters'); const e=Object.entries(LETTERS_BY_NAME); if(e.length!==50) throw new Error('Expected 50 letter senders, got '+e.length); for(const [n,a] of e){if(!Array.isArray(a)||a.length!==100||new Set(a).size!==100) throw new Error('Bad letter pool: '+n+' / '+(a&&a.length));} console.log('Letter pool OK: 50 x 100 = 5000');"
+
+          $bee = Get-Content src/main/bee.js -Raw
+          if ($bee -notmatch 'letterSenderHistory') { throw 'Letter sender cooldown persistence missing' }
+          if ($bee -notmatch 'letterRecentBySender') { throw 'Letter content cooldown persistence missing' }
+          if ($bee -notmatch 'this\.state\.speed === 0 \|\| this\.state\.pauseStartedAt') { throw 'Explicit rival pause guard missing' }
+
+          $renderer = Get-Content src/renderer/bee/bee.js -Raw
+          if ($renderer -notmatch 'function activeWarnings') { throw 'Warning center logic missing' }
+          if ($renderer -notmatch 'releaseIndex') { throw 'Release history cursor missing' }
+          if ($renderer -notmatch 'window\.bee\.releases\(\)') { throw 'GitHub Releases runtime loader missing' }
+          $mainSource = Get-Content src/main/main.js -Raw
+          if ($mainSource -notmatch "ipcMain\.handle\('bee:releases'") { throw 'GitHub Releases IPC source missing' }
+
+          $html = Get-Content src/renderer/bee/index.html -Raw
+          if ($html -notmatch 'Mevsim Turnuvaları ve rakipler') { throw 'Tournament guide missing' }
+          if ($html -notmatch 'whats-new-prev') { throw 'Previous release navigation missing' }
+          if ($html -notmatch 'whats-new-release-link') { throw 'Release changelog link missing' }
+          if ($html -notmatch 'whats-new-all-releases-link') { throw 'Full releases list link missing' }
+
+          # 6.6.0 deep-audit guards
+          foreach ($rule in @(
+            'const UNATTENDED_CAP_MS = 2 * HOUR_MS',
+            'availableHoneyKg(f, excludeOrderId = null)',
+            'queueHoneyReturn(f, kg)',
+            'flushPendingHoneyReturns()',
+            'orderableFlowers()',
+            'pendingHoneyReturns',
+            'workshopUtilityBookValue(keyName)'
+          )) {
+            if ($beeCore -notmatch [regex]::Escape($rule)) { throw "6.6.0 audit guard missing: $rule" }
+          }
+          if ($beeRenderer -match 'Odak Bonusu · \+%25') { throw 'Stale +25 focus text remains in renderer' }
+          if ($beeHtml -match "tohum fiyatının <b>%10'una canlandırabilirsin</b>") { throw 'Stale 10 percent revive guide text remains' }
+          if (-not (Test-Path test/bee-game-v6.6.0.test.js)) { throw '6.6.0 regression suite missing' }
+          if (-not (Test-Path docs/NERO-6.6.0-DUZELTME-LISTESI.md)) { throw '6.6.0 fix checklist missing' }
+          if (-not (Test-Path CHANGELOG-6.6.0.md)) { throw 'CHANGELOG-6.6.0.md missing' }
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $out = @(npm test 2>&1)
+          $code = $LASTEXITCODE
+          $out | Tee-Object -FilePath Nero-6.6.0-test-report.txt
+          if ($code -ne 0) { throw 'Node tests failed' }
+
+      - name: Validate dialogue
+        run: npm run dialogue:check
+
+      - name: Bee window smoke test
+        run: npx electron test/bee-window-electron-smoke.js
+
+      - name: Build Windows installer
+        run: npm run dist
+
+      - name: Prepare release files and checksums
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+
+          Copy-Item docs/ARICILIK-REHBERI.md OYUN-REHBERI.md -Force
+          git archive --format=zip -o Nero-v6_6_0-source.zip HEAD
+          if ($LASTEXITCODE -ne 0) { throw 'Source archive failed' }
+
+          $required = @(
+            'dist/Nero-Setup-6.6.0.exe',
+            'dist/Nero-Setup-6.6.0.exe.blockmap',
+            'dist/latest.yml',
+            'Nero-v6_6_0-source.zip',
+            'CHANGELOG-6.6.0.md',
+            'OYUN-REHBERI.md',
+            'docs/NERO-6.6.0-DUZELTME-LISTESI.md',
+            'Nero-6.6.0-test-report.txt'
+          )
+          foreach ($f in $required) {
+            if (-not (Test-Path $f)) { throw "Missing final file: $f" }
+          }
+
+          $metadata = Get-Content dist/latest.yml -Raw
+          if ($metadata -notmatch 'version: 6\.6\.0' -or $metadata -notmatch 'Nero-Setup-6\.6\.0\.exe') {
+            throw 'Updater metadata mismatch'
+          }
+
+          $hashes = foreach ($f in $required) {
+            "$((Get-FileHash $f -Algorithm SHA256).Hash.ToLowerInvariant())  $([IO.Path]::GetFileName($f))"
+          }
+          Set-Content SHA256SUMS-6.6.0.txt -Value $hashes -Encoding ascii
+
+      - name: Upload Nero 6.6.0 final bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: Nero-6.6.0-final-bundle
+          path: |
+            dist/Nero-Setup-6.6.0.exe
+            dist/Nero-Setup-6.6.0.exe.blockmap
+            dist/latest.yml
+            Nero-v6_6_0-source.zip
+            CHANGELOG-6.6.0.md
+            OYUN-REHBERI.md
+            docs/NERO-6.6.0-DUZELTME-LISTESI.md
+            Nero-6.6.0-test-report.txt
+            SHA256SUMS-6.6.0.txt
+          if-no-files-found: error
+          retention-days: 30

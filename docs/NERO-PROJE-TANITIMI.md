@@ -221,10 +221,10 @@ Tüm sabitler `src/main/bee.js` dosyasının başında.
 
 **Özet:**
 - **Zaman:** 1 oyun günü = 1x'te 15 dk; ay/mevsim 15 gün; yıl 60 gün. Hız 1x/2x/4x (4x yalnız pencere öndeyken).
-  Nero açıkken üretim arka planda sürer; 3 saat bakılmazsa tüm Arıcılık simülasyonu durur; Nero kapalıyken zaman durur.
+  Nero açıkken üretim arka planda sürer; 2 saat bakılmazsa tüm Arıcılık simülasyonu durur; Nero kapalıyken üretim/takvim durur, yalnız gerçek-zaman sipariş kuyruğu dönüşte en fazla 3 normal sipariş catch-up yapar.
 - **Ada:** 5 yarıçaplı altıgen (91 kare). Her karede ya kovan ya çiçek; kenardan kare satın alınır.
 - **Çiçekler (7):** yonca, papatya, ayçiçeği, kekik, lavanta, Kış Fundası, kestane. Her biri kendi balını üretir;
-  **ballar asla karışmaz**. Mevsim uyumu kendi mevsiminde ×1, komşu mevsimde ×0,5, karşı mevsimde ×0,25; aynı oran çiçek buffına da uygulanır. Ömür 30 gün; solan tarh tohumun %10'una canlanır.
+  **ballar asla karışmaz**. Mevsim uyumu kendi mevsiminde ×1, komşu mevsimde ×0,5, karşı mevsimde ×0,25; aynı oran çiçek buffına da uygulanır. Ömür 30 gün; solan tarh tohumun %25'ine canlanır.
   Aynı çiçekten 3 tarh yan yana: +%15.
 - **Kovan:** arı başına 0.5 kg/sa; kraliçe → kovan → kraliçe sırasıyla yükseltme (en fazla 20 arı, 80 kg);
   doğal üreme; kışta şurup; hastalık (vaka başına sınırlı kayıp, sonrasında 1 oyun yılı bağışıklık); ırklar (Anadolu/Kafkas/İtalyan); isim verme.
@@ -236,7 +236,7 @@ Tüm sabitler `src/main/bee.js` dosyasının başında.
 - **Köy:** adanın dışındaki 2 halkada (36 + 42 kare) 78 yerleşimci; teslim edilen bala göre büyür:
   başlangıç 6, sonra 50 / 150 / 400 / 1.000 kg'da **birer** kişi, sonra **her 500 kg'de 1**; ilk halka 14.000 kg, son yerleşimci 35.000 kg.
   Köylülerin sevdiği bal (+%15 sipariş); 28 dükkân/bina (etkili ve görsel yapılar); Fırın/Pastane/Muhtarlık düzenli siparişler.
-- **Gezgin satıcı Seyyah Yakup:** 6–9 günde bir, 2 gün kalır; 38 ürünlük havuzdan 4 ürün; **her üründen 1, ziyaret başına en fazla 2 ürün**; dekor satmaz; bir balı pazarın %20 üstüne alır.
+- **Gezgin satıcı Seyyah Yakup:** 6–9 günde bir, 2 gün kalır; 38 ürünlük havuzdan 4 ürün; **her üründen 1, ziyaret başına en fazla 2 ürün**; dekor satmaz; bir balı pazarın %15 üstüne alır.
 - **Köylü hikâyeleri:** 8 köylü, ilişki %50'de açılır, 3 adım; son ödül en fazla %5 kalıcı bonus; dekor görevi yok.
 - **Diğer:** günlük görevler, Bal Defteri (ballar, kayıtlar, Etkilerim, köy, mektuplar, etiket), istatistikler (toplam satılan ton),
   rakipler ve liderlik, yılda dört Mevsim Turnuvası ve kupa sistemi, dekorlar (çit, bank, fener, kemer, çeşme), hava (yaz hep güneşli,

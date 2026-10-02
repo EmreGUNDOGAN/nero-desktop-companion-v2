@@ -1,5 +1,7 @@
 # Arıcılık — Kilitlenen Yeni Sistemler
 
+> **ARŞİV NOTU (6.6.0):** Bu dosya geçmiş bir tasarım/kilitleme kaydıdır; aşağıdaki sayısal değerler güncel oyun kuralı kaynağı değildir. Güncel davranış için `docs/ARICILIK-REHBERI.md`, `src/main/bee.js` ve 6.6.0 regresyon testleri esas alınır.
+
 Durum: Tasarım kararları kayda alındı. Bu dalda **Çiçek Ekosistemi + yeni Kovan Paneli** uygulanacak; diğer maddeler sonraki adımlarda tek tek işlenecek.
 
 ## 1. Arıcılık Atölyesi — KİLİTLİ / SONRAKİ MADDE
