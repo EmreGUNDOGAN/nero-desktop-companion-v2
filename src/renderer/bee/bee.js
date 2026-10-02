@@ -2499,22 +2499,36 @@ $('fest-box').addEventListener('click', (e) => {
 // Kovanın içi: solda petek, sağda bilgi ve eylemler
 // ---------------------------------------------------------------------------
 let openHiveId = null;
+let hiveTab = 'general';
 let clockSkew = 0;
 const combCanvas = $('comb');
 const cctx = combCanvas.getContext('2d');
 let combCells = null;   // petek hücreleri (sabit düzen)
 let combBees = [];
 
-function openHive(id) {
+function setHiveTab(tab) {
+  hiveTab = tab || 'general';
+  for (const b of document.querySelectorAll('[data-hive-tab]')) b.classList.toggle('on', b.dataset.hiveTab === hiveTab);
+  for (const panel of document.querySelectorAll('[data-hive-panel]')) panel.hidden = panel.dataset.hivePanel !== hiveTab;
+}
+function openHive(id, keepTab = false) {
   openHiveId = id;
+  if (!keepTab) hiveTab = 'general';
   combCells = null;
   $('hive-modal').hidden = false;
+  setHiveTab(hiveTab);
   sizeComb();
   renderHive();
 }
 function closeHive() { openHiveId = null; $('hive-modal').hidden = true; }
 $('hive-close').addEventListener('click', closeHive);
 $('hive-modal').addEventListener('click', (e) => { if (e.target === $('hive-modal')) closeHive(); });
+document.querySelector('.hive-tabs').addEventListener('click', (e) => {
+  const b = e.target.closest('[data-hive-tab]');
+  if (!b) return;
+  setHiveTab(b.dataset.hiveTab);
+  renderHive();
+});
 
 function sizeComb() {
   const r = combCanvas.getBoundingClientRect();
@@ -3555,7 +3569,7 @@ function cycleHive(dir) {
   const next = ids[(i + dir + ids.length) % ids.length];
   const o = hiveObjects.get(next);
   if (o) { camTarget.set(o.pos.x, 0, o.pos.z); placeCamera(); }
-  openHive(next);
+  openHive(next, true);
 }
 $('hive-prev').addEventListener('click', () => cycleHive(-1));
 $('hive-next').addEventListener('click', () => cycleHive(1));
