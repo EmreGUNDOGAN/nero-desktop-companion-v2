@@ -1944,7 +1944,8 @@ class BeeGame {
     if (!m.active) return { active: false };
     return {
       active: true, slot: m.slot, leftMs: Math.max(0, m.until * DAY_GAME_MS - this.state.gameMs), maxBuy: MERCHANT_MAX_BUY, bought: m.bought.length,
-      wants: m.wants, wantsLeft: Math.round(m.wantsLeft * 10) / 10, wantsPrice: Math.round(this.price(m.wants) * MERCHANT_HONEY_MULT * 10) / 10, salesTicketKg: Math.max(0, m.salesTicketKg || 0),
+      wants: m.wants, wantsLeft: Math.round(m.wantsLeft * 10) / 10, wantsPrice: Math.round(this.price(m.wants) * MERCHANT_HONEY_MULT * 10) / 10,
+      honeyBonusPct: Math.round((MERCHANT_HONEY_MULT - 1) * 100), salesTicketKg: Math.max(0, m.salesTicketKg || 0),
       stock: m.stock.map((x) => ({ ...x, ...MERCHANT_ITEMS[x.id], contents: (x.seeds || []).map((z) => FLOWERS[z].name), basePrice: this.merchantPrice(x.id, null, x) }))
     };
   }
@@ -3506,7 +3507,9 @@ class BeeGame {
       customers: this.state.customers,
       heartMax: HEART_MAX,
       vouchers: this.state.vouchers,
+      decorInventory: this.state.decorInventory,
       decor: Object.fromEntries(Object.entries(DECOR).map(([k, d]) => [k, { ...d, cost: this.decorCost(k) }])),
+      workshopTile: WORKSHOP_TILE,
       breeds: BREEDS,
       breedChangeCost: BREED_CHANGE_COST,
       wax: this.state.wax,
