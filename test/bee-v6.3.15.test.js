@@ -52,14 +52,14 @@ test('Nero moodboard stays blank before 23:00 and freezes after finalization', (
   journal.recordHappiness(40, before);
   journal.recordHappiness(90, new Date(2026, 9, 2, 22, 50, 0));
   const key = '2026-10';
-  const pre = journal.month(key).find((d) => d.date === '2026-10-02');
+  const pre = journal.month(key, before).find((d) => d.date === '2026-10-02');
   assert.equal(pre.avg, null);
 
   assert.equal(journal.finalizeDue(new Date(2026, 9, 2, 23, 0, 0)), true);
-  const post = journal.month(key).find((d) => d.date === '2026-10-02');
+  const post = journal.month(key, new Date(2026, 9, 2, 23, 0, 0)).find((d) => d.date === '2026-10-02');
   assert.equal(post.avg, 65);
 
   journal.recordHappiness(100, new Date(2026, 9, 2, 23, 30, 0));
-  const frozen = journal.month(key).find((d) => d.date === '2026-10-02');
+  const frozen = journal.month(key, new Date(2026, 9, 2, 23, 30, 0)).find((d) => d.date === '2026-10-02');
   assert.equal(frozen.avg, 65);
 });
