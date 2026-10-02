@@ -114,7 +114,7 @@ jobs:
             'const BEE_PRICE_BASE_NUMBER = 5',
             'const BEE_PRICE_BASE = 60',
             'const BEE_PRICE_GROWTH = 1.15',
-            'const MERCHANT_HONEY_MULT = 1.20',
+            'const MERCHANT_HONEY_MULT = 1.15',
             'h.bees > HIVE_MIN_BEES'
           )) {
             if ($beeCore -notmatch [regex]::Escape($rule)) { throw "6.5.0 economy/winter rule missing: $rule" }
