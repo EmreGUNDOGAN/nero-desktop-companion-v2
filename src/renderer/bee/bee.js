@@ -1076,6 +1076,14 @@ function onTileClick(k, x, y) {
       ${view.clusterTiles[popupKey]
         ? `<div class="row"><span>🌼 Yan yana bonusu</span><b>+%${Math.round(view.clusterBonus * 100)}</b></div>`
         : `<p class="sub">İpucu: aynı çiçekten 3 tarhı yan yana ekersen +%${Math.round(view.clusterBonus * 100)} üretir.</p>`}
+      ${(() => {
+        const eco = view.flowerEcosystem && view.flowerEcosystem[popupKey];
+        if (!eco || !eco.hives || !eco.hives.length) return '<p class="sub">Bu tarh şu an hiçbir kovanın ekosistem menzilinde değil.</p>';
+        const hiveNames = eco.hives.map((h) => esc(h.name)).join(', ');
+        const contribution = eco.contributes ? 'Biyoçeşitlilik bonusuna katkı sağlıyor.' : 'Menzilde ama şu an biyoçeşitlilik bonusu oluşturmuyor.';
+        const mono = eco.monoculture ? ' ⚠️ En az bir kovanda monokültür baskısı var.' : '';
+        return `<div class="row"><span>🌿 Ekosistem katkısı</span><b>${eco.hives.length} kovan</b></div><p class="sub">${hiveNames} · ${contribution}${mono}</p>`;
+      })()}
       <button class="act danger" data-act="removeFlower">Tarhı temizle</button>
       ${t.decor ? `<button class="act danger" data-act="removeDecor">${esc(view.decor[t.decor].name)} kaldır <small>+${Math.floor(view.decor[t.decor].cost / 2)} 🪙</small></button>` : ''}`);
     return;
