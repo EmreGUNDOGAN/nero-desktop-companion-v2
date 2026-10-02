@@ -316,6 +316,26 @@ function seeded(seed) {
   return () => { x = (x * 9301 + 49297) % 233280; return x / 233280; };
 }
 
+function makePollinatorAccent(seed = 1) {
+  const g = new THREE.Group();
+  const rnd = seeded(seed + 911);
+  const wingMat = mat(0xF4E4A7, { transparent: true, opacity: 0.78, side: THREE.DoubleSide });
+  const bodyMat = mat(0x7A5130);
+  const body = new THREE.Mesh(new THREE.SphereGeometry(0.025, 6, 5), bodyMat);
+  body.scale.set(0.8, 1.5, 0.8);
+  const wingGeo = new THREE.CircleGeometry(0.045, 6);
+  const left = new THREE.Mesh(wingGeo, wingMat); left.position.x = -0.035; left.rotation.y = 0.45;
+  const right = new THREE.Mesh(wingGeo, wingMat); right.position.x = 0.035; right.rotation.y = -0.45;
+  g.add(body, left, right);
+  g.position.set((rnd() - 0.5) * 0.45, 0.48, (rnd() - 0.5) * 0.45);
+  const baseY = g.position.y, phase = rnd() * Math.PI * 2;
+  g.userData.animate = (t) => {
+    g.position.y = baseY + Math.sin(t * 2.2 + phase) * 0.025;
+    g.rotation.y = Math.sin(t * 0.8 + phase) * 0.35;
+  };
+  return g;
+}
+
 function makeFlowerPlot(flowerDef, seed, wilted = false) {
   const g = new THREE.Group();
   const plot = new THREE.Mesh(flowerGeo.plot, M.soil);
@@ -655,7 +675,14 @@ function buildItems() {
       obj = makeHiveV2(view.hives[t.item.id]);
       obj.scale.setScalar(1.22);
       hiveObjects.set(t.item.id, { group: obj, pos: new THREE.Vector3(p.x, y, p.z), key: k });
-    } else if (t.item && t.item.type === 'flower') obj = makeFlowerBed(view.flowers[t.item.flower], seed, t.item.wilted, R);
+    } else if (t.item && t.item.type === 'flower') {
+      obj = makeFlowerBed(view.flowers[t.item.flower], seed, t.item.wilted, R);
+      const eco = view.flowerEcosystem && view.flowerEcosystem[k];
+      if (!t.item.wilted && eco && eco.maxBonus >= 0.08) {
+        obj.scale.setScalar(1.05);
+        obj.add(makePollinatorAccent(seed));
+      }
+    }
     else if (t.kind === 'festival') obj = festivalScene(t);
     else if (t.kind === 'water') obj = makeWaterDeco(t, view.tiles, R, seed);
     else if (t.tree) obj = makeTree(seed);
