@@ -1210,6 +1210,275 @@ class BeeGame {
     return { ok: true, msg: `${h.name} artık ${BREEDS[breed].name} kraliçesiyle.` };
   }
 
+
+  // --- 6.4.0 Yan ürünler -------------------------------------------------------
+  byproductProfile(hiveId) {
+    const hive = this.state.hives[hiveId];
+    if (!hive) return { pollen: { rate: 0, potential: 'Yok', reason: 'Kovan bulunamadı.' }, propolis: { rate: 0, potential: 'Yok', reason: 'Kovan bulunamadı.' }, royalJelly: { rate: 0, potential: 'Yok', reason: 'Kovan bulunamadı.' } };
+    const eco = this.hiveEcosystem(hiveId);
+    let pollenMult = eco.productionBonus >= 0.08 ? 1.25 : eco.productionBonus >= 0.04 ? 1.12 : 1;
+    if (eco.monoculture) pollenMult *= 0.90;
+    const pollenRate = eco.total ? BYPRODUCT_G_PER_KG.pollen * pollenMult : 0;
+    const propolisActive = !hive.sick && hive.bees >= 8;
+    const royalActive = !hive.sick && hive.bees >= 12 && (hive.queens || 0) >= 1;
+    return {
+      pollen: { rate: pollenRate, potential: pollenRate >= 9 ? 'Yüksek' : pollenRate > 0 ? 'Orta' : 'Yok',
+        reason: !eco.total ? 'Aktif çiçek yok.' : eco.productionBonus >= 0.08 ? 'Yüksek biyoçeşitlilik polen toplamayı güçlendiriyor.' : eco.monoculture ? 'Monokültür polen verimini %10 azaltıyor.' : (eco.typeCount || 1) + ' aktif çiçek türü menzilde.' },
+      propolis: { rate: propolisActive ? BYPRODUCT_G_PER_KG.propolis * (hive.bees >= 14 ? 1.15 : 1) : 0, potential: !propolisActive ? 'Kilitli' : hive.bees >= 14 ? 'Yüksek' : 'Orta',
+        reason: hive.sick ? 'Hasta kovan propolis biriktirmez.' : hive.bees < 8 ? 'Propolis için en az 8 arı gerekli.' : hive.bees + ' arılı sağlıklı koloni propolis üretiyor.' },
+      royalJelly: { rate: royalActive ? BYPRODUCT_G_PER_KG.royalJelly * (1 + Math.max(0, (hive.queens || 1) - 1) * 0.08) : 0, potential: royalActive ? 'Düşük' : 'Kilitli',
+        reason: hive.sick ? 'Hasta kovan Arı Sütü biriktirmez.' : hive.bees < 12 ? 'Arı Sütü için en az 12 arı gerekli.' : (hive.queens || 0) < 1 ? 'Arı Sütü için en az Sağlıklı Kraliçe yükseltmesi gerekli.' : (QUEEN_NAMES[hive.queens] || 'Gelişmiş Kraliçe') + ' ve yeterli koloni aktif.' }
+    };
+  }
+
+  accrueByproducts(hive, producedKg) {
+    if (!hive || producedKg <= 0) return;
+    hive.byproducts = { pollen: 0, propolis: 0, royalJelly: 0, ...(hive.byproducts || {}) };
+    const profile = this.byproductProfile(hive.id);
+    for (const keyName of ['pollen', 'propolis', 'royalJelly']) {
+      const add = producedKg * (profile[keyName] ? profile[keyName].rate : 0);
+      if (add > 0) hive.byproducts[keyName] += add;
+    }
+  }
+
+  transferHarvestByproducts(hive, scale) {
+    const moved = { pollen: 0, propolis: 0, royalJelly: 0 };
+    if (!hive) return moved;
+    hive.byproducts = { pollen: 0, propolis: 0, royalJelly: 0, ...(hive.byproducts || {}) };
+    this.state.materials = { pollen: 0, propolis: 0, royalJelly: 0, ...(this.state.materials || {}) };
+    const takeScale = Math.max(0, Math.min(1, Number(scale) || 0));
+    for (const keyName of Object.keys(moved)) {
+      const have = Math.max(0, Number(hive.byproducts[keyName]) || 0);
+      const take = have * takeScale;
+      hive.byproducts[keyName] = Math.max(0, have - take);
+      this.state.materials[keyName] += take;
+      moved[keyName] = take;
+    }
+    return moved;
+  }
+
+  // --- 6.4.0 Arıcılık Atölyesi --------------------------------------------------
+  villageHas(n) { return !!(this.state.village && this.state.village.arrived.includes(n)); }
+  workshopUnlocked() { return this.villageHas(WORKSHOP_UNLOCK.basic); }
+  workshopLevel() {
+    if (!this.workshopUnlocked()) return 0;
+    if (this.villageHas(WORKSHOP_UNLOCK.advanced)) return 3;
+    if (this.villageHas(WORKSHOP_UNLOCK.pharmacy)) return 2;
+    return 1;
+  }
+  workshopActiveSlots() { return this.workshopLevel() >= 3 ? 2 : this.workshopLevel() ? 1 : 0; }
+  workshopQueueCap() { return this.workshopLevel() >= 3 ? 4 : this.workshopLevel() ? 2 : 0; }
+  totalStoredHoney() { return Object.values(this.state.storage).reduce((a, b) => a + (Number(b) || 0), 0); }
+
+  workshopRecipe(id, flower = null) {
+    const level = this.workshopLevel();
+    const base = { id, flower, durationMs: DAY_GAME_MS, unlock: false, lockedReason: '' };
+    if (id === 'premiumJar') {
+      if (!FLOWERS[flower]) return null;
+      return { ...base, name: FLOWERS[flower].name + ' Premium Kavanozu', icon: '🫙', unlock: level >= 1, honeyKg: 5, honeyFlower: flower, waxKg: 0.1, outputCount: 5, desc: '5 kg tek tür bal + 100 g balmumu → 5 premium kavanoz.' };
+    }
+    if (id === 'candle') {
+      const waxKg = ((this.state.merchantEffects || {}).waxPressUses || 0) > 0 ? 0.3 : CANDLE_WAX;
+      return { ...base, name: 'Mum', icon: '🕯️', unlock: level >= 1, durationMs: DAY_GAME_MS / 2, waxKg, outputCount: 1, usesWaxPress: waxKg < CANDLE_WAX, desc: Math.round(waxKg * 1000) + ' g balmumu → 1 mum.' };
+    }
+    if (id === 'propolisShield') return { ...base, name: 'Propolis Kalkanı', icon: '🛡️', unlock: level >= 2, lockedReason: 'Eczane açılınca kullanılabilir.', waxKg: 0.05, materials: { propolis: 80 }, outputCount: 1, desc: 'Seçilen kovanda 10 gün hastalık riskini %50 azaltır.' };
+    if (id === 'propolisOintment') return { ...base, name: 'Propolis Merhemi', icon: '🌿', unlock: level >= 2, lockedReason: 'Eczane açılınca kullanılabilir.', waxKg: 0.1, materials: { propolis: 120 }, outputCount: 2, desc: 'Eczane ve özel siparişler için işlenmiş propolis ürünü.' };
+    if (id === 'pollenCake') return { ...base, name: 'Polen Keki', icon: '🌼', unlock: level >= 3, lockedReason: 'Arıcılar Derneği açılınca kullanılabilir.', durationMs: DAY_GAME_MS / 2, honeyKg: 1, materials: { pollen: 150 }, outputCount: 1, desc: 'Kovanda 5 gün doğal üreme aralığını yarıya indirir.' };
+    if (id === 'pollenMix') return { ...base, name: 'Özel Polen Karışımı', icon: '🌺', unlock: level >= 3, lockedReason: 'Arıcılar Derneği açılınca kullanılabilir.', honeyKg: 2, materials: { pollen: 300 }, outputCount: 1, desc: 'Kovanda 5 gün çiçek bonuslarını %25 güçlendirir.' };
+    if (id === 'royalJellyCure') return { ...base, name: 'Arı Sütü Kürü', icon: '🥛', unlock: level >= 3, lockedReason: 'Arıcılar Derneği açılınca kullanılabilir.', honeyKg: 2, materials: { royalJelly: 30 }, outputCount: 1, desc: 'Kovanda 3 gün boyunca her gün +1 arı doğumu sağlar.' };
+    if (id === 'aromaticHoney') return { ...base, name: 'Aromalı Bal Kavanozu', icon: '🍯', unlock: this.villageHas(WORKSHOP_UNLOCK.greenhouse), lockedReason: 'Köy Serası açılınca kullanılabilir.', honeyKg: 3, materials: { pollen: 30 }, outputCount: 3, desc: 'Sabit fiyatlı özel işlenmiş bal.' };
+    if (id === 'giftSet') return { ...base, name: 'Bal Hediye Seti', icon: '🎁', unlock: this.villageHas(WORKSHOP_UNLOCK.museum), lockedReason: 'Bal Müzesi açılınca kullanılabilir.', durationMs: DAY_GAME_MS * 2, premiumJarTypes: 3, outputCount: 1, desc: '3 farklı premium kavanozu prestij setinde birleştirir.' };
+    return null;
+  }
+
+  workshopRecipeIngredients(recipe) {
+    if (!recipe) return [];
+    const rows = [];
+    if (recipe.honeyKg) rows.push({ key: 'honey', label: recipe.honeyFlower ? FLOWERS[recipe.honeyFlower].name + ' balı' : 'Herhangi bal', need: recipe.honeyKg, have: recipe.honeyFlower ? (this.state.storage[recipe.honeyFlower] || 0) : this.totalStoredHoney(), unit: 'kg' });
+    if (recipe.waxKg) rows.push({ key: 'wax', label: 'Balmumu', need: recipe.waxKg * 1000, have: this.state.wax * 1000, unit: 'g' });
+    for (const [keyName, need] of Object.entries(recipe.materials || {})) rows.push({ key: keyName, label: keyName === 'pollen' ? 'Polen' : keyName === 'propolis' ? 'Propolis' : 'Arı Sütü', need, have: this.state.materials[keyName] || 0, unit: 'g' });
+    if (recipe.premiumJarTypes) rows.push({ key: 'premiumTypes', label: 'Farklı premium kavanoz türü', need: recipe.premiumJarTypes, have: Object.values(this.state.workshop.products.premiumJars || {}).filter((n) => n >= 1).length, unit: 'tür' });
+    return rows.map((x) => ({ ...x, ok: x.have + 1e-6 >= x.need }));
+  }
+
+  consumeHoney(amount, flower = null) {
+    let left = Math.max(0, Number(amount) || 0);
+    if (flower) {
+      const have = this.state.storage[flower] || 0;
+      if (have + 1e-6 < left) return false;
+      this.state.storage[flower] = have - left;
+      if (this.state.storage[flower] < 0.001) delete this.state.storage[flower];
+      return true;
+    }
+    if (this.totalStoredHoney() + 1e-6 < left) return false;
+    for (const [f, have] of Object.entries(this.state.storage).sort((a, b) => b[1] - a[1])) {
+      if (left <= 1e-6) break;
+      const take = Math.min(have, left);
+      this.state.storage[f] = have - take;
+      if (this.state.storage[f] < 0.001) delete this.state.storage[f];
+      left -= take;
+    }
+    return true;
+  }
+
+  consumeWorkshopRecipe(recipe) {
+    const ingredients = this.workshopRecipeIngredients(recipe);
+    if (ingredients.some((x) => !x.ok)) return false;
+    if (recipe.honeyKg && !this.consumeHoney(recipe.honeyKg, recipe.honeyFlower || null)) return false;
+    if (recipe.waxKg) this.state.wax = Math.max(0, this.state.wax - recipe.waxKg);
+    for (const [keyName, need] of Object.entries(recipe.materials || {})) this.state.materials[keyName] = Math.max(0, (this.state.materials[keyName] || 0) - need);
+    if (recipe.premiumJarTypes) {
+      const jars = this.state.workshop.products.premiumJars || {};
+      const types = Object.entries(jars).filter(([, n]) => n >= 1).slice(0, recipe.premiumJarTypes);
+      if (types.length < recipe.premiumJarTypes) return false;
+      for (const [f] of types) { jars[f] -= 1; if (jars[f] <= 0) delete jars[f]; }
+    }
+    if (recipe.id === 'candle' && recipe.usesWaxPress) {
+      const fx = this.state.merchantEffects || {};
+      fx.waxPressUses = Math.max(0, (fx.waxPressUses || 0) - 1);
+    }
+    return true;
+  }
+
+  fillWorkshopSlots() {
+    if (!this.workshopUnlocked()) return;
+    while (this.state.workshop.active.length < this.workshopActiveSlots() && this.state.workshop.queue.length) this.state.workshop.active.push(this.state.workshop.queue.shift());
+  }
+
+  enqueueWorkshop(id, flower = null) {
+    if (!this.workshopUnlocked()) return this.fail('Arıcılık Atölyesi Mumcu köye geldiğinde açılır.');
+    const recipe = this.workshopRecipe(id, flower);
+    if (!recipe) return this.fail('Bilinmeyen atölye tarifi.');
+    if (!recipe.unlock) return this.fail(recipe.lockedReason || 'Bu tarif henüz açılmadı.');
+    this.fillWorkshopSlots();
+    if (this.state.workshop.active.length >= this.workshopActiveSlots() && this.state.workshop.queue.length >= this.workshopQueueCap()) return this.fail('Atölye üretim kuyruğu dolu.');
+    const missing = this.workshopRecipeIngredients(recipe).filter((x) => !x.ok);
+    if (missing.length) return this.fail('Eksik malzeme: ' + missing.map((x) => x.label + ' ' + (Math.round(x.have * 10) / 10) + '/' + x.need + ' ' + x.unit).join(' · '));
+    if (!this.consumeWorkshopRecipe(recipe)) return this.fail('Malzemeler hazırlanamadı.');
+    const job = { id: uid(), recipe: id, flower: recipe.flower || null, totalMs: recipe.durationMs, remainingMs: recipe.durationMs, startedDay: this.dayIndex() };
+    if (this.state.workshop.active.length < this.workshopActiveSlots()) this.state.workshop.active.push(job); else this.state.workshop.queue.push(job);
+    this.save();
+    return { ok: true, msg: '🔨 ' + recipe.name + ' üretime alındı.' };
+  }
+
+  finishWorkshopJob(job) {
+    const recipe = this.workshopRecipe(job.recipe, job.flower);
+    if (!recipe) return;
+    const p = this.state.workshop.products;
+    if (job.recipe === 'premiumJar') p.premiumJars[job.flower] = (p.premiumJars[job.flower] || 0) + recipe.outputCount;
+    else if (job.recipe === 'candle') {
+      this.state.candles += recipe.outputCount; this.state.ledger.candlesMade += recipe.outputCount; this.questEvent('candleMake');
+    } else p[job.recipe] = (p[job.recipe] || 0) + recipe.outputCount;
+    this.state.workshop.craftedOnce[job.recipe === 'premiumJar' ? 'premiumJar:' + job.flower : job.recipe] = true;
+    this.events.push({ msg: '🔨 Atölye tamamladı: ' + recipe.outputCount + ' × ' + recipe.name + '.' });
+  }
+
+  processWorkshop(gameDt) {
+    if (!this.workshopUnlocked() || gameDt <= 0) return;
+    this.fillWorkshopSlots();
+    let remaining = gameDt;
+    let guard = 0;
+    while (remaining > 0 && this.state.workshop.active.length && guard++ < 100) {
+      const minLeft = Math.min(...this.state.workshop.active.map((j) => Math.max(0, j.remainingMs || 0)));
+      const step = Math.min(remaining, Math.max(1, minLeft));
+      for (const job of this.state.workshop.active) job.remainingMs = Math.max(0, (job.remainingMs || 0) - step);
+      remaining -= step;
+      const done = this.state.workshop.active.filter((j) => j.remainingMs <= 0);
+      if (!done.length) break;
+      this.state.workshop.active = this.state.workshop.active.filter((j) => j.remainingMs > 0);
+      for (const job of done) this.finishWorkshopJob(job);
+      this.fillWorkshopSlots();
+    }
+  }
+
+  workshopProductCount(keyName) {
+    if (keyName && keyName.startsWith('premiumJar:')) return this.state.workshop.products.premiumJars[keyName.split(':')[1]] || 0;
+    return this.state.workshop.products[keyName] || 0;
+  }
+  workshopProductName(keyName) {
+    if (keyName && keyName.startsWith('premiumJar:')) {
+      const flower = keyName.split(':')[1]; return FLOWERS[flower] ? FLOWERS[flower].name + ' Premium Kavanozu' : 'Premium Bal Kavanozu';
+    }
+    return WORKSHOP_PRODUCT_NAMES[keyName] || keyName;
+  }
+  workshopProductValue(keyName) {
+    if (keyName && keyName.startsWith('premiumJar:')) {
+      const flower = keyName.split(':')[1]; return FLOWERS[flower] ? Math.round(FLOWERS[flower].price * 1.25) : 0;
+    }
+    return WORKSHOP_FIXED_VALUES[keyName] || 0;
+  }
+  removeWorkshopProduct(keyName, count) {
+    if (keyName && keyName.startsWith('premiumJar:')) {
+      const flower = keyName.split(':')[1], jars = this.state.workshop.products.premiumJars;
+      if ((jars[flower] || 0) < count) return false;
+      jars[flower] -= count; if (jars[flower] <= 0) delete jars[flower]; return true;
+    }
+    if ((this.state.workshop.products[keyName] || 0) < count) return false;
+    this.state.workshop.products[keyName] -= count; return true;
+  }
+
+  useWorkshopProduct(keyName, hiveId) {
+    const hive = this.state.hives[hiveId];
+    if (!hive) return this.fail('Önce uygun bir kovan seç.');
+    if (!['propolisShield', 'pollenCake', 'pollenMix', 'royalJellyCure'].includes(keyName)) return this.fail('Bu ürün kovana uygulanamaz.');
+    if (this.workshopProductCount(keyName) < 1) return this.fail('Bu üründen envanterde yok.');
+    this.removeWorkshopProduct(keyName, 1);
+    const day = this.dayIndex();
+    let msg = '';
+    if (keyName === 'propolisShield') { hive.propolisUntilDay = Math.max(day, hive.propolisUntilDay || 0) + 10; msg = 'Propolis Kalkanı 10 gün uzadı.'; }
+    if (keyName === 'pollenCake') { hive.pollenCakeUntilDay = Math.max(day, hive.pollenCakeUntilDay || 0) + 5; msg = 'Doğal üreme desteği 5 gün uzadı.'; }
+    if (keyName === 'pollenMix') { hive.pollenMixUntilDay = Math.max(day, hive.pollenMixUntilDay || 0) + 5; msg = 'Çiçek bonusları 5 gün güçlendi.'; }
+    if (keyName === 'royalJellyCure') { hive.milkDays = (hive.milkDays || 0) + 3; msg = 'Arı Sütü etkisi +3 gün.'; }
+    this.save();
+    return { ok: true, msg: hive.name + ': ' + msg };
+  }
+
+  sellWorkshopProduct(keyName, amount = 'all') {
+    const unit = this.workshopProductValue(keyName);
+    if (!unit) return this.fail('Bu ürün doğrudan satılmaz; kovanda veya özel tarifte kullanılır.');
+    const have = this.workshopProductCount(keyName);
+    const count = amount === 'all' ? have : Math.max(0, Math.min(have, Math.floor(Number(amount) || 0)));
+    if (count < 1) return this.fail('Satılacak işlenmiş ürün yok.');
+    this.removeWorkshopProduct(keyName, count);
+    const gain = count * unit;
+    this.state.coins += gain; this.state.counters.earned += gain; this.save();
+    return { ok: true, msg: count + ' × ' + this.workshopProductName(keyName) + ' satıldı (+' + gain + ' 🪙).' };
+  }
+
+  workshopProductsView() {
+    const out = [];
+    for (const [flower, count] of Object.entries(this.state.workshop.products.premiumJars || {})) if (count > 0) {
+      const keyName = 'premiumJar:' + flower;
+      out.push({ key: keyName, name: this.workshopProductName(keyName), count, sellValue: this.workshopProductValue(keyName), kind: 'commercial' });
+    }
+    for (const keyName of ['propolisShield','propolisOintment','pollenCake','pollenMix','royalJellyCure','aromaticHoney','giftSet']) {
+      const count = this.state.workshop.products[keyName] || 0; if (!count) continue;
+      const utility = ['propolisShield','pollenCake','pollenMix','royalJellyCure'].includes(keyName);
+      out.push({ key: keyName, name: this.workshopProductName(keyName), count, sellValue: utility ? 0 : this.workshopProductValue(keyName), kind: utility ? 'utility' : 'commercial' });
+    }
+    return out;
+  }
+
+  workshopView() {
+    const unlocked = this.workshopUnlocked(), level = this.workshopLevel(), recipes = [];
+    for (const flower of Object.keys(FLOWERS)) {
+      const recipe = this.workshopRecipe('premiumJar', flower);
+      recipes.push({ ...recipe, ingredients: this.workshopRecipeIngredients(recipe), flower });
+    }
+    for (const id of ['candle','propolisShield','propolisOintment','pollenCake','pollenMix','royalJellyCure','aromaticHoney','giftSet']) {
+      const recipe = this.workshopRecipe(id); recipes.push({ ...recipe, ingredients: this.workshopRecipeIngredients(recipe) });
+    }
+    const jobView = (job) => ({ ...job, name: (this.workshopRecipe(job.recipe, job.flower) || {}).name || job.recipe, progress: job.totalMs ? 1 - job.remainingMs / job.totalMs : 1 });
+    return {
+      unlocked, level,
+      unlockText: !unlocked ? 'Mumcu köye geldiğinde Arıcılık Atölyesi açılır.' : level === 1 ? 'Atölye I · Mumcu' : level === 2 ? 'Atölye II · Eczane' : 'Atölye III · Arıcılar Derneği',
+      activeSlots: this.workshopActiveSlots(), queueCap: this.workshopQueueCap(),
+      materials: { pollen: Math.round((this.state.materials.pollen || 0) * 10) / 10, propolis: Math.round((this.state.materials.propolis || 0) * 10) / 10, royalJelly: Math.round((this.state.materials.royalJelly || 0) * 10) / 10 },
+      active: this.state.workshop.active.map(jobView), queue: this.state.workshop.queue.map(jobView), recipes, products: this.workshopProductsView(),
+      unlocks: { mumcu: this.villageHas(WORKSHOP_UNLOCK.basic), eczane: this.villageHas(WORKSHOP_UNLOCK.pharmacy), dernek: this.villageHas(WORKSHOP_UNLOCK.advanced), sera: this.villageHas(WORKSHOP_UNLOCK.greenhouse), muze: this.villageHas(WORKSHOP_UNLOCK.museum) }
+    };
+  }
+
   makeCandle() {
     const fx = this.state.merchantEffects || {};
     const waxNeed = (fx.waxPressUses || 0) > 0 ? 0.3 : CANDLE_WAX;
