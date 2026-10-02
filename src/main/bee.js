@@ -25,7 +25,7 @@ const BREED_EVERY_DAYS = 2;
 const WORK_MS = 5000;                    // arıcının kovanda çalışma süresi
 const WALK_MS_PER_TILE = 700;
 
-const SEASON_PRICE = { ilkbahar: 1, yaz: 0.85, sonbahar: 1, kis: 1.35 };
+const SEASON_PRICE = { ilkbahar: 1, yaz: 0.85, sonbahar: 1, kis: 1.15 };
 const STORAGE_UPGRADES = [
   { cap: 100, cost: 340 }, { cap: 200, cost: 900 }, { cap: 400, cost: 2250 },
   { cap: 800, cost: 4000 }, { cap: 1500, cost: 7500 }, { cap: 2500, cost: 12000 },
@@ -230,6 +230,21 @@ const WAX_PER_KG = 0.0125;                // her 1 kg hasatta 12,5 g balmumu
 const CANDLE_WAX = 0.5;                   // 1 mum = 0.5 kg balmumu
 const CANDLE_PRICE = 45;
 
+// 6.4.0 — gerçek yan ürünler + Arıcılık Atölyesi.
+// Yan ürünler gram cinsinden tutulur ve hasat tıklamasından değil, gerçek bal üretiminden doğar.
+const BYPRODUCT_G_PER_KG = { pollen: 8, propolis: 2.5, royalJelly: 0.4 };
+const WORKSHOP_UNLOCK = { basic: 30, pharmacy: 44, advanced: 53, greenhouse: 73, museum: 78 };
+const WORKSHOP_PRODUCT_NAMES = {
+  propolisShield: 'Propolis Kalkanı',
+  propolisOintment: 'Propolis Merhemi',
+  pollenCake: 'Polen Keki',
+  pollenMix: 'Özel Polen Karışımı',
+  royalJellyCure: 'Arı Sütü Kürü',
+  aromaticHoney: 'Aromalı Bal Kavanozu',
+  giftSet: 'Bal Hediye Seti'
+};
+const WORKSHOP_FIXED_VALUES = { propolisOintment: 95, aromaticHoney: 60, giftSet: 240 };
+
 const CUSTOMERS = ['Ayşe Teyze', 'Mehmet Usta', 'Küçük Elif', 'Fırıncı Leyla', 'Kasabalı Cem', 'Hacer Nine', 'Muhtar Rıza',
   'Pastacı Nur', 'Öğretmen Selin', 'Balıkçı Kemal', 'Doktor Aslı', 'Bakkal Hüseyin'];
 
@@ -310,7 +325,11 @@ function makeIsland() {
 }
 
 function newHive(id, name, bees, invested) {
-  return { breed: 'anadolu', id, name, bees, capBees: 10, capKg: 20, honey: {}, level: 0, queens: 0, syrup: 0, beesBought: 0, invested, breedDay: 0, sickDeaths: 0 };
+  return {
+    breed: 'anadolu', id, name, bees, capBees: 10, capKg: 20, honey: {},
+    byproducts: { pollen: 0, propolis: 0, royalJelly: 0 },
+    level: 0, queens: 0, syrup: 0, beesBought: 0, invested, breedDay: 0, sickDeaths: 0
+  };
 }
 
 function freshState() {
@@ -355,6 +374,12 @@ function freshState() {
     vouchers: {},
     wax: 0,
     candles: 0,
+    materials: { pollen: 0, propolis: 0, royalJelly: 0 },
+    workshop: {
+      active: [], queue: [],
+      products: { premiumJars: {}, propolisShield: 0, propolisOintment: 0, pollenCake: 0, pollenMix: 0, royalJellyCure: 0, aromaticHoney: 0, giftSet: 0 },
+      craftedOnce: {}
+    },
     festival: { entry: null, cups: [], lastYear: 0 }
   };
 }
@@ -403,6 +428,7 @@ class BeeGame {
     if (!Number.isInteger(this.state.hivesPurchased)) this.state.hivesPurchased = Math.max(0, Object.keys(this.state.hives).length - 1);
     for (const h of Object.values(this.state.hives)) {
       Object.assign(h, { level: 0, queens: 0, syrup: 0, beesBought: 0, invested: 0, breedDay: 0, sickDeaths: 0, ...h });
+      h.byproducts = { pollen: 0, propolis: 0, royalJelly: 0, ...(h.byproducts || {}) };
       if (h.sick) {
         h.sickStartBees = h.sickStartBees || h.bees;
         h.sickDeaths = h.sickDeaths || 0;
@@ -426,6 +452,16 @@ class BeeGame {
       this.state.festival.entry.seasonIndex = Math.floor(this.dayIndex() / DAYS_PER_SEASON);
     this.state.focusDaily = this.state.focusDaily || { day: '', earnedMs: 0 };
     this.state.todoRewardDaily = this.state.todoRewardDaily || { day: '', count: 0, limitNotified: false };
+    this.state.materials = { pollen: 0, propolis: 0, royalJelly: 0, ...(this.state.materials || {}) };
+    this.state.workshop = this.state.workshop || {};
+    this.state.workshop.active = Array.isArray(this.state.workshop.active) ? this.state.workshop.active : [];
+    this.state.workshop.queue = Array.isArray(this.state.workshop.queue) ? this.state.workshop.queue : [];
+    this.state.workshop.products = {
+      premiumJars: {}, propolisShield: 0, propolisOintment: 0, pollenCake: 0, pollenMix: 0,
+      royalJellyCure: 0, aromaticHoney: 0, giftSet: 0, ...(this.state.workshop.products || {})
+    };
+    this.state.workshop.products.premiumJars = { ...(this.state.workshop.products.premiumJars || {}) };
+    this.state.workshop.craftedOnce = { ...(this.state.workshop.craftedOnce || {}) };
     this.state.merchantEffects = this.state.merchantEffects || {};
     this.state.marketLocks = this.state.marketLocks || {};
     for (const h of Object.values(this.state.hives)) if (!h.breed) h.breed = 'anadolu';
@@ -809,8 +845,11 @@ class BeeGame {
       for (const [f, rate] of Object.entries(rates)) {
         hive.honey[f] = (hive.honey[f] || 0) + rate * hours * scale;
       }
-      this.state.counters.produced += total * scale;
+      const producedKg = total * scale;
+      this.accrueByproducts(hive, producedKg);
+      this.state.counters.produced += producedKg;
     }
+    this.processWorkshop(gameDt);
     return true;
   }
 
