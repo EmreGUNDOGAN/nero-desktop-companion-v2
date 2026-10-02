@@ -243,14 +243,14 @@ jobs:
           $ErrorActionPreference = 'Stop'
 
           Copy-Item docs/ARICILIK-REHBERI.md OYUN-REHBERI.md -Force
-          git archive --format=zip -o Nero-v6_3_15-source.zip HEAD
+          git archive --format=zip -o Nero-v6_3_16-source.zip HEAD
           if ($LASTEXITCODE -ne 0) { throw 'Source archive failed' }
 
           $required = @(
             'dist/Nero-Setup-6.3.16.exe',
             'dist/Nero-Setup-6.3.16.exe.blockmap',
             'dist/latest.yml',
-            'Nero-v6_3_15-source.zip',
+            'Nero-v6_3_16-source.zip',
             'CHANGELOG-6.3.16.md',
             'OYUN-REHBERI.md'
           )
@@ -259,7 +259,7 @@ jobs:
           }
 
           $metadata = Get-Content dist/latest.yml -Raw
-          if ($metadata -notmatch 'version: 6\.3\.15' -or $metadata -notmatch 'Nero-Setup-6\.3\.15\.exe') {
+          if ($metadata -notmatch 'version: 6\.3\.16' -or $metadata -notmatch 'Nero-Setup-6\.3\.16\.exe') {
             throw 'Updater metadata mismatch'
           }
 
@@ -276,7 +276,7 @@ jobs:
             dist/Nero-Setup-6.3.16.exe
             dist/Nero-Setup-6.3.16.exe.blockmap
             dist/latest.yml
-            Nero-v6_3_15-source.zip
+            Nero-v6_3_16-source.zip
             CHANGELOG-6.3.16.md
             OYUN-REHBERI.md
             SHA256SUMS-6.3.16.txt
