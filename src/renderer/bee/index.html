@@ -114,44 +114,93 @@
           </div>
           <button class="round small" id="hive-prev" type="button" aria-label="Önceki kovan" title="Önceki kovan (←)">‹</button><button class="round small" id="hive-next" type="button" aria-label="Sonraki kovan" title="Sonraki kovan (→)">›</button><button class="round small" id="hive-close" type="button" aria-label="Kapat">✕</button>
         </div>
-        <div class="stat-row">
-          <div class="stat"><small>🐝 Arılar</small><b id="h-bees">0 / 10</b></div>
-          <div class="stat production-stat" tabindex="0"><small>⚡ Üretim</small><b id="h-rate">0 kg/sa</b><div class="prod-effects" id="h-prod-effects" role="tooltip"></div></div>
+        <div class="hive-tabs" role="tablist" aria-label="Kovan paneli">
+          <button type="button" class="on" data-hive-tab="general">Genel</button>
+          <button type="button" data-hive-tab="ecosystem">Ekosistem</button>
+          <button type="button" data-hive-tab="byproduct">Yan Ürün</button>
+          <button type="button" data-hive-tab="production">Üretim</button>
+          <button type="button" data-hive-tab="details">Ayrıntılar</button>
         </div>
-        <div class="stat wide">
-          <small>🍯 Bal</small><b id="h-honey">0 / 20 kg</b>
-          <div class="bar"><b id="h-bar"></b></div>
-          <div class="chips" id="h-chips"></div>
-        </div>
-        <div class="stat wide">
-          <small>🌼 Menzildeki tarhlar</small>
-          <div class="chips" id="h-near"></div>
-        </div>
-        <div class="stat wide breed-box">
-          <small>🧬 Arı ırkı</small>
-          <b id="h-breed"></b>
-          <p class="breed-desc" id="h-breed-desc"></p>
-          <div class="breed-opts" id="h-breeds"></div>
-        </div>
-        <div class="hive-meadow" aria-label="Çiçeklerin üzerinde uçan arılar ve küçük kovan">
-          <span class="meadow-sky"></span><span class="meadow-hill"></span>
-          <span class="meadow-bee bee-a">🐝</span><span class="meadow-bee bee-b">🐝</span><span class="meadow-bee bee-c">🐝</span>
-          <span class="meadow-hive" aria-hidden="true"></span>
-          <span class="meadow-flowers" aria-hidden="true">🌼　🌸　🌼　🌸　🌼</span>
-        </div>
-        <div class="sick-banner" id="h-sick" hidden>
-          <span id="h-sick-text">🤒 Bu kovan hasta: üretim %30 düştü.</span>
-          <button type="button" id="h-medicine"></button>
-        </div>
-        <button class="harvest-btn" id="h-harvest" type="button"></button>
-        <div class="grid-acts">
-          <button class="gact" id="h-buy" type="button"></button>
-          <button class="gact" id="h-sell" type="button"></button>
-          <button class="gact" id="h-queen" type="button"></button>
-          <button class="gact" id="h-grow" type="button"></button>
-          <button class="gact" id="h-syrup" type="button"></button>
-          <button class="gact danger" id="h-sellhive" type="button"></button>
-        </div>
+
+        <section class="hive-tab-panel" data-hive-panel="general">
+          <div class="stat-row">
+            <div class="stat"><small>🐝 Arılar</small><b id="h-bees">0 / 10</b></div>
+            <div class="stat production-stat" tabindex="0"><small>⚡ Üretim</small><b id="h-rate">0 kg/sa</b><div class="prod-effects" id="h-prod-effects" role="tooltip"></div></div>
+          </div>
+          <div class="stat wide">
+            <small>🍯 Bal</small><b id="h-honey">0 / 20 kg</b>
+            <div class="bar"><b id="h-bar"></b></div>
+            <div class="chips" id="h-chips"></div>
+          </div>
+          <div class="stat wide breed-box">
+            <small>🧬 Arı ırkı</small>
+            <b id="h-breed"></b>
+            <p class="breed-desc" id="h-breed-desc"></p>
+            <div class="breed-opts" id="h-breeds"></div>
+          </div>
+          <div class="hive-meadow" id="hive-meadow" aria-label="Çiçeklerin üzerinde uçan arılar ve küçük kovan">
+            <span class="meadow-sky"></span><span class="meadow-hill"></span>
+            <span class="meadow-bee bee-a">🐝</span><span class="meadow-bee bee-b">🐝</span><span class="meadow-bee bee-c">🐝</span>
+            <span class="meadow-hive" aria-hidden="true"></span>
+            <span class="meadow-flowers" aria-hidden="true">🌼　🌸　🌼　🌸　🌼</span>
+          </div>
+          <div class="sick-banner" id="h-sick" hidden>
+            <span id="h-sick-text">🤒 Bu kovan hasta: üretim %30 düştü.</span>
+            <button type="button" id="h-medicine"></button>
+          </div>
+          <button class="harvest-btn" id="h-harvest" type="button"></button>
+          <div class="grid-acts">
+            <button class="gact" id="h-buy" type="button"></button>
+            <button class="gact" id="h-sell" type="button"></button>
+            <button class="gact" id="h-queen" type="button"></button>
+            <button class="gact" id="h-grow" type="button"></button>
+            <button class="gact" id="h-syrup" type="button"></button>
+            <button class="gact danger" id="h-sellhive" type="button"></button>
+          </div>
+        </section>
+
+        <section class="hive-tab-panel" data-hive-panel="ecosystem" hidden>
+          <div class="eco-hero">
+            <div><small>🌿 Biyoçeşitlilik</small><b id="h-eco-level">Yok</b><p id="h-eco-reason"></p></div>
+            <strong id="h-eco-bonus">+%0</strong>
+          </div>
+          <div class="eco-grid">
+            <div class="stat wide"><small>🌼 Menzildeki aktif tarhlar</small><div class="chips" id="h-near"></div></div>
+            <div class="stat wide"><small>🌱 Baskın tür</small><b class="eco-value" id="h-eco-dominant">—</b></div>
+            <div class="stat wide"><small>⚠️ Monokültür baskısı</small><b class="eco-value" id="h-eco-mono">Yok</b><p class="eco-note" id="h-eco-mono-note"></p></div>
+            <div class="stat wide"><small>🐝 Ekosistem etkisi</small><div id="h-eco-effects" class="eco-effect-list"></div></div>
+          </div>
+        </section>
+
+        <section class="hive-tab-panel" data-hive-panel="byproduct" hidden>
+          <div class="future-panel">
+            <b>🌼 Yan Ürün Sistemi</b>
+            <p>Polen, Propolis ve Arı Sütü sistemi bir sonraki geliştirme maddesinde açılacak. Bu sürüm sahte miktar veya sahte potansiyel göstermiyor.</p>
+            <small>Hazır olduğunda bu sekme gerçek üretim potansiyelini, biriken miktarları ve nedenlerini gösterecek.</small>
+          </div>
+        </section>
+
+        <section class="hive-tab-panel" data-hive-panel="production" hidden>
+          <div class="stat-row">
+            <div class="stat"><small>⚡ Saatlik üretim</small><b id="h-prod-main">0 kg/sa</b></div>
+            <div class="stat"><small>🌿 Ekosistem katkısı</small><b id="h-prod-eco">+%0</b></div>
+          </div>
+          <div class="stat wide">
+            <small>Üretim buff / debuff ayrıntıları</small>
+            <div class="prod-effect-list production-page-effects" id="h-prod-list"></div>
+          </div>
+        </section>
+
+        <section class="hive-tab-panel" data-hive-panel="details" hidden>
+          <div class="detail-grid">
+            <div class="stat"><small>👑 Kraliçe</small><b id="h-detail-queen"></b></div>
+            <div class="stat"><small>🧬 Irk</small><b id="h-detail-breed"></b></div>
+            <div class="stat"><small>🐝 Arı kapasitesi</small><b id="h-detail-bees"></b></div>
+            <div class="stat"><small>🍯 Bal kapasitesi</small><b id="h-detail-honey"></b></div>
+            <div class="stat"><small>🌾 Erzak</small><b id="h-detail-feed"></b></div>
+            <div class="stat"><small>❤️ Sağlık</small><b id="h-detail-health"></b></div>
+          </div>
+        </section>
       </div>
     </div>
   </div>
