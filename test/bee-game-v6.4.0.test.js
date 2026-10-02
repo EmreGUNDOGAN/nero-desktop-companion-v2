@@ -161,7 +161,8 @@ test('6.4.0 renderer gerçek Yan Ürün sekmesini ve Atölye arayüzünü içeri
   assert.match(css, /\.byproduct-card/);
 });
 
-test('6.4.0 paket sürümü 6.4.0dır', () => {
+test('6.4.0 regression runs on 6.4.0 or newer', () => {
   const pkg = require('../package.json');
-  assert.equal(pkg.version, '6.4.0');
+  const [major, minor] = pkg.version.split('.').map(Number);
+  assert.ok(major > 6 || (major === 6 && minor >= 4));
 });
