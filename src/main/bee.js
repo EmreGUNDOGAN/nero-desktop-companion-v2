@@ -3350,8 +3350,7 @@ class BeeGame {
     if (!def) return this.fail('Bilinmeyen tohum.');
     if (!t || !t.owned || t.item || t.kind !== 'grass') return this.fail('Buraya tohum ekilemez.');
     if ((this.state.vouchers[flower] || 0) < 1) return this.fail(`${def.name} tohumu Depo'da yok. Önce Mağaza'dan satın al.`);
-    this.state.vouchers[flower] -= 1;
-    if (this.state.vouchers[flower] <= 0) delete this.state.vouchers[flower];
+    this.state.vouchers[flower] = Math.max(0, (this.state.vouchers[flower] || 0) - 1);
     t.item = { type: 'flower', flower, plantedDay: this.dayIndex(), wilted: false, undoPending: true };
     this.state.undoPlacement = { kind: 'flower', key: k, flower, cost: 0, free: true, expiresAt: Date.now() + 10000 };
     this.save();
