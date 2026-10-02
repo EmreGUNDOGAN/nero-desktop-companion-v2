@@ -9,12 +9,12 @@ test('6.4.1 depot shows harvested beekeeping materials', () => {
   const js = fs.readFileSync(path.join(root, 'src/renderer/bee/bee.js'), 'utf8');
   const css = fs.readFileSync(path.join(root, 'src/renderer/bee/bee.css'), 'utf8');
 
-  assert.match(html, /id="depot-materials"/);
-  assert.match(html, /Arıcılık Malzemeleri/);
+  assert.match(html, /id="warehouse-modal"/);
+  assert.match(html, /data-warehouse-tab="apiary"/);
   assert.match(js, /view\.materials/);
   assert.match(js, /Propolis/);
   assert.match(js, /Arı Sütü/);
-  assert.match(css, /\.depot-material/);
+  assert.match(css, /\.warehouse-card/);
 });
 
 test('6.4.1 regression runs on 6.4.1 or newer', () => {
