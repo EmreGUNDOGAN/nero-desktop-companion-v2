@@ -1480,6 +1480,7 @@ class BeeGame {
   }
 
   makeCandle() {
+    if (this.workshopUnlocked()) return this.enqueueWorkshop('candle');
     const fx = this.state.merchantEffects || {};
     const waxNeed = (fx.waxPressUses || 0) > 0 ? 0.3 : CANDLE_WAX;
     if (this.state.wax + 1e-6 < waxNeed) return this.fail(`Mum için ${Math.round(waxNeed * 1000)} g balmumu gerekli (${Math.round(this.state.wax * 1000)} g var).`);
@@ -2915,6 +2916,7 @@ class BeeGame {
     for (const [f, kg] of Object.entries(this.state.storage)) v += kg * this.price(f);
     for (const h of Object.values(this.state.hives)) v += this.hiveValue(h) + this.hiveTotal(h) * this.price('yonca') * 0.5;
     v += (this.state.tilesBought || 0) * 20 + (this.state.candles || 0) * this.candlePrice();
+    for (const p of this.workshopProductsView()) if (p.sellValue) v += p.count * p.sellValue;
     return Math.round(v);
   }
 
@@ -3360,9 +3362,15 @@ class BeeGame {
     const wax = moved * WAX_PER_KG * (glove ? 1.5 : 1);
     if (glove) fx.waxGloveHarvests -= 1;
     this.state.wax += wax;
+    const byproducts = this.transferHarvestByproducts(hive, scale);
     this.recordHarvest(hive, moved, scale);
     this.save();
-    return { ok: true, msg: `+${moved.toFixed(1)} kg bal depoya eklendi (+${Math.round(wax * 1000)} g balmumu).`, kg: moved };
+    const side = [
+      byproducts.pollen >= 0.1 ? Math.round(byproducts.pollen) + ' g polen' : '',
+      byproducts.propolis >= 0.1 ? Math.round(byproducts.propolis) + ' g propolis' : '',
+      byproducts.royalJelly >= 0.05 ? (Math.round(byproducts.royalJelly * 10) / 10) + ' g arı sütü' : ''
+    ].filter(Boolean);
+    return { ok: true, msg: `+${moved.toFixed(1)} kg bal depoya eklendi (+${Math.round(wax * 1000)} g balmumu)${side.length ? ' · ' + side.join(' · ') : ''}.`, kg: moved, byproducts };
   }
 
   harvestAll() {
@@ -3399,6 +3407,7 @@ class BeeGame {
         ratePerHour: Object.values(rates).reduce((a, b) => a + b, 0),
         productionEffects: this.hiveProductionEffects(h.id),
         ecosystem: this.hiveEcosystem(h.id),
+        byproductProfile: this.byproductProfile(h.id),
         near: this.flowersNear(this.hiveTileKey(h.id) || '0,0'),
         queenName: QUEEN_NAMES[h.queens] || QUEEN_NAMES[0],
         nextQueenName: QUEEN_NAMES[h.queens + 1] || null,
@@ -3456,6 +3465,12 @@ class BeeGame {
       candles: this.state.candles,
       candleWax: (this.state.merchantEffects && this.state.merchantEffects.waxPressUses > 0) ? 0.3 : CANDLE_WAX,
       candlePrice: this.candlePrice(),
+      materials: {
+        pollen: Math.round((this.state.materials.pollen || 0) * 10) / 10,
+        propolis: Math.round((this.state.materials.propolis || 0) * 10) / 10,
+        royalJelly: Math.round((this.state.materials.royalJelly || 0) * 10) / 10
+      },
+      workshop: this.workshopView(),
       festival: { open: this.festivalOpen(), promptDue: this.festivalPromptDue(), entry: this.state.festival.entry, cups: this.state.festival.cups,
         results: this.state.festival.results || [], nextInDays: DAYS_PER_SEASON - this.calendar().day + 1,
         nextSeason: SEASON_NAMES[this.calendar().season], maxKg: FESTIVAL_MAX_KG,
