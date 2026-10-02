@@ -465,7 +465,7 @@ Oyun Nero'nun asıl amacıyla bağlantılı: **sen çalıştıkça çiftlik büy
 | 37 | 💎 Seyyah Satış Fişi | Yakup'a satışta en fazla 10 kg'a ek +%10 ödeme | 40 |
 | 38 | 🔄 Stok Değişim Jetonu | Henüz alınmamış bir Yakup teklifini yeniden çeker | 45 |
 
-- Ayrıca her ziyarette **bir bal türü arar** ve o baldan 10 kg'a kadar **pazarın %20 üstüne** satın alır.
+- Ayrıca her ziyarette **bir bal türü arar** ve o baldan 10 kg'a kadar **pazarın %15 üstüne** satın alır.
 
 **📖 Köylü hikâyeleri**
 - Sekiz köylünün 3 adımlık bir hikâyesi var. O köylüyle **ilişkin %50'yi geçince** açılır.
@@ -626,3 +626,8 @@ Toplam puan 1000'dir: **Bal Kalitesi 400 + Arıcılık 250 + Üretim 200 + Köy 
 Örnek: Sonbaharda 10 kg Kestane balı = 110 + 150 + 160 + 45 = 465; kategori 400'de sınırlandığı için **400/400**.
 
 İlk üç ödülü 300 / 200 / 100 🪙 ve Altın / Gümüş / Bronz Kupa'dır. Altın Kupa gelecek yıl aynı mevsimde +%20 bal üretimi sağlar. Rakipler aynı formülü kullanmaz; kendi simüle edilen çiftlik değerleri ve kontrollü mevsimsel değişkenlikle puan üretir.
+
+
+### Haritadaki Arıcılık Atölyesi (6.5.0)
+
+Arıcılık Atölyesi çiftliğin yanında **oyunun başından itibaren fiziksel bir bina olarak** görünür ve bulunduğu kare başka yerleştirmelere kapalıdır. Mumcu henüz köye gelmediyse bina tıklanabilir ama panel **kilitli** durumdadır ve açılma şartını gösterir. Mumcu geldiğinde aynı bina aktif hale gelir; ilerleyen köy yapıları yeni tarifleri ve seviyeleri açar. Atölyenin tamamladığı ürünler doğrudan **Depo → Ürünler** sekmesine gider.
