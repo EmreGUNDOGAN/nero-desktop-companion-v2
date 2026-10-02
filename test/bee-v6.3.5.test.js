@@ -22,7 +22,7 @@ test('6.3.5 winter loss can never reduce a player hive below four bees', () => {
   assert.equal(hive.bees, 4);
 });
 
-test('6.3.5 merchant pays exactly twenty percent above current market price', () => {
+test('merchant premium follows current approved fifteen percent balance', () => {
   const bee = start();
   const flower = 'yonca';
   bee.state.merchant.active = true;
@@ -32,11 +32,11 @@ test('6.3.5 merchant pays exactly twenty percent above current market price', ()
   bee.state.merchant.stock = [];
   bee.state.storage[flower] = 1;
   const base = bee.price(flower);
-  assert.equal(bee.merchantView().wantsPrice, Math.round(base * 1.2 * 10) / 10);
+  assert.equal(bee.merchantView().wantsPrice, Math.round(base * 1.15 * 10) / 10);
   const before = bee.state.coins;
   const result = bee.merchantSell(1);
   assert.equal(result.ok, true);
-  assert.equal(bee.state.coins - before, Math.round(base * 1.2));
+  assert.equal(bee.state.coins - before, Math.round(base * 1.15));
 });
 
 test('6.3.5 beekeeping UI uses canonical unclothed animated Nero and centered harvest button', () => {
