@@ -788,6 +788,64 @@ kbd { display: inline-block; min-width: 22px; text-align: center; background: va
 .future-panel p { margin: 8px 0; font-size: 12.5px; font-weight: 700; line-height: 1.5; }
 .future-panel small { color: #8C7756; font-weight: 700; line-height: 1.4; }
 
+
+.byproduct-head {
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
+  background: #FFF8E8; border: 1px solid #E8D5AC; border-radius: 14px; padding: 12px 14px;
+}
+.byproduct-head b { font-family: "Fraunces", Georgia, serif; font-size: 17px; }
+.byproduct-head p { margin: 3px 0 0; color: #725D3E; font-size: 11.5px; font-weight: 700; line-height: 1.4; }
+.byproduct-head > small { max-width: 190px; color: #8A7658; font-size: 10.5px; font-weight: 800; text-align: right; }
+.byproduct-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 8px; }
+.byproduct-card { background: #fff; border: 1px solid #E7DCC5; border-radius: 14px; padding: 11px; box-shadow: 0 2px 6px rgba(74,58,34,.06); }
+.byproduct-card header { display: flex; align-items: center; justify-content: space-between; gap: 6px; }
+.byproduct-card header b { font-size: 13px; }
+.byproduct-card header span { font-size: 10px; font-weight: 900; color: #6A875D; background: #EAF2E3; border-radius: 999px; padding: 3px 7px; }
+.byproduct-card .by-amount { display: block; margin-top: 8px; font-size: 20px; font-weight: 900; color: #4A3A22; }
+.byproduct-card .by-rate { display: block; margin-top: 2px; color: #6A875D; font-size: 11px; font-weight: 900; }
+.byproduct-card p { margin: 7px 0 0; color: #7B684A; font-size: 10.5px; font-weight: 700; line-height: 1.35; }
+
+.workshop-open { margin-top: 2px; }
+.workshop-card { width: min(920px, 94vw); max-height: 92vh; background: #FFF9ED; }
+.workshop-card > .modal-head { position: sticky; top: -20px; z-index: 3; margin: -20px -20px 12px; padding: 18px 20px 10px; background: linear-gradient(180deg,#FFF9ED 88%,rgba(255,249,237,.92)); }
+.workshop-materials { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 8px; margin-bottom: 12px; }
+.workshop-material { background: #fff; border: 1px solid #E7D8B9; border-radius: 13px; padding: 10px 12px; }
+.workshop-material small { display: block; color: #806C4D; font-size: 10.5px; font-weight: 800; }
+.workshop-material b { display: block; margin-top: 2px; font-size: 17px; }
+.workshop-jobs { margin-bottom: 14px; }
+.workshop-section-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 10px 0 7px; }
+.workshop-section-head b { font-family: "Fraunces", Georgia, serif; font-size: 16px; }
+.workshop-section-head small { color: #806C4D; font-weight: 700; font-size: 10.5px; }
+.workshop-active-grid, .workshop-queue-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap: 7px; }
+.workshop-job { background: #fff; border: 1px solid #E5D6B7; border-radius: 12px; padding: 10px; }
+.workshop-job b { display: block; font-size: 12.5px; }
+.workshop-job small { display: block; color: #806C4D; font-size: 10.5px; font-weight: 700; margin-top: 2px; }
+.workshop-job .bar { height: 7px; margin-top: 7px; }
+.workshop-recipes { display: grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap: 8px; }
+.workshop-recipe { background: #fff; border: 1px solid #E7D9BC; border-radius: 14px; padding: 11px; display: flex; flex-direction: column; gap: 6px; }
+.workshop-recipe.locked { background: #F2ECDD; opacity: .75; }
+.workshop-recipe header { display: flex; align-items: center; gap: 8px; }
+.workshop-recipe header span { font-size: 23px; }
+.workshop-recipe header b { font-size: 13px; }
+.workshop-recipe p { margin: 0; min-height: 31px; color: #786448; font-size: 10.5px; font-weight: 700; line-height: 1.35; }
+.workshop-ingredients { display: flex; flex-wrap: wrap; gap: 4px; }
+.workshop-ingredients span { border-radius: 999px; padding: 3px 7px; background: #F4ECD9; color: #745F40; font-size: 9.5px; font-weight: 900; }
+.workshop-ingredients span.miss { background: #F7E0DC; color: #9B514B; }
+.workshop-recipe button, .workshop-product button { border: 0; border-radius: 9px; padding: 7px 9px; font-weight: 900; font-size: 10.5px; background: #F2B33D; color: #fff; }
+.workshop-recipe button:disabled, .workshop-product button:disabled { opacity: .45; cursor: not-allowed; }
+.workshop-products { display: grid; grid-template-columns: repeat(auto-fit,minmax(230px,1fr)); gap: 8px; }
+.workshop-product { background: #fff; border: 1px solid #E5D6B7; border-radius: 13px; padding: 10px; }
+.workshop-product b { display: block; font-size: 12.5px; }
+.workshop-product small { display: block; color: #806C4D; font-size: 10.5px; margin: 2px 0 7px; font-weight: 700; }
+.workshop-product .workshop-product-actions { display: flex; gap: 5px; align-items: center; }
+.workshop-product select { min-width: 0; flex: 1; border: 1px solid #D8C7A6; border-radius: 8px; padding: 6px; background: #FFFDF7; font-size: 10px; font-weight: 800; }
+.workshop-locked-note { background: #F3EBDD; border: 1px dashed #D4C19B; border-radius: 12px; padding: 14px; color: #796448; font-size: 12px; font-weight: 800; text-align: center; }
+
+@media (max-width: 760px) {
+  .byproduct-grid { grid-template-columns: 1fr; }
+  .workshop-materials { grid-template-columns: 1fr 1fr; }
+}
+
 .production-page-effects { margin-top: 8px; }
 .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .detail-grid .stat b { font-size: 15px; }
