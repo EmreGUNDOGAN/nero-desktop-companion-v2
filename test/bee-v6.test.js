@@ -114,6 +114,7 @@ test('ten-second undo expires and the placement becomes productive only after co
   const bee = start();
   const open = Object.entries(bee.state.tiles).find(([, t]) => t.owned && !t.item)[0];
   bee.state.coins = 1500;
+  bee.state.vouchers.yonca = 1;
   bee.plantSeed(open, 'yonca');
   const id = Object.keys(bee.state.hives)[0];
   assert.equal(bee.state.tiles[open].item.undoPending, true);
