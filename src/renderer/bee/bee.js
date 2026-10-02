@@ -2668,6 +2668,48 @@ function renderHive() {
   $('h-near').innerHTML = Object.entries(counts).map(([f, n]) => `<span>${esc(names[f].name)} ×${n}</span>`).join('')
     || '<span>Yakında çiçek yok, bal üretilmiyor!</span>';
 
+  const eco = h.ecosystem || { total: 0, typeCount: 0, counts: {}, dominant: null, dominantRatio: 0, productionBonus: 0, level: 'Yok', monoculture: false };
+  $('h-eco-level').textContent = eco.level;
+  $('h-eco-bonus').textContent = `+%${Math.round((eco.productionBonus || 0) * 100)}`;
+  $('h-eco-bonus').classList.toggle('active', !!eco.productionBonus);
+  $('h-eco-dominant').textContent = eco.dominant
+    ? `${names[eco.dominant]?.name || eco.dominant} · %${Math.round(eco.dominantRatio * 100)}`
+    : '—';
+  $('h-eco-mono').textContent = eco.monoculture ? 'Var · risk +%5' : 'Yok';
+  $('h-eco-mono').classList.toggle('warn', !!eco.monoculture);
+  $('h-eco-mono-note').textContent = eco.monoculture
+    ? 'En az 5 tarhın %80 veya fazlası aynı tür. Bal üretimi düşmez; doğal hastalık riski göreli %5 artar.'
+    : 'Çiçek dağılımı monokültür eşiğinde değil.';
+  if (!eco.total) $('h-eco-reason').textContent = 'Menzilde aktif çiçek yok.';
+  else if (eco.productionBonus >= 0.08) $('h-eco-reason').textContent = `${eco.typeCount} farklı tür dengeli dağıldı; yüksek biyoçeşitlilik aktif.`;
+  else if (eco.productionBonus >= 0.04) $('h-eco-reason').textContent = `${eco.typeCount} farklı tür dengeli dağıldı; orta biyoçeşitlilik aktif.`;
+  else if (eco.typeCount >= 2) $('h-eco-reason').textContent = 'Birden fazla tür var ancak dağılım bonus eşiği için yeterince dengeli değil.';
+  else $('h-eco-reason').textContent = 'Tek çiçek türü biyoçeşitlilik bonusu sağlamaz.';
+  $('h-eco-effects').innerHTML = [
+    eco.productionBonus ? `<span class="eco-effect buff">🌿 Bal üretimi <b>+%${Math.round(eco.productionBonus * 100)}</b></span>` : '<span class="eco-effect neutral">🌿 Biyoçeşitlilik üretim bonusu yok</span>',
+    eco.monoculture ? '<span class="eco-effect debuff">⚠️ Doğal hastalık riski <b>+%5</b></span>' : '<span class="eco-effect neutral">❤️ Ek hastalık riski yok</span>'
+  ].join('');
+
+  $('h-prod-main').textContent = `${h.ratePerHour.toFixed(1)} kg/sa`;
+  $('h-prod-eco').textContent = `+%${Math.round((eco.productionBonus || 0) * 100)}`;
+  const productionRows = h.productionEffects || [];
+  $('h-prod-list').innerHTML = productionRows.length
+    ? productionRows.map((e) => `<div class="prod-effect ${e.kind === 'debuff' ? 'debuff' : 'buff'}"><span>${esc(e.label)}${e.detail ? ` <small>· ${esc(e.detail)}</small>` : ''}</span><b>${esc(e.value)}</b></div>`).join('')
+    : '<div class="eco-effect neutral">Şu an ek bir buff veya debuff yok.</div>';
+
+  $('h-detail-queen').textContent = h.queenName;
+  $('h-detail-breed').textContent = (view.breeds[h.breed] || view.breeds.anadolu).name;
+  $('h-detail-bees').textContent = `${h.bees} / ${h.capBees}`;
+  $('h-detail-honey').textContent = `${h.total.toFixed(1)} / ${h.capKg} kg`;
+  $('h-detail-feed').textContent = `${h.feedDays} gün`;
+  $('h-detail-health').textContent = h.sick ? 'Hasta' : h.immuneDays > 0 ? `Sağlıklı · ${h.immuneDays} gün bağışık` : 'Sağlıklı';
+  const meadow = $('hive-meadow');
+  if (meadow) {
+    meadow.classList.toggle('eco-mid', eco.productionBonus === 0.04);
+    meadow.classList.toggle('eco-high', eco.productionBonus >= 0.08);
+    meadow.classList.toggle('eco-mono', !!eco.monoculture);
+  }
+
   const br = view.breeds[h.breed] || view.breeds.anadolu;
   $('h-breed').textContent = br.name;
   $('h-breed-desc').textContent = br.desc;
