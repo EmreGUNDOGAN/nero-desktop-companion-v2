@@ -2399,7 +2399,7 @@ function marketEffectTip(m) {
 
 function renderMarket(force = false) {
   if (!marketOpen || !view) return;
-  const sig = JSON.stringify([view.market, view.marketForecast, view.storage, Math.floor(view.coins), view.storageCap, view.marketEvent, view.calendar.season, view.wax, view.candles, view.festival]);
+  const sig = JSON.stringify([view.market, view.marketForecast, view.storage, view.materials, Math.floor(view.coins), view.storageCap, view.marketEvent, view.calendar.season, view.wax, view.candles, view.festival]);
   if (!force && sig === marketSig) return;
   marketSig = sig;
   const season = view.calendar.season;
@@ -2450,6 +2450,12 @@ function renderMarket(force = false) {
   $('depot-list').innerHTML = rows.length
     ? rows.map(([f, v]) => `<li><i style="background:${view.flowers[f].color}"></i><span>${esc(view.flowers[f].name)} Balı</span><b>${v.toFixed(1)} kg</b></li>`).join('')
     : '<li class="empty">Depo boş. Kovanlarını hasat et.</li>';
+  const mats = view.materials || { pollen: 0, propolis: 0, royalJelly: 0 };
+  $('depot-materials').innerHTML = [
+    ['🌼', 'Polen', mats.pollen || 0],
+    ['🛡️', 'Propolis', mats.propolis || 0],
+    ['🥛', 'Arı Sütü', mats.royalJelly || 0]
+  ].map(([icon, name, value]) => `<div class="depot-material"><span>${icon} ${name}</span><b>${Number(value).toLocaleString('tr-TR', { maximumFractionDigits: 1 })} g</b></div>`).join('');
   $('wax-info').textContent = `${Math.round(view.wax * 1000)} g balmumu · ${view.candles} mum · mum ${view.candlePrice} 🪙`;
   const mc = $('make-candle');
   mc.innerHTML = view.workshop && view.workshop.unlocked
