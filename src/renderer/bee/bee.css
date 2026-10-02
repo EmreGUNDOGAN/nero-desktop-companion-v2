@@ -366,6 +366,14 @@ body.season-kis { background: linear-gradient(180deg, #C9D8E8 0%, #EAF1F8 55%, #
 .breed-opts button.on { background: var(--amber); color: #fff; }
 .breed-opts button:disabled:not(.on) { opacity: .45; }
 
+/* ---------- Arıcılık malzemeleri ---------- */
+.materials-box { margin-top: 8px; background: #fff; border-radius: 14px; padding: 12px; display: grid; gap: 7px; }
+.materials-box > b { font-size: 13.5px; }
+.materials-box > small { color: var(--muted); font-size: 10.5px; line-height: 1.35; font-weight: 700; }
+.depot-materials { display: grid; gap: 5px; }
+.depot-material { display: flex; align-items: center; justify-content: space-between; gap: 10px; background: var(--card2); border-radius: 10px; padding: 7px 9px; font-size: 12px; font-weight: 800; }
+.depot-material b { color: var(--ink); white-space: nowrap; }
+
 /* ---------- Balmumu ---------- */
 .wax-box { margin-top: 10px; background: #fff; border-radius: 14px; padding: 12px; display: flex; flex-direction: column; gap: 4px; }
 .wax-box p { margin: 0 0 4px; font-size: 12.5px; font-weight: 700; color: var(--muted); }
