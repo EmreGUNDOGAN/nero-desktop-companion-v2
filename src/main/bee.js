@@ -93,7 +93,7 @@ const SICK_DEATH_DIVISOR = 3;              // vaka başına başlangıç arılar
 const BEE_PRICE_BASE_NUMBER = 5;           // yeni kovanın satın alınabilen ilk arısı: 5. arı
 const BEE_PRICE_BASE = 60;
 const BEE_PRICE_GROWTH = 1.15;             // her sonraki arı %15 daha pahalı
-const MERCHANT_HONEY_MULT = 1.20;          // Seyyah Yakup balı pazarın %20 üstüne alır
+const MERCHANT_HONEY_MULT = 1.15;          // Seyyah Yakup balı pazarın %15 üstüne alır
 const REVIVE_RATE = 0.1;                  // solan çiçeği canlandırmak: tohum fiyatının %10'u
 const REJECT_REL = 0.2;                   // reddetmek ilişkiyi %2 azaltır (1 teslim = %10)
 const NOTIF_KEEP = 20;
@@ -234,6 +234,7 @@ const CANDLE_PRICE = 45;
 // Yan ürünler gram cinsinden tutulur ve hasat tıklamasından değil, gerçek bal üretiminden doğar.
 const BYPRODUCT_G_PER_KG = { pollen: 8, propolis: 2.5, royalJelly: 0.4 };
 const WORKSHOP_UNLOCK = { basic: 30, pharmacy: 44, advanced: 53, greenhouse: 73, museum: 78 };
+const WORKSHOP_TILE = '-1,2';              // 6.5.0: kullanıcının işaretlediği sabit Atölye karesi
 const WORKSHOP_PRODUCT_NAMES = {
   propolisShield: 'Propolis Kalkanı',
   propolisOintment: 'Propolis Merhemi',
@@ -321,6 +322,13 @@ function makeIsland() {
     tiles[k].kind = 'festival'; tiles[k].owned = false; tiles[k].tree = false;
   }
   tiles['-2,1'].kind = 'storage';
+  if (tiles[WORKSHOP_TILE]) {
+    tiles[WORKSHOP_TILE].kind = 'workshop';
+    tiles[WORKSHOP_TILE].owned = false;
+    tiles[WORKSHOP_TILE].tree = false;
+    tiles[WORKSHOP_TILE].decor = null;
+    tiles[WORKSHOP_TILE].item = null;
+  }
   return tiles;
 }
 
@@ -372,6 +380,7 @@ function freshState() {
     marketLocks: {},
     customers: {},
     vouchers: {},
+    decorInventory: {},
     wax: 0,
     candles: 0,
     materials: { pollen: 0, propolis: 0, royalJelly: 0 },
@@ -423,6 +432,7 @@ class BeeGame {
       this.state.tiles[storeTile].kind = 'storage';
       this.state.tiles[storeTile].owned = false;
     }
+    this.reserveWorkshopTile();
     this.state.keeper = this.state.keeper || { queue: [], job: null };
     if (!this.state.keeper.job) this.state.keeper.carrying = false;
     if (!Number.isInteger(this.state.hivesPurchased)) this.state.hivesPurchased = Math.max(0, Object.keys(this.state.hives).length - 1);
@@ -453,6 +463,7 @@ class BeeGame {
     this.state.focusDaily = this.state.focusDaily || { day: '', earnedMs: 0 };
     this.state.todoRewardDaily = this.state.todoRewardDaily || { day: '', count: 0, limitNotified: false };
     this.state.materials = { pollen: 0, propolis: 0, royalJelly: 0, ...(this.state.materials || {}) };
+    this.state.decorInventory = { ...(this.state.decorInventory || {}) };
     this.state.workshop = this.state.workshop || {};
     this.state.workshop.active = Array.isArray(this.state.workshop.active) ? this.state.workshop.active : [];
     this.state.workshop.queue = Array.isArray(this.state.workshop.queue) ? this.state.workshop.queue : [];
@@ -574,6 +585,33 @@ class BeeGame {
       seasonName: SEASON_NAMES[season],
       dayProgress: (this.state.gameMs % DAY_GAME_MS) / DAY_GAME_MS
     };
+  }
+
+  // 6.5.0 — Atölye için sabit kareyi koru. Eski kayıtta oyuncu bu kareyi kullandıysa
+  // içerik kaybolmaz; en yakın boş arazi karesine taşınır.
+  reserveWorkshopTile() {
+    const tile = this.state.tiles && this.state.tiles[WORKSHOP_TILE];
+    if (!tile) return false;
+    const [wq, wr] = parse(WORKSHOP_TILE);
+    const occupied = !!tile.item || !!tile.decor;
+    if (occupied) {
+      let choices = Object.entries(this.state.tiles)
+        .filter(([k, t]) => k !== WORKSHOP_TILE && t.kind === 'grass' && !t.item && !t.decor && !t.tree)
+        .map(([k, t]) => ({ k, t, d: hexDist(t.q - wq, t.r - wr), owned: !!t.owned }))
+        .sort((a, b) => Number(b.owned) - Number(a.owned) || a.d - b.d);
+      const dst = choices[0];
+      if (dst) {
+        dst.t.item = tile.item || null;
+        dst.t.decor = tile.decor || null;
+        if (!dst.t.owned) dst.t.owned = true;
+      }
+    }
+    tile.item = null;
+    tile.decor = null;
+    tile.tree = false;
+    tile.kind = 'workshop';
+    tile.owned = false;
+    return true;
   }
 
   // --- Üretim ---------------------------------------------------------------
@@ -1072,29 +1110,40 @@ class BeeGame {
     return 0;
   }
 
-  placeDecor(k, id) {
-    const t = this.state.tiles[k];
+  buyDecor(id) {
     const d = DECOR[id];
     if (!d || d.prize) return this.fail('Bu dekor satılmıyor.');
-    if (!t || !t.owned || t.kind !== 'grass') return this.fail('Dekor sadece adandaki karelere konur.');
-    if (t.decor) return this.fail('Bu karede zaten bir dekor var.');
     const cost = this.decorCost(id);
     if (this.state.coins < cost) return this.fail(`Yeterli jeton yok (${cost} gerekli).`);
     this.state.coins -= cost;
+    this.state.decorInventory[id] = (this.state.decorInventory[id] || 0) + 1;
+    this.save();
+    return { ok: true, msg: `${d.name} satın alındı ve Depo'ya gönderildi (-${cost} 🪙).` };
+  }
+
+  placeDecor(k, id) {
+    const t = this.state.tiles[k];
+    const d = DECOR[id];
+    if (!d || d.prize) return this.fail('Bu dekor yerleştirilemez.');
+    if (!t || !t.owned || t.kind !== 'grass') return this.fail('Dekor sadece adandaki karelere konur.');
+    if (t.decor) return this.fail('Bu karede zaten bir dekor var.');
+    if ((this.state.decorInventory[id] || 0) < 1) return this.fail('Bu dekor Depo envanterinde yok.');
+    this.state.decorInventory[id] -= 1;
+    if (this.state.decorInventory[id] <= 0) delete this.state.decorInventory[id];
     t.decor = id;
     this.save();
-    return { ok: true, msg: `${d.name} yerleştirildi (-${cost} 🪙).` };
+    return { ok: true, msg: `${d.name} Depo'dan alınıp yerleştirildi.` };
   }
 
   removeDecor(k) {
     const t = this.state.tiles[k];
     if (!t || !t.decor) return this.fail('Burada dekor yok.');
-    const d = DECOR[t.decor];
-    const back = Math.floor((d ? d.cost : 0) / 2);
-    this.state.coins += back;
+    const id = t.decor;
+    const d = DECOR[id];
+    this.state.decorInventory[id] = (this.state.decorInventory[id] || 0) + 1;
     t.decor = null;
     this.save();
-    return { ok: true, msg: `Dekor kaldırıldı (+${back} 🪙).` };
+    return { ok: true, msg: `${d ? d.name : 'Dekor'} Depo'ya kaldırıldı.` };
   }
 
   // --- 4) Mevsim turnuvaları ---------------------------------------------------
@@ -1370,7 +1419,7 @@ class BeeGame {
       this.state.candles += recipe.outputCount; this.state.ledger.candlesMade += recipe.outputCount; this.questEvent('candleMake');
     } else p[job.recipe] = (p[job.recipe] || 0) + recipe.outputCount;
     this.state.workshop.craftedOnce[job.recipe === 'premiumJar' ? 'premiumJar:' + job.flower : job.recipe] = true;
-    this.events.push({ msg: '🔨 Atölye tamamladı: ' + recipe.outputCount + ' × ' + recipe.name + '.' });
+    this.events.push({ msg: '🔨 Atölye tamamladı: ' + recipe.outputCount + ' × ' + recipe.name + ' · ürün Depo'ya gönderildi.' });
   }
 
   processWorkshop(gameDt) {
@@ -3289,14 +3338,13 @@ class BeeGame {
     const def = FLOWERS[flower];
     if (!def) return this.fail('Bilinmeyen tohum.');
     if (!t || !t.owned || t.item || t.kind !== 'grass') return this.fail('Buraya tohum ekilemez.');
-    const free = (this.state.vouchers[flower] || 0) > 0;
-    const seedCost = this.seedCost(flower);
-    if (!free && this.state.coins < seedCost) return this.fail(`Yeterli jeton yok (${seedCost} gerekli).`);
-    if (free) this.state.vouchers[flower] -= 1; else this.state.coins -= seedCost;
+    if ((this.state.vouchers[flower] || 0) < 1) return this.fail(`${def.name} tohumu Depo'da yok. Önce Mağaza'dan satın al.`);
+    this.state.vouchers[flower] -= 1;
+    if (this.state.vouchers[flower] <= 0) delete this.state.vouchers[flower];
     t.item = { type: 'flower', flower, plantedDay: this.dayIndex(), wilted: false, undoPending: true };
-    this.state.undoPlacement = { kind: 'flower', key: k, flower, cost: free ? 0 : seedCost, free, expiresAt: Date.now() + 10000 };
+    this.state.undoPlacement = { kind: 'flower', key: k, flower, cost: 0, free: true, expiresAt: Date.now() + 10000 };
     this.save();
-    return { ok: true, msg: free ? `${def.name} hediye tohumla ekildi 🎁` : `${def.name} ekildi (-${seedCost} 🪙).` };
+    return { ok: true, msg: `${def.name} tohumu Depo'dan alınıp ekildi 🌱` };
   }
 
   replant(k) {
