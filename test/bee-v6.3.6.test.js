@@ -45,7 +45,7 @@ test('6.3.6 production effects expose the real live multipliers', () => {
   assert.equal(byLabel['🌧️ Yağmurlu hava'].mult, 0.6);
   assert.equal(byLabel['🐝 Anadolu arısı'].mult, 1.1);
   assert.equal(byLabel['🤒 Hasta kovan'].mult, 0.7);
-  assert.equal(byLabel['🎯 Odak bonusu'].mult, 1.25);
+  assert.equal(byLabel['🎯 Odak bonusu'].mult, 1.10);
   assert.equal(byLabel['💊 Arı vitamini'].mult, 1.15);
   const viewHive = bee.view().hives[hive.id];
   assert.ok(Array.isArray(viewHive.productionEffects));
