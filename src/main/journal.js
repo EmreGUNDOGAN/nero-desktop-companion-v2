@@ -102,7 +102,7 @@ class Journal {
   }
 
   // Verilen takvim ayını 28/29/30/31 günün tamamıyla döndürür.
-  month(key) {
+  month(key, now = new Date()) {
     const match = /^(\d{4})-(\d{2})$/.exec(String(key || ''));
     if (!match) return [];
     const year = Number(match[1]);
@@ -114,7 +114,7 @@ class Journal {
     for (let dayNum = 1; dayNum <= count; dayNum++) {
       const date = `${year}-${String(month).padStart(2, '0')}-${String(dayNum).padStart(2, '0')}`;
       const row = data.days[date];
-      const avg = this._dayFinalValue(row, date);
+      const avg = this._dayFinalValue(row, date, now);
       const bucket = avg === null ? null : moodBucket(avg);
       out.push({ day: dayNum, date, avg, cls: bucket ? bucket.cls : null, label: bucket ? bucket.label : null });
     }
