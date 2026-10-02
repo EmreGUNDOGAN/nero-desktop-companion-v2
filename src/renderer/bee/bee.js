@@ -2495,6 +2495,89 @@ $('fest-box').addEventListener('click', (e) => {
   doAct('enterFestival', $('fest-flower').value, Number($('fest-kg').value));
 });
 
+
+let workshopOpen = false;
+let workshopSig = '';
+function openWorkshop() {
+  workshopOpen = true;
+  $('workshop-modal').hidden = false;
+  renderWorkshop(true);
+}
+function closeWorkshop() { workshopOpen = false; $('workshop-modal').hidden = true; }
+$('open-workshop').addEventListener('click', openWorkshop);
+$('workshop-close').addEventListener('click', closeWorkshop);
+$('workshop-modal').addEventListener('click', (e) => { if (e.target === $('workshop-modal')) closeWorkshop(); });
+
+function workshopTime(ms) {
+  const days = view && view.dayMs ? ms / view.dayMs : 0;
+  return days < 1 ? Math.round(days * 24) + ' oyun saati' : (Math.round(days * 10) / 10).toLocaleString('tr-TR') + ' oyun günü';
+}
+
+function renderWorkshop(force = false) {
+  if (!workshopOpen || !view || !view.workshop) return;
+  const w = view.workshop;
+  const sig = JSON.stringify([w, view.hives, view.storage, view.wax, view.coins]);
+  if (!force && sig === workshopSig) return;
+  workshopSig = sig;
+
+  $('workshop-sub').textContent = w.unlocked ? w.unlockText : 'Mumcu köye geldiğinde açılır. Yan ürünler o zamana kadar kovanlarda birikmeye devam eder.';
+  $('workshop-materials').innerHTML =
+    '<div class="workshop-material"><small>🕯️ Balmumu</small><b>' + Math.round(view.wax * 1000).toLocaleString('tr-TR') + ' g</b></div>' +
+    '<div class="workshop-material"><small>🌼 Polen</small><b>' + (w.materials.pollen || 0).toLocaleString('tr-TR') + ' g</b></div>' +
+    '<div class="workshop-material"><small>🛡️ Propolis</small><b>' + (w.materials.propolis || 0).toLocaleString('tr-TR') + ' g</b></div>' +
+    '<div class="workshop-material"><small>🥛 Arı Sütü</small><b>' + (w.materials.royalJelly || 0).toLocaleString('tr-TR') + ' g</b></div>';
+  $('workshop-slots').textContent = w.unlocked ? w.activeSlots + ' aktif yuva · ' + w.queueCap + ' bekleme sırası' : 'Kilitli';
+
+  const job = (x, queued) => '<div class="workshop-job"><b>' + (queued ? '⏳ ' : '🔨 ') + esc(x.name) + '</b>' +
+    '<small>' + (queued ? 'Sırada bekliyor' : 'Kalan: ' + workshopTime(x.remainingMs || 0)) + '</small>' +
+    (queued ? '' : '<div class="bar"><b style="width:' + Math.max(0, Math.min(100, Math.round((x.progress || 0) * 100))) + '%"></b></div>') + '</div>';
+  $('workshop-active').innerHTML = w.unlocked
+    ? '<div class="workshop-active-grid">' + (w.active.length ? w.active.map((x) => job(x, false)).join('') : '<div class="workshop-locked-note">Aktif üretim yok.</div>') + '</div>'
+    : '<div class="workshop-locked-note">🔒 Atölye henüz açılmadı.</div>';
+  $('workshop-queue').innerHTML = w.unlocked && w.queue.length
+    ? '<div class="workshop-section-head"><b>Bekleyenler</b><small>' + w.queue.length + ' / ' + w.queueCap + '</small></div><div class="workshop-queue-grid">' + w.queue.map((x) => job(x, true)).join('') + '</div>'
+    : '';
+
+  $('workshop-recipes').innerHTML = (w.recipes || []).map((recipe) => {
+    const missing = (recipe.ingredients || []).some((x) => !x.ok);
+    const chips = (recipe.ingredients || []).map((x) =>
+      '<span class="' + (x.ok ? '' : 'miss') + '">' + esc(x.label) + ' ' + (Math.round(x.have * 10) / 10).toLocaleString('tr-TR') + '/' + x.need + ' ' + x.unit + '</span>').join('');
+    const locked = !recipe.unlock;
+    return '<article class="workshop-recipe' + (locked ? ' locked' : '') + '">' +
+      '<header><span>' + esc(recipe.icon || '🔨') + '</span><b>' + esc(recipe.name || 'Tarif') + '</b></header>' +
+      '<p>' + esc(locked ? (recipe.lockedReason || 'Henüz açılmadı.') : recipe.desc || '') + '</p>' +
+      '<div class="workshop-ingredients">' + chips + '</div>' +
+      '<button type="button" data-workshop-recipe="' + esc(recipe.id) + '"' + (recipe.flower ? ' data-workshop-flower="' + esc(recipe.flower) + '"' : '') +
+      ((locked || missing) ? ' disabled' : '') + '>Üret · ' + workshopTime(recipe.durationMs || 0) + '</button></article>';
+  }).join('');
+
+  const hiveOpts = Object.values(view.hives).map((h) => '<option value="' + esc(h.id) + '">' + esc(h.name) + ' · ' + h.bees + '/' + h.capBees + ' arı</option>').join('');
+  $('workshop-products').innerHTML = (w.products || []).length ? w.products.map((p) => {
+    const utility = p.kind === 'utility';
+    const actions = utility
+      ? '<div class="workshop-product-actions"><select data-workshop-hive-for="' + esc(p.key) + '">' + hiveOpts + '</select><button type="button" data-workshop-use="' + esc(p.key) + '">Kovana uygula</button></div>'
+      : '<div class="workshop-product-actions"><button type="button" data-workshop-sell="' + esc(p.key) + '">Hepsini sat · +' + (p.count * p.sellValue).toLocaleString('tr-TR') + ' 🪙</button></div>';
+    return '<article class="workshop-product"><b>' + esc(p.name) + ' ×' + p.count + '</b><small>' +
+      (utility ? 'Kovana uygulanabilir işlenmiş ürün.' : 'Sabit atölye satış fiyatı: ' + p.sellValue + ' 🪙 / adet') +
+      '</small>' + actions + '</article>';
+  }).join('') : '<div class="workshop-locked-note">Henüz tamamlanmış ürün yok.</div>';
+}
+
+$('workshop-recipes').addEventListener('click', (e) => {
+  const b = e.target.closest('[data-workshop-recipe]');
+  if (!b || b.disabled) return;
+  doAct('workshopQueue', b.dataset.workshopRecipe, b.dataset.workshopFlower || null);
+});
+$('workshop-products').addEventListener('click', (e) => {
+  const use = e.target.closest('[data-workshop-use]');
+  const sell = e.target.closest('[data-workshop-sell]');
+  if (use) {
+    const keyName = use.dataset.workshopUse;
+    const sel = document.querySelector('[data-workshop-hive-for="' + CSS.escape(keyName) + '"]');
+    if (sel) doAct('workshopUse', keyName, sel.value);
+  } else if (sell) doAct('workshopSell', sell.dataset.workshopSell, 'all');
+});
+
 // ---------------------------------------------------------------------------
 // Kovanın içi: solda petek, sağda bilgi ve eylemler
 // ---------------------------------------------------------------------------
