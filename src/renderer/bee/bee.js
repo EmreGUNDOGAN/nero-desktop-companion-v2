@@ -1096,6 +1096,8 @@ function onTileClick(k, x, y) {
 }
 
 popup.addEventListener('click', async (e) => {
+  const workshop = e.target.closest('[data-workshop-open]');
+  if (workshop) { closePopup(); openWorkshop(); return; }
   const welcome = e.target.closest('[data-ezgi-welcome]');
   if (welcome) { await doAct('claimEzgiWelcome'); closePopup(); return; }
   const ezgiShop = e.target.closest('[data-ezgi-shop]');
@@ -1271,7 +1273,7 @@ for (const b of document.querySelectorAll('[data-soon]')) {
 let lastSpeed = 1;
 window.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
-    closePopup(); $('seed-modal').hidden = true; closeHive(); closeMarket(); closeOrders(); closeBoard(); closeShop();
+    closePopup(); $('seed-modal').hidden = true; closeHive(); closeMarket(); closeOrders(); closeBoard(); closeShop(); closeWorkshop();
     $('guide-modal').hidden = true; closeWhatsNew(); cancelPlacing(); closeLedger(); closeStats(); closeNotifs(); closeMerchant();
     $('settings-modal').hidden = true; $('hives-modal').hidden = true; $('keys-modal').hidden = true;
     return;
@@ -2450,8 +2452,14 @@ function renderMarket(force = false) {
     : '<li class="empty">Depo boş. Kovanlarını hasat et.</li>';
   $('wax-info').textContent = `${Math.round(view.wax * 1000)} g balmumu · ${view.candles} mum · mum ${view.candlePrice} 🪙`;
   const mc = $('make-candle');
-  mc.innerHTML = `Mum yap <small>${view.candleWax * 1000} g balmumu</small>`;
+  mc.innerHTML = view.workshop && view.workshop.unlocked
+    ? `Mumu atölyeye ekle <small>${view.candleWax * 1000} g balmumu</small>`
+    : `Mum yap <small>${view.candleWax * 1000} g balmumu</small>`;
   mc.disabled = view.wax + 1e-6 < view.candleWax;
+  const wb = $('open-workshop');
+  if (wb) wb.textContent = view.workshop && view.workshop.unlocked
+    ? `🔨 Arıcılık Atölyesi · Seviye ${view.workshop.level}`
+    : '🔒 Arıcılık Atölyesi · Mumcu ile açılır';
   const sc = $('sell-candles');
   sc.innerHTML = `Mumları sat <small>+${view.candles * view.candlePrice} 🪙</small>`;
   sc.disabled = view.candles < 1;
@@ -2901,7 +2909,7 @@ function applyView(v) {
   setTimeout(() => { if (view && view.merchant) renderMerchant(); }, 0);
   setTimeout(renderNotifs, 0);
   setTimeout(() => { if (view && view.village) buildVillage(); }, 0);
-  setTimeout(() => { renderQuests(); renderLedger(); renderStats(); }, 0);
+  setTimeout(() => { renderQuests(); renderLedger(); renderStats(); renderWorkshop(); }, 0);
   const first = !view;
   const prevWeather = prev && prev.weather ? prev.weather.id : null;
   const prevFestivalOpen = !!(prev && prev.festival && prev.festival.open);
@@ -3383,6 +3391,9 @@ function openVillagerPopup(n, x, y) {
   const welcome = isEzgi && view.ezgi && view.ezgi.welcomePending
     ? `<div class="ezgi-welcome"><b>🌷 Çiçekçi Ezgi</b><p class="sub">Merhaba! Buradaki arıları uzaktan beri izliyordum. Bu kadar çok bal üretildiğini görünce dükkânımı burada açmaya karar verdim. Sanırım bundan sonra çiçeklerle biraz daha fazla ilgileneceğiz.</p><b>🎁 Hoş Geldin Hediyesi</b><small>1 ücretsiz mevsimlik tohum paketi</small><div><button type="button" class="act primary small-act" data-ezgi-welcome>Hediyeyi Al</button></div></div>`
     : '';
+  const workshopLink = [30, 44, 53, 73, 78].includes(Number(r.n))
+    ? `<div style="margin-top:8px"><button type="button" class="act primary small-act" data-workshop-open>🔨 Arıcılık Atölyesi'ni aç</button></div>`
+    : '';
   openPopupAt(x, y, `
     <h3>${esc(r.name)}${hearts}</h3>
     <p class="sub">${kind} · ${esc(r.role)}</p>
@@ -3392,6 +3403,7 @@ function openVillagerPopup(n, x, y) {
       : `<p class="sub">✨ ${esc(r.effectText)}</p>`}
     ${welcome}
     ${isEzgi && !welcome ? choiceInfo : ''}
+    ${workshopLink}
     ${storyHtml(r.type === 'koylu' ? r.name : null, rel)}`);
 }
 
