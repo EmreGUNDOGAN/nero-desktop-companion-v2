@@ -209,6 +209,31 @@
     </div>
   </div>
 
+  <!-- Merkez Depo Envanteri -->
+  <div class="modal-bg" id="warehouse-modal" hidden>
+    <div class="modal card warehouse-card">
+      <div class="modal-head">
+        <div>
+          <h2>📦 Depo</h2>
+          <p class="modal-sub">Çiftliğinin fiziksel stokları burada tutulur.</p>
+        </div>
+        <button class="round small" id="warehouse-close" type="button" aria-label="Kapat">✕</button>
+      </div>
+      <div class="warehouse-capacity">
+        <div><small>🍯 Bal Kapasitesi</small><b id="warehouse-capacity-text">0 / 50 kg</b></div>
+        <div class="bar"><b id="warehouse-capacity-bar"></b></div>
+      </div>
+      <div class="warehouse-tabs" role="tablist" aria-label="Depo sekmeleri">
+        <button type="button" class="on" data-warehouse-tab="honey">🍯 Bal</button>
+        <button type="button" data-warehouse-tab="apiary">🌿 Arıcılık</button>
+        <button type="button" data-warehouse-tab="seeds">🌱 Tohumlar</button>
+        <button type="button" data-warehouse-tab="decor">🪴 Dekorlar</button>
+        <button type="button" data-warehouse-tab="products">🫙 Ürünler</button>
+      </div>
+      <div class="warehouse-body" id="warehouse-body"></div>
+    </div>
+  </div>
+
   <!-- Pazar ve Depo -->
   <div class="modal-bg" id="market-modal" hidden>
     <div class="market-card card">
@@ -236,11 +261,7 @@
         <div class="bar"><b id="d-bar"></b></div>
         <ul class="depot-list" id="depot-list"></ul>
         <button class="act" id="d-upgrade" type="button"></button>
-        <div class="materials-box">
-          <b>🌿 Arıcılık Malzemeleri</b>
-          <div class="depot-materials" id="depot-materials"></div>
-          <small>Polen, Propolis ve Arı Sütü bal deposu kapasitesini kullanmaz.</small>
-        </div>
+        <button class="act" id="open-warehouse-from-market" type="button">📦 Depo Envanterini Aç</button>
         <div class="wax-box">
           <b>🕯️ Balmumu ve mum</b>
           <p id="wax-info"></p>
@@ -439,8 +460,9 @@
 
         <details class="guide-topic">
           <summary>🧺 Hasat ve depo</summary>
-          <p>Hasat dediğinde arıcı evden kovana yürür, 5 saniye çalışır ve balı depoya taşır. “Hepsini Hasat Et” kovanları sıraya koyar. Depo doluysa hasat başlayamaz.</p>
-          <p>Depo 50 kg ile başlar; 100, 200, 400, 800, 1.500, 2.500, 4.000, 6.000 ve 10.000 kg kademelerine yükseltilebilir. Seyyah Yakup'un depo sandıkları bu kapasiteye ayrıca +10 kg ekler. Hasatta ayrıca balmumu çıkar; 500 g balmumundan bir mum yapılabilir.</p>
+          <p>Hasat dediğinde arıcı evden kovana yürür, 5 saniye çalışır ve balı depoya taşır. “Hepsini Hasat Et” kovanları sıraya koyar. Depo doluysa hasat başlayamaz. Haritadaki <b>Depo binasına tıklayarak</b> merkezi envanteri açabilirsin.</p>
+          <p>Depo artık 5 sekmelidir: <b>Bal · Arıcılık · Tohumlar · Dekorlar · Ürünler</b>. Yalnızca bal, kg kapasitesini kullanır. Polen, Propolis, Arı Sütü, balmumu, tohumlar, dekorlar ve Atölye ürünleri kendi stoklarında tutulur.</p>
+          <p>Bal kapasitesi 50 kg ile başlar; 100, 200, 400, 800, 1.500, 2.500, 4.000, 6.000 ve 10.000 kg kademelerine yükseltilebilir. Seyyah Yakup'un depo sandıkları bu kapasiteye ayrıca +10 kg ekler.</p>
         </details>
 
         <details class="guide-topic">
@@ -454,7 +476,7 @@
         <details class="guide-topic">
           <summary>💛 Köylüler, dekorlar ve uzun vadeli bonuslar</summary>
           <p>Aynı köylüye her 2 teslimde bir kalp kazanırsın. Her kalp o köylünün sipariş ödemesini <b>%2</b> artırır; 5 kalpte ilişki kaynaklı maksimum bonus <b>%10</b> olur. 2. ve 4. kalpte hediye tohum gelebilir.</p>
-          <p>Dekorların çoğu görseldir. <b>Çeşme</b> bulunduğu kare ve komşu tarhlara +%5 üretim verir; stratejik yerleştirmek değerlidir.</p>
+          <p>Dekorların çoğu görseldir. Mağazadan satın alınan dekor doğrudan haritaya değil <b>Depo → Dekorlar</b> sekmesine gider; buradan “Yerleştir” diyerek kullanırsın. Haritadan kaldırdığın dekor da satılmak yerine tekrar Depo'ya döner. <b>Çeşme</b> bulunduğu kare ve komşu tarhlara +%5 üretim verir.</p>
         </details>
 
         <details class="guide-topic">
