@@ -248,7 +248,7 @@ jobs:
           $wardrobeFiles = @(Get-ChildItem themes/default/assets/wardrobe -Recurse -File)
           if ($wardrobeFiles.Count -lt 2000) { throw "Wardrobe assets look incomplete: $($wardrobeFiles.Count) files" }
           $characterSource = Get-Content src/renderer/character/character.js -Raw
-          foreach ($rule in @('WardrobeRenderer','wardrobe:state','wardrobeOutfit')) {
+          foreach ($rule in @('NeroWardrobeRenderer','manifest.wardrobe','select(state.outfit)')) {
             if ($characterSource -notmatch [regex]::Escape($rule)) { throw "Character wardrobe integration missing: $rule" }
           }
           $panelSource = Get-Content src/renderer/panel/panel.js -Raw
