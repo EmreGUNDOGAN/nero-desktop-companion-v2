@@ -1,0 +1,596 @@
+test/achievements.test.js
+✔ Achievement v2 tam 125 benzersiz rozet içerir ve dağılım doğrudur (5.12719ms)
+✔ 4.0.x mevcut 31 achievement IDsi korunmuştur (0.266128ms)
+✔ bütün rozetlerde UI için tamamlanmış görev açıklaması vardır (0.296162ms)
+✔ kilitli gizli rozetler UI listesinden tamamen gizlenir, açılınca görünür (2.381839ms)
+✔ aynı achievement ikinci kez unlock callback üretmez (0.602031ms)
+✔ uzun dönem sayaçları 90 günlük prune dışında kalır (1.656853ms)
+✔ UI sekme sırası Sayaç -> Rozetler şeklindedir (0.376063ms)
+✔ tamamlanmış rozet tooltipi hover ve focus ile erişilebilir (1.059021ms)
+✔ rozetler nadirlik sekmelerine ayrılır ve tek kategori render edilir (1.154003ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 20.374687
+
+test/archive-moodboard-settings.test.js
+✔ moodboard takvim ayının gerçek gün sayısını kullanır (1.441138ms)
+✔ kullanıcı moodboardu geçmiş/bugün seçilebilir, gelecek günleri işaretler (0.566433ms)
+✔ kapanmış veri ayları user ve Nero günlüğünden birlikte bulunur (1.132299ms)
+✔ geçmiş moodboard menüsü yalnız gerçekten veri bulunan ayları döndürür (0.174983ms)
+✔ Nero mood günlüğü bir takvim ayını 5 bucket sistemiyle döndürür (0.638423ms)
+✔ aylık PNG kaynağı iki moodboardu aynı görselde üretmek için SVG içerir (17.073525ms)
+✔ İşler ve Notlar sayfalarında manuel aylık arşiv UI/IPC altyapısı vardır (1.9329ms)
+✔ eski Bitenleri temizle IPCsi artık veriyi silmek yerine arşivler (0.783444ms)
+✔ Home Bu ay yaptıkların ilk 5 işten sonra dropdown kullanır ve tüm ay verisini ister (2.960602ms)
+✔ Ayarlar navbar yerine üst sağ tema uyumlu dişli düğmesindedir (2.945958ms)
+✔ iki moodboard rendererda ayrıdır, kompaktır ve yalnız dolu geçmiş aylara gider (1.788743ms)
+✔ moodboard ve yeni arşiv verileri backup snapshotına dahil edilir (0.75677ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 44.090464
+
+test/bee-audio.test.js
+✔ 5.5.0 gerçek ses paketi tam 20 OGG içerir (1.583091ms)
+✔ 5.5.0 ses dosyalarının tamamı OggS başlığıyla başlar ve boş değildir (2.008046ms)
+✔ 5.5.0 ses kaynak/lisans notu paketle birlikte tutulur (0.312614ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 11.182366
+
+test/bee-game-v5.5.2.test.js
+✔ 5.5.2 standart şurup 15 kg verir ve taban fiyat 45 jetondur (23.401766ms)
+✔ 5.5.2 erzak gün sayısı arı sayısından bağımsızdır ve yalıtımda yarıya iner (5.525681ms)
+✔ 5.5.2 eksik günlük erzak tamamen tüketilir ve beslenmiş sayılmaz (5.247999ms)
+✔ 6.6.0 iki saat görünmeyen Arıcılıkta takvim ve üretim tamamen donar (1.655718ms)
+✔ 5.5.2 tam duraklama sonrası normal sipariş sayacı kaldığı yerden sürer (1.604612ms)
+✔ 5.5.2 Yakup Kışlık Şurup Fıçısı 105 jeton ve 45 kgdır (4.646712ms)
+✔ 5.5.2 50 kg toplam üretimde Çiçekçi Ezgi açılır ve hediyesi bir kez alınır (3.791591ms)
+✔ 5.5.2 Ezgi’nin Seçimi mevcut tohum indirimine ek yüzde 15 uygular (1.459959ms)
+✔ 5.5.2 ileri ses ayarları tek tek saklanabilir (1.575516ms)
+✔ 5.5.2 görev ikonu, ileri ses ayarları ve mevcut stil kabuğu rendererda bulunur (2.372832ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 61.73938
+
+test/bee-game-v5.5.3.test.js
+✔ 6.0.0 Yonca ve Papatya yeni tarh bonuslarını kullanır (0.862922ms)
+✔ 5.5.3 mağazadan alınan tohum envantere girer ve ekimde ikinci kez para alınmaz (7.752503ms)
+✔ 5.5.3 Yenilikler penceresi ve tekrar açma girişi rendererda bulunur (2.262769ms)
+✔ 5.5.3 görev paneli tamamlanınca açık kalabilir ve tek tasarımı korur (2.465692ms)
+✔ 5.5.3 mağaza tohumu yerleştirme moduna sokmak yerine buySeed çağırır (1.700181ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 22.973356
+
+test/bee-game-v5.5.test.js
+✔ 5.5.0 odak bonusu gerçek gün başına en fazla 4 saat kazanılır (10.621418ms)
+✔ 5.5.0 eski güne ait odak kazanımı sıfırlanır ama yeni gün yeniden kazanabilir (1.957001ms)
+✔ 5.5.0 aynı köylünün aynı anda ikinci normal siparişi oluşmaz (3.31667ms)
+✔ 5.5.0 kalp başına sipariş ödeme bonusu yüzde 2dir (4.261256ms)
+✔ 5.5.0 günlük görev değişiminde 2 ücretsiz ve yalnız 1 ücretli hak vardır (7.760313ms)
+✔ 5.5.0 günlük görev kataloğu 40 tür içerir (1.873637ms)
+✔ 5.5.0 Seyyah Yakup kataloğu 38 üründür ve dekor içermez (1.661415ms)
+✔ 5.5.0 Stok Değişim Jetonu iki ürünlük Yakup kotasını tüketmez (5.83503ms)
+✔ 5.5.0 Pazar Mührü yalnız bir sonraki satış işleminde kullanılır (3.259426ms)
+✔ 5.5.0 geri dönüş özeti 20 dakikadan önce açılmaz (2.417894ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 51.376648
+
+test/bee-game-v6.4.0.test.js
+✔ 6.4.0 kış normal bal mevsim fiyatı +%15 olur (26.094786ms)
+✔ 6.4.0 yan ürün potansiyeli gerçek kovan koşullarından hesaplanır (2.889877ms)
+✔ 6.4.0 yan ürünler bal hasadıyla orantılı olarak atölye deposuna taşınır (6.494321ms)
+✔ 6.6.1 Atölye 9. yerleşimciyle açılır ve premium kavanoz üretimi oyun zamanında tamamlanır (2.121715ms)
+✔ 6.4.0 Eczane ve Arıcılar Derneği atölye seviyelerini ve gelişmiş tarifleri açar (1.820333ms)
+✔ 6.4.0 atölye kovan ürünleri envanterden tüketilir ve gerçek mevcut etkiyi uygular (2.589004ms)
+✔ 6.4.0 atölye üretimi oyun durduğunda ilerlemez (3.016907ms)
+✔ 6.4.0 renderer gerçek Yan Ürün sekmesini ve Atölye arayüzünü içerir (2.188368ms)
+✔ 6.4.0 regression runs on 6.4.0 or newer (0.560504ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 55.376098
+
+test/bee-game-v6.4.1.test.js
+✔ 6.4.1 depot shows harvested beekeeping materials (3.460737ms)
+✔ 6.4.1 regression runs on 6.4.1 or newer (0.730883ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 11.355558
+
+test/bee-game-v6.5.0.test.js
+✔ 6.5.0 Seyyah Yakup aradığı balı pazarın yüzde 15 üstünden alır (11.666806ms)
+✔ 6.5.0 Atölye karesi baştan rezerve ve yerleştirmeye kapalıdır (13.995325ms)
+✔ 6.5.0 eski kayıtta Atölye karesindeki oyuncu içeriği kaybolmadan taşınır (4.038853ms)
+✔ 6.5.0 satın alınan dekor Depoya gider ve kaldırılınca tekrar Depoya döner (8.601183ms)
+✔ 6.5.0 satın alınan ve hediye edilen tohumlar aynı Depo stokundan ekilir (3.144591ms)
+✔ 6.5.0 renderer merkezi Depoyu ve fiziksel Atölyeyi içerir (2.619018ms)
+✔ 6.5.0 Atölye tamamlanmış ürünleri kullanıcıya Depo üzerinden gösterir (1.543274ms)
+✔ 6.5.0 denge düzeltmesi: balmumu 25 g/kg ve canlandırma yüzde 25 (5.314712ms)
+✔ 6.5.0 denge düzeltmesi: sipariş 4x hızda daha hızlı sonlanmaz (5.256415ms)
+✔ 6.5.0 denge düzeltmesi: köy 35 bin kg çizgisinde tamamlanır (2.668374ms)
+✔ 6.5.0 denge düzeltmesi: kış Ezgi seçimi Kış Fundasını seçebilir (9.575757ms)
+✔ 6.5.0 denge düzeltmesi: Atölye kuyruk iptalinde malzemeler tam iade edilir (3.873066ms)
+✔ 6.5.0 denge düzeltmesi: turnuva ödülü backend ile sonuç ekranında aynıdır (2.667341ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 82.786962
+
+test/bee-game-v6.6.0.test.js
+✔ 6.6.0 Odak Bonusu backend, renderer ve rehberde yüzde 10dur (25.094905ms)
+✔ 6.6.0 solmuş ve undoPending tarhlar cluster bonusuna girmez (3.759588ms)
+✔ 6.6.0 orderableFlowers yalnız kovana erişen ve kesinleşmiş tarhları döndürür (2.715227ms)
+✔ 6.6.0 kabul edilmiş sipariş balı pazar, Yakup, turnuva ve Atölyeden korunur (9.880254ms)
+✔ 6.6.0 Atölye iptali depo kapasitesini aşamaz (1.893266ms)
+✔ 6.6.0 festival iadesi depoyu aşmaz ve fazlası beklemede kalır (1.765203ms)
+✔ 6.6.0 özel siparişler toplam sipariş limitini aşmaz (1.645736ms)
+✔ 6.6.0 özel sipariş sahte ilişki yaratmaz ve ilişki jetonunu tüketmez (6.449114ms)
+✔ 6.6.0 renderer 500+ tekli ve toplu canlandırma maliyetini onay sistemine verir (2.119519ms)
+✔ 6.6.0 kapalı/uyku aralığında sipariş catch-up en fazla 3tür (4.691601ms)
+✔ 6.6.0 eski şişmiş rakip migrasyonu honeyByFlower stokunu gerçekten küçültür (2.617367ms)
+✔ 6.6.0 günlük görevler menzilsiz sahte kovanları harvest3 saymaz (2.874336ms)
+✔ 6.6.0 görev, hikaye ve mektup jetonları earned sayacına girer (1.883301ms)
+✔ 6.6.0 arı al-sat geçmiş invested birikimi net değeri şişirmez (3.675615ms)
+✔ 6.6.0 eski depo yatırım migrasyonu bilinmeyen kuponu tam fiyat diye yazmaz (2.615082ms)
+✔ 6.6.0 stok değişim başarısızsa Yakup para ve stok durumunu değiştirmez (2.556374ms)
+✔ 6.6.1 turnuvada rakip önceden ayırdığı gerçek stokla katılır ve derece ödülü ekonomisine eklenir (16.816775ms)
+✔ 6.6.0 rehber ve renderer temel kurallarda backend ile ayrışmaz (2.403025ms)
+✔ 6.6.0 manuel duraklatmada da gerçek-zaman sipariş saati işler (2.207387ms)
+✔ 6.6.0 Pazar Tahmini oku çarpana değil yarının nihai fiyatına bakar (5.463142ms)
+✔ 6.6.0 tohum ekmek, dekor yerleştirmek ve fayda ürünü saklamak net değerde kaybolmaz (4.965051ms)
+✔ 6.6.1 rakip her tarhın mevsim tohumunu gerçekten öder; aynı mevsimde tekrar ödemez (1.435331ms)
+✔ 6.6.0 UI rezerve ve bekleyen balı kullanıcıya açıkça gösterir (1.960745ms)
+✔ 6.6.0 proje özeti eski 3 saat, canlandırma yüzde 10 ve Yakup yüzde 20 kurallarını taşımaz (0.348255ms)
+✔ 6.6.0 tarihsel plan dosyaları güncel kural kaynağı olmadığını açıkça belirtir (0.283949ms)
+✔ 6.6.1 paket sürümü ve Actions workflowu yeni sürüme bağlıdır (1.832483ms)
+ℹ tests 26
+ℹ suites 0
+ℹ pass 26
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 125.045017
+
+test/bee-game-v6.6.1.test.js
+✔ 6.6.1 sürüm, workflow ve master plan bağlıdır (4.638223ms)
+✔ 6.6.1 migration aynı save ikinci kez açıldığında temel state kaybetmez (15.175259ms)
+✔ 6.6.1 turnuva ödülleri tek kaynakta 300 / 200 / 100dür (18.688646ms)
+✔ 6.6.1 turnuva parası cüzdana gelir ama rekabetçi net değere girmez (2.580636ms)
+✔ 6.6.1 rakip turnuvaya hayali bal sokamaz (1.99246ms)
+✔ 6.6.1 rakip tohumu alamazsa o tarh aktif üretime geçmez (2.24099ms)
+✔ 6.6.1 rakip kapasite doluyken önce yükseltme ödemeden arı alamaz (4.009985ms)
+✔ 6.6.1 turnuva sonucu mevsimin 15. gününde çalışır (1.732936ms)
+✔ 6.6.1 tarh bonusu yalnız kendi bal payına uygulanır; global yüzde toplanmaz (3.125715ms)
+✔ 6.6.1 biyoçeşitlilik bal üretimine global çarpan eklemez (2.336819ms)
+✔ 6.6.1 Atölye 9. sırada, Fırın 30. sıradadır (1.840831ms)
+✔ 6.6.1 Atölye kendi sayfasında üretim ve rehber sekmelerine sahiptir (2.08967ms)
+✔ 6.6.1 fiziksel Pazar işaretli -3,0 karesindedir ve save migration onu ayırır (6.87514ms)
+✔ 6.6.1 fiziksel Pazar tıklaması aynı Pazar ekranını açar (1.438292ms)
+✔ 6.6.1 Pazarcı kalıcıdır ve dükkân sahipleri günlük Pazara yürür (0.241112ms)
+✔ 6.6.1 aşama 5: açılan dükkân yarı mamulleri pazara gelir ve satın alınabilir (1.678061ms)
+✔ 6.6.1 aşama 5: ticari ürün fiyatı gerçek girdilerden yüksek ve zarar ettirmez (2.203527ms)
+✔ 6.6.1 aşama 5: ürün siparişi ortak limite girer, teslim edilir ve ürün rezervasyonu satışı korur (4.1388ms)
+✔ 6.6.1 aşama 5: ürün siparişi yalnız kilidi açılmış ve üretim yolu bulunan tariflerden gelir (1.579793ms)
+✔ 6.6.1 aşama 6: mektup aralığı 30–45 gerçek dakikadır ve oyun hızından bağımsızdır (1.683473ms)
+✔ 6.6.1 aşama 6: az köylüyle gönderen cooldownu deadlock oluşturmaz (3.08596ms)
+✔ 6.6.1 aşama 6: aynı mektup metni 3 oyun günü içinde tekrar kullanılamaz (1.728918ms)
+✔ 6.6.1 aşama 6: kapalı geçen süre en fazla bir catch-up mektubu üretir (1.376967ms)
+✔ 6.6.1 aşama 6: manuel duraklatma mektup sayacını dondurur (1.847834ms)
+✔ 6.6.1 aşama 6: bildirim tercihi mektubun kendisini engellemez (1.607992ms)
+✔ 6.6.1 aşama 7: Yaşayan Ada 4 mevsimde 15er, toplam 60 benzersiz ana sahne tanımlar (0.405183ms)
+✔ 6.6.1 aşama 7: oynanan yaşam olayı save state içinde mevsim-yıl anahtarıyla tutulur (13.221947ms)
+✔ 6.6.1 aşama 7: NPC yaşamı 18/20 toplu kaybolma kuralını kullanmaz ve festival alanını her gün kullanır (1.449186ms)
+✔ 6.6.1 aşama 7: yaşam olayları ekonomik ödül üretmez (1.97641ms)
+✔ 6.6.1 aşama 8: güncellemeler gerçek başlık ve ayrı açıklama kullanır (0.213276ms)
+✔ 6.6.1 aşama 8: son 10 yayımlanmış sürüm için temizlenmiş yapılandırılmış not vardır (0.833134ms)
+✔ 6.6.1 aşama 8: update ekranı sürüm release linkini ve geri ileri gezinmeyi korur (1.578297ms)
+✔ 6.6.1 aşama 9: Pazar Tahmin Kartı ertesi gün gerçekten uygulanacak piyasa stateini kilitler (6.172946ms)
+✔ 6.6.1 aşama 9: solmuş pahalı çiçeği canlandırmak liderlik değeri üretmez (6.705429ms)
+✔ 6.6.1 aşama 9: indirimli tohum alımı hayali net değer yaratmaz (1.94042ms)
+✔ 6.6.1 aşama 9: üretim yolu yoksa hasat ve stok yoksa satış günlük görevi doğmaz (2.49607ms)
+✔ 6.6.1 aşama 9: günlük satış görevi mevcut serbest stoktan fazlasını istemez (2.473454ms)
+✔ 6.6.1 aşama 9: dolu eski savede Atölye migrationı mevcut objeyi silmez (4.193687ms)
+✔ 6.6.1 aşama 9: ırk değişimi harcanmış hizmettir ve net değeri yapay artırmaz (4.963502ms)
+✔ 6.6.1 aşama 10: kritik oyun kuralları backendden tek rules görünümüyle yayınlanır (4.360927ms)
+✔ 6.6.1 aşama 10: güncel UI ve rehber eski Atölye/mektup/ödül kurallarını taşımıyor (4.684369ms)
+✔ 6.6.1 aşama 10: CI kuralları 6.6.1 gerçek ödül ve kaynak paketini doğrular (0.236682ms)
+✔ 6.6.1 aşama 11: dört oyun yıllık uzun simülasyon statei bozmadan tamamlanır (248.019002ms)
+ℹ tests 43
+ℹ suites 0
+ℹ pass 43
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 414.684622
+
+test/bee-game.test.js
+✔ beekeeping focus and todo rewards follow Nero integration rules (11.740235ms)
+✔ desktop beekeeping alerts are emitted once per unchanged condition (2.657151ms)
+✔ Nero 5.0.0 contains the complete beekeeping integration wiring (14.613128ms)
+✔ beekeeping calendar uses a 15-day game month/season period (5.376015ms)
+✔ beekeeping background simulation caps selected 4x speed at 2x (5.231722ms)
+✔ beekeeping reset is exposed in the in-game settings with a backup-first flow (1.54359ms)
+✔ 6.3.5 arı fiyatı 5. arıda 60 başlar ve her sırada yüzde 15 artar (1.45168ms)
+✔ 5.4.2 hastalık kaybı vaka başına üçte birle sınırlıdır ve 4 arı tabanı vardır (7.734445ms)
+✔ 5.4.2 siparişleri gerçek aktif zamanda 5 dakikada gelir ve dönüşte en fazla 3 birikir (3.987179ms)
+✔ 5.4.2 depo kademeleri 10.000 kg kapasiteye kadar devam eder (1.76629ms)
+✔ 5.4.2 Etkilerim görünümü odak bonusunu üstte ve kaynaklı etkileri listede döndürür (1.659714ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 66.755505
+
+test/bee-rivals-v5.6.test.js
+✔ eski rakip kayıtları çiftliğe taşınır; aynı gün bir kez hesaplanır (13.802996ms)
+✔ 60 günlük rakip simülasyonu tekrar üretilebilir, net değerleri sonlu kalır (22.283736ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 46.321341
+
+test/bee-v6.3.10.test.js
+✔ 6.3.10 experimental theme assets stay rolled back (1.777772ms)
+✔ 6.3.10 only in-game Nero bubble is 2.4 seconds and talk animation stops with it (2.452097ms)
+✔ 6.3.10 warning-center exclamation uses approved soft red palette (0.388579ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 13.31802
+
+test/bee-v6.3.11.test.js
+✔ 6.3.11 release notes come only from GitHub Releases at runtime (3.855857ms)
+✔ 6.3.11 warning-center button remains visible with zero active warnings (2.753833ms)
+✔ 6.3.11 restores the pre-rollback panel spacing code while keeping theme asset folders removed (1.780555ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 14.704875
+
+test/bee-v6.3.15.test.js
+✔ 6.3.15 approved economy and breeding rules are encoded (1.668456ms)
+✔ 6.3.15 tournament prompt, smart sell, price effects and warning color hooks exist (0.730218ms)
+✔ Nero moodboard stays blank before 23:00 and freezes after finalization (1.39573ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10.767348
+
+test/bee-v6.3.16.test.js
+✔ 6.3.16 biodiversity thresholds and monoculture rule are deterministic (11.319332ms)
+✔ 6.6.1 biodiversity is shown as quality, not a second global production multiplier (3.476499ms)
+✔ 6.3.16 hive panel exposes the five approved tabs and ecosystem explanations (2.309933ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 23.386625
+
+test/bee-v6.3.4.test.js
+✔ 6.3.4 contains 50 villagers with 100 unique personal letters each (1.299191ms)
+✔ 6.3.4 kişisel mektup havuzu 6.6.1 dinamik gönderen ve 3 oyun günlük içerik cooldownuyla uyumludur (17.271776ms)
+✔ 6.3.4 rivals do not progress during manual or unattended pause (5.266284ms)
+✔ 6.3.4 UI includes warning center, exact tournament guide, and release history navigation (3.013535ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 33.354614
+
+test/bee-v6.3.5.test.js
+✔ 6.3.5 winter loss can never reduce a player hive below four bees (15.738583ms)
+✔ merchant premium follows current approved fifteen percent balance (6.705128ms)
+✔ 6.3.5 beekeeping UI uses canonical unclothed animated Nero and centered harvest button (2.773105ms)
+✔ 6.3.5 map has deterministic four-season ground decor, roof snow and seasonal lighting (1.543038ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 35.349743
+
+test/bee-v6.3.6.test.js
+✔ 6.3.6 season icon has a single SVG owner and autumn cannot flicker emoji/SVG (2.54575ms)
+✔ 6.3.6 beekeeping Nero stops talking exactly when its bubble hides (1.467917ms)
+✔ 6.3.6 warning exclamation and harvest button use approved soft palettes (0.599257ms)
+✔ 6.3.6 production effects expose the real live multipliers (24.736776ms)
+✔ 6.3.6 winter advance notice is persistent, once-per-winter and respects preferences (6.435076ms)
+✔ 6.3.6 production hover markup and tooltip palette are present (1.053783ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 43.957674
+
+test/bee-v6.test.js
+✔ rivals produce for one game day, and inflated old saves are repaired once (12.323782ms)
+✔ orders request planted flowers regardless of storage (3.147764ms)
+✔ winter suppresses out-of-season flowers and wax provides modest extra income (3.253534ms)
+✔ three new farmable rings migrate saves and relocate village homes (3.146318ms)
+✔ winter heather migrates all saved honey and old references without losing quantity (2.253345ms)
+✔ new hives cost 900 then 1125, and undo restores coins and price (7.328072ms)
+✔ plant undo restores an inventory seed and prevents its immediate production bonus (3.114987ms)
+✔ ten-second undo expires and the placement becomes productive only after commit (3.455192ms)
+✔ seasonal tournament records each category and pays a top-three prize once (10.418486ms)
+✔ rivals receive independent seasonal cups when they reserved real tournament stock (1.250478ms)
+✔ gold cup grants exactly one next-year matching-season production boost (1.763834ms)
+✔ walkers route around water and never pick a disconnected destination (1.973908ms)
+✔ 6.0.0 turnuva popupı şeffaf kategori kartlarını ve doğru ödülleri gösterir (2.227868ms)
+✔ 6.0.0 Festival Cilası yalnız Bal Kalitesine +20 olarak anlatılır (3.164141ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 14
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 68.978181
+(node:153) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///workspace/scratch/f4019a5f6353/integration661/project/src/renderer/bee/walkers.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /workspace/scratch/f4019a5f6353/integration661/project/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+test/desk-half-hour.test.js
+✔ masa köşesi her 30 dakikada bir açılır ve kalan dakika doğru hesaplanır (7.728705ms)
+✔ iş hatırlatıcıları platforma bağlı AM/PM alanı kullanmaz (0.961768ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 14.343181
+
+test/help-checkpoint-d.test.js
+✔ yardım tooltipi shell dışında body seviyesinde tek root katmandadır (1.090966ms)
+✔ yardım ikonları küçük, borderless ve transparandır (0.547636ms)
+✔ tooltip tek aktif katman kullanır ve viewport içinde clamp edilir (1.296511ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 9.149832
+
+test/home-help-reset.test.js
+✔ Şimdiye kadar reset lifetime veriyi silmeden yalnız görünür baseline oluşturur (7.003713ms)
+✔ reset sonrası görünür sayaçlar lifetime sayaçlardan bağımsız artar (4.211967ms)
+✔ reset sonrası en uzun seri ayrı izlenir ve lifetime bestStreak bozulmaz (0.938064ms)
+✔ ana sayfa yardım ikonları, reset modalı ve IPC entegrasyonu vardır (4.029478ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 23.371071
+
+test/home-stats-layout.test.js
+✔ ana sayfa istatistik kartları ortak temalarda kompakt kalır (1.120459ms)
+✔ özel temalar eski dev istatistik yüksekliklerini geri getirmez (0.772761ms)
+✔ haftalık odak kartlarının tema yükseklikleri kontrollüdür (0.247132ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 11.245197
+
+test/migration-v4.2-to-v4.3.test.js
+✔ 4.2.x stats verisi 4.3.0 display baseline olmadan lifetime görünümü korur (4.184521ms)
+✔ 4.2.x todo verileri yeni timing alanları olmadan kayıpsız normalize edilir (0.548199ms)
+✔ eski moodboard gün kayıtları dinamik aylık modele taşınmadan okunmaya devam eder (1.395397ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 14.139784
+
+test/moodboard-checkpoint-c.test.js
+✔ moodboard 7 eşit sütun ve sabit kompakt satır yüksekliği kullanır (1.272691ms)
+✔ geniş panelde moodboard yarım sütuna sıkışmaz (0.302948ms)
+✔ dar panelde moodboard 32px hücre ve 5px satır aralığına iner (0.382982ms)
+✔ moodboard duygu dili görev zorluğu değil gün hissi anlatır (0.423597ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 9.137884
+
+test/moodboard-png-export.test.js
+✔ aylık PNG export Chromium capturePage yardımcı modülünü kullanır (1.838651ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 9.005577
+
+test/panel-bee-v6.3.13.test.js
+✔ 6.3.13 panel is natively resizable and keeps custom corner grips above themes (1.243339ms)
+✔ 6.3.13 automatic release notes cannot reopen on each running game state tick (0.362398ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 8.73839
+
+test/panel-v6.3.12.test.js
+✔ 6.3.12 wide settings grid cannot shrink and clip card contents (1.355976ms)
+✔ settings view preserves non-shrinking cards and scrolls inside the panel viewport (0.28988ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 11.564048
+
+test/panel-v6.3.14.test.js
+✔ 6.3.14 settings view scrolls without shrinking its cards (1.17455ms)
+✔ 6.3.14 uses the native full perimeter resize instead of corner-only overlay grips (0.320687ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 8.327982
+
+test/theme-ui-polish.test.js
+✔ başlık kontrolleri manual drag yüzeyinden ayrıdır ve tıklanabilir kalır (1.537342ms)
+✔ resimli ve hava temalarında stat metinleri temiz iki satırlı düzene geçer (0.705882ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 8.949357
+
+test/todo-stopwatch.test.js
+✔ manuel planlanan süre arbitrary pozitif dakika kabul eder (1.14899ms)
+✔ eski todo verisi timing alanları olmadan geriye uyumlu normalize edilir (0.195026ms)
+✔ kronometre pause/resume sırasında süreyi birikimli tutar (0.76119ms)
+✔ focus credit pause sırasında tam dakikayı, finalde en yakın dakikayı işler ve duplicate olmaz (0.251577ms)
+✔ 4.3.0 todo stopwatch UI ve IPC entegrasyonu vardır (7.214215ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 18.314844
+
+test/wardrobe.test.js
+✔ 88 complete outfits have independent blink/talk layers and accepted winter contour (37.522926ms)
+✔ nightly random outfit persists through midnight, restores selection at 06:00 (0.549996ms)
+✔ special days override sleepwear; birthday has priority; saved choice survives (0.389772ms)
+✔ all layers finish before switching, removal restores exact original character (3.206779ms)
+✔ rapid changes, removal and theme disposal never install an obsolete outfit (1.155254ms)
+✔ all 88 choices load without accumulating old layers (10.435733ms)
+✔ asset failure falls back to original animated layers (0.599883ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 59.6165
+
+test/window-interactions-clean.test.js
+✔ panel drag native app-region kullanmaz ve window controls ile çakışmaz (7.898455ms)
+✔ panel drag her gesture için start/end IPC kullanır ve kayıp pointer stateini temizler (0.285384ms)
+✔ ana süreç paneli ve Nero karakterini aynı cursor delta ile taşır (1.372349ms)
+✔ Nero drag eski gesture takılı kalsa da yeniden başlayabilir (0.466243ms)
+✔ kilit açıldığında drag engellenir ve aktif gesture kapanır (2.026674ms)
+✔ taskbar minimize/restore bütün etkileşim stateini sıfırlar (3.697651ms)
+✔ Nero click-through başlangıcından forwarded mousemove ile kendi kendine uyanır (2.296725ms)
+✔ taskbar geri çağırma panel kapalıysa yalnız Nero, açıksa iki pencereyi öne getirir (0.557127ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 30.029111

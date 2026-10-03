@@ -1,0 +1,1675 @@
+{
+  "autumn-akcaagac-ceketi": {
+    "scale": 0.86458,
+    "x": 14.146,
+    "y": -0.125,
+    "mouthY": -9.385,
+    "skin": "#c5ddc1",
+    "eraseEyes": [
+      65,
+      59,
+      154,
+      121
+    ],
+    "eraseMouth": [
+      87,
+      131,
+      133,
+      145
+    ]
+  },
+  "autumn-altin-yaprak": {
+    "scale": 0.875,
+    "x": 12.25,
+    "y": -1.25,
+    "mouthY": -11.125,
+    "skin": "#c5dec2",
+    "eraseEyes": [
+      64,
+      59,
+      153,
+      121
+    ],
+    "eraseMouth": [
+      87,
+      131,
+      132,
+      145
+    ]
+  },
+  "autumn-bal-kabagi": {
+    "scale": 0.86458,
+    "x": 14.146,
+    "y": -0.375,
+    "mouthY": -9.385,
+    "skin": "#bfd7b9",
+    "eraseEyes": [
+      65,
+      60,
+      153,
+      120
+    ],
+    "eraseMouth": [
+      88,
+      131,
+      132,
+      145
+    ]
+  },
+  "autumn-bordo-yagmur-ceketi": {
+    "scale": 0.875,
+    "x": 10.25,
+    "y": -1.0,
+    "mouthY": -10.125,
+    "skin": "#c2dbbd",
+    "eraseEyes": [
+      62,
+      60,
+      151,
+      121
+    ],
+    "eraseMouth": [
+      85,
+      132,
+      130,
+      146
+    ]
+  },
+  "autumn-ekose-fular": {
+    "scale": 0.86458,
+    "x": 12.646,
+    "y": -0.375,
+    "mouthY": -9.385,
+    "skin": "#bfd7b9",
+    "eraseEyes": [
+      64,
+      60,
+      152,
+      120
+    ],
+    "eraseMouth": [
+      86,
+      131,
+      131,
+      145
+    ]
+  },
+  "autumn-hardal-bogazli": {
+    "scale": 0.86458,
+    "x": 14.146,
+    "y": -0.375,
+    "mouthY": -9.385,
+    "skin": "#c2dbbd",
+    "eraseEyes": [
+      65,
+      60,
+      154,
+      120
+    ],
+    "eraseMouth": [
+      87,
+      131,
+      133,
+      145
+    ]
+  },
+  "autumn-kahve-yolu": {
+    "scale": 0.875,
+    "x": 12.25,
+    "y": -1.0,
+    "mouthY": -11.125,
+    "skin": "#c5dec1",
+    "eraseEyes": [
+      64,
+      60,
+      153,
+      121
+    ],
+    "eraseMouth": [
+      87,
+      131,
+      132,
+      145
+    ]
+  },
+  "autumn-kestane-hirka": {
+    "scale": 0.875,
+    "x": 13.25,
+    "y": -1.25,
+    "mouthY": -10.625,
+    "skin": "#c2dbbd",
+    "eraseEyes": [
+      65,
+      60,
+      154,
+      121
+    ],
+    "eraseMouth": [
+      87,
+      132,
+      133,
+      145
+    ]
+  },
+  "autumn-kiremit-salopet": {
+    "scale": 0.875,
+    "x": 12.25,
+    "y": -1.75,
+    "mouthY": -10.625,
+    "skin": "#c2dbbd",
+    "eraseEyes": [
+      64,
+      59,
+      153,
+      120
+    ],
+    "eraseMouth": [
+      87,
+      132,
+      132,
+      145
+    ]
+  },
+  "autumn-mor-sonbahar": {
+    "scale": 0.875,
+    "x": 11.25,
+    "y": -1.25,
+    "mouthY": -11.125,
+    "skin": "#c5dec1",
+    "eraseEyes": [
+      63,
+      59,
+      152,
+      121
+    ],
+    "eraseMouth": [
+      86,
+      131,
+      131,
+      145
+    ]
+  },
+  "autumn-orman-yelegi": {
+    "scale": 0.86458,
+    "x": 12.146,
+    "y": -0.375,
+    "mouthY": -9.385,
+    "skin": "#bfd7b9",
+    "eraseEyes": [
+      63,
+      60,
+      151,
+      120
+    ],
+    "eraseMouth": [
+      86,
+      131,
+      131,
+      145
+    ]
+  },
+  "autumn-tarcin-hirka": {
+    "scale": 0.85417,
+    "x": 15.542,
+    "y": 0.75,
+    "mouthY": -7.646,
+    "skin": "#c0d8b9",
+    "eraseEyes": [
+      66,
+      60,
+      153,
+      120
+    ],
+    "eraseMouth": [
+      87,
+      131,
+      133,
+      145
+    ]
+  },
+  "costume-denizci": {
+    "scale": 0.77083,
+    "x": 24.708,
+    "y": 18.25,
+    "mouthY": 13.271,
+    "skin": "#c2d4ba",
+    "eraseEyes": [
+      70,
+      70,
+      149,
+      127
+    ],
+    "eraseMouth": [
+      90,
+      138,
+      129,
+      152
+    ]
+  },
+  "costume-festival": {
+    "scale": 0.83333,
+    "x": 17.833,
+    "y": -1.25,
+    "mouthY": -7.167,
+    "skin": "#bfd4bb",
+    "eraseEyes": [
+      67,
+      56,
+      152,
+      116
+    ],
+    "eraseMouth": [
+      89,
+      128,
+      131,
+      142
+    ]
+  },
+  "costume-kahve-molasi": {
+    "scale": 0.84375,
+    "x": 14.938,
+    "y": -2.125,
+    "mouthY": -7.906,
+    "skin": "#bfd4bc",
+    "eraseEyes": [
+      65,
+      56,
+      151,
+      116
+    ],
+    "eraseMouth": [
+      87,
+      129,
+      129,
+      143
+    ]
+  },
+  "costume-kedi-kapusonu": {
+    "scale": 0.82292,
+    "x": 19.229,
+    "y": 2.625,
+    "mouthY": -2.927,
+    "skin": "#c1d4ba",
+    "eraseEyes": [
+      68,
+      59,
+      152,
+      118
+    ],
+    "eraseMouth": [
+      89,
+      131,
+      130,
+      144
+    ]
+  },
+  "costume-lavanta-hirka": {
+    "scale": 0.82292,
+    "x": 18.229,
+    "y": 0.125,
+    "mouthY": -4.427,
+    "skin": "#c1d4ba",
+    "eraseEyes": [
+      67,
+      56,
+      151,
+      116
+    ],
+    "eraseMouth": [
+      88,
+      129,
+      130,
+      143
+    ]
+  },
+  "costume-ressam": {
+    "scale": 0.79167,
+    "x": 20.917,
+    "y": 8.25,
+    "mouthY": 3.792,
+    "skin": "#bfd4bb",
+    "eraseEyes": [
+      67,
+      61,
+      149,
+      120
+    ],
+    "eraseMouth": [
+      88,
+      132,
+      129,
+      146
+    ]
+  },
+  "costume-yagmurluk": {
+    "scale": 0.82292,
+    "x": 19.729,
+    "y": -0.375,
+    "mouthY": -4.927,
+    "skin": "#c2d4ba",
+    "eraseEyes": [
+      68,
+      56,
+      152,
+      115
+    ],
+    "eraseMouth": [
+      90,
+      129,
+      131,
+      142
+    ]
+  },
+  "costume-yildiz-gezgini": {
+    "scale": 0.83333,
+    "x": 17.833,
+    "y": -1.0,
+    "mouthY": -7.167,
+    "skin": "#bfd4bb",
+    "eraseEyes": [
+      67,
+      56,
+      152,
+      116
+    ],
+    "eraseMouth": [
+      88,
+      128,
+      131,
+      142
+    ]
+  },
+  "daily-baharlik-gomlek": {
+    "scale": 0.82292,
+    "x": 19.229,
+    "y": 0.625,
+    "mouthY": -4.427,
+    "skin": "#c4d8be",
+    "eraseEyes": [
+      67,
+      56,
+      152,
+      117
+    ],
+    "eraseMouth": [
+      89,
+      129,
+      131,
+      143
+    ]
+  },
+  "daily-bahce-onlugu": {
+    "scale": 0.83333,
+    "x": 17.333,
+    "y": 1.25,
+    "mouthY": -5.167,
+    "skin": "#c3dcc0",
+    "eraseEyes": [
+      66,
+      57,
+      152,
+      119
+    ],
+    "eraseMouth": [
+      88,
+      130,
+      131,
+      144
+    ]
+  },
+  "daily-bomber-ceket": {
+    "scale": 0.83333,
+    "x": 18.333,
+    "y": 1.0,
+    "mouthY": -5.167,
+    "skin": "#c3dcc1",
+    "eraseEyes": [
+      67,
+      57,
+      153,
+      119
+    ],
+    "eraseMouth": [
+      89,
+      130,
+      131,
+      144
+    ]
+  },
+  "daily-cizgili-tisort": {
+    "scale": 0.83333,
+    "x": 17.833,
+    "y": -0.25,
+    "mouthY": -5.167,
+    "skin": "#c3d7bd",
+    "eraseEyes": [
+      67,
+      56,
+      152,
+      117
+    ],
+    "eraseMouth": [
+      88,
+      130,
+      131,
+      144
+    ]
+  },
+  "daily-hafta-sonu": {
+    "scale": 0.83333,
+    "x": 16.833,
+    "y": 0.0,
+    "mouthY": -6.167,
+    "skin": "#c4d8be",
+    "eraseEyes": [
+      66,
+      57,
+      151,
+      117
+    ],
+    "eraseMouth": [
+      88,
+      129,
+      130,
+      143
+    ]
+  },
+  "daily-kamp-gunu": {
+    "scale": 0.83333,
+    "x": 16.833,
+    "y": 0.0,
+    "mouthY": -5.167,
+    "skin": "#c2d6bc",
+    "eraseEyes": [
+      66,
+      57,
+      151,
+      117
+    ],
+    "eraseMouth": [
+      88,
+      130,
+      130,
+      144
+    ]
+  },
+  "daily-kirmizi-kazak": {
+    "scale": 0.83333,
+    "x": 17.833,
+    "y": 0.5,
+    "mouthY": -5.167,
+    "skin": "#c3dabf",
+    "eraseEyes": [
+      67,
+      57,
+      152,
+      118
+    ],
+    "eraseMouth": [
+      89,
+      130,
+      131,
+      144
+    ]
+  },
+  "daily-kolej-hirkasi": {
+    "scale": 0.83333,
+    "x": 16.333,
+    "y": 0.5,
+    "mouthY": -5.167,
+    "skin": "#c3dcc1",
+    "eraseEyes": [
+      65,
+      57,
+      151,
+      118
+    ],
+    "eraseMouth": [
+      87,
+      130,
+      129,
+      144
+    ]
+  },
+  "daily-kot-ceket": {
+    "scale": 0.83333,
+    "x": 17.833,
+    "y": -1.0,
+    "mouthY": -6.167,
+    "skin": "#c4d8be",
+    "eraseEyes": [
+      67,
+      56,
+      152,
+      116
+    ],
+    "eraseMouth": [
+      89,
+      129,
+      131,
+      143
+    ]
+  },
+  "daily-krem-hirka": {
+    "scale": 0.82292,
+    "x": 18.729,
+    "y": 1.125,
+    "mouthY": -4.427,
+    "skin": "#c4d8be",
+    "eraseEyes": [
+      67,
+      57,
+      152,
+      117
+    ],
+    "eraseMouth": [
+      88,
+      129,
+      131,
+      143
+    ]
+  },
+  "daily-mavi-gomlek": {
+    "scale": 0.83333,
+    "x": 16.833,
+    "y": 0.5,
+    "mouthY": -5.167,
+    "skin": "#c3d9be",
+    "eraseEyes": [
+      66,
+      57,
+      151,
+      118
+    ],
+    "eraseMouth": [
+      88,
+      130,
+      130,
+      144
+    ]
+  },
+  "daily-mint-gomlek": {
+    "scale": 0.83333,
+    "x": 17.833,
+    "y": 0.5,
+    "mouthY": -5.167,
+    "skin": "#c4dabf",
+    "eraseEyes": [
+      67,
+      57,
+      152,
+      118
+    ],
+    "eraseMouth": [
+      89,
+      130,
+      131,
+      144
+    ]
+  },
+  "daily-papatya-tulum": {
+    "scale": 0.83333,
+    "x": 17.833,
+    "y": 0.0,
+    "mouthY": -6.167,
+    "skin": "#c3d9be",
+    "eraseEyes": [
+      67,
+      57,
+      152,
+      117
+    ],
+    "eraseMouth": [
+      88,
+      129,
+      131,
+      143
+    ]
+  },
+  "daily-retro-polo": {
+    "scale": 0.83333,
+    "x": 16.833,
+    "y": 1.0,
+    "mouthY": -5.167,
+    "skin": "#c3dcc0",
+    "eraseEyes": [
+      66,
+      57,
+      151,
+      119
+    ],
+    "eraseMouth": [
+      87,
+      130,
+      130,
+      144
+    ]
+  },
+  "daily-soft-yesil-hoodie": {
+    "scale": 0.83333,
+    "x": 17.833,
+    "y": -0.25,
+    "mouthY": -6.167,
+    "skin": "#c3d7bd",
+    "eraseEyes": [
+      67,
+      56,
+      152,
+      117
+    ],
+    "eraseMouth": [
+      89,
+      129,
+      131,
+      143
+    ]
+  },
+  "daily-spor-gunu": {
+    "scale": 0.83333,
+    "x": 17.833,
+    "y": -0.5,
+    "mouthY": -6.167,
+    "skin": "#c4d8be",
+    "eraseEyes": [
+      67,
+      56,
+      152,
+      117
+    ],
+    "eraseMouth": [
+      88,
+      129,
+      131,
+      143
+    ]
+  },
+  "sleep-0": {
+    "scale": 0.82292,
+    "x": 19.229,
+    "y": 0.625,
+    "mouthY": -4.427,
+    "skin": "#c1d4ba",
+    "eraseEyes": [
+      68,
+      57,
+      152,
+      116
+    ],
+    "eraseMouth": [
+      89,
+      129,
+      131,
+      143
+    ]
+  },
+  "sleep-1": {
+    "scale": 0.82292,
+    "x": 19.229,
+    "y": 1.125,
+    "mouthY": -3.427,
+    "skin": "#c1d4ba",
+    "eraseEyes": [
+      68,
+      57,
+      152,
+      117
+    ],
+    "eraseMouth": [
+      89,
+      130,
+      131,
+      144
+    ]
+  },
+  "sleep-2": {
+    "scale": 0.82292,
+    "x": 19.729,
+    "y": 0.625,
+    "mouthY": -4.927,
+    "skin": "#c1d3b9",
+    "eraseEyes": [
+      68,
+      57,
+      152,
+      116
+    ],
+    "eraseMouth": [
+      89,
+      129,
+      131,
+      142
+    ]
+  },
+  "sleep-3": {
+    "scale": 0.8125,
+    "x": 20.125,
+    "y": 6.5,
+    "mouthY": 0.812,
+    "skin": "#c1d3b9",
+    "eraseEyes": [
+      68,
+      62,
+      151,
+      121
+    ],
+    "eraseMouth": [
+      89,
+      133,
+      130,
+      146
+    ]
+  },
+  "sleep-4": {
+    "scale": 0.82292,
+    "x": 19.229,
+    "y": 0.125,
+    "mouthY": -5.427,
+    "skin": "#c3d5ba",
+    "eraseEyes": [
+      68,
+      56,
+      152,
+      116
+    ],
+    "eraseMouth": [
+      90,
+      128,
+      131,
+      142
+    ]
+  },
+  "sleep-5": {
+    "scale": 0.75,
+    "x": 25.5,
+    "y": 23.25,
+    "mouthY": 18.25,
+    "skin": "#c2d5ba",
+    "eraseEyes": [
+      69,
+      72,
+      147,
+      130
+    ],
+    "eraseMouth": [
+      89,
+      140,
+      127,
+      153
+    ]
+  },
+  "sleep-6": {
+    "scale": 0.82292,
+    "x": 18.729,
+    "y": 0.125,
+    "mouthY": -5.427,
+    "skin": "#c2d5ba",
+    "eraseEyes": [
+      67,
+      56,
+      151,
+      116
+    ],
+    "eraseMouth": [
+      89,
+      128,
+      130,
+      142
+    ]
+  },
+  "sleep-7": {
+    "scale": 0.75,
+    "x": 19.5,
+    "y": 21.0,
+    "mouthY": 16.25,
+    "skin": "#c2d4ba",
+    "eraseEyes": [
+      63,
+      70,
+      141,
+      128
+    ],
+    "eraseMouth": [
+      83,
+      138,
+      122,
+      151
+    ]
+  },
+  "special-april": {
+    "scale": 0.8125,
+    "x": 21.625,
+    "y": 22.75,
+    "mouthY": 16.312,
+    "skin": "#c4d7b9",
+    "eraseEyes": [
+      69,
+      78,
+      153,
+      137
+    ],
+    "eraseMouth": [
+      90,
+      148,
+      132,
+      162
+    ]
+  },
+  "special-bee": {
+    "scale": 0.76042,
+    "x": 27.104,
+    "y": 34.875,
+    "mouthY": 29.51,
+    "skin": "#c4d7b9",
+    "eraseEyes": [
+      71,
+      85,
+      151,
+      143
+    ],
+    "eraseMouth": [
+      90,
+      153,
+      131,
+      166
+    ]
+  },
+  "special-birthday": {
+    "scale": 0.78125,
+    "x": 24.312,
+    "y": 23.125,
+    "mouthY": 17.031,
+    "skin": "#c1d6ba",
+    "eraseEyes": [
+      70,
+      76,
+      151,
+      133
+    ],
+    "eraseMouth": [
+      90,
+      144,
+      131,
+      157
+    ]
+  },
+  "special-children": {
+    "scale": 0.85417,
+    "x": 16.042,
+    "y": 5.75,
+    "mouthY": -2.646,
+    "skin": "#bdd6ba",
+    "eraseEyes": [
+      66,
+      65,
+      154,
+      125
+    ],
+    "eraseMouth": [
+      87,
+      136,
+      133,
+      150
+    ]
+  },
+  "special-halloween": {
+    "scale": 0.79167,
+    "x": 23.917,
+    "y": 19.75,
+    "mouthY": 13.792,
+    "skin": "#c0d5b9",
+    "eraseEyes": [
+      70,
+      73,
+      152,
+      131
+    ],
+    "eraseMouth": [
+      91,
+      142,
+      132,
+      156
+    ]
+  },
+  "special-newyear": {
+    "scale": 0.78125,
+    "x": 23.312,
+    "y": 21.625,
+    "mouthY": 15.531,
+    "skin": "#c0d5b9",
+    "eraseEyes": [
+      69,
+      74,
+      150,
+      132
+    ],
+    "eraseMouth": [
+      89,
+      142,
+      130,
+      156
+    ]
+  },
+  "special-republic": {
+    "scale": 0.83333,
+    "x": 19.333,
+    "y": 11.5,
+    "mouthY": 3.333,
+    "skin": "#bed6ba",
+    "eraseEyes": [
+      68,
+      69,
+      154,
+      128
+    ],
+    "eraseMouth": [
+      88,
+      138,
+      133,
+      153
+    ]
+  },
+  "special-valentine": {
+    "scale": 0.875,
+    "x": 12.25,
+    "y": -3.5,
+    "mouthY": -11.125,
+    "skin": "#c0d5b9",
+    "eraseEyes": [
+      64,
+      58,
+      153,
+      118
+    ],
+    "eraseMouth": [
+      87,
+      131,
+      131,
+      145
+    ]
+  },
+  "spring-bahar-esintisi": {
+    "scale": 0.83333,
+    "x": 17.833,
+    "y": -0.5,
+    "mouthY": -6.167,
+    "skin": "#c3d8bd",
+    "eraseEyes": [
+      67,
+      57,
+      152,
+      116
+    ],
+    "eraseMouth": [
+      89,
+      129,
+      131,
+      143
+    ]
+  },
+  "spring-bahar-piknigi": {
+    "scale": 0.85417,
+    "x": 14.542,
+    "y": -0.25,
+    "mouthY": -7.146,
+    "skin": "#c2d7bd",
+    "eraseEyes": [
+      65,
+      59,
+      152,
+      119
+    ],
+    "eraseMouth": [
+      87,
+      131,
+      131,
+      146
+    ]
+  },
+  "spring-cicek-islemeli-yelek": {
+    "scale": 0.84375,
+    "x": 16.938,
+    "y": 0.625,
+    "mouthY": -5.906,
+    "skin": "#c2d7be",
+    "eraseEyes": [
+      67,
+      58,
+      153,
+      119
+    ],
+    "eraseMouth": [
+      89,
+      131,
+      132,
+      145
+    ]
+  },
+  "spring-cilek-cepli-yelek": {
+    "scale": 0.83333,
+    "x": 16.833,
+    "y": -1.0,
+    "mouthY": -7.167,
+    "skin": "#c3d8bd",
+    "eraseEyes": [
+      66,
+      56,
+      151,
+      116
+    ],
+    "eraseMouth": [
+      88,
+      128,
+      130,
+      142
+    ]
+  },
+  "spring-fistik-yesili-salopet": {
+    "scale": 0.83333,
+    "x": 17.833,
+    "y": -1.5,
+    "mouthY": -7.167,
+    "skin": "#c3d8bd",
+    "eraseEyes": [
+      67,
+      56,
+      152,
+      115
+    ],
+    "eraseMouth": [
+      89,
+      128,
+      131,
+      142
+    ]
+  },
+  "spring-kelebek-fular": {
+    "scale": 0.83333,
+    "x": 16.833,
+    "y": -0.75,
+    "mouthY": -6.167,
+    "skin": "#c3d8bd",
+    "eraseEyes": [
+      66,
+      56,
+      151,
+      116
+    ],
+    "eraseMouth": [
+      87,
+      129,
+      130,
+      143
+    ]
+  },
+  "spring-kiraz-cicegi-hirkasi": {
+    "scale": 0.85417,
+    "x": 14.542,
+    "y": -0.25,
+    "mouthY": -7.146,
+    "skin": "#c2d7bd",
+    "eraseEyes": [
+      65,
+      59,
+      152,
+      119
+    ],
+    "eraseMouth": [
+      87,
+      131,
+      131,
+      146
+    ]
+  },
+  "spring-lale-desenli-suveter": {
+    "scale": 0.83333,
+    "x": 17.833,
+    "y": -1.25,
+    "mouthY": -6.167,
+    "skin": "#c2d8bd",
+    "eraseEyes": [
+      67,
+      56,
+      152,
+      116
+    ],
+    "eraseMouth": [
+      89,
+      129,
+      131,
+      143
+    ]
+  },
+  "spring-leylak-gomlek": {
+    "scale": 0.85417,
+    "x": 15.542,
+    "y": -0.75,
+    "mouthY": -7.646,
+    "skin": "#c2d7bd",
+    "eraseEyes": [
+      66,
+      58,
+      153,
+      119
+    ],
+    "eraseMouth": [
+      88,
+      131,
+      132,
+      145
+    ]
+  },
+  "spring-mavi-papyonlu-gomlek": {
+    "scale": 0.82292,
+    "x": 19.229,
+    "y": 0.125,
+    "mouthY": -4.927,
+    "skin": "#c2d8bd",
+    "eraseEyes": [
+      68,
+      56,
+      152,
+      116
+    ],
+    "eraseMouth": [
+      89,
+      129,
+      131,
+      142
+    ]
+  },
+  "spring-nane-trenc": {
+    "scale": 0.83333,
+    "x": 16.833,
+    "y": -1.0,
+    "mouthY": -6.167,
+    "skin": "#c3d8bd",
+    "eraseEyes": [
+      66,
+      56,
+      151,
+      116
+    ],
+    "eraseMouth": [
+      88,
+      129,
+      130,
+      143
+    ]
+  },
+  "spring-yagmur-sonrasi": {
+    "scale": 0.80208,
+    "x": 21.521,
+    "y": 3.375,
+    "mouthY": -1.448,
+    "skin": "#c2d8bd",
+    "eraseEyes": [
+      68,
+      57,
+      151,
+      117
+    ],
+    "eraseMouth": [
+      90,
+      129,
+      131,
+      142
+    ]
+  },
+  "summer-dondurma-cepli": {
+    "scale": 0.85417,
+    "x": 14.542,
+    "y": -0.25,
+    "mouthY": -7.646,
+    "skin": "#c3d9bf",
+    "eraseEyes": [
+      65,
+      59,
+      152,
+      119
+    ],
+    "eraseMouth": [
+      87,
+      131,
+      132,
+      145
+    ]
+  },
+  "summer-dondurma-deseni": {
+    "scale": 0.85417,
+    "x": 14.042,
+    "y": -0.25,
+    "mouthY": -7.646,
+    "skin": "#c3dbbe",
+    "eraseEyes": [
+      64,
+      59,
+      152,
+      119
+    ],
+    "eraseMouth": [
+      86,
+      131,
+      132,
+      145
+    ]
+  },
+  "summer-gun-batimi": {
+    "scale": 0.86458,
+    "x": 13.646,
+    "y": -1.375,
+    "mouthY": -9.385,
+    "skin": "#c3d9bf",
+    "eraseEyes": [
+      65,
+      59,
+      153,
+      119
+    ],
+    "eraseMouth": [
+      87,
+      131,
+      132,
+      145
+    ]
+  },
+  "summer-gunes-sapkasi": {
+    "scale": 0.79167,
+    "x": 21.917,
+    "y": 17.0,
+    "mouthY": 10.792,
+    "skin": "#c4dbbe",
+    "eraseEyes": [
+      68,
+      70,
+      150,
+      129
+    ],
+    "eraseMouth": [
+      89,
+      139,
+      131,
+      153
+    ]
+  },
+  "summer-hasir-sapkali": {
+    "scale": 0.83333,
+    "x": 17.833,
+    "y": 7.5,
+    "mouthY": -0.167,
+    "skin": "#bed5b8",
+    "eraseEyes": [
+      67,
+      65,
+      152,
+      124
+    ],
+    "eraseMouth": [
+      88,
+      135,
+      131,
+      149
+    ]
+  },
+  "summer-karpuz-piknigi": {
+    "scale": 0.86458,
+    "x": 13.646,
+    "y": -1.375,
+    "mouthY": -9.385,
+    "skin": "#c0d6ba",
+    "eraseEyes": [
+      65,
+      59,
+      153,
+      119
+    ],
+    "eraseMouth": [
+      87,
+      131,
+      131,
+      145
+    ]
+  },
+  "summer-keten-takim": {
+    "scale": 0.86458,
+    "x": 14.646,
+    "y": -1.375,
+    "mouthY": -9.385,
+    "skin": "#c4dbbe",
+    "eraseEyes": [
+      66,
+      59,
+      154,
+      119
+    ],
+    "eraseMouth": [
+      88,
+      131,
+      133,
+      145
+    ]
+  },
+  "summer-limonata": {
+    "scale": 0.85417,
+    "x": 16.542,
+    "y": -0.25,
+    "mouthY": -7.646,
+    "skin": "#c0d7ba",
+    "eraseEyes": [
+      67,
+      59,
+      154,
+      119
+    ],
+    "eraseMouth": [
+      89,
+      131,
+      132,
+      145
+    ]
+  },
+  "summer-mavi-sort-tulum": {
+    "scale": 0.85417,
+    "x": 14.542,
+    "y": -0.25,
+    "mouthY": -7.646,
+    "skin": "#c3d9bf",
+    "eraseEyes": [
+      65,
+      59,
+      152,
+      119
+    ],
+    "eraseMouth": [
+      87,
+      131,
+      132,
+      145
+    ]
+  },
+  "summer-sahil-gomlegi": {
+    "scale": 0.85417,
+    "x": 15.542,
+    "y": -0.25,
+    "mouthY": -7.646,
+    "skin": "#c0d6ba",
+    "eraseEyes": [
+      66,
+      59,
+      153,
+      119
+    ],
+    "eraseMouth": [
+      88,
+      131,
+      131,
+      145
+    ]
+  },
+  "summer-seftali-gomlek": {
+    "scale": 0.85417,
+    "x": 15.542,
+    "y": -0.25,
+    "mouthY": -7.646,
+    "skin": "#c4dbbe",
+    "eraseEyes": [
+      66,
+      59,
+      153,
+      119
+    ],
+    "eraseMouth": [
+      88,
+      131,
+      132,
+      145
+    ]
+  },
+  "summer-tropik-yaprak": {
+    "scale": 0.84375,
+    "x": 17.438,
+    "y": 0.875,
+    "mouthY": -5.906,
+    "skin": "#c3d9bf",
+    "eraseEyes": [
+      67,
+      59,
+      154,
+      119
+    ],
+    "eraseMouth": [
+      88,
+      131,
+      133,
+      145
+    ]
+  },
+  "winter-bordo-orgu": {
+    "scale": 0.88542,
+    "x": 10.354,
+    "y": -0.625,
+    "mouthY": -14.365,
+    "skin": "#c8e4c7",
+    "eraseEyes": [
+      63,
+      61,
+      153,
+      123
+    ],
+    "eraseMouth": [
+      86,
+      130,
+      131,
+      143
+    ]
+  },
+  "winter-buz-grisi": {
+    "scale": 0.875,
+    "x": 13.25,
+    "y": 0.0,
+    "mouthY": -13.125,
+    "skin": "#c9e4c7",
+    "eraseEyes": [
+      65,
+      61,
+      155,
+      122
+    ],
+    "eraseMouth": [
+      88,
+      129,
+      133,
+      143
+    ]
+  },
+  "winter-kar-tanesi-kazagi": {
+    "scale": 0.833333,
+    "x": 18.333,
+    "y": 4,
+    "mouthY": -6.5,
+    "skin": "#c7e1c3",
+    "eraseEyes": [
+      62,
+      61,
+      152,
+      122
+    ],
+    "eraseMouth": [
+      85,
+      132,
+      130,
+      146
+    ],
+    "approvedWinter": true
+  },
+  "winter-kirmizi-ekose": {
+    "scale": 0.88542,
+    "x": 10.354,
+    "y": -1.125,
+    "mouthY": -14.865,
+    "skin": "#c7e2c5",
+    "eraseEyes": [
+      63,
+      61,
+      153,
+      122
+    ],
+    "eraseMouth": [
+      86,
+      129,
+      132,
+      143
+    ]
+  },
+  "winter-kis-yuruyusu": {
+    "scale": 0.88542,
+    "x": 9.354,
+    "y": -1.125,
+    "mouthY": -14.865,
+    "skin": "#c9e4c7",
+    "eraseEyes": [
+      62,
+      61,
+      152,
+      122
+    ],
+    "eraseMouth": [
+      85,
+      129,
+      130,
+      143
+    ]
+  },
+  "winter-krem-sisme-yelek": {
+    "scale": 0.89583,
+    "x": 8.958,
+    "y": -1.75,
+    "mouthY": -13.604,
+    "skin": "#c6e0c2",
+    "eraseEyes": [
+      62,
+      61,
+      153,
+      123
+    ],
+    "eraseMouth": [
+      86,
+      132,
+      131,
+      146
+    ]
+  },
+  "winter-kulaklikli-sapka": {
+    "scale": 0.84375,
+    "x": 16.438,
+    "y": 9.875,
+    "mouthY": -0.906,
+    "skin": "#c3dec0",
+    "eraseEyes": [
+      66,
+      68,
+      153,
+      128
+    ],
+    "eraseMouth": [
+      88,
+      136,
+      132,
+      150
+    ]
+  },
+  "winter-kutup-mavisi": {
+    "scale": 0.875,
+    "x": 10.75,
+    "y": 0.0,
+    "mouthY": -13.125,
+    "skin": "#c7e2c5",
+    "eraseEyes": [
+      62,
+      61,
+      152,
+      122
+    ],
+    "eraseMouth": [
+      85,
+      129,
+      130,
+      143
+    ]
+  },
+  "winter-nar-kirmizisi": {
+    "scale": 0.88542,
+    "x": 9.354,
+    "y": -0.625,
+    "mouthY": -14.365,
+    "skin": "#c8e4c7",
+    "eraseEyes": [
+      62,
+      61,
+      152,
+      123
+    ],
+    "eraseMouth": [
+      85,
+      130,
+      130,
+      143
+    ]
+  },
+  "winter-orgu-bere": {
+    "scale": 0.78125,
+    "x": 23.312,
+    "y": 28.125,
+    "mouthY": 18.531,
+    "skin": "#c5dfc1",
+    "eraseEyes": [
+      68,
+      80,
+      150,
+      139
+    ],
+    "eraseMouth": [
+      89,
+      145,
+      131,
+      159
+    ]
+  },
+  "winter-sicak-cikolata": {
+    "scale": 0.88542,
+    "x": 9.354,
+    "y": -1.125,
+    "mouthY": -14.365,
+    "skin": "#c7e2c5",
+    "eraseEyes": [
+      62,
+      61,
+      152,
+      122
+    ],
+    "eraseMouth": [
+      85,
+      130,
+      130,
+      143
+    ]
+  },
+  "winter-yun-pardosu": {
+    "scale": 0.88542,
+    "x": 12.354,
+    "y": -1.125,
+    "mouthY": -14.865,
+    "skin": "#c7e2c5",
+    "eraseEyes": [
+      65,
+      61,
+      155,
+      122
+    ],
+    "eraseMouth": [
+      88,
+      129,
+      133,
+      143
+    ]
+  }
+}
