@@ -19,7 +19,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          cat .github/nero661/part-* > /tmp/nero661.b64
+          cat             .github/nero661/part-00             .github/nero661/part-01             .github/nero661/part-02             .github/nero661/part-03a             .github/nero661/part-03b             .github/nero661/part-04             .github/nero661/part-05             .github/nero661/part-06 > /tmp/nero661.b64
           base64 -d /tmp/nero661.b64 > /tmp/nero661.patch.xz
           xz -dc /tmp/nero661.patch.xz > /tmp/nero661.patch
           git apply --check /tmp/nero661.patch
