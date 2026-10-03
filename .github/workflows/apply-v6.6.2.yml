@@ -42,12 +42,8 @@ jobs:
             Copy-Item $_.FullName -Destination . -Recurse -Force
           }
 
-          Remove-Item .github/nero662 -Recurse -Force
-          Remove-Item .github/workflows/apply-v6.6.2.yml -Force
-
           $pkg = Get-Content package.json -Raw | ConvertFrom-Json
           if ($pkg.version -ne '6.6.2') { throw "Wrong applied version: $($pkg.version)" }
-          if (-not (Test-Path .github/workflows/build-v6.6.2.yml)) { throw '6.6.2 build workflow missing' }
           if (-not (Test-Path src/main/wardrobe.js)) { throw 'Wardrobe backend missing after apply' }
           if (-not (Test-Path test/wardrobe.test.js)) { throw 'Wardrobe tests missing after apply' }
           $catalog = Get-Content themes/default/assets/wardrobe/catalog.json -Raw | ConvertFrom-Json -AsHashtable
@@ -59,7 +55,14 @@ jobs:
           $ErrorActionPreference = 'Stop'
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
           git add -A
-          if (-not (git status --porcelain)) { throw 'No 6.6.2 source changes to commit' }
+          git reset -- .github/workflows/build-v6.6.2.yml
+          git reset -- .github/workflows/apply-v6.6.2.yml
+          git reset -- .github/nero662
+
+          if (-not (git status --porcelain | Where-Object { $_ -notmatch '^\?\? \.github/workflows/build-v6\.6\.2\.yml$' })) {
+            throw 'No 6.6.2 source changes to commit'
+          }
           git commit -m "feat: integrate desktop wardrobe for Nero 6.6.2"
           git push origin HEAD:feature/bee-v6.6.2
