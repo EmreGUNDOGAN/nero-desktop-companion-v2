@@ -339,7 +339,7 @@ jobs:
           }
 
           $metadata = Get-Content dist/latest.yml -Raw
-          if ($metadata -notmatch 'version: 6\.6\.0' -or $metadata -notmatch 'Nero-Setup-6\.6\.0\.exe') {
+          if ($metadata -notmatch 'version: 6\.6\.1' -or $metadata -notmatch 'Nero-Setup-6\.6\.1\.exe') {
             throw 'Updater metadata mismatch'
           }
 
