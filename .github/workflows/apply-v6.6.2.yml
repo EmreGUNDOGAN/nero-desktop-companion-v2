@@ -1,0 +1,65 @@
+name: Apply Nero 6.6.2 Wardrobe Source
+
+on:
+  push:
+    branches: [feature/bee-v6.6.2]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Reconstruct source payload
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $parts = Get-ChildItem .github/nero662/part-* | Sort-Object Name
+          if ($parts.Count -ne 29) { throw "Expected 29 payload parts, got $($parts.Count)" }
+          $b64 = ($parts | ForEach-Object { Get-Content $_.FullName -Raw }) -join ''
+          [IO.File]::WriteAllBytes('nero662-payload.zip', [Convert]::FromBase64String($b64))
+          $hash = (Get-FileHash nero662-payload.zip -Algorithm SHA256).Hash.ToLowerInvariant()
+          if ($hash -ne '400d3c4c58722cad184fb1ac3db24459a36ebd2b60da0105110345bed4453148') {
+            throw "Payload SHA256 mismatch: $hash"
+          }
+
+      - name: Apply 6.6.2 source
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          if (Test-Path _nero662) { Remove-Item _nero662 -Recurse -Force }
+          Expand-Archive nero662-payload.zip -DestinationPath _nero662 -Force
+          $src = Join-Path (Get-Location) '_nero662\nero662payload'
+          if (-not (Test-Path $src)) { throw 'Payload root missing' }
+
+          Get-ChildItem $src -Force | ForEach-Object {
+            Copy-Item $_.FullName -Destination . -Recurse -Force
+          }
+
+          Remove-Item .github/nero662 -Recurse -Force
+          Remove-Item .github/workflows/apply-v6.6.2.yml -Force
+
+          $pkg = Get-Content package.json -Raw | ConvertFrom-Json
+          if ($pkg.version -ne '6.6.2') { throw "Wrong applied version: $($pkg.version)" }
+          if (-not (Test-Path .github/workflows/build-v6.6.2.yml)) { throw '6.6.2 build workflow missing' }
+          if (-not (Test-Path src/main/wardrobe.js)) { throw 'Wardrobe backend missing after apply' }
+          if (-not (Test-Path test/wardrobe.test.js)) { throw 'Wardrobe tests missing after apply' }
+          $catalog = Get-Content themes/default/assets/wardrobe/catalog.json -Raw | ConvertFrom-Json -AsHashtable
+          if ($catalog.Count -ne 88) { throw "Expected 88 wardrobe items, got $($catalog.Count)" }
+
+      - name: Commit 6.6.2 source
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if (-not (git status --porcelain)) { throw 'No 6.6.2 source changes to commit' }
+          git commit -m "feat: integrate desktop wardrobe for Nero 6.6.2"
+          git push origin HEAD:feature/bee-v6.6.2
