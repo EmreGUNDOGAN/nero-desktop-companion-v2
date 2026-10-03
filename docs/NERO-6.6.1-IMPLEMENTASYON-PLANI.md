@@ -1362,7 +1362,7 @@ Her aşama yalnızca aşağıdaki dört koşulun tamamı sağlandığında **TAM
 | 9 | Kalan ekonomi/görev/save tutarlılık açıkları | ✅ TAMAMLANDI |
 | 10 | Rehber/UI/backend tek-kural doğrulaması | ✅ TAMAMLANDI |
 | 11 | Tam regresyon + uzun save simülasyonu | ✅ TAMAMLANDI |
-| 12 | Commit / push / Windows build / final artifact | 🟨 ÇALIŞILIYOR |
+| 12 | Commit / push / Windows build / final artifact | ✅ TAMAMLANDI |
 
 ### Aşama kapatma kuralı
 
