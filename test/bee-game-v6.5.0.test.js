@@ -180,6 +180,6 @@ test('6.5.0 denge düzeltmesi: turnuva ödülü backend ile sonuç ekranında ay
   const root = path.join(__dirname, '..');
   const js = fs.readFileSync(path.join(root, 'src/renderer/bee/bee.js'), 'utf8');
   const core = fs.readFileSync(path.join(root, 'src/main/bee.js'), 'utf8');
-  assert.match(core, /coins: 750, cup: 'altın'/);
-  assert.match(js, /coins: 750/);
+  assert.match(core, /coins: 300, cup: 'altın'/);
+  assert.match(js, /coins: 300/);
 });

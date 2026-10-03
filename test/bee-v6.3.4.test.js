@@ -22,27 +22,26 @@ test('6.3.4 contains 50 villagers with 100 unique personal letters each', () => 
   }
 });
 
-test('6.3.4 letter sender cooldown is 10 sent letters and content cooldown is 30 per sender', () => {
+test('6.3.4 kişisel mektup havuzu 6.6.1 dinamik gönderen ve 3 oyun günlük içerik cooldownuyla uyumludur', () => {
   const bee = start();
   const letterNames = new Set(Object.keys(LETTERS_BY_NAME));
   bee.state.village.arrived = VILLAGE.filter((entry) => entry.type === 'koylu' && letterNames.has(entry.name)).map((entry) => entry.n);
   assert.equal(bee.state.village.arrived.length, 50);
 
-  const senderHistory = [];
-  const contentHistory = new Map();
+  let previous = null;
+  const seenByDay = new Map();
   const originalRandom = Math.random;
-  Math.random = () => 0; // deterministic: always pick the first currently legal candidate/content
+  Math.random = () => 0;
   try {
-    for (let day = 1; day <= 400; day++) {
-      bee.sendLetter(day);
+    for (let day = 1; day <= 120; day++) {
+      assert.equal(bee.sendLetter(day, day * 1000), true);
       const letter = bee.state.letters.at(-1);
       assert.ok(letter, `day ${day}`);
-      assert.ok(!senderHistory.slice(-10).includes(letter.from), `sender cooldown: ${letter.from}`);
-      const recent = contentHistory.get(letter.from) || [];
-      assert.ok(!recent.slice(-30).includes(letter.contentId), `content cooldown: ${letter.from} / ${letter.contentId}`);
-      senderHistory.push(letter.from);
-      recent.push(letter.contentId);
-      contentHistory.set(letter.from, recent);
+      if (previous) assert.notEqual(letter.from, previous, `same sender back-to-back: ${letter.from}`);
+      const lastDay = seenByDay.get(letter.contentId);
+      if (lastDay != null) assert.ok(day - lastDay >= 3, `content cooldown: ${letter.contentId}`);
+      seenByDay.set(letter.contentId, day);
+      previous = letter.from;
     }
   } finally {
     Math.random = originalRandom;

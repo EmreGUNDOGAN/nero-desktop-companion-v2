@@ -73,9 +73,9 @@ test('6.4.0 yan ürünler bal hasadıyla orantılı olarak atölye deposuna taş
   assert.ok(hive.byproducts.royalJelly < 1e-6);
 });
 
-test('6.4.0 Mumcu atölyeyi açar ve premium kavanoz üretimi oyun zamanında tamamlanır', () => {
+test('6.6.1 Atölye 9. yerleşimciyle açılır ve premium kavanoz üretimi oyun zamanında tamamlanır', () => {
   const bee = freshGame();
-  unlock(bee, 30);
+  unlock(bee, 9);
   bee.state.storage.yonca = 5;
   bee.state.wax = 0.2;
 
@@ -96,7 +96,7 @@ test('6.4.0 Mumcu atölyeyi açar ve premium kavanoz üretimi oyun zamanında ta
 
 test('6.4.0 Eczane ve Arıcılar Derneği atölye seviyelerini ve gelişmiş tarifleri açar', () => {
   const bee = freshGame();
-  unlock(bee, 30);
+  unlock(bee, 9);
   assert.equal(bee.workshopRecipe('propolisShield').unlock, false);
 
   unlock(bee, 44);
@@ -115,7 +115,7 @@ test('6.4.0 Eczane ve Arıcılar Derneği atölye seviyelerini ve gelişmiş tar
 test('6.4.0 atölye kovan ürünleri envanterden tüketilir ve gerçek mevcut etkiyi uygular', () => {
   const bee = freshGame();
   const hive = Object.values(bee.state.hives)[0];
-  unlock(bee, 30);
+  unlock(bee, 9);
   unlock(bee, 44);
   unlock(bee, 53);
   bee.state.workshop.products.pollenCake = 1;
@@ -129,7 +129,7 @@ test('6.4.0 atölye kovan ürünleri envanterden tüketilir ve gerçek mevcut et
 
 test('6.4.0 atölye üretimi oyun durduğunda ilerlemez', () => {
   const bee = freshGame();
-  unlock(bee, 30);
+  unlock(bee, 9);
   bee.state.wax = 1;
   assert.equal(bee.enqueueWorkshop('candle').ok, true);
   const before = bee.state.workshop.active[0].remainingMs;

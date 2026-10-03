@@ -31,30 +31,33 @@ test('6.3.16 biodiversity thresholds and monoculture rule are deterministic', ()
 
   flowerize(bee, hive.id, ['lavanta','papatya']);
   let eco = bee.hiveEcosystem(hive.id);
-  assert.equal(eco.productionBonus, 0.06);
+  assert.equal(eco.productionBonus, 0);
+  assert.equal(eco.qualityBonus, 0.06);
   assert.equal(eco.level, 'Orta');
   assert.equal(eco.monoculture, false);
 
   flowerize(bee, hive.id, ['lavanta','papatya','yonca']);
   eco = bee.hiveEcosystem(hive.id);
-  assert.equal(eco.productionBonus, 0.12);
+  assert.equal(eco.productionBonus, 0);
+  assert.equal(eco.qualityBonus, 0.12);
   assert.equal(eco.level, 'Yüksek');
 
   flowerize(bee, hive.id, ['lavanta','lavanta','lavanta','lavanta','lavanta','papatya']);
   eco = bee.hiveEcosystem(hive.id);
   assert.equal(eco.monoculture, true);
   assert.equal(eco.sicknessRiskMult, 1.15);
-  assert.equal(eco.productionBonus, -0.08);
+  assert.equal(eco.productionBonus, 0);
+  assert.equal(eco.qualityBonus, -0.08);
 });
 
-test('6.3.16 biodiversity is exposed as a real production buff', () => {
+test('6.6.1 biodiversity is shown as quality, not a second global production multiplier', () => {
   const bee = new BeeGame(new MemoryStore());
   const hive = Object.values(bee.state.hives)[0];
   flowerize(bee, hive.id, ['lavanta','papatya','yonca']);
   const effect = bee.hiveProductionEffects(hive.id).find((x) => x.label.includes('Biyoçeşitlilik'));
   assert.ok(effect);
-  assert.equal(effect.mult, 1.12);
-  assert.equal(effect.kind, 'buff');
+  assert.equal(effect.mult, 1);
+  assert.equal(effect.value, 'kalite');
 });
 
 test('6.3.16 hive panel exposes the five approved tabs and ecosystem explanations', () => {

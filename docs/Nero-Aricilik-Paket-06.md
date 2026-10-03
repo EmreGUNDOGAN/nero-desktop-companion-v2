@@ -31,6 +31,6 @@ Atölye artık tamamlanmış ürünleri kendi panelinde ikinci bir envanter olar
 - Alan rezerve edilir; tohum, kovan, dekor veya arazi yerleştirmesi bu kareyi kullanamaz.
 - Eski bir kayıtta kare doluysa içerik kaybolmadan uygun başka bir boş alana taşınır.
 - Atölye başlangıçta **kilitli/pasif** görünür.
-- Binaya tıklanınca Atölye paneli açılır ve Mumcu'nun köye gelmesi gerektiğini söyler.
-- **Mumcu (30)** geldikten sonra aynı bina aktif görünür ve gerçek Atölye panelini açar.
+- 6.6.1 progression kararıyla Atölye artık **9. sırada** açılır.
+- Fırın **30. sıraya** taşınmıştır; geç gelen yapılar temel Atölye erişimini kilitlemez.
 - Bina mevcut low-poly sıcak çiftlik sanat diliyle özel olarak tasarlanır; aktif durumda ürün detayları ve baca dumanı ile canlanır.

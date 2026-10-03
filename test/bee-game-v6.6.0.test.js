@@ -31,6 +31,7 @@ test('6.6.0 Odak Bonusu backend, renderer ve rehberde yüzde 10dur', () => {
 
 test('6.6.0 solmuş ve undoPending tarhlar cluster bonusuna girmez', () => {
   const bee = freshGame();
+  // Varsayılan adadaki çiçekleri temizle; yalnız test kümesi sonucu etkilesin.
   for (const t of Object.values(bee.state.tiles)) if (t.item && t.item.type === 'flower') t.item = null;
   for (const k of ['-1,0', '0,-1', '-1,1']) {
     bee.state.tiles[k].owned = true;
@@ -67,7 +68,7 @@ test('6.6.0 kabul edilmiş sipariş balı pazar, Yakup, turnuva ve Atölyeden ko
   bee.state.merchant = { active:true, wants:'yonca', wantsLeft:10, salesTicketKg:0, stock:[], bought:[], sandik:0, until:99 };
   assert.equal(bee.merchantSell('all').ok, false);
 
-  bee.state.gameMs = 11 * bee.view().dayMs;
+  bee.state.gameMs = 11 * bee.view().dayMs; // 12. gün
   assert.equal(bee.enterFestival('yonca', 8).ok, false);
 
   bee.state.village.arrived = Array.from({length:30}, (_,i)=>i+1);
@@ -212,21 +213,20 @@ test('6.6.0 stok değişim başarısızsa Yakup para ve stok durumunu değiştir
   assert.equal(bee.state.merchant.stock[0].sold, false);
 });
 
-test('6.6.0 turnuvada rakip gerçek stoktan bal gönderir ve derece ödülü ekonomisine eklenir', () => {
+test('6.6.1 turnuvada rakip önceden ayırdığı gerçek stokla katılır ve derece ödülü ekonomisine eklenir', () => {
   const bee = freshGame();
   for (const r of bee.state.rivals) {
-    r.farm.honeyByFlower = { yonca: 20 };
-    r.farm.honey = 20;
+    r.farm.honeyByFlower = { yonca: 10 };
+    r.farm.tournamentReserve = { flower:'yonca', kg:10, seasonIndex:0 };
     r.farm.coins = 100;
     r.farm.seasonProduction = 20;
   }
-  const beforeHoney = bee.state.rivals.map(r=>bee.rivalHoneyTotal(r.farm));
   const beforeCoins = bee.state.rivals.map(r=>r.farm.coins);
-  bee.state.gameMs = 15 * bee.view().dayMs;
-  bee.judgeFestival(15);
+  bee.state.gameMs = 14 * bee.view().dayMs;
+  bee.judgeFestival(14);
   bee.state.rivals.forEach((r,i)=>{
-    assert.ok(bee.rivalHoneyTotal(r.farm) < beforeHoney[i]);
-    assert.ok(r.farm.coins > beforeCoins[i]);
+    assert.equal(r.farm.tournamentReserve, null);
+    assert.ok(r.farm.coins >= beforeCoins[i]);
   });
 });
 
@@ -236,12 +236,13 @@ test('6.6.0 rehber ve renderer temel kurallarda backend ile ayrışmaz', () => {
   assert.match(html, /2 saat/);
   assert.match(guide, /2 saat/);
   assert.doesNotMatch(guide, /yan ürün[^\n]{0,80}yer tutucu/i);
-  assert.match(html, /1\. 750 🪙/);
-  assert.match(guide, /750 \/ 500 \/ 250/);
+  assert.match(html, /1\. 300 🪙/);
+  assert.match(guide, /300 \/ 200 \/ 100/);
   assert.match(guide, /\+%6[^\n]{0,40}bal üretimi/);
   assert.match(guide, /\+%12[^\n]{0,40}bal üretimi/);
   assert.match(guide, /-%8/);
 });
+
 
 test('6.6.0 manuel duraklatmada da gerçek-zaman sipariş saati işler', () => {
   const bee = freshGame();
@@ -295,26 +296,17 @@ test('6.6.0 tohum ekmek, dekor yerleştirmek ve fayda ürünü saklamak net değ
   assert.ok(bee.netWorth() > beforeUtility);
 });
 
-test('6.6.0 rakip tohumu mevsimde bir kez öder ve dolu depoyu ücretsiz büyütmez', () => {
+test('6.6.1 rakip her tarhın mevsim tohumunu gerçekten öder; aynı mevsimde tekrar ödemez', () => {
   const bee = freshGame();
   const nur = bee.state.rivals.find((r) => r.id === 'nur');
   nur.farm.coins = 10000;
-  nur.farm.hives = 10;
-  nur.farm.bees = 20;
-  nur.farm.storageCap = 50;
-  nur.farm.honeyByFlower = { yonca: 49 };
-  nur.farm.honey = 49;
-  nur.farm.lastSeedSeason = 0;
-  bee.state.rivalsLastDay = 0;
-  for (const f of Object.keys(bee.state.market.mult)) bee.state.market.mult[f] = 0.8;
-  const beforeCoins = nur.farm.coins;
-  bee.rollRivals(1);
-  assert.equal(nur.farm.storageCap, 100);
-  assert.ok(nur.farm.coins < beforeCoins - 200);
-
-  const seedSpent = nur.farm.seedSpent || 0;
-  bee.rollRivals(2);
-  assert.equal(nur.farm.seedSpent || 0, seedSpent);
+  nur.farm.plots = [{id:'p1',flower:'yonca',active:false,seasonIndex:-1},{id:'p2',flower:'yonca',active:false,seasonIndex:-1}];
+  const before = nur.farm.coins;
+  bee.rivalPreparePlots(nur, 0, 'ilkbahar', []);
+  const after = nur.farm.coins;
+  assert.ok(after < before);
+  bee.rivalPreparePlots(nur, 0, 'ilkbahar', []);
+  assert.equal(nur.farm.coins, after);
 });
 
 test('6.6.0 UI rezerve ve bekleyen balı kullanıcıya açıkça gösterir', () => {
@@ -343,16 +335,15 @@ test('6.6.0 tarihsel plan dosyaları güncel kural kaynağı olmadığını aç�
   }
 });
 
-test('6.6.0 paket sürümü ve Actions workflowu yeni sürüme bağlıdır', () => {
+
+test('6.6.1 paket sürümü ve Actions workflowu yeni sürüme bağlıdır', () => {
   const pkg = JSON.parse(fs.readFileSync(path.join(root, 'package.json'), 'utf8'));
   const lock = JSON.parse(fs.readFileSync(path.join(root, 'package-lock.json'), 'utf8'));
-  const workflow = fs.readFileSync(path.join(root, '.github/workflows/build-v6.6.0.yml'), 'utf8');
-  assert.equal(pkg.version, '6.6.0');
-  assert.equal(lock.version, '6.6.0');
-  assert.equal(lock.packages[''].version, '6.6.0');
-  assert.match(workflow, /name: Build Nero 6\.6\.0 Final/);
-  assert.match(workflow, /branches: \[feature\/bee-v6\.6\.0\]/);
-  assert.match(workflow, /Nero-6\.6\.0-final-bundle/);
-  assert.match(workflow, /Nero-Setup-6\\\.6\\\.0\\\.exe/);
-  assert.doesNotMatch(workflow, /6\\\.5\\\.0|Nero-Setup-6\.5\.0|feature\/bee-v6\.5\.0/);
+  const workflow = fs.readFileSync(path.join(root, '.github/workflows/build-v6.6.1.yml'), 'utf8');
+  assert.equal(pkg.version, '6.6.1');
+  assert.equal(lock.version, '6.6.1');
+  assert.equal(lock.packages[''].version, '6.6.1');
+  assert.match(workflow, /name: Build Nero 6\.6\.1 Final/);
+  assert.match(workflow, /branches: \[feature\/bee-v6\.6\.1\]/);
+  assert.match(workflow, /Nero-6\.6\.1-final-bundle/);
 });

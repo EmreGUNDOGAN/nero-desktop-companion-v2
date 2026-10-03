@@ -255,7 +255,7 @@ Bir kovana tıklayınca **kovanın içi** açılır: solda canlı petek (ortada 
 
 ## 11. Balmumu ve mum
 - Her 1 kg hasatta **25 g balmumu** çıkar.
-- Mumcu gelmeden önce **Mum yap:** 500 g balmumu → 1 mum. Atölye I açıldıktan sonra aynı balmumu ile **2 mum** üretilir; üretim yarım oyun günü sürer.
+- Arıcılık Atölyesi **9. yerleşimciyle** açılır. Atölye açılmadan önce Depo panelindeki temel **Mum yap** işlemi kullanılabilir; Atölye açıldıktan sonra aynı balmumu ile daha verimli üretim yapılır.
 - **Mumları sat:** mumun taban fiyatı 45 jeton; **kışın %40 daha değerli**. Piyasa ve etkinlik bonusları ayrıca uygulanır.
 - Satmadığın mumlar net değerine sayılır.
 
@@ -287,7 +287,7 @@ Her yıl ilkbahar, yaz, sonbahar ve kış turnuvası düzenlenir. Mevsimin **12,
 | Üretim Başarısı | 200 | Mevsimlik üretim ve kovan başına üretim |
 | Köy İtibarı | 150 | Teslim edilmiş siparişler ve ilişkiler |
 
-Temkinli Ali, Riskçi Kaya ve Dengeli Nur kendi çiftlik verilerine göre puan alır; senin puanının yüzdesiyle hesaplanmaz. İlk üçe sırasıyla **750, 500, 250 jeton** ve altın/gümüş/bronz kupa verilir. Birinci olursan **gelecek yıl aynı mevsim** boyunca üretimin %20 artar. Bal Defteri → **Kupalar** bölümünde sonraki turnuvaya kalan oyun günlerini, geçmiş sonuçları ve kategori puanlarını görürsün. Eski festival kupaların korunur.
+Temkinli Ali, Riskçi Kaya ve Dengeli Nur kendi çiftlik verilerine göre puan alır; senin puanının yüzdesiyle hesaplanmaz. İlk üçe sırasıyla **300, 200, 100 jeton** ve altın/gümüş/bronz kupa verilir. Birinci olursan **gelecek yıl aynı mevsim** boyunca üretimin %20 artar. Bal Defteri → **Kupalar** bölümünde sonraki turnuvaya kalan oyun günlerini, geçmiş sonuçları ve kategori puanlarını görürsün. Eski festival kupaların korunur.
 
 ---
 
@@ -519,7 +519,7 @@ Oyun Nero'nun asıl amacıyla bağlantılı: **sen çalıştıkça çiftlik büy
 - **Pencere:** oyun penceresinin boyutu ve konumu hatırlanır.
 - **? :** kısayol listesi.
 
-**✉️ Köylü mektupları:** köyde yaşayan köylüler 3–5 oyun gününde bir kısa bir mektup gönderir (zil ve bildirim ile). Mektupların çoğu sıcak bir an; bazıları küçük bir hediye içerir (10–30 jeton, 100 g balmumu ya da nadiren hediye tohum). Bal Defteri → **Mektuplar** sekmesinden okunur; hediye okuyunca alınır.
+**✉️ Köylü mektupları:** köyde yaşayan köylüler **30–45 gerçek dakikada bir** kısa bir mektup gönderir. 1×/2×/4× oyun hızı bu süreyi değiştirmez; oyun manuel duraklatıldığında sayaç da durur. Oyun kapalıyken sınırsız mektup birikmez, açılışta en fazla **1 catch-up mektubu** gelir. Aynı metin **3 oyun günü** içinde tekrarlanmaz ve gönderen seçimi mevcut köylü sayısına göre dinamik çalışır; az köylüyle sistem kilitlenmez. Mektupların çoğu sıcak bir an; bazıları küçük bir hediye içerir (10–30 jeton, 100 g balmumu ya da nadiren hediye tohum). Bildirim tercihi mektubun gelmesini değil yalnız uyarıyı/sesi etkiler. Bal Defteri → **Mektuplar** sekmesinden okunur; hediye okuyunca alınır.
 
 ---
 
@@ -608,6 +608,13 @@ Köylüler gündüz evlerinden çıkar, yürüyerek köydeki yerlere uğrar ve a
 Gece gökyüzünde küçük, parlayan ve nadiren kayan yıldızlar görünür. **Hafif** grafik modunda yıldız hareketleri ve meteor kapalıdır. Alt menüde Hasat Et üstündeki sayı sıraya alınabilecek kovanları gösterir. Son tohum/kovan yerleşimini 10 gerçek saniye içinde **Geri al** ile iptal edebilirsin. Bildirimler Önemli / Köy / Tümü sekmelerinde; sonbaharda kışın ilk günü için erzağı yetersiz kovanlara toplu şurup düğmesi çıkar. Sipariş kartı kabul etmeden önce mevcut hıza göre yetişme tahmini verir; üretim hızı değişirse tahmin de değişir.
 
 
+
+### Yaşayan Ada (6.6.1)
+
+Köy artık akşam 18:00'de topluca eve kapanmaz. NPC yoğunluğu gerçek saate göre değişir: sabah işe ve dükkânlara giderler, öğlen köy/Pazar hareketlenir, akşam meydan ve festival alanı kullanılır; gece nüfus azalır ama ada tamamen boşalmaz. Festival alanındaki bank, fener, çiçek, sahne ve tezgâhlar festival dışında da günlük yaşamın parçasıdır.
+
+Her mevsimde **15 benzersiz ana yaşam sahnesi** vardır (toplam 60). Aynı sahne aynı oyun yılı/mevsimi içinde tekrar etmez; sonraki oyun yılında yeniden karıştırılabilir. Olaylar yalnız atmosferiktir: jeton, üretim, ilişki veya eşya ödülü vermez. Hava, gerçek gün saati, açık dükkânlar ve gerçekten köyde bulunan NPC'ler dikkate alınır; yağmurda dış sahneler uygun yağmurlu davranışa dönüşür.
+
 ## 6.2.0 görsel yenilikleri
 
 - Köyün 78 yapısı sahibine özgü görünür; uzakta üzerine gelince, yakınlaştırınca hepsinin ad ve tür etiketi açılır. Pencereler gece aydınlanır.
@@ -625,9 +632,9 @@ Toplam puan 1000'dir: **Bal Kalitesi 400 + Arıcılık 250 + Üretim 200 + Köy 
 - **Üretim (200):** `min(125, mevsim üretimi kg × 2,2) + min(75, kovan başına üretim × 4)`.
 - **Köy İtibarı (150):** `başarılı mevsim siparişi × 15 + min(90, ilişki puanı)`.
 
-Turnuvaya **1–10 kg** gerçek bal stokundan gönderilir ve gönderilen bal depodan düşer. Rakipler de kendi gerçek stoklarından en fazla 10 kg gönderir. İlk üç ödülü **750 / 500 / 250 🪙** ve Altın / Gümüş / Bronz Kupa'dır; derece alan rakibin ödül jetonu da kendi ekonomisine eklenir. Altın Kupa gelecek yıl aynı mevsimde +%20 bal üretimi sağlar.
+Turnuvaya **1–10 kg** gerçek bal stokundan gönderilir ve gönderilen bal depodan düşer. Rakipler de kendi gerçek stoklarından en fazla 10 kg gönderir. İlk üç ödülü **300 / 200 / 100 🪙** ve Altın / Gümüş / Bronz Kupa'dır; derece alan rakibin ödül jetonu da kendi ekonomisine eklenir. Altın Kupa gelecek yıl aynı mevsimde +%20 bal üretimi sağlar.
 
 
 ### Haritadaki Arıcılık Atölyesi (6.5.0)
 
-Arıcılık Atölyesi çiftliğin yanında **oyunun başından itibaren fiziksel bir bina olarak** görünür ve bulunduğu kare başka yerleştirmelere kapalıdır. Mumcu henüz köye gelmediyse bina tıklanabilir ama panel **kilitli** durumdadır ve açılma şartını gösterir. Mumcu geldiğinde aynı bina aktif hale gelir; ilerleyen köy yapıları yeni tarifleri ve seviyeleri açar. Atölyenin tamamladığı ürünler doğrudan **Depo → Ürünler** sekmesine gider.
+Arıcılık Atölyesi çiftliğin yanında fiziksel bir bina olarak görünür ve köyün **9. yerleşimcisi** geldiğinde aktifleşir. Çiçekçi Ezgi 7. sırada açıldığı için onunla ilişkili işlenmiş ürünlere erişim gereksiz yere geç oyuna kalmaz. Fırın artık **30. sırada** açılır. Atölye sayfasındaki **Rehber / Nasıl Çalışır?** sekmesi malzeme, tarif, kuyruk, iptal/iade ve ürün akışını açıklar. İlerleyen köy yapıları yeni tarifleri ve seviyeleri açar; tamamlanan ürünler doğrudan **Depo → Ürünler** sekmesine gider.

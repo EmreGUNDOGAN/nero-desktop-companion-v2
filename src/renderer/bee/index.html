@@ -251,6 +251,8 @@
           <label>Sırala <select id="market-sort"><option value="default">Varsayılan</option><option value="price">Fiyat (yüksekten)</option><option value="stock">Depodaki miktar</option></select></label>
         </div>
         <ul class="market-list" id="market-list"></ul>
+        <div class="market-goods-head"><b>📦 Dükkân Malları</b><small>Açılan dükkânların yarı mamulleri her gün Pazara gelir.</small></div>
+        <div class="market-goods" id="market-goods"></div>
       </section>
       <aside class="depot">
         <div class="modal-head">
@@ -281,19 +283,33 @@
         <div><h2>🔨 Arıcılık Atölyesi</h2><p class="modal-sub" id="workshop-sub"></p></div>
         <button class="round small" id="workshop-close" type="button" aria-label="Kapat">✕</button>
       </div>
-      <div class="workshop-materials" id="workshop-materials"></div>
-      <section class="workshop-jobs">
-        <div class="workshop-section-head"><b>Üretim</b><small id="workshop-slots"></small></div>
-        <div id="workshop-active"></div>
-        <div id="workshop-queue"></div>
-      </section>
-      <section>
-        <div class="workshop-section-head"><b>Tarifler</b><small>Köy büyüdükçe yeni tarifler açılır.</small></div>
-        <div class="workshop-recipes" id="workshop-recipes"></div>
-      </section>
-      <section>
-        <div class="workshop-section-head"><b>Tamamlanan Ürünler</b><small>Atölye tamamladığı her ürünü doğrudan Depo'ya gönderir.</small></div>
-        <div class="workshop-products" id="workshop-products"></div>
+      <div class="workshop-tabs" role="tablist" aria-label="Atölye sayfaları">
+        <button type="button" class="on" data-workshop-tab="production">🔨 Üretim</button>
+        <button type="button" data-workshop-tab="guide">📖 Rehber / Nasıl Çalışır?</button>
+      </div>
+      <div data-workshop-page="production">
+        <div class="workshop-materials" id="workshop-materials"></div>
+        <section class="workshop-jobs">
+          <div class="workshop-section-head"><b>Üretim</b><small id="workshop-slots"></small></div>
+          <div id="workshop-active"></div>
+          <div id="workshop-queue"></div>
+        </section>
+        <section>
+          <div class="workshop-section-head"><b>Tarifler</b><small>Köy büyüdükçe yeni tarifler açılır.</small></div>
+          <div class="workshop-recipes" id="workshop-recipes"></div>
+        </section>
+        <section>
+          <div class="workshop-section-head"><b>Tamamlanan Ürünler</b><small>Atölye tamamladığı her ürünü doğrudan Depo'ya gönderir.</small></div>
+          <div class="workshop-products" id="workshop-products"></div>
+        </section>
+      </div>
+      <section class="workshop-guide" data-workshop-page="guide" hidden>
+        <article><h3>🏭 Atölye ne zaman açılır?</h3><p>Arıcılık Atölyesi köyün <b>9. yerleşimcisi</b> olarak açılır. Böylece Çiçekçi Ezgi geldikten kısa süre sonra işlenmiş ürün üretmeye başlayabilirsin. Fırın artık 30. sırada açılır.</p></article>
+        <article><h3>📦 Malzemeler nereden gelir?</h3><p>Balı kendi kovanlarından; balmumu, polen, propolis ve arı sütünü arıcılık sisteminden elde edersin. Dükkânlara özel yarı mamuller fiziksel Pazar sistemi üzerinden alınır. Henüz açılmamış dükkânın malzemesi ve tarifi kullanılamaz.</p></article>
+        <article><h3>🧾 Tarif kartını nasıl okurum?</h3><p>Her tarif gereken malzemeyi, elindeki miktarı, eksikleri ve üretim süresini gösterir. Eksik malzeme varsa üretim düğmesi pasif kalır. Ürün/Mal sistemi geldikçe kartta maksimum üretilebilir adet de gösterilir.</p></article>
+        <article><h3>⏳ Aktif yuvalar ve kuyruk</h3><p>Aktif yuva sayısı Atölye seviyesine göre artar. Yuvalar doluysa yeni işler bekleme sırasına girer. Sırada henüz başlamamış bir işi iptal edersen ayrılan malzemeler güvenli biçimde iade edilir.</p></article>
+        <article><h3>📥 Ürün nereye gider?</h3><p>Tamamlanan ürünler doğrudan <b>Depo → Ürünler</b> bölümüne gider. Ticari ürünler satılabilir veya Ürünler ve Mallar siparişlerinde kullanılabilir; yardımcı ürünler ilgili kovanda/üretimde kullanılır.</p></article>
+        <article><h3>🏘️ Köy büyüdükçe ne değişir?</h3><p>Eczane, Arıcılar Derneği, Köy Serası, Bal Müzesi ve ürün dükkânları yeni tarif aileleri, üretim seçenekleri veya Atölye geliştirmeleri açar. Geç gelen bir yapı temel Atölye erişimini tekrar kilitlemez.</p></article>
       </section>
     </div>
   </div>
@@ -306,6 +322,10 @@
         <button class="round small" id="orders-close" type="button" aria-label="Kapat">✕</button>
       </div>
       <p class="modal-sub">Köylüler özel bal istiyor! Siparişler piyasadan çok daha iyi öder. Sadece ekili çiçeklerinin balı istenir.</p>
+      <div class="orders-tabs">
+        <button type="button" class="on" data-order-tab="honey">🍯 Bal Siparişleri</button>
+        <button type="button" data-order-tab="product">📦 Ürünler ve Mallar</button>
+      </div>
       <div class="orders-meta" id="orders-meta"></div>
       <div class="list-tools">
         <label>Sırala <select id="order-sort"><option value="time">Kalan süre</option><option value="reward">Ödül</option><option value="ready">Hazır olanlar önce</option></select></label>
@@ -389,7 +409,7 @@
         <details class="guide-topic">
           <summary>🏘️ Köy ve komşular</summary>
           <p>Adanı çevreleyen iki halkada bir köy yaşar. Bu karelere yalnızca köylüler yerleşir; senin adana dokunmazlar. Siparişlerle teslim ettiğin toplam bal arttıkça köy büyür: başlangıçta 6 yerleşimci vardır; <b>50, 150, 400 ve 1.000 kg</b>'da birer kişi, sonra <b>her 500 kg'de bir</b> yeni köylü, dükkân ya da bina gelir. İlk 36 yerleşimci iç halkaya (54 kare), sonraki 42 yerleşimci dış halkaya (60 kare) yerleşir; son yerleşimci 35.000 kg'da gelir. 78 yerleşimciyle köy tamamlanır.</p>
-          <p><b>Köylüler:</b> her birinin sevdiği bir bal var; o bal ekiliyse siparişlerinde sık sık onu ister ve %15 daha iyi öder. <b>Dükkânlar ve binalar</b> kalıcı etkiler getirir: Fırın, Pastane ve Muhtarlık düzenli siparişler verir; Bal Dükkânı pazar fiyatlarını %10, Çiçekçi tohumları %10 ucuzlatır, Kahveci odak bonusunu uzatır, Postane sipariş sürelerini 1 gün artırır, Pazar Yeri sipariş sınırını 6'ya çıkarır… <b>Mumcu</b> Arıcılık Atölyesi'ni açar; <b>Eczane</b> propolis tariflerini, <b>Arıcılar Derneği</b> gelişmiş polen ve Arı Sütü tariflerini, <b>Köy Serası</b> Aromalı Balı, <b>Bal Müzesi</b> Hediye Seti'ni açar.</p>
+          <p><b>Köylüler:</b> her birinin sevdiği bir bal var; o bal ekiliyse siparişlerinde sık sık onu ister ve %15 daha iyi öder. <b>Dükkânlar ve binalar</b> kalıcı etkiler getirir: Fırın, Pastane ve Muhtarlık düzenli siparişler verir; Bal Dükkânı pazar fiyatlarını %10, Çiçekçi tohumları %10 ucuzlatır, Kahveci odak bonusunu uzatır, Postane sipariş sürelerini 1 gün artırır, Pazar Yeri sipariş sınırını 6'ya çıkarır… <b>Atölye 9. yerleşimci olarak açılır</b>; <b>Fırın 30. sıradadır</b>. <b>Eczane</b> propolis tariflerini, <b>Arıcılar Derneği</b> gelişmiş polen ve Arı Sütü tariflerini, <b>Köy Serası</b> Aromalı Balı, <b>Bal Müzesi</b> Hediye Seti'ni açar.</p>
           <p>Köydeki bir yapıya tıklayınca kim olduğunu ve etkisini görürsün. Bal Defteri'nin <b>Köy</b> sekmesinde bütün yerleşimciler, kalpleri ve sıradaki yerleşimci için gereken bal yazar. Köydeki 78 yapı kendine özgü görünüme sahiptir; uzaktayken üzerine geldiğin yapının, yakınlaştırdığında bütün yapıların adı görünür. Gece pencereleri aydınlanır.</p>
           <p>Çiftlik evi kovan ve arazi sayısıyla dört aşamada büyür. Kovanların görünümü seviyesi, arı ırkı ve kraliçe yükseltmesine göre değişir. Arıcı hasatta körük ve çerçeveyle çalışır; çiçek tarhları, arılar, göller ve Seyyah Yakup'un arabası yenilendi.</p>
         </details>
@@ -397,7 +417,7 @@
         <details class="guide-topic">
           <summary>🔨 Yan ürünler ve Arıcılık Atölyesi</summary>
           <p>Bal üretirken kovanda üç gerçek yan ürün birikir: <b>Polen</b>, <b>Propolis</b> ve <b>Arı Sütü</b>. Polen aktif çiçek ve biyoçeşitlilikten etkilenir; monokültür poleni azaltır. Propolis için sağlıklı ve en az 8 arılı koloni gerekir. Arı Sütü için sağlıklı, en az 12 arılı ve en az Sağlıklı Kraliçe seviyesine yükselmiş bir kovan gerekir. Yan ürünler balı hasat ettiğinde aynı oranda atölye deposuna taşınır.</p>
-          <p><b>Mumcu (30. yerleşimci)</b> Atölye I'i açar: premium bal kavanozları ve mum. <b>Eczane (44)</b> Atölye II'yi açar: Propolis Kalkanı ve Propolis Merhemi. <b>Arıcılar Derneği (53)</b> Atölye III'ü açar, aynı anda 2 üretim yapılabilir ve Polen Keki, Özel Polen Karışımı, Arı Sütü Kürü açılır. <b>Köy Serası (73)</b> Aromalı Bal Kavanozu, <b>Bal Müzesi (78)</b> Bal Hediye Seti tarifini açar.</p>
+          <p><b>Atölye (9. yerleşimci)</b> temel üretimi açar; Çiçekçi Ezgi ile başlayan ticari tarifler burada işlenir. <b>Fırın 30. sırada</b> gelir ve kendi tarif ailesini açar. <b>Eczane (44)</b> Atölye II'yi açar: Propolis Kalkanı ve Propolis Merhemi. <b>Arıcılar Derneği (53)</b> Atölye III'ü açar, aynı anda 2 üretim yapılabilir ve Polen Keki, Özel Polen Karışımı, Arı Sütü Kürü açılır. <b>Köy Serası (73)</b> Aromalı Bal Kavanozu, <b>Bal Müzesi (78)</b> Bal Hediye Seti tarifini açar.</p>
           <p>Atölye üretimleri oyun zamanı ile ilerler ve oyun durduğunda durur. Ticari ürünler sabit fiyattan satılabilir; kovan ürünleri envanterden seçtiğin kovana uygulanır. Kışın normal bal fiyatı artık <b>+%15</b> mevsim bonusu alır.</p>
         </details>
 
@@ -414,7 +434,7 @@
           <p>Oyunla ilgili bütün ayarlar sağ üstteki <b>⚙️ Ayarlar</b>'da: grafik kalitesi (Yüksek / Dengeli / Hafif; hafif modda gölgeler, ateş böcekleri ve kar/yağmur kapanır, her kovanın etrafında daha az arı uçar; üretim etkilenmez), gece modu, efekt ve ortam sesleri, masaüstündeki Nero'nun hangi durumlarda haber vereceği, kaydı dışa/içe aktarma, fotoğraf klasörü ve oyunu sıfırlama.</p>
           <p><b>🐝 Kovanlar</b> (K) bütün kovanları tek listede gösterir; birine tıklayınca kamera oraya gider. Buradan <b>tüm kovanlara şurup</b> verebilirsin. Kovan ekranında ‹ › ya da ←/→ ile kovanlar arasında gezinirsin. <b>⌖</b> (R) kamerayı adanın ortasına döndürür.</p>
           <p>Siparişlerde depodan hemen karşılanabilenler <b>✓ hazır</b> yazar; <b>Hazır olanların hepsini teslim et</b> kabul ettiğin hazır siparişleri tek tuşla teslim eder. Siparişleri süreye, ödüle ya da hazır olanlara göre, Pazar'ı fiyata ya da miktara göre sıralayabilir, "Sadece depomdakiler" ile süzebilirsin. Kovanın ya da tarhın üstüne gelince doluluğu, üretimi ya da kalan ömrü görürsün. 500 🪙 ve üstü alımlarda onay istenir. Bildirim panelindeki bir bildirime tıklayınca ilgili yer açılır. Köşedeki Nero da ters giden bir şey olunca (depo dolmak üzere, yanında çiçek olmayan kovan, hazır sipariş…) haber verir.</p>
-          <p><b>✉️ Mektuplar:</b> köylüler birkaç günde bir sana mektup yazar; bazılarının içinde küçük bir hediye olur. Bal Defteri → Mektuplar'dan okursun.</p>
+          <p><b>✉️ Mektuplar:</b> köylüler 30–45 gerçek dakikada bir mektup yazar; 1×/2×/4× bu süreyi değiştirmez. Aynı metin 3 oyun günü içinde tekrarlanmaz; oyun kapalıyken açılışta en fazla 1 mektup birikir. Bazılarının içinde küçük bir hediye olur. Bal Defteri → Mektuplar'dan okursun.</p>
         </details>
 
         <details class="guide-topic">
@@ -494,7 +514,7 @@
           <p><b>📦 Üretim — 200:</b> min(125, mevsim üretimi kg ×2,2) + min(75, kovan başına üretim ×4).</p>
           <p><b>💛 Köy İtibarı — 150:</b> o mevsimde tamamlanan başarılı sipariş ×15 + min(90, ilişki puanı).</p>
           <p><b>🎯 Puanı yükseltmek için:</b> doğru mevsimde değerli bal gönder, 10 kg kotayı doldur, biyoçeşitliliği koru, kovanları sağlıklı tut, arı kaybını azalt, verimli üret ve siparişleri tamamla.</p>
-          <p><b>🥇 Ödüller:</b> 1. 750 🪙 + Altın Kupa, 2. 500 🪙 + Gümüş Kupa, 3. 250 🪙 + Bronz Kupa. Altın Kupa gelecek yıl aynı mevsimde <b>+%20 bal üretimi</b> sağlar. Kupalar ve kategori sonuçları Bal Defteri’nde görünür.</p>
+          <p><b>🥇 Ödüller:</b> 1. 300 🪙 + Altın Kupa, 2. 200 🪙 + Gümüş Kupa, 3. 100 🪙 + Bronz Kupa. Altın Kupa gelecek yıl aynı mevsimde <b>+%20 bal üretimi</b> sağlar. Kupalar ve kategori sonuçları Bal Defteri’nde görünür.</p>
           <p><b>Rakipler:</b> Temkinli Ali, Riskçi Kaya ve Dengeli Nur aynı kategori hesaplayıcısını kullanır; girdileri kendi gerçek simüle edilmiş stok, üretim, hastalık, sipariş ve ilişki verileridir. Turnuvaya gönderdikleri bal kendi stoklarından düşer ve kazandıkları ödül jetonu ekonomilerine eklenir.</p>
         </details>
 

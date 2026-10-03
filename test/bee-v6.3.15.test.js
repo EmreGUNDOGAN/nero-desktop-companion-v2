@@ -16,9 +16,9 @@ test('6.3.15 approved economy and breeding rules are encoded', () => {
   assert.match(beeSource, /anadolu:[^\n]+breedDays: 4/);
   assert.match(beeSource, /kafkas:[^\n]+breedDays: 4/);
   assert.match(beeSource, /italyan:[^\n]+breedDays: 2/);
-  assert.match(beeSource, /coins: 750, cup: 'altın'/);
-  assert.match(beeSource, /coins: 500, cup: 'gümüş'/);
-  assert.match(beeSource, /coins: 250, cup: 'bronz'/);
+  assert.match(beeSource, /coins: 300, cup: 'altın'/);
+  assert.match(beeSource, /coins: 200, cup: 'gümüş'/);
+  assert.match(beeSource, /coins: 100, cup: 'bronz'/);
   assert.match(beeSource, /pct: 15, until: day \+ 2/);
 });
 

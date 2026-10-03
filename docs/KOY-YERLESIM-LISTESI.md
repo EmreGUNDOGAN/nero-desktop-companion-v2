@@ -24,7 +24,7 @@ Köy, oyuncunun adasını (5 yarıçaplı altıgen) çevreleyen **iki halkada** 
 | 6 | 1 | Başlangıçta | Dükkân | **Bakkal** | Bakkal Hüseyin işletir | Şurup %20 ucuz | Yeşil çizgili tente, önünde meyve kasaları |
 | 7 | 1 | 50 kg | Köylü | **Kasabalı Cem** | Kasabadan taşınan genç | Lavanta | Beyaz, düz çatılı modern ev, geniş cam cephe |
 | 8 | 1 | 150 kg | Köylü | **Balıkçı Kemal** | Göl balıkçısı | Yonca | Mavi çatı, önünde ters çevrilmiş kayık ve kuruyan ağ |
-| 9 | 1 | 400 kg | Dükkân | **Fırın** | Fırıncı Leyla işletir | Her 7 günde düzenli yonca/papatya siparişi (8–12 kg, ödeme ×1.6) | Kırmızı tuğla, sürekli tüten baca, ekmek tabelası |
+| 9 | 1 | 400 kg | Dükkân | **Arıcılık Atölyesi** | Mumcu işletir | Atölye açılır; mum satış değeri +%20 | Ahşap çalışma tezgâhı, sıcak ışık, üretim bacası |
 | 10 | 1 | 1.000 kg | Köylü | **Öğretmen Selin** | Köy okulunun öğretmeni | Papatya | Pastel yeşil ev, bahçede kitap rafı ve küçük masa |
 | 11 | 1 | 1.500 kg | Köylü | **Doktor Aslı** | Köy doktoru | Kış Fundası | Beyaz ev, yeşil panjurlar, kapı önünde doktor çantası |
 | 12 | 1 | 2.000 kg | Dükkân | **Pastane** | Pastacı Nur işletir | Her 5 günde küçük ama çok iyi ödemeli lavanta/Kış Fundası/kestane siparişi (2–4 kg, ×2.2) | Pembe çatı, kırmızı-beyaz çizgili tente, pasta tabelası |
@@ -45,7 +45,7 @@ Köy, oyuncunun adasını (5 yarıçaplı altıgen) çevreleyen **iki halkada** 
 | 27 | 1 | 9.500 kg | Köylü | **Bahçıvan Zehra** | Köyün bahçıvanı | Ayçiçeği | Evin yanında küçük cam sera |
 | 28 | 1 | 10.000 kg | Bina | **Kütüphane** | Köy kütüphanesi | Süs (gece pencereleri geç saate kadar yanar) | Kubbeli çatı, kolonlu giriş |
 | 29 | 1 | 10.500 kg | Köylü | **Hemşire Canan** | Doktor Aslı'nın yardımcısı | Kış Fundası | Açık mavi ev, pencerede papatya saksısı |
-| 30 | 1 | 11.000 kg | Dükkân | **Mumcu** | Balmumundan mum yapar | Mum fiyatı +%20 | Vitrinde yanan mumlar, sıcak sarı ışık |
+| 30 | 1 | 11.000 kg | Dükkân | **Fırın** | Fırıncı Leyla işletir | Her 7 günde düzenli yonca/papatya siparişi (8–12 kg, ödeme ×1.6) | Kırmızı tuğla, sürekli tüten baca, ekmek tabelası |
 | 31 | 1 | 11.500 kg | Köylü | **Kaptan Rüstem** | Emekli gemi kaptanı | Kestane | Lacivert çatı, kapı önünde çapa, çatıda dürbün |
 | 32 | 1 | 12.000 kg | Köylü | **Müzisyen Efe** | Köyün sazcısı | Lavanta | Balkonda duvara asılı saz |
 | 33 | 1 | 12.500 kg | Bina | **Meydan Çeşmesi** | Köy meydanı | Süs | Taş havuzlu, üç lüleli büyük çeşme |
@@ -100,7 +100,7 @@ Köy, oyuncunun adasını (5 yarıçaplı altıgen) çevreleyen **iki halkada** 
 | Yapı | Geldiği sıra | Etki |
 |---|---|---|
 | Bakkal | 6 (Başlangıçta) | Şurup %20 ucuz |
-| Fırın | 9 (400 kg) | Her 7 günde düzenli yonca/papatya siparişi (8–12 kg, ödeme ×1.6) |
+| Arıcılık Atölyesi | 9 (400 kg) | Atölye açılır; mum satış değeri +%20 |
 | Pastane | 12 (2.000 kg) | Her 5 günde küçük ama çok iyi ödemeli lavanta/Kış Fundası/kestane siparişi (2–4 kg, ×2.2) |
 | Çay Bahçesi | 13 (2.500 kg) | Müdavimlik hızlanır: her köylüyle ilk kalp 1 teslimde |
 | Bal Dükkânı | 14 (3.000 kg) | Pazar fiyatları +%10 |
@@ -110,7 +110,7 @@ Köy, oyuncunun adasını (5 yarıçaplı altıgen) çevreleyen **iki halkada** 
 | Okul | 22 (7.000 kg) | Günlük görev ödülleri +%10 |
 | Çiçekçi | 25 (8.500 kg) | Tohumlar %10 ucuz |
 | Kütüphane | 28 (10.000 kg) | Süs (gece pencereleri geç saate kadar yanar) |
-| Mumcu | 30 (11.000 kg) | Mum fiyatı +%20 |
+| Fırın | 30 (11.000 kg) | Her 7 günde düzenli yonca/papatya siparişi (8–12 kg, ödeme ×1.6) |
 | Meydan Çeşmesi | 33 (12.500 kg) | Süs |
 | Veteriner Kliniği | 34 (13.000 kg) | Kovanların hastalanma ihtimali %25 azalır |
 | Dondurmacı | 37 (14.500 kg) | Yazın tüm siparişler %10 daha iyi öder |

@@ -131,7 +131,8 @@ test('seasonal tournament records each category and pays a top-three prize once'
   bee.state.gameMs = 13 * 15 * 60 * 1000;
   bee.state.storage.yonca = 10;
   assert.equal(bee.enterFestival('yonca', 5).ok, true);
-  bee.judgeFestival(15);
+  for (const r of bee.state.rivals) { r.farm.tournamentReserve = { flower:'yonca', kg:1, seasonIndex:0 }; r.farm.seasonProduction = 5; }
+  bee.judgeFestival(14);
   const result = bee.state.festival.results[0];
   assert.equal(result.year, 1);
   assert.equal(result.season, 'ilkbahar');
@@ -139,13 +140,14 @@ test('seasonal tournament records each category and pays a top-three prize once'
   for (const x of result.all) assert.equal(x.score, Object.values(x.categories).reduce((a, b) => a + b, 0));
   assert.equal(bee.state.festival.entry, null);
   const coins = bee.state.coins;
-  bee.judgeFestival(15);
+  bee.judgeFestival(14);
   assert.equal(bee.state.coins, coins);
 });
 
-test('rivals receive independent seasonal cups even when the player does not enter', () => {
+test('rivals receive independent seasonal cups when they reserved real tournament stock', () => {
   const bee = start();
-  bee.judgeFestival(15);
+  for (const r of bee.state.rivals) { r.farm.tournamentReserve = { flower:'yonca', kg:2, seasonIndex:0 }; r.farm.seasonProduction = 5; }
+  bee.judgeFestival(14);
   const result = bee.state.festival.results[0];
   assert.equal(result.place, null);
   assert.equal(result.all.length, 3);
@@ -193,7 +195,7 @@ test('6.0.0 turnuva popupı şeffaf kategori kartlarını ve doğru ödülleri g
   assert.match(js, /Arıcılık Ustalığı/);
   assert.match(js, /Üretim Başarısı/);
   assert.match(js, /Köy İtibarı/);
-  assert.match(js, /750/);
+  assert.match(js, /300/);
   assert.match(js, /500/);
   assert.match(js, /250/);
   assert.match(js, /\+%20 üretim/);

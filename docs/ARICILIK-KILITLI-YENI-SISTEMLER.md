@@ -7,7 +7,7 @@ Durum: Tasarım kararları kayda alındı. Bu dalda **Çiçek Ekosistemi + yeni 
 ## 1. Arıcılık Atölyesi — KİLİTLİ / SONRAKİ MADDE
 
 - Köy ilerledikçe açılan fiziksel bir **Arıcılık Atölyesi** binası olacak.
-- Temel sistem Mumcu ile açılacak; Eczane, Arıcılar Derneği, Köy Serası ve ileri köy aşamaları yeni tarif kategorileri açabilecek.
+- Temel sistem 9. sıradaki Arıcılık Atölyesi ile açılacak; Eczane, Arıcılar Derneği, Köy Serası ve ileri köy aşamaları yeni tarif kategorileri açabilecek.
 - Üretim **gerçek zamanla değil oyun zamanı** ile ilerleyecek.
 - Başlangıçta 1 aktif üretim ve sınırlı üretim kuyruğu olacak.
 - Bal kavanozları, mum, propolis ürünleri, polen ürünleri, aromalı bal ve ileri aşamada hediye setleri gibi işlenmiş ürünler üretilecek.

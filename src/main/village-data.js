@@ -66,12 +66,12 @@ module.exports = [
  {
   "n": 9,
   "type": "dukkan",
-  "name": "Fırın",
-  "role": "Fırıncı Leyla işletir",
-  "effectText": "Her 7 günde düzenli yonca/papatya siparişi (8–12 kg, ödeme ×1.6)",
-  "effect": "firin",
-  "value": 1,
-  "owner": "Fırıncı Leyla"
+  "name": "Arıcılık Atölyesi",
+  "role": "Mumcu işletir; işlenmiş arıcılık ürünlerinin üretim merkezi",
+  "effectText": "Arıcılık Atölyesi açılır; mum satış değeri +%20",
+  "effect": "candleBonus",
+  "value": 0.2,
+  "owner": "Mumcu"
  },
  {
   "n": 10,
@@ -231,11 +231,12 @@ module.exports = [
  {
   "n": 30,
   "type": "dukkan",
-  "name": "Mumcu",
-  "role": "Balmumundan mum yapar",
-  "effectText": "Mum fiyatı +%20",
-  "effect": "candleBonus",
-  "value": 0.2
+  "name": "Fırın",
+  "role": "Fırıncı Leyla işletir",
+  "effectText": "Her 7 günde düzenli yonca/papatya siparişi (8–12 kg, ödeme ×1.6)",
+  "effect": "firin",
+  "value": 1,
+  "owner": "Fırıncı Leyla"
  },
  {
   "n": 31,

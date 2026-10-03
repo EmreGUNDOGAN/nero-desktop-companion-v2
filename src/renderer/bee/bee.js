@@ -12,6 +12,7 @@ import { makeHiveV2 } from './gorsel/kovan.js';
 import { makeFarmHouse, farmStage } from './gorsel/ciftlik-evi.js';
 import { makeStorage } from './gorsel/depo.js';
 import { makeWorkshopBuilding } from './gorsel/atolye.js';
+import { makePhysicalMarket } from './gorsel/pazar.js';
 import { makeBeeV2, beeArc } from './gorsel/ari.js';
 import { makeWaterDeco } from './gorsel/gol.js';
 import { makeFlowerBed } from './gorsel/tarh.js';
@@ -169,7 +170,10 @@ function actorBubble(obj, message, duration = 2000) {
   setTimeout(() => { el.remove(); worldBubbles.delete(bubble); }, duration);
 }
 const villageLife = createVillageLife({ scene: actors, walkers, graphics: () => gfx, house: houseApproach, bubble: actorBubble,
-  festival: () => view?.festival?.open ? ['-5,2', '-6,2', '-4,2'] : [] });
+  festival: () => ['-5,2', '-6,2', '-4,2'], festivalOpen: () => !!view?.festival?.open,
+  market: () => view?.marketTile || null, life: () => view?.islandLife || null,
+  weather: () => view?.weather?.id || null, season: () => view?.calendar?.season || null,
+  markLifeEvent: (id) => doAct('lifeEventSeen', id) });
 const islandNero = createIslandNero({ scene: actors, walkers, house: houseApproach,
   targets: () => [...hiveObjects.values()].map((x) => x.key).concat(Object.entries(view?.tiles || {})
     .filter(([, t]) => t.item?.type === 'flower').map(([k]) => k)),
@@ -618,7 +622,7 @@ function festivalScene(t) {
         const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.022, 0.022, 0.75, 5), M.wood);
         pole.position.set(x, 0.39, -0.26); g.add(pole);
       }
-      if (view.festival.open) for (let i = 0; i < 5; i++) {
+      for (let i = 0; i < (view.festival.open ? 5 : 3); i++) {
         const flag = new THREE.Mesh(new THREE.ConeGeometry(0.055, 0.11, 3), seasonal);
         flag.position.set(-0.34 + i * 0.17, 0.72, -0.26); flag.rotation.z = Math.PI; g.add(flag);
       }
@@ -631,7 +635,7 @@ function festivalScene(t) {
         const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.018, 0.018, 0.35, 5), M.wood);
         pole.position.set(x, 0.37, 0); g.add(pole);
       }
-      if (view.festival.open) {
+      {
         if (season === 'sonbahar') {
           const basket = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.09, 0.13, 8), mat(0xAE773F));
           basket.position.set(-0.31, 0.08, 0.24); g.add(basket);
@@ -673,6 +677,7 @@ function buildItems() {
     if (t.item && t.item.type === 'house') obj = makeFarmHouse(farmStage(view));
     else if (t.kind === 'storage') obj = makeStorage(view.storageBaseCap, view.storageKg / view.storageCap);
     else if (t.kind === 'workshop') obj = makeWorkshopBuilding(!!view.workshop?.unlocked, view.workshop?.level || 0);
+    else if (t.kind === 'market') obj = makePhysicalMarket();
     else if (t.item && t.item.type === 'hive') {
       obj = makeHiveV2(view.hives[t.item.id]);
       obj.scale.setScalar(1.22);
@@ -689,7 +694,7 @@ function buildItems() {
     else if (t.kind === 'water') obj = makeWaterDeco(t, view.tiles, R, seed);
     else if (t.tree) obj = makeTree(seed);
     if (obj) {
-      if (t.item?.type === 'house' || t.kind === 'storage' || t.kind === 'workshop') snowOnRoofs(obj);
+      if (t.item?.type === 'house' || t.kind === 'storage' || t.kind === 'workshop' || t.kind === 'market') snowOnRoofs(obj);
       obj.position.x += p.x;
       obj.position.z += p.z;
       obj.position.y = y;
@@ -989,11 +994,10 @@ $('zoom-out').addEventListener('click', () => setZoom(zoom / 1.2));
 
 function updateHover() {
   const t = hoverKey && view && view.tiles[hoverKey];
-  const specialBuilding = t && (t.kind === 'storage' || t.kind === 'workshop');
+  const specialBuilding = t && (t.kind === 'storage' || t.kind === 'workshop' || t.kind === 'market');
   const clickable = t && t.kind !== 'water' && (specialBuilding || t.owned || isBuyable(t));
   hoverRing.visible = !!clickable;
-  canvas.style.cursor = clickable || (hoverKey && (hoverKey.startsWith('v:') || hoverKey === 'm:cart')) ? 'pointer' : 'grab';
-  if (clickable) {
+  canvas.style.cursor = clickable || (hoverKey && (hoverKey.startsWith('v:') || hoverKey === 'm:cart')) ? 'pointer' : 'grab';  if (clickable) {
     const p = hexToWorld(t.q, t.r);
     hoverRing.position.set(p.x, topY(t) + 0.02, p.z);
   }
@@ -1027,12 +1031,14 @@ function onTileClick(k, x, y) {
   if (!k || !view) return;
   const t = view.tiles[k];
   if (!t || t.kind === 'water') return;
-  if (placing && (t.kind === 'storage' || t.kind === 'workshop')) {
-    toast(t.kind === 'workshop' ? 'Bu kare Arıcılık Atölyesi için ayrılmış.' : 'Bu kare Depo binasına ayrılmış.', true);
+  if (placing && (t.kind === 'storage' || t.kind === 'workshop' || t.kind === 'market')) {
+    const reserved = t.kind === 'workshop' ? 'Bu kare Arıcılık Atölyesi için ayrılmış.' : t.kind === 'market' ? 'Bu kare fiziksel Pazar için ayrılmış.' : 'Bu kare Depo binasına ayrılmış.';
+    toast(reserved, true);
     return;
   }
   if (!placing && t.kind === 'storage') { openWarehouse(); return; }
   if (!placing && t.kind === 'workshop') { openWorkshop(); return; }
+  if (!placing && t.kind === 'market') { openMarket(); return; }
   if (placing) { placeAt(k, t); return; }
   popupKey = k;
 
@@ -1220,8 +1226,8 @@ function showCupResult() {
   const seasonEmoji = ({ ilkbahar: '🌸', yaz: '☀️', sonbahar: '🍂', kis: '❄️' })[r.season] || '🌿';
   $('cup-result-title').textContent = `🏆 ${seasonName} Yarışması Sonuçları`;
   const prizeByPlace = {
-    1: { cup: 'Altın kupa', icon: '🥇', coins: 750 },
-    2: { cup: 'Gümüş kupa', icon: '🥈', coins: 500 },
+    1: { cup: 'Altın kupa', icon: '🥇', coins: 300 },
+    2: { cup: 'Gümüş kupa', icon: '🥈', coins: 200 },
     3: { cup: 'Bronz kupa', icon: '🥉', coins: 250 }
   };
   const prize = r.place ? prizeByPlace[r.place] : null;
@@ -1446,7 +1452,7 @@ function renderLedger(force = false) {
         <p>“${esc(l.text)}”</p>
         ${l.gift ? `<small>${l.claimed ? '🎁 Hediye alındı' : '🎁 İçinde küçük bir hediye var'}</small>` : ''}
         ${!l.read ? `<div><button type="button" class="act primary small-act" data-read="${l.id}">${l.gift ? 'Oku ve hediyeyi al' : 'Okundu'}</button></div>` : ''}</div>`).join('')
-      : '<div class="page locked"><b>Henüz mektup yok</b><small>Köylüler birkaç günde bir sana mektup yazar.</small></div>';
+      : '<div class="page locked"><b>Henüz mektup yok</b><small>Köylüler ${view?.rules?.letterMinMinutes || 30}–${view?.rules?.letterMaxMinutes || 45} gerçek dakikada bir sana mektup yazar.</small></div>';
   } else if (ledgerTab === 'effects') {
     const E = view.effects || { focus: { active: false, icon: 'focus', title: 'Odak Bonusu', text: '+%10 bal üretimi', leftMs: 0, earnedTodayMs: 0, dailyLimitMs: 14400000 }, list: [] };
     const allowed = new Set(['focus', 'story', 'building', 'syrup', 'milk', 'season', 'immunity', 'storage']);
@@ -1990,8 +1996,7 @@ document.addEventListener('mousemove', (e) => {
       nero.classList.add('blink');
       setTimeout(() => nero.classList.remove('blink'), 150);
     }
-    scheduleNeroBlink();
-  }, delay);
+    scheduleNeroBlink();  }, delay);
 })();
 
 function react(action, res, a, b) {
@@ -2269,6 +2274,7 @@ function renderBoard(force = false) {
 // Siparişler
 // ---------------------------------------------------------------------------
 let ordersOpen = false;
+let ordersTab = 'honey';
 let ordersSig = '';
 const AVATARS = {
   'Ayşe Teyze': '👵', 'Mehmet Usta': '👨‍🔧', 'Küçük Elif': '👧', 'Fırıncı Leyla': '👩‍🍳', 'Kasabalı Cem': '🧑‍🌾',
@@ -2280,6 +2286,7 @@ function closeOrders() { ordersOpen = false; $('orders-modal').hidden = true; }
 $('open-orders').addEventListener('click', openOrders);
 $('orders-close').addEventListener('click', closeOrders);
 $('orders-modal').addEventListener('click', (e) => { if (e.target === $('orders-modal')) closeOrders(); });
+for (const b of document.querySelectorAll('[data-order-tab]')) b.addEventListener('click', () => { ordersTab = b.dataset.orderTab; document.querySelectorAll('[data-order-tab]').forEach((x) => x.classList.toggle('on', x === b)); renderOrders(true); });
 
 // Oyun zamanını "2 gün 5 sa" gibi yaz
 function gameLeft(ms, dayMs) {
@@ -2310,68 +2317,51 @@ function renderVillagers() {
 function renderOrders(force = false) {
   if (!view) return;
   const o = view.orders;
-  const openCount = o.list.filter((x) => x.status === 'open').length;
   const badge = $('orders-badge');
   badge.hidden = !o.list.length;
   badge.textContent = String(o.list.length);
   if (!ordersOpen) return;
-
-  const meta = `${o.list.length} / ${o.max} sipariş · ` + (o.nextInMs === null ? 'liste dolu' : `yeni sipariş: ${view.speed ? realLeft(o.nextInMs, 1) : 'duraklatıldı'}`);
+  const current = o.list.filter((x) => ordersTab === 'product' ? x.kind === 'product' : x.kind !== 'product');
+  const openCount = current.filter((x) => x.status === 'open').length;
+  const meta = `${o.list.length} / ${o.max} toplam sipariş · ${current.length} bu sekmede · ` + (o.nextInMs === null ? 'liste dolu' : `yeni sipariş: ${view.speed ? realLeft(o.nextInMs, 1) : 'duraklatıldı'}`);
   $('orders-meta').innerHTML = `<span>${meta}</span><span>${openCount} yeni</span>`;
-  // Kalan süreler her saniye değişir; listeyi sadece yapı değişince yeniden kur
-  const sig = JSON.stringify([o.list.map((x) => [x.id, x.status, x.have >= x.kg, x.estimateDays === null ? null : Math.round(x.estimateDays * 10), Math.floor(view.coins / 10)]), view.customers, $('order-sort').value]);
+  const ready = (x) => x.kind === 'product' ? x.have >= x.count : x.have + 1e-6 >= x.kg;
+  const sig = JSON.stringify([ordersTab, current.map((x) => [x.id, x.status, ready(x), x.have, x.maxCraftable, x.leftMs]), view.customers, $('order-sort').value, Math.floor(view.coins / 10)]);
   if (!force && sig === ordersSig) {
-    for (const x of o.list) {
-      const el = document.querySelector(`[data-left="${x.id}"]`);
-      if (el && x.leftMs !== null) el.textContent = `⏳ ${gameLeft(x.leftMs, view.dayMs)} kaldı`;
-    }
+    for (const x of current) { const el = document.querySelector(`[data-left="${x.id}"]`); if (el && x.leftMs !== null) el.textContent = `⏳ ${gameLeft(x.leftMs, view.dayMs)} kaldı`; }
     return;
   }
   ordersSig = sig;
   renderVillagers();
-  if (!o.list.length) {
-    $('order-list').innerHTML = `<li class="order-empty">${o.planted ? 'Şu an sipariş yok. Yakında biri kapını çalar.' : 'Hiç çiçek ekmedin. Sipariş gelmesi için önce tohum ek.'}</li>`;
+  if (!current.length) {
+    $('order-list').innerHTML = `<li class="order-empty">${ordersTab === 'product' ? 'Şu an Ürünler ve Mallar siparişi yok. Açılan dükkân ve tariflerle bu havuz genişler.' : (o.planted ? 'Şu an bal siparişi yok. Yakında biri kapını çalar.' : 'Üretim yapan bir çiçek tarhın olduğunda bal siparişleri gelir.')}</li>`;
+    $('deliver-ready').disabled = true;
     return;
   }
   const sortBy = $('order-sort').value;
-  const sorted = o.list.slice().sort((p, q) => {
-    if (sortBy === 'reward') return q.reward - p.reward;
-    if (sortBy === 'ready') return (q.have >= q.kg) - (p.have >= p.kg) || (p.leftMs ?? 1e15) - (q.leftMs ?? 1e15);
-    return (p.leftMs ?? 1e15) - (q.leftMs ?? 1e15);
+  const sorted = current.slice().sort((a, b) => {
+    if (sortBy === 'reward') return b.reward - a.reward;
+    if (sortBy === 'ready') return Number(ready(b)) - Number(ready(a)) || (a.leftMs ?? 1e15) - (b.leftMs ?? 1e15);
+    return (a.leftMs ?? 1e15) - (b.leftMs ?? 1e15);
   });
-  $('deliver-ready').disabled = !o.list.some((x) => x.status === 'accepted' && x.have + 1e-6 >= x.kg);
-  $('order-list').innerHTML = sorted.map((x, i) => {
-    const f = view.flowers[x.flower];
-    const enough = x.have + 1e-6 >= x.kg;
-    const accepted = x.status === 'accepted';
-    const avatar = AVATARS[x.who] || '🙂';
-    const timeTag = accepted
-      ? `<span class="${x.leftMs < view.dayMs ? 'warn' : ''}" data-left="${x.id}">⏳ ${gameLeft(x.leftMs, view.dayMs)} kaldı</span>`
-      : `<span>⏳ ${x.days} gün süre</span>`;
+  $('deliver-ready').disabled = !current.some((x) => x.status === 'accepted' && ready(x));
+  $('order-list').innerHTML = sorted.map((x) => {
+    const enough = ready(x), accepted = x.status === 'accepted', avatar = AVATARS[x.who] || '🙂';
+    const timeTag = accepted ? `<span class="${x.leftMs < view.dayMs ? 'warn' : ''}" data-left="${x.id}">⏳ ${gameLeft(x.leftMs, view.dayMs)} kaldı</span>` : `<span>⏳ ${x.days} gün süre</span>`;
     const btns = accepted
-      ? `<button class="primary" data-order="deliverOrder" data-id="${x.id}" ${enough ? '' : 'disabled'}>Teslim et</button>
-         <button class="danger" data-order="rejectOrder" data-id="${x.id}">Vazgeç (-${x.penalty} 🪙)</button>`
-      : `<button class="primary" data-order="acceptOrder" data-id="${x.id}">Kabul et</button>
-         <button data-order="swapOrder" data-id="${x.id}" ${view.coins < o.swapCost ? 'disabled' : ''}>Değiştir (${o.swapCost} 🪙)</button>
-         <button class="danger" data-order="rejectOrder" data-id="${x.id}">Reddet</button>`;
-    return `<li class="order${accepted ? ' accepted' : ''}">
-      <div class="order-top">
-        <span class="avatar" style="background:${f.color}">${avatar}</span>
-        <span class="who"><b>${esc(x.who)}${hearts(x.who)}</b><span>${x.kg} kg ${esc(f.name)} Balı istiyor${x.fav ? ' · ❤️ en sevdiği bal' : ''}${x.special ? ' · 📅 düzenli sipariş' : ''}</span></span>
-        <span class="reward">+${x.reward} 🪙</span>
-      </div>
-      <div class="tags">
-        ${enough ? '<span class="ready-tag">✓ hazır</span>' : ''}<span class="${enough ? 'ok' : ''}">Depoda ${x.have.toFixed(1)} / ${x.kg} kg</span>
-        ${timeTag}
-      </div>
-      ${!accepted ? `<p class="order-estimate ${x.estimateDays === null || x.estimateDays > x.days ? 'warn' : ''}">${x.have >= x.kg ? 'Depoda hazır' : x.estimateDays === 0 ? 'Kovanlarda hazır; hasat et' : x.estimateDays === null ? 'Şu an bu baldan üretim yok · ceza riski' : `Bu hızla ≈${x.estimateDays.toLocaleString('tr-TR', { maximumFractionDigits: 1 })} oyun gününde hazır${x.estimateDays > x.days ? ' · ceza riski' : ''}`}. Tahmin güncel üretime dayanır; hız değişebilir.</p>` : ''}
-      <p class="note">${accepted ? 'Süresinde teslim edemezsen' : 'Kabul edip süresinde teslim edemezsen'} ödemenin %20'si (${x.penalty} 🪙) kesilir.</p>
-      <div class="btns">${btns}</div>
-    </li>`;
+      ? `<button class="primary" data-order="deliverOrder" data-id="${x.id}" ${enough ? '' : 'disabled'}>Teslim et</button><button class="danger" data-order="rejectOrder" data-id="${x.id}">Vazgeç (-${x.penalty} 🪙)</button>`
+      : `<button class="primary" data-order="acceptOrder" data-id="${x.id}">Kabul et</button><button data-order="swapOrder" data-id="${x.id}" ${view.coins < o.swapCost ? 'disabled' : ''}>Değiştir (${o.swapCost} 🪙)</button><button class="danger" data-order="rejectOrder" data-id="${x.id}">Reddet</button>`;
+    if (x.kind === 'product') {
+      const ingredients = (x.ingredients || []).map((r) => `<span class="${r.ok ? '' : 'missing'}">${esc(r.label)} ${Number(r.have).toLocaleString('tr-TR',{maximumFractionDigits:1})}/${r.need} ${esc(r.unit)}</span>`).join('');
+      return `<li class="order${accepted ? ' accepted' : ''}"><div class="order-top"><span class="avatar">${x.productIcon || '📦'}</span><span class="who"><b>${esc(x.who)}${hearts(x.who)}</b><span>${x.count} × ${esc(x.productName)} istiyor</span></span><span class="reward">+${x.reward} 🪙</span></div><div class="tags">${enough ? '<span class="ready-tag">✓ hazır</span>' : ''}<span>Depoda ${x.have} / ${x.count}</span>${timeTag}</div><div class="product-ingredients">${ingredients}</div><p class="order-estimate">En fazla şu an ${x.maxCraftable || 0} adet üretilebilir · üretim süresi ${workshopTime(x.productionMs || 0)} · ürün piyasa değeri ${x.sellValue || 0} 🪙.</p><p class="note">Kabul edilen ürünler satışa karşı rezerve edilir. Süre aşılırsa %20 ceza uygulanır.</p><div class="btns">${btns}<button class="open-workshop-order" type="button" data-order-workshop>🔨 Atölyeye Git</button></div></li>`;
+    }
+    const f = view.flowers[x.flower];
+    return `<li class="order${accepted ? ' accepted' : ''}"><div class="order-top"><span class="avatar" style="background:${f.color}">${avatar}</span><span class="who"><b>${esc(x.who)}${hearts(x.who)}</b><span>${x.kg} kg ${esc(f.name)} Balı istiyor${x.fav ? ' · ❤️ en sevdiği bal' : ''}${x.special ? ' · 📅 düzenli sipariş' : ''}</span></span><span class="reward">+${x.reward} 🪙</span></div><div class="tags">${enough ? '<span class="ready-tag">✓ hazır</span>' : ''}<span class="${enough ? 'ok' : ''}">Depoda ${x.have.toFixed(1)} / ${x.kg} kg</span>${timeTag}</div>${!accepted ? `<p class="order-estimate ${x.estimateDays === null || x.estimateDays > x.days ? 'warn' : ''}">${x.have >= x.kg ? 'Depoda hazır' : x.estimateDays === 0 ? 'Kovanlarda hazır; hasat et' : x.estimateDays === null ? 'Şu an bu baldan üretim yok · ceza riski' : `Bu hızla ≈${x.estimateDays.toLocaleString('tr-TR',{maximumFractionDigits:1})} oyun gününde hazır${x.estimateDays > x.days ? ' · ceza riski' : ''}`}.</p>` : ''}<p class="note">${accepted ? 'Süresinde teslim edemezsen' : 'Kabul edip süresinde teslim edemezsen'} ödemenin %20'si (${x.penalty} 🪙) kesilir.</p><div class="btns">${btns}</div></li>`;
   }).join('');
 }
 
 $('order-list').addEventListener('click', (e) => {
+  const wb = e.target.closest('[data-order-workshop]'); if (wb) { closeOrders(); openWorkshop(); return; }
   const b = e.target.closest('[data-order]');
   if (!b || b.disabled) return;
   doAct(b.dataset.order, b.dataset.id);
@@ -2412,7 +2402,7 @@ function marketEffectTip(m) {
 
 function renderMarket(force = false) {
   if (!marketOpen || !view) return;
-  const sig = JSON.stringify([view.market, view.marketForecast, view.storage, view.materials, Math.floor(view.coins), view.storageCap, view.marketEvent, view.calendar.season, view.wax, view.candles, view.festival]);
+  const sig = JSON.stringify([view.market, view.shopMarket, view.marketForecast, view.storage, view.materials, Math.floor(view.coins), view.storageCap, view.marketEvent, view.calendar.season, view.wax, view.candles, view.festival]);
   if (!force && sig === marketSig) return;
   marketSig = sig;
   const season = view.calendar.season;
@@ -2457,6 +2447,9 @@ function renderMarket(force = false) {
     </li>`;
   }).join('');
 
+  const shops = view.shopMarket || [];
+  $('market-goods').innerHTML = shops.length ? shops.map((shop) => `<section class="market-shop"><h4>${esc(shop.name)}</h4>${shop.inputs.map((input) => `<div class="market-input-row"><span>${input.icon || '📦'} <b>${esc(input.name)}</b><small> · sende ${input.owned}</small></span><small>stok ${input.stock}</small><b>${input.price} 🪙</b><button type="button" data-market-input="${esc(input.id)}" ${input.stock < 1 || view.coins < input.price ? 'disabled' : ''}>Satın al</button></div>`).join('')}</section>`).join('') : '<p class="note">Henüz yarı mamul satan bir dükkân açılmadı.</p>';
+
   $('d-kg').textContent = `${view.storageKg.toFixed(1)} / ${view.storageCap} kg`;
   $('d-bar').style.width = `${Math.min(100, (view.storageKg / view.storageCap) * 100)}%`;
   const rows = Object.entries(view.storage).filter(([, v]) => v >= 0.05);
@@ -2472,7 +2465,7 @@ function renderMarket(force = false) {
   const wb = $('open-workshop');
   if (wb) wb.textContent = view.workshop && view.workshop.unlocked
     ? `🔨 Arıcılık Atölyesi · Seviye ${view.workshop.level}`
-    : '🔒 Arıcılık Atölyesi · Mumcu ile açılır';
+    : '🔒 Arıcılık Atölyesi · 9. yerleşimciyle açılır';
   const sc = $('sell-candles');
   sc.innerHTML = `Mumları sat <small>+${view.candles * view.candlePrice} 🪙</small>`;
   sc.disabled = view.candles < 1;
@@ -2486,7 +2479,7 @@ function renderMarket(force = false) {
       .map(([f, v]) => `<option value="${f}">${esc(view.flowers[f].name)} (${v.toFixed(1)} kg)</option>`).join('');
     fb.hidden = false;
     const prizes = (fest.prizes || []).map((p) => p.coins).join(' / ');
-    fb.innerHTML = `<b>🏆 ${seasonsTr[view.calendar.season]} Turnuvası başvuruları açık!</b><br>Balını gönder (en fazla ${fest.maxKg} kg). Başvuru 12–14. günlerde açıktır; 15. gün turnuva günüdür. İlk üçe ${prizes || '750 / 500 / 250'} 🪙 ve kupa verilir.
+    fb.innerHTML = `<b>🏆 ${seasonsTr[view.calendar.season]} Turnuvası başvuruları açık!</b><br>Balını gönder (en fazla ${fest.maxKg} kg). Başvuru 12–14. günlerde açıktır; 15. gün turnuva günüdür. İlk üçe ${prizes || '300 / 200 / 100'} 🪙 ve kupa verilir.
       <div class="fest-row">${opts ? `<select id="fest-flower">${opts}</select><input id="fest-kg" type="number" min="1" max="${fest.maxKg}" step="0.5" value="${fest.maxKg}"><button type="button" id="fest-send">Gönder</button>` : 'Depoda en az 1 kg bal olmalı.'}</div>
       ${cups ? `<p>Kupaların: ${cups}</p>` : ''}`;
   } else if (fest.entry) {
@@ -2508,6 +2501,7 @@ $('market-list').addEventListener('click', (e) => {
   if (!b || b.disabled) return;
   doAct('sellHoney', b.dataset.sell, b.dataset.kg);
 });
+$('market-goods').addEventListener('click', (e) => { const b = e.target.closest('[data-market-input]'); if (!b || b.disabled) return; doAct('marketBuyInput', b.dataset.marketInput, 1); });
 $('d-upgrade').addEventListener('click', () => doAct('upgradeStorage'));
 $('make-candle').addEventListener('click', () => doAct('makeCandle'));
 $('sell-candles').addEventListener('click', () => doAct('sellCandles'));
@@ -2677,15 +2671,23 @@ $('warehouse-body').addEventListener('click', (e) => {
 
 let workshopOpen = false;
 let workshopSig = '';
-function openWorkshop() {
+let workshopTab = 'production';
+function setWorkshopTab(tab = 'production') {
+  workshopTab = tab === 'guide' ? 'guide' : 'production';
+  document.querySelectorAll('[data-workshop-tab]').forEach((b) => b.classList.toggle('on', b.dataset.workshopTab === workshopTab));
+  document.querySelectorAll('[data-workshop-page]').forEach((p) => { p.hidden = p.dataset.workshopPage !== workshopTab; });
+}
+function openWorkshop(tab = 'production') {
   workshopOpen = true;
   $('workshop-modal').hidden = false;
+  setWorkshopTab(tab);
   renderWorkshop(true);
 }
 function closeWorkshop() { workshopOpen = false; $('workshop-modal').hidden = true; }
 $('open-workshop').addEventListener('click', openWorkshop);
 $('workshop-close').addEventListener('click', closeWorkshop);
 $('workshop-modal').addEventListener('click', (e) => { if (e.target === $('workshop-modal')) closeWorkshop(); });
+document.querySelectorAll('[data-workshop-tab]').forEach((b) => b.addEventListener('click', () => setWorkshopTab(b.dataset.workshopTab)));
 
 function workshopTime(ms) {
   const days = view && view.dayMs ? ms / view.dayMs : 0;
@@ -2699,7 +2701,7 @@ function renderWorkshop(force = false) {
   if (!force && sig === workshopSig) return;
   workshopSig = sig;
 
-  $('workshop-sub').textContent = w.unlocked ? w.unlockText : 'Mumcu köye geldiğinde açılır. Yan ürünler o zamana kadar kovanlarda birikmeye devam eder.';
+  $('workshop-sub').textContent = w.unlocked ? w.unlockText : '9. yerleşimciyle Arıcılık Atölyesi açılır. Yan ürünler o zamana kadar kovanlarda birikmeye devam eder.';
   $('workshop-materials').innerHTML =
     '<div class="workshop-material"><small>🕯️ Balmumu</small><b>' + Math.round(view.wax * 1000).toLocaleString('tr-TR') + ' g</b></div>' +
     '<div class="workshop-material"><small>🌼 Polen</small><b>' + (w.materials.pollen || 0).toLocaleString('tr-TR') + ' g</b></div>' +
@@ -2728,7 +2730,7 @@ function renderWorkshop(force = false) {
       '<p>' + esc(locked ? (recipe.lockedReason || 'Henüz açılmadı.') : recipe.desc || '') + '</p>' +
       '<div class="workshop-ingredients">' + chips + '</div>' +
       '<button type="button" data-workshop-recipe="' + esc(recipe.id) + '"' + (recipe.flower ? ' data-workshop-flower="' + esc(recipe.flower) + '"' : '') +
-      ((locked || missing) ? ' disabled' : '') + '>Üret · ' + workshopTime(recipe.durationMs || 0) + '</button></article>';
+      ((locked || missing) ? ' disabled' : '') + '>Üret · ' + workshopTime(recipe.durationMs || 0) + '</button>' + (recipe.commercial ? '<small>En fazla ' + (recipe.maxCraftable || 0) + ' adet · satış değeri ' + (recipe.sellValue || 0) + ' 🪙</small>' : '') + '</article>';
   }).join('');
 
   const productCount = (w.products || []).reduce((n, p) => n + (p.count || 0), 0) + (view.candles || 0);
@@ -2993,8 +2995,7 @@ function renderHive() {
     ? `<button type="button" class="on" disabled data-breed-tip="${esc(b.desc)}">${esc(b.name)}</button>`
     : `<button type="button" data-breed="${id}" data-breed-tip="${esc(b.desc)}" ${view.coins < view.breedChangeCost ? 'disabled' : ''}>${esc(b.name)} · ${view.breedChangeCost} 🪙</button>`).join('');
   $('h-sick').hidden = !h.sick;
-  if (h.sick) {
-    $('h-sick-text').textContent = `🤒 Bu kovan hasta: üretim %30 düştü. Bu vakada ${h.sickDeaths}/${h.sickDeathLimit} arı kaybedildi; 4 arıya düşerse hastalık biter.`;
+  if (h.sick) {    $('h-sick-text').textContent = `🤒 Bu kovan hasta: üretim %30 düştü. Bu vakada ${h.sickDeaths}/${h.sickDeathLimit} arı kaybedildi; 4 arıya düşerse hastalık biter.`;
     const mb = $('h-medicine');
     mb.textContent = `💊 İlaç ver · ${view.medicineCost} 🪙`;
     mb.disabled = view.coins < view.medicineCost;
@@ -3562,7 +3563,7 @@ function openVillagerPopup(n, x, y) {
   const welcome = isEzgi && view.ezgi && view.ezgi.welcomePending
     ? `<div class="ezgi-welcome"><b>🌷 Çiçekçi Ezgi</b><p class="sub">Merhaba! Buradaki arıları uzaktan beri izliyordum. Bu kadar çok bal üretildiğini görünce dükkânımı burada açmaya karar verdim. Sanırım bundan sonra çiçeklerle biraz daha fazla ilgileneceğiz.</p><b>🎁 Hoş Geldin Hediyesi</b><small>1 ücretsiz mevsimlik tohum paketi</small><div><button type="button" class="act primary small-act" data-ezgi-welcome>Hediyeyi Al</button></div></div>`
     : '';
-  const workshopLink = [30, 44, 53, 73, 78].includes(Number(r.n))
+  const workshopLink = [9, 44, 53, 73, 78].includes(Number(r.n))
     ? `<div style="margin-top:8px"><button type="button" class="act primary small-act" data-workshop-open>🔨 Arıcılık Atölyesi'ni aç</button></div>`
     : '';
   openPopupAt(x, y, `
@@ -3993,8 +3994,7 @@ function updateHouseLabels() {
     if (label) label.visible = showAll || hoverKey === o.userData.key;
   }
 }
-function loop() {
-  updateHouseLabels();
+function loop() {  updateHouseLabels();
   const dt = clock.getDelta();
   animateCameraTurn(dt);
   const t = clock.elapsedTime;

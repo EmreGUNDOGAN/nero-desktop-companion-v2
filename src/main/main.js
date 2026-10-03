@@ -997,8 +997,7 @@ function todayKey(d = new Date()) { return d.toDateString(); }
 
 // Bugün için seçilmiş gün tipi (dün seçilen bugüne geçmez).
 function todayMode() {
-  const s = settings();
-  return s.dayModeDay === todayKey() ? s.dayMode : null;
+  const s = settings();  return s.dayModeDay === todayKey() ? s.dayMode : null;
 }
 
 function setDayMode(mode) {
@@ -1663,13 +1662,15 @@ function registerIpc() {
       workshopCancel: () => bee.cancelWorkshopJob(arg1),
       workshopUse: () => bee.useWorkshopProduct(arg1, arg2),
       workshopSell: () => bee.sellWorkshopProduct(arg1, arg2),
+      marketBuyInput: () => bee.buyMarketInput(arg1, arg2),
       claimQuest: () => bee.claimQuest(arg1),
       refreshQuest: () => bee.refreshQuest(arg1),
       renameHive: () => bee.renameHive(arg1, arg2),
       setFarmName: () => bee.setFarmName(arg1),
       setLabel: () => bee.setLabel(arg1, arg2),
       claimEzgiWelcome: () => bee.claimEzgiWelcome(),
-      finishTutorial: () => bee.finishTutorial()
+      finishTutorial: () => bee.finishTutorial(),
+      lifeEventSeen: () => bee.recordIslandLifeEvent(arg1)
     };
     const fn = map[action];
     if (fn && action !== 'undoPlacement' && !['readNotifs', 'merchantQuote', 'setting', 'claimFestivalPrompt'].includes(action)) bee.commitPlacement();
@@ -1995,8 +1996,7 @@ function registerIpc() {
         if (!panelWin) return stopResize();
         const p = screen.getCursorScreenPoint();
         const dx = p.x - resize.cursor.x;
-        const dy = p.y - resize.cursor.y;
-        let width = resize.side === 'right' ? resize.start.width + dx : resize.start.width - dx;
+        const dy = p.y - resize.cursor.y;        let width = resize.side === 'right' ? resize.start.width + dx : resize.start.width - dx;
         let height = resize.start.height + dy;
         width = Math.max(PANEL_MIN.width, Math.min(PANEL_MAX.width, width));
         height = Math.max(PANEL_MIN.height, Math.min(PANEL_MAX.height, height));
