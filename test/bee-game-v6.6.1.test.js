@@ -18,9 +18,9 @@ test('6.6.1 sürüm, workflow ve master plan bağlıdır', () => {
   const lock = JSON.parse(fs.readFileSync(path.join(root, 'package-lock.json'), 'utf8'));
   const workflow = fs.readFileSync(path.join(root, '.github/workflows/build-v6.6.1.yml'), 'utf8');
   const plan = fs.readFileSync(path.join(root, 'docs/NERO-6.6.1-IMPLEMENTASYON-PLANI.md'), 'utf8');
-  assert.equal(pkg.version, '6.6.1');
-  assert.equal(lock.version, '6.6.1');
-  assert.equal(lock.packages[''].version, '6.6.1');
+  assert.equal(pkg.version, '6.6.4');
+  assert.equal(lock.version, '6.6.4');
+  assert.equal(lock.packages[''].version, '6.6.4');
   assert.match(workflow, /Build Nero 6\.6\.1 Final/);
   assert.match(workflow, /feature\/bee-v6\.6\.1/);
   assert.match(workflow, /Nero-6\.6\.1-final-bundle/);

@@ -1,0 +1,33 @@
+name: Build Nero 6.6.3
+on:
+  push:
+    branches: [feature/bee-v6.6.3]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run dist
+      - name: Package source
+        shell: pwsh
+        run: |
+          $paths = @('src', 'themes', 'build', 'docs', 'test', 'scripts', '.github', 'package.json', 'package-lock.json', 'CHANGELOG-6.6.3.md', 'README-6.6.3.md')
+          Compress-Archive -Path $paths -DestinationPath Nero-6.6.3-source.zip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Nero-6.6.3-bundle
+          path: |
+            dist/Nero-Setup-6.6.3.exe
+            dist/Nero-Setup-6.6.3.exe.blockmap
+            dist/latest.yml
+            Nero-6.6.3-source.zip
+            CHANGELOG-6.6.3.md

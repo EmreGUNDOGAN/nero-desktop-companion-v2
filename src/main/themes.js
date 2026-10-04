@@ -122,6 +122,7 @@ class ThemeManager {
         : null,
       layers,
       layerOrder: LAYER_ORDER,
+      rigCompatible: raw.neroRigVersion === 1 && canvas.width === 220 && canvas.height === 260,
       blink: { lid: raw.blink?.lid || 'closed' },
       talkMouths: Array.isArray(raw.talkMouths) ? raw.talkMouths : ['talk1', 'talk2'],
       expressions,

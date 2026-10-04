@@ -1,0 +1,7 @@
+// Run from the project root; writes a contact sheet outside the shipping sources.
+const fs=require('fs'),path=require('path'),sharp=require('sharp');
+const catalog=require('../../src/shared/wardrobe-catalog'),template=require('../../src/shared/nero-rig-template');
+const assets=path.resolve(__dirname,'../../themes/default/assets');
+const inner=name=>fs.readFileSync(path.join(assets,name),'utf8').replace(/^[\s\S]*?<svg[^>]*>/,'').replace(/<\/svg>\s*$/,'');
+async function main(){let composites=[];for(let index=0;index<catalog.items.length;index++){const c=catalog.items[index];let s=template;for(const [id,part] of Object.entries({costumeBody:c.body,costumeHat:c.hat,leftArmCloth:c.left,rightArmCloth:c.right,eyes:inner('eyes.svg'),pupils:inner('pupils.svg'),lids:inner('lids-heavy.svg'),brows:inner('brows-normal.svg'),mouth:inner('mouth-neutral.svg')}))s=s.replace(`<g data-rig="${id}"></g>`,`<g data-rig="${id}">${part}</g>`);s=s.replace(/<ellipse cx="110" cy="200"[^>]*\/>/,'');const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="154" height="196" viewBox="0 0 220 280">${s}<text x="110" y="274" text-anchor="middle" font-family="sans-serif" font-size="12">${c.id}</text></svg>`;composites.push({input:await sharp(Buffer.from(svg)).png().toBuffer(),left:(index%10)*154,top:Math.floor(index/10)*196});}await sharp({create:{width:1540,height:1960,channels:4,background:'#f3efe8'}}).composite(composites).png().toFile(process.argv[2]||'/tmp/nero-wardrobe-check.png');}
+main().catch(e=>{console.error(e);process.exitCode=1;});

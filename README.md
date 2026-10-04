@@ -1,5 +1,7 @@
 # Nero
 
+Güncel kaynak paketi: **6.6.4** — [Kurulum ve kapsam](README-6.6.4.md), [değişiklikler](CHANGELOG-6.6.4.md).
+
 Masaüstünde yaşayan, huysuz ama seni seven küçük bir arkadaş. Notlar, yapılacaklar ve zamanlayıcı içerir; ruh hali zamanla değişir.
 
 Yayıncı: **Stenwick**

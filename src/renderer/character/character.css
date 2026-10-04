@@ -326,3 +326,15 @@ html, body {
   border: 2px solid var(--bubble-line); background: var(--accent); color: #fff; box-shadow: none;
   font: 800 13.5px/1.2 "Nunito", sans-serif;
 }
+
+/* Articulated wardrobe: all parts share the original 220×260 coordinates. */
+#char-inner.rig-mode > .layer, #char-inner.rig-mode > .pupils-wrap { visibility:hidden; }
+.nero-live-rig { position:absolute; inset:0; width:100%; height:100%; overflow:visible; pointer-events:none; }
+.nero-live-rig g { transform-box:view-box; }
+.nero-live-rig [data-rig="motion"] { transform-origin:110px 246px; }
+.nero-live-rig [data-rig="torso"] { transform-origin:110px 229px; }
+.nero-live-rig [data-rig="leftArm"] { transform-origin:40px 150px; }
+.nero-live-rig [data-rig="rightArm"] { transform-origin:180px 150px; }
+.nero-live-rig [data-rig="leftFoot"] { transform-origin:78px 245px; }
+.nero-live-rig [data-rig="rightFoot"] { transform-origin:142px 245px; }
+#char #char-inner.motion-active { animation:none; }

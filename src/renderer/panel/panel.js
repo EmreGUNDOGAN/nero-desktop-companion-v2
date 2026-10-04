@@ -992,7 +992,10 @@
   // Ayarlar
   // ---------------------------------------------------------------------------
   const set = (key, value) => api.invoke('settings:set', key, value);
+  let wardrobePanel;
   function renderSettings() {
+    wardrobePanel ||= window.createWardrobePanel({root: $('wardrobe-panel'),select: value=>set('wardrobeOutfit',value),toggle: value=>set('characterAnimations',value),play: name=>api.invoke('motion:play',name)});
+    wardrobePanel.update(state);
     const s = state.settings;
     const select = $('set-theme');
     select.textContent = '';

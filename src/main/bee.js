@@ -527,6 +527,7 @@ class BeeGame {
     };
     this.state.workshop.products.premiumJars = { ...(this.state.workshop.products.premiumJars || {}) };
     this.state.workshop.products.goods = { ...(this.state.workshop.products.goods || {}) };
+    this.state.workshop.goodsValue = { ...(this.state.workshop.goodsValue || {}) };
     this.state.commercialInputs = { ...(this.state.commercialInputs || {}) };
     this.state.shopMarket = this.state.shopMarket && typeof this.state.shopMarket === 'object' ? this.state.shopMarket : { day: -1, stock: {} };
     this.state.shopMarket.stock = { ...(this.state.shopMarket.stock || {}) };
@@ -971,6 +972,7 @@ class BeeGame {
   // Gerçek zaman ilerledikçe çağrılır
   tick(now = Date.now(), speedCap = null) {
     if (this.state.undoPlacement && now >= this.state.undoPlacement.expiresAt) this.commitPlacement();
+    this.lastSpeedCap = speedCap;
     const rawRealDt = Math.max(0, now - this.lastTickAt);
     const realDt = Math.min(rawRealDt, 60 * 1000);
     this.lastTickAt = now;
@@ -1529,7 +1531,7 @@ class BeeGame {
       .reduce((sum, o) => sum + (Number(o.kg) || 0), 0) * 10) / 10;
   }
   availableHoneyKg(f, excludeOrderId = null) {
-    return Math.max(0, Math.round((((this.state.storage[f] || 0) - this.reservedOrderKg(f, excludeOrderId)) * 10)) / 10);
+    return Math.max(0, (Number(this.state.storage[f]) || 0) - this.reservedOrderKg(f, excludeOrderId));
   }
   availableStoredHoney() { return Object.keys(FLOWERS).reduce((sum, f) => sum + this.availableHoneyKg(f), 0); }
   addHoneyToStorage(f, kg) {
@@ -1604,7 +1606,19 @@ class BeeGame {
   commercialRecipeCost(recipe) {
     if (!recipe) return 0;
     let cost = 0;
-    if (recipe.honeyKg) cost += recipe.honeyKg * (recipe.honeyFlower ? this.price(recipe.honeyFlower) : Math.min(...Object.keys(FLOWERS).map((f) => this.price(f))));
+    if (recipe.honeyKg) {
+      if (recipe.honeyFlower) cost += recipe.honeyKg * this.price(recipe.honeyFlower);
+      else {
+        // Match the exact cheapest-first, reservation-aware consumption order.
+        let left = recipe.honeyKg;
+        for (const f of Object.keys(this.state.storage).sort((a, b) => this.price(a) - this.price(b))) {
+          const take = Math.min(left, this.availableHoneyKg(f));
+          cost += take * this.price(f); left -= take;
+          if (left <= 1e-9) break;
+        }
+        if (left > 0) cost += left * Math.min(...Object.keys(FLOWERS).map((f) => this.price(f)));
+      }
+    }
     if (recipe.waxKg) cost += recipe.waxKg * 70;
     const materialUnit = { pollen: .08, propolis: .25, royalJelly: .8 };
     for (const [k, amount] of Object.entries(recipe.materials || {})) cost += amount * (materialUnit[k] || 0);
@@ -1612,11 +1626,16 @@ class BeeGame {
     return cost;
   }
 
-  commercialProductValue(productId) {
+  commercialProductValue(productId, prospective = false, honeyUsed = null) {
+    const count = this.workshopProductCount(productId);
+    const value = this.state.workshop.goodsValue[productId];
+    if (!prospective && count > 0 && Number.isFinite(value)) return Math.ceil(value / count);
     const raw = PRODUCT_RECIPES_BY_ID[productId];
     if (!raw) return 0;
     const recipe = this.workshopRecipe(productId);
-    const cost = this.commercialRecipeCost(recipe);
+    const cost = honeyUsed
+      ? this.commercialRecipeCost({ ...recipe, honeyKg: 0 }) + Object.entries(honeyUsed).reduce((sum, [f, kg]) => sum + kg * this.price(f), 0)
+      : this.commercialRecipeCost(recipe);
     const margin = 1.22 + Math.min(.18, raw.unlock / 400) + Math.min(.08, (raw.durationDays || 1) * .04);
     return Math.max(10, Math.ceil(cost * margin / 5) * 5);
   }
@@ -1641,7 +1660,7 @@ class BeeGame {
     if (commercial) {
       const unlocked = this.workshopUnlocked() && this.villageHas(commercial.unlock);
       return { ...base, ...commercial, commercial: true, marketInputs: { ...(commercial.inputs || {}) },
-        durationMs: Math.max(1, commercial.durationDays || 1) * DAY_GAME_MS, unlock: unlocked,
+        durationMs: Math.max(0.01, commercial.durationDays || 1) * DAY_GAME_MS, unlock: unlocked,
         lockedReason: unlocked ? '' : `${commercial.unlock}. yerleşimci/dükkân açılınca kullanılabilir.`,
         desc: `${commercial.name} · ${commercial.durationDays || 1} oyun günü üretim.` };
     }
@@ -1790,9 +1809,10 @@ class BeeGame {
     if (this.state.workshop.active.length >= this.workshopActiveSlots() && this.state.workshop.queue.length >= this.workshopQueueCap()) return this.fail('Atölye üretim kuyruğu dolu.');
     const missing = this.workshopRecipeIngredients(recipe).filter((x) => !x.ok);
     if (missing.length) return this.fail('Eksik malzeme: ' + missing.map((x) => x.label + ' ' + (Math.round(x.have * 10) / 10) + '/' + x.need + ' ' + x.unit).join(' · '));
+    const unitValue = recipe.commercial ? this.commercialProductValue(id, true) : null;
     const refund = this.consumeWorkshopRecipe(recipe);
     if (!refund) return this.fail('Malzemeler hazırlanamadı.');
-    const job = { id: uid(), recipe: id, flower: recipe.flower || null, totalMs: recipe.durationMs, remainingMs: recipe.durationMs, startedDay: this.dayIndex(), refund };
+    const job = { id: uid(), recipe: id, unitValue, flower: recipe.flower || null, totalMs: recipe.durationMs, remainingMs: recipe.durationMs, startedDay: this.dayIndex(), refund };
     if (this.state.workshop.active.length < this.workshopActiveSlots()) this.state.workshop.active.push(job); else this.state.workshop.queue.push(job);
     this.save();
     return { ok: true, msg: '🔨 ' + recipe.name + ' üretime alındı.' };
@@ -1802,7 +1822,13 @@ class BeeGame {
     const recipe = this.workshopRecipe(job.recipe, job.flower);
     if (!recipe) return;
     const p = this.state.workshop.products;
-    if (recipe.commercial) p.goods[job.recipe] = (p.goods[job.recipe] || 0) + recipe.outputCount;
+    if (recipe.commercial) {
+      const oldCount = p.goods[job.recipe] || 0;
+      const oldValue = this.state.workshop.goodsValue[job.recipe] ?? oldCount * this.commercialProductValue(job.recipe);
+      const unitValue = Number.isFinite(job.unitValue) ? job.unitValue : this.commercialProductValue(job.recipe, true, job.refund?.honey);
+      this.state.workshop.goodsValue[job.recipe] = oldValue + unitValue * recipe.outputCount;
+      p.goods[job.recipe] = oldCount + recipe.outputCount;
+    }
     else if (job.recipe === 'premiumJar') p.premiumJars[job.flower] = (p.premiumJars[job.flower] || 0) + recipe.outputCount;
     else if (job.recipe === 'candle') {
       this.state.candles += recipe.outputCount; this.state.ledger.candlesMade += recipe.outputCount; this.questEvent('candleMake', { count: recipe.outputCount });
@@ -1849,7 +1875,14 @@ class BeeGame {
     return WORKSHOP_FIXED_VALUES[keyName] || 0;
   }
   removeWorkshopProduct(keyName, count) {
-    if (PRODUCT_RECIPES_BY_ID[keyName]) { const goods = this.state.workshop.products.goods; if ((goods[keyName] || 0) < count) return false; goods[keyName] -= count; if (goods[keyName] <= 0) delete goods[keyName]; return true; }
+    if (PRODUCT_RECIPES_BY_ID[keyName]) {
+      const goods = this.state.workshop.products.goods, before = goods[keyName] || 0;
+      if (before < count) return false;
+      if (Number.isFinite(this.state.workshop.goodsValue[keyName])) this.state.workshop.goodsValue[keyName] *= (before - count) / before;
+      goods[keyName] -= count;
+      if (goods[keyName] <= 0) { delete goods[keyName]; delete this.state.workshop.goodsValue[keyName]; }
+      return true;
+    }
     if (keyName && keyName.startsWith('premiumJar:')) {
       const flower = keyName.split(':')[1], jars = this.state.workshop.products.premiumJars;
       if ((jars[flower] || 0) < count) return false;
@@ -3287,20 +3320,27 @@ class BeeGame {
     return this.villagePeople().filter((p) => !used.has(p.name));
   }
 
+  canSupplyCommercialRecipe(recipe, count = 1) {
+    if (!recipe?.unlock) return false;
+    if (this.availableProductCount(recipe.id) >= count) return true;
+    const needed = Math.max(0, count - this.availableProductCount(recipe.id));
+    const producers = Object.values(this.state.hives).filter(h => !h.undoPending && Object.values(this.hiveRates(h.id)).some(rate => rate > 0));
+    for (const [key, amount] of Object.entries(recipe.materials || {})) {
+      if ((this.state.materials[key] || 0) >= amount * needed) continue;
+      if (!producers.some(h => this.byproductProfile(h.id)[key]?.rate > 0)) return false;
+    }
+    if (recipe.waxKg && this.state.wax < recipe.waxKg * needed && !producers.length) return false;
+    for (const [id, amount] of Object.entries(recipe.marketInputs || {})) {
+      if ((this.state.commercialInputs[id] || 0) + (this.state.shopMarket.stock[id] || 0) < amount * needed) return false;
+    }
+    const flowers = new Set(this.orderableFlowers());
+    if (recipe.honeyFlower) return this.availableHoneyKg(recipe.honeyFlower) >= recipe.honeyKg * needed || flowers.has(recipe.honeyFlower);
+    return !recipe.honeyKg || this.availableStoredHoney() >= recipe.honeyKg * needed || flowers.size > 0;
+  }
+
   commercialOrderCandidates() {
     this.restockShopMarket(this.dayIndex());
-    const flowers = new Set(this.orderableFlowers());
-    return PRODUCT_RECIPES.filter((raw) => {
-      const recipe = this.workshopRecipe(raw.id);
-      if (!recipe || !recipe.unlock) return false;
-      for (const [inputId, need] of Object.entries(recipe.marketInputs || {})) {
-        const possible = (this.state.commercialInputs[inputId] || 0) + (this.state.shopMarket.stock[inputId] || 0);
-        if (possible + 1e-6 < need) return false;
-      }
-      if (recipe.honeyFlower && this.availableHoneyKg(recipe.honeyFlower) + 1e-6 < recipe.honeyKg && !flowers.has(recipe.honeyFlower)) return false;
-      if (recipe.honeyKg && !recipe.honeyFlower && this.availableStoredHoney() + 1e-6 < recipe.honeyKg && !flowers.size) return false;
-      return true;
-    });
+    return PRODUCT_RECIPES.filter(raw => this.canSupplyCommercialRecipe(this.workshopRecipe(raw.id)));
   }
 
   makeHoneyOrder(pool = null) {
@@ -3334,7 +3374,7 @@ class BeeGame {
     if (!pool.length) return null;
     const person = pool[Math.floor(Math.random() * pool.length)];
     const raw = recipes[Math.floor(Math.random() * recipes.length)];
-    const count = this.workshopProductValue(raw.id) >= 500 ? 1 : (Math.random() < .35 ? 2 : 1);
+    const count = this.workshopProductValue(raw.id) >= 500 || !this.canSupplyCommercialRecipe(this.workshopRecipe(raw.id), 2) ? 1 : (Math.random() < .35 ? 2 : 1);
     const hearts = (this.state.customers[person.name] || {}).hearts || 0;
     const reward = Math.round(this.workshopProductValue(raw.id) * count * (1.4 + Math.random() * .25) * (1 + hearts * HEART_BONUS) * this.seasonOrderMult() * (1 + this.storyFx('orderPay')));
     const days = 2 + Math.floor(Math.random() * 4) + this.fx('orderDays');
@@ -3483,6 +3523,19 @@ class BeeGame {
     return { ok: true, msg: `Yeni sipariş geldi: ${fresh.who} (-${ORDER_SWAP_COST} 🪙).` };
   }
 
+  honeyOrderEstimate(order, rates) {
+    const available = Math.max(0, (this.state.storage[order.flower] || 0)
+      + Object.values(this.state.hives).reduce((sum, h) => sum + (h.honey[order.flower] || 0), 0)
+      - this.reservedOrderKg(order.flower, order.id));
+    const missing = Math.max(0, order.kg - available);
+    const speed = this.state.pauseStartedAt ? 0 : Math.max(0, this.lastSpeedCap == null ? this.state.speed : Math.min(this.state.speed, this.lastSpeedCap));
+    const estimateMs = !missing ? 0 : speed > 0 && rates[order.flower] > 0 ? missing / (rates[order.flower] * speed) * HOUR_MS : null;
+    const timeLeft = Number.isFinite(order.deadlineClock) ? Math.max(0, order.deadlineClock - (this.state.orderClockMs || 0)) : order.days * DAY_GAME_MS;
+    return { estimateDays: estimateMs === null ? null : estimateMs * speed / DAY_GAME_MS, estimateMs,
+      estimateRisk: estimateMs === null || estimateMs > timeLeft,
+      estimatePaused: missing > 0 && speed === 0 };
+  }
+
   ordersView() {
     const o = this.state.orders;
     const now = this.state.orderClockMs || 0;
@@ -3506,12 +3559,8 @@ class BeeGame {
         }
         return { ...x, kind: x.kind || 'honey', penalty: Math.round(x.reward * ORDER_PENALTY),
           leftMs: Number.isFinite(x.deadlineClock) ? Math.max(0, x.deadlineClock - now) : null,
-          have: this.state.storage[x.flower] || 0,
-          estimateDays: (() => {
-            const available = (this.state.storage[x.flower] || 0) + Object.values(this.state.hives).reduce((sum, h) => sum + (h.honey[x.flower] || 0), 0);
-            const missing = Math.max(0, x.kg - available);
-            return !missing ? 0 : (rates[x.flower] || 0) > 0 ? missing / (rates[x.flower] * DAY_GAME_MS / HOUR_MS) : null;
-          })() };
+          have: this.availableHoneyKg(x.flower, x.id),
+          ...this.honeyOrderEstimate(x, rates) };
       }),
       nextInMs: o.list.length >= this.orderMax() ? null : Math.max(0, (o.nextAtClock || now + ORDER_EVERY_REAL_MS) - now),
       realTime: true, max: this.orderMax(), swapCost: ORDER_SWAP_COST, planted: this.plantedFlowers().length

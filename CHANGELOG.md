@@ -1,3 +1,7 @@
+# 6.6.4
+
+100 kıyafet ve 13 hareket: [ayrıntılı changelog](CHANGELOG-6.6.4.md).
+
 # Nero'da neler değişti?
 
 Her sürümde eklenenler, değişenler ve düzeltilenler burada. En yeni sürüm en üstte.

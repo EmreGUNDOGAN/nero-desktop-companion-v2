@@ -63,8 +63,14 @@ const TALK_INTERVALS = { // dakika [min, max]
   cok: [4, 8]
 };
 
+const wardrobe = require('../shared/wardrobe-catalog');
+const motionRules = require('./motion-rules');
+let lastMotionAt = 0;
+
 const DEFAULT_SETTINGS = {
   themeId: 'default',
+  wardrobeOutfit: 'auto',
+  characterAnimations: true,
   scale: 1,
   talkativeness: 'normal',
   muted: false,
@@ -929,6 +935,17 @@ function togglePanel() {
 // ---------------------------------------------------------------------------
 // Konuşma
 // ---------------------------------------------------------------------------
+function playCharacterMotion(name, manual = false) {
+  const now = Date.now();
+  if (!motionRules.canPlay({name,manual,now,lastMotionAt,enabled:settings().characterAnimations !== false,
+    hidden:settings().hidden,asleep:mood.state.asleep || mood.state.napping,dragging:!!drag,
+    compatible:!!currentTheme?.manifest.rigCompatible,petAngryUntil})) return false;
+  if (!charWin) return false;
+  lastMotionAt=now;
+  sendTo(charWin,'motion',{name});
+  return true;
+}
+
 function say(category, vars = {}, { force = false, interrupt = true } = {}) {
   if (!charWin) return;
   // Yeni uyanmışsa cevapları uyku sersemi olur.
@@ -948,6 +965,8 @@ function say(category, vars = {}, { force = false, interrupt = true } = {}) {
     speakingUntil = Date.now() + 2 * Math.min(15000, 2500 + line.text.length * 70);
   }
   sendTo(charWin, 'say', payload);
+  const movement = motionRules.forCategory(category);
+  if (movement) playCharacterMotion(movement);
 }
 
 function scheduleNextTalk() {
@@ -1039,8 +1058,11 @@ function scheduleRestAfterAllDone() {
 
 function currentOutfit(date = new Date()) {
   const h = date.getHours();
-  if (h >= 21 || h < 6) return 'pajama';
   if (isBirthday(date)) return 'party';
+  const selected = settings().wardrobeOutfit;
+  if (selected === 'none') return null;
+  if (currentTheme.manifest.rigCompatible && wardrobe.items.some(item => item.id === selected)) return selected;
+  if (h >= 21 || h < 6) return 'pajama';
   const m = date.getMonth() + 1;
   const d = date.getDate();
   if ((m === 12 && d >= 15) || m === 1 || (m === 2 && d <= 15)) return 'winter';
@@ -1187,6 +1209,9 @@ function fullState() {
     timer: timer.snapshot(),
     themes: themes.list(),
     currentThemeId: currentTheme.id,
+    wardrobeSupported: !!currentTheme.manifest.rigCompatible,
+    wardrobeLocked: isBirthday(new Date()),
+    activeWardrobeOutfit: currentOutfit(),
     ui: currentTheme.manifest.ui,
     stats: stats.summary(),
     dayMode: todayMode(),
@@ -1273,6 +1298,7 @@ function trackShake(c) {
 
 function stopDrag() {
   if (!drag) return;
+  const dropDistance = drag.distance;
   const shook = drag.shook;
   const dizzy = drag.distance > 2600 || (shook && drag.reversals.length >= 7);
   clearInterval(drag.interval);
@@ -1281,6 +1307,7 @@ function stopDrag() {
   const spoke = drag.spoke;
   drag = null;
   sendTo(charWin, 'dragging', false);
+  if (dropDistance > 80 && !dizzy) playCharacterMotion('balance');
   if (!charWin) return;
   charWin.webContents.invalidate();
   const b = charWin.getBounds();
@@ -1365,6 +1392,7 @@ function petNero() {
   } else {
     const r = mood.interact('pet');
     updateBaseline();
+    playCharacterMotion(Math.random() < 0.25 ? 'shy' : 'pet');
     say(r.wasNeglected ? 'returned' : 'pet');
   }
   broadcastState();
@@ -1419,6 +1447,15 @@ function setSetting(key, value) {
   if (!(key in DEFAULT_SETTINGS) || key === 'position') return settings();
   const s = settings();
   switch (key) {
+    case 'wardrobeOutfit': {
+      if (!['auto','none'].includes(value) && !wardrobe.items.some(item => item.id === value)) return s;
+      settingsStore.patch({wardrobeOutfit:value});
+      updateBaseline(true);
+      break;
+    }
+    case 'characterAnimations':
+      settingsStore.patch({characterAnimations:!!value});
+      break;
     case 'themeId': {
       const previous = currentTheme.id;
       loadTheme(String(value));
@@ -2015,6 +2052,10 @@ function registerIpc() {
     return true;
   });
   ipcMain.handle('panel:open', (_e, tab) => { showPanel(tab); return true; });
+  ipcMain.handle('motion:play', (event, name) => {
+    if (!panelWin || event.sender !== panelWin.webContents) return false;
+    return playCharacterMotion(name, true);
+  });
   ipcMain.handle('app:quit', () => { quitWithGoodbye(); return true; });
 
   // Karakter penceresinden gelenler
@@ -2317,6 +2358,10 @@ function startLoops() {
   scheduleNextTalk();
   setInterval(() => {
     napTick();
+    if (Date.now() - lastMotionAt > 180000 && Math.random() < 0.08 && Date.now() >= speakingUntil) {
+      const late = new Date().getHours() >= 21 || new Date().getHours() < 6;
+      playCharacterMotion(late ? (Math.random() < .5 ? 'yawn' : 'nod') : (mood.stage === 'content' ? 'think' : (Math.random() < .5 ? 'tap' : 'glance')));
+    }
     productivityNudge();
     checkReminders();
     maybeShiftSelfMood();
