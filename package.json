@@ -1,7 +1,7 @@
 {
   "name": "nero",
   "productName": "Nero",
-  "version": "6.6.2",
+  "version": "6.6.5",
   "description": "Nero - huysuz ama seni seven masaüstü arkadaşın",
   "main": "src/main/main.js",
   "author": {
@@ -17,7 +17,8 @@
     "dialogue:build": "node scripts/dialogue-master.js",
     "dialogue:check": "node scripts/dialogue-master.js --check",
     "dialogue:import": "node scripts/dialogue-import.js",
-    "wardrobe:build": "node scripts/build-wardrobe.js"
+    "wardrobe:build": "node scripts/build-wardrobe.js",
+    "wardrobe:build-new": "node scripts/wardrobe-v665/build-assets.js"
   },
   "devDependencies": {
     "electron": "^44.4.3",

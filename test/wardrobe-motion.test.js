@@ -1,0 +1,12 @@
+'use strict';
+const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
+function harness(){
+ class Element{constructor(){this.children=[];this.style={};this.listeners={};this.classList={toggle(){},remove(){}};}get firstChild(){return this.children[0];}append(el){el.remove();el.parent=this;this.children.push(el);}prepend(el){el.remove();el.parent=this;this.children.unshift(el);}remove(){if(this.parent){const a=this.parent.children;a.splice(a.indexOf(this),1);this.parent=null;}}addEventListener(k,f){this.listeners[k]=f;}removeEventListener(k,f){if(this.listeners[k]===f)delete this.listeners[k];}}
+ const host=new Element(),slot=new Element();host.append(slot);let active=false,adapter,uploads=0,resets=0,current=null;
+ const context={window:{createWardrobeDeform:()=>({setImage(){uploads++;return true;},draw:()=>true,dispose(){}}),createNeroMotionPlayer:({onPose,onActive})=>({play(){onActive(true);return true;},reset(){resets++;if(resets>10)throw Error('recursive reset');onPose(null);onActive(false);}})},document:{createElement:()=>new Element()},requestAnimationFrame:()=>1,cancelAnimationFrame(){},getComputedStyle:()=>({transform:'none',opacity:'0'}),DOMMatrix:class{constructor(){this.a=1;this.b=0;this.f=0;}}};
+ vm.runInNewContext(fs.readFileSync(require.resolve('../src/renderer/character/wardrobe-motion'),'utf8'),context);
+ adapter=context.window.createWardrobeMotion({host,onPose:()=>adapter?.syncBody(current),onGaze(){}});
+ return {host,slot,adapter,image(loaded=true){const e=new Element();e.complete=loaded;e.naturalWidth=loaded?220:0;current=e;return e;},get uploads(){return uploads;},get resets(){return resets;}};
+}
+test('outfit change cannot recursively reset while render re-enters syncBody',()=>{const h=harness(),img=h.image();h.adapter.syncBody(img);assert.equal(h.uploads,1);assert.equal(h.resets,1);h.adapter.syncBody(img);assert.equal(h.resets,1);});
+test('late body load uploads once and obsolete image listener is detached',()=>{const h=harness(),first=h.image(false);h.adapter.syncBody(first);assert.equal(h.uploads,0);const second=h.image(false);h.adapter.syncBody(second);assert.equal(first.listeners.load,undefined);second.listeners.load();assert.equal(h.uploads,1);h.adapter.play('dance');assert.equal(second.style.visibility,'hidden');h.adapter.reset();assert.equal(second.style.visibility,'');h.adapter.dispose();assert.equal(second.listeners.load,undefined);assert.equal(h.host.firstChild,h.slot);});

@@ -1,4 +1,6 @@
 const wardrobe = require('./wardrobe');
+const motionRules=require('./motion-rules');
+let lastMotionAt=0;
 // Nero - ana süreç
 // Karakter penceresini, paneli, tepsi simgesini, ruh hali döngüsünü, zamanlayıcıyı
 // ve temaları yönetir.
@@ -92,6 +94,7 @@ const DEFAULT_SETTINGS = {
   waterEvery: 0,        // dakika, 0 = kapalı
   breakEvery: 60,       // kesintisiz çalışma sonrası mola hatırlatması (dakika), 0 = kapalı
   wardrobeOutfit: null,
+  characterAnimations: true,
   sleepNight: '',
   sleepOutfit: '',
   birthday: '',         // "AA-GG"
@@ -933,6 +936,17 @@ function togglePanel() {
 // ---------------------------------------------------------------------------
 // Konuşma
 // ---------------------------------------------------------------------------
+function playCharacterMotion(name, manual = false) {
+  const now = Date.now();
+  if (!motionRules.canPlay({name,manual,now,lastMotionAt,enabled:settings().characterAnimations !== false,
+    hidden:settings().hidden,asleep:mood.state.asleep || mood.state.napping,dragging:!!drag,
+    compatible:!!currentTheme?.manifest.wardrobe,petAngryUntil})) return false;
+  if (!charWin) return false;
+  lastMotionAt=now;
+  sendTo(charWin,'motion',{name});
+  return true;
+}
+
 function say(category, vars = {}, { force = false, interrupt = true } = {}) {
   if (!charWin) return;
   // Yeni uyanmışsa cevapları uyku sersemi olur.
@@ -952,6 +966,7 @@ function say(category, vars = {}, { force = false, interrupt = true } = {}) {
     speakingUntil = Date.now() + 2 * Math.min(15000, 2500 + line.text.length * 70);
   }
   sendTo(charWin, 'say', payload);
+  const action=motionRules.forCategory(category);if(action)playCharacterMotion(action);
 }
 
 function scheduleNextTalk() {
@@ -1278,6 +1293,7 @@ function trackShake(c) {
 
 function stopDrag() {
   if (!drag) return;
+  const dropDistance=drag.distance;
   const shook = drag.shook;
   const dizzy = drag.distance > 2600 || (shook && drag.reversals.length >= 7);
   clearInterval(drag.interval);
@@ -1286,6 +1302,7 @@ function stopDrag() {
   const spoke = drag.spoke;
   drag = null;
   sendTo(charWin, 'dragging', false);
+  if(dropDistance>80&&!dizzy)playCharacterMotion('balance');
   if (!charWin) return;
   charWin.webContents.invalidate();
   const b = charWin.getBounds();
@@ -1368,6 +1385,7 @@ function petNero() {
     // Üçüncü algılanan pet olayı tepkiyi tetikler; sonraki tetik için üç yeni pet gerekir.
     petTimes = [];
   } else {
+    playCharacterMotion(Math.random()<.3?'shy':'pet');
     const r = mood.interact('pet');
     updateBaseline();
     say(r.wasNeglected ? 'returned' : 'pet');
@@ -2025,6 +2043,7 @@ function registerIpc() {
     return true;
   });
   ipcMain.handle('panel:open', (_e, tab) => { showPanel(tab); return true; });
+  ipcMain.handle('motion:play',(event,name)=>{if(!panelWin || event.sender!==panelWin.webContents)return false;return playCharacterMotion(name,true);});
   ipcMain.handle('app:quit', () => { quitWithGoodbye(); return true; });
 
   // Karakter penceresinden gelenler
@@ -2327,6 +2346,7 @@ function startLoops() {
   scheduleNextTalk();
   setInterval(() => {
     napTick();
+    if(Date.now()-lastMotionAt>180000 && Date.now()>=speakingUntil && Math.random()<.08){const idle=['think','tap','glance','nod'];playCharacterMotion(idle[Math.floor(Math.random()*idle.length)]);}
     productivityNudge();
     checkReminders();
     maybeShiftSelfMood();

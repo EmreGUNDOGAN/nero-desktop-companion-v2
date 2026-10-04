@@ -1,0 +1,602 @@
+[
+  {
+    "id": "retro-01",
+    "group": "retro",
+    "name": "Kadife Plakçı",
+    "detail": "caramel corduroy blazer, rust plaid lapel inserts, cream turtleneck, brass buttons"
+  },
+  {
+    "id": "retro-02",
+    "group": "retro",
+    "name": "Disko Gecesi",
+    "detail": "plum velvet jacket, champagne satin lapels, tiny gold disco-star embroidery"
+  },
+  {
+    "id": "retro-03",
+    "group": "retro",
+    "name": "Analog Fotoğrafçı",
+    "detail": "olive canvas multi-pocket vest, cream rolled sleeves, stitched camera emblem"
+  },
+  {
+    "id": "retro-04",
+    "group": "retro",
+    "name": "Eski Sinema",
+    "detail": "wine wool coat, tucked ivory silk scarf, vintage pearly buttons"
+  },
+  {
+    "id": "retro-05",
+    "group": "retro",
+    "name": "Swing Kulübü",
+    "detail": "teal knit cardigan, pointed ivory collar, slim antique gold bowtie"
+  },
+  {
+    "id": "retro-06",
+    "group": "retro",
+    "name": "Seksenler Rüzgârı",
+    "detail": "cream coral teal color-block windbreaker, curved zip seams, elastic cuffs"
+  },
+  {
+    "id": "retro-07",
+    "group": "retro",
+    "name": "Plak Koleksiyoncusu",
+    "detail": "mustard cable tank top, olive burgundy argyle insert, cotton sleeves"
+  },
+  {
+    "id": "retro-08",
+    "group": "retro",
+    "name": "Doksanlar Kampüsü",
+    "detail": "navy varsity jacket, cognac suede sleeves, embroidered comet crest"
+  },
+  {
+    "id": "retro-09",
+    "group": "retro",
+    "name": "Daktilo Masası",
+    "detail": "cocoa herringbone waistcoat, cream collar, pocket-watch chain"
+  },
+  {
+    "id": "retro-10",
+    "group": "retro",
+    "name": "Kasetli Yürüyüş",
+    "detail": "rust denim dungarees, cream striped shirt, cassette-shaped pocket"
+  },
+  {
+    "id": "retro-11",
+    "group": "retro",
+    "name": "Retro Bowling Kulübü",
+    "detail": "ivory bowling shirt, teal panels, caramel piping, stitched bowling pins"
+  },
+  {
+    "id": "retro-12",
+    "group": "retro",
+    "name": "Tren Kompartımanı",
+    "detail": "moss tweed travel coat, cognac collar, burgundy checked neck scarf"
+  },
+  {
+    "id": "retro-13",
+    "group": "retro",
+    "name": "Pikap Akşamı",
+    "detail": "burnt orange knitted polo, scalloped cream collar, wooden buttons"
+  },
+  {
+    "id": "retro-14",
+    "group": "retro",
+    "name": "Pastel Arcade",
+    "detail": "lavender satin bomber, mint piping, pixel-heart embroidery"
+  },
+  {
+    "id": "retro-15",
+    "group": "retro",
+    "name": "Klasik Terzi",
+    "detail": "warm grey pinstripe waistcoat, moss tie, bronze watch chain"
+  },
+  {
+    "id": "retro-16",
+    "group": "retro",
+    "name": "Vintage Yarışçı",
+    "detail": "russet leather racing jacket, cream vertical stripe, quilted shoulders"
+  },
+  {
+    "id": "retro-17",
+    "group": "retro",
+    "name": "Yetmişler Bahçesi",
+    "detail": "cream mustard floral shirt, rust corduroy overalls, brass buckles"
+  },
+  {
+    "id": "retro-18",
+    "group": "retro",
+    "name": "Eski Kitabevi",
+    "detail": "taupe cardigan, brown woven trim, mustard shirt, small book brooch"
+  },
+  {
+    "id": "retro-19",
+    "group": "retro",
+    "name": "Sahil Nostaljisi",
+    "detail": "navy vintage fisherman smock, coral scarf, thick rope-pattern cuffs"
+  },
+  {
+    "id": "retro-20",
+    "group": "retro",
+    "name": "Gramofon Pazarı",
+    "detail": "wine knit vest, ivory rounded collar, mustard paisley ascot"
+  },
+  {
+    "id": "fairy-01",
+    "group": "fairy",
+    "name": "Meşe Büyücüsü",
+    "detail": "moss velvet tunic, layered leaf collar, acorn buttons, gold vine stitching"
+  },
+  {
+    "id": "fairy-02",
+    "group": "fairy",
+    "name": "Ay Işığı Prensi",
+    "detail": "midnight brocade royal jacket, silver moons, ivory ruffle collar"
+  },
+  {
+    "id": "fairy-03",
+    "group": "fairy",
+    "name": "Mantarcık Bekçisi",
+    "detail": "red spotted capelet, oatmeal tunic, carved mushroom clasps"
+  },
+  {
+    "id": "fairy-04",
+    "group": "fairy",
+    "name": "Ejderha Çırağı",
+    "detail": "copper leather jerkin, soft emerald scale shoulders, bronze buckles"
+  },
+  {
+    "id": "fairy-05",
+    "group": "fairy",
+    "name": "Masal Kütüphanecisi",
+    "detail": "aubergine waistcoat, sage collar, golden books embroidered on pockets"
+  },
+  {
+    "id": "fairy-06",
+    "group": "fairy",
+    "name": "Yıldız Terzisi",
+    "detail": "lavender robe, gold constellations, teal sash, spool brooch"
+  },
+  {
+    "id": "fairy-07",
+    "group": "fairy",
+    "name": "Çayır Şövalyesi",
+    "detail": "sage diamond-quilted gambeson, bronze leaf fasteners, ivory sleeves"
+  },
+  {
+    "id": "fairy-08",
+    "group": "fairy",
+    "name": "Peri Postacısı",
+    "detail": "rose messenger coat, vine stitching, envelope-shaped pocket"
+  },
+  {
+    "id": "fairy-09",
+    "group": "fairy",
+    "name": "Deniz Masalı",
+    "detail": "turquoise woven tunic, shell buttons, wave-shaped ivory collar"
+  },
+  {
+    "id": "fairy-10",
+    "group": "fairy",
+    "name": "Bal Kabağı Arabacısı",
+    "detail": "orange velvet waistcoat, sage leaf lapels, tiny gold wheel buttons"
+  },
+  {
+    "id": "fairy-11",
+    "group": "fairy",
+    "name": "Kristal Çırağı",
+    "detail": "indigo short cloak, amethyst clasp, silver embroidered crystal motifs"
+  },
+  {
+    "id": "fairy-12",
+    "group": "fairy",
+    "name": "Ormanın Bilgesi",
+    "detail": "chocolate wool robe, olive appliqué leaves, wooden toggles"
+  },
+  {
+    "id": "fairy-13",
+    "group": "fairy",
+    "name": "Bulut Çobanı",
+    "detail": "blue quilted vest, ivory fleece collar, embroidered clouds"
+  },
+  {
+    "id": "fairy-14",
+    "group": "fairy",
+    "name": "Kırmızı Pelerinli",
+    "detail": "wine short cape with hood down, cream tunic, berry stitching"
+  },
+  {
+    "id": "fairy-15",
+    "group": "fairy",
+    "name": "Altın Anahtar",
+    "detail": "petrol brocade jacket, gold scrolling embroidery, antique key clasp"
+  },
+  {
+    "id": "fairy-16",
+    "group": "fairy",
+    "name": "Çiçek Sarayı",
+    "detail": "sage silk vest, rose blossom embroidery, lavender bow"
+  },
+  {
+    "id": "fairy-17",
+    "group": "fairy",
+    "name": "Kuzey Masalı",
+    "detail": "blue fantasy tunic, ivory fluffy trim, silver snowflake seams"
+  },
+  {
+    "id": "fairy-18",
+    "group": "fairy",
+    "name": "Kayıp Harita",
+    "detail": "sand adventurer tunic, suede panels, map embroidery, compass brooch"
+  },
+  {
+    "id": "fairy-19",
+    "group": "fairy",
+    "name": "Gece Bahçesi",
+    "detail": "blackberry velvet cloak, gold moth embroidery, moon clasp"
+  },
+  {
+    "id": "fairy-20",
+    "group": "fairy",
+    "name": "Masal Kurabiyecisi",
+    "detail": "cinnamon tunic, scalloped ivory apron, gingerbread embroidery"
+  },
+  {
+    "id": "cozy-01",
+    "group": "cozy",
+    "name": "Pazar Kahvesi",
+    "detail": "oatmeal cable cardigan, cocoa ribbed cuffs, wood buttons, coffee embroidery"
+  },
+  {
+    "id": "cozy-02",
+    "group": "cozy",
+    "name": "Battaniye Saati",
+    "detail": "lavender quilted wrap, ivory sherpa collar, rounded pockets"
+  },
+  {
+    "id": "cozy-03",
+    "group": "cozy",
+    "name": "Tarçınlı Kurabiye",
+    "detail": "rust apron, ivory gingham sleeves, cookie-embroidered pocket"
+  },
+  {
+    "id": "cozy-04",
+    "group": "cozy",
+    "name": "Kitap Köşesi",
+    "detail": "forest shawl cardigan, caramel elbow patches, tiny book brooch"
+  },
+  {
+    "id": "cozy-05",
+    "group": "cozy",
+    "name": "Yağmurlu Pencere",
+    "detail": "dusty blue thick knit, ivory collar, raindrop stitchwork"
+  },
+  {
+    "id": "cozy-06",
+    "group": "cozy",
+    "name": "Ev Bahçıvanı",
+    "detail": "sage corduroy dungarees, cream floral sleeves, seed pocket"
+  },
+  {
+    "id": "cozy-07",
+    "group": "cozy",
+    "name": "Bal Kavanozu",
+    "detail": "honey waffle-knit pullover, ivory cuffs, finely stitched honey jar"
+  },
+  {
+    "id": "cozy-08",
+    "group": "cozy",
+    "name": "Kakao Molası",
+    "detail": "chocolate fleece vest, oatmeal thermal sleeves, caramel pocket edging"
+  },
+  {
+    "id": "cozy-09",
+    "group": "cozy",
+    "name": "Örgü Sepeti",
+    "detail": "rose cable cardigan, crocheted ivory trim, tiny yarn-ball embroidery"
+  },
+  {
+    "id": "cozy-10",
+    "group": "cozy",
+    "name": "Mutfak Şefi",
+    "detail": "cream cross-back apron, sage rolled sleeves, carrot embroidery"
+  },
+  {
+    "id": "cozy-11",
+    "group": "cozy",
+    "name": "Müzik Dinlerken",
+    "detail": "plum velour lounge sweatshirt, ivory piping, gold music notes"
+  },
+  {
+    "id": "cozy-12",
+    "group": "cozy",
+    "name": "Sakin Sabah",
+    "detail": "mint daytime lounge shirt, ivory piping, tiny stitched sunrise"
+  },
+  {
+    "id": "cozy-13",
+    "group": "cozy",
+    "name": "Elmalı Turta",
+    "detail": "caramel checked apron, cream sleeves, apple motif and red straps"
+  },
+  {
+    "id": "cozy-14",
+    "group": "cozy",
+    "name": "Bitki Sulama",
+    "detail": "olive linen smock, yellow sleeves, leaf embroidery, wooden buttons"
+  },
+  {
+    "id": "cozy-15",
+    "group": "cozy",
+    "name": "Sıcak Ekmek",
+    "detail": "terracotta baker apron, linen sleeves, golden wheat embroidery"
+  },
+  {
+    "id": "cozy-16",
+    "group": "cozy",
+    "name": "Film Akşamı",
+    "detail": "navy fleece cardigan, ivory checked trim, popcorn embroidery"
+  },
+  {
+    "id": "cozy-17",
+    "group": "cozy",
+    "name": "Pencere Sardunyası",
+    "detail": "ivory eyelet cardigan, coral geranium embroidery, sage placket"
+  },
+  {
+    "id": "cozy-18",
+    "group": "cozy",
+    "name": "Evde Kar Günü",
+    "detail": "charcoal fisherman cardigan, oatmeal shawl collar, horn buttons"
+  },
+  {
+    "id": "cozy-19",
+    "group": "cozy",
+    "name": "Yumuşak Pazar",
+    "detail": "apricot waffle hoodie with hood down, plush pocket, tiny daisy"
+  },
+  {
+    "id": "cozy-20",
+    "group": "cozy",
+    "name": "Gece Lambası",
+    "detail": "taupe quilted house jacket, blue lapels, embroidered golden lamp"
+  },
+  {
+    "id": "space-01",
+    "group": "space",
+    "name": "Ay İstasyonu",
+    "detail": "cream padded astronaut jacket, blue ribbed joints, bronze mission badge, no helmet"
+  },
+  {
+    "id": "space-02",
+    "group": "space",
+    "name": "Yıldız Gözlemcisi",
+    "detail": "indigo quilted coat, silver constellations, warm ivory collar"
+  },
+  {
+    "id": "space-03",
+    "group": "space",
+    "name": "Botanik Laboratuvarı",
+    "detail": "sage laboratory apron, ivory coat sleeves, seedling embroidery"
+  },
+  {
+    "id": "space-04",
+    "group": "space",
+    "name": "Mars Tamircisi",
+    "detail": "rust coveralls, graphite quilted shoulders, brass utility zipper"
+  },
+  {
+    "id": "space-05",
+    "group": "space",
+    "name": "Kozmik Kaptan",
+    "detail": "petrol space uniform, champagne piping, gold epaulettes and star badge"
+  },
+  {
+    "id": "space-06",
+    "group": "space",
+    "name": "Roket Mühendisi",
+    "detail": "slate work vest, cream sleeves, orange seam tapes and rocket patch"
+  },
+  {
+    "id": "space-07",
+    "group": "space",
+    "name": "Gezegen Profesörü",
+    "detail": "ivory tweed lab coat, lavender vest, turquoise bow and ringed planet"
+  },
+  {
+    "id": "space-08",
+    "group": "space",
+    "name": "Meteor Koleksiyoncusu",
+    "detail": "sand expedition vest, navy sleeves, stone pocket patches"
+  },
+  {
+    "id": "space-09",
+    "group": "space",
+    "name": "Kutup Araştırmacısı",
+    "detail": "ice blue padded jacket, cream fleece, orange zip tabs"
+  },
+  {
+    "id": "space-10",
+    "group": "space",
+    "name": "Robot Atölyesi",
+    "detail": "teal apron, mustard knitted sleeves, robot-face pocket"
+  },
+  {
+    "id": "space-11",
+    "group": "space",
+    "name": "Bulutsu Gezgini",
+    "detail": "violet velvet bomber, pink nebula embroidery, silver ribbed cuffs"
+  },
+  {
+    "id": "space-12",
+    "group": "space",
+    "name": "Kimya Kulübü",
+    "detail": "ivory short lab coat, mint collar, lilac shirt and flask motifs"
+  },
+  {
+    "id": "space-13",
+    "group": "space",
+    "name": "Güneş Yelkenlisi",
+    "detail": "cream yellow space jacket, bronze sun emblem, navy inset collar"
+  },
+  {
+    "id": "space-14",
+    "group": "space",
+    "name": "Derin Uzay",
+    "detail": "navy insulated suit, turquoise piping, tiny embroidered galaxies"
+  },
+  {
+    "id": "space-15",
+    "group": "space",
+    "name": "Lunar Bahçıvan",
+    "detail": "moss utility overalls, oatmeal thermal sleeves, moon-leaf emblem"
+  },
+  {
+    "id": "space-16",
+    "group": "space",
+    "name": "Fizik Defteri",
+    "detail": "cocoa academic cardigan, ivory lapels, sage vest and atom brooch"
+  },
+  {
+    "id": "space-17",
+    "group": "space",
+    "name": "Uydu Teknisyeni",
+    "detail": "dusty blue flight jacket, orange pocket lining, satellite patch"
+  },
+  {
+    "id": "space-18",
+    "group": "space",
+    "name": "Kuantum Kahvesi",
+    "detail": "plum knit vest, ivory collar, gold atom-and-cup embroidery"
+  },
+  {
+    "id": "space-19",
+    "group": "space",
+    "name": "Yıldız Haritacısı",
+    "detail": "silver woven waistcoat, navy shirt, fine constellation stitches"
+  },
+  {
+    "id": "space-20",
+    "group": "space",
+    "name": "Kozmik Postacı",
+    "detail": "coral courier jacket, cream sleeves, comet-envelope pocket"
+  },
+  {
+    "id": "absurd-01",
+    "group": "absurd",
+    "name": "Resmî Patates",
+    "detail": "cocoa tweed blazer, ivory shirt, embroidered potato brooch, mustard bow"
+  },
+  {
+    "id": "absurd-02",
+    "group": "absurd",
+    "name": "Çorap Bakanı",
+    "detail": "burgundy velvet vest, coordinated mismatched knit cuffs, sock embroidery"
+  },
+  {
+    "id": "absurd-03",
+    "group": "absurd",
+    "name": "Makarna Kontu",
+    "detail": "sage brocade dinner jacket, golden farfalle pasta bowtie"
+  },
+  {
+    "id": "absurd-04",
+    "group": "absurd",
+    "name": "Turşu Diplomatı",
+    "detail": "olive pinstripe waistcoat, pickle brooch, wine pocket square"
+  },
+  {
+    "id": "absurd-05",
+    "group": "absurd",
+    "name": "Kahve Müfettişi",
+    "detail": "caramel short detective trench, cocoa lapels, coffee-bean buttons"
+  },
+  {
+    "id": "absurd-06",
+    "group": "absurd",
+    "name": "Yastık Müdürü",
+    "detail": "lavender quilted tuxedo, cream satin lapels, pillow-shaped pockets"
+  },
+  {
+    "id": "absurd-07",
+    "group": "absurd",
+    "name": "Peynir Akademisyeni",
+    "detail": "mustard cardigan, ivory shirt, Swiss-cheese patch, wine tie"
+  },
+  {
+    "id": "absurd-08",
+    "group": "absurd",
+    "name": "Simit Aristokratı",
+    "detail": "brown velvet waistcoat, ivory sleeves, sesame-ring embroidery"
+  },
+  {
+    "id": "absurd-09",
+    "group": "absurd",
+    "name": "Çaydanlık Lordu",
+    "detail": "teal formal jacket, silver teapot brooch, ivory ruffle collar"
+  },
+  {
+    "id": "absurd-10",
+    "group": "absurd",
+    "name": "Düğme Koleksiyoncusu",
+    "detail": "dusty blue artisanal coat, varied vintage buttons, ivory collar"
+  },
+  {
+    "id": "absurd-11",
+    "group": "absurd",
+    "name": "Kaktüs Danışmanı",
+    "detail": "sand linen blazer, sage shirt, cactus stitching, terracotta pocket square"
+  },
+  {
+    "id": "absurd-12",
+    "group": "absurd",
+    "name": "Bulut Muhasebecisi",
+    "detail": "sky blue wool vest, ivory cloud pockets, slim navy tie"
+  },
+  {
+    "id": "absurd-13",
+    "group": "absurd",
+    "name": "Kravat İsyanı",
+    "detail": "burgundy cardigan, ivory shirt, crooked tiny knitted tie"
+  },
+  {
+    "id": "absurd-14",
+    "group": "absurd",
+    "name": "Mantar Şefi",
+    "detail": "cream formal cooking vest, red polka-dot collar, mushroom buttons"
+  },
+  {
+    "id": "absurd-15",
+    "group": "absurd",
+    "name": "Avokado Bey",
+    "detail": "moss velvet jacket, pale yellow vest, avocado crest and brown bow"
+  },
+  {
+    "id": "absurd-16",
+    "group": "absurd",
+    "name": "Pijamalı Diplomat",
+    "detail": "navy tailored DAY lounge blazer, satin lapels, ivory piping and tiny moons"
+  },
+  {
+    "id": "absurd-17",
+    "group": "absurd",
+    "name": "Balık Kravat",
+    "detail": "cream shirt, blue tweed waistcoat, small coral fish-shaped tie"
+  },
+  {
+    "id": "absurd-18",
+    "group": "absurd",
+    "name": "Minik Kaos",
+    "detail": "grey mustard teal rust patchwork cardigan, exquisite stitching, spiral brooch"
+  },
+  {
+    "id": "absurd-19",
+    "group": "absurd",
+    "name": "Kurabiye Baron",
+    "detail": "chocolate brocade jacket, caramel lapels, biscuit-shaped buttons"
+  },
+  {
+    "id": "absurd-20",
+    "group": "absurd",
+    "name": "Ciddi Limon",
+    "detail": "yellow velvet vest, sage lapels, lemon-slice embroidery and navy bow"
+  }
+]

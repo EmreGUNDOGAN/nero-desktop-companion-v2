@@ -992,7 +992,12 @@
   // Ayarlar
   // ---------------------------------------------------------------------------
   const set = (key, value) => api.invoke('settings:set', key, value);
-  const wardrobeGroups = { costume: 'Sevimli', daily: 'Gündelik', spring: 'İlkbahar', summer: 'Yaz', autumn: 'Sonbahar', winter: 'Kış' };
+  $('set-character-animations').addEventListener('change',e=>set('characterAnimations',e.target.checked));
+  document.querySelectorAll('[data-motion]').forEach(button=>button.addEventListener('click',async()=>{
+    const played=await api.invoke('motion:play',button.dataset.motion);
+    $('motion-feedback').textContent=played?'':'Nero şu anda bu hareketi yapamıyor. Uyanık ve görünür olduğundan, animasyonların açık olduğundan emin ol.';
+  }));
+  const wardrobeGroups = { costume: 'Sevimli', daily: 'Gündelik', spring: 'İlkbahar', summer: 'Yaz', autumn: 'Sonbahar', winter: 'Kış', retro: 'Retro Gardırop', fairy: 'Masal Dünyası', cozy: 'Cozy Ev Hayatı', space: 'Uzay ve Bilim', absurd: 'Absürt Şıklık' };
   let wardrobeGroup = 'daily';
   function renderWardrobe() {
     const locked = !!state.specialOutfit;
@@ -1029,6 +1034,7 @@
   $('wardrobe-remove').addEventListener('click', () => set('wardrobeOutfit', null));
 
   function renderSettings() {
+    $('set-character-animations').checked=state.settings.characterAnimations!==false;
     renderWardrobe();
     const s = state.settings;
     const select = $('set-theme');

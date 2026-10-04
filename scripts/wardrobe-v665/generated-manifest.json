@@ -1,0 +1,702 @@
+[
+  {
+    "id": "retro-01",
+    "name": "Kadife Plakçı",
+    "group": "retro",
+    "source": "themes/default/assets/wardrobe/retro-01/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "retro-02",
+    "name": "Disko Gecesi",
+    "group": "retro",
+    "source": "themes/default/assets/wardrobe/retro-02/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "retro-03",
+    "name": "Analog Fotoğrafçı",
+    "group": "retro",
+    "source": "themes/default/assets/wardrobe/retro-03/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "retro-04",
+    "name": "Eski Sinema",
+    "group": "retro",
+    "source": "themes/default/assets/wardrobe/retro-04/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "retro-05",
+    "name": "Swing Kulübü",
+    "group": "retro",
+    "source": "themes/default/assets/wardrobe/retro-05/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "retro-06",
+    "name": "Seksenler Rüzgârı",
+    "group": "retro",
+    "source": "themes/default/assets/wardrobe/retro-06/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "retro-07",
+    "name": "Plak Koleksiyoncusu",
+    "group": "retro",
+    "source": "themes/default/assets/wardrobe/retro-07/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "retro-08",
+    "name": "Doksanlar Kampüsü",
+    "group": "retro",
+    "source": "themes/default/assets/wardrobe/retro-08/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "retro-09",
+    "name": "Daktilo Masası",
+    "group": "retro",
+    "source": "themes/default/assets/wardrobe/retro-09/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "retro-10",
+    "name": "Kasetli Yürüyüş",
+    "group": "retro",
+    "source": "themes/default/assets/wardrobe/retro-10/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "retro-11",
+    "name": "Retro Bowling Kulübü",
+    "group": "retro",
+    "source": "themes/default/assets/wardrobe/retro-11/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "retro-12",
+    "name": "Tren Kompartımanı",
+    "group": "retro",
+    "source": "themes/default/assets/wardrobe/retro-12/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "retro-13",
+    "name": "Pikap Akşamı",
+    "group": "retro",
+    "source": "themes/default/assets/wardrobe/retro-13/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "retro-14",
+    "name": "Pastel Arcade",
+    "group": "retro",
+    "source": "themes/default/assets/wardrobe/retro-14/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "retro-15",
+    "name": "Klasik Terzi",
+    "group": "retro",
+    "source": "themes/default/assets/wardrobe/retro-15/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "retro-16",
+    "name": "Vintage Yarışçı",
+    "group": "retro",
+    "source": "themes/default/assets/wardrobe/retro-16/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "retro-17",
+    "name": "Yetmişler Bahçesi",
+    "group": "retro",
+    "source": "themes/default/assets/wardrobe/retro-17/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "retro-18",
+    "name": "Eski Kitabevi",
+    "group": "retro",
+    "source": "themes/default/assets/wardrobe/retro-18/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "retro-19",
+    "name": "Sahil Nostaljisi",
+    "group": "retro",
+    "source": "themes/default/assets/wardrobe/retro-19/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "retro-20",
+    "name": "Gramofon Pazarı",
+    "group": "retro",
+    "source": "themes/default/assets/wardrobe/retro-20/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "fairy-01",
+    "name": "Meşe Büyücüsü",
+    "group": "fairy",
+    "source": "themes/default/assets/wardrobe/fairy-01/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "fairy-02",
+    "name": "Ay Işığı Prensi",
+    "group": "fairy",
+    "source": "themes/default/assets/wardrobe/fairy-02/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "fairy-03",
+    "name": "Mantarcık Bekçisi",
+    "group": "fairy",
+    "source": "themes/default/assets/wardrobe/fairy-03/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "fairy-04",
+    "name": "Ejderha Çırağı",
+    "group": "fairy",
+    "source": "themes/default/assets/wardrobe/fairy-04/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "fairy-05",
+    "name": "Masal Kütüphanecisi",
+    "group": "fairy",
+    "source": "themes/default/assets/wardrobe/fairy-05/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "fairy-06",
+    "name": "Yıldız Terzisi",
+    "group": "fairy",
+    "source": "themes/default/assets/wardrobe/fairy-06/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "fairy-07",
+    "name": "Çayır Şövalyesi",
+    "group": "fairy",
+    "source": "themes/default/assets/wardrobe/fairy-07/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "fairy-08",
+    "name": "Peri Postacısı",
+    "group": "fairy",
+    "source": "themes/default/assets/wardrobe/fairy-08/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "fairy-09",
+    "name": "Deniz Masalı",
+    "group": "fairy",
+    "source": "themes/default/assets/wardrobe/fairy-09/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "fairy-10",
+    "name": "Bal Kabağı Arabacısı",
+    "group": "fairy",
+    "source": "themes/default/assets/wardrobe/fairy-10/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "fairy-11",
+    "name": "Kristal Çırağı",
+    "group": "fairy",
+    "source": "themes/default/assets/wardrobe/fairy-11/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "fairy-12",
+    "name": "Ormanın Bilgesi",
+    "group": "fairy",
+    "source": "themes/default/assets/wardrobe/fairy-12/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "fairy-13",
+    "name": "Bulut Çobanı",
+    "group": "fairy",
+    "source": "themes/default/assets/wardrobe/fairy-13/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "fairy-14",
+    "name": "Kırmızı Pelerinli",
+    "group": "fairy",
+    "source": "themes/default/assets/wardrobe/fairy-14/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "fairy-15",
+    "name": "Altın Anahtar",
+    "group": "fairy",
+    "source": "themes/default/assets/wardrobe/fairy-15/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "fairy-16",
+    "name": "Çiçek Sarayı",
+    "group": "fairy",
+    "source": "themes/default/assets/wardrobe/fairy-16/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "fairy-17",
+    "name": "Kuzey Masalı",
+    "group": "fairy",
+    "source": "themes/default/assets/wardrobe/fairy-17/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "fairy-18",
+    "name": "Kayıp Harita",
+    "group": "fairy",
+    "source": "themes/default/assets/wardrobe/fairy-18/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "fairy-19",
+    "name": "Gece Bahçesi",
+    "group": "fairy",
+    "source": "themes/default/assets/wardrobe/fairy-19/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "fairy-20",
+    "name": "Masal Kurabiyecisi",
+    "group": "fairy",
+    "source": "themes/default/assets/wardrobe/fairy-20/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "cozy-01",
+    "name": "Pazar Kahvesi",
+    "group": "cozy",
+    "source": "themes/default/assets/wardrobe/cozy-01/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "cozy-02",
+    "name": "Battaniye Saati",
+    "group": "cozy",
+    "source": "themes/default/assets/wardrobe/cozy-02/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "cozy-03",
+    "name": "Tarçınlı Kurabiye",
+    "group": "cozy",
+    "source": "themes/default/assets/wardrobe/cozy-03/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "cozy-04",
+    "name": "Kitap Köşesi",
+    "group": "cozy",
+    "source": "themes/default/assets/wardrobe/cozy-04/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "cozy-05",
+    "name": "Yağmurlu Pencere",
+    "group": "cozy",
+    "source": "themes/default/assets/wardrobe/cozy-05/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "cozy-06",
+    "name": "Ev Bahçıvanı",
+    "group": "cozy",
+    "source": "themes/default/assets/wardrobe/cozy-06/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "cozy-07",
+    "name": "Bal Kavanozu",
+    "group": "cozy",
+    "source": "themes/default/assets/wardrobe/cozy-07/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "cozy-08",
+    "name": "Kakao Molası",
+    "group": "cozy",
+    "source": "themes/default/assets/wardrobe/cozy-08/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "cozy-09",
+    "name": "Örgü Sepeti",
+    "group": "cozy",
+    "source": "themes/default/assets/wardrobe/cozy-09/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "cozy-10",
+    "name": "Mutfak Şefi",
+    "group": "cozy",
+    "source": "themes/default/assets/wardrobe/cozy-10/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "cozy-11",
+    "name": "Müzik Dinlerken",
+    "group": "cozy",
+    "source": "themes/default/assets/wardrobe/cozy-11/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "cozy-12",
+    "name": "Sakin Sabah",
+    "group": "cozy",
+    "source": "themes/default/assets/wardrobe/cozy-12/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "cozy-13",
+    "name": "Elmalı Turta",
+    "group": "cozy",
+    "source": "themes/default/assets/wardrobe/cozy-13/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "cozy-14",
+    "name": "Bitki Sulama",
+    "group": "cozy",
+    "source": "themes/default/assets/wardrobe/cozy-14/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "cozy-15",
+    "name": "Sıcak Ekmek",
+    "group": "cozy",
+    "source": "themes/default/assets/wardrobe/cozy-15/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "cozy-16",
+    "name": "Film Akşamı",
+    "group": "cozy",
+    "source": "themes/default/assets/wardrobe/cozy-16/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "cozy-17",
+    "name": "Pencere Sardunyası",
+    "group": "cozy",
+    "source": "themes/default/assets/wardrobe/cozy-17/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "cozy-18",
+    "name": "Evde Kar Günü",
+    "group": "cozy",
+    "source": "themes/default/assets/wardrobe/cozy-18/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "cozy-19",
+    "name": "Yumuşak Pazar",
+    "group": "cozy",
+    "source": "themes/default/assets/wardrobe/cozy-19/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "cozy-20",
+    "name": "Gece Lambası",
+    "group": "cozy",
+    "source": "themes/default/assets/wardrobe/cozy-20/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "space-01",
+    "name": "Ay İstasyonu",
+    "group": "space",
+    "source": "themes/default/assets/wardrobe/space-01/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "space-02",
+    "name": "Yıldız Gözlemcisi",
+    "group": "space",
+    "source": "themes/default/assets/wardrobe/space-02/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "space-03",
+    "name": "Botanik Laboratuvarı",
+    "group": "space",
+    "source": "themes/default/assets/wardrobe/space-03/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "space-04",
+    "name": "Mars Tamircisi",
+    "group": "space",
+    "source": "themes/default/assets/wardrobe/space-04/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "space-05",
+    "name": "Kozmik Kaptan",
+    "group": "space",
+    "source": "themes/default/assets/wardrobe/space-05/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "space-06",
+    "name": "Roket Mühendisi",
+    "group": "space",
+    "source": "themes/default/assets/wardrobe/space-06/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "space-07",
+    "name": "Gezegen Profesörü",
+    "group": "space",
+    "source": "themes/default/assets/wardrobe/space-07/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "space-08",
+    "name": "Meteor Koleksiyoncusu",
+    "group": "space",
+    "source": "themes/default/assets/wardrobe/space-08/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "space-09",
+    "name": "Kutup Araştırmacısı",
+    "group": "space",
+    "source": "themes/default/assets/wardrobe/space-09/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "space-10",
+    "name": "Robot Atölyesi",
+    "group": "space",
+    "source": "themes/default/assets/wardrobe/space-10/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "space-11",
+    "name": "Bulutsu Gezgini",
+    "group": "space",
+    "source": "themes/default/assets/wardrobe/space-11/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "space-12",
+    "name": "Kimya Kulübü",
+    "group": "space",
+    "source": "themes/default/assets/wardrobe/space-12/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "space-13",
+    "name": "Güneş Yelkenlisi",
+    "group": "space",
+    "source": "themes/default/assets/wardrobe/space-13/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "space-14",
+    "name": "Derin Uzay",
+    "group": "space",
+    "source": "themes/default/assets/wardrobe/space-14/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "space-15",
+    "name": "Lunar Bahçıvan",
+    "group": "space",
+    "source": "themes/default/assets/wardrobe/space-15/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "space-16",
+    "name": "Fizik Defteri",
+    "group": "space",
+    "source": "themes/default/assets/wardrobe/space-16/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "space-17",
+    "name": "Uydu Teknisyeni",
+    "group": "space",
+    "source": "themes/default/assets/wardrobe/space-17/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "space-18",
+    "name": "Kuantum Kahvesi",
+    "group": "space",
+    "source": "themes/default/assets/wardrobe/space-18/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "space-19",
+    "name": "Yıldız Haritacısı",
+    "group": "space",
+    "source": "themes/default/assets/wardrobe/space-19/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "space-20",
+    "name": "Kozmik Postacı",
+    "group": "space",
+    "source": "themes/default/assets/wardrobe/space-20/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "absurd-01",
+    "name": "Resmî Patates",
+    "group": "absurd",
+    "source": "themes/default/assets/wardrobe/absurd-01/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "absurd-02",
+    "name": "Çorap Bakanı",
+    "group": "absurd",
+    "source": "themes/default/assets/wardrobe/absurd-02/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "absurd-03",
+    "name": "Makarna Kontu",
+    "group": "absurd",
+    "source": "themes/default/assets/wardrobe/absurd-03/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "absurd-04",
+    "name": "Turşu Diplomatı",
+    "group": "absurd",
+    "source": "themes/default/assets/wardrobe/absurd-04/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "absurd-05",
+    "name": "Kahve Müfettişi",
+    "group": "absurd",
+    "source": "themes/default/assets/wardrobe/absurd-05/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "absurd-06",
+    "name": "Yastık Müdürü",
+    "group": "absurd",
+    "source": "themes/default/assets/wardrobe/absurd-06/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "absurd-07",
+    "name": "Peynir Akademisyeni",
+    "group": "absurd",
+    "source": "themes/default/assets/wardrobe/absurd-07/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "absurd-08",
+    "name": "Simit Aristokratı",
+    "group": "absurd",
+    "source": "themes/default/assets/wardrobe/absurd-08/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "absurd-09",
+    "name": "Çaydanlık Lordu",
+    "group": "absurd",
+    "source": "themes/default/assets/wardrobe/absurd-09/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "absurd-10",
+    "name": "Düğme Koleksiyoncusu",
+    "group": "absurd",
+    "source": "themes/default/assets/wardrobe/absurd-10/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "absurd-11",
+    "name": "Kaktüs Danışmanı",
+    "group": "absurd",
+    "source": "themes/default/assets/wardrobe/absurd-11/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "absurd-12",
+    "name": "Bulut Muhasebecisi",
+    "group": "absurd",
+    "source": "themes/default/assets/wardrobe/absurd-12/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "absurd-13",
+    "name": "Kravat İsyanı",
+    "group": "absurd",
+    "source": "themes/default/assets/wardrobe/absurd-13/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "absurd-14",
+    "name": "Mantar Şefi",
+    "group": "absurd",
+    "source": "themes/default/assets/wardrobe/absurd-14/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "absurd-15",
+    "name": "Avokado Bey",
+    "group": "absurd",
+    "source": "themes/default/assets/wardrobe/absurd-15/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "absurd-16",
+    "name": "Pijamalı Diplomat",
+    "group": "absurd",
+    "source": "themes/default/assets/wardrobe/absurd-16/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "absurd-17",
+    "name": "Balık Kravat",
+    "group": "absurd",
+    "source": "themes/default/assets/wardrobe/absurd-17/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "absurd-18",
+    "name": "Minik Kaos",
+    "group": "absurd",
+    "source": "themes/default/assets/wardrobe/absurd-18/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "absurd-19",
+    "name": "Kurabiye Baron",
+    "group": "absurd",
+    "source": "themes/default/assets/wardrobe/absurd-19/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  },
+  {
+    "id": "absurd-20",
+    "name": "Ciddi Limon",
+    "group": "absurd",
+    "source": "themes/default/assets/wardrobe/absurd-20/original-blank.png",
+    "method": "built-in image generation; independent native animated face layers"
+  }
+]

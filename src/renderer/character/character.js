@@ -20,6 +20,7 @@
   let layerImgs = {};
   let pupilsWrap = null;
   let wardrobeRenderer = null;
+  let wardrobeMotion=null,motionPose=null,motionGaze=null;
   let dressed = false;
 
   const state = {
@@ -58,6 +59,7 @@
       height: `${layout.charH}px`
     });
 
+    const oldMotion=wardrobeMotion;wardrobeMotion=null;oldMotion?.dispose();motionPose=null;motionGaze=null;
     wardrobeRenderer?.dispose();
     wardrobeRenderer = null;
     dressed = false;
@@ -110,6 +112,7 @@
         render();
       }
     });
+    if(manifest.wardrobe)wardrobeMotion=window.createWardrobeMotion({host:inner,onPose:p=>{motionPose=p;render();},onGaze:p=>{motionGaze=p;}});
     placeBadge();
     render();
   }
@@ -136,7 +139,8 @@
     if (!manifest) return;
     wardrobeRenderer?.select(state.outfit);
     const exprName = state.tempExpr || state.baseline;
-    const expr = manifest.expressions[exprName] || manifest.expressions.normal || {};
+    let expr = manifest.expressions[exprName] || manifest.expressions.normal || {};
+    if(motionPose&&!state.tempExpr&&!state.asleep)expr={...expr,lids:motionPose[0],brows:motionPose[1],mouth:motionPose[2]};
     state.expr = exprName;
 
     const outfit = expr.outfit !== undefined ? expr.outfit : state.outfit;
@@ -175,6 +179,7 @@
     charEl.classList.toggle('talking', state.talking);
     charEl.classList.toggle('dizzy', exprName === 'dizzy');
 
+    wardrobeMotion?.syncBody(layerImgs.body?.[currentBody]||null);
     if (prevBody !== currentBody) scheduleHitmap();
   }
   let currentBody = null;
@@ -230,6 +235,7 @@
     eye.x += (eye.tx - eye.x) * 0.22;
     eye.y += (eye.ty - eye.y) * 0.22;
     if (pupilsWrap) pupilsWrap.style.transform = `translate(${eye.x.toFixed(2)}px, ${eye.y.toFixed(2)}px)`;
+    if(pupilsWrap&&motionGaze)pupilsWrap.style.transform=`translate(${motionGaze.x*layout.scale}px,${motionGaze.y*layout.scale}px)`;
     requestAnimationFrame(frame);
   }
 
@@ -654,6 +660,7 @@
     }
     if (press) {
       if (!dragging && press.target === 'char' && !settings.lockPosition && Math.hypot(e.screenX - press.x, e.screenY - press.y) > 5) {
+        wardrobeMotion?.reset();
         dragging = true;
         charEl.classList.add('dragging');
         api.send('char:dragStart');
@@ -748,18 +755,21 @@
   // ---------------------------------------------------------------------------
   // Ana süreçten gelenler
   // ---------------------------------------------------------------------------
+  api.on('motion',({name}={})=>{if(wardrobeMotion&&settings.characterAnimations!==false&&!state.asleep&&!dragging)wardrobeMotion.play(name);});
   api.on('theme', applyTheme);
   api.on('cursor', onCursor);
   api.on('say', say);
   api.on('baseline', ({ expr, asleep, outfit }) => {
     state.baseline = expr;
     state.asleep = !!asleep;
+    if(state.asleep)wardrobeMotion?.reset();
     state.outfit = outfit || null;
     scheduleHitmap();
     render();
   });
   api.on('settings', (s) => {
     settings = s || {};
+    if(settings.characterAnimations===false||settings.hidden)wardrobeMotion?.reset();
     onTimer(lastTimer);
     updateAmbient();
   });
@@ -779,6 +789,7 @@
     }
   });
   api.on('interaction:reset', () => {
+    wardrobeMotion?.reset();
     dragging = false;
     press = null;
     charEl.classList.remove('dragging');

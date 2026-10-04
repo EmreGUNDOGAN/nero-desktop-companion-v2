@@ -1,0 +1,502 @@
+[
+  {
+    "id": "retro-01",
+    "name": "Kadife Plakçı",
+    "group": "retro"
+  },
+  {
+    "id": "retro-02",
+    "name": "Disko Gecesi",
+    "group": "retro"
+  },
+  {
+    "id": "retro-03",
+    "name": "Analog Fotoğrafçı",
+    "group": "retro"
+  },
+  {
+    "id": "retro-04",
+    "name": "Eski Sinema",
+    "group": "retro"
+  },
+  {
+    "id": "retro-05",
+    "name": "Swing Kulübü",
+    "group": "retro"
+  },
+  {
+    "id": "retro-06",
+    "name": "Seksenler Rüzgârı",
+    "group": "retro"
+  },
+  {
+    "id": "retro-07",
+    "name": "Plak Koleksiyoncusu",
+    "group": "retro"
+  },
+  {
+    "id": "retro-08",
+    "name": "Doksanlar Kampüsü",
+    "group": "retro"
+  },
+  {
+    "id": "retro-09",
+    "name": "Daktilo Masası",
+    "group": "retro"
+  },
+  {
+    "id": "retro-10",
+    "name": "Kasetli Yürüyüş",
+    "group": "retro"
+  },
+  {
+    "id": "retro-11",
+    "name": "Retro Bowling Kulübü",
+    "group": "retro"
+  },
+  {
+    "id": "retro-12",
+    "name": "Tren Kompartımanı",
+    "group": "retro"
+  },
+  {
+    "id": "retro-13",
+    "name": "Pikap Akşamı",
+    "group": "retro"
+  },
+  {
+    "id": "retro-14",
+    "name": "Pastel Arcade",
+    "group": "retro"
+  },
+  {
+    "id": "retro-15",
+    "name": "Klasik Terzi",
+    "group": "retro"
+  },
+  {
+    "id": "retro-16",
+    "name": "Vintage Yarışçı",
+    "group": "retro"
+  },
+  {
+    "id": "retro-17",
+    "name": "Yetmişler Bahçesi",
+    "group": "retro"
+  },
+  {
+    "id": "retro-18",
+    "name": "Eski Kitabevi",
+    "group": "retro"
+  },
+  {
+    "id": "retro-19",
+    "name": "Sahil Nostaljisi",
+    "group": "retro"
+  },
+  {
+    "id": "retro-20",
+    "name": "Gramofon Pazarı",
+    "group": "retro"
+  },
+  {
+    "id": "fairy-01",
+    "name": "Meşe Büyücüsü",
+    "group": "fairy"
+  },
+  {
+    "id": "fairy-02",
+    "name": "Ay Işığı Prensi",
+    "group": "fairy"
+  },
+  {
+    "id": "fairy-03",
+    "name": "Mantarcık Bekçisi",
+    "group": "fairy"
+  },
+  {
+    "id": "fairy-04",
+    "name": "Ejderha Çırağı",
+    "group": "fairy"
+  },
+  {
+    "id": "fairy-05",
+    "name": "Masal Kütüphanecisi",
+    "group": "fairy"
+  },
+  {
+    "id": "fairy-06",
+    "name": "Yıldız Terzisi",
+    "group": "fairy"
+  },
+  {
+    "id": "fairy-07",
+    "name": "Çayır Şövalyesi",
+    "group": "fairy"
+  },
+  {
+    "id": "fairy-08",
+    "name": "Peri Postacısı",
+    "group": "fairy"
+  },
+  {
+    "id": "fairy-09",
+    "name": "Deniz Masalı",
+    "group": "fairy"
+  },
+  {
+    "id": "fairy-10",
+    "name": "Bal Kabağı Arabacısı",
+    "group": "fairy"
+  },
+  {
+    "id": "fairy-11",
+    "name": "Kristal Çırağı",
+    "group": "fairy"
+  },
+  {
+    "id": "fairy-12",
+    "name": "Ormanın Bilgesi",
+    "group": "fairy"
+  },
+  {
+    "id": "fairy-13",
+    "name": "Bulut Çobanı",
+    "group": "fairy"
+  },
+  {
+    "id": "fairy-14",
+    "name": "Kırmızı Pelerinli",
+    "group": "fairy"
+  },
+  {
+    "id": "fairy-15",
+    "name": "Altın Anahtar",
+    "group": "fairy"
+  },
+  {
+    "id": "fairy-16",
+    "name": "Çiçek Sarayı",
+    "group": "fairy"
+  },
+  {
+    "id": "fairy-17",
+    "name": "Kuzey Masalı",
+    "group": "fairy"
+  },
+  {
+    "id": "fairy-18",
+    "name": "Kayıp Harita",
+    "group": "fairy"
+  },
+  {
+    "id": "fairy-19",
+    "name": "Gece Bahçesi",
+    "group": "fairy"
+  },
+  {
+    "id": "fairy-20",
+    "name": "Masal Kurabiyecisi",
+    "group": "fairy"
+  },
+  {
+    "id": "cozy-01",
+    "name": "Pazar Kahvesi",
+    "group": "cozy"
+  },
+  {
+    "id": "cozy-02",
+    "name": "Battaniye Saati",
+    "group": "cozy"
+  },
+  {
+    "id": "cozy-03",
+    "name": "Tarçınlı Kurabiye",
+    "group": "cozy"
+  },
+  {
+    "id": "cozy-04",
+    "name": "Kitap Köşesi",
+    "group": "cozy"
+  },
+  {
+    "id": "cozy-05",
+    "name": "Yağmurlu Pencere",
+    "group": "cozy"
+  },
+  {
+    "id": "cozy-06",
+    "name": "Ev Bahçıvanı",
+    "group": "cozy"
+  },
+  {
+    "id": "cozy-07",
+    "name": "Bal Kavanozu",
+    "group": "cozy"
+  },
+  {
+    "id": "cozy-08",
+    "name": "Kakao Molası",
+    "group": "cozy"
+  },
+  {
+    "id": "cozy-09",
+    "name": "Örgü Sepeti",
+    "group": "cozy"
+  },
+  {
+    "id": "cozy-10",
+    "name": "Mutfak Şefi",
+    "group": "cozy"
+  },
+  {
+    "id": "cozy-11",
+    "name": "Müzik Dinlerken",
+    "group": "cozy"
+  },
+  {
+    "id": "cozy-12",
+    "name": "Sakin Sabah",
+    "group": "cozy"
+  },
+  {
+    "id": "cozy-13",
+    "name": "Elmalı Turta",
+    "group": "cozy"
+  },
+  {
+    "id": "cozy-14",
+    "name": "Bitki Sulama",
+    "group": "cozy"
+  },
+  {
+    "id": "cozy-15",
+    "name": "Sıcak Ekmek",
+    "group": "cozy"
+  },
+  {
+    "id": "cozy-16",
+    "name": "Film Akşamı",
+    "group": "cozy"
+  },
+  {
+    "id": "cozy-17",
+    "name": "Pencere Sardunyası",
+    "group": "cozy"
+  },
+  {
+    "id": "cozy-18",
+    "name": "Evde Kar Günü",
+    "group": "cozy"
+  },
+  {
+    "id": "cozy-19",
+    "name": "Yumuşak Pazar",
+    "group": "cozy"
+  },
+  {
+    "id": "cozy-20",
+    "name": "Gece Lambası",
+    "group": "cozy"
+  },
+  {
+    "id": "space-01",
+    "name": "Ay İstasyonu",
+    "group": "space"
+  },
+  {
+    "id": "space-02",
+    "name": "Yıldız Gözlemcisi",
+    "group": "space"
+  },
+  {
+    "id": "space-03",
+    "name": "Botanik Laboratuvarı",
+    "group": "space"
+  },
+  {
+    "id": "space-04",
+    "name": "Mars Tamircisi",
+    "group": "space"
+  },
+  {
+    "id": "space-05",
+    "name": "Kozmik Kaptan",
+    "group": "space"
+  },
+  {
+    "id": "space-06",
+    "name": "Roket Mühendisi",
+    "group": "space"
+  },
+  {
+    "id": "space-07",
+    "name": "Gezegen Profesörü",
+    "group": "space"
+  },
+  {
+    "id": "space-08",
+    "name": "Meteor Koleksiyoncusu",
+    "group": "space"
+  },
+  {
+    "id": "space-09",
+    "name": "Kutup Araştırmacısı",
+    "group": "space"
+  },
+  {
+    "id": "space-10",
+    "name": "Robot Atölyesi",
+    "group": "space"
+  },
+  {
+    "id": "space-11",
+    "name": "Bulutsu Gezgini",
+    "group": "space"
+  },
+  {
+    "id": "space-12",
+    "name": "Kimya Kulübü",
+    "group": "space"
+  },
+  {
+    "id": "space-13",
+    "name": "Güneş Yelkenlisi",
+    "group": "space"
+  },
+  {
+    "id": "space-14",
+    "name": "Derin Uzay",
+    "group": "space"
+  },
+  {
+    "id": "space-15",
+    "name": "Lunar Bahçıvan",
+    "group": "space"
+  },
+  {
+    "id": "space-16",
+    "name": "Fizik Defteri",
+    "group": "space"
+  },
+  {
+    "id": "space-17",
+    "name": "Uydu Teknisyeni",
+    "group": "space"
+  },
+  {
+    "id": "space-18",
+    "name": "Kuantum Kahvesi",
+    "group": "space"
+  },
+  {
+    "id": "space-19",
+    "name": "Yıldız Haritacısı",
+    "group": "space"
+  },
+  {
+    "id": "space-20",
+    "name": "Kozmik Postacı",
+    "group": "space"
+  },
+  {
+    "id": "absurd-01",
+    "name": "Resmî Patates",
+    "group": "absurd"
+  },
+  {
+    "id": "absurd-02",
+    "name": "Çorap Bakanı",
+    "group": "absurd"
+  },
+  {
+    "id": "absurd-03",
+    "name": "Makarna Kontu",
+    "group": "absurd"
+  },
+  {
+    "id": "absurd-04",
+    "name": "Turşu Diplomatı",
+    "group": "absurd"
+  },
+  {
+    "id": "absurd-05",
+    "name": "Kahve Müfettişi",
+    "group": "absurd"
+  },
+  {
+    "id": "absurd-06",
+    "name": "Yastık Müdürü",
+    "group": "absurd"
+  },
+  {
+    "id": "absurd-07",
+    "name": "Peynir Akademisyeni",
+    "group": "absurd"
+  },
+  {
+    "id": "absurd-08",
+    "name": "Simit Aristokratı",
+    "group": "absurd"
+  },
+  {
+    "id": "absurd-09",
+    "name": "Çaydanlık Lordu",
+    "group": "absurd"
+  },
+  {
+    "id": "absurd-10",
+    "name": "Düğme Koleksiyoncusu",
+    "group": "absurd"
+  },
+  {
+    "id": "absurd-11",
+    "name": "Kaktüs Danışmanı",
+    "group": "absurd"
+  },
+  {
+    "id": "absurd-12",
+    "name": "Bulut Muhasebecisi",
+    "group": "absurd"
+  },
+  {
+    "id": "absurd-13",
+    "name": "Kravat İsyanı",
+    "group": "absurd"
+  },
+  {
+    "id": "absurd-14",
+    "name": "Mantar Şefi",
+    "group": "absurd"
+  },
+  {
+    "id": "absurd-15",
+    "name": "Avokado Bey",
+    "group": "absurd"
+  },
+  {
+    "id": "absurd-16",
+    "name": "Pijamalı Diplomat",
+    "group": "absurd"
+  },
+  {
+    "id": "absurd-17",
+    "name": "Balık Kravat",
+    "group": "absurd"
+  },
+  {
+    "id": "absurd-18",
+    "name": "Minik Kaos",
+    "group": "absurd"
+  },
+  {
+    "id": "absurd-19",
+    "name": "Kurabiye Baron",
+    "group": "absurd"
+  },
+  {
+    "id": "absurd-20",
+    "name": "Ciddi Limon",
+    "group": "absurd"
+  }
+]

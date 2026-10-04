@@ -3,7 +3,7 @@
 const { contextBridge, ipcRenderer } = require('electron');
 
 const INVOKE = new Set([
-  'state:get', 'theme:get',
+  'state:get', 'theme:get', 'motion:play',
   'notes:save', 'notes:delete', 'notes:archive',
   'todos:add', 'todos:toggle', 'todos:rename', 'todos:delete', 'todos:clearDone', 'todos:archive', 'todos:archiveDone', 'todos:setReminder',
   'todos:stopwatchStart', 'todos:stopwatchPause', 'jar:add', 'moodboard:get', 'moodboard:set',
@@ -23,6 +23,7 @@ const SEND = new Set([
 ]);
 
 const ON = new Set([
+  'motion',
   'cursor', 'say', 'baseline', 'theme', 'settings', 'timer', 'state', 'panel:tab', 'sound', 'dragging', 'interaction:reset', 'peek'
 ]);
 

@@ -12,7 +12,8 @@ const GROUPS = {
 const SLEEP = ['Ay Bulut Pijaması', 'Çizgili Gecelik', 'Yıldızlı Uyku', 'Uyku Tulumu', 'Kakao Pijaması', 'Ponponlu Uyku', 'Yumuşak Ekose', 'Gece Mavisi'];
 const SPECIAL = { '01-01': 'newyear', '02-14': 'valentine', '04-01': 'april', '04-23': 'children', '05-20': 'bee', '10-29': 'republic', '10-31': 'halloween', '12-31': 'newyear' };
 const slug = (name) => name.toLocaleLowerCase('tr-TR').replace(/ç/g, 'c').replace(/ğ/g, 'g').replace(/ı/g, 'i').replace(/ö/g, 'o').replace(/ş/g, 's').replace(/ü/g, 'u').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-const ITEMS = Object.entries(GROUPS).flatMap(([group, names]) => names.map((name) => ({ id: `${group}-${slug(name)}`, name, group })));
+const LEGACY_ITEMS = Object.entries(GROUPS).flatMap(([group, names]) => names.map((name) => ({ id: `${group}-${slug(name)}`, name, group })));
+const ITEMS = [...LEGACY_ITEMS, ...require('./wardrobe-additions.json')];
 const VALID = new Set(ITEMS.map((item) => item.id));
 function special(date, birthday = '') {
   const key = `${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
@@ -37,4 +38,4 @@ function choose(settings, date, persist, random = Math.random) {
   }
   return { outfit: VALID.has(settings.wardrobeOutfit) ? settings.wardrobeOutfit : null };
 }
-module.exports = { GROUPS, SLEEP, SPECIAL, ITEMS, VALID, special, sleepNight, choose };
+module.exports = { LEGACY_ITEMS, GROUPS, SLEEP, SPECIAL, ITEMS, VALID, special, sleepNight, choose };

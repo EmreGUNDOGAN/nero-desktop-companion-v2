@@ -13,17 +13,17 @@ class MemoryStore {
 function freshGame() { return new BeeGame(new MemoryStore()); }
 const root = path.join(__dirname, '..');
 
-test('6.6.2 sürüm ve workflow bağlıdır; 6.6.1 master planı tarihsel olarak korunur', () => {
+test('6.6.5 sürüm ve workflow bağlıdır; 6.6.1 master planı tarihsel olarak korunur', () => {
   const pkg = JSON.parse(fs.readFileSync(path.join(root, 'package.json'), 'utf8'));
   const lock = JSON.parse(fs.readFileSync(path.join(root, 'package-lock.json'), 'utf8'));
-  const workflow = fs.readFileSync(path.join(root, '.github/workflows/build-v6.6.2.yml'), 'utf8');
+  const workflow = fs.readFileSync(path.join(root, '.github/workflows/build-v6.6.5.yml'), 'utf8');
   const plan = fs.readFileSync(path.join(root, 'docs/NERO-6.6.1-IMPLEMENTASYON-PLANI.md'), 'utf8');
-  assert.equal(pkg.version, '6.6.2');
-  assert.equal(lock.version, '6.6.2');
-  assert.equal(lock.packages[''].version, '6.6.2');
-  assert.match(workflow, /Build Nero 6\.6\.2 Final/);
-  assert.match(workflow, /feature\/bee-v6\.6\.2/);
-  assert.match(workflow, /Nero-6\.6\.2-final-bundle/);
+  assert.equal(pkg.version, '6.6.5');
+  assert.equal(lock.version, '6.6.5');
+  assert.equal(lock.packages[''].version, '6.6.5');
+  assert.match(workflow, /Build Nero 6\.6\.5 Final/);
+  assert.match(workflow, /feature\/bee-v6\.6\.5/);
+  assert.match(workflow, /Nero-6\.6\.5-final-bundle/);
   assert.match(plan, /\| 0 \| 6\.6\.1 temel sürüm \/ migration \/ test altyapısı \| ✅ TAMAMLANDI \|/);
 });
 

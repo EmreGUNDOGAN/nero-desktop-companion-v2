@@ -4,8 +4,8 @@ const w=require('../src/main/wardrobe'),Renderer=require('../src/renderer/charac
 const catalog=require('../themes/default/assets/wardrobe/catalog.json');
 const tick=()=>new Promise(r=>setImmediate(r));
 test('88 complete outfits have independent blink/talk layers and accepted winter contour',()=>{
- const ids=new Set([...w.ITEMS.map(x=>x.id),...w.SLEEP.map((_,i)=>`sleep-${i}`),...Object.values(w.SPECIAL).map(x=>`special-${x}`),'special-birthday']);
- assert.equal(w.ITEMS.length,72);assert.equal(ids.size,88);assert.deepEqual(new Set(Object.keys(catalog)),ids);
+ const ids=new Set([...w.LEGACY_ITEMS.map(x=>x.id),...w.SLEEP.map((_,i)=>`sleep-${i}`),...Object.values(w.SPECIAL).map(x=>`special-${x}`),'special-birthday']);
+ assert.equal(w.LEGACY_ITEMS.length,72);assert.equal(ids.size,88);for(const id of ids)assert.ok(catalog[id]);
  for(const id of ids){
   assert.ok(catalog[id].layers.lids.closed);assert.ok(catalog[id].layers.mouth.talk1);assert.ok(catalog[id].layers.mouth.talk2);
   for(const variants of Object.values(catalog[id].layers))for(const name of Object.values(variants)){
@@ -51,7 +51,7 @@ test('rapid changes, removal and theme disposal never install an obsolete outfit
  h.r.select('sleep-0');const c=h.pending.splice(0);h.r.select(null);c.forEach(i=>i.onload());await tick();assert.equal(h.r.active,null);
  h.r.select('sleep-1');h.r.dispose();h.pending.forEach(i=>i.onload());await tick();assert.equal(h.r.active,null);
 });
-test('all 88 choices load without accumulating old layers',async()=>{
+test('all catalog choices load without accumulating old layers',async()=>{
  const h=harness();for(const id of Object.keys(catalog)){
   h.r.select(id);h.pending.splice(0).forEach(i=>i.onload());await tick();assert.equal(h.r.active,id);
   for(const [layer,variants]of Object.entries(catalog[id].layers))assert.equal(h.slots[layer].children.length,Object.keys(variants).length);

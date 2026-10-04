@@ -10,7 +10,8 @@ const theme = JSON.parse(fs.readFileSync(path.join(root, '..', 'theme.json'), 'u
 const wrap = body => `<svg xmlns="http://www.w3.org/2000/svg" width="220" height="260" viewBox="0 0 220 260">${body}</svg>`;
 const content = name => fs.readFileSync(path.join(root, name), 'utf8').replace(/^[\s\S]*?<svg[^>]*>/, '').replace(/<\/svg>\s*$/, '');
 const edge = '<filter id="edge" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB"><feComponentTransfer in="SourceAlpha" result="cleanAlpha"><feFuncA type="linear" slope="1.5" intercept="-.5"/></feComponentTransfer><feMorphology in="cleanAlpha" operator="erode" radius=".4" result="inside"/><feFlood flood-color="#281b16"/><feComposite in2="cleanAlpha" operator="in" result="outline"/><feComposite in="SourceGraphic" in2="inside" operator="in" result="interior"/><feMerge><feMergeNode in="outline"/><feMergeNode in="interior"/></feMerge></filter>';
-const catalog = {};
+const previous = JSON.parse(fs.readFileSync(path.join(dir, 'catalog.json'), 'utf8'));
+const catalog = Object.fromEntries(Object.entries(previous).filter(([id]) => !profiles[id]));
 for (const [id,p] of Object.entries(profiles)) {
   const output = path.join(dir,id);fs.mkdirSync(output,{recursive:true});
   const png = fs.readFileSync(path.join(dir,`outfit-${id}.png`)).toString('base64');
