@@ -336,14 +336,14 @@ test('6.6.0 tarihsel plan dosyaları güncel kural kaynağı olmadığını aç�
 });
 
 
-test('6.6.5 paket sürümü ve Actions workflowu yeni sürüme bağlıdır', () => {
+test('6.6.6 paket sürümü ve Actions workflowu yeni sürüme bağlıdır', () => {
   const pkg = JSON.parse(fs.readFileSync(path.join(root, 'package.json'), 'utf8'));
   const lock = JSON.parse(fs.readFileSync(path.join(root, 'package-lock.json'), 'utf8'));
-  const workflow = fs.readFileSync(path.join(root, '.github/workflows/build-v6.6.5.yml'), 'utf8');
-  assert.equal(pkg.version, '6.6.5');
-  assert.equal(lock.version, '6.6.5');
-  assert.equal(lock.packages[''].version, '6.6.5');
-  assert.match(workflow, /name: Build Nero 6\.6\.5 Final/);
-  assert.match(workflow, /branches: \[feature\/bee-v6\.6\.5\]/);
-  assert.match(workflow, /Nero-6\.6\.5-final-bundle/);
+  const workflow = fs.readFileSync(path.join(root, '.github/workflows/build-v6.6.6.yml'), 'utf8');
+  assert.equal(pkg.version, '6.6.6');
+  assert.equal(lock.version, '6.6.6');
+  assert.equal(lock.packages[''].version, '6.6.6');
+  assert.match(workflow, /name: Build Nero 6\.6\.6 Final/);
+  assert.match(workflow, /branches: \[feature\/bee-v6\.6\.6\]/);
+  assert.match(workflow, /Nero-6\.6\.6-final-bundle/);
 });
