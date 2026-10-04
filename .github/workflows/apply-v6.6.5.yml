@@ -71,7 +71,7 @@ jobs:
         run: |
           $ErrorActionPreference = 'Stop'
           Remove-Item '.github/nero665' -Recurse -Force
-          Remove-Item '.github/workflows/apply-v6.6.5.yml' -Force
+          Remove-Item '.github/workflows/apply-v6.6.5.yml' -Force\n          Remove-Item '.github/workflows/build-v6.6.5.yml' -Force -ErrorAction SilentlyContinue
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add -A
