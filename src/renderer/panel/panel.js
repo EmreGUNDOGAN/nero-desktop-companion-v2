@@ -303,6 +303,30 @@
     }
   });
 
+  Object.assign(SKINS, {
+    bakanlik: {
+      ...SKINS.cozy,
+      tabs: { home: 'Masa', notes: 'Evrak', todos: 'İşlem', timer: 'Mesai', badges: 'Kayıt', settings: 'Ayarlar' },
+      brandTitle: 'Erteleme Bakanlığı',
+      beeLabel: 'Arıcılık Md.',
+      newNote: 'YENİ EVRAK', newNoteSub: 'kayıt numarası otomatik verilir',
+      saved: 'ARŞİVLENDİ', typing: 'YAZI İŞLERİ…',
+      todoPlaceholder: 'İşlem konusu...', listTitle: 'İŞLEM SIRASI <span>Günlük Evrak Takibi</span>',
+      todoLeft: (n) => `${n} işlem beklemede`, allDone: 'Bekleyen işlem yok. Bu beklenmedik.',
+      timerIdle: 'MESAİ DURUMU: HAZIR', timerRunning: 'MESAİ DEVAM EDİYOR', timerPaused: 'MESAİ GEÇİCİ DURDURULDU',
+      timerStart: 'MESAİYİ BAŞLAT', timerPause: 'ARA VER', timerResume: 'MESAİYE DÖN',
+      cancel: 'İŞLEMİ KAPAT', cancelNote: '', talkMax: 'Çok',
+      noteBack: '‹ EVRAK KAYIT', noteArchive: 'ARŞİVLE', noteDelete: 'İMHA',
+      todoClear: 'Kapanan dosyaları arşivle',
+      quickFocus: '25 dk mesai', quickTodo: 'İşlem aç', quickNote: 'Evrak oluştur',
+      badgeTitle: 'HİZMET VE BAŞARI KAYITLARI',
+      tagline: 'Nero Genel Müdürlüğü · Evrak ve Erteleme Dairesi',
+      sticky: 'Talebiniz gereksiz yere alınmıştır.',
+      subs: { theme: 'kurumsal görünüm', talk: 'memur konuşkanlığı' },
+      moodPrefix: 'Personel durumu: ', moodLabels: null
+    }
+  });
+
   let skinName = 'cozy';
   const skin = () => SKINS[skinName] || SKINS.cozy;
 
