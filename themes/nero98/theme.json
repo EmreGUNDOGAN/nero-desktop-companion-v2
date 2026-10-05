@@ -1,0 +1,25 @@
+{
+  "id": "nero98",
+  "name": "Nero OS ’98",
+  "author": "Stenwick",
+  "formatVersion": 1,
+  "inherits": "default",
+  "ui": {
+    "skin": "nero98",
+    "paper": "#C0C0C0",
+    "surface": "#E7E7E7",
+    "ink": "#111111",
+    "muted": "#4A4A4A",
+    "accent": "#000080",
+    "accentInk": "#FFFFFF",
+    "secondary": "#008080",
+    "danger": "#9A0018",
+    "line": "#777777",
+    "bubbleBg": "#FFFDEB",
+    "bubbleInk": "#111111",
+    "bubbleLine": "#404040",
+    "noteColors": [
+      "#F7F7F7"
+    ]
+  }
+}
