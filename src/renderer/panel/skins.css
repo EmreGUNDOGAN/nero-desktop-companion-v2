@@ -2316,3 +2316,372 @@ html.no-scene:is(
 html.no-scene[data-skin="doksanlar-kirtasiye"] :is(#view-home,#view-notes,#view-todos,#view-timer,#view-badges,#view-settings) {
   background-image:none !important;
 }
+
+
+/* ==========================================================================
+   NERO OS '98 — klasik masaüstü / pencere metaforu
+   Disket Günleri'nden bilinçli olarak ayrıdır: terminal değil, GUI işletim sistemi.
+   ========================================================================== */
+[data-skin="nero98"] {
+  --serif: "Pixelify Sans", "Segoe UI", sans-serif;
+  --text: "Libre Franklin", "Segoe UI", sans-serif;
+  --hand: "VT323", "Courier New", monospace;
+  --soft-shadow: none;
+  --radius: 0px;
+}
+[data-skin="nero98"] body { font-weight: 500; }
+[data-skin="nero98"] .shell {
+  inset: 8px;
+  border: 2px solid #111;
+  border-radius: 0;
+  background: #C0C0C0;
+  background-image: none;
+  box-shadow: 2px 2px 0 #000, inset 1px 1px 0 #fff;
+}
+[data-skin="nero98"] .top {
+  min-height: 78px;
+  padding: 10px 14px 8px;
+  color: #fff;
+  background: linear-gradient(90deg, #000080 0%, #0A4FA3 58%, #108A91 100%);
+  border-bottom: 2px solid #111;
+}
+[data-skin="nero98"] .brand { align-items: center; gap: 10px; }
+[data-skin="nero98"] h1 {
+  font: 700 25px/1 "Pixelify Sans", sans-serif;
+  letter-spacing: .02em;
+  font-variation-settings: normal;
+  text-shadow: 1px 1px 0 #000;
+}
+[data-skin="nero98"] .meter { filter: grayscale(1) brightness(2.4); transform: none; }
+[data-skin="nero98"] .tagline {
+  display: block;
+  margin: 4px 0 0;
+  font: 400 13px/1 "VT323", monospace;
+  letter-spacing: .05em;
+  color: #EAF5FF;
+}
+[data-skin="nero98"] .mood-note {
+  display: inline-block;
+  max-width: calc(100% - 6px);
+  margin: 6px 0 0;
+  padding: 3px 7px;
+  border: 1px solid #404040;
+  background: #E7E7E7;
+  color: #111;
+  box-shadow: inset 1px 1px 0 #fff, inset -1px -1px 0 #777;
+  font: 500 12px/1.2 "Libre Franklin", sans-serif;
+}
+[data-skin="nero98"] #mood-label { color: #000080; font-weight: 800; }
+
+[data-skin="nero98"] .window-controls { top: 10px; right: 10px; gap: 3px; }
+[data-skin="nero98"] .window-controls > .close,
+[data-skin="nero98"] .window-controls > .bee-launch {
+  height: 25px;
+  min-width: 25px;
+  border: 1px solid #111;
+  border-radius: 0;
+  background: #C0C0C0;
+  color: #111;
+  box-shadow: inset 1px 1px 0 #fff, inset -2px -2px 0 #777;
+}
+[data-skin="nero98"] .window-controls > .close { width: 25px; }
+[data-skin="nero98"] .window-controls > .bee-launch { padding: 0 7px; font: 700 10px/1 "Pixelify Sans", sans-serif; }
+[data-skin="nero98"] .window-controls > :is(.close,.bee-launch):active {
+  box-shadow: inset 2px 2px 0 #777, inset -1px -1px 0 #fff;
+  translate: 1px 1px;
+}
+[data-skin="nero98"] .window-controls > .settings-btn { margin-right: 3px; }
+
+[data-skin="nero98"] .tabs {
+  margin: 0;
+  padding: 4px 5px;
+  gap: 3px;
+  border: 0;
+  border-bottom: 2px solid #404040;
+  border-radius: 0;
+  background: #C0C0C0;
+  box-shadow: inset 0 1px 0 #fff;
+}
+[data-skin="nero98"] .tabs button {
+  height: 33px;
+  padding: 3px 5px;
+  gap: 4px;
+  border: 1px solid #111;
+  border-radius: 0;
+  background: #D7D7D7;
+  color: #111;
+  box-shadow: inset 1px 1px 0 #fff, inset -2px -2px 0 #777;
+  font: 700 10px/1 "Pixelify Sans", sans-serif;
+}
+[data-skin="nero98"] .tabs button[aria-selected="true"] {
+  background: #ECECEC;
+  color: #000080;
+  box-shadow: inset 2px 2px 0 #777, inset -1px -1px 0 #fff;
+  translate: 1px 1px;
+}
+[data-skin="nero98"] .tabs button > svg { display: none; }
+[data-skin="nero98"] .tabs button::before {
+  content: "";
+  width: 14px; height: 14px;
+  flex: none;
+  border: 1px solid #111;
+  box-shadow: inset 1px 1px 0 rgba(255,255,255,.85);
+  image-rendering: pixelated;
+}
+[data-skin="nero98"] .tabs button[data-tab="home"]::before { background: linear-gradient(#87CEEB 0 45%, #008080 45% 100%); }
+[data-skin="nero98"] .tabs button[data-tab="notes"]::before { background: linear-gradient(135deg, #fff 0 68%, #B7B7B7 68% 76%, #000080 76%); }
+[data-skin="nero98"] .tabs button[data-tab="todos"]::before { background: repeating-linear-gradient(#fff 0 3px, #000080 3px 4px); }
+[data-skin="nero98"] .tabs button[data-tab="timer"]::before { background: radial-gradient(circle at 50% 55%, #fff 0 36%, #111 38% 44%, #008080 46% 100%); }
+[data-skin="nero98"] .tabs button[data-tab="badges"]::before { background: linear-gradient(45deg, #D9B33A 0 48%, #FFF2A5 48% 60%, #8A6B00 60%); }
+
+[data-skin="nero98"] main { background: #008080; }
+[data-skin="nero98"] .view {
+  padding: 11px 12px 18px;
+  background-color: #008080;
+  background-image: linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+  background-size: 8px 8px;
+}
+[data-skin="nero98"] .view::-webkit-scrollbar { width: 15px; }
+[data-skin="nero98"] .view::-webkit-scrollbar-thumb { border: 2px outset #D7D7D7; border-radius: 0; background: #C0C0C0; }
+
+[data-skin="nero98"] :is(.card,.paper,.archive-drawer,.todo-duration,.todo-time,.soft-input,.presets > button,.presets .custom,.chip,.pill) {
+  border-radius: 0;
+}
+[data-skin="nero98"] .card {
+  position: relative;
+  padding: 30px 11px 11px;
+  border: 1px solid #111;
+  background: #E7E7E7;
+  box-shadow: inset 1px 1px 0 #fff, inset -2px -2px 0 #777;
+}
+[data-skin="nero98"] .card::before,
+[data-skin="nero98"] .list-card::before,
+[data-skin="nero98"] .badges::before {
+  position: absolute;
+  top: 3px; left: 3px; right: 3px;
+  height: 20px;
+  padding: 3px 6px 0;
+  box-sizing: border-box;
+  background: #000080;
+  color: #fff;
+  font: 700 11px/1.1 "Pixelify Sans", sans-serif;
+  letter-spacing: .02em;
+  pointer-events: none;
+}
+[data-skin="nero98"] .nero-says::before { content: "NERO ASSISTANT"; }
+[data-skin="nero98"] .week::before { content: "FOCUS MONITOR"; }
+[data-skin="nero98"] .totals::before { content: "SESSION SUMMARY"; }
+[data-skin="nero98"] .desk::before { content: "DESKTOP ITEMS"; }
+[data-skin="nero98"] .letter::before { content: "MAIL.EXE"; }
+[data-skin="nero98"] .moodboards::before { content: "MOOD.EXE"; }
+[data-skin="nero98"] .jar::before { content: "MEMORY.DAT"; }
+[data-skin="nero98"] .archive::before { content: "ARCHIVE.EXE"; }
+[data-skin="nero98"] .quote::before { content: "NERO.LOG"; }
+[data-skin="nero98"] .ritual::before { content: "TODAY.EXE"; }
+
+[data-skin="nero98"] .hello { color: #fff; text-shadow: 1px 1px 0 #004848; }
+[data-skin="nero98"] .hello h2 { font-family: "Pixelify Sans", sans-serif; }
+[data-skin="nero98"] .sticky-note { display: none; }
+[data-skin="nero98"] .tiles { gap: 6px; }
+[data-skin="nero98"] .tile { min-height: 78px; padding: 29px 9px 8px; }
+[data-skin="nero98"] .tile::before {
+  position: absolute; top: 3px; left: 3px; right: 3px; height: 19px;
+  padding: 2px 5px; box-sizing: border-box;
+  background: #0A4FA3; color: #fff;
+  font: 700 9px/1.4 "Pixelify Sans", sans-serif;
+}
+[data-skin="nero98"] .tile:nth-child(1)::before { content: "TASKS.EXE"; }
+[data-skin="nero98"] .tile:nth-child(2)::before { content: "FOCUS.EXE"; }
+[data-skin="nero98"] .tile:nth-child(3)::before { content: "STREAK.DAT"; }
+[data-skin="nero98"] .tile:nth-child(4)::before { content: "NERO.LOG"; }
+[data-skin="nero98"] .tile strong { font: 700 24px/1 "Pixelify Sans", sans-serif; color: #000080; }
+[data-skin="nero98"] .tile span { font-size: 10.5px; }
+[data-skin="nero98"] .ritual-opts { gap: 6px; }
+[data-skin="nero98"] .pill {
+  border: 1px solid #111;
+  background: #D7D7D7;
+  color: #111;
+  box-shadow: inset 1px 1px 0 #fff, inset -2px -2px 0 #777;
+  font-family: "Pixelify Sans", sans-serif;
+}
+[data-skin="nero98"] .pill.primary { background: #C0C0C0; color: #000080; }
+[data-skin="nero98"] .pill:active { transform: none; translate: 1px 1px; box-shadow: inset 2px 2px 0 #777; }
+[data-skin="nero98"] .bars .bar i { border-radius: 0; background: #0A4FA3; }
+[data-skin="nero98"] .bar.today i { background: #008080; }
+[data-skin="nero98"] .totals dl div { border-bottom: 1px dotted #777; }
+
+[data-skin="nero98"] .notes { gap: 8px; padding-top: 2px; }
+[data-skin="nero98"] .notes li {
+  min-height: 112px;
+  padding: 34px 10px 9px;
+  border: 1px solid #111;
+  border-radius: 0;
+  background: #F5F5F5 !important;
+  box-shadow: inset 1px 1px 0 #fff, inset -2px -2px 0 #888;
+  rotate: 0deg !important;
+}
+[data-skin="nero98"] .notes li:hover { transform: none; background: #fff !important; }
+[data-skin="nero98"] .notes li::before {
+  content: "TXT";
+  display: grid;
+  place-items: center;
+  position: absolute;
+  top: 7px; left: 8px;
+  width: 21px; height: 19px;
+  translate: 0; rotate: 0;
+  border: 1px solid #111;
+  border-radius: 0;
+  background: #fff;
+  color: #000080;
+  font: 700 8px/1 "Pixelify Sans", sans-serif;
+}
+[data-skin="nero98"] .notes li::after {
+  content: "NERO NOTE";
+  position: absolute; top: 9px; left: 35px;
+  color: #111; font: 700 9px/1 "Pixelify Sans", sans-serif;
+}
+[data-skin="nero98"] .notes li.new-note { border: 1px dashed #111; background: #C0C0C0 !important; color: #000080; }
+[data-skin="nero98"] .notes li.new-note::after { content: "NEWNOTE.EXE"; }
+[data-skin="nero98"] .note-title { font: 700 13px/1.2 "Libre Franklin", sans-serif; }
+[data-skin="nero98"] .note-preview { font-family: "Courier Prime", monospace; color: #303030; }
+[data-skin="nero98"] .paper {
+  padding-top: 25px;
+  border: 1px solid #111;
+  background: #E7E7E7;
+  box-shadow: inset 1px 1px 0 #fff, inset -2px -2px 0 #777;
+}
+[data-skin="nero98"] .paper::before {
+  content: "Nero Notepad — note.txt";
+  position: absolute; top: 3px; left: 3px; right: 3px; height: 19px;
+  padding: 2px 6px; box-sizing: border-box;
+  background: #000080; color: #fff;
+  font: 700 10px/1.4 "Pixelify Sans", sans-serif;
+}
+[data-skin="nero98"] .paper .tape, [data-skin="nero98"] .paper .clip { display: none; }
+[data-skin="nero98"] #note-body {
+  margin: 0 4px 4px;
+  min-height: 330px;
+  border: 1px inset #777;
+  padding: 10px;
+  background: #fff;
+  background-image: none;
+  font: 400 13px/1.5 "Courier Prime", monospace;
+}
+[data-skin="nero98"] .toolbar .link { border: 1px solid #777; border-radius: 0; background: #D7D7D7; color: #111; }
+
+[data-skin="nero98"] .todo-add { gap: 5px; grid-template-columns: minmax(0,1fr) 90px 88px 36px; }
+[data-skin="nero98"] .todo-add > #todo-input,
+[data-skin="nero98"] .todo-duration,
+[data-skin="nero98"] .todo-time,
+[data-skin="nero98"] .soft-input {
+  height: 38px;
+  border: 1px inset #777;
+  border-radius: 0;
+  background: #fff;
+  box-shadow: none;
+}
+[data-skin="nero98"] .todo-duration svg, [data-skin="nero98"] .todo-time svg { color: #000080; }
+[data-skin="nero98"] .add {
+  width: 36px; height: 38px;
+  border: 1px solid #111; border-radius: 0;
+  background: #C0C0C0;
+  box-shadow: inset 1px 1px 0 #fff, inset -2px -2px 0 #777;
+}
+[data-skin="nero98"] .add svg { stroke: #000080; }
+[data-skin="nero98"] .list-card { padding: 31px 9px 5px; }
+[data-skin="nero98"] .list-card::before { content: "TASKMGR.EXE — PROCESS LIST"; }
+[data-skin="nero98"] .list-title { font: 700 11px/1.2 "Pixelify Sans", sans-serif; color: #000080; }
+[data-skin="nero98"] .todos li { gap: 7px; padding: 8px 2px; border-color: #aaa; }
+[data-skin="nero98"] .check,
+[data-skin="nero98"] .todo-stopwatch,
+[data-skin="nero98"] .todo-archive {
+  border-radius: 0;
+  border: 1px solid #555;
+  background: #D7D7D7;
+  color: #111;
+  box-shadow: inset 1px 1px 0 #fff, inset -1px -1px 0 #888;
+}
+[data-skin="nero98"] .check { width: 18px; height: 18px; }
+[data-skin="nero98"] .todos li.done .check { background: #000080; border-color: #111; }
+[data-skin="nero98"] .todo-footer { font-family: "VT323", monospace; font-size: 18px; color: #fff; }
+[data-skin="nero98"] .todo-footer .link { color: #fff; text-decoration: underline; }
+
+[data-skin="nero98"] #view-timer { padding-top: 18px; }
+[data-skin="nero98"] .dial {
+  width: min(340px, 92%);
+  height: 190px;
+  margin: 0 auto 10px;
+  border: 1px solid #111;
+  border-radius: 0;
+  background: #E7E7E7;
+  box-shadow: inset 1px 1px 0 #fff, inset -2px -2px 0 #777;
+}
+[data-skin="nero98"] .dial::before {
+  content: "NERO TIMER — CLOCK.EXE";
+  position: absolute; top: 3px; left: 3px; right: 3px; height: 21px;
+  padding: 3px 6px; box-sizing: border-box;
+  background: #000080; color: #fff;
+  font: 700 10px/1.4 "Pixelify Sans", sans-serif;
+}
+[data-skin="nero98"] .ring { display: none; }
+[data-skin="nero98"] .dial-center { inset: 27px 8px 8px; border: 1px inset #777; background: #0B281F; }
+[data-skin="nero98"] .digits { font: 400 72px/1 "VT323", monospace; color: #B9FFB8; text-shadow: 0 0 4px rgba(185,255,184,.35); }
+[data-skin="nero98"] .dial-label { margin-top: 1px; font: 400 18px/1 "VT323", monospace; color: #B9FFB8; }
+[data-skin="nero98"] .lcd-bar {
+  display: block;
+  height: 18px;
+  max-width: 340px;
+  margin: 0 auto 10px;
+  padding: 2px;
+  border: 1px inset #777;
+  background: #fff;
+}
+[data-skin="nero98"] .lcd-bar i { display: block; height: 100%; background: repeating-linear-gradient(90deg,#000080 0 9px,#fff 9px 11px); }
+[data-skin="nero98"] .presets { gap: 4px; margin: 8px 0 12px; }
+[data-skin="nero98"] .presets > button,
+[data-skin="nero98"] .presets .custom {
+  height: 34px;
+  border: 1px solid #111;
+  background: #D7D7D7;
+  color: #111;
+  box-shadow: inset 1px 1px 0 #fff, inset -2px -2px 0 #777;
+  font-family: "Pixelify Sans", sans-serif;
+}
+[data-skin="nero98"] .presets > button.on { color: #fff; background: #000080; box-shadow: inset 2px 2px 0 #000050; }
+
+[data-skin="nero98"] .badges { padding-top: 31px; }
+[data-skin="nero98"] .badges::before { content: "ACHIEVEMENTS.EXE — NERO SYSTEM"; }
+[data-skin="nero98"] .badge-rarity-tabs {
+  padding: 3px;
+  gap: 3px;
+  border: 1px inset #777;
+  background: #C0C0C0;
+}
+[data-skin="nero98"] .badge-rarity-tabs button {
+  border: 1px solid #111;
+  border-radius: 0;
+  background: #D7D7D7;
+  box-shadow: inset 1px 1px 0 #fff, inset -1px -1px 0 #777;
+  color: #111;
+  font: 700 9px/1 "Pixelify Sans", sans-serif;
+}
+[data-skin="nero98"] .badge-rarity-tabs button[aria-selected="true"] { background: #000080; color: #fff; box-shadow: inset 1px 1px 0 #00004B; }
+[data-skin="nero98"] .badge-category-meta { border-bottom: 1px solid #777; }
+[data-skin="nero98"] .badge { padding: 4px 2px; border: 1px dotted transparent; }
+[data-skin="nero98"] .badge:hover { border-color: #777; background: #D8E5F2; }
+
+[data-skin="nero98"] #view-settings .card::before { content: "CONTROL PANEL"; }
+[data-skin="nero98"] #view-settings :is(select,.chip,input[type="text"],input[type="number"]) { border-radius: 0; }
+[data-skin="nero98"] .chip {
+  border: 1px solid #111;
+  background: #D7D7D7;
+  box-shadow: inset 1px 1px 0 #fff, inset -1px -1px 0 #777;
+}
+
+@container (max-width: 410px) {
+  [data-skin="nero98"] .tabs .tl { font-size: 9px; }
+  [data-skin="nero98"] .tabs button { padding-inline: 2px; }
+  [data-skin="nero98"] .tabs button::before { width: 12px; height: 12px; }
+  [data-skin="nero98"] .todo-add { grid-template-columns: minmax(0,1fr) 76px 74px 34px; }
+  [data-skin="nero98"] .digits { font-size: 60px; }
+}
