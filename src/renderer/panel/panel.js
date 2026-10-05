@@ -424,7 +424,7 @@
   });
 
   Object.assign(SKINS, {
-    yorunge: {
+    'yorunge-v2': {
       ...SKINS.cozy,
       tabs: { home: 'Görev', notes: 'Loglar', todos: 'Kontrol', timer: 'T-Zaman', badges: 'Yamalar', settings: 'Ayar' },
       brandTitle: 'Yörünge Kontrol Merkezi',
