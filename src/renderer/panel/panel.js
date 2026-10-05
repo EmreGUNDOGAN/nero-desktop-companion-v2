@@ -399,6 +399,30 @@
     }
   });
 
+  Object.assign(SKINS, {
+    dedektif: {
+      ...SKINS.cozy,
+      tabs: { home: 'Vaka', notes: 'Dosyalar', todos: 'İpuçları', timer: 'Takip', badges: 'Deliller', settings: 'Ayar' },
+      brandTitle: 'Nero Dedektiflik Bürosu',
+      beeLabel: 'Vaka: Kovan',
+      newNote: 'YENİ DOSYA AÇ', newNoteSub: 'vaka kaydı',
+      saved: 'DOSYAYA İŞLENDİ', typing: 'RAPOR YAZILIYOR…',
+      todoPlaceholder: 'Yeni ipucu / takip adımı...', listTitle: 'İPUCU TAKİP LİSTESİ <span>aktif soruşturma</span>',
+      todoLeft: (n) => `${n} ipucu açık`, allDone: 'Tüm ipuçları doğrulandı. Dosya kapanabilir.',
+      timerIdle: 'TAKİP SÜRESİ: HAZIR', timerRunning: 'ŞÜPHELİ TAKİPTE', timerPaused: 'TAKİP DURDURULDU',
+      timerStart: 'TAKİBE AL', timerPause: 'GÖZDEN KAÇIR', timerResume: 'TAKİBE DÖN',
+      cancel: 'TAKİBİ KAPAT', cancelNote: '', talkMax: 'Sorgucu',
+      noteBack: '‹ VAKA DOSYALARI', noteArchive: 'DOSYAYI KAPAT', noteDelete: 'DOSYAYI İMHA ET',
+      todoClear: 'Doğrulanan ipuçlarını arşivle',
+      quickFocus: '25 dk takip', quickTodo: 'İpucu ekle', quickNote: 'Dosya aç',
+      badgeTitle: 'DELİL ARŞİVİ',
+      tagline: 'Özel Araştırmalar · açık dosyalar geceleri kapanmaz',
+      sticky: 'herkes masumdur. nero emin olana kadar.',
+      subs: { theme: 'büro görünümü', talk: 'sorgu yoğunluğu' },
+      moodPrefix: 'Dedektif raporu: ', moodLabels: null
+    }
+  });
+
   let skinName = 'cozy';
   const skin = () => SKINS[skinName] || SKINS.cozy;
 
