@@ -21,5 +21,5 @@ test('Son Seans senaryo, çekim, seans ve ödül metaforlarını taşır',()=>{
   assert.match(css,/SENARYO · SON SEANS/);
   assert.match(css,/ÇEKİM LİSTESİ · MOTOR \/ KES/);
   assert.match(css,/SEANSA KALAN · SALON 01/);
-  assert.match(css,/Ödül duvarı/);
+  assert.match(js,/badgeTitle: 'ÖDÜL DUVARI'/);
 });
