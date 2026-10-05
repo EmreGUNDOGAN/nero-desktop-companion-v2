@@ -15,3 +15,10 @@
 
 - Paket sürümü: **6.6.7**
 - Branch: `feature/bee-v6.6.7`
+
+
+### 6.6.7 düzeltmesi — Yörünge v2 izolasyonu
+
+- Yörünge pilotunun UI skin kimliği `yorunge-v2` olarak ayrıldı; 6.6.6'daki `[data-skin="yorunge"]` kuralları artık pilot üzerine uygulanmaz.
+- Pilot kendi bağımsız üst bar, sekme, kart ve kontrol merkezi kabuğunu içerir.
+- Space 17 Nero görseli paketli uygulamada çalışan `nero-theme://default/assets/wardrobe/outfit-space-17.png` protokolü üzerinden yüklenir.
