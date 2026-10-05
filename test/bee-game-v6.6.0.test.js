@@ -336,13 +336,13 @@ test('6.6.0 tarihsel plan dosyaları güncel kural kaynağı olmadığını aç�
 });
 
 
-test('6.7.7 paket sürümü ve Actions workflowu yeni sürüme bağlıdır', () => {
+test('6.7.8 paket sürümü ve Actions workflowu yeni sürüme bağlıdır', () => {
   const pkg = JSON.parse(fs.readFileSync(path.join(root, 'package.json'), 'utf8'));
   const lock = JSON.parse(fs.readFileSync(path.join(root, 'package-lock.json'), 'utf8'));
-  const workflow = fs.readFileSync(path.join(root, '.github/workflows/build-v6.7.7.yml'), 'utf8');
-  assert.equal(pkg.version, '6.7.7');
-  assert.equal(lock.version, '6.7.7');
-  assert.equal(lock.packages[''].version, '6.7.7');
+  const workflow = fs.readFileSync(path.join(root, '.github/workflows/build-v6.7.8.yml'), 'utf8');
+  assert.equal(pkg.version, '6.7.8');
+  assert.equal(lock.version, '6.7.8');
+  assert.equal(lock.packages[''].version, '6.7.8');
   assert.match(workflow, /name: Build Nero 6\.7\.7 Final/);
   assert.match(workflow, /branches: \[feature\/bee-v6\.7\.7\]/);
   assert.match(workflow, /Nero-6\.7\.7-final-bundle/);
