@@ -351,6 +351,30 @@
     }
   });
 
+  Object.assign(SKINS, {
+    'son-seans': {
+      ...SKINS.cozy,
+      tabs: { home: 'Program', notes: 'Senaryo', todos: 'Çekim', timer: 'Seans', badges: 'Ödüller', settings: 'Ayarlar' },
+      brandTitle: 'Son Seans',
+      beeLabel: 'Salon B',
+      newNote: 'YENİ SAHNE', newNoteSub: 'senaryo sayfası',
+      saved: 'SENARYO KAYDEDİLDİ', typing: 'SAHNE YAZILIYOR…',
+      todoPlaceholder: 'Çekilecek sahne...', listTitle: 'ÇEKİM LİSTESİ <span>bu gecenin planı</span>',
+      todoLeft: (n) => `${n} sahne çekilmeyi bekliyor`, allDone: 'Çekim tamam. Projektör sustu.',
+      timerIdle: 'SEANSA HAZIR', timerRunning: 'GÖSTERİM DEVAM EDİYOR', timerPaused: 'ARA VERİLDİ',
+      timerStart: 'MOTOR', timerPause: 'KES', timerResume: 'DEVAM',
+      cancel: 'SEANSI KAPAT', cancelNote: '', talkMax: 'Başrol',
+      noteBack: '‹ SENARYO MASASI', noteArchive: 'KESİLEN SAHNELER', noteDelete: 'SAHNEYİ SİL',
+      todoClear: 'Çekilenleri arşivle',
+      quickFocus: '25 dk seans', quickTodo: 'Sahne ekle', quickNote: 'Senaryo yaz',
+      badgeTitle: 'ÖDÜL DUVARI',
+      tagline: 'Nero Sineması · Salon 01 · son gece seansı',
+      sticky: 'ışıklar sönünce herkes biraz daha dürüst.',
+      subs: { theme: 'salon dekoru', talk: 'başrol konuşkanlığı' },
+      moodPrefix: 'Gösterim: ', moodLabels: null
+    }
+  });
+
   let skinName = 'cozy';
   const skin = () => SKINS[skinName] || SKINS.cozy;
 
