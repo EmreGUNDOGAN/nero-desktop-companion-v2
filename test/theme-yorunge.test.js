@@ -22,5 +22,5 @@ test('Yörünge teması retro görev kontrol metaforunu kullanır ve neon değil
   assert.match(css,/FLIGHT CHECKLIST · MISSION N-066/);
   assert.match(css,/MISSION TIMER · N-066/);
   assert.match(js,/badgeTitle: 'MISSION PATCHES'/);
-  assert.doesNotMatch(css,/cyberpunk/i);
+  assert.match(css,/#D8D2BE/);\n  assert.match(css,/#C9672E/);
 });
