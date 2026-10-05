@@ -2685,3 +2685,116 @@ html.no-scene[data-skin="doksanlar-kirtasiye"] :is(#view-home,#view-notes,#view-
   [data-skin="nero98"] .todo-add { grid-template-columns: minmax(0,1fr) 76px 74px 34px; }
   [data-skin="nero98"] .digits { font-size: 60px; }
 }
+
+
+/* ==========================================================================
+   ERTELEME BAKANLIĞI — eski kamu dairesi / evrak kayıt sistemi
+   Pazartesi Sendromu'ndan ayrıdır: çizgi roman değil, dosyalama bürokrasisi.
+   ========================================================================== */
+[data-skin="bakanlik"] {
+  --serif: "Young Serif", Georgia, serif;
+  --text: "Libre Franklin", "Segoe UI", sans-serif;
+  --hand: "Courier Prime", "Courier New", monospace;
+  --soft-shadow: 0 2px 0 rgba(46,48,39,.12), 0 8px 18px rgba(63,61,48,.12);
+  --radius: 4px;
+}
+[data-skin="bakanlik"] .shell {
+  inset: 10px; border: 1px solid #676655; border-radius: 6px; background-color: #D8D1BA;
+  background-image: linear-gradient(rgba(80,77,62,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(80,77,62,.025) 1px, transparent 1px);
+  background-size: 13px 13px; box-shadow: 0 12px 28px rgba(44,44,35,.24), inset 0 0 0 3px rgba(255,255,255,.22);
+}
+[data-skin="bakanlik"] .top { padding: 15px 18px 10px; background: #E7E0CB; border-bottom: 4px double #77715D; }
+[data-skin="bakanlik"] .brand { align-items: center; gap: 9px; }
+[data-skin="bakanlik"] h1 { font: 400 24px/1.05 "Young Serif", serif; letter-spacing: .015em; color: #34362D; font-variation-settings: normal; }
+[data-skin="bakanlik"] .tagline { display:block; margin:5px 0 0; text-transform:uppercase; letter-spacing:.08em; font:700 9px/1.25 "Libre Franklin",sans-serif; color:#7A263A; }
+[data-skin="bakanlik"] .mood-note { margin:7px 0 0; padding:5px 7px; border-left:4px solid #5F6D4F; background:rgba(244,240,226,.82); color:#4A4D40; font:400 12px/1.25 "Courier Prime",monospace; }
+[data-skin="bakanlik"] #mood-label { color:#2E3027; font-weight:700; }
+[data-skin="bakanlik"] .window-controls > :is(.close,.bee-launch) { border:1px solid #77715D; border-radius:3px; background:#EEE8D7; color:#34362D; box-shadow:0 1px 0 #fff,inset 0 -1px 0 #B9B19A; }
+[data-skin="bakanlik"] .window-controls > .bee-launch { font-size:10px; padding-inline:9px; }
+
+[data-skin="bakanlik"] .tabs { margin:10px 15px 0; padding:0 4px; gap:2px; border-radius:0; background:transparent; border-bottom:2px solid #8B846E; }
+[data-skin="bakanlik"] .tabs button { height:34px; padding:6px 5px 7px; border:1px solid #9C947B; border-bottom:0; border-radius:5px 5px 0 0; background:#C8BE9E; color:#4D4D40; box-shadow:inset 0 1px 0 rgba(255,255,255,.55); font:700 10px/1 "Libre Franklin",sans-serif; }
+[data-skin="bakanlik"] .tabs button:nth-child(2) { background:#D1C6A4; }
+[data-skin="bakanlik"] .tabs button:nth-child(3) { background:#C2C9AF; }
+[data-skin="bakanlik"] .tabs button:nth-child(4) { background:#D4C4B1; }
+[data-skin="bakanlik"] .tabs button:nth-child(5) { background:#C9C2B3; }
+[data-skin="bakanlik"] .tabs button[aria-selected="true"] { translate:0 2px; background:#F4F0E2; color:#7A263A; box-shadow:inset 0 3px 0 #7A263A; }
+[data-skin="bakanlik"] .tabs svg { width:13px; height:13px; stroke-width:1.8; }
+[data-skin="bakanlik"] main { background:#B9B29A; }
+[data-skin="bakanlik"] .view { padding:13px 16px 22px; background:linear-gradient(90deg,transparent 0 24px,rgba(139,38,58,.07) 24px 25px,transparent 25px),#E9E3D1; }
+
+[data-skin="bakanlik"] .card { position:relative; border:1px solid #AAA188; border-radius:3px; background:#F4F0E2; box-shadow:0 2px 0 rgba(79,76,59,.08),0 7px 15px rgba(79,76,59,.10); }
+[data-skin="bakanlik"] .card::after { content:""; position:absolute; inset:5px; border:1px solid rgba(122,38,58,.12); pointer-events:none; }
+[data-skin="bakanlik"] .card-head h3, [data-skin="bakanlik"] .section-heading h3 { text-transform:uppercase; letter-spacing:.055em; font-size:11px; }
+[data-skin="bakanlik"] .pill, [data-skin="bakanlik"] .chip { border:1px solid #77715D; border-radius:3px; background:#EEE8D7; box-shadow:0 1px 0 #fff,inset 0 -1px 0 #B7AF97; font:700 11px/1 "Libre Franklin",sans-serif; text-transform:uppercase; letter-spacing:.035em; }
+[data-skin="bakanlik"] .pill.primary { background:#6A7657; color:#FFF9EA; border-color:#4C5740; }
+[data-skin="bakanlik"] .pill:active { transform:none; translate:0 1px; }
+[data-skin="bakanlik"] .link { border-radius:2px; font-family:"Libre Franklin",sans-serif; }
+
+[data-skin="bakanlik"] .hello h2 { font-family:"Young Serif",serif; font-weight:400; }
+[data-skin="bakanlik"] .hello p { font-family:"Courier Prime",monospace; }
+[data-skin="bakanlik"] .sticky-note { background:#EFE7C9; border:1px solid #B8AA7D; border-radius:1px; rotate:-1deg; font-family:"Courier Prime",monospace; }
+[data-skin="bakanlik"] .nero-says::before { content:"PERSONEL NOTU"; display:block; margin:-5px 0 7px; color:#7A263A; font:700 9px/1 "Libre Franklin",sans-serif; letter-spacing:.08em; }
+[data-skin="bakanlik"] .tiles { counter-reset:dosya; }
+[data-skin="bakanlik"] .tile { counter-increment:dosya; padding-top:30px; }
+[data-skin="bakanlik"] .tile::before { content:"DOSYA 0" counter(dosya); position:absolute; left:9px; top:8px; color:#7A263A; font:700 9px/1 "Courier Prime",monospace; letter-spacing:.08em; }
+[data-skin="bakanlik"] .tile strong { font-family:"Young Serif",serif; font-weight:400; }
+[data-skin="bakanlik"] .week::before, [data-skin="bakanlik"] .totals::before { display:block; margin:-4px 0 8px; color:#5F6D4F; font:700 9px/1 "Courier Prime",monospace; letter-spacing:.07em; }
+[data-skin="bakanlik"] .week::before { content:"HAFTALIK MESAİ CETVELİ"; }
+[data-skin="bakanlik"] .totals::before { content:"GENEL İŞLEM ÖZETİ"; }
+[data-skin="bakanlik"] .bar i { border-radius:1px; background:#7A263A; }
+[data-skin="bakanlik"] .bar.today i { background:#5F6D4F; }
+[data-skin="bakanlik"] .totals dl div { border-bottom:1px solid #C7BEA6; }
+
+[data-skin="bakanlik"] .notes { counter-reset:evrak; gap:11px 10px; }
+[data-skin="bakanlik"] .notes li { counter-increment:evrak; min-height:126px; padding:35px 12px 10px; border:1px solid #AFA58A; border-radius:2px; background:#F2EBD8 !important; box-shadow:0 3px 8px rgba(80,75,55,.10); rotate:0deg !important; }
+[data-skin="bakanlik"] .notes li::before { content:"EVRAK NO: 0" counter(evrak); position:absolute; top:8px; left:10px; right:auto; width:auto; height:auto; translate:0; rotate:0; background:none; color:#7A263A; font:700 9px/1 "Courier Prime",monospace; letter-spacing:.07em; }
+[data-skin="bakanlik"] .notes li::after { content:"KAYITLI"; position:absolute; right:8px; top:7px; padding:2px 5px; border:1px solid rgba(122,38,58,.65); color:#7A263A; rotate:-3deg; font:700 8px/1 "Libre Franklin",sans-serif; letter-spacing:.07em; }
+[data-skin="bakanlik"] .notes li.new-note { border-style:dashed; background:#E4DDC7 !important; }
+[data-skin="bakanlik"] .notes li.new-note::before { content:"YENİ KAYIT"; }
+[data-skin="bakanlik"] .notes li.new-note::after { display:none; }
+[data-skin="bakanlik"] .note-title { font:700 13px/1.25 "Libre Franklin",sans-serif; }
+[data-skin="bakanlik"] .note-preview { font-family:"Courier Prime",monospace; }
+[data-skin="bakanlik"] .paper { padding-top:34px; border:1px solid #8D856F; border-radius:2px; background:#F5EFDF; box-shadow:0 5px 15px rgba(77,72,53,.12); }
+[data-skin="bakanlik"] .paper::before { content:"İÇ YAZIŞMA FORMU · NERO GENEL MÜDÜRLÜĞÜ"; position:absolute; top:0; left:0; right:0; height:27px; padding:8px 12px 0; box-sizing:border-box; border-bottom:2px solid #7A263A; color:#34362D; font:700 9px/1 "Libre Franklin",sans-serif; letter-spacing:.08em; }
+[data-skin="bakanlik"] .paper .tape, [data-skin="bakanlik"] .paper .clip { display:none; }
+[data-skin="bakanlik"] #note-body { margin:0 8px 8px; min-height:330px; border-left:2px solid rgba(122,38,58,.45); padding:12px 12px 12px 18px; background:repeating-linear-gradient(transparent 0 27px,rgba(86,84,70,.14) 27px 28px); font:400 13px/28px "Courier Prime",monospace; }
+
+[data-skin="bakanlik"] .todo-add { grid-template-columns:minmax(0,1fr) 96px 90px 40px; gap:6px; }
+[data-skin="bakanlik"] .todo-add > #todo-input, [data-skin="bakanlik"] .todo-duration, [data-skin="bakanlik"] .todo-time, [data-skin="bakanlik"] .soft-input { border:1px solid #9C947B; border-radius:2px; background:#F8F4E8; box-shadow:inset 0 1px 2px rgba(67,64,50,.08); }
+[data-skin="bakanlik"] .add { border:1px solid #596249; border-radius:2px; background:#6A7657; box-shadow:0 1px 0 #fff; }
+[data-skin="bakanlik"] .list-card { padding-top:32px; counter-reset:islem; }
+[data-skin="bakanlik"] .list-card::before { content:"İŞLEM SIRASI · GÜNLÜK EVRAK TAKİBİ"; position:absolute; top:7px; left:10px; color:#7A263A; font:700 9px/1 "Courier Prime",monospace; letter-spacing:.07em; }
+[data-skin="bakanlik"] .todos li { counter-increment:islem; position:relative; padding-left:31px; border-top:1px solid #C8BFA7; }
+[data-skin="bakanlik"] .todos li::before { content:counter(islem,decimal-leading-zero); position:absolute; left:2px; top:11px; width:22px; height:19px; display:grid; place-items:center; border:1px solid #9C947B; background:#E0D8C2; font:700 9px/1 "Courier Prime",monospace; }
+[data-skin="bakanlik"] .check { border-radius:2px; border-color:#697258; }
+[data-skin="bakanlik"] .todos li.done .check { background:#697258; border-color:#4D573E; }
+[data-skin="bakanlik"] .todo-stopwatch, [data-skin="bakanlik"] .todo-archive { border-radius:2px; }
+[data-skin="bakanlik"] .todo-footer { font:400 15px/1 "Courier Prime",monospace; }
+
+[data-skin="bakanlik"] .dial { width:min(330px,90%); height:210px; border:1px solid #8B846E; border-radius:3px; background:#E3DCC5; box-shadow:0 6px 15px rgba(70,66,50,.14),inset 0 0 0 5px #F4F0E2; }
+[data-skin="bakanlik"] .dial::before { content:"MESAİ TAKİP FORMU"; position:absolute; left:13px; right:13px; top:12px; padding-bottom:7px; border-bottom:2px solid #7A263A; color:#34362D; font:700 10px/1 "Libre Franklin",sans-serif; letter-spacing:.09em; }
+[data-skin="bakanlik"] .ring { display:none; }
+[data-skin="bakanlik"] .dial-center { inset:46px 20px 18px; border:1px solid #A59E85; background:#F8F4E8; }
+[data-skin="bakanlik"] .digits { font:700 58px/1 "Courier Prime",monospace; color:#34362D; }
+[data-skin="bakanlik"] .dial-label { max-width:230px; font:700 12px/1.3 "Libre Franklin",sans-serif; color:#7A263A; text-transform:uppercase; letter-spacing:.04em; }
+[data-skin="bakanlik"] .presets > button, [data-skin="bakanlik"] .presets .custom { border:1px solid #8B846E; border-radius:2px; background:#EEE8D7; box-shadow:0 1px 0 #fff; }
+[data-skin="bakanlik"] .presets > button.on { background:#6A7657; color:#FFF9EA; }
+
+[data-skin="bakanlik"] .badges { border-top:5px solid #7A263A; }
+[data-skin="bakanlik"] .badge-rarity-tabs { gap:2px; padding-bottom:0; border-bottom:1px solid #8B846E; }
+[data-skin="bakanlik"] .badge-rarity-tabs button { border-radius:4px 4px 0 0; border:1px solid #AAA188; border-bottom:0; background:#D8D0B7; font-size:10px; }
+[data-skin="bakanlik"] .badge-rarity-tabs button[aria-selected="true"] { background:#F4F0E2; color:#7A263A; box-shadow:inset 0 3px 0 #7A263A; }
+[data-skin="bakanlik"] .badge-category-meta { font-family:"Courier Prime",monospace; border-bottom:1px solid #BDB49C; }
+[data-skin="bakanlik"] .badge { padding:5px 2px; }
+[data-skin="bakanlik"] .badge:hover { background:rgba(95,109,79,.08); }
+
+[data-skin="bakanlik"] #view-settings .card::before { content:"KURUM İÇİ AYAR FORMU"; display:block; margin:-4px 0 8px; color:#7A263A; font:700 9px/1 "Courier Prime",monospace; letter-spacing:.07em; }
+[data-skin="bakanlik"] #view-settings :is(select,.chip,input) { border-radius:2px; }
+
+@container (max-width:410px) {
+  [data-skin="bakanlik"] h1 { font-size:20px; }
+  [data-skin="bakanlik"] .tabs button { font-size:9px; padding-inline:2px; }
+  [data-skin="bakanlik"] .todo-add { grid-template-columns:minmax(0,1fr) 78px 74px 36px; }
+  [data-skin="bakanlik"] .digits { font-size:50px; }
+}
