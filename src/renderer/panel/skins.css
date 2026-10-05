@@ -2911,3 +2911,98 @@ html.no-scene[data-skin="doksanlar-kirtasiye"] :is(#view-home,#view-notes,#view-
   [data-skin="radyo"] .todo-add { grid-template-columns:minmax(0,1fr) 76px 72px 36px; }
   [data-skin="radyo"] .digits { font-size:49px; }
 }
+
+
+/* ==========================================================================
+   SON SEANS SİNEMASI — eski mahalle sineması / çekim ve gösterim akışı
+   Poster teması değil: senaryo, çekim listesi, seans ve ödül metaforu.
+   ========================================================================== */
+[data-skin="son-seans"] {
+  --serif:"Playfair Display",Georgia,serif;
+  --text:"Libre Franklin","Segoe UI",sans-serif;
+  --hand:"Courier Prime","Courier New",monospace;
+  --soft-shadow:0 6px 18px rgba(27,18,16,.22);
+  --radius:6px;
+}
+[data-skin="son-seans"] .shell { inset:10px; border:2px solid #181211; border-radius:8px; background:#241B1A; background-image:linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px); background-size:7px 100%; box-shadow:0 14px 34px rgba(20,12,10,.38),inset 0 0 0 3px rgba(184,138,61,.13); }
+[data-skin="son-seans"] .top { padding:15px 18px 11px; background:linear-gradient(#382526,#24191A); border-bottom:2px solid #B88A3D; color:#F6E8CC; }
+[data-skin="son-seans"] .top::before { content:""; position:absolute; left:16px; right:16px; bottom:4px; height:3px; background:repeating-linear-gradient(90deg,#B88A3D 0 10px,transparent 10px 16px); opacity:.65; pointer-events:none; }
+[data-skin="son-seans"] h1 { font:700 28px/1 "Playfair Display",serif; font-style:italic; color:#F2D8A8; letter-spacing:.01em; font-variation-settings:normal; }
+[data-skin="son-seans"] .tagline { display:block; margin:5px 0 0; color:#CBAE78; font:700 9px/1 "Libre Franklin",sans-serif; letter-spacing:.12em; text-transform:uppercase; }
+[data-skin="son-seans"] .mood-note { margin:7px 0 0; color:#D7C5A6; font:400 12px/1.2 "Libre Franklin",sans-serif; }
+[data-skin="son-seans"] #mood-label { color:#F6E8CC; font-weight:700; }
+[data-skin="son-seans"] .window-controls > :is(.close,.bee-launch) { border:1px solid #6E5432; border-radius:3px; background:#B88A3D; color:#251A17; box-shadow:inset 0 1px 0 #E0C690,0 2px 0 #120C0B; }
+[data-skin="son-seans"] .window-controls > .bee-launch { font:700 9px/1 "Libre Franklin",sans-serif; text-transform:uppercase; }
+[data-skin="son-seans"] .tabs { margin:10px 14px 4px; padding:0; gap:4px; border-radius:0; background:transparent; }
+[data-skin="son-seans"] .tabs button { position:relative; height:36px; border:1px solid #8F744B; border-radius:2px; background:#E6D3AA; color:#3E2924; font:700 9px/1 "Libre Franklin",sans-serif; text-transform:uppercase; letter-spacing:.03em; clip-path:polygon(5px 0,calc(100% - 5px) 0,100% 50%,calc(100% - 5px) 100%,5px 100%,0 50%); }
+[data-skin="son-seans"] .tabs button[aria-selected="true"] { background:#8C2F3D; color:#FFF0D1; box-shadow:inset 0 -3px 0 #B88A3D; }
+[data-skin="son-seans"] .tabs svg { width:12px; height:12px; stroke-width:1.8; }
+[data-skin="son-seans"] main { background:#2B2020; }
+[data-skin="son-seans"] .view { padding:13px 16px 22px; background:radial-gradient(circle at 50% 0,rgba(229,197,130,.10),transparent 50%),#2B2020; }
+[data-skin="son-seans"] .card { position:relative; border:1px solid #9D835B; background:#F4E7CC; box-shadow:0 5px 14px rgba(20,12,10,.24); }
+[data-skin="son-seans"] .card-head h3,[data-skin="son-seans"] .section-heading h3 { font-family:"Playfair Display",serif; font-weight:700; color:#6E2631; }
+[data-skin="son-seans"] .pill,[data-skin="son-seans"] .chip { border:1px solid #6F5737; border-radius:3px; background:#E6D3AA; color:#392620; box-shadow:0 2px 0 #2A1915,inset 0 1px 0 #FFF0D2; font:700 10px/1 "Libre Franklin",sans-serif; text-transform:uppercase; }
+[data-skin="son-seans"] .pill.primary { background:#8C2F3D; color:#FFF0D1; border-color:#59202A; }
+[data-skin="son-seans"] .pill:active { transform:none; translate:0 2px; box-shadow:inset 0 2px 3px rgba(50,20,20,.35); }
+[data-skin="son-seans"] .hello { color:#F2D8A8; }
+[data-skin="son-seans"] .hello h2 { font-family:"Playfair Display",serif; font-style:italic; }
+[data-skin="son-seans"] .hello p { color:#BBA98A; font-family:"Courier Prime",monospace; }
+[data-skin="son-seans"] .sticky-note { background:#D9C08D; border:1px solid #85673E; border-radius:2px; rotate:-1deg; font-family:"Courier Prime",monospace; }
+[data-skin="son-seans"] .nero-says::before { content:"BU GECEKİ GÖSTERİM"; display:block; margin:-3px 0 7px; color:#8C2F3D; font:700 9px/1 "Libre Franklin",sans-serif; letter-spacing:.09em; }
+[data-skin="son-seans"] .tiles { counter-reset:sahne; }
+[data-skin="son-seans"] .tile { counter-increment:sahne; padding-top:31px; overflow:hidden; }
+[data-skin="son-seans"] .tile::before { content:"SAHNE 0" counter(sahne); position:absolute; left:9px; top:8px; color:#8C2F3D; font:700 8px/1 "Courier Prime",monospace; letter-spacing:.08em; }
+[data-skin="son-seans"] .tile::after { content:""; position:absolute; right:-8px; top:-5px; width:42px; height:42px; border:6px double rgba(184,138,61,.25); border-radius:50%; }
+[data-skin="son-seans"] .tile strong { font-family:"Playfair Display",serif; color:#6E2631; }
+[data-skin="son-seans"] .week::before { content:"HAFTANIN GÖSTERİMLERİ"; display:block; margin:-4px 0 8px; color:#8C2F3D; font:700 9px/1 "Libre Franklin",sans-serif; letter-spacing:.08em; }
+[data-skin="son-seans"] .bar i { border-radius:1px; background:#B88A3D; }
+[data-skin="son-seans"] .bar.today i { background:#8C2F3D; }
+[data-skin="son-seans"] .totals::before { content:"GİŞE RAPORU"; display:block; margin:-4px 0 8px; color:#8C2F3D; font:700 9px/1 "Libre Franklin",sans-serif; letter-spacing:.08em; }
+[data-skin="son-seans"] .notes { counter-reset:scene; gap:11px 10px; }
+[data-skin="son-seans"] .notes li { counter-increment:scene; min-height:126px; padding:36px 12px 10px; border:1px solid #A78E66; border-radius:2px; background:#F3E7CF !important; box-shadow:0 4px 10px rgba(28,18,15,.18); rotate:0deg !important; }
+[data-skin="son-seans"] .notes li::before { content:"SAHNE " counter(scene,decimal-leading-zero) " · İÇ / GECE"; position:absolute; left:10px; top:8px; width:auto; height:auto; translate:0; rotate:0; background:none; color:#6E2631; font:700 8px/1 "Courier Prime",monospace; letter-spacing:.04em; }
+[data-skin="son-seans"] .notes li::after { content:"SON SEANS"; position:absolute; right:9px; top:7px; color:#9A7A42; font:700 8px/1 "Libre Franklin",sans-serif; letter-spacing:.07em; }
+[data-skin="son-seans"] .notes li.new-note { border-style:dashed; background:#E0D1B2 !important; }
+[data-skin="son-seans"] .notes li.new-note::before { content:"YENİ SAHNE"; }
+[data-skin="son-seans"] .notes li.new-note::after { display:none; }
+[data-skin="son-seans"] .note-title { font:700 13px/1.25 "Libre Franklin",sans-serif; }
+[data-skin="son-seans"] .note-preview { font:400 12px/1.45 "Courier Prime",monospace; }
+[data-skin="son-seans"] .paper { padding-top:38px; border:1px solid #8C7350; background:#F5EAD5; box-shadow:0 6px 16px rgba(28,16,13,.24); }
+[data-skin="son-seans"] .paper::before { content:"SENARYO · SON SEANS · SAHNE SAYFASI"; position:absolute; top:0; left:0; right:0; height:30px; padding:9px 12px 0; box-sizing:border-box; border-bottom:2px solid #8C2F3D; color:#3E2924; font:700 9px/1 "Courier Prime",monospace; letter-spacing:.07em; }
+[data-skin="son-seans"] .paper .tape,[data-skin="son-seans"] .paper .clip { display:none; }
+[data-skin="son-seans"] #note-body { margin:0 9px 9px; min-height:330px; padding:14px 16px; background:#FCF6E9; background-image:none; border-left:3px solid rgba(140,47,61,.30); font:400 12.5px/1.65 "Courier Prime",monospace; }
+[data-skin="son-seans"] .todo-add { grid-template-columns:minmax(0,1fr) 96px 88px 40px; gap:6px; }
+[data-skin="son-seans"] .todo-add > #todo-input,[data-skin="son-seans"] .todo-duration,[data-skin="son-seans"] .todo-time,[data-skin="son-seans"] .soft-input { border:1px solid #7B6040; border-radius:3px; background:#F2E4C7; box-shadow:inset 0 1px 2px rgba(45,27,20,.13); }
+[data-skin="son-seans"] .add { border:1px solid #59202A; border-radius:3px; background:#8C2F3D; box-shadow:0 2px 0 #291217; }
+[data-skin="son-seans"] .list-card { padding-top:34px; counter-reset:shot; }
+[data-skin="son-seans"] .list-card::before { content:"ÇEKİM LİSTESİ · MOTOR / KES"; position:absolute; left:10px; top:8px; color:#8C2F3D; font:700 9px/1 "Courier Prime",monospace; letter-spacing:.06em; }
+[data-skin="son-seans"] .todos li { counter-increment:shot; position:relative; padding-left:34px; border-top:1px solid #C7B18D; }
+[data-skin="son-seans"] .todos li::before { content:"SC" counter(shot,decimal-leading-zero); position:absolute; left:2px; top:10px; width:25px; height:20px; display:grid; place-items:center; border:1px solid #7B6040; background:#D9C397; color:#6E2631; font:700 8px/1 "Courier Prime",monospace; }
+[data-skin="son-seans"] .todos li.done::after { content:"ÇEKİLDİ"; position:absolute; right:36px; top:8px; padding:2px 5px; border:1px solid rgba(140,47,61,.58); color:#8C2F3D; rotate:-3deg; font:700 7px/1 "Libre Franklin",sans-serif; letter-spacing:.06em; }
+[data-skin="son-seans"] .check,[data-skin="son-seans"] .todo-stopwatch,[data-skin="son-seans"] .todo-archive { border-radius:2px; border-color:#846B48; background:#E1CDA4; }
+[data-skin="son-seans"] .todos li.done .check { background:#8C2F3D; border-color:#59202A; }
+[data-skin="son-seans"] .todo-footer { color:#D5C09A; font:400 14px/1 "Courier Prime",monospace; }
+[data-skin="son-seans"] .todo-footer .link { color:#EAD7B6; }
+[data-skin="son-seans"] .dial { width:min(330px,90%); height:218px; border:2px solid #171110; border-radius:4px; background:#E0CFAB; box-shadow:0 8px 18px rgba(20,12,10,.36); }
+[data-skin="son-seans"] .dial::before { content:"SEANSA KALAN · SALON 01"; position:absolute; left:14px; right:14px; top:12px; height:25px; padding:7px 8px 0; box-sizing:border-box; background:#8C2F3D; color:#FFF0D1; font:700 9px/1 "Libre Franklin",sans-serif; letter-spacing:.09em; }
+[data-skin="son-seans"] .dial::after { content:""; position:absolute; inset:45px 14px 14px; pointer-events:none; background:repeating-linear-gradient(90deg,#221919 0 7px,transparent 7px 19px) top/100% 7px no-repeat,repeating-linear-gradient(90deg,#221919 0 7px,transparent 7px 19px) bottom/100% 7px no-repeat; opacity:.55; }
+[data-skin="son-seans"] .ring { display:none; }
+[data-skin="son-seans"] .dial-center { inset:53px 25px 25px; border:1px solid #7B6040; border-radius:50%; background:radial-gradient(circle,#F5E8C9 0 58%,#C5AC78 59% 61%,#EEE0C0 62%); }
+[data-skin="son-seans"] .digits { font:700 55px/1 "Courier Prime",monospace; color:#4A2C28; }
+[data-skin="son-seans"] .dial-label { max-width:200px; font:700 10px/1.2 "Libre Franklin",sans-serif; color:#8C2F3D; text-transform:uppercase; }
+[data-skin="son-seans"] .presets > button,[data-skin="son-seans"] .presets .custom { border:1px solid #6E5436; border-radius:2px; background:#E3CEA1; box-shadow:0 2px 0 #2B1915; }
+[data-skin="son-seans"] .presets > button.on { background:#8C2F3D; color:#FFF0D1; }
+[data-skin="son-seans"] .badges { background:#EBDDCA; border:5px solid #4E342B; box-shadow:inset 0 0 0 2px #B88A3D,0 5px 14px rgba(20,12,10,.28); }
+[data-skin="son-seans"] .badge-rarity-tabs { border-bottom:1px solid #96784D; }
+[data-skin="son-seans"] .badge-rarity-tabs button { border-radius:0; background:#D8C08C; font:700 9px/1 "Libre Franklin",sans-serif; text-transform:uppercase; }
+[data-skin="son-seans"] .badge-rarity-tabs button[aria-selected="true"] { background:#8C2F3D; color:#FFF0D1; box-shadow:inset 0 -3px 0 #B88A3D; }
+[data-skin="son-seans"] .badge-category-meta { font-family:"Courier Prime",monospace; border-bottom:1px solid #B49C78; }
+[data-skin="son-seans"] .badge:hover { background:rgba(184,138,61,.10); }
+[data-skin="son-seans"] #view-settings .card::before { content:"PROJEKSİYON ODASI · AYARLAR"; display:block; margin:-4px 0 8px; color:#8C2F3D; font:700 9px/1 "Courier Prime",monospace; letter-spacing:.07em; }
+[data-skin="son-seans"] #view-settings :is(select,.chip,input) { border-radius:3px; }
+@container (max-width:410px) {
+  [data-skin="son-seans"] h1 { font-size:24px; }
+  [data-skin="son-seans"] .tabs button { font-size:8px; padding-inline:2px; }
+  [data-skin="son-seans"] .todo-add { grid-template-columns:minmax(0,1fr) 76px 72px 36px; }
+  [data-skin="son-seans"] .digits { font-size:48px; }
+}
