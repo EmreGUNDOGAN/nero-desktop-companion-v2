@@ -41,3 +41,4 @@ Kaynak paketi: mevcut 88 kıyafet korunarak 100 yeni kıyafet eklendi. Beş yeni
 - `Son Seans Sineması` eklendi: senaryo sayfaları, çekim listesi, film geri sayım/seans paneli ve ödül duvarı ile sinema metaforu işlevlere bağlandı.
 - `Gece Ekspresi` eklendi: bilet/yolculuk notları, durak çizelgesi, rota hattı ve istasyon saati aynı gece treni dilinde birleşir.
 - `Nero Dedektiflik Bürosu` eklendi: Notlar vaka dosyalarına, İşler ipuçlarına, Sayaç takip saatine ve Rozetler delil arşivine dönüşür.
+- `Yörünge Kontrol Merkezi` eklendi: krem/turuncu retro görev kontrol konsolu, mission log, flight checklist, T-zaman sayacı ve görev yamaları; neon/cyberpunk estetiği kullanılmaz.
