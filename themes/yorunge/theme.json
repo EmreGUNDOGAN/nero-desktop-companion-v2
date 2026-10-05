@@ -1,0 +1,23 @@
+{
+  "id": "yorunge",
+  "name": "Yörünge Kontrol Merkezi",
+  "author": "Stenwick",
+  "formatVersion": 1,
+  "inherits": "default",
+  "ui": {
+    "skin": "yorunge",
+    "paper": "#D8D2BE",
+    "surface": "#EAE4D2",
+    "ink": "#343833",
+    "muted": "#6D6B61",
+    "accent": "#C9672E",
+    "accentInk": "#FFF3DF",
+    "secondary": "#71805D",
+    "danger": "#A4472C",
+    "line": "#A39C88",
+    "bubbleBg": "#EAE4D2",
+    "bubbleInk": "#343833",
+    "bubbleLine": "#686354",
+    "noteColors": ["#DFD8C5"]
+  }
+}
