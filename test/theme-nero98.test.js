@@ -29,7 +29,7 @@ test('Nero OS 98 varsayılan karakter katmanlarını miras alır ve bozuk görü
 
 test('Nero OS 98 beş ana sayfayı ve kontrol panelini ayrı skin kurallarıyla dönüştürür', () => {
   assert.match(skinsCss, /\[data-skin="nero98"\] \.tabs/);
-  assert.match(skinsCss, /NOTES\.EXE/);
+  assert.match(skinsCss, /Nero Notepad/);
   assert.match(skinsCss, /TASKMGR\.EXE/);
   assert.match(skinsCss, /NERO TIMER/);
   assert.match(skinsCss, /ACHIEVEMENTS\.EXE/);
