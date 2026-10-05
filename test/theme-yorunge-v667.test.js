@@ -12,10 +12,10 @@ test('6.6.7 Yörünge pilotu beş sayfaya yapısal bileşenler ekler',()=>{
   for(const token of ['yorunge-home-hero','yorunge-log-hero','yorunge-control-hero','yorunge-timer-hero','yorunge-patch-hero']){
     assert.match(html,new RegExp(token));
   }
-  assert.match(css,/YÖRÜNGE KONTROL MERKEZİ V2 — 6\\.6\\.7/);
-  assert.match(css,/#view-timer\{display:grid/);
-  assert.match(css,/#view-notes \.notes\{display:flex;flex-direction:column/);
-  assert.match(css,/#view-badges \.badge-grid\{grid-template-columns:repeat\(5/);
+  assert.match(css,/YÖRÜNGE KONTROL MERKEZİ V2 — 6\.6\.7/);
+  assert.match(css,/#view-timer\{[^}]*display:grid/);
+  assert.match(css,/#view-notes \.notes\{[^}]*display:flex;flex-direction:column/);
+  assert.match(css,/#view-badges \.badge-grid\{[^}]*grid-template-columns:repeat\(5/);
 });
 
 test('Yörünge T-Zamanı gerçek açık işleri önizler',()=>{
@@ -24,11 +24,14 @@ test('Yörünge T-Zamanı gerçek açık işleri önizler',()=>{
   assert.match(js,/activeTodos\.filter\(\(todo\) => !todo\.done\)\.slice\(0, 4\)/);
 });
 
-test('Nero görseli renderer içine paketlenir ve oranı korunur',()=>{\n  const asset=path.join(root,'src/renderer/panel/deco/yorunge/nero-space.png');\n  assert.equal(fs.existsSync(asset),true);\n  assert.match(html,/deco\/yorunge\/nero-space\.png/);
+test('Nero görseli renderer içine paketlenir ve oranı korunur',()=>{
+  const asset=path.join(root,'src/renderer/panel/deco/yorunge/nero-space.png');
+  assert.equal(fs.existsSync(asset),true);
+  assert.match(html,/deco\/yorunge\/nero-space\.png/);
   assert.match(css,/\.yorunge-nero\{[^}]*width:auto;[^}]*object-fit:contain/);
 });
 
-test('6.6.6 Yörünge selectorü pilot CSS içine sızmaz',()=>{
+test('6.6.6 Yörünge selectorü v2 dosyalarına sızmaz',()=>{
   assert.match(css,/\[data-skin="yorunge-v2"\]/);
   assert.doesNotMatch(css,/\[data-skin="yorunge"\]/);
 });
