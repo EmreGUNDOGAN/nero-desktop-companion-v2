@@ -375,6 +375,30 @@
     }
   });
 
+  Object.assign(SKINS, {
+    'gece-ekspresi': {
+      ...SKINS.cozy,
+      tabs: { home: 'Rota', notes: 'Biletler', todos: 'Duraklar', timer: 'Saat', badges: 'Hatıralar', settings: 'Ayar' },
+      brandTitle: 'Nero Gece Ekspresi',
+      beeLabel: 'Arı Vagonu',
+      newNote: 'YENİ YOLCULUK NOTU', newNoteSub: 'bilet arkasına yaz',
+      saved: 'BİLET CEBİNE KONDU', typing: 'YOLCULUK NOTU…',
+      todoPlaceholder: 'Bir sonraki durak...', listTitle: 'DURAK ÇİZELGESİ <span>gece seferi</span>',
+      todoLeft: (n) => `${n} durak kaldı`, allDone: 'Son durağa varıldı. Vagon sessiz.',
+      timerIdle: 'İSTASYON SAATİ: HAZIR', timerRunning: 'TREN HAREKET HALİNDE', timerPaused: 'İSTASYONDA BEKLİYOR',
+      timerStart: 'HAREKET', timerPause: 'BEKLE', timerResume: 'YOLA DEVAM',
+      cancel: 'SEFERİ BİTİR', cancelNote: '', talkMax: 'Kondüktör',
+      noteBack: '‹ YOLCULUK DEFTERİ', noteArchive: 'ESKİ BİLETLER', noteDelete: 'BİLETİ YIRT',
+      todoClear: 'Varılan durakları arşivle',
+      quickFocus: '25 dk yolculuk', quickTodo: 'Durak ekle', quickNote: 'Bilet notu',
+      badgeTitle: 'SEYAHAT HATIRALARI',
+      tagline: 'Hat 06 · gece seferi · son vagon',
+      sticky: 'gece uzunsa rayların sesi yeter.',
+      subs: { theme: 'vagon görünümü', talk: 'kondüktör anonsları' },
+      moodPrefix: 'Vagon durumu: ', moodLabels: null
+    }
+  });
+
   let skinName = 'cozy';
   const skin = () => SKINS[skinName] || SKINS.cozy;
 
