@@ -1,0 +1,23 @@
+{
+  "id": "dedektif",
+  "name": "Nero Dedektiflik Bürosu",
+  "author": "Stenwick",
+  "formatVersion": 1,
+  "inherits": "default",
+  "ui": {
+    "skin": "dedektif",
+    "paper": "#394033",
+    "surface": "#EFE6D2",
+    "ink": "#30352B",
+    "muted": "#6F6C5F",
+    "accent": "#60302D",
+    "accentInk": "#F8EFD9",
+    "secondary": "#52604A",
+    "danger": "#8B3131",
+    "line": "#A39371",
+    "bubbleBg": "#EFE6D2",
+    "bubbleInk": "#30352B",
+    "bubbleLine": "#5F5A46",
+    "noteColors": ["#D9C89E"]
+  }
+}
