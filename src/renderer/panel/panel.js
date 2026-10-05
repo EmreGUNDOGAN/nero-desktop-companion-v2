@@ -423,6 +423,30 @@
     }
   });
 
+  Object.assign(SKINS, {
+    yorunge: {
+      ...SKINS.cozy,
+      tabs: { home: 'Görev', notes: 'Loglar', todos: 'Kontrol', timer: 'T-Zaman', badges: 'Yamalar', settings: 'Ayar' },
+      brandTitle: 'Yörünge Kontrol Merkezi',
+      beeLabel: 'HIVE MOD',
+      newNote: 'YENİ GÖREV LOGU', newNoteSub: 'mission log',
+      saved: 'LOG KAYDEDİLDİ', typing: 'TELEMETRİ YAZILIYOR…',
+      todoPlaceholder: 'Kontrol maddesi...', listTitle: 'FLIGHT CHECKLIST <span>mission control</span>',
+      todoLeft: (n) => `${n} kontrol maddesi açık`, allDone: 'Tüm sistemler nominal.',
+      timerIdle: 'MISSION TIMER: STANDBY', timerRunning: 'MISSION ACTIVE', timerPaused: 'MISSION HOLD',
+      timerStart: 'INITIATE', timerPause: 'HOLD', timerResume: 'RESUME',
+      cancel: 'ABORT', cancelNote: '', talkMax: 'CAPCOM',
+      noteBack: '‹ GÖREV GÜNLÜĞÜ', noteArchive: 'LOG ARŞİVİ', noteDelete: 'LOGU SİL',
+      todoClear: 'Tamamlanan kontrolleri arşivle',
+      quickFocus: 'T-25 görev', quickTodo: 'Kontrol ekle', quickNote: 'Log aç',
+      badgeTitle: 'MISSION PATCHES',
+      tagline: 'MISSION N-066 · orbital control · systems nominal',
+      sticky: 'küçük düğmeler, büyük sorumluluklar.',
+      subs: { theme: 'kontrol konsolu', talk: 'CAPCOM yoğunluğu' },
+      moodPrefix: 'CREW STATUS: ', moodLabels: null
+    }
+  });
+
   let skinName = 'cozy';
   const skin = () => SKINS[skinName] || SKINS.cozy;
 
