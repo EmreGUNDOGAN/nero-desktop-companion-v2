@@ -21,5 +21,5 @@ test('Radyo Nero yayın metaforu beş ana sayfaya yayılır', () => {
   assert.match(css,/REQUEST #/);
   assert.match(css,/PROGRAM RUNDOWN/);
   assert.match(css,/88   92   96   100   104   108 MHz/);
-  assert.match(css,/İstasyon arşivi/);
+  assert.match(js,/badgeTitle: 'RADYO NERO ARŞİVİ'/);
 });
