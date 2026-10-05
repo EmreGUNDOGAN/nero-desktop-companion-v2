@@ -1,0 +1,23 @@
+{
+  "id": "radyo",
+  "name": "Radyo Nero",
+  "author": "Stenwick",
+  "formatVersion": 1,
+  "inherits": "default",
+  "ui": {
+    "skin": "radyo",
+    "paper": "#4B3126",
+    "surface": "#F0E4C5",
+    "ink": "#2B211A",
+    "muted": "#776959",
+    "accent": "#C34A3B",
+    "accentInk": "#FFF7DE",
+    "secondary": "#5D775F",
+    "danger": "#A5322B",
+    "line": "#A8916C",
+    "bubbleBg": "#F0E4C5",
+    "bubbleInk": "#2B211A",
+    "bubbleLine": "#5A4536",
+    "noteColors": ["#E9D7AE"]
+  }
+}
