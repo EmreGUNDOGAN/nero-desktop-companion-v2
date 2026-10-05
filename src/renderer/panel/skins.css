@@ -3237,3 +3237,220 @@ html.no-scene[data-skin="doksanlar-kirtasiye"] :is(#view-home,#view-notes,#view-
   [data-skin="gece-ekspresi"] .todo-add { grid-template-columns:minmax(0,1fr) 76px 72px 36px; }
   [data-skin="gece-ekspresi"] .digits { font-size:45px; }
 }
+
+
+/* ==========================================================================
+   NERO DEDEKTİFLİK BÜROSU — vaka dosyası / ipucu / takip
+   Noir karanlığı yerine sıcak masa lambası ve arşiv bürosu.
+   ========================================================================== */
+[data-skin="dedektif"] {
+  --serif:"Instrument Serif",Georgia,serif;
+  --text:"Libre Franklin","Segoe UI",sans-serif;
+  --hand:"Courier Prime","Courier New",monospace;
+  --soft-shadow:0 6px 18px rgba(24,25,20,.22);
+  --radius:5px;
+}
+[data-skin="dedektif"] .shell {
+  inset:10px; border:2px solid #2D3027; border-radius:9px;
+  background:#394033;
+  background-image:linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);
+  background-size:9px 100%;
+  box-shadow:0 14px 32px rgba(20,22,17,.36),inset 0 0 0 3px rgba(213,189,136,.10);
+}
+[data-skin="dedektif"] .top {
+  padding:15px 18px 11px; color:#F0E7D3;
+  background:linear-gradient(#4A5142,#32382E);
+  border-bottom:2px solid #A58758;
+}
+[data-skin="dedektif"] h1 {
+  font:400 28px/1 "Instrument Serif",serif; color:#F1E4C7; font-variation-settings:normal;
+}
+[data-skin="dedektif"] .tagline {
+  display:block; margin:5px 0 0; color:#C8B893;
+  font:700 9px/1 "Libre Franklin",sans-serif; letter-spacing:.11em; text-transform:uppercase;
+}
+[data-skin="dedektif"] .mood-note { margin:7px 0 0; color:#D9D0BB; font:400 12px/1.2 "Courier Prime",monospace; }
+[data-skin="dedektif"] #mood-label { color:#F4E9CD; font-weight:700; }
+[data-skin="dedektif"] .window-controls > :is(.close,.bee-launch) {
+  border:1px solid #645338; border-radius:3px; background:#C7B180; color:#283026;
+  box-shadow:inset 0 1px 0 #E9D8B2,0 2px 0 #1E221B;
+}
+[data-skin="dedektif"] .window-controls > .bee-launch { font-size:9px; padding-inline:8px; }
+
+[data-skin="dedektif"] .tabs {
+  margin:9px 14px 3px; padding:0 4px; gap:2px; border-radius:0; background:transparent;
+  border-bottom:2px solid #7E6B47;
+}
+[data-skin="dedektif"] .tabs button {
+  height:35px; border:1px solid #82704A; border-bottom:0; border-radius:5px 5px 0 0;
+  background:#C9B98F; color:#303629; font:700 9px/1 "Libre Franklin",sans-serif;
+}
+[data-skin="dedektif"] .tabs button:nth-child(2) { background:#D0BE8C; }
+[data-skin="dedektif"] .tabs button:nth-child(3) { background:#BAC4A7; }
+[data-skin="dedektif"] .tabs button:nth-child(4) { background:#C5B199; }
+[data-skin="dedektif"] .tabs button:nth-child(5) { background:#BFC1AA; }
+[data-skin="dedektif"] .tabs button[aria-selected="true"] {
+  translate:0 2px; background:#EFE7D3; color:#6A2F2D; box-shadow:inset 0 3px 0 #6A2F2D;
+}
+[data-skin="dedektif"] .tabs svg { width:12px; height:12px; }
+[data-skin="dedektif"] main { background:#2E342B; }
+[data-skin="dedektif"] .view {
+  padding:13px 16px 22px;
+  background:radial-gradient(circle at 18% 0,rgba(232,207,148,.11),transparent 35%),#2E342B;
+}
+
+[data-skin="dedektif"] .card {
+  position:relative; border:1px solid #91815F; background:#EFE6D2; color:#30352B;
+  box-shadow:0 5px 14px rgba(20,22,17,.22);
+}
+[data-skin="dedektif"] .card-head h3,[data-skin="dedektif"] .section-heading h3 {
+  font-family:"Instrument Serif",serif; font-size:16px; font-weight:400; color:#60302D;
+}
+[data-skin="dedektif"] .pill,[data-skin="dedektif"] .chip {
+  border:1px solid #665A40; border-radius:3px; background:#D6C59B; color:#2E342B;
+  box-shadow:0 2px 0 #20241D,inset 0 1px 0 #F2E4BF; font:700 10px/1 "Libre Franklin",sans-serif;
+}
+[data-skin="dedektif"] .pill.primary { background:#52604A; color:#F8EFD9; border-color:#364032; }
+[data-skin="dedektif"] .pill:active { transform:none; translate:0 2px; }
+
+[data-skin="dedektif"] .hello { color:#EFE1C3; }
+[data-skin="dedektif"] .hello h2 { font-family:"Instrument Serif",serif; font-weight:400; }
+[data-skin="dedektif"] .hello p { color:#BCAD91; font-family:"Courier Prime",monospace; }
+[data-skin="dedektif"] .sticky-note {
+  background:#D7C48F; border:1px solid #7C6746; border-radius:1px; rotate:-1deg; font-family:"Courier Prime",monospace;
+}
+[data-skin="dedektif"] .nero-says::before {
+  content:"DEDEKTİF NOTU"; display:block; margin:-3px 0 7px; color:#6A2F2D;
+  font:700 9px/1 "Libre Franklin",sans-serif; letter-spacing:.09em;
+}
+[data-skin="dedektif"] .tiles { counter-reset:vaka; }
+[data-skin="dedektif"] .tile { counter-increment:vaka; padding-top:30px; }
+[data-skin="dedektif"] .tile::before {
+  content:"KANIT " counter(vaka,decimal-leading-zero); position:absolute; left:9px; top:8px; color:#6A2F2D;
+  font:700 8px/1 "Courier Prime",monospace; letter-spacing:.08em;
+}
+[data-skin="dedektif"] .tile strong { font-family:"Instrument Serif",serif; font-size:28px; font-weight:400; color:#5D342E; }
+[data-skin="dedektif"] .week::before {
+  content:"HAFTALIK TAKİP RAPORU"; display:block; margin:-4px 0 8px; color:#6A2F2D;
+  font:700 9px/1 "Courier Prime",monospace; letter-spacing:.07em;
+}
+[data-skin="dedektif"] .bar i { border-radius:1px; background:#657257; }
+[data-skin="dedektif"] .bar.today i { background:#6A2F2D; }
+[data-skin="dedektif"] .totals::before {
+  content:"VAKA ÖZETİ"; display:block; margin:-4px 0 8px; color:#6A2F2D;
+  font:700 9px/1 "Courier Prime",monospace; letter-spacing:.07em;
+}
+
+[data-skin="dedektif"] .notes { counter-reset:file; gap:10px; }
+[data-skin="dedektif"] .notes li {
+  counter-increment:file; min-height:126px; padding:38px 12px 10px;
+  border:1px solid #8E7C58; border-radius:2px; background:#D9C89E !important;
+  box-shadow:0 4px 10px rgba(20,22,17,.18); rotate:0deg !important;
+}
+[data-skin="dedektif"] .notes li::before {
+  content:"DOSYA #" counter(file,decimal-leading-zero); position:absolute; left:10px; top:8px; width:auto; height:auto;
+  translate:0; rotate:0; background:none; color:#60302D; font:700 9px/1 "Courier Prime",monospace; letter-spacing:.06em;
+}
+[data-skin="dedektif"] .notes li::after {
+  content:"AÇIK"; position:absolute; right:9px; top:7px; padding:2px 5px;
+  border:1px solid rgba(96,48,45,.58); color:#60302D; rotate:-2deg; font:700 8px/1 "Libre Franklin",sans-serif;
+}
+[data-skin="dedektif"] .notes li.new-note { border-style:dashed; background:#C8BA91 !important; }
+[data-skin="dedektif"] .notes li.new-note::before { content:"YENİ VAKA DOSYASI"; }
+[data-skin="dedektif"] .notes li.new-note::after { display:none; }
+[data-skin="dedektif"] .note-title { font:700 13px/1.2 "Libre Franklin",sans-serif; }
+[data-skin="dedektif"] .note-preview { font:400 12px/1.45 "Courier Prime",monospace; }
+[data-skin="dedektif"] .paper {
+  padding-top:38px; border:1px solid #786744; background:#EDE2CB; box-shadow:0 6px 15px rgba(20,22,17,.23);
+}
+[data-skin="dedektif"] .paper::before {
+  content:"VAKA RAPORU · NERO ÖZEL ARAŞTIRMALAR"; position:absolute; top:0; left:0; right:0; height:30px;
+  padding:9px 12px 0; box-sizing:border-box; background:#4A5543; color:#F1E7CE;
+  font:700 9px/1 "Libre Franklin",sans-serif; letter-spacing:.08em;
+}
+[data-skin="dedektif"] .paper .tape,[data-skin="dedektif"] .paper .clip { display:none; }
+[data-skin="dedektif"] #note-body {
+  margin:0 8px 8px; min-height:330px; padding:13px 15px;
+  border-left:3px solid rgba(96,48,45,.34);
+  background:repeating-linear-gradient(transparent 0 27px,rgba(74,78,68,.15) 27px 28px);
+  font:400 12.5px/28px "Courier Prime",monospace;
+}
+
+[data-skin="dedektif"] .todo-add { grid-template-columns:minmax(0,1fr) 95px 88px 40px; gap:6px; }
+[data-skin="dedektif"] .todo-add > #todo-input,
+[data-skin="dedektif"] .todo-duration,
+[data-skin="dedektif"] .todo-time,
+[data-skin="dedektif"] .soft-input {
+  border:1px solid #746342; border-radius:3px; background:#EEE4CF; box-shadow:inset 0 1px 2px rgba(30,35,28,.13);
+}
+[data-skin="dedektif"] .add {
+  border:1px solid #354030; border-radius:3px; background:#52604A; box-shadow:0 2px 0 #1D231B;
+}
+[data-skin="dedektif"] .list-card { padding-top:34px; counter-reset:clue; }
+[data-skin="dedektif"] .list-card::before {
+  content:"AKTİF İPUÇLARI · VAKA TAKİBİ"; position:absolute; left:10px; top:8px; color:#60302D;
+  font:700 9px/1 "Courier Prime",monospace; letter-spacing:.07em;
+}
+[data-skin="dedektif"] .todos li {
+  counter-increment:clue; position:relative; padding-left:39px; border-top:1px solid #BFAE87;
+}
+[data-skin="dedektif"] .todos li::before {
+  content:"E-" counter(clue,decimal-leading-zero); position:absolute; left:2px; top:10px; width:28px; height:20px;
+  display:grid; place-items:center; border:1px solid #745D3F; background:#C9B486;
+  color:#60302D; font:700 8px/1 "Courier Prime",monospace;
+}
+[data-skin="dedektif"] .todos li.done::after {
+  content:"DOĞRULANDI"; position:absolute; right:35px; top:8px; padding:2px 5px;
+  border:1px solid rgba(82,96,74,.62); color:#52604A; rotate:-3deg; font:700 7px/1 "Libre Franklin",sans-serif;
+}
+[data-skin="dedektif"] .check,[data-skin="dedektif"] .todo-stopwatch,[data-skin="dedektif"] .todo-archive {
+  border-radius:2px; border-color:#756342; background:#D3C094;
+}
+[data-skin="dedektif"] .todos li.done .check { background:#52604A; border-color:#354030; }
+[data-skin="dedektif"] .todo-footer { color:#CBBE9F; font:400 14px/1 "Courier Prime",monospace; }
+[data-skin="dedektif"] .todo-footer .link { color:#E2D4B5; }
+
+[data-skin="dedektif"] .dial {
+  width:min(325px,90%); height:220px; border:2px solid #242820; border-radius:5px;
+  background:#D5C59F; box-shadow:0 8px 18px rgba(20,22,17,.34),inset 0 0 0 4px #EEE5D1;
+}
+[data-skin="dedektif"] .dial::before {
+  content:"TAKİP SAATİ · DOSYA AKTİF"; position:absolute; left:15px; right:15px; top:12px; height:26px;
+  padding:8px 9px 0; box-sizing:border-box; background:#485141; color:#F2E9D4;
+  font:700 9px/1 "Libre Franklin",sans-serif; letter-spacing:.08em;
+}
+[data-skin="dedektif"] .ring { opacity:.17; }
+[data-skin="dedektif"] .ring-track { stroke:#5B6154; }
+[data-skin="dedektif"] .ring-fill { stroke:#60302D; }
+[data-skin="dedektif"] .dial-center {
+  inset:48px 31px 20px; border:2px solid #41473B; border-radius:50%;
+  background:radial-gradient(circle,#F5EDDB 0 58%,#B8A77F 59% 62%,#E9DEC6 63%);
+}
+[data-skin="dedektif"] .digits { font:700 50px/1 "Courier Prime",monospace; color:#30362D; }
+[data-skin="dedektif"] .dial-label { max-width:205px; font:700 10px/1.2 "Libre Franklin",sans-serif; color:#60302D; text-transform:uppercase; }
+[data-skin="dedektif"] .presets > button,[data-skin="dedektif"] .presets .custom {
+  border:1px solid #65563B; border-radius:2px; background:#D4C196; box-shadow:0 2px 0 #20241D;
+}
+[data-skin="dedektif"] .presets > button.on { background:#52604A; color:#F7EFD9; }
+
+[data-skin="dedektif"] .badges {
+  background:#E1D4B7; border:4px double #6C5B3D; box-shadow:0 5px 14px rgba(20,22,17,.25);
+}
+[data-skin="dedektif"] .badge-rarity-tabs { border-bottom:1px solid #917A52; }
+[data-skin="dedektif"] .badge-rarity-tabs button { border-radius:2px; background:#CDBB90; font:700 9px/1 "Libre Franklin",sans-serif; }
+[data-skin="dedektif"] .badge-rarity-tabs button[aria-selected="true"] { background:#485141; color:#F4EBD5; }
+[data-skin="dedektif"] .badge-category-meta { font-family:"Courier Prime",monospace; border-bottom:1px solid #A28C67; }
+[data-skin="dedektif"] .badge:hover { background:rgba(82,96,74,.10); }
+
+[data-skin="dedektif"] #view-settings .card::before {
+  content:"BÜRO AYARLARI · GİZLİ DEĞİL"; display:block; margin:-4px 0 8px; color:#60302D;
+  font:700 9px/1 "Courier Prime",monospace; letter-spacing:.07em;
+}
+[data-skin="dedektif"] #view-settings :is(select,.chip,input) { border-radius:3px; }
+
+@container (max-width:410px) {
+  [data-skin="dedektif"] h1 { font-size:23px; }
+  [data-skin="dedektif"] .tabs button { font-size:8px; padding-inline:2px; }
+  [data-skin="dedektif"] .todo-add { grid-template-columns:minmax(0,1fr) 76px 72px 36px; }
+  [data-skin="dedektif"] .digits { font-size:44px; }
+}
