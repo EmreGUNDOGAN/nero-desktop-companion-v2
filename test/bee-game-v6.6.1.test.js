@@ -21,9 +21,9 @@ test('6.7.7 sürüm ve workflow bağlıdır; 6.6.1 master planı tarihsel olarak
   assert.equal(pkg.version, '6.7.7');
   assert.equal(lock.version, '6.7.7');
   assert.equal(lock.packages[''].version, '6.7.7');
-  assert.match(workflow, /Build Nero 6\.6\.7 Final/);
-  assert.match(workflow, /feature\/bee-v6\.6\.7/);
-  assert.match(workflow, /Nero-6\.6\.7-final-bundle/);
+  assert.match(workflow, /Build Nero 6\.7\.7 Final/);
+  assert.match(workflow, /feature\/bee-v6\.7\.7/);
+  assert.match(workflow, /Nero-6\.7\.7-final-bundle/);
   assert.match(plan, /\| 0 \| 6\.6\.1 temel sürüm \/ migration \/ test altyapısı \| ✅ TAMAMLANDI \|/);
 });
 

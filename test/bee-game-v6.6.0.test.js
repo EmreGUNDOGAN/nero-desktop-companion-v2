@@ -343,7 +343,7 @@ test('6.7.7 paket sürümü ve Actions workflowu yeni sürüme bağlıdır', () 
   assert.equal(pkg.version, '6.7.7');
   assert.equal(lock.version, '6.7.7');
   assert.equal(lock.packages[''].version, '6.7.7');
-  assert.match(workflow, /name: Build Nero 6\.6\.7 Final/);
-  assert.match(workflow, /branches: \[feature\/bee-v6\.6\.7\]/);
-  assert.match(workflow, /Nero-6\.6\.7-final-bundle/);
+  assert.match(workflow, /name: Build Nero 6\.7\.7 Final/);
+  assert.match(workflow, /branches: \[feature\/bee-v6\.7\.7\]/);
+  assert.match(workflow, /Nero-6\.7\.7-final-bundle/);
 });
