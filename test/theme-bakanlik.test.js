@@ -25,5 +25,5 @@ test('Erteleme Bakanlığı beş ana sayfada ayrı bürokrasi metaforları kulla
   assert.match(css, /EVRAK NO/);
   assert.match(css, /İŞLEM SIRASI/);
   assert.match(css, /MESAİ TAKİP FORMU/);
-  assert.match(css, /Hizmet kayıtları/);
+  assert.match(js, /badgeTitle: 'HİZMET VE BAŞARI KAYITLARI'/);
 });
