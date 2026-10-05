@@ -22,3 +22,12 @@
 - Yörünge pilotunun UI skin kimliği `yorunge-v2` olarak ayrıldı; 6.6.6'daki `[data-skin="yorunge"]` kuralları artık pilot üzerine uygulanmaz.
 - Pilot kendi bağımsız üst bar, sekme, kart ve kontrol merkezi kabuğunu içerir.
 - Space 17 Nero görseli paketli uygulamada çalışan `nero-theme://default/assets/wardrobe/outfit-space-17.png` protokolü üzerinden yüklenir.
+
+
+### Temiz v2 rebuild
+
+- 6.6.6'dan kalan Yörünge v1 CSS bloğu tamamen kaldırıldı; `skins.css` içinde eski `[data-skin="yorunge"]` selectorü kalmadı.
+- Yeni tema yalnızca `yorunge-v2` skin kimliğiyle çalışır.
+- Görev sayfası, Loglar, Kontrol, T-Zamanı ve Yamalar tek bir yeni görsel sistemle sıfırdan yeniden kuruldu.
+- Space 17 Nero görseli `src/renderer/panel/deco/yorunge/nero-space.png` olarak renderer içine fiziksel olarak paketlendi; özel protocol veya dış path gerektirmez.
+- Haftalık odak alanı Yörünge rotasına dönüştürüldü; bugünün gerçek odak süresi rota üzerinde gösterilir.
