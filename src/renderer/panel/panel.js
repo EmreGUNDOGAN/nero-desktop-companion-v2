@@ -279,6 +279,30 @@
     }
   });
 
+  Object.assign(SKINS, {
+    nero98: {
+      ...SKINS.cozy,
+      tabs: { home: 'Today', notes: 'Notes', todos: 'Tasks', timer: 'Timer', badges: 'Awards', settings: 'Control' },
+      brandTitle: 'Nero OS',
+      beeLabel: 'HIVE.EXE',
+      newNote: 'NEW NOTE', newNoteSub: 'Nero Notepad',
+      saved: 'SAVED', typing: 'WRITING…',
+      todoPlaceholder: 'Task name...', listTitle: 'TASKMGR.EXE <span>process list</span>',
+      todoLeft: (n) => `${n} task${n === 1 ? '' : 's'} remaining`, allDone: 'SYSTEM: all tasks complete.',
+      timerIdle: 'STATUS: READY', timerRunning: 'STATUS: RUNNING', timerPaused: 'STATUS: PAUSED',
+      timerStart: 'RUN', timerPause: 'PAUSE', timerResume: 'RESUME',
+      cancel: 'ABORT', cancelNote: '', talkMax: 'MAX',
+      noteBack: '‹ NOTES.EXE', noteArchive: 'ARCHIVE', noteDelete: 'DELETE',
+      todoClear: 'archive completed',
+      quickFocus: 'RUN 25 MIN', quickTodo: 'NEW TASK', quickNote: 'NEW NOTE',
+      badgeTitle: 'ACHIEVEMENTS.EXE',
+      tagline: 'Version 98.6 · system ready',
+      sticky: 'C:\\NERO\\TODAY > ready',
+      subs: { theme: 'desktop skin', talk: 'assistant verbosity' },
+      moodPrefix: 'STATUS: ', moodLabels: null
+    }
+  });
+
   let skinName = 'cozy';
   const skin = () => SKINS[skinName] || SKINS.cozy;
 
@@ -307,6 +331,23 @@
     $('talk-cok').textContent = k.talkMax;
     $('tagline').textContent = k.tagline || '';
     $('sticky-text').textContent = k.sticky || '';
+
+    const brandTitle = document.querySelector('.brand h1');
+    if (brandTitle) brandTitle.textContent = k.brandTitle || 'Nero';
+    const beeLabel = document.querySelector('.bee-launch-label');
+    if (beeLabel) beeLabel.textContent = k.beeLabel || 'Arıcılık';
+    $('timer-start').textContent = k.timerStart || 'Başlat';
+    $('timer-pause').textContent = k.timerPause || 'Duraklat';
+    $('timer-resume').textContent = k.timerResume || 'Devam et';
+    $('note-back').textContent = k.noteBack || '‹ Notlar';
+    $('note-archive').textContent = k.noteArchive || 'Arşivle';
+    $('note-delete').textContent = k.noteDelete || 'Sil';
+    $('todo-clear').textContent = k.todoClear || 'Bitenleri arşivle';
+    $('q-focus').textContent = k.quickFocus || '25 dk odaklan';
+    $('q-todo').textContent = k.quickTodo || 'İş ekle';
+    $('q-note').textContent = k.quickNote || 'Not al';
+    const badgeTitle = document.querySelector('#view-badges .card-head h3');
+    if (badgeTitle) badgeTitle.textContent = k.badgeTitle || 'Rozetler';
     for (const el of document.querySelectorAll('.sub')) el.textContent = k.subs[el.dataset.sub] || '';
   }
 
