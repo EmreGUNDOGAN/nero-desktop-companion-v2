@@ -36,3 +36,4 @@ Kaynak paketi: mevcut 88 kıyafet korunarak 100 yeni kıyafet eklendi. Beş yeni
 - Rozet çizimleri korunur; tema yalnızca rozetlerin çevresindeki pencere ve sekme dilini değiştirir.
 - Yerleşik UI temalarının varsayılan Nero karakter katmanlarını dosya çoğaltmadan miras alabilmesi için tema yöneticisine güvenli `inherits` desteği eklendi.
 - Varsayılan 440×660 panel düzeni korunur; dar panel için özel sıkıştırma kuralları bulunur.
+- İkinci yeni arayüz teması `Erteleme Bakanlığı` eklendi: numaralı evrak kartları, işlem sırası, mesai takip formu ve hizmet kayıtları beş ana sayfaya yayıldı.
