@@ -1,0 +1,23 @@
+{
+  "id": "gece-ekspresi",
+  "name": "Gece Ekspresi",
+  "author": "Stenwick",
+  "formatVersion": 1,
+  "inherits": "default",
+  "ui": {
+    "skin": "gece-ekspresi",
+    "paper": "#152238",
+    "surface": "#F1E5CA",
+    "ink": "#263247",
+    "muted": "#746B5C",
+    "accent": "#7B2430",
+    "accentInk": "#FFF2D4",
+    "secondary": "#B89A5C",
+    "danger": "#9C2E38",
+    "line": "#A8946C",
+    "bubbleBg": "#F1E5CA",
+    "bubbleInk": "#263247",
+    "bubbleLine": "#5E5260",
+    "noteColors": ["#E9D6AB"]
+  }
+}
