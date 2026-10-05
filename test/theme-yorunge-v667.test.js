@@ -24,6 +24,6 @@ test('Yörünge T-Zamanı gerçek açık işleri önizler',()=>{
 test('Nero görev görseli mevcut Space 17 assetini oranı bozulmadan kullanır',()=>{
   const asset=path.join(root,'themes/default/assets/wardrobe/outfit-space-17.png');
   assert.equal(fs.existsSync(asset),true);
-  assert.match(html,/outfit-space-17\.png/);
-  assert.match(css,/\.yorunge-nero\{[^}]*width:auto;[^}]*object-fit:contain/);
+  assert.match(html,/nero-theme:\/\/default\/assets\/wardrobe\/outfit-space-17\.png/);
+  assert.match(css,/\.yorunge-nero\{[^}]*width:auto;[^}]*object-fit:contain/);\n  assert.match(css,/\[data-skin="yorunge-v2"\]/);\n  assert.doesNotMatch(css,/\[data-skin="yorunge"\]/);
 });
