@@ -7,6 +7,79 @@
 [data-skin="yorunge-v2"] .view{background:radial-gradient(circle at 12% 5%,rgba(236,143,51,.10),transparent 24%),linear-gradient(180deg,#29352f 0 18px,#b8b19d 18px 100%)}
 [data-skin="yorunge-v2"] .view:not(#view-settings){padding-top:12px}
 
+/* --- V2 bağımsız kabuk: 6.6.6 Yörünge skin'inden hiçbir şey miras almaz --- */
+[data-skin="yorunge-v2"]{
+  --serif:"Bricolage Grotesque","Segoe UI",sans-serif;
+  --text:"Libre Franklin","Segoe UI",sans-serif;
+  --hand:"Space Mono","Courier New",monospace;
+  --soft-shadow:0 6px 16px rgba(8,15,23,.24);
+  --radius:7px;
+}
+[data-skin="yorunge-v2"] .shell{
+  inset:8px;border:2px solid #08111b;border-radius:12px;
+  background:#142235;box-shadow:0 14px 34px rgba(3,9,15,.38),inset 0 0 0 3px rgba(222,190,132,.11);
+}
+[data-skin="yorunge-v2"] .top{
+  min-height:94px;padding:14px 16px 11px;color:#f5ead5;
+  background:linear-gradient(180deg,#1b2c42,#132236);
+  border-bottom:2px solid #8c7045;
+}
+[data-skin="yorunge-v2"] h1{
+  color:#fff7e7;font:800 26px/1 "Bricolage Grotesque",sans-serif;
+  letter-spacing:-.02em;font-variation-settings:normal;
+}
+[data-skin="yorunge-v2"] .tagline{
+  display:block;margin:6px 0 0;color:#d5c4a6;
+  font:700 8px/1 "Space Mono",monospace;letter-spacing:.08em;text-transform:uppercase;
+}
+[data-skin="yorunge-v2"] .mood-note{
+  margin:7px 0 0;padding:4px 7px;border:1px solid rgba(213,190,149,.45);
+  border-radius:3px;background:rgba(8,21,31,.44);color:#ece1cb;
+  font:600 10px/1.25 "Space Mono",monospace;
+}
+[data-skin="yorunge-v2"] #mood-label{color:#f2ad55;font-weight:800}
+[data-skin="yorunge-v2"] .meter .h-bg{fill:#273b4f}[data-skin="yorunge-v2"] .meter .h-fg{fill:#e58b36}
+[data-skin="yorunge-v2"] .window-controls{top:12px;right:12px;gap:5px}
+[data-skin="yorunge-v2"] .window-controls>:is(.close,.bee-launch){
+  border:1px solid #7e6948;border-radius:4px;background:#e1d2b4;color:#182535;
+  box-shadow:inset 0 1px 0 #fff6df,0 2px 0 #08111a;
+}
+[data-skin="yorunge-v2"] .window-controls>.bee-launch{
+  background:#f0a742;border-color:#a8691f;font:800 9px/1 "Space Mono",monospace;
+}
+[data-skin="yorunge-v2"] .tabs{
+  margin:8px 13px 5px;padding:5px;gap:5px;border-radius:7px;
+  background:#0e1a28;border:1px solid #08111b;box-shadow:inset 0 2px 5px rgba(0,0,0,.45);
+}
+[data-skin="yorunge-v2"] .tabs button{
+  height:35px;border:1px solid #8c7857;border-radius:4px;background:#e6d9bf;color:#1d2a38;
+  box-shadow:inset 0 1px 0 #fff8e8,0 2px 0 #08111b;
+  font:800 8.5px/1 "Libre Franklin",sans-serif;text-transform:uppercase;letter-spacing:.02em;
+}
+[data-skin="yorunge-v2"] .tabs button[aria-selected="true"]{
+  background:#c95d1e;color:#fff4df;border-color:#8d3c10;
+  box-shadow:inset 0 -3px 0 #8b330c,0 2px 0 #08111b;
+}
+[data-skin="yorunge-v2"] .tabs svg{width:12px;height:12px;stroke-width:1.8}
+[data-skin="yorunge-v2"] main{background:#1a2632}
+[data-skin="yorunge-v2"] .view::-webkit-scrollbar{width:10px}
+[data-skin="yorunge-v2"] .view::-webkit-scrollbar-thumb{background:#c49a5a;border-radius:5px}
+[data-skin="yorunge-v2"] :is(.card,.paper,.archive-drawer){
+  border-color:#6f6049;background:#efe4cc;color:#28333b;
+  box-shadow:0 4px 10px rgba(9,15,20,.18);
+}
+[data-skin="yorunge-v2"] .pill,[data-skin="yorunge-v2"] .chip{
+  border:1px solid #7d6748;border-radius:4px;background:#e3d3b2;color:#1c2b37;
+  box-shadow:inset 0 1px 0 #fff4dc,0 2px 0 #0b141d;font-weight:700;
+}
+[data-skin="yorunge-v2"] .pill.primary{
+  background:#cc641f;color:#fff6e5;border-color:#8f3d11;
+}
+[data-skin="yorunge-v2"] .hello{color:#f4ead7}
+[data-skin="yorunge-v2"] .hello h2{font-family:"Bricolage Grotesque",sans-serif;font-weight:800}
+[data-skin="yorunge-v2"] .hello p{color:#c4b8a2;font-family:"Space Mono",monospace}
+[data-skin="yorunge-v2"] .sticky-note{background:#ead7a8;border:1px solid #9b7d4e;color:#5a3b24;rotate:-1deg}
+
 /* GÖREV / BUGÜN — görev köprüsü */
 [data-skin="yorunge-v2"] .yorunge-home-hero{position:relative;grid-template-columns:1.08fr .92fr;grid-template-rows:1fr auto;min-height:220px;margin:0 0 12px;overflow:hidden;border:2px solid #4d5147;border-radius:10px;background:#17231f;box-shadow:inset 0 0 0 4px #6f6b5d,0 7px 16px rgba(35,37,31,.24)}
 [data-skin="yorunge-v2"] .yorunge-viewport{position:absolute;inset:0;overflow:hidden;background:radial-gradient(circle at 72% 30%,rgba(255,255,255,.85) 0 1px,transparent 2px),radial-gradient(circle at 22% 19%,rgba(255,255,255,.7) 0 1px,transparent 2px),radial-gradient(circle at 55% 15%,rgba(255,255,255,.55) 0 1px,transparent 2px),radial-gradient(circle at 87% 55%,rgba(255,255,255,.72) 0 1px,transparent 2px),linear-gradient(180deg,#08182a 0,#122b45 52%,#7f4c28 53%,#f0a24d 57%,#1d3342 61%,#071421 100%)}
