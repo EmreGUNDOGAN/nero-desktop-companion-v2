@@ -39,3 +39,4 @@ Kaynak paketi: mevcut 88 kıyafet korunarak 100 yeni kıyafet eklendi. Beş yeni
 - İkinci yeni arayüz teması `Erteleme Bakanlığı` eklendi: numaralı evrak kartları, işlem sırası, mesai takip formu ve hizmet kayıtları beş ana sayfaya yayıldı.
 - `Radyo Nero` eklendi: fiziksel preset sekmeleri, dinleyici istek kartları, yayın akışı ve analog frekans/sinyal dili tüm ana sayfalara uygulanır.
 - `Son Seans Sineması` eklendi: senaryo sayfaları, çekim listesi, film geri sayım/seans paneli ve ödül duvarı ile sinema metaforu işlevlere bağlandı.
+- `Gece Ekspresi` eklendi: bilet/yolculuk notları, durak çizelgesi, rota hattı ve istasyon saati aynı gece treni dilinde birleşir.
