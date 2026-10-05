@@ -42,3 +42,4 @@ Kaynak paketi: mevcut 88 kıyafet korunarak 100 yeni kıyafet eklendi. Beş yeni
 - `Gece Ekspresi` eklendi: bilet/yolculuk notları, durak çizelgesi, rota hattı ve istasyon saati aynı gece treni dilinde birleşir.
 - `Nero Dedektiflik Bürosu` eklendi: Notlar vaka dosyalarına, İşler ipuçlarına, Sayaç takip saatine ve Rozetler delil arşivine dönüşür.
 - `Yörünge Kontrol Merkezi` eklendi: krem/turuncu retro görev kontrol konsolu, mission log, flight checklist, T-zaman sayacı ve görev yamaları; neon/cyberpunk estetiği kullanılmaz.
+- `Nero’nun Tamir Tezgâhı` eklendi: servis fişleri, çekmece etiketleri, iş emri sırası, işçilik sayacı ve ustalık panosu sıcak küçük atölye diliyle uygulanır.
