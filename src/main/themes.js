@@ -19,6 +19,39 @@ function sanitizeId(raw) {
     .replace(/^-+|-+$/g, '') || 'tema';
 }
 
+
+function mergeThemeRaw(base, child) {
+  const mergedLayers = {};
+  const baseLayers = base.layers || {};
+  const childLayers = child.layers || {};
+  for (const layer of new Set([...Object.keys(baseLayers), ...Object.keys(childLayers)])) {
+    mergedLayers[layer] = { ...(baseLayers[layer] || {}), ...(childLayers[layer] || {}) };
+  }
+
+  const mergeEyeTracking = () => {
+    if (child.eyeTracking === null) return null;
+    const b = base.eyeTracking || {};
+    const c = child.eyeTracking || {};
+    return {
+      ...b, ...c,
+      center: { ...(b.center || {}), ...(c.center || {}) },
+      range: { ...(b.range || {}), ...(c.range || {}) }
+    };
+  };
+
+  return {
+    ...base,
+    ...child,
+    canvas: { ...(base.canvas || {}), ...(child.canvas || {}) },
+    bubbleAnchor: { ...(base.bubbleAnchor || {}), ...(child.bubbleAnchor || {}) },
+    eyeTracking: mergeEyeTracking(),
+    layers: mergedLayers,
+    blink: { ...(base.blink || {}), ...(child.blink || {}) },
+    expressions: { ...(base.expressions || {}), ...(child.expressions || {}) },
+    ui: { ...(base.ui || {}), ...(child.ui || {}) }
+  };
+}
+
 class ThemeManager {
   constructor({ builtinDir, userDir }) {
     this.builtinDir = builtinDir;
@@ -56,6 +89,23 @@ class ThemeManager {
 
     const id = sanitizeId(raw.id || folderName);
     const errors = [];
+
+    // UI ağırlıklı yerleşik temalar Nero'nun karakter katmanlarını varsayılandan
+    // miras alabilir. Böylece her yeni panel teması için aynı karakter SVG'leri
+    // çoğaltılmaz; yalnızca gerçekten değişen varlıklar tema klasörüne eklenir.
+    if (source === 'builtin' && raw.inherits) {
+      const baseId = sanitizeId(raw.inherits);
+      const basePath = path.join(this.builtinDir, baseId, 'theme.json');
+      try {
+        if (!fs.existsSync(basePath)) throw new Error(`miras alınan tema bulunamadı: ${baseId}`);
+        const baseRaw = JSON.parse(fs.readFileSync(basePath, 'utf8'));
+        raw = mergeThemeRaw(baseRaw, raw);
+        raw.__assetBase = baseId;
+      } catch (err) {
+        errors.push(`inherits: ${err.message}`);
+      }
+    }
+
     const manifest = this._normalize(raw, id, dir, errors);
 
     if (source === 'builtin') {
@@ -98,14 +148,23 @@ class ThemeManager {
       for (const [variant, def] of Object.entries(variants)) {
         const spec = typeof def === 'string' ? { src: def } : (def || {});
         if (!spec.src) { errors.push(`${layerName}.${variant}: src yok`); continue; }
+        // Yerleşik bir UI teması karakter katmanlarını başka bir yerleşik temadan
+        // miras alabilir. Yerelde dosya varsa o kazanır; yoksa miras kaynağına düşer.
+        const builtinTheme = path.resolve(dir).startsWith(path.resolve(this.builtinDir) + path.sep);
+        const localAbs = path.join(dir, spec.src);
+        const inheritedId = builtinTheme && raw.__assetBase ? sanitizeId(raw.__assetBase) : null;
+        const inheritedAbs = inheritedId ? path.join(this.builtinDir, inheritedId, spec.src) : null;
+        const sharedInherited = !!(inheritedAbs && !fs.existsSync(localAbs) && fs.existsSync(inheritedAbs));
         // The illustrated wardrobe is shared by built-in themes. User themes
         // continue to resolve their own outfit artwork from their own folder.
-        const sharedWardrobe = layerName === 'outfit' && /\/outfit-[\w-]+\.png$/.test(spec.src) &&
-          path.resolve(dir).startsWith(path.resolve(this.builtinDir) + path.sep);
-        const abs = sharedWardrobe ? path.join(this.builtinDir, 'default', spec.src) : path.join(dir, spec.src);
+        const sharedWardrobe = !sharedInherited && layerName === 'outfit' && /\/outfit-[\w-]+\.png$/.test(spec.src) && builtinTheme;
+        const abs = sharedInherited ? inheritedAbs
+          : sharedWardrobe ? path.join(this.builtinDir, 'default', spec.src)
+            : localAbs;
         if (!fs.existsSync(abs)) errors.push(`${layerName}.${variant}: dosya bulunamadı (${spec.src})`);
         layers[layerName][variant] = {
-          url: sharedWardrobe ? `${SCHEME}://default/${spec.src}` : toUrl(spec.src),
+          url: sharedInherited ? `${SCHEME}://${inheritedId}/${spec.src}`
+            : sharedWardrobe ? `${SCHEME}://default/${spec.src}` : toUrl(spec.src),
           x: Number(spec.x) || 0,
           y: Number(spec.y) || 0,
           w: Number(spec.width) || canvas.width,
