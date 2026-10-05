@@ -180,104 +180,6 @@
     }
   };
   const NEW_THEME_TABS = { home: 'Bugün', badges: 'Rozetler', notes: 'Notlar', todos: 'İşler', timer: 'Sayaç', settings: 'Ayarlar' };
-  Object.assign(SKINS, {
-    'sonbahar-kutuphanesi': {
-      ...SKINS.cilek, tabs: { ...NEW_THEME_TABS },
-      todoPlaceholder: "Raflar kapanmadan ne bitecek?",
-      todoLeft: (n) => `${n} iş kaldı. kitap ayracı burada.`,
-      allDone: "hepsi bitti. şimdi bir sayfa oku.",
-      timerIdle: "sessiz raflar, derin odak.", timerRunning: "sessiz raflar, derin odak.", timerPaused: "kitap ayracı molası…",
-      tagline: "iyi kitaplar, sakin akşamlar.", sticky: "bir sayfa daha, sonra gerçekten bırakırım."
-    },
-    'amalfi-limonlari': {
-      ...SKINS.cilek, tabs: { ...NEW_THEME_TABS },
-      todoPlaceholder: "Güneş batmadan ne bitecek?",
-      todoLeft: (n) => `${n} iş kaldı. deniz bekler.`,
-      allDone: "hepsi bitti. gölgeye geçebilirsin.",
-      timerIdle: "aynı gökyüzü, tek bir iş.", timerRunning: "aynı gökyüzü, tek bir iş.", timerPaused: "limonata molası…",
-      tagline: "güneş, limon, biraz nefes.", sticky: "aynı gökyüzü altında daha hafif günler."
-    },
-    'ortancali-kir-evi': {
-      ...SKINS.cilek, tabs: { ...NEW_THEME_TABS },
-      todoPlaceholder: "Bahçe sessizken ne bitecek?",
-      todoLeft: (n) => `${n} iş kaldı. ortancalar acele etmiyor.`,
-      allDone: "hepsi bitti. pencereyi aç.",
-      timerIdle: "sakin bir ev, tek bir odak.", timerRunning: "sakin bir ev, tek bir odak.", timerPaused: "bahçe molası…",
-      tagline: "mavi çiçekler, açık pencereler.", sticky: "küçük adımlar, büyük günler."
-    },
-    'kis-tramvayi': {
-      ...SKINS.cilek, tabs: { ...NEW_THEME_TABS },
-      todoPlaceholder: "Son durağa kadar ne bitecek?",
-      todoLeft: (n) => `${n} iş kaldı. tramvay ilerliyor.`,
-      allDone: "hepsi bitti. camdan karı izle.",
-      timerIdle: "rayların ritminde odak.", timerRunning: "rayların ritminde odak.", timerPaused: "bir duraklık mola…",
-      tagline: "dışarıda kar, içeride yol.", sticky: "bir durak daha, bir iş daha."
-    },
-    'doksanlar-kirtasiye': {
-      ...SKINS.cilek, tabs: { ...NEW_THEME_TABS },
-      todoPlaceholder: "Yeni sayfaya ne yazıyoruz?",
-      todoLeft: (n) => `${n} iş kaldı. fosforlu kalem hazır.`,
-      allDone: "hepsi bitti. çıkartmayı hak ettin.",
-      timerIdle: "derin odak, güzel şeyler biriktir.", timerRunning: "derin odak, güzel şeyler biriktir.", timerPaused: "kalem kapağı molası…",
-      tagline: "tanıdık araçlar, daha üretken yarınlar.", sticky: "planla · adım at · tamamla · tekrar et."
-    },
-    'gece-treni': {
-      ...SKINS.cilek, tabs: { ...NEW_THEME_TABS },
-      todoPlaceholder: "Bir sonraki istasyona kadar ne bitecek?",
-      todoLeft: (n) => `${n} iş kaldı. tren durmuyor.`,
-      allDone: "hepsi bitti. ışığı biraz kıs.",
-      timerIdle: "rayların sesinde tek bir hedef.", timerRunning: "rayların sesinde tek bir hedef.", timerPaused: "kompartıman molası…",
-      tagline: "uzun yollar, sakin planlar.", sticky: "gece uzun; tek bir adım yeter."
-    },
-    'eski-fotografci': {
-      ...SKINS.cilek, tabs: { ...NEW_THEME_TABS },
-      todoPlaceholder: "Kare dolmadan ne bitecek?",
-      todoLeft: (n) => `${n} iş kaldı. film bitmeden.`,
-      allDone: "hepsi bitti. şimdi baskıya geç.",
-      timerIdle: "netle, kadrajla, odaklan.", timerRunning: "netle, kadrajla, odaklan.", timerPaused: "film değiştirme molası…",
-      tagline: "anları sakla, günü yakala.", sticky: "bazı anlar hiç solmaz."
-    },
-    'lavanta-aksami': {
-      ...SKINS.cilek, tabs: { ...NEW_THEME_TABS },
-      todoPlaceholder: "Gün batmadan ne bitecek?",
-      todoLeft: (n) => `${n} iş kaldı. lavanta kokusu kaçmıyor.`,
-      allDone: "hepsi bitti. feneri yak.",
-      timerIdle: "akşamın sessizliğinde odak.", timerRunning: "akşamın sessizliğinde odak.", timerPaused: "veranda molası…",
-      tagline: "aynı dinginlik, daha güzel yarınlar.", sticky: "akşam acele etmez."
-    },
-    'kis-bahcesi': {
-      ...SKINS.cilek, tabs: { ...NEW_THEME_TABS },
-      todoPlaceholder: "Sera ışıkları sönmeden ne bitecek?",
-      todoLeft: (n) => `${n} iş kaldı. yapraklar bekliyor.`,
-      allDone: "hepsi bitti. feneri açık bırak.",
-      timerIdle: "sessiz sera, temiz odak.", timerRunning: "sessiz sera, temiz odak.", timerPaused: "bitkilere bakma molası…",
-      tagline: "camın ardında kış, içeride hayat.", sticky: "soğuk dışarıda kalsın."
-    },
-    'gece-masasi': {
-      ...SKINS.cilek, tabs: { ...NEW_THEME_TABS },
-      todoPlaceholder: "Işık kapanmadan ne bitecek?",
-      todoLeft: (n) => `${n} iş kaldı. gece sakin.`,
-      allDone: "hepsi bitti. ekranı kapat.",
-      timerIdle: "gece mavisinde derin odak.", timerRunning: "gece mavisinde derin odak.", timerPaused: "masa lambası molası…",
-      tagline: "gece sessiz, masa hazır.", sticky: "tek ışık, tek hedef."
-    },
-    'analog-radyo': {
-      ...SKINS.cilek, tabs: { ...NEW_THEME_TABS },
-      todoPlaceholder: "Şarkı bitmeden ne bitecek?",
-      todoLeft: (n) => `${n} iş kaldı. frekans açık.`,
-      allDone: "hepsi bitti. sesi biraz aç.",
-      timerIdle: "tek frekans, tek odak.", timerRunning: "tek frekans, tek odak.", timerPaused: "kaseti çevirme molası…",
-      tagline: "frekansı bul, gerisini sustur.", sticky: "iyi fikirler bazen parazitin arasından gelir."
-    },
-    'pastel-mutfak': {
-      ...SKINS.cilek, tabs: { ...NEW_THEME_TABS },
-      todoPlaceholder: "Tezgâh toparlanmadan ne bitecek?",
-      todoLeft: (n) => `${n} iş kaldı. tarif kartı açık.`,
-      allDone: "hepsi bitti. mutfak kapandı.",
-      timerIdle: "ölçülü zaman, temiz odak.", timerRunning: "ölçülü zaman, temiz odak.", timerPaused: "tarif kartı molası…",
-      tagline: "ölç, karıştır, bitir.", sticky: "iyi tarifler gibi iyi günler de adım adım."
-    }
-  });
 
   Object.assign(SKINS, {
     nero98: {
@@ -303,173 +205,12 @@
     }
   });
 
-  Object.assign(SKINS, {
-    bakanlik: {
-      ...SKINS.cozy,
-      tabs: { home: 'Masa', notes: 'Evrak', todos: 'İşlem', timer: 'Mesai', badges: 'Kayıt', settings: 'Ayarlar' },
-      brandTitle: 'Erteleme Bakanlığı',
-      beeLabel: 'Arıcılık Md.',
-      newNote: 'YENİ EVRAK', newNoteSub: 'kayıt numarası otomatik verilir',
-      saved: 'ARŞİVLENDİ', typing: 'YAZI İŞLERİ…',
-      todoPlaceholder: 'İşlem konusu...', listTitle: 'İŞLEM SIRASI <span>Günlük Evrak Takibi</span>',
-      todoLeft: (n) => `${n} işlem beklemede`, allDone: 'Bekleyen işlem yok. Bu beklenmedik.',
-      timerIdle: 'MESAİ DURUMU: HAZIR', timerRunning: 'MESAİ DEVAM EDİYOR', timerPaused: 'MESAİ GEÇİCİ DURDURULDU',
-      timerStart: 'MESAİYİ BAŞLAT', timerPause: 'ARA VER', timerResume: 'MESAİYE DÖN',
-      cancel: 'İŞLEMİ KAPAT', cancelNote: '', talkMax: 'Çok',
-      noteBack: '‹ EVRAK KAYIT', noteArchive: 'ARŞİVLE', noteDelete: 'İMHA',
-      todoClear: 'Kapanan dosyaları arşivle',
-      quickFocus: '25 dk mesai', quickTodo: 'İşlem aç', quickNote: 'Evrak oluştur',
-      badgeTitle: 'HİZMET VE BAŞARI KAYITLARI',
-      tagline: 'Nero Genel Müdürlüğü · Evrak ve Erteleme Dairesi',
-      sticky: 'Talebiniz gereksiz yere alınmıştır.',
-      subs: { theme: 'kurumsal görünüm', talk: 'memur konuşkanlığı' },
-      moodPrefix: 'Personel durumu: ', moodLabels: null
-    }
-  });
 
-  Object.assign(SKINS, {
-    radyo: {
-      ...SKINS.cozy,
-      tabs: { home: 'Yayın', notes: 'İstekler', todos: 'Akış', timer: 'Frekans', badges: 'Arşiv', settings: 'Ayar' },
-      brandTitle: 'Radyo Nero',
-      beeLabel: 'HIVE AM',
-      newNote: 'YENİ İSTEK', newNoteSub: 'dinleyici kartı',
-      saved: 'YAYIN ARŞİVİNE ALINDI', typing: 'KARTA YAZILIYOR…',
-      todoPlaceholder: 'Yayın akışına ne ekleniyor?', listTitle: 'YAYIN AKIŞI <span>stüdyo programı</span>',
-      todoLeft: (n) => `${n} yayın bölümü sırada`, allDone: 'Program bitti. Stüdyo sessiz.',
-      timerIdle: 'STANDBY · 98.6 FM', timerRunning: 'ON AIR · 98.6 FM', timerPaused: 'MIC MUTED · kısa ara',
-      timerStart: 'ON AIR', timerPause: 'MUTE', timerResume: 'YAYINA DÖN',
-      cancel: 'OFF AIR', cancelNote: '', talkMax: 'Canlı',
-      noteBack: '‹ DİNLEYİCİ HATTI', noteArchive: 'YAYIN ARŞİVİ', noteDelete: 'YAYINDAN KALDIR',
-      todoClear: 'Yayınlananları arşivle',
-      quickFocus: '25 dk yayın', quickTodo: 'Akışa ekle', quickNote: 'İstek kartı',
-      badgeTitle: 'RADYO NERO ARŞİVİ',
-      tagline: '98.6 FM · gece boyunca yayında',
-      sticky: 'iyi fikirler bazen parazitin arasından gelir.',
-      subs: { theme: 'istasyon görünümü', talk: 'mikrofon seviyesi' },
-      moodPrefix: 'Stüdyo: ', moodLabels: null
-    }
-  });
 
-  Object.assign(SKINS, {
-    'son-seans': {
-      ...SKINS.cozy,
-      tabs: { home: 'Program', notes: 'Senaryo', todos: 'Çekim', timer: 'Seans', badges: 'Ödüller', settings: 'Ayarlar' },
-      brandTitle: 'Son Seans',
-      beeLabel: 'Salon B',
-      newNote: 'YENİ SAHNE', newNoteSub: 'senaryo sayfası',
-      saved: 'SENARYO KAYDEDİLDİ', typing: 'SAHNE YAZILIYOR…',
-      todoPlaceholder: 'Çekilecek sahne...', listTitle: 'ÇEKİM LİSTESİ <span>bu gecenin planı</span>',
-      todoLeft: (n) => `${n} sahne çekilmeyi bekliyor`, allDone: 'Çekim tamam. Projektör sustu.',
-      timerIdle: 'SEANSA HAZIR', timerRunning: 'GÖSTERİM DEVAM EDİYOR', timerPaused: 'ARA VERİLDİ',
-      timerStart: 'MOTOR', timerPause: 'KES', timerResume: 'DEVAM',
-      cancel: 'SEANSI KAPAT', cancelNote: '', talkMax: 'Başrol',
-      noteBack: '‹ SENARYO MASASI', noteArchive: 'KESİLEN SAHNELER', noteDelete: 'SAHNEYİ SİL',
-      todoClear: 'Çekilenleri arşivle',
-      quickFocus: '25 dk seans', quickTodo: 'Sahne ekle', quickNote: 'Senaryo yaz',
-      badgeTitle: 'ÖDÜL DUVARI',
-      tagline: 'Nero Sineması · Salon 01 · son gece seansı',
-      sticky: 'ışıklar sönünce herkes biraz daha dürüst.',
-      subs: { theme: 'salon dekoru', talk: 'başrol konuşkanlığı' },
-      moodPrefix: 'Gösterim: ', moodLabels: null
-    }
-  });
 
-  Object.assign(SKINS, {
-    'gece-ekspresi': {
-      ...SKINS.cozy,
-      tabs: { home: 'Rota', notes: 'Biletler', todos: 'Duraklar', timer: 'Saat', badges: 'Hatıralar', settings: 'Ayar' },
-      brandTitle: 'Nero Gece Ekspresi',
-      beeLabel: 'Arı Vagonu',
-      newNote: 'YENİ YOLCULUK NOTU', newNoteSub: 'bilet arkasına yaz',
-      saved: 'BİLET CEBİNE KONDU', typing: 'YOLCULUK NOTU…',
-      todoPlaceholder: 'Bir sonraki durak...', listTitle: 'DURAK ÇİZELGESİ <span>gece seferi</span>',
-      todoLeft: (n) => `${n} durak kaldı`, allDone: 'Son durağa varıldı. Vagon sessiz.',
-      timerIdle: 'İSTASYON SAATİ: HAZIR', timerRunning: 'TREN HAREKET HALİNDE', timerPaused: 'İSTASYONDA BEKLİYOR',
-      timerStart: 'HAREKET', timerPause: 'BEKLE', timerResume: 'YOLA DEVAM',
-      cancel: 'SEFERİ BİTİR', cancelNote: '', talkMax: 'Kondüktör',
-      noteBack: '‹ YOLCULUK DEFTERİ', noteArchive: 'ESKİ BİLETLER', noteDelete: 'BİLETİ YIRT',
-      todoClear: 'Varılan durakları arşivle',
-      quickFocus: '25 dk yolculuk', quickTodo: 'Durak ekle', quickNote: 'Bilet notu',
-      badgeTitle: 'SEYAHAT HATIRALARI',
-      tagline: 'Hat 06 · gece seferi · son vagon',
-      sticky: 'gece uzunsa rayların sesi yeter.',
-      subs: { theme: 'vagon görünümü', talk: 'kondüktör anonsları' },
-      moodPrefix: 'Vagon durumu: ', moodLabels: null
-    }
-  });
 
-  Object.assign(SKINS, {
-    dedektif: {
-      ...SKINS.cozy,
-      tabs: { home: 'Vaka', notes: 'Dosyalar', todos: 'İpuçları', timer: 'Takip', badges: 'Deliller', settings: 'Ayar' },
-      brandTitle: 'Nero Dedektiflik Bürosu',
-      beeLabel: 'Vaka: Kovan',
-      newNote: 'YENİ DOSYA AÇ', newNoteSub: 'vaka kaydı',
-      saved: 'DOSYAYA İŞLENDİ', typing: 'RAPOR YAZILIYOR…',
-      todoPlaceholder: 'Yeni ipucu / takip adımı...', listTitle: 'İPUCU TAKİP LİSTESİ <span>aktif soruşturma</span>',
-      todoLeft: (n) => `${n} ipucu açık`, allDone: 'Tüm ipuçları doğrulandı. Dosya kapanabilir.',
-      timerIdle: 'TAKİP SÜRESİ: HAZIR', timerRunning: 'ŞÜPHELİ TAKİPTE', timerPaused: 'TAKİP DURDURULDU',
-      timerStart: 'TAKİBE AL', timerPause: 'GÖZDEN KAÇIR', timerResume: 'TAKİBE DÖN',
-      cancel: 'TAKİBİ KAPAT', cancelNote: '', talkMax: 'Sorgucu',
-      noteBack: '‹ VAKA DOSYALARI', noteArchive: 'DOSYAYI KAPAT', noteDelete: 'DOSYAYI İMHA ET',
-      todoClear: 'Doğrulanan ipuçlarını arşivle',
-      quickFocus: '25 dk takip', quickTodo: 'İpucu ekle', quickNote: 'Dosya aç',
-      badgeTitle: 'DELİL ARŞİVİ',
-      tagline: 'Özel Araştırmalar · açık dosyalar geceleri kapanmaz',
-      sticky: 'herkes masumdur. nero emin olana kadar.',
-      subs: { theme: 'büro görünümü', talk: 'sorgu yoğunluğu' },
-      moodPrefix: 'Dedektif raporu: ', moodLabels: null
-    }
-  });
 
-  Object.assign(SKINS, {
-    'yorunge-v2': {
-      ...SKINS.cozy,
-      tabs: { home: 'Görev', notes: 'Loglar', todos: 'Kontrol', timer: 'T-Zaman', badges: 'Yamalar', settings: 'Ayar' },
-      brandTitle: 'Yörünge Kontrol Merkezi',
-      beeLabel: 'HIVE MOD',
-      newNote: 'YENİ GÖREV LOGU', newNoteSub: 'mission log',
-      saved: 'LOG KAYDEDİLDİ', typing: 'TELEMETRİ YAZILIYOR…',
-      todoPlaceholder: 'Kontrol maddesi...', listTitle: 'FLIGHT CHECKLIST <span>mission control</span>',
-      todoLeft: (n) => `${n} kontrol maddesi açık`, allDone: 'Tüm sistemler nominal.',
-      timerIdle: 'MISSION TIMER: STANDBY', timerRunning: 'MISSION ACTIVE', timerPaused: 'MISSION HOLD',
-      timerStart: 'INITIATE', timerPause: 'HOLD', timerResume: 'RESUME',
-      cancel: 'ABORT', cancelNote: '', talkMax: 'CAPCOM',
-      noteBack: '‹ GÖREV GÜNLÜĞÜ', noteArchive: 'LOG ARŞİVİ', noteDelete: 'LOGU SİL',
-      todoClear: 'Tamamlanan kontrolleri arşivle',
-      quickFocus: 'T-25 görev', quickTodo: 'Kontrol ekle', quickNote: 'Log aç',
-      badgeTitle: 'MISSION PATCHES',
-      tagline: 'MISSION N-066 · orbital control · systems nominal',
-      sticky: 'küçük düğmeler, büyük sorumluluklar.',
-      subs: { theme: 'kontrol konsolu', talk: 'CAPCOM yoğunluğu' },
-      moodPrefix: 'CREW STATUS: ', moodLabels: null
-    }
-  });
 
-  Object.assign(SKINS, {
-    tamir: {
-      ...SKINS.cozy,
-      tabs: { home: 'Tezgâh', notes: 'Fişler', todos: 'Tamir', timer: 'İşçilik', badges: 'Ustalık', settings: 'Ayar' },
-      brandTitle: 'Nero Tamir & Bakım',
-      beeLabel: 'Kovan Servisi',
-      newNote: 'YENİ SERVİS FİŞİ', newNoteSub: 'kabul kaydı',
-      saved: 'SERVİS KAYDI ALINDI', typing: 'FİŞ DOLDURULUYOR…',
-      todoPlaceholder: 'Tamir sırasına ne geliyor?', listTitle: 'TAMİR SIRASI <span>tezgâh iş emirleri</span>',
-      todoLeft: (n) => `${n} iş tezgâh bekliyor`, allDone: 'Tezgâh boş. Anahtarlar yerine döndü.',
-      timerIdle: 'İŞÇİLİK: HAZIR', timerRunning: 'TEZGÂH AKTİF', timerPaused: 'İŞÇİLİĞE ARA',
-      timerStart: 'ÇALIŞMAYA BAŞLA', timerPause: 'TEZGÂHI DURDUR', timerResume: 'DEVAM ET',
-      cancel: 'İŞİ KAPAT', cancelNote: '', talkMax: 'Usta',
-      noteBack: '‹ SERVİS FİŞLERİ', noteArchive: 'ESKİ SERVİS', noteDelete: 'FİŞİ İPTAL ET',
-      todoClear: 'Teslime hazırları arşivle',
-      quickFocus: '25 dk işçilik', quickTodo: 'İş emri aç', quickNote: 'Servis fişi',
-      badgeTitle: 'USTALIK PANOSU',
-      tagline: 'Usta Nero · küçük dükkân · büyük sabır',
-      sticky: 'bozuk değil. sadece naz yapıyor.',
-      subs: { theme: 'atölye görünümü', talk: 'usta yorumu' },
-      moodPrefix: 'Tezgâh durumu: ', moodLabels: null
-    }
-  });
 
   let skinName = 'cozy';
   const skin = () => SKINS[skinName] || SKINS.cozy;
@@ -693,8 +434,6 @@
     const k = skin();
     const key = m.asleep ? 'asleep' : (m.stage === 'content' && m.happiness >= 80 ? 'happy' : m.stage);
     $('mood-label').textContent = k.moodLabels ? `${k.moodPrefix}${k.moodLabels[key]}` : `${k.moodPrefix || ''}${m.label.toLowerCase()}.`;
-    const orbitMood = $('yorunge-hero-mood');
-    if (orbitMood) orbitMood.textContent = m.label || 'Nominal';
     let detail = '';
     if (m.asleep) detail = 'sen uzaktayken kestiriyor.';
     else if (m.ignoredMinutes >= 60) {
@@ -767,8 +506,6 @@
     const notes = state.notes || [];
     const activeNotes = notes.filter((note) => !note.archivedAt);
     const archivedNotes = notes.filter((note) => note.archivedAt);
-    const orbitLogCount = $('yorunge-log-count');
-    if (orbitLogCount) orbitLogCount.textContent = String(activeNotes.length);
 
     const add = document.createElement('li');
     add.className = 'new-note';
@@ -948,28 +685,6 @@
 
   setInterval(updateTodoStopwatchClocks, 1000);
 
-  function renderYorungeFocusPreview(activeTodos) {
-    const root = $('yorunge-focus-preview');
-    if (!root) return;
-    root.textContent = '';
-    const openTodos = activeTodos.filter((todo) => !todo.done).slice(0, 4);
-    if (!openTodos.length) {
-      const li = document.createElement('li');
-      li.className = 'empty-focus';
-      li.textContent = 'Tüm sistemler nominal.';
-      root.appendChild(li);
-      return;
-    }
-    for (const todo of openTodos) {
-      const li = document.createElement('li');
-      const dot = document.createElement('i');
-      const text = document.createElement('span');
-      text.textContent = todo.text;
-      li.append(dot, text);
-      root.appendChild(li);
-    }
-  }
-
   function renderTodos() {
     if (document.querySelector('.todo-text[contenteditable="true"]')) return;
     const list = $('todo-list');
@@ -981,11 +696,6 @@
     $('todo-footer').hidden = activeTodos.length === 0;
     const open = activeTodos.filter((t) => !t.done).length;
     $('todo-count').textContent = open ? skin().todoLeft(open) : skin().allDone;
-    const orbitOpen = $('yorunge-control-open');
-    if (orbitOpen) orbitOpen.textContent = String(open);
-    const orbitHeroTasks = $('yorunge-hero-tasks');
-    if (orbitHeroTasks) orbitHeroTasks.textContent = String(open);
-    renderYorungeFocusPreview(activeTodos);
     const k = skin();
     $('delay').hidden = activeTodos.length === 0;
     if (k.delayMode === 'done') {
@@ -1408,8 +1118,6 @@
     const normal = list.filter((a) => a.rarity !== 'gizli');
     const got = normal.filter((a) => a.unlockedAt).length;
     $('badge-count').textContent = `${got} / 100`;
-    const orbitPatchCount = $('yorunge-patch-count');
-    if (orbitPatchCount) orbitPatchCount.textContent = String(got);
     renderBadgeRarityTabs(list);
 
     const filtered = list.filter((a) => a.rarity === activeBadgeRarity);
