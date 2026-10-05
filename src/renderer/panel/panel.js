@@ -327,6 +327,30 @@
     }
   });
 
+  Object.assign(SKINS, {
+    radyo: {
+      ...SKINS.cozy,
+      tabs: { home: 'Yayın', notes: 'İstekler', todos: 'Akış', timer: 'Frekans', badges: 'Arşiv', settings: 'Ayar' },
+      brandTitle: 'Radyo Nero',
+      beeLabel: 'HIVE AM',
+      newNote: 'YENİ İSTEK', newNoteSub: 'dinleyici kartı',
+      saved: 'YAYIN ARŞİVİNE ALINDI', typing: 'KARTA YAZILIYOR…',
+      todoPlaceholder: 'Yayın akışına ne ekleniyor?', listTitle: 'YAYIN AKIŞI <span>stüdyo programı</span>',
+      todoLeft: (n) => `${n} yayın bölümü sırada`, allDone: 'Program bitti. Stüdyo sessiz.',
+      timerIdle: 'STANDBY · 98.6 FM', timerRunning: 'ON AIR · 98.6 FM', timerPaused: 'MIC MUTED · kısa ara',
+      timerStart: 'ON AIR', timerPause: 'MUTE', timerResume: 'YAYINA DÖN',
+      cancel: 'OFF AIR', cancelNote: '', talkMax: 'Canlı',
+      noteBack: '‹ DİNLEYİCİ HATTI', noteArchive: 'YAYIN ARŞİVİ', noteDelete: 'YAYINDAN KALDIR',
+      todoClear: 'Yayınlananları arşivle',
+      quickFocus: '25 dk yayın', quickTodo: 'Akışa ekle', quickNote: 'İstek kartı',
+      badgeTitle: 'RADYO NERO ARŞİVİ',
+      tagline: '98.6 FM · gece boyunca yayında',
+      sticky: 'iyi fikirler bazen parazitin arasından gelir.',
+      subs: { theme: 'istasyon görünümü', talk: 'mikrofon seviyesi' },
+      moodPrefix: 'Stüdyo: ', moodLabels: null
+    }
+  });
+
   let skinName = 'cozy';
   const skin = () => SKINS[skinName] || SKINS.cozy;
 
