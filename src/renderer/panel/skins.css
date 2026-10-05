@@ -3684,3 +3684,225 @@ html.no-scene[data-skin="doksanlar-kirtasiye"] :is(#view-home,#view-notes,#view-
   [data-skin="yorunge"] .todo-add { grid-template-columns:minmax(0,1fr) 76px 72px 36px; }
   [data-skin="yorunge"] .digits { font-size:48px; }
 }
+
+
+/* ==========================================================================
+   NERO'NUN TAMİR TEZGÂHI — küçük servis dükkânı / iş emri sistemi
+   Ağır sanayi değil: sıcak ahşap, çekmece etiketleri, servis fişleri.
+   ========================================================================== */
+[data-skin="tamir"] {
+  --serif:"Bricolage Grotesque","Segoe UI",sans-serif;
+  --text:"Libre Franklin","Segoe UI",sans-serif;
+  --hand:"Courier Prime","Courier New",monospace;
+  --soft-shadow:0 6px 16px rgba(42,29,21,.20);
+  --radius:6px;
+}
+[data-skin="tamir"] .shell {
+  inset:10px; border:2px solid #3E3026; border-radius:11px;
+  background:#6B4A35;
+  background-image:repeating-linear-gradient(0deg,rgba(255,255,255,.025) 0 2px,rgba(0,0,0,.025) 2px 5px);
+  box-shadow:0 14px 32px rgba(35,24,17,.35),inset 0 0 0 3px rgba(210,174,119,.12);
+}
+[data-skin="tamir"] .top {
+  padding:15px 18px 11px; color:#F0E5CE;
+  background:linear-gradient(#77523B,#5A3B2B);
+  border-bottom:2px solid #3A2A21;
+}
+[data-skin="tamir"] h1 {
+  font:800 25px/1 "Bricolage Grotesque",sans-serif; color:#F4E6CC;
+  letter-spacing:-.01em; font-variation-settings:normal;
+}
+[data-skin="tamir"] .tagline {
+  display:block; margin:5px 0 0; color:#D5B47C;
+  font:700 9px/1 "Libre Franklin",sans-serif; letter-spacing:.09em; text-transform:uppercase;
+}
+[data-skin="tamir"] .mood-note { margin:7px 0 0; color:#DDCFB4; font:500 12px/1.2 "Courier Prime",monospace; }
+[data-skin="tamir"] #mood-label { color:#F4E6CC; font-weight:700; }
+[data-skin="tamir"] .window-controls > :is(.close,.bee-launch) {
+  border:1px solid #4A382B; border-radius:4px; background:#B58C5C; color:#32251D;
+  box-shadow:inset 0 1px 0 #DFC194,0 2px 0 #2A1E17;
+}
+[data-skin="tamir"] .window-controls > .bee-launch { font-size:9px; padding-inline:8px; }
+
+[data-skin="tamir"] .tabs {
+  margin:9px 14px 4px; padding:5px; gap:4px; border-radius:4px;
+  background:#4A372C; border:1px solid #30241D; box-shadow:inset 0 2px 4px rgba(0,0,0,.24);
+}
+[data-skin="tamir"] .tabs button {
+  height:35px; border:1px solid #5E4836; border-radius:3px;
+  background:#C8AD83; color:#35281F; box-shadow:inset 0 1px 0 #E8D2AD,0 2px 0 #2B2019;
+  font:700 9px/1 "Libre Franklin",sans-serif; text-transform:uppercase;
+}
+[data-skin="tamir"] .tabs button[aria-selected="true"] {
+  background:#4F6650; color:#F8ECD4; border-color:#354536; box-shadow:inset 0 2px 2px rgba(31,48,33,.38);
+  translate:0 2px;
+}
+[data-skin="tamir"] .tabs svg { width:12px; height:12px; }
+[data-skin="tamir"] main { background:#4D392E; }
+[data-skin="tamir"] .view {
+  padding:13px 16px 22px;
+  background:linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px),#4D392E;
+  background-size:10px 100%;
+}
+
+[data-skin="tamir"] .card {
+  position:relative; border:1px solid #836B4F; background:#EEE1C7; color:#34372F;
+  box-shadow:0 5px 13px rgba(38,26,19,.22);
+}
+[data-skin="tamir"] .card-head h3,[data-skin="tamir"] .section-heading h3 {
+  font:800 12px/1 "Bricolage Grotesque",sans-serif; color:#8A472A; text-transform:uppercase;
+}
+[data-skin="tamir"] .pill,[data-skin="tamir"] .chip {
+  border:1px solid #66513C; border-radius:3px; background:#D0B58B; color:#342820;
+  box-shadow:inset 0 1px 0 #F0DDBA,0 2px 0 #2C211A; font:700 10px/1 "Libre Franklin",sans-serif;
+}
+[data-skin="tamir"] .pill.primary { background:#4F6650; color:#F8ECD4; border-color:#354536; }
+[data-skin="tamir"] .pill:active { transform:none; translate:0 2px; }
+
+[data-skin="tamir"] .hello { color:#F0E1C6; }
+[data-skin="tamir"] .hello h2 { font-family:"Bricolage Grotesque",sans-serif; font-weight:800; }
+[data-skin="tamir"] .hello p { color:#C7B596; font-family:"Courier Prime",monospace; }
+[data-skin="tamir"] .sticky-note {
+  background:#D3BC8D; border:1px solid #755A3E; border-radius:2px; rotate:-1deg; font-family:"Courier Prime",monospace;
+}
+[data-skin="tamir"] .nero-says::before {
+  content:"USTA NOTU"; display:block; margin:-3px 0 7px; color:#8A472A;
+  font:700 9px/1 "Libre Franklin",sans-serif; letter-spacing:.08em;
+}
+[data-skin="tamir"] .tiles { counter-reset:cekmece; gap:7px; }
+[data-skin="tamir"] .tile {
+  counter-increment:cekmece; padding-top:31px;
+  background:linear-gradient(#E8D8B9,#DDCAA7);
+}
+[data-skin="tamir"] .tile::before {
+  content:"ÇEKMECE 0" counter(cekmece); position:absolute; top:7px; left:8px; right:8px;
+  height:17px; padding:3px 5px 0; box-sizing:border-box; border:1px solid #806546; border-radius:2px;
+  background:#C2A272; color:#493426; font:700 8px/1 "Courier Prime",monospace; letter-spacing:.05em;
+}
+[data-skin="tamir"] .tile strong { font:800 24px/1 "Bricolage Grotesque",sans-serif; color:#4D624F; }
+[data-skin="tamir"] .week::before {
+  content:"HAFTALIK İŞÇİLİK"; display:block; margin:-4px 0 8px; color:#8A472A;
+  font:700 9px/1 "Courier Prime",monospace; letter-spacing:.07em;
+}
+[data-skin="tamir"] .bar i { border-radius:1px; background:#A8663E; }
+[data-skin="tamir"] .bar.today i { background:#4F6650; }
+[data-skin="tamir"] .totals::before {
+  content:"TEZGÂH RAPORU"; display:block; margin:-4px 0 8px; color:#8A472A;
+  font:700 9px/1 "Courier Prime",monospace; letter-spacing:.07em;
+}
+
+[data-skin="tamir"] .notes { counter-reset:fis; gap:10px; }
+[data-skin="tamir"] .notes li {
+  counter-increment:fis; min-height:126px; padding:38px 12px 10px;
+  border:1px solid #8B6F4D; border-radius:2px; background:#E7D5B2 !important;
+  box-shadow:0 4px 10px rgba(40,27,19,.18); rotate:0deg !important;
+}
+[data-skin="tamir"] .notes li::before {
+  content:"SERVİS FİŞİ #" counter(fis,decimal-leading-zero); position:absolute; left:10px; top:8px;
+  width:auto; height:auto; translate:0; rotate:0; background:none; color:#8A472A;
+  font:700 8px/1 "Courier Prime",monospace; letter-spacing:.05em;
+}
+[data-skin="tamir"] .notes li::after {
+  content:"KABUL"; position:absolute; right:9px; top:7px; padding:2px 5px;
+  border:1px solid #7F6849; color:#4F6650; font:700 8px/1 "Libre Franklin",sans-serif;
+}
+[data-skin="tamir"] .notes li.new-note { border-style:dashed; background:#D2BE98 !important; }
+[data-skin="tamir"] .notes li.new-note::before { content:"YENİ SERVİS FİŞİ"; }
+[data-skin="tamir"] .notes li.new-note::after { display:none; }
+[data-skin="tamir"] .note-title { font:700 13px/1.2 "Libre Franklin",sans-serif; }
+[data-skin="tamir"] .note-preview { font:400 12px/1.45 "Courier Prime",monospace; }
+[data-skin="tamir"] .paper {
+  padding-top:39px; border:1px solid #755A3D; background:#EDE0C5; box-shadow:0 6px 15px rgba(38,26,18,.23);
+}
+[data-skin="tamir"] .paper::before {
+  content:"NERO TAMİR & BAKIM · SERVİS KABUL FİŞİ"; position:absolute; top:0; left:0; right:0; height:31px;
+  padding:9px 12px 0; box-sizing:border-box; background:#5D4332; color:#F3E2C3;
+  font:700 9px/1 "Libre Franklin",sans-serif; letter-spacing:.07em;
+}
+[data-skin="tamir"] .paper .tape,[data-skin="tamir"] .paper .clip { display:none; }
+[data-skin="tamir"] #note-body {
+  margin:0 8px 8px; min-height:330px; padding:13px 15px;
+  border-left:3px solid rgba(138,71,42,.36);
+  background:repeating-linear-gradient(transparent 0 27px,rgba(91,78,64,.15) 27px 28px);
+  font:400 12.5px/28px "Courier Prime",monospace;
+}
+
+[data-skin="tamir"] .todo-add { grid-template-columns:minmax(0,1fr) 95px 88px 40px; gap:6px; }
+[data-skin="tamir"] .todo-add > #todo-input,[data-skin="tamir"] .todo-duration,
+[data-skin="tamir"] .todo-time,[data-skin="tamir"] .soft-input {
+  border:1px solid #74593D; border-radius:3px; background:#EEE1C7; box-shadow:inset 0 1px 2px rgba(49,34,25,.14);
+}
+[data-skin="tamir"] .add {
+  border:1px solid #354536; border-radius:3px; background:#4F6650; box-shadow:0 2px 0 #28342A;
+}
+[data-skin="tamir"] .list-card { padding-top:34px; counter-reset:isemri; }
+[data-skin="tamir"] .list-card::before {
+  content:"TAMİR SIRASI · İŞ EMİRLERİ"; position:absolute; left:10px; top:8px; color:#8A472A;
+  font:700 9px/1 "Courier Prime",monospace; letter-spacing:.07em;
+}
+[data-skin="tamir"] .todos li {
+  counter-increment:isemri; position:relative; padding-left:40px; border-top:1px solid #C2AE88;
+}
+[data-skin="tamir"] .todos li::before {
+  content:"İŞ-" counter(isemri,decimal-leading-zero); position:absolute; left:2px; top:10px; width:30px; height:20px;
+  display:grid; place-items:center; border:1px solid #775D40; background:#CDB281;
+  color:#8A472A; font:700 8px/1 "Courier Prime",monospace;
+}
+[data-skin="tamir"] .todos li.done::after {
+  content:"TESLİME HAZIR"; position:absolute; right:35px; top:8px; padding:2px 5px;
+  border:1px solid rgba(79,102,80,.64); color:#4F6650; rotate:-2deg;
+  font:700 7px/1 "Libre Franklin",sans-serif; letter-spacing:.05em;
+}
+[data-skin="tamir"] .check,[data-skin="tamir"] .todo-stopwatch,[data-skin="tamir"] .todo-archive {
+  border-radius:2px; border-color:#785D40; background:#D3B989;
+}
+[data-skin="tamir"] .todos li.done .check { background:#4F6650; border-color:#354536; }
+[data-skin="tamir"] .todo-footer { color:#D6C29D; font:400 14px/1 "Courier Prime",monospace; }
+[data-skin="tamir"] .todo-footer .link { color:#E9D5B1; }
+
+[data-skin="tamir"] .dial {
+  width:min(330px,90%); height:218px; border:2px solid #3B2C22; border-radius:7px;
+  background:#C6A97A; box-shadow:0 8px 18px rgba(35,24,17,.34),inset 0 0 0 4px #E7D6B3;
+}
+[data-skin="tamir"] .dial::before {
+  content:"İŞÇİLİK SÜRESİ · TEZGÂH 01"; position:absolute; left:15px; right:15px; top:12px; height:26px;
+  padding:8px 9px 0; box-sizing:border-box; background:#5B4333; color:#F3E3C6;
+  font:700 9px/1 "Libre Franklin",sans-serif; letter-spacing:.07em;
+}
+[data-skin="tamir"] .ring { opacity:.24; }
+[data-skin="tamir"] .ring-track { stroke:#6A513D; }
+[data-skin="tamir"] .ring-fill { stroke:#4F6650; }
+[data-skin="tamir"] .dial-center {
+  inset:48px 29px 21px; border:2px solid #5B4634; border-radius:50%;
+  background:radial-gradient(circle,#F1E4C9 0 56%,#B69868 57% 61%,#E4D2AE 62%);
+}
+[data-skin="tamir"] .digits { font:700 50px/1 "Courier Prime",monospace; color:#3D493C; }
+[data-skin="tamir"] .dial-label { max-width:205px; font:700 10px/1.2 "Libre Franklin",sans-serif; color:#8A472A; text-transform:uppercase; }
+[data-skin="tamir"] .presets > button,[data-skin="tamir"] .presets .custom {
+  border:1px solid #624B36; border-radius:3px; background:#CDB081; box-shadow:0 2px 0 #2A1E17;
+}
+[data-skin="tamir"] .presets > button.on { background:#4F6650; color:#F8ECD4; }
+
+[data-skin="tamir"] .badges {
+  background:#E4D3B2; border:4px double #6A5138; box-shadow:0 5px 14px rgba(35,24,17,.24);
+}
+[data-skin="tamir"] .badge-rarity-tabs { border-bottom:1px solid #91734E; }
+[data-skin="tamir"] .badge-rarity-tabs button {
+  border-radius:2px; background:#CBAE7D; font:700 9px/1 "Libre Franklin",sans-serif;
+}
+[data-skin="tamir"] .badge-rarity-tabs button[aria-selected="true"] { background:#4F6650; color:#F8ECD4; }
+[data-skin="tamir"] .badge-category-meta { font-family:"Courier Prime",monospace; border-bottom:1px solid #A78B64; }
+[data-skin="tamir"] .badge:hover { background:rgba(79,102,80,.10); }
+
+[data-skin="tamir"] #view-settings .card::before {
+  content:"ATÖLYE AYAR PANOSU"; display:block; margin:-4px 0 8px; color:#8A472A;
+  font:700 9px/1 "Courier Prime",monospace; letter-spacing:.07em;
+}
+[data-skin="tamir"] #view-settings :is(select,.chip,input) { border-radius:3px; }
+
+@container (max-width:410px) {
+  [data-skin="tamir"] h1 { font-size:21px; }
+  [data-skin="tamir"] .tabs button { font-size:8px; padding-inline:2px; }
+  [data-skin="tamir"] .todo-add { grid-template-columns:minmax(0,1fr) 76px 72px 36px; }
+  [data-skin="tamir"] .digits { font-size:44px; }
+}
