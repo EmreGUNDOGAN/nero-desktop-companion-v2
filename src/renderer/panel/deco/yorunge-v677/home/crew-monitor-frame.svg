@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="170" viewBox="0 0 360 170">
+<defs><filter id="s" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="4" stdDeviation="3" flood-color="#071018" flood-opacity=".4"/></filter></defs>
+<g filter="url(#s)">
+<rect x="3" y="3" width="354" height="164" rx="16" fill="#303B40" stroke="#D18A32" stroke-width="3"/>
+<rect x="12" y="12" width="336" height="146" rx="10" fill="#102B27" stroke="#6F806D" stroke-width="2"/>
+<path d="M26 30h188" stroke="#84B69D" stroke-width="2" opacity=".55"/>
+<circle cx="331" cy="29" r="5" fill="#F0A33F"/><circle cx="315" cy="29" r="3" fill="#698870"/>
+<path d="M20 148h90M250 148h90" stroke="#C96A2C" stroke-width="3" stroke-linecap="round"/>
+<path d="M6 53h7M6 118h7M347 53h7M347 118h7" stroke="#F0A33F" stroke-width="3" stroke-linecap="round"/>
+</g>
+</svg>
