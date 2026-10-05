@@ -28,3 +28,11 @@ Kaynak paketi: mevcut 88 kıyafet korunarak 100 yeni kıyafet eklendi. Beş yeni
 ## Doğrulama sınırı
 
 273 kod testi geçti; 100 yeni kıyafet toplu durağan önizlemelerde kontrol edildi. Eski görsel dosyalarının aynı kaldığı SHA-256 karşılaştırmasıyla doğrulandı. Bu ortamda Windows uygulaması, kurulum EXE'si ve canlı Electron/WebGL görünümü doğrulanmamıştır. Kaynak paketi bu sınırı açıkça bildirir.
+
+## Arayüz temaları — aynı 6.6.6 sürümü
+
+- Tema paketi ayrı bir 6.6.7 olarak değil, Nero 6.6.6 içinde yayınlanacak.
+- İlk yeni arayüz teması `Nero OS ’98` eklendi. Bugün, Notlar, İşler, Sayaç ve Rozetler sayfaları klasik masaüstü işletim sistemi metaforuna dönüştürülür.
+- Rozet çizimleri korunur; tema yalnızca rozetlerin çevresindeki pencere ve sekme dilini değiştirir.
+- Yerleşik UI temalarının varsayılan Nero karakter katmanlarını dosya çoğaltmadan miras alabilmesi için tema yöneticisine güvenli `inherits` desteği eklendi.
+- Varsayılan 440×660 panel düzeni korunur; dar panel için özel sıkıştırma kuralları bulunur.
