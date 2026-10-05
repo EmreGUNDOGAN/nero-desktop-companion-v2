@@ -3454,3 +3454,233 @@ html.no-scene[data-skin="doksanlar-kirtasiye"] :is(#view-home,#view-notes,#view-
   [data-skin="dedektif"] .todo-add { grid-template-columns:minmax(0,1fr) 76px 72px 36px; }
   [data-skin="dedektif"] .digits { font-size:44px; }
 }
+
+
+/* ==========================================================================
+   YÖRÜNGE KONTROL MERKEZİ — retro görev kontrol odası
+   Neon/cyberpunk yok: krem plastik, turuncu CRT, fiziksel switch.
+   ========================================================================== */
+[data-skin="yorunge"] {
+  --serif:"Bricolage Grotesque","Segoe UI",sans-serif;
+  --text:"Libre Franklin","Segoe UI",sans-serif;
+  --hand:"Space Mono","Courier New",monospace;
+  --soft-shadow:0 5px 15px rgba(50,45,36,.18);
+  --radius:5px;
+}
+[data-skin="yorunge"] .shell {
+  inset:10px; border:2px solid #5E5B4D; border-radius:10px;
+  background:#D8D2BE;
+  background-image:linear-gradient(rgba(255,255,255,.16) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.10) 1px,transparent 1px);
+  background-size:12px 12px;
+  box-shadow:0 14px 30px rgba(46,42,34,.30),inset 0 0 0 3px #EEE8D6;
+}
+[data-skin="yorunge"] .top {
+  padding:14px 18px 11px; background:#C8C1AA; border-bottom:3px solid #6E6A59; color:#2F332F;
+}
+[data-skin="yorunge"] h1 {
+  font:800 24px/1 "Bricolage Grotesque",sans-serif; color:#313631; letter-spacing:-.01em; font-variation-settings:normal;
+}
+[data-skin="yorunge"] .tagline {
+  display:block; margin:5px 0 0; color:#A24E21;
+  font:700 9px/1 "Space Mono",monospace; letter-spacing:.07em; text-transform:uppercase;
+}
+[data-skin="yorunge"] .mood-note {
+  display:inline-block; margin:7px 0 0; padding:4px 7px;
+  border:1px solid #77715F; border-radius:2px; background:#E8E2CF;
+  color:#40443F; font:700 10px/1.2 "Space Mono",monospace;
+}
+[data-skin="yorunge"] #mood-label { color:#A24E21; }
+[data-skin="yorunge"] .window-controls > :is(.close,.bee-launch) {
+  border:1px solid #6D6857; border-radius:3px; background:#DCD5BF; color:#313631;
+  box-shadow:inset 1px 1px 0 #F8F4E8,inset -1px -1px 0 #9B9480;
+}
+[data-skin="yorunge"] .window-controls > .bee-launch { font:700 9px/1 "Space Mono",monospace; }
+
+[data-skin="yorunge"] .tabs {
+  margin:9px 14px 4px; padding:6px; gap:4px; border-radius:5px;
+  background:#8F8C79; border:1px solid #625F52; box-shadow:inset 0 2px 4px rgba(55,52,44,.24);
+}
+[data-skin="yorunge"] .tabs button {
+  height:35px; border:1px solid #646052; border-radius:3px;
+  background:#DAD3BE; color:#373B36; box-shadow:inset 1px 1px 0 #F6F2E6,inset -1px -1px 0 #9A927E;
+  font:700 8.5px/1 "Space Mono",monospace; text-transform:uppercase;
+}
+[data-skin="yorunge"] .tabs button[aria-selected="true"] {
+  background:#C9672E; color:#FFF4DF; box-shadow:inset 0 2px 2px #8E3F18;
+}
+[data-skin="yorunge"] .tabs svg { display:none; }
+[data-skin="yorunge"] .tabs button::before {
+  content:""; width:8px; height:8px; flex:none; border-radius:50%;
+  border:1px solid #5F5A4C; background:#7C866A; box-shadow:inset 0 0 0 2px #B8BEA3;
+}
+[data-skin="yorunge"] .tabs button[aria-selected="true"]::before {
+  background:#F2B04A; box-shadow:0 0 4px rgba(242,176,74,.45),inset 0 0 0 2px #FFD899;
+}
+[data-skin="yorunge"] main { background:#B6B09C; }
+[data-skin="yorunge"] .view {
+  padding:13px 16px 22px;
+  background:linear-gradient(180deg,#BDB7A4,#AAA592);
+}
+
+[data-skin="yorunge"] .card {
+  position:relative; border:1px solid #77715F; background:#EAE4D2; color:#343833;
+  box-shadow:inset 0 0 0 2px rgba(255,255,255,.25),0 4px 10px rgba(55,51,43,.15);
+}
+[data-skin="yorunge"] .card-head h3,[data-skin="yorunge"] .section-heading h3 {
+  font:800 11px/1 "Bricolage Grotesque",sans-serif; text-transform:uppercase; letter-spacing:.04em;
+}
+[data-skin="yorunge"] .pill,[data-skin="yorunge"] .chip {
+  border:1px solid #625E50; border-radius:3px; background:#D6CEB8; color:#333833;
+  box-shadow:inset 1px 1px 0 #F7F2E4,inset -1px -1px 0 #918A76;
+  font:700 9px/1 "Space Mono",monospace; text-transform:uppercase;
+}
+[data-skin="yorunge"] .pill.primary { background:#C9672E; color:#FFF3DE; border-color:#8D411B; }
+[data-skin="yorunge"] .pill:active { transform:none; translate:1px 1px; }
+
+[data-skin="yorunge"] .hello h2 { font-family:"Bricolage Grotesque",sans-serif; font-weight:800; }
+[data-skin="yorunge"] .hello p { font-family:"Space Mono",monospace; color:#595A51; }
+[data-skin="yorunge"] .sticky-note {
+  background:#DBD2AF; border:1px solid #8B805B; border-radius:2px; rotate:-1deg; font-family:"Space Mono",monospace;
+}
+[data-skin="yorunge"] .nero-says::before {
+  content:"MISSION CONTROL MESSAGE"; display:block; margin:-3px 0 7px; color:#A24E21;
+  font:700 8px/1 "Space Mono",monospace; letter-spacing:.07em;
+}
+[data-skin="yorunge"] .tiles { counter-reset:module; gap:7px; }
+[data-skin="yorunge"] .tile { counter-increment:module; padding-top:29px; }
+[data-skin="yorunge"] .tile::before {
+  content:"MODULE 0" counter(module); position:absolute; left:9px; top:8px; color:#A24E21;
+  font:700 8px/1 "Space Mono",monospace;
+}
+[data-skin="yorunge"] .tile::after {
+  content:""; position:absolute; right:9px; top:8px; width:8px; height:8px; border-radius:50%;
+  background:#7B865F; box-shadow:inset 0 0 0 2px #C2C8AF;
+}
+[data-skin="yorunge"] .tile strong { font:800 24px/1 "Bricolage Grotesque",sans-serif; color:#38483C; }
+[data-skin="yorunge"] .week::before {
+  content:"7-DAY TELEMETRY"; display:block; margin:-4px 0 8px; color:#A24E21;
+  font:700 8px/1 "Space Mono",monospace; letter-spacing:.07em;
+}
+[data-skin="yorunge"] .bar i { border-radius:1px; background:#7B865F; }
+[data-skin="yorunge"] .bar.today i { background:#C9672E; }
+[data-skin="yorunge"] .totals::before {
+  content:"MISSION SUMMARY"; display:block; margin:-4px 0 8px; color:#A24E21;
+  font:700 8px/1 "Space Mono",monospace; letter-spacing:.07em;
+}
+
+[data-skin="yorunge"] .notes { counter-reset:log; gap:9px; }
+[data-skin="yorunge"] .notes li {
+  counter-increment:log; min-height:124px; padding:36px 11px 10px;
+  border:1px solid #77715F; border-radius:3px; background:#DFD8C5 !important;
+  box-shadow:inset 0 0 0 2px rgba(255,255,255,.20); rotate:0deg !important;
+}
+[data-skin="yorunge"] .notes li::before {
+  content:"LOG " counter(log,decimal-leading-zero) " · N-066"; position:absolute; left:9px; top:8px;
+  width:auto; height:auto; translate:0; rotate:0; background:none; color:#A24E21;
+  font:700 8px/1 "Space Mono",monospace; letter-spacing:.05em;
+}
+[data-skin="yorunge"] .notes li::after {
+  content:"REC"; position:absolute; right:9px; top:7px; padding:2px 5px; border:1px solid #7A705E;
+  color:#56634A; font:700 8px/1 "Space Mono",monospace;
+}
+[data-skin="yorunge"] .notes li.new-note { border-style:dashed; background:#CFC8B5 !important; }
+[data-skin="yorunge"] .notes li.new-note::before { content:"NEW MISSION LOG"; }
+[data-skin="yorunge"] .notes li.new-note::after { display:none; }
+[data-skin="yorunge"] .note-title { font:700 12.5px/1.25 "Libre Franklin",sans-serif; }
+[data-skin="yorunge"] .note-preview { font:400 11px/1.45 "Space Mono",monospace; }
+[data-skin="yorunge"] .paper {
+  padding-top:39px; border:1px solid #6D6757; border-radius:3px; background:#E4DDCA;
+  box-shadow:inset 0 0 0 3px rgba(255,255,255,.19);
+}
+[data-skin="yorunge"] .paper::before {
+  content:"MISSION LOG · N-066 · ORBITAL CONTROL"; position:absolute; top:0; left:0; right:0; height:31px;
+  padding:9px 11px 0; box-sizing:border-box; background:#686B5C; color:#F5EEDA;
+  font:700 8px/1 "Space Mono",monospace; letter-spacing:.06em;
+}
+[data-skin="yorunge"] .paper .tape,[data-skin="yorunge"] .paper .clip { display:none; }
+[data-skin="yorunge"] #note-body {
+  margin:0 8px 8px; min-height:330px; padding:13px; border:1px inset #9E9782;
+  background:#F2ECDC; background-image:none; font:400 11.5px/1.55 "Space Mono",monospace;
+}
+
+[data-skin="yorunge"] .todo-add { grid-template-columns:minmax(0,1fr) 94px 88px 40px; gap:6px; }
+[data-skin="yorunge"] .todo-add > #todo-input,
+[data-skin="yorunge"] .todo-duration,[data-skin="yorunge"] .todo-time,[data-skin="yorunge"] .soft-input {
+  border:1px solid #6D6758; border-radius:3px; background:#EEE8D7; box-shadow:inset 1px 1px 2px rgba(60,57,48,.15);
+}
+[data-skin="yorunge"] .add {
+  border:1px solid #8D411B; border-radius:3px; background:#C9672E; box-shadow:inset 0 1px 0 #EBA069;
+}
+[data-skin="yorunge"] .list-card { padding-top:34px; counter-reset:checkitem; }
+[data-skin="yorunge"] .list-card::before {
+  content:"FLIGHT CHECKLIST · MISSION N-066"; position:absolute; left:10px; top:8px; color:#A24E21;
+  font:700 8px/1 "Space Mono",monospace; letter-spacing:.06em;
+}
+[data-skin="yorunge"] .todos li {
+  counter-increment:checkitem; position:relative; padding-left:38px; border-top:1px solid #BAB29D;
+}
+[data-skin="yorunge"] .todos li::before {
+  content:"C" counter(checkitem,decimal-leading-zero); position:absolute; left:2px; top:10px; width:26px; height:20px;
+  display:grid; place-items:center; border:1px solid #6F6959; background:#CCC3AC;
+  color:#A24E21; font:700 8px/1 "Space Mono",monospace;
+}
+[data-skin="yorunge"] .todos li.done::after {
+  content:"NOMINAL"; position:absolute; right:35px; top:8px; padding:2px 5px;
+  border:1px solid #71805D; color:#596849; font:700 7px/1 "Space Mono",monospace;
+}
+[data-skin="yorunge"] .check,[data-skin="yorunge"] .todo-stopwatch,[data-skin="yorunge"] .todo-archive {
+  border-radius:2px; border-color:#6B6657; background:#D0C7B0;
+}
+[data-skin="yorunge"] .todos li.done .check { background:#71805D; border-color:#536044; }
+[data-skin="yorunge"] .todo-footer { font:400 13px/1 "Space Mono",monospace; color:#3E443E; }
+
+[data-skin="yorunge"] .dial {
+  width:min(335px,91%); height:215px; border:2px solid #5C584C; border-radius:5px;
+  background:#CFC8B4; box-shadow:inset 0 0 0 4px #E7E0CD,0 7px 14px rgba(49,46,39,.20);
+}
+[data-skin="yorunge"] .dial::before {
+  content:"MISSION TIMER · N-066"; position:absolute; left:14px; right:14px; top:12px; height:26px;
+  padding:8px 9px 0; box-sizing:border-box; background:#5E6255; color:#F3ECD8;
+  font:700 8px/1 "Space Mono",monospace; letter-spacing:.07em;
+}
+[data-skin="yorunge"] .ring { display:none; }
+[data-skin="yorunge"] .dial-center {
+  inset:48px 24px 20px; border:2px inset #706A58; border-radius:4px;
+  background:#2B2F25;
+}
+[data-skin="yorunge"] .digits {
+  font:700 58px/1 "Space Mono",monospace; color:#F0A84A; text-shadow:0 0 5px rgba(240,168,74,.25);
+}
+[data-skin="yorunge"] .digits::before { content:"T-"; }
+[data-skin="yorunge"] .dial-label {
+  max-width:220px; font:700 9px/1.2 "Space Mono",monospace; color:#B9C49D; text-transform:uppercase;
+}
+[data-skin="yorunge"] .presets > button,[data-skin="yorunge"] .presets .custom {
+  border:1px solid #625E50; border-radius:3px; background:#D3CBB5;
+  box-shadow:inset 1px 1px 0 #F4EFDF,inset -1px -1px 0 #908974; font-family:"Space Mono",monospace;
+}
+[data-skin="yorunge"] .presets > button.on { background:#C9672E; color:#FFF2DE; }
+
+[data-skin="yorunge"] .badges {
+  background:#DDD6C2; border:2px solid #77715F; box-shadow:inset 0 0 0 3px rgba(255,255,255,.20);
+}
+[data-skin="yorunge"] .badge-rarity-tabs { padding:4px; gap:3px; border:1px solid #77715F; background:#C6BEA9; }
+[data-skin="yorunge"] .badge-rarity-tabs button {
+  border-radius:2px; border:1px solid #6D6758; background:#DAD3BE; font:700 8px/1 "Space Mono",monospace;
+}
+[data-skin="yorunge"] .badge-rarity-tabs button[aria-selected="true"] { background:#C9672E; color:#FFF3DF; }
+[data-skin="yorunge"] .badge-category-meta { font-family:"Space Mono",monospace; border-bottom:1px solid #A69E89; }
+[data-skin="yorunge"] .badge:hover { background:rgba(113,128,93,.10); }
+
+[data-skin="yorunge"] #view-settings .card::before {
+  content:"SYSTEM CONTROL PANEL"; display:block; margin:-4px 0 8px; color:#A24E21;
+  font:700 8px/1 "Space Mono",monospace; letter-spacing:.06em;
+}
+[data-skin="yorunge"] #view-settings :is(select,.chip,input) { border-radius:3px; }
+
+@container (max-width:410px) {
+  [data-skin="yorunge"] h1 { font-size:20px; }
+  [data-skin="yorunge"] .tabs button { font-size:7.5px; padding-inline:2px; }
+  [data-skin="yorunge"] .todo-add { grid-template-columns:minmax(0,1fr) 76px 72px 36px; }
+  [data-skin="yorunge"] .digits { font-size:48px; }
+}
