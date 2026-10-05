@@ -447,6 +447,30 @@
     }
   });
 
+  Object.assign(SKINS, {
+    tamir: {
+      ...SKINS.cozy,
+      tabs: { home: 'Tezgâh', notes: 'Fişler', todos: 'Tamir', timer: 'İşçilik', badges: 'Ustalık', settings: 'Ayar' },
+      brandTitle: 'Nero Tamir & Bakım',
+      beeLabel: 'Kovan Servisi',
+      newNote: 'YENİ SERVİS FİŞİ', newNoteSub: 'kabul kaydı',
+      saved: 'SERVİS KAYDI ALINDI', typing: 'FİŞ DOLDURULUYOR…',
+      todoPlaceholder: 'Tamir sırasına ne geliyor?', listTitle: 'TAMİR SIRASI <span>tezgâh iş emirleri</span>',
+      todoLeft: (n) => `${n} iş tezgâh bekliyor`, allDone: 'Tezgâh boş. Anahtarlar yerine döndü.',
+      timerIdle: 'İŞÇİLİK: HAZIR', timerRunning: 'TEZGÂH AKTİF', timerPaused: 'İŞÇİLİĞE ARA',
+      timerStart: 'ÇALIŞMAYA BAŞLA', timerPause: 'TEZGÂHI DURDUR', timerResume: 'DEVAM ET',
+      cancel: 'İŞİ KAPAT', cancelNote: '', talkMax: 'Usta',
+      noteBack: '‹ SERVİS FİŞLERİ', noteArchive: 'ESKİ SERVİS', noteDelete: 'FİŞİ İPTAL ET',
+      todoClear: 'Teslime hazırları arşivle',
+      quickFocus: '25 dk işçilik', quickTodo: 'İş emri aç', quickNote: 'Servis fişi',
+      badgeTitle: 'USTALIK PANOSU',
+      tagline: 'Usta Nero · küçük dükkân · büyük sabır',
+      sticky: 'bozuk değil. sadece naz yapıyor.',
+      subs: { theme: 'atölye görünümü', talk: 'usta yorumu' },
+      moodPrefix: 'Tezgâh durumu: ', moodLabels: null
+    }
+  });
+
   let skinName = 'cozy';
   const skin = () => SKINS[skinName] || SKINS.cozy;
 
