@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="../fonts/fonts.css">
   <link rel="stylesheet" href="panel.css">
   <link rel="stylesheet" href="skins.css">
+  <link rel="stylesheet" href="yorunge-v667.css">
 </head>
 <body>
   <div class="shell">
@@ -80,6 +81,26 @@
     <main>
       <!-- ANA SAYFA -->
       <section class="view" id="view-home" role="tabpanel" hidden>
+        <section class="yorunge-only yorunge-home-hero" aria-label="Yörünge görev köprüsü">
+          <div class="yorunge-viewport" aria-hidden="true">
+            <div class="yorunge-earth"></div>
+            <div class="yorunge-satellite">✦</div>
+            <span class="yorunge-star s1">•</span><span class="yorunge-star s2">•</span><span class="yorunge-star s3">•</span><span class="yorunge-star s4">•</span>
+          </div>
+          <div class="yorunge-crew-desk">
+            <img class="yorunge-nero" src="../../../themes/default/assets/wardrobe/outfit-space-17.png" alt="Nero görev kontrol masasında">
+            <div class="yorunge-console-dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+          </div>
+          <div class="yorunge-crew-screen">
+            <strong>CREW: NERO</strong>
+            <dl>
+              <div><dt>RUH HALİ</dt><dd id="yorunge-hero-mood">Nominal</dd></div>
+              <div><dt>BULUNDUĞU YER</dt><dd>Dünya</dd></div>
+              <div><dt>AKTİF GÖREV</dt><dd id="yorunge-hero-tasks">0</dd></div>
+            </dl>
+          </div>
+          <div class="yorunge-wall-note">BUGÜN DE<br>YÖRÜNGEDEYİZ.<br>DEVAM EDİYORUZ.</div>
+        </section>
         <div class="home-grid">
           <div class="card ritual" id="ritual" hidden>
             <p class="ritual-q">Bugün nasıl bir gün olsun?</p>
@@ -225,6 +246,11 @@
 
       <!-- ROZETLER -->
       <section class="view" id="view-badges" role="tabpanel" hidden>
+        <section class="yorunge-only yorunge-page-hero yorunge-patch-hero">
+          <div class="yorunge-patch-orbit" aria-hidden="true"><span>✦</span><i></i></div>
+          <div><span class="yorunge-kicker">MISSION PATCH ARCHIVE</span><strong>Görev Yamaları</strong><p>Her rozet, Nero’yla tamamladığın bir görevin izi.</p></div>
+          <div class="yorunge-mini-screen"><span>PATCHES</span><b id="yorunge-patch-count">0</b><small>kazanıldı</small></div>
+        </section>
         <div class="card badges">
           <div class="card-head"><h3>Rozetler</h3><span id="badge-count"></span></div>
           <div class="badge-rarity-tabs" id="badge-rarity-tabs" role="tablist" aria-label="Rozet kategorileri">
@@ -241,6 +267,11 @@
 
       <!-- NOTLAR -->
       <section class="view" id="view-notes" role="tabpanel">
+        <section class="yorunge-only yorunge-page-hero yorunge-log-hero">
+          <img src="../../../themes/default/assets/wardrobe/outfit-space-17.png" alt="" aria-hidden="true">
+          <div><span class="yorunge-kicker">MISSION LOG · N-066</span><strong>Görev Günlüğü</strong><p>Düşünceler, kararlar ve küçük ilerlemeler burada kayıt altında.</p></div>
+          <div class="yorunge-mini-screen"><span>LOG STATUS</span><b id="yorunge-log-count">0</b><small>kayıt</small></div>
+        </section>
         <div id="notes-list-view">
           <ul class="notes" id="notes-list"></ul>
           <details class="archive-drawer" id="notes-archive" hidden>
@@ -270,6 +301,12 @@
 
       <!-- YAPILACAKLAR -->
       <section class="view" id="view-todos" role="tabpanel" hidden>
+        <section class="yorunge-only yorunge-page-hero yorunge-control-hero">
+          <div class="yorunge-control-portrait"><img src="../../../themes/default/assets/wardrobe/outfit-space-17.png" alt="" aria-hidden="true"></div>
+          <div class="yorunge-control-copy"><span class="yorunge-kicker">FLIGHT CONTROL</span><strong>Kontrol Listesi</strong><p>Her açık iş bir sistem kontrolü. Birer birer nominale getir.</p></div>
+          <div class="yorunge-switch-bank" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          <div class="yorunge-mini-screen"><span>OPEN CHECKS</span><b id="yorunge-control-open">0</b><small>aktif</small></div>
+        </section>
         <form class="todo-add" id="todo-form" autocomplete="off">
           <input id="todo-input" type="text" maxlength="300" placeholder="Bugün ne yapıyoruz?">
           <label class="todo-duration" title="Planlanan süre (isteğe bağlı)">
@@ -308,6 +345,11 @@
 
       <!-- ZAMANLAYICI -->
       <section class="view" id="view-timer" role="tabpanel" hidden>
+        <section class="yorunge-only yorunge-timer-hero">
+          <div class="yorunge-timer-portrait"><img src="../../../themes/default/assets/wardrobe/outfit-space-17.png" alt="" aria-hidden="true"></div>
+          <div class="yorunge-timer-copy"><span class="yorunge-kicker">FOCUS MODULE</span><strong>T‑Zamanı</strong><p>Tek göreve kilitlen. Geri kalan sistemler bekleyebilir.</p></div>
+          <div class="yorunge-priority-panel"><span>BUGÜNÜN ODAK LİSTESİ</span><ul id="yorunge-focus-preview"></ul></div>
+        </section>
         <div class="dial">
           <div class="crown" aria-hidden="true"><i></i><b></b></div>
           <svg viewBox="0 0 200 200" class="ring" aria-hidden="true">
