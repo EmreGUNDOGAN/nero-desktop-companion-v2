@@ -1838,6 +1838,8 @@
       const bar = document.createElement('div');
       bar.className = `bar${i === st.week.length - 1 ? ' today' : ''}`;
       bar.title = `${d.focus} dk odak, ${d.todos} iş`;
+      bar.dataset.focus = String(d.focus || 0);
+      bar.dataset.todos = String(d.todos || 0);
       const col = document.createElement('i');
       col.style.height = `${Math.max(4, Math.round((d.focus / max) * 86))}px`;
       const label = document.createElement('span');
