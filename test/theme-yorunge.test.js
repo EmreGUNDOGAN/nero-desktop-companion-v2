@@ -23,7 +23,7 @@ test('Yörünge v2 kendi görev kontrol kabuğunu kullanır',()=>{
   assert.match(css,/\[data-skin="yorunge-v2"\] \.shell/);
   assert.match(css,/\[data-skin="yorunge-v2"\] \.top/);
   assert.match(css,/\[data-skin="yorunge-v2"\] \.tabs/);
-  assert.match(css,/#c95d1e/i);
-  assert.match(css,/#142235/i);
-  assert.doesNotMatch(css,/\[data-skin="yorunge"\]/);
+  assert.match(css,/#cf5d1d/i);
+  assert.match(css,/#152438/i);
+  assert.doesNotMatch(css,/\[data-skin="yorunge"\]/);\n  const legacy=fs.readFileSync(path.join(root,'src/renderer/panel/skins.css'),'utf8');\n  assert.doesNotMatch(legacy,/\[data-skin="yorunge"\]/);
 });
