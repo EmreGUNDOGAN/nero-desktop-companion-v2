@@ -3006,3 +3006,234 @@ html.no-scene[data-skin="doksanlar-kirtasiye"] :is(#view-home,#view-notes,#view-
   [data-skin="son-seans"] .todo-add { grid-template-columns:minmax(0,1fr) 76px 72px 36px; }
   [data-skin="son-seans"] .digits { font-size:48px; }
 }
+
+
+/* ==========================================================================
+   GECE EKSPRESİ — klasik gece treni / rota ve istasyon metaforu
+   ========================================================================== */
+[data-skin="gece-ekspresi"] {
+  --serif:"Playfair Display",Georgia,serif;
+  --text:"Libre Franklin","Segoe UI",sans-serif;
+  --hand:"Courier Prime","Courier New",monospace;
+  --soft-shadow:0 6px 16px rgba(10,17,30,.24);
+  --radius:7px;
+}
+[data-skin="gece-ekspresi"] .shell {
+  inset:10px; border:2px solid #152238; border-radius:12px;
+  background:#152238;
+  background-image:linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+  background-size:8px 100%;
+  box-shadow:0 15px 34px rgba(8,13,23,.38),inset 0 0 0 3px rgba(202,167,92,.13);
+}
+[data-skin="gece-ekspresi"] .top {
+  padding:15px 18px 11px; color:#F3E6C8;
+  background:linear-gradient(#243553,#16233A);
+  border-bottom:2px solid #B89A5C;
+}
+[data-skin="gece-ekspresi"] h1 {
+  font:600 27px/1 "Playfair Display",serif; color:#F2DEB2;
+  letter-spacing:.01em; font-variation-settings:normal;
+}
+[data-skin="gece-ekspresi"] .tagline {
+  display:block; margin:5px 0 0; color:#C8B88F;
+  font:700 9px/1 "Libre Franklin",sans-serif; letter-spacing:.11em; text-transform:uppercase;
+}
+[data-skin="gece-ekspresi"] .mood-note {
+  margin:7px 0 0; color:#D9CDAF; font:500 12px/1.2 "Libre Franklin",sans-serif;
+}
+[data-skin="gece-ekspresi"] #mood-label { color:#FFF1CC; font-weight:800; }
+[data-skin="gece-ekspresi"] .window-controls > :is(.close,.bee-launch) {
+  border:1px solid #7A6337; border-radius:4px; background:#C2A35F; color:#17233A;
+  box-shadow:inset 0 1px 0 #E6D3A0,0 2px 0 #0C1320;
+}
+[data-skin="gece-ekspresi"] .window-controls > .bee-launch { font-size:9px; padding-inline:8px; }
+
+[data-skin="gece-ekspresi"] .tabs {
+  margin:9px 14px 4px; padding:4px; gap:3px; border-radius:0;
+  background:#111D31; border-top:1px solid #6E5B38; border-bottom:1px solid #6E5B38;
+}
+[data-skin="gece-ekspresi"] .tabs button {
+  height:34px; border:1px solid #7E6840; border-radius:2px;
+  background:#D9C395; color:#25324A; font:700 9px/1 "Libre Franklin",sans-serif;
+  text-transform:uppercase;
+}
+[data-skin="gece-ekspresi"] .tabs button[aria-selected="true"] {
+  background:#7B2430; color:#FFF0CF; box-shadow:inset 0 -3px 0 #C6A85E;
+}
+[data-skin="gece-ekspresi"] .tabs svg { width:12px; height:12px; }
+[data-skin="gece-ekspresi"] main { background:#101A2B; }
+[data-skin="gece-ekspresi"] .view {
+  padding:13px 16px 22px;
+  background:
+    linear-gradient(90deg,transparent 0 22px,rgba(202,167,92,.08) 22px 23px,transparent 23px),
+    radial-gradient(circle at 50% 0,rgba(215,191,140,.08),transparent 44%),
+    #101A2B;
+}
+
+[data-skin="gece-ekspresi"] .card {
+  position:relative; border:1px solid #9E8757; background:#F1E5CA; color:#263247;
+  box-shadow:0 5px 14px rgba(8,13,22,.23);
+}
+[data-skin="gece-ekspresi"] .card-head h3,
+[data-skin="gece-ekspresi"] .section-heading h3 {
+  color:#6F2631; font-family:"Playfair Display",serif;
+}
+[data-skin="gece-ekspresi"] .pill,[data-skin="gece-ekspresi"] .chip {
+  border:1px solid #6D5B39; border-radius:3px; background:#DCC797; color:#20304A;
+  box-shadow:0 2px 0 #0D1625,inset 0 1px 0 #F6E8C7; font:700 10px/1 "Libre Franklin",sans-serif;
+}
+[data-skin="gece-ekspresi"] .pill.primary { background:#7B2430; color:#FFF1D4; border-color:#4C1720; }
+[data-skin="gece-ekspresi"] .pill:active { transform:none; translate:0 2px; }
+
+[data-skin="gece-ekspresi"] .hello { color:#F1DFBA; }
+[data-skin="gece-ekspresi"] .hello h2 { font-family:"Playfair Display",serif; }
+[data-skin="gece-ekspresi"] .hello p { color:#B7A888; font-family:"Courier Prime",monospace; }
+[data-skin="gece-ekspresi"] .sticky-note {
+  background:#D8C28F; border:1px solid #7D663E; border-radius:2px; rotate:-1deg;
+  font-family:"Courier Prime",monospace;
+}
+[data-skin="gece-ekspresi"] .nero-says::before {
+  content:"VAGON NOTU"; display:block; margin:-3px 0 7px; color:#7B2430;
+  font:700 9px/1 "Libre Franklin",sans-serif; letter-spacing:.09em;
+}
+[data-skin="gece-ekspresi"] .tiles { counter-reset:vagon; }
+[data-skin="gece-ekspresi"] .tile { counter-increment:vagon; padding-top:30px; }
+[data-skin="gece-ekspresi"] .tile::before {
+  content:"VAGON 0" counter(vagon); position:absolute; left:9px; top:8px; color:#6F2631;
+  font:700 8px/1 "Courier Prime",monospace; letter-spacing:.08em;
+}
+[data-skin="gece-ekspresi"] .tile strong { font-family:"Playfair Display",serif; color:#6A2932; }
+[data-skin="gece-ekspresi"] .week::before {
+  content:"HAFTALIK HAT"; display:block; margin:-4px 0 9px; color:#6F2631;
+  font:700 9px/1 "Libre Franklin",sans-serif; letter-spacing:.08em;
+}
+[data-skin="gece-ekspresi"] .week { overflow:hidden; }
+[data-skin="gece-ekspresi"] .week::after {
+  content:""; position:absolute; left:18px; right:18px; bottom:18px; height:2px; background:#7B2430; opacity:.45;
+}
+[data-skin="gece-ekspresi"] .bar i { border-radius:1px; background:#B99B59; }
+[data-skin="gece-ekspresi"] .bar.today i { background:#7B2430; }
+[data-skin="gece-ekspresi"] .totals::before {
+  content:"SEFER ÖZETİ"; display:block; margin:-4px 0 8px; color:#6F2631;
+  font:700 9px/1 "Libre Franklin",sans-serif; letter-spacing:.08em;
+}
+
+[data-skin="gece-ekspresi"] .notes { counter-reset:bilet; gap:10px; }
+[data-skin="gece-ekspresi"] .notes li {
+  counter-increment:bilet; min-height:124px; padding:36px 12px 10px;
+  border:1px solid #8E774A; border-radius:2px; background:#E9D6AB !important;
+  box-shadow:0 4px 10px rgba(12,17,27,.19); rotate:0deg !important;
+}
+[data-skin="gece-ekspresi"] .notes li::before {
+  content:"BİLET " counter(bilet,decimal-leading-zero) " · GECE SEFERİ";
+  position:absolute; left:10px; top:8px; width:auto; height:auto; translate:0; rotate:0;
+  background:none; color:#6F2631; font:700 8px/1 "Courier Prime",monospace; letter-spacing:.05em;
+}
+[data-skin="gece-ekspresi"] .notes li::after {
+  content:"06"; position:absolute; right:9px; top:7px; width:22px; height:22px; display:grid; place-items:center;
+  border:1px solid #75603B; border-radius:50%; color:#31435E; font:700 8px/1 "Courier Prime",monospace;
+}
+[data-skin="gece-ekspresi"] .notes li.new-note { border-style:dashed; background:#D5C195 !important; }
+[data-skin="gece-ekspresi"] .notes li.new-note::before { content:"YENİ BİLET NOTU"; }
+[data-skin="gece-ekspresi"] .notes li.new-note::after { display:none; }
+[data-skin="gece-ekspresi"] .note-title { font:700 13px/1.2 "Libre Franklin",sans-serif; }
+[data-skin="gece-ekspresi"] .note-preview { font:400 12px/1.45 "Courier Prime",monospace; }
+[data-skin="gece-ekspresi"] .paper {
+  padding-top:38px; border:1px solid #79633D; background:#F0DFC0; box-shadow:0 6px 15px rgba(8,13,22,.25);
+}
+[data-skin="gece-ekspresi"] .paper::before {
+  content:"YOLCULUK DEFTERİ · HAT 06"; position:absolute; top:0; left:0; right:0; height:30px;
+  padding:9px 12px 0; box-sizing:border-box; background:#263857; color:#F4E6C6;
+  font:700 9px/1 "Libre Franklin",sans-serif; letter-spacing:.08em;
+}
+[data-skin="gece-ekspresi"] .paper .tape,[data-skin="gece-ekspresi"] .paper .clip { display:none; }
+[data-skin="gece-ekspresi"] #note-body {
+  margin:0 8px 8px; min-height:330px; padding:13px 15px; border-left:3px solid rgba(123,36,48,.35);
+  background:repeating-linear-gradient(transparent 0 27px,rgba(67,73,86,.14) 27px 28px);
+  font:400 12.5px/28px "Courier Prime",monospace;
+}
+
+[data-skin="gece-ekspresi"] .todo-add { grid-template-columns:minmax(0,1fr) 95px 88px 40px; gap:6px; }
+[data-skin="gece-ekspresi"] .todo-add > #todo-input,
+[data-skin="gece-ekspresi"] .todo-duration,
+[data-skin="gece-ekspresi"] .todo-time,
+[data-skin="gece-ekspresi"] .soft-input {
+  border:1px solid #75603C; border-radius:3px; background:#F0E5CC; box-shadow:inset 0 1px 2px rgba(20,28,40,.14);
+}
+[data-skin="gece-ekspresi"] .add {
+  border:1px solid #4E1720; border-radius:3px; background:#7B2430; box-shadow:0 2px 0 #0A111D;
+}
+[data-skin="gece-ekspresi"] .list-card { padding-top:34px; counter-reset:durak; }
+[data-skin="gece-ekspresi"] .list-card::before {
+  content:"DURAK ÇİZELGESİ · HAT 06"; position:absolute; left:10px; top:8px; color:#6F2631;
+  font:700 9px/1 "Courier Prime",monospace; letter-spacing:.07em;
+}
+[data-skin="gece-ekspresi"] .todos { position:relative; }
+[data-skin="gece-ekspresi"] .todos::before {
+  content:""; position:absolute; left:12px; top:8px; bottom:8px; width:2px; background:#7B2430; opacity:.35;
+}
+[data-skin="gece-ekspresi"] .todos li {
+  counter-increment:durak; position:relative; padding-left:38px; border-top:1px solid #C5AF88;
+}
+[data-skin="gece-ekspresi"] .todos li::before {
+  content:counter(durak,decimal-leading-zero); position:absolute; z-index:1; left:2px; top:10px;
+  width:22px; height:22px; display:grid; place-items:center; border:2px solid #7B2430; border-radius:50%;
+  background:#F0E5CC; color:#6F2631; font:700 8px/1 "Courier Prime",monospace;
+}
+[data-skin="gece-ekspresi"] .todos li.done::after {
+  content:"VARILDI"; position:absolute; right:35px; top:8px; padding:2px 5px;
+  border:1px solid rgba(123,36,48,.55); color:#7B2430; font:700 7px/1 "Libre Franklin",sans-serif; letter-spacing:.06em;
+}
+[data-skin="gece-ekspresi"] .check,[data-skin="gece-ekspresi"] .todo-stopwatch,[data-skin="gece-ekspresi"] .todo-archive {
+  border-radius:2px; border-color:#7C6742; background:#DDC99D;
+}
+[data-skin="gece-ekspresi"] .todos li.done .check { background:#7B2430; border-color:#4C1720; }
+[data-skin="gece-ekspresi"] .todo-footer { color:#D5C6A7; font:400 14px/1 "Courier Prime",monospace; }
+[data-skin="gece-ekspresi"] .todo-footer .link { color:#E8D8B7; }
+
+[data-skin="gece-ekspresi"] .dial {
+  width:min(325px,90%); height:220px; border:2px solid #0D1625; border-radius:6px;
+  background:#DBC69A; box-shadow:0 8px 18px rgba(8,13,22,.35),inset 0 0 0 4px #F1E5CA;
+}
+[data-skin="gece-ekspresi"] .dial::before {
+  content:"İSTASYON SAATİ · PERON 06"; position:absolute; left:15px; right:15px; top:12px; height:26px;
+  padding:8px 9px 0; box-sizing:border-box; background:#263857; color:#F2E3C1;
+  font:700 9px/1 "Libre Franklin",sans-serif; letter-spacing:.08em;
+}
+[data-skin="gece-ekspresi"] .ring { opacity:.18; }
+[data-skin="gece-ekspresi"] .ring-track { stroke:#4D5564; }
+[data-skin="gece-ekspresi"] .ring-fill { stroke:#7B2430; }
+[data-skin="gece-ekspresi"] .dial-center {
+  inset:47px 30px 20px; border:2px solid #263857; border-radius:50%;
+  background:radial-gradient(circle,#F8F0DD 0 58%,#C8B281 59% 62%,#F0E3C4 63%);
+}
+[data-skin="gece-ekspresi"] .digits { font:700 52px/1 "Courier Prime",monospace; color:#233149; }
+[data-skin="gece-ekspresi"] .dial-label { max-width:205px; font:700 10px/1.2 "Libre Franklin",sans-serif; color:#7B2430; text-transform:uppercase; }
+[data-skin="gece-ekspresi"] .presets > button,[data-skin="gece-ekspresi"] .presets .custom {
+  border:1px solid #6A5838; border-radius:2px; background:#D9C397; box-shadow:0 2px 0 #0E1725;
+}
+[data-skin="gece-ekspresi"] .presets > button.on { background:#7B2430; color:#FFF0CF; }
+
+[data-skin="gece-ekspresi"] .badges {
+  background:#E8D7B5; border:4px double #6D5836; box-shadow:0 5px 14px rgba(8,13,22,.26);
+}
+[data-skin="gece-ekspresi"] .badge-rarity-tabs { border-bottom:1px solid #9C8353; }
+[data-skin="gece-ekspresi"] .badge-rarity-tabs button {
+  border-radius:2px; background:#D4BF91; font:700 9px/1 "Libre Franklin",sans-serif;
+}
+[data-skin="gece-ekspresi"] .badge-rarity-tabs button[aria-selected="true"] { background:#263857; color:#F7EACB; }
+[data-skin="gece-ekspresi"] .badge-category-meta { font-family:"Courier Prime",monospace; border-bottom:1px solid #A58E65; }
+[data-skin="gece-ekspresi"] .badge:hover { background:rgba(123,36,48,.08); }
+
+[data-skin="gece-ekspresi"] #view-settings .card::before {
+  content:"VAGON KONTROL PANELİ"; display:block; margin:-4px 0 8px; color:#6F2631;
+  font:700 9px/1 "Courier Prime",monospace; letter-spacing:.07em;
+}
+[data-skin="gece-ekspresi"] #view-settings :is(select,.chip,input) { border-radius:3px; }
+
+@container (max-width:410px) {
+  [data-skin="gece-ekspresi"] h1 { font-size:23px; }
+  [data-skin="gece-ekspresi"] .tabs button { font-size:8px; padding-inline:2px; }
+  [data-skin="gece-ekspresi"] .todo-add { grid-template-columns:minmax(0,1fr) 76px 72px 36px; }
+  [data-skin="gece-ekspresi"] .digits { font-size:45px; }
+}
