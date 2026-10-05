@@ -693,6 +693,8 @@
     const k = skin();
     const key = m.asleep ? 'asleep' : (m.stage === 'content' && m.happiness >= 80 ? 'happy' : m.stage);
     $('mood-label').textContent = k.moodLabels ? `${k.moodPrefix}${k.moodLabels[key]}` : `${k.moodPrefix || ''}${m.label.toLowerCase()}.`;
+    const orbitMood = $('yorunge-hero-mood');
+    if (orbitMood) orbitMood.textContent = m.label || 'Nominal';
     let detail = '';
     if (m.asleep) detail = 'sen uzaktayken kestiriyor.';
     else if (m.ignoredMinutes >= 60) {
@@ -765,6 +767,8 @@
     const notes = state.notes || [];
     const activeNotes = notes.filter((note) => !note.archivedAt);
     const archivedNotes = notes.filter((note) => note.archivedAt);
+    const orbitLogCount = $('yorunge-log-count');
+    if (orbitLogCount) orbitLogCount.textContent = String(activeNotes.length);
 
     const add = document.createElement('li');
     add.className = 'new-note';
@@ -944,6 +948,28 @@
 
   setInterval(updateTodoStopwatchClocks, 1000);
 
+  function renderYorungeFocusPreview(activeTodos) {
+    const root = $('yorunge-focus-preview');
+    if (!root) return;
+    root.textContent = '';
+    const openTodos = activeTodos.filter((todo) => !todo.done).slice(0, 4);
+    if (!openTodos.length) {
+      const li = document.createElement('li');
+      li.className = 'empty-focus';
+      li.textContent = 'Tüm sistemler nominal.';
+      root.appendChild(li);
+      return;
+    }
+    for (const todo of openTodos) {
+      const li = document.createElement('li');
+      const dot = document.createElement('i');
+      const text = document.createElement('span');
+      text.textContent = todo.text;
+      li.append(dot, text);
+      root.appendChild(li);
+    }
+  }
+
   function renderTodos() {
     if (document.querySelector('.todo-text[contenteditable="true"]')) return;
     const list = $('todo-list');
@@ -955,6 +981,11 @@
     $('todo-footer').hidden = activeTodos.length === 0;
     const open = activeTodos.filter((t) => !t.done).length;
     $('todo-count').textContent = open ? skin().todoLeft(open) : skin().allDone;
+    const orbitOpen = $('yorunge-control-open');
+    if (orbitOpen) orbitOpen.textContent = String(open);
+    const orbitHeroTasks = $('yorunge-hero-tasks');
+    if (orbitHeroTasks) orbitHeroTasks.textContent = String(open);
+    renderYorungeFocusPreview(activeTodos);
     const k = skin();
     $('delay').hidden = activeTodos.length === 0;
     if (k.delayMode === 'done') {
@@ -1377,6 +1408,8 @@
     const normal = list.filter((a) => a.rarity !== 'gizli');
     const got = normal.filter((a) => a.unlockedAt).length;
     $('badge-count').textContent = `${got} / 100`;
+    const orbitPatchCount = $('yorunge-patch-count');
+    if (orbitPatchCount) orbitPatchCount.textContent = String(got);
     renderBadgeRarityTabs(list);
 
     const filtered = list.filter((a) => a.rarity === activeBadgeRarity);
