@@ -1,4 +1,4 @@
-# Bütçe kapsamı — 6.9.3
+# Bütçe kapsamı — 6.9.4
 
 - [x] Sekiz sekme: Özet, İşlemler, Hesaplar, Bütçeler, Ödemeler, Raporlar, Takvim, Akademi.
 - [x] Mevcut pencere boyutlarına ve bütün yerleşik temalara uyum.
@@ -36,12 +36,12 @@ Banka entegrasyonu, otomatik banka aktarımı, bulut senkronizasyonu ve ek oyun 
 - [x] 46 terim, arama, konu filtresi, okuma/kaydetme ilerlemesi.
 - [x] Dört hesaplayıcı, doğrulanmış resmi kaynaklar, yayınevi kaynaklı okuma rafı.
 
-Sürüm 6.9.3 olarak hazırlanmıştır. Kaynak ZIP’i, kurulum dosyaları ve changelog GitHub Actions paketinde sunulur.
+Sürüm 6.9.4 olarak hazırlanmıştır. Kaynak ZIP’i, kurulum dosyaları ve changelog GitHub Actions paketinde sunulur.
 
 
 ## Son onaylanan kapsam
 
-- [x] Modern finans / Nero temasına uyumlu görünüm seçimi ve kalıcı tercih.
+- [x] Modern finans / Nero temasına uyumlu / Kartlı finans görünüm seçimi ve kalıcı tercih.
 - [x] Modern görünümde sabit sol menü; Nero görünümünde sabit bölüm sekmeleri.
 - [x] Mevcut para, beklenen gelir, aylık ödeme, toplam taksit borcu ayrımı.
 - [x] Taksit ayrıntısı ve yanlış ödeme geri alma; çift giderin önlenmesi.
@@ -51,4 +51,10 @@ Sürüm 6.9.3 olarak hazırlanmıştır. Kaynak ZIP’i, kurulum dosyaları ve c
 - [x] Takvim ay okları, tıklanabilir özet alanları ve GG.AA.YYYY tarihleri.
 - [x] 100 marka ikonu ve taslağı koruyan ikon seçicisi.
 - [x] Akademi modül menüsü, dört adımlı okuma, quiz, kaldığın yer, 46 terim ve dört hesaplayıcı.
-- [x] İki görünüm × 13 Nero teması × üç boyut × iki yazı boyutunda arayüz kontrolü.
+- [x] Üç görünüm × 13 Nero teması × üç boyut × iki yazı boyutunda arayüz kontrolü.
+
+- [x] Bütçeden Bugün, Notlar, İşler, Sayaç, Rozetler ve Ayarlara geçişte finans sayfasının gerçekten gizlenmesi; üç görünümde regresyon kontrolü.
+- [x] Kullanıcının ikinci referansına göre üçüncü Kartlı finans görünümü; gerçek kategori sıralaması, aylık liste bağlantıları, bütçe göstergeleri, sabit üst menü.
+
+- [x] Onaylanan modern önizleme: yerel SVG menü/kategori ikonları, dairesel yön göstergeleri, tam genişlik limit kartları.
+- [x] Sekiz finans bölümünde ve dialoglarda ortak Kartlı finans tipografisi ve kontroller; görünür klavye odağı, azaltılmış hareket desteği.

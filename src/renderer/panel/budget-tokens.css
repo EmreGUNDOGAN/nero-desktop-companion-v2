@@ -16,3 +16,16 @@
   --finance-soft:#eef0ff; --finance-soft-income:#e8f7ee; --finance-soft-expense:#fff0ef;
   --text:system-ui,-apple-system,"Segoe UI",sans-serif; --serif:var(--text); --finance-font:var(--text);
 }
+/* Third, opt-in desktop skin: palette follows the user's navy/teal/amber reference. */
+#view-budget[data-finance-theme="cards"] {
+  --ink:#192b43; --muted:#64748b; --accent:#237b70; --accent-ink:#fff; --secondary:#237b70; --danger:#ae3647;
+  --line:#e2e7ed; --surface:#fff; --paper:#f4f6f8; --finance-sidebar:#fff; --finance-income:#19734f;
+  --finance-soft:#eaf5f2; --finance-soft-income:#eaf5f2; --finance-soft-expense:#fff0ef;
+  --finance-navy-affordance:#193f78; --finance-hover-surface:#edf3f7; --finance-motion:140ms; --finance-radius-round:50%; --finance-nav-icon:16px; --finance-symbol-size:32px; --finance-dialog-max:560px;
+  --finance-navy:#071d49; --finance-on-navy:#fff; --finance-navy-muted:#c4d3eb;
+  --finance-card-amber:#a85d00; --finance-card-teal:#237b70; --finance-card-blue:#2863ad;
+  --finance-month-income:#68d5ac; --finance-month-expense:#ffacac;
+  --finance-category-color:var(--finance-card-teal); --finance-category-ink:#fff;
+  --finance-space-6:32px; --finance-cards-amount:30px; --finance-nav-height:32px; --finance-cards-rank:24px; --finance-category-height:96px;
+  --text:system-ui,-apple-system,"Segoe UI",sans-serif; --serif:var(--text); --finance-font:var(--text);
+}

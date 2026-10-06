@@ -1,4 +1,4 @@
-# Nero 6.9.3 — Bütçe rehberi
+# Nero 6.9.4 — Bütçe rehberi
 
 ## Kaynaktan çalıştırma
 
@@ -15,7 +15,7 @@ Windows kurulum dosyasını yerel olarak üretmek için Windows üzerinde:
 npm run dist
 ```
 
-Kaynak paketinde `node_modules` ve derleme çıktısı bulunmaz. Üstteki komut bağımlılıkları indirir. Sürüm `package.json` ve kilit dosyasında 6.9.3'dir. Bütçe için yeni npm bağımlılığı eklenmedi.
+Kaynak paketinde `node_modules` ve derleme çıktısı bulunmaz. Üstteki komut bağımlılıkları indirir. Sürüm `package.json` ve kilit dosyasında 6.9.4'dir. Bütçe için yeni npm bağımlılığı eklenmedi.
 
 ## İlk kullanım
 
@@ -128,9 +128,10 @@ Hesaplayıcılar bütçe hesabına işlem eklemez. El kitabının metin sürüm�
 Finans menüsündeki **Finans ayarları → Finans teması** seçimi kaydedilir:
 
 - **Modern finans:** Sabit profesyonel palet, sistem yazısı ve sol bölüm menüsü. Nero’nun dış çerçevesi mevcut uygulama temasında kalır.
+- **Kartlı finans:** Koyu lacivert bakiye, renkli gerçek harcama kategorileri, aylık gelir/gider bağlantıları ve kompakt bütçe kartları. Finans menüsü üstte sabit kalır; telefon alt menüsü kullanılmaz. Kartlar ilgili işlem, hesap, rapor veya bütçe sayfasına açılır.
 - **Nero temasına uyumlu:** Bütçe, mevcut Nero temasının renk, yazı ve yüzeylerini kullanır. Uygulama temasını değiştirdiğinde finans görünümü de uyarlanır.
 
-İki görünüm de aynı verileri kullanır. Menüler içerik kaydırılırken görünür kalır; sağ/sol ay okları seçili dönemi değiştirir. Tarih girişleri GG.AA.YYYY biçimindedir. Yeni kayıtların başlangıç tarihi bugündür; istediğin tarihe değiştirilebilir.
+Üç görünüm de aynı verileri kullanır. Menüler içerik kaydırılırken görünür kalır; sağ/sol ay okları seçili dönemi değiştirir. Tarih girişleri GG.AA.YYYY biçimindedir. Yeni kayıtların başlangıç tarihi bugündür; istediğin tarihe değiştirilebilir.
 
 ## Maaş ve otomatik abonelik
 

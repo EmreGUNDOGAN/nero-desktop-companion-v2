@@ -1,4 +1,4 @@
-# Nero Finans Akademisi — 6.9.3
+# Nero Finans Akademisi — 6.9.4
 
 14 konu grubu, 94 ders, 46 terim ve dört eğitim hesaplayıcısı. Özgün Türkçe eğitim metni. Sayısal örnekler varsayımsaldır; güncel mevzuat ve oranlar resmi kaynaklardan kontrol edilir.
 

@@ -32,3 +32,28 @@ Kontrol: 6 Ekim 2026. Hedef: mevcut 440 × 660 masaüstü penceresi; mobil uygul
 - [Pinterest — IBanko Finance Dashboard](https://www.pinterest.com/pin/323274079521657921/): görsel aramada bulundu; doğrudan sayfa 403 hatası verdi. Tam görsel incelenmiş veya buradan belirli detaylar aktarılmış gibi değerlendirilmedi.
 
 Dar içerik alanında okunabilirlik ve menü genişliği gerçek Electron penceresinde kontrol edildi. Yeni özellik, örnek işlem verisi veya yeni renk sistemi eklenmeyecek.
+
+## Üçüncü görünüm: Kartlı finans
+
+6 Ekim 2026: Kullanıcı ilk modern görünümün boşluklarını ve profesyonelliğini yetersiz buldu; lacivert bakiye ve gelir/gider alanı, renkli sıralı kategori kartları ve bütçe ilerlemesi içeren ikinci görseli yeni yön olarak verdi. Bu görsel önceliklidir. Telefon kasası, alt mobil menü, dekoratif köşe şekilleri, gölgeler ve gradient alınmadı. Üçüncü seçenek mevcut iki görünümün yanında, ayarlarda **Kartlı finans** olarak bulunur; mevcut tercih otomatik değiştirilmez.
+
+- Verilen görselden: bakiye/aylık hareket hiyerarşisi, renkli kategori gruplaması, kompakt limit/kalan gösterimi. Fark: Nero'nun gerçek masaüstü boyutlarında sabit üst finans menüsü; fare ve klavye ile mevcut dialoglar; beklenen gelir, mevcut para ve toplam borcun muhasebe ayrımı korunur.
+- [Keitoto — Finance Web App: Budget Allocation & Monthly Spending Cards](https://dribbble.com/shots/26393761-Finance-Web-App-Budget-Allocation-Monthly-Spending-Cards): sayfanın açıklaması incelendi. Kategori bazında harcama/limit gruplaması ve gider görünümü seçimi ilkeleri kullanıldı; tasarım birebir alınmadı. Araçta açılan görsel bağlantısı reklam görseline gittiğinden asıl ekranın ayrıntıları incelenmiş sayılmaz.
+- [Pinterest — Personal Finance Dashboard](https://www.pinterest.com/pin/259097784806639175/): aramada bulundu, doğrudan sayfa erişilemedi. [Mobbin kataloğu](https://mobbin.com/browse/apps) da bu incelemede erişilemedi. Bu kaynaklardan görünmeyen ayrıntılar aktarılmış gibi değerlendirilmez.
+
+Kartlı görünümün palette değerleri `budget-tokens.css`, yeniden kullanılan yapıları `budget-modern.css`, düzen farkları `budget-cards.css` içindedir. Kategori rengi anlam taşır; özel kategori renkleri korunur ve yazı kontrastı uyarlanır. Gerçek kayıt yoksa açıklama ve kayıt ekleme eylemi gösterilir; üretim verisine örnek para/işlem eklenmez. Arayüz testi ekran görüntüsündeki kayıtlar yalnız geçici test verisidir.
+
+Ana gezinme hatası: modern kök elemanın `display:grid` kuralı, eşit CSS önceliği nedeniyle daha önceki `[hidden]` kuralını geçersiz kılıyordu. Gizli bütçe paneli artık bütün finans görünümlerinde kesin olarak gizlenir; diğer ana sayfalar tek başına görünür.
+
+## Onaylanan görselin koda uygulanması
+
+Kullanıcının 6 Ekim 2026 akşamı paylaştığı Pinterest ekran görüntüsü ve ardından onayladığı Nero önizlemesi esas alındı. Kartlı finans görünümü yerel, tutarlı çizgi SVG ikonları; yuvarlak kategori sembolleri; lacivert bakiye ve aylık gelir/gider grubu; tek satırda harcama/limit/kalan gösteren tam genişlik bütçe kartlarıyla güncellendi. Hesap, işlem listesi, ödemeler, rapor, takvim, akademi ve kayıt dialogları aynı tipografi, aralık ve kontrol kurallarını kullanır.
+
+- Üretim kodu düz renkli tokenlar kullanır; oluşturulan örnekteki raster doku/ışık etkileri CSS'e taşınmaz. Dış Nero çerçevesi seçilen uygulama temasında kalır.
+- Menü üstte sabittir; sadece içerik kaydırılır. SVG içindeki tıklamalar da ilgili işlemi açar. Klavyede görünür odak çerçevesi vardır.
+- Hover ve basılma durumları tutarlıdır; kısa renk geçişleri azaltılmış hareket tercihinde kapatılır.
+- Mevcut iki görünümün ikon/yerleşimleri korunur. Yeni simgeler sadece Kartlı finans görünümünde etkinleşir.
+- 100 marka ikonu çevrimdışı mevcut kalır. Firma bilinmiyorsa yerel genel SVG gösterilir; uydurma işlem veya varsayılan bakiye eklenmez.
+- SVG seti `budget-icons.js` içinde, stil ölçüleri `budget-tokens.css` içinde merkezi olarak bulunur. Tutar, vade ve muhasebe hesapları değiştirilmedi.
+
+Önizleme temsili tasarımdır; teslimde ayrıca gerçek 440 × 660 Electron ekran görüntüleri verilir. Küçük pencerede tüm içerik sıkıştırılmaz; aşağıdaki kartlar kaydırmayla okunur. Rahat/Büyük yazı seçimi korunur.

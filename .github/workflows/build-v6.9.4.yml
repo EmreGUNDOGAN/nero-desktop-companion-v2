@@ -1,0 +1,39 @@
+name: Build Nero 6.9.4 Final
+on:
+  workflow_dispatch:
+  push:
+    branches: [feature/nero-v6.9.4]
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Check complete collection
+        run: node scripts/wardrobe-v665/check-release.js
+      - run: npm test
+      - run: npm run dialogue:check
+      - name: Check panel and notification UI
+        run: npx electron --disable-gpu test/nero-v690-ui-smoke.js
+      - name: Check finance UI
+        run: npx electron --disable-gpu test/budget-ui-smoke.js
+      - run: npm run dist
+      - name: Export source
+        run: git archive --format=zip -o Nero-v6_9_4-source.zip HEAD
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Nero-6.9.4-final-bundle
+          if-no-files-found: error
+          path: |
+            dist/Nero-Setup-6.9.4.exe
+            dist/Nero-Setup-6.9.4.exe.blockmap
+            dist/latest.yml
+            Nero-v6_9_4-source.zip
+            CHANGELOG-6.9.4.md
+            OYUN-REHBERI.md
