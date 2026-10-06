@@ -1,4 +1,4 @@
-# Nero 6.9.1 — Bütçe rehberi
+# Nero 6.9.2 — Bütçe rehberi
 
 ## Kaynaktan çalıştırma
 
@@ -15,13 +15,13 @@ Windows kurulum dosyasını yerel olarak üretmek için Windows üzerinde:
 npm run dist
 ```
 
-Kaynak paketinde `node_modules` ve derleme çıktısı bulunmaz. Üstteki komut bağımlılıkları indirir. Sürüm `package.json` ve kilit dosyasında 6.9.1'dir. Bütçe için yeni npm bağımlılığı eklenmedi.
+Kaynak paketinde `node_modules` ve derleme çıktısı bulunmaz. Üstteki komut bağımlılıkları indirir. Sürüm `package.json` ve kilit dosyasında 6.9.2'dir. Bütçe için yeni npm bağımlılığı eklenmedi.
 
 ## İlk kullanım
 
 Ana menüden Bütçe'yi aç. İlk işlem ekleme düğmesi hesap oluşturmayı başlatır. Banka, nakit veya kredi kartı hesabını, para birimini ve başlangıç bakiyesini gir. Kartta başlangıç tutarı mevcut borçtur; otomatik eksi bakiye olur. Başlangıç bakiyesi aylık gelir değildir.
 
-Sonra gelir/gider ekle. Üstteki dönem seçimi özet, bütçeler ve raporların ayını değiştirir. İşlemler sekmesi seçilen ayı başlangıç filtresi olarak kullanır; tarih filtrelerini değiştirerek daha geniş döneme bakabilirsin. Hesap bakiyeleri bugünü gösterir. Gelecek tarihli işlemler listede işaretlenir ve o tarihe kadar güncel hesap bakiyesini değiştirmez.
+Sonra ayrı **Gelir ekle** ve **Gider ekle** düğmelerini kullan. Maaş veya YouTube ödemesi için Gelir ekle’de paranın geldiği banka hesabını ve gelir kategorisini seç. Hesaplar paranın bulunduğu yerdir; kategori ise geliş veya harcama nedenidir. Başlangıç rehberi dört adımda bu ayrımı anlatır. Üstteki dönem seçimi özet, bütçeler ve raporların ayını değiştirir. İşlemler sekmesi seçilen ayı başlangıç filtresi olarak kullanır; tarih filtrelerini değiştirerek daha geniş döneme bakabilirsin. Hesap bakiyeleri bugünü gösterir. Gelecek tarihli işlemler listede işaretlenir ve o tarihe kadar güncel hesap bakiyesini değiştirmez.
 
 ## İşlem kuralları
 
@@ -87,3 +87,37 @@ npx electron test/budget-ui-smoke.js
 ```
 
 Testler gerçek bütçe motorunu ve IPC'yi kullanır; pencere görünmeden formlar, fiş, CSV, yedek ve PDF çalıştırılır. Linux ortamında başsız kullanım için `--no-sandbox --disable-gpu --ozone-platform=headless` parametreleri kullanılabilir. Bu testlerde sistem dosya seçim pencereleri kontrollü test dosyalarıyla değiştirilir.
+
+
+## Yeni finans çalışma alanı
+
+Sekmeler: Özet, İşlemler, Hesaplar, Bütçeler, Ödemeler, Raporlar, Takvim, El Kitabı. Bölüm içindeki “?” düğmeleri açıklama penceresi açar. Hesap formunda bu pencereyi kapatmak yazdığın taslak alanları silmez. Üstteki Rahat/Büyük yazı seçimi kaydedilir; diğer Nero sayfalarının yazı boyutunu değiştirmez.
+
+Halka grafiği yalnız pozitif net kategori tutarlarını gösterir. İadeler nedeniyle negatif olan kategoriler dökümde ayrı görünür; halkanın ortasındaki toplam pozitif payların toplamıdır. Kategoriye basınca o ayın ilgili işlemleri açılır. Kategori adları, tutarlar ve yüzdeler renk olmadan da okunabilir.
+
+Raporlarda Bu ay görünümü günlük toplamları; 3/6/12 ay görünümleri seçilen aya kadar aylık toplamları gösterir. Noktalarda tam tutar, grafiğin altında erişilebilir tutar dökümü vardır. Aylık özet ve PDF; gelir, net gider, fark, gelirden kalan oran, büyük kategori ve limit aşımını içerir. Devam eden ay geçici olarak işaretlenir; yalnız kayıtlı veri değerlendirilir. Gelir-gider farkı gerçek banka nakit akışı değildir.
+
+### Kart son ödeme günü
+
+Kart hesabını düzenleyip **Son ödeme gününde Windows bildirimi** seçeneğini aç. Takvim seçilen ayın vade gününü gösterir. Ayın o günü yoksa son gün kullanılır. Kayıtlı kart borcu pozitifse, uygulama açık ve ekran kilitli değilken o gün bir kez bildirim verilir. Bildirime basınca Bütçe açılır. Aynı gün uygulamayı yeniden başlatmak aynı bildirimi tekrarlamaz. Arşivli, bildirimi kapalı veya borcu sıfır kartlar bildirilmez.
+
+Bu, bankanın çevrimiçi ekstresinden alınan bir tarih değildir; her ay aynı seçili güne dayanır. Gerçek son ödeme tarihini bankadan doğrula. Windows izinleri görünürlüğü etkiler. Paneli kapatıp Nero’yu tepside çalışır bırakmak ile uygulamadan tamamen çıkmak farklıdır; tamamen kapalı uygulama bildirim göndermez.
+
+### Şablon ve benzer kayıt kontrolü
+
+Bir işlemi açıp **Şablon olarak sakla** seç. İşlemler → Şablonlar → Kullan ile güncel tarihli yeni bir form açılır. Tutarı değiştirebilirsin. Şablon kendi başına gelir, gider veya banka ödemesi oluşturmaz. Aynı gün/hesap/tür/tutarda benzer işlem varsa yeni kayıt uyarı verir. Ayrı bir işlem olduğundan eminsen Kaydet’e ikinci kez basabilirsin; mevcut işlem değiştirilmez.
+
+### Düzenlemeyi geri alma
+
+İşlem silmeyi Silinenler’den geri alabilirsin. Hesaplar → Yedek & Ayarlar’daki **Son düzenlemeyi geri al** düğmesi son uygun hesap, kategori, limit, hedef, rezerv, kur, plan veya şablon değişikliğini geri alır. Başka kayıtların tutarlılığını bozacak geri alma engellenir. Tam tutarlı alışveriş kaydı oluşturan kart taksit planı bu genel geri alma düğmesine dahil değildir; işlem kendi silme/geri alma akışını kullanır. JSON yedeklerini ayrıca sakla.
+
+### El Kitabı
+
+26 bölüm; her bölümde açıklamalar, özgün çözümlü örnek, uygulama adımları, sık karıştırılan nokta ve uygun kaynak bağlantıları. Bölümler konu veya metinle aranır; Okudum ve Kaydet seçimleri yedekle birlikte korunur. 30 terimlik sözlük ve dört hesaplayıcı bulunur:
+
+- Hedefe gereken aylık katkı: (hedef − mevcut birikim) / kalan ay.
+- Acil durum tamponu: zorunlu aylık gider × kullanıcının seçtiği ay sayısı. Evrensel bir ay sayısı önerilmez.
+- Nominal/reel değişim: (1 + nominal oran) / (1 + aynı dönem enflasyonu) − 1.
+- Bileşik büyüme: sabit yıllık efektif varsayım aylık eşdeğere çevrilir, katkı ay sonunda eklenir. Toplam katkı ile varsayımsal artış/kayıp ayrı gösterilir; %0 ve negatif oranlar da denenebilir. Masraf, vergi, enflasyon ve gerçek piyasa oynaklığı dahil değildir.
+
+Hesaplayıcılar bütçe hesabına işlem eklemez. El kitabının metin sürümü `FINANS-EL-KITABI.md` içindedir. İçeriğin kaynak kontrol tarihi 6 Ekim 2026’dır; güncel faiz, vergi oranı veya yatırım getirisi vaat edilmez.

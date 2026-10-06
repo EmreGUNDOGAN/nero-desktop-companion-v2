@@ -997,7 +997,8 @@
   }
 
   function choose(minutes) {
-    chosenMinutes = Math.max(1, Math.min(600, Math.round(Number(minutes) || 25)));    $('timer-custom').value = chosenMinutes;
+    chosenMinutes = Math.max(1, Math.min(600, Math.round(Number(minutes) || 25)));
+    $('timer-custom').value = chosenMinutes;
     for (const b of document.querySelectorAll('#presets button')) {
       b.classList.toggle('on', Number(b.dataset.min) === chosenMinutes);
     }

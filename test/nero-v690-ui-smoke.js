@@ -51,8 +51,8 @@ app.whenReady().then(async () => {
     assert.deepEqual(errors,[]);
     await panel.webContents.executeJavaScript(`document.querySelector('[data-tab="home"]').click(); true`);
     await wait(300);
-    fs.writeFileSync(path.join(app.getPath('temp'), 'nero-radio-preview.png'), (await panel.webContents.capturePage()).toPNG());
-    fs.writeFileSync(path.join(app.getPath('temp'), 'nero-notice-preview.png'), (await notice.webContents.capturePage()).toPNG());
+    fs.writeFileSync('/tmp/nero-radio-preview.png', (await panel.webContents.capturePage()).toPNG());
+    fs.writeFileSync('/tmp/nero-notice-preview.png', (await notice.webContents.capturePage()).toPNG());
     console.log('UI smoke passed: 440×660 / 380×540 / 700×860, nested tasks, long-hold reorder, add child, actual character notice.');
     app.exit(0);
   } catch (err) {console.error(err);app.exit(1);}

@@ -340,9 +340,9 @@ test('6.8.1 paket sürümü ve Actions workflowu yeni sürüme bağlıdır', () 
   const pkg = JSON.parse(fs.readFileSync(path.join(root, 'package.json'), 'utf8'));
   const lock = JSON.parse(fs.readFileSync(path.join(root, 'package-lock.json'), 'utf8'));
   const workflow = fs.readFileSync(path.join(root, '.github/workflows/build-v6.8.1.yml'), 'utf8');
-  assert.equal(pkg.version, '6.9.1');
-  assert.equal(lock.version, '6.9.1');
-  assert.equal(lock.packages[''].version, '6.9.1');
+  assert.equal(pkg.version, '6.9.2');
+  assert.equal(lock.version, '6.9.2');
+  assert.equal(lock.packages[''].version, '6.9.2');
   assert.match(workflow, /name: Build Nero 6\.8\.1 Final/);
   assert.match(workflow, /branches: \[feature\/bee-v6\.8\.1\]/);
   assert.match(workflow, /Nero-6\.8\.1-final-bundle/);

@@ -6,7 +6,7 @@ const clean = (v, n = 300) => String(v ?? '').trim().slice(0, n);
 function invariant(ok, message) { if (!ok) throw new Error(message); }
 function dateKey(date = new Date()) { return `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`; }
 function validDate(value) {
-  const s = clean(value, 10);
+  const s = clean(value, 30);
   invariant(/^\d{4}-\d{2}-\d{2}$/.test(s) && s >= '1900-01-01' && s <= '2200-12-31' && Number.isFinite(new Date(s+'T12:00:00Z').getTime()) && new Date(s+'T12:00:00Z').toISOString().slice(0,10) === s, 'Geçerli bir tarih seç.'); return s;
 }
 function money(value, signed = false) {
@@ -41,7 +41,7 @@ function nextDate(plan, index) {
 function defaults() { return { version: 1, baseCurrency:'TRY', rates:{TRY:1000000}, accounts:[], transactions:[], categories:[
   ...['Market','Yemek','Ulaşım','Ev & Faturalar','Sağlık','Alışveriş','Eğlence','Eğitim','Diğer'].map((name,i)=>({id:'expense-'+i,name,type:'expense',color:['#9fae88','#d2a080','#bd9bb7','#8faaba'][i%4]})),
   ...['Maaş','Serbest Çalışma','Diğer Gelir'].map((name,i)=>({id:'income-'+i,name,type:'income',color:'#8faaba'}))
-], budgets:[], plans:[], goals:[], deleted:[], audit:[], receipts:[], notified:[] }; }
+], budgets:[], plans:[], goals:[], templates:[], learning:{read:[],bookmarks:[]}, preferences:{textSize:"comfortable"}, deleted:[], audit:[], receipts:[], notified:[] }; }
 class Budget {
   constructor(store) { this.store=store; this.state={...defaults(),...store.get()}; this.validate(this.state); }
   validate(s) {
@@ -51,6 +51,16 @@ class Budget {
       invariant(new Set(s[key].map(x=>x.id)).size===s[key].length, 'Yedekte yinelenen kayıt kimliği var.');
       for (const x of s[key]) invariant(x && typeof x.id==='string' && x.id.length<=100, 'Yedek kayıt kimliği geçersiz.');
     }
+    if(s.templates!==undefined){
+      invariant(Array.isArray(s.templates)&&s.templates.length<=200&&new Set(s.templates.map(t=>t.id)).size===s.templates.length,'Şablon yedeği geçersiz.');
+      for(const t of s.templates){const i=t.input;invariant(typeof t.id==='string'&&typeof t.name==='string'&&i&&['income','expense','refund','transfer'].includes(i.type)&&s.accounts.some(a=>a.id===i.accountId),'Şablon hesabı geçersiz.');const amount=money(i.amount);invariant(amount>0&&rate(i.rate)>0&&Array.isArray(i.splits),'Şablon tutarı geçersiz.');
+        if(i.type==='transfer')invariant(s.accounts.some(a=>a.id===i.toAccountId)&&i.accountId!==i.toAccountId&&money(i.toAmount)>0,'Şablon transferi geçersiz.');
+        else invariant(i.splits.length>0&&i.splits.reduce((n,p)=>n+money(p.amount),0)===amount&&i.splits.every(p=>s.categories.some(c=>c.id===p.categoryId&&c.type===(i.type==='income'?'income':'expense'))),'Şablon kategorisi geçersiz.');
+      }
+    }
+    if(s.undoChange)invariant(typeof s.undoChange.action==='string'&&Array.isArray(s.undoChange.patches)&&s.undoChange.patches.length<=200&&s.undoChange.patches.every(p=>p.collection?['accounts','categories','budgets','goals','plans','templates'].includes(p.collection)&&typeof p.id==='string'&&(!p.before||p.before.id===p.id):['rates','baseCurrency'].includes(p.key)),'Geri alma kaydı geçersiz.');
+    if(s.learning)invariant(Array.isArray(s.learning.read)&&Array.isArray(s.learning.bookmarks),'El kitabı kaydı geçersiz.');
+    if(s.preferences)invariant(['comfortable','large'].includes(s.preferences.textSize),'Yazı boyutu geçersiz.');
     for (const a of s.accounts) invariant(CURRENCIES.includes(a.currency) && ['cash','bank','credit'].includes(a.type) && Number.isSafeInteger(a.opening) && Math.abs(a.opening)<=MAX,'Yedekte hesap geçersiz.');
     for(const c of s.categories){invariant(['expense','income'].includes(c.type)&&typeof c.name==='string'&&/^#[0-9a-f]{6}$/i.test(c.color),'Yedekte kategori geçersiz.');if(c.parentId)invariant(s.categories.some(p=>p.id===c.parentId&&p.id!==c.id&&!p.parentId&&p.type===c.type),'Yedekte alt kategori geçersiz.');}
     for (const t of s.transactions) {
@@ -93,8 +103,8 @@ class Budget {
     const currency=clean(input.currency)||this.state.baseCurrency; invariant(CURRENCIES.includes(currency),'Para birimi desteklenmiyor.');
     const type=clean(input.type); invariant(['cash','bank','credit'].includes(type),'Hesap türünü seç.');
     const name=clean(input.name,80); invariant(name,'Hesap adı gerekli.');
-    if(old && this.state.transactions.some(t=>t.accountId===old.id||t.toAccountId===old.id)) invariant(old.currency===currency&&old.type===type,'İşlem bulunan hesabın türü veya para birimi değiştirilemez.');
-    const a={id:old?.id||randomUUID(),name,type,currency,opening:money(input.opening||'0',true),limit:money(input.limit||'0'),cutDay:Number(input.cutDay)||1,dueDay:Number(input.dueDay)||10,archived:!!input.archived};
+    if(old && (this.state.transactions.some(t=>t.accountId===old.id||t.toAccountId===old.id)||this.state.plans.some(p=>p.accountId===old.id||p.toAccountId===old.id)||this.state.templates.some(t=>t.input.accountId===old.id||t.input.toAccountId===old.id)||this.state.goals.some(g=>g.accountId===old.id))) invariant(old.currency===currency&&old.type===type,'İşlem bulunan hesabın türü veya para birimi değiştirilemez.');
+    const a={id:old?.id||randomUUID(),name,type,currency,opening:money(input.opening||'0',true),limit:money(input.limit||'0'),cutDay:Number(input.cutDay)||1,dueDay:Number(input.dueDay)||10,remind:input.remind===undefined?(old?.remind!==false):!!input.remind,archived:!!input.archived};
     invariant(Number.isInteger(a.cutDay)&&a.cutDay>=1&&a.cutDay<=31&&Number.isInteger(a.dueDay)&&a.dueDay>=1&&a.dueDay<=31,'Kart günleri 1–31 arasında olmalı.');
     if(type==='credit') a.opening=-Math.abs(a.opening);
     const i=this.state.accounts.findIndex(x=>x.id===a.id); if(i<0)this.state.accounts.push(a);else this.state.accounts[i]=a;
@@ -235,6 +245,27 @@ class Budget {
     const payments=this.state.transactions.filter(t=>t.type==='transfer'&&t.toAccountId===a.id&&t.date>latest&&t.date<=today).reduce((s,t)=>s+t.toAmount,0);
     return {cut:latest,due,billed,estimatedDue:Math.max(0,billed-payments),debt:Math.max(0,-this.accountBalance(a.id,today)),available:Math.max(0,a.limit+this.accountBalance(a.id,today))};
   }
+  cardDates(month, today=dateKey()) {
+    validDate(month+'-01');
+    return this.state.accounts.filter(a=>a.type==='credit'&&!a.archived).map(a=>({id:a.id,name:a.name,date:shiftMonth(month+'-01',0,a.dueDay),cut:shiftMonth(month+'-01',0,a.cutDay),currency:a.currency,debt:Math.max(0,-this.accountBalance(a.id,today)),remind:a.remind!==false}));
+  }
+  duplicate(input) {
+    const t=this.buildTransaction(input);
+    return this.state.transactions.filter(x=>x.id!==input.id&&x.accountId===t.accountId&&x.type===t.type&&x.date===t.date&&x.amount===t.amount&&(t.type!=='transfer'||x.toAccountId===t.toAccountId)).map(x=>({id:x.id,note:x.note,payee:x.payee,date:x.date,amount:x.amount}));
+  }
+  template(input) {
+    invariant(this.state.templates.length<200||input.id,'En fazla 200 şablon saklanabilir.');
+    const name=clean(input.name,80);invariant(name,'Şablon adı gerekli.');
+    const draft={...input.input,date:dateKey()};delete draft.id;const t=this.buildTransaction(draft);
+    const record={id:input.id||randomUUID(),name,input:{type:t.type,accountId:t.accountId,toAccountId:t.toAccountId,toAmount:t.toAmount?String(t.toAmount/100):'',categoryId:t.splits[0]?.categoryId,amount:String(t.amount/100),rate:String(t.rate/1000000),note:t.note,payee:t.payee,tags:t.tags,splits:t.splits.map(x=>({categoryId:x.categoryId,amount:String(x.amount/100)}))}};
+    this.state.templates=this.state.templates.filter(t=>t.id!==record.id);this.state.templates.push(record);this.save('template.save',record.id);
+  }
+  learning(input) {
+    const {chapters}=require('../renderer/panel/budget-handbook');
+    invariant(chapters.some(c=>c.id===input.id),'El kitabı bölümü bulunamadı.');invariant(['read','bookmarks'].includes(input.kind),'Okuma işlemi geçersiz.');
+    const list=this.state.learning[input.kind];this.state.learning[input.kind]=list.includes(input.id)?list.filter(id=>id!==input.id):[...list,input.id];this.save('learning.'+input.kind,input.id);
+  }
+  preferences(input) {invariant(['comfortable','large'].includes(input.textSize),'Yazı boyutu geçersiz.');this.state.preferences.textSize=input.textSize;this.save('preferences.text','budget');}
   view(month = dateKey().slice(0,7)) {
     invariant(/^\d{4}-\d{2}$/.test(month),'Ay geçersiz.');validDate(month+'-01');const today=dateKey(), state=this.state;
     const accounts=state.accounts.map(a=>({...a,balance:this.accountBalance(a.id,today),statement:this.cardStatement(a,today),reserved:state.goals.filter(g=>g.accountId===a.id&&!g.archived).reduce((s,g)=>s+g.contributions.reduce((v,c)=>v+c.amount,0),0)}));
@@ -243,17 +274,41 @@ class Budget {
     const current=this.summary(month+'-01',month+'-31'), previous=this.summary(shiftMonth(month+'-01',-1).slice(0,7)+'-01',shiftMonth(month+'-01',-1).slice(0,7)+'-31');
     return {version:1,today,month,baseCurrency:state.baseCurrency,currencies:CURRENCIES,rates:state.rates,accounts,categories:state.categories,transactions:state.transactions,netWorth,missingRates,summary:current,previous,
       budgets:state.budgets.filter(b=>b.month===month).map(b=>{const limit=this.budgetLimit(b),spent=this.spent(b.categoryId,month);return {...b,limit,spent,remaining:limit-spent};}),
-      plans:state.plans,upcoming:this.occurrences(shiftMonth(today,-24),shiftMonth(today,3)),
+      canUndoChange:!!state.undoChange,templates:state.templates,learning:state.learning,preferences:state.preferences,cardDates:this.cardDates(month,today),calendar:this.occurrences(month+"-01",shiftMonth(month+"-01",1)),plans:state.plans,upcoming:this.occurrences(shiftMonth(today,-24),shiftMonth(today,3)),
       goals:state.goals.map(g=>({...g,saved:g.contributions.reduce((s,c)=>s+c.amount,0),currency:this.getAccount(g.accountId,true).currency})),
       trend:Array.from({length:12},(_,i)=>{const m=shiftMonth(month+'-01',i-11).slice(0,7);return {month:m,...this.summary(m+'-01',m+'-31')};}),
       deleted:state.deleted.map(d=>({id:d.record.id,note:d.record.note,amount:d.record.amount,currency:d.record.currency,deletedAt:d.deletedAt})),audit:state.audit.slice(-100).reverse(),receipts:state.receipts.map(({data,...r})=>r)};
   }
-  reminders(today=dateKey()) {const out=this.occurrences(today,today).filter(o=>!this.state.notified.includes(o.planId+':'+o.date));if(out.length){this.state.notified.push(...out.map(o=>o.planId+':'+o.date));this.state.notified=this.state.notified.slice(-1000);this.store.set(this.state);}return out;}
+  reminders(today=dateKey()) {
+    const out=this.occurrences(today,today).map(o=>({...o,key:o.planId+':'+o.date,kind:'plan'}));
+    for(const c of this.cardDates(today.slice(0,7),today))if(c.remind&&c.date===today&&c.debt>0)out.push({...c,key:'card:'+c.id+':'+today,kind:'card'});
+    const fresh=out.filter(o=>!this.state.notified.includes(o.key));if(fresh.length){this.state.notified.push(...fresh.map(o=>o.key));this.state.notified=this.state.notified.slice(-1000);this.store.set(this.state);}return fresh;
+  }
+  undoChange() {
+    const change=this.state.undoChange;invariant(change,'Geri alınabilecek düzenleme yok.');
+    invariant(!change.patches.some(p=>p.key==='baseCurrency')||(!this.state.transactions.length&&!this.state.plans.length&&!this.state.budgets.length),'Kayıtlardan sonra ana para birimi geri alınamaz.');
+    const candidate=this.export();
+    for(const patch of change.patches){if(patch.collection){candidate[patch.collection]=candidate[patch.collection].filter(x=>x.id!==patch.id);if(patch.before)candidate[patch.collection].push(patch.before);}else candidate[patch.key]=patch.before;}
+    this.validate(candidate);candidate.undoChange=null;this.state=candidate;this.save('change.undo',change.action);
+  }
   act(action,input={}) {
-    const handlers={account:()=>this.account(input),category:()=>this.category(input),transaction:()=>this.transaction(input),remove:()=>this.remove(input.id),undo:()=>this.undo(input.id),budget:()=>this.setBudget(input),plan:()=>this.plan(input),pay:()=>this.pay(input),pausePlan:()=>this.pausePlan(input.id),skip:()=>this.skip(input),goal:()=>this.goal(input),fund:()=>this.fund(input),rate:()=>this.setRate(input),settings:()=>this.settings(input),removeBudget:()=>{this.state.budgets=this.state.budgets.filter(b=>b.id!==input.id);this.save('budget.delete',input.id);}};
-    invariant(handlers[action],'Bütçe işlemi desteklenmiyor.');const before=structuredClone(this.state);try{return handlers[action]();}catch(e){this.state=before;throw e;}
+    const handlers={undoChange:()=>this.undoChange(),template:()=>this.template(input),removeTemplate:()=>{this.state.templates=this.state.templates.filter(t=>t.id!==input.id);this.save('template.delete',input.id);},learning:()=>this.learning(input),preferences:()=>this.preferences(input),account:()=>this.account(input),category:()=>this.category(input),transaction:()=>this.transaction(input),remove:()=>this.remove(input.id),undo:()=>this.undo(input.id),budget:()=>this.setBudget(input),plan:()=>this.plan(input),pay:()=>this.pay(input),pausePlan:()=>this.pausePlan(input.id),skip:()=>this.skip(input),goal:()=>this.goal(input),fund:()=>this.fund(input),rate:()=>this.setRate(input),settings:()=>this.settings(input),removeBudget:()=>{this.state.budgets=this.state.budgets.filter(b=>b.id!==input.id);this.save('budget.delete',input.id);}};
+    invariant(handlers[action],'Bütçe işlemi desteklenmiyor.');const before=structuredClone(this.state);
+    try{const result=handlers[action]();
+      if(['account','category','budget','removeBudget','goal','fund','rate','settings','plan','pausePlan','skip','template','removeTemplate'].includes(action)){
+        const patches=[];
+        for(const collection of ['accounts','categories','budgets','goals','plans','templates']){
+          const old=new Map(before[collection].map(x=>[x.id,x])),next=new Map(this.state[collection].map(x=>[x.id,x]));
+          for(const id of new Set([...old.keys(),...next.keys()]))if(JSON.stringify(old.get(id))!==JSON.stringify(next.get(id)))patches.push({collection,id,before:old.get(id)||null});
+        }
+        for(const key of ['rates','baseCurrency'])if(JSON.stringify(before[key])!==JSON.stringify(this.state[key]))patches.push({key,before:before[key]});
+        // A card installment creates a real purchase too. Its transaction has its own delete/undo flow.
+        this.state.undoChange=this.state.transactions.length===before.transactions.length&&patches.length?{action,patches}:null;this.store.set(this.state);
+      }
+      return result;
+    }catch(e){this.state=before;this.store.set(this.state);throw e;}
   }
   export() { return structuredClone(this.state); }
-  replace(state) {this.validate(state);this.state=structuredClone(state);this.save('backup.import','budget');}
+  replace(state) {this.validate(state);this.state={...defaults(),...structuredClone(state)};this.save('backup.import','budget');}
 }
 module.exports={Budget,money,rate,converted,dateKey,validDate,shiftMonth,nextDate,defaults,CURRENCIES};

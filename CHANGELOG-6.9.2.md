@@ -1,4 +1,6 @@
-# Nero 6.9.1 — Bütçe
+# Nero 6.9.2 — Finans
+
+Bu sürüm, gönderilen gelişmiş finans kaynak paketinin 6.9.2 olarak derlenen dağıtımıdır.
 
 ## Geliştirilmiş finans çalışma alanı
 

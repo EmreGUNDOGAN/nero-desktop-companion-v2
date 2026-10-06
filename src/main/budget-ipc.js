@@ -8,6 +8,8 @@ function registerBudgetIPC({ipcMain,dialog,shell,BrowserWindow,budget,getPanel,b
     if(e.sender!==getPanel()?.webContents)return {ok:false,error:'Bütçe yalnız Nero panelinden açılabilir.'};
     try{return await fn(...args);}catch(err){return {ok:false,error:err.message};}
   });
+  handle('budget:duplicate',input=>({ok:true,duplicates:budget.duplicate(input)}));
+  handle('budget:sourceOpen',async id=>{const {sources,books}=require('../renderer/panel/budget-handbook');const source=sources[id]||books.find(b=>b.id===id);if(!source)throw new Error('Kaynak bulunamadı.');await shell.openExternal(source.url);return {ok:true};});
   handle('budget:get',month=>({ok:true,view:budget.view(month)}));
   handle('budget:act',(action,input,month)=>{budget.act(action,input);return {ok:true,view:budget.view(month)};});
   handle('budget:csvExport',async(from,to)=>{

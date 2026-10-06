@@ -997,7 +997,8 @@ function scheduleNextTalk() {
   const [lo, hi] = TALK_INTERVALS[settings().talkativeness] || TALK_INTERVALS.normal;
   // Sakin günde biraz daha seyrek, üretken günde biraz daha sık konuşur.
   const mode = todayMode();
-  const factor = mode === 'sakin' ? 1.3 : mode === 'uretken' ? 0.85 : 1;  nextTalkAt = Date.now() + rand(lo, hi) * factor * MIN;
+  const factor = mode === 'sakin' ? 1.3 : mode === 'uretken' ? 0.85 : 1;
+  nextTalkAt = Date.now() + rand(lo, hi) * factor * MIN;
 }
 
 // Üretken günde sayaç boşsa arada bir odak önerir.
@@ -1996,7 +1997,8 @@ function registerIpc() {
   ipcMain.handle('themes:reload', () => {
     themes.scan();
     loadTheme(settings().themeId);
-    applyCharacterLayout();    broadcastState();
+    applyCharacterLayout();
+    broadcastState();
     return themes.list();
   });
   ipcMain.handle('themes:openFolder', () => {
@@ -2392,7 +2394,7 @@ function startLoops() {
     archiveClosedMoodboards();
     if(!screenLocked){
       const due=budget.reminders();
-      if(due.length&&Notification.isSupported())new Notification({title:'Nero · Bütçe hatırlatması',body:`Bugün ${due.length} planlı ödeme/gelir var. Bütçe bölümünden kontrol edebilirsin.`,icon:iconPath,silent:!settings().sound}).show();
+      if(due.length&&Notification.isSupported()){const cards=due.filter(o=>o.kind==='card').length;const notice=new Notification({title:cards?'Nero · Kart son ödeme günü':'Nero · Bütçe hatırlatması',body:cards?`Bugün ${cards} kartının son ödeme günü. Bütçe bölümünden kontrol edebilirsin.`:`Bugün ${due.length} planlı ödeme/gelir var. Bütçe bölümünden kontrol edebilirsin.`,icon:iconPath,silent:!settings().sound});notice.on('click',()=>showPanel('budget'));notice.show();}
     }
     trackActivity(dt);
     if (settings().lastBackupDay !== new Date().toDateString()) autoBackup();
@@ -2995,7 +2997,8 @@ app.whenReady().then(() => {
   };
 
   themes = new ThemeManager({ builtinDir: builtinThemesDir, userDir: userThemesDir });
-  themes.scan();  dialogue = new Dialogue({ historyStore: dialogueHistoryStore });
+  themes.scan();
+  dialogue = new Dialogue({ historyStore: dialogueHistoryStore });
   loadTheme(settings().themeId);
   if (currentTheme.id !== settings().themeId) settingsStore.patch({ themeId: currentTheme.id });
 
