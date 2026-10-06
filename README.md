@@ -28,7 +28,7 @@ Nero ekranın sağ alt köşesinde belirir. Tepside (saatin yanındaki gizli sim
 npm run dist
 ```
 
-Kurulum dosyası `dist\Nero-Setup-6.9.4.exe` olarak oluşur.
+Kurulum dosyası `dist\Nero-Setup-6.9.5.exe` olarak oluşur.
 
 Yeni sürüm çıkarırken `package.json` içindeki `"version"` değerini artır (ör. `3.0.1`). `appId` değerini (`com.stenwick.nero`) **değiştirme**; kurulum programı eski sürümü bu kimlikten tanıyıp kaldırır.
 
@@ -101,6 +101,12 @@ Tüm veriler `%APPDATA%\Nero` klasöründedir: `settings.json`, `notes.json`, `t
 - **Kendi kendine konuşma:** ruh haline göre arada bir söylenir ya da sana laf atar. Sıklığı Ayarlar > Konuşkanlık'tan değişir.
 - **Zamanlayıcı:** bitince kutlar (ses + Windows bildirimi), erken bırakılırsa ne kadar erken bırakıldığına göre farklı tepki verir.
 
-## 6.9.4 finans çalışma alanı
+## 6.9.5 finans çalışma alanı
 
 Bütçe kullanımı ve kaynak kodunu çalıştırma: [Bütçe rehberi](docs/BUTCE-REHBERI.md). Finans teması, bildirim ve yazı tercihleri Bütçe içindeki Finans ayarları bölümündedir. Bu paket yalnız kaynak koddur; bağımlılıklar `npm ci` ile kurulur.
+
+## Premium Black finans görünümü
+
+Bütçe → Finans ayarları → Finans teması → Premium Black. Sekiz finans sayfası ve finans pencereleri koyu görünüme geçer. Diğer üç görünüm de kullanılabilir.
+
+Kullanım: `KULLANIM-6.9.5.md`. Tasarım: `DESIGN.md`. Kontroller: `docs/6.9.5-PREMIUM-BLACK-VALIDATION.md`.
