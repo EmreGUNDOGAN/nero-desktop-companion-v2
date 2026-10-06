@@ -218,4 +218,42 @@ class Budget {
     let remaining=t.baseAmount;return t.splits.map((s,i)=>{const n=i===t.splits.length-1?remaining:Math.min(remaining,converted(s.amount,t.rate));remaining-=n;return {...s,baseAmount:n};});
   }
   summary(from,to) {
-    const tx=this.state.transactions.filter(t=>t.date>=from&&t.date<=to), c
+    const tx=this.state.transactions.filter(t=>t.date>=from&&t.date<=to), categories={};let income=0,expense=0,refund=0;
+    for(const t of tx) {if(t.type==='income')income+=t.baseAmount;if(t.type==='expense')expense+=t.baseAmount;if(t.type==='refund')refund+=t.baseAmount;
+      if(t.type==='expense'||t.type==='refund')for(const s of this.allocations(t))categories[s.categoryId]=(categories[s.categoryId]||0)+(t.type==='refund'?-s.baseAmount:s.baseAmount);}
+    return {income,expense,refund,netExpense:expense-refund,net:income-expense+refund,categories,count:tx.length};
+  }
+  spent(categoryId,month) {const summary=this.summary(month+'-01',month+'-31');if(categoryId==='all')return summary.netExpense;const ids=new Set([categoryId,...this.state.categories.filter(c=>c.parentId===categoryId).map(c=>c.id)]);return Object.entries(summary.categories).filter(([id])=>ids.has(id)).reduce((s,[,n])=>s+n,0);}
+  budgetLimit(b,depth=0) { if(!b.rollover||depth>=24)return b.amount;const priorMonth=shiftMonth(b.month+'-01',-1).slice(0,7),prior=this.state.budgets.find(x=>x.month===priorMonth&&x.categoryId===b.categoryId);return b.amount+(prior?Math.max(0,this.budgetLimit(prior,depth+1)-this.spent(prior.categoryId,prior.month)):0); }
+  cardStatement(a, today) {
+    if(a.type!=='credit')return null;
+    const month=today.slice(0,7)+'-01',cut=shiftMonth(month,0,a.cutDay),latest=today>=cut?cut:shiftMonth(month,-1,a.cutDay);
+    const previous=shiftMonth(latest,-1,a.cutDay), startDate=new Date(previous+'T12:00:00Z');startDate.setUTCDate(startDate.getUTCDate()+1);const start=startDate.toISOString().slice(0,10);
+    let due=shiftMonth(latest,0,a.dueDay);if(due<=latest)due=shiftMonth(latest,1,a.dueDay);
+    const period=this.state.transactions.filter(t=>t.accountId===a.id&&t.date>=start&&t.date<=latest);
+    const billed=period.reduce((s,t)=>s+(t.type==='expense'?t.amount:t.type==='refund'?-t.amount:0),0);
+    const payments=this.state.transactions.filter(t=>t.type==='transfer'&&t.toAccountId===a.id&&t.date>latest&&t.date<=today).reduce((s,t)=>s+t.toAmount,0);
+    return {cut:latest,due,billed,estimatedDue:Math.max(0,billed-payments),debt:Math.max(0,-this.accountBalance(a.id,today)),available:Math.max(0,a.limit+this.accountBalance(a.id,today))};
+  }
+  view(month = dateKey().slice(0,7)) {
+    invariant(/^\d{4}-\d{2}$/.test(month),'Ay geçersiz.');validDate(month+'-01');const today=dateKey(), state=this.state;
+    const accounts=state.accounts.map(a=>({...a,balance:this.accountBalance(a.id,today),statement:this.cardStatement(a,today),reserved:state.goals.filter(g=>g.accountId===a.id&&!g.archived).reduce((s,g)=>s+g.contributions.reduce((v,c)=>v+c.amount,0),0)}));
+    const missingRates=accounts.filter(a=>a.currency!==state.baseCurrency&&!state.rates[a.currency]).map(a=>a.currency);
+    const netWorth=accounts.reduce((sum,a)=>sum+(state.rates[a.currency]?converted(a.balance,state.rates[a.currency]):0),0);
+    const current=this.summary(month+'-01',month+'-31'), previous=this.summary(shiftMonth(month+'-01',-1).slice(0,7)+'-01',shiftMonth(month+'-01',-1).slice(0,7)+'-31');
+    return {version:1,today,month,baseCurrency:state.baseCurrency,currencies:CURRENCIES,rates:state.rates,accounts,categories:state.categories,transactions:state.transactions,netWorth,missingRates,summary:current,previous,
+      budgets:state.budgets.filter(b=>b.month===month).map(b=>{const limit=this.budgetLimit(b),spent=this.spent(b.categoryId,month);return {...b,limit,spent,remaining:limit-spent};}),
+      plans:state.plans,upcoming:this.occurrences(shiftMonth(today,-24),shiftMonth(today,3)),
+      goals:state.goals.map(g=>({...g,saved:g.contributions.reduce((s,c)=>s+c.amount,0),currency:this.getAccount(g.accountId,true).currency})),
+      trend:Array.from({length:12},(_,i)=>{const m=shiftMonth(month+'-01',i-11).slice(0,7);return {month:m,...this.summary(m+'-01',m+'-31')};}),
+      deleted:state.deleted.map(d=>({id:d.record.id,note:d.record.note,amount:d.record.amount,currency:d.record.currency,deletedAt:d.deletedAt})),audit:state.audit.slice(-100).reverse(),receipts:state.receipts.map(({data,...r})=>r)};
+  }
+  reminders(today=dateKey()) {const out=this.occurrences(today,today).filter(o=>!this.state.notified.includes(o.planId+':'+o.date));if(out.length){this.state.notified.push(...out.map(o=>o.planId+':'+o.date));this.state.notified=this.state.notified.slice(-1000);this.store.set(this.state);}return out;}
+  act(action,input={}) {
+    const handlers={account:()=>this.account(input),category:()=>this.category(input),transaction:()=>this.transaction(input),remove:()=>this.remove(input.id),undo:()=>this.undo(input.id),budget:()=>this.setBudget(input),plan:()=>this.plan(input),pay:()=>this.pay(input),pausePlan:()=>this.pausePlan(input.id),skip:()=>this.skip(input),goal:()=>this.goal(input),fund:()=>this.fund(input),rate:()=>this.setRate(input),settings:()=>this.settings(input),removeBudget:()=>{this.state.budgets=this.state.budgets.filter(b=>b.id!==input.id);this.save('budget.delete',input.id);}};
+    invariant(handlers[action],'Bütçe işlemi desteklenmiyor.');const before=structuredClone(this.state);try{return handlers[action]();}catch(e){this.state=before;throw e;}
+  }
+  export() { return structuredClone(this.state); }
+  replace(state) {this.validate(state);this.state=structuredClone(state);this.save('backup.import','budget');}
+}
+module.exports={Budget,money,rate,converted,dateKey,validDate,shiftMonth,nextDate,defaults,CURRENCIES};
