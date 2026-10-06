@@ -145,7 +145,7 @@ test('Ayarlar navbar yerine üst sağ tema uyumlu dişli düğmesindedir', () =>
   const skins = fs.readFileSync(path.join(__dirname, '../src/renderer/panel/skins.css'), 'utf8');
   assert.match(html, /id="settings-button"/);
   assert.doesNotMatch(html, /data-tab="settings"/);
-  assert.equal((html.match(/<button role="tab" data-tab=/g) || []).length, 5);
+  assert.equal((html.match(/<button role="tab" data-tab=/g) || []).length, 6);
   assert.ok(html.indexOf('id="settings-button"') < html.indexOf('id="pin"'));
   assert.match(panel, /settings-button'\)\.addEventListener\('click', \(\) => selectTab\('settings'\)/);
   assert.match(css, /\.close\.settings-btn/);
