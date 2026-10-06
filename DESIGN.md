@@ -7,20 +7,23 @@
 Kullanıcının paylaştığı @reddiodesigns Analytics / Saving Plans görseli bu görünümün esas referansıdır. Önceki Nero ekranının yalnız renk değiştirmesi yeterli değildir. Premium Black'in sayfa hiyerarşisi ve grafik geometrisi ayrı olarak uygulanır:
 
 - Büyük kutuya alınmayan beyaz bakiye, Tümü/Gelir/Gider/Birikim kapsülleri.
-- Gerçek aylık örneklerden geçen, taşma yapmayan ince limon yeşili ve lavanta Bézier eğrileri; seçilebilir aylar ve tutarlar. Kayıt yokken sıfır çizgisi ve açıklama; sahte dalga yok.
+- Gerçek günlük veya aylık kayıtlardan geçen, taşma yapmayan ince limon yeşili ve lavanta Chart.js Canvas eğrileri; seçilebilir aylar ve tutarlar. Kayıt yokken sıfır çizgisi ve açıklama; sahte dalga yok.
 - Yuvarlak ikonlu gelir/gider özetleri ve lavanta önceki ay karşılaştırması.
 - Kalın, yuvarlak uçlu, boşluklu birikim/harcama halkası; gerçek paylar ve merkez toplamı.
 - Kompakt hedef satırlarında tutar/tarih, ince ilerleme çubuğu ve para ayırma eylemi; kapsül biçiminde yeni hedef düğmesi.
 - Hesap kartları, filtrelenebilir işlem geçmişi, ödeme akışı, raporlar, yuvarlak tarihli takvim ve ders ilerlemesi aynı tipografi, yüzey ve ikon dilini kullanır.
 
-Mobil çerçeve kopyalanmaz. Nero'nun sekiz finans bölümü, fare/klavye erişimi ve kayıt düzenleme davranışları korunur. Geniş pencerede özet iki sütuna yerleşir; küçük pencerede tek sütunda kayar. Finans menüsü kaydırmadan bağımsızdır. Ok/Home/End tuşlarıyla bölüm seçimi; grafik aylarında klavye odağını koruyan düğmeler; azaltılmış hareket tercihi desteklenir.
+Mobil çerçeve kopyalanmaz. Nero'nun sekiz finans bölümü, fare/klavye erişimi ve kayıt düzenleme davranışları korunur. 680 CSS pikselinden itibaren sol menü ve iki sütun kullanılır; küçük pencerede kompakt üst menü ve tek sütun vardır. 900 piksel pencerede yüzde 125 ölçek ayrıca kontrol edilir. Finans menüsü kaydırmadan bağımsızdır. Ok/Home/End tuşlarıyla bölüm seçimi; grafik aylarında klavye odağını koruyan düğmeler; azaltılmış hareket tercihi desteklenir.
 
 ## Kaynak yapısı
 
 - `budget-tokens.css`: tüm görünüm renkleri, ölçüler ve boşluklar.
-- `budget-premium-redesign.css`: Premium Black'in sayfa, grafik, menü ve diyalog yerleşimi.
-- `budget-premium-charts.js`: örneklerden eğri oluşturma, halka yayları ve tam sayı kur dönüşümü; saf fonksiyonlar.
-- `budget-premium-view.js`: sekiz sayfanın Premium Black sunumu.
+- `budget-premium-react.css`: HTML bileşenlerinin sayfa, menü ve diyalog yerleşimi; kapsüller, lavanta şerit deseni, hedef kartları.
+- `premium/index.jsx`: sekiz finans sayfasının React bileşenleri; yerel veri motoru ve eylemlerle bağlantı.
+- `premium/charts.js`: Chart.js Canvas çizgi, halka ve sütun grafikleri; CSS pikselinden bağımsız ekran yoğunluğu hesabı.
+- `premium/data.js`: gerçek günlük/haftalık seriler ve tam sayı kur dönüşümü; dört birim testi.
+- `budget-premium-app.js`: uygulamaya dahil edilmiş yerel üretim paketi; internetten kod yüklemez.
+- `scripts/build-finance-ui.js`: JSX / Chart.js kaynaklarını esbuild ile derler (`npm run finance:build`).
 - `budget.js`: mevcut olay, form, filtre ve finans motoru bağlantıları.
 - `budget-icons.js`: yerel SVG ikonları; marka ikonları ayrı yerel dosyalardır.
 
@@ -29,3 +32,7 @@ Mobil çerçeve kopyalanmaz. Nero'nun sekiz finans bölümü, fare/klavye erişi
 ## Finans anlamı
 
 Mevcut banka/nakit para, hedef rezervleri, beklenen gelir, ödeme ve toplam borç ayrı kavramlardır. Başlangıç bakiyesi gelir sayılmaz. Birikime ayırma hesap içi rezervdir; yeni işlem üretmez. Halka toplamı mevcut kurla temel paraya dönüştürülür; eksik kurlar hariç tutulur ve açıklanır. Negatif net kategori giderleri halkaya girmez, ayrıntılı dökümde görünür. Boş ekrana sahte veri konmaz. Önizleme örnekleri yalnız geçici test verileridir.
+
+## Uygulama yöntemi
+
+React bileşen ve durum yapısını yönetir; CSS yerleşim, renk, tipografi ve şekilleri oluşturur. SCSS, CSS üreten bir ön işlemcidir; bu projede ayrıca gerekmez. Grafikler SVG olarak esnetilmez: Chart.js Canvas üzerinde tekrar hesaplayarak çizilir. Finans ikonları mevcut yerel SVG ikonlarıdır; grafik değildir.

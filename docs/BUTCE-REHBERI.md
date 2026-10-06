@@ -1,4 +1,4 @@
-# Nero 9.6.6 — Bütçe rehberi
+# Nero 9.6.7 — Bütçe rehberi
 
 ## Kaynaktan çalıştırma
 
@@ -15,7 +15,7 @@ Windows kurulum dosyasını yerel olarak üretmek için Windows üzerinde:
 npm run dist
 ```
 
-Kaynak paketinde `node_modules` ve derleme çıktısı bulunmaz. Üstteki komut bağımlılıkları indirir. Sürüm `package.json` ve kilit dosyasında 9.6.6'dir. Bütçe için yeni npm bağımlılığı eklenmedi.
+Kaynak paketinde `node_modules` ve derleme çıktısı bulunmaz. Üstteki komut bağımlılıkları indirir. Sürüm `package.json` ve kilit dosyasında 9.6.7'dir. Bütçe için yeni npm bağımlılığı eklenmedi.
 
 ## İlk kullanım
 

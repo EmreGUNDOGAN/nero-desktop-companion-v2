@@ -28,7 +28,7 @@ Nero ekranın sağ alt köşesinde belirir. Tepside (saatin yanındaki gizli sim
 npm run dist
 ```
 
-Kurulum dosyası `dist\Nero-Setup-9.6.6.exe` olarak oluşur.
+Kurulum dosyası `dist\Nero-Setup-9.6.7.exe` olarak oluşur.
 
 Yeni sürüm çıkarırken `package.json` içindeki `"version"` değerini artır (ör. `3.0.1`). `appId` değerini (`com.stenwick.nero`) **değiştirme**; kurulum programı eski sürümü bu kimlikten tanıyıp kaldırır.
 
@@ -101,7 +101,7 @@ Tüm veriler `%APPDATA%\Nero` klasöründedir: `settings.json`, `notes.json`, `t
 - **Kendi kendine konuşma:** ruh haline göre arada bir söylenir ya da sana laf atar. Sıklığı Ayarlar > Konuşkanlık'tan değişir.
 - **Zamanlayıcı:** bitince kutlar (ses + Windows bildirimi), erken bırakılırsa ne kadar erken bırakıldığına göre farklı tepki verir.
 
-## 9.6.6 finans çalışma alanı
+## 9.6.7 finans çalışma alanı
 
 Bütçe kullanımı ve kaynak kodunu çalıştırma: [Bütçe rehberi](docs/BUTCE-REHBERI.md). Finans teması, bildirim ve yazı tercihleri Bütçe içindeki Finans ayarları bölümündedir. Bu paket yalnız kaynak koddur; bağımlılıklar `npm ci` ile kurulur.
 
@@ -109,4 +109,13 @@ Bütçe kullanımı ve kaynak kodunu çalıştırma: [Bütçe rehberi](docs/BUTC
 
 Bütçe → Finans ayarları → Finans teması → Premium Black. Sekiz finans sayfası ve finans pencereleri koyu görünüme geçer. Diğer üç görünüm de kullanılabilir.
 
-Kullanım: `KULLANIM-9.6.6.md`. Tasarım: `DESIGN.md`. Kontroller: `docs/9.6.6-PREMIUM-BLACK-VALIDATION.md`.
+Kullanım: `KULLANIM-9.6.7.md`. Tasarım: `DESIGN.md`. Kontroller: `docs/9.6.7-PREMIUM-BLACK-VALIDATION.md`.
+
+Premium Black'in sekiz finans sayfası React + CSS ile, grafikler Chart.js Canvas ile uygulanır. Paket derlenmiş yerel arayüzü de içerir.
+
+```sh
+npm ci
+npm start
+```
+
+JSX veya grafik kaynaklarını değiştirdikten sonra `npm run finance:build` çalıştır. Ana kaynaklar `src/renderer/panel/premium/` ve `src/renderer/panel/budget-premium-react.css` içindedir.
