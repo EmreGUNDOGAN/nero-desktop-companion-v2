@@ -242,6 +242,8 @@
           <h2>🍯 Pazar</h2>
           <span class="season-tag" id="m-season"></span>
         </div>
+        <nav class="orders-tabs" aria-label="Pazar bölümleri"><button type="button" class="on" data-market-tab="honey">Bal</button><button type="button" data-market-tab="inputs">Dükkân Malları</button><button type="button" data-market-tab="products">Üretilen Ürünler</button></nav>
+        <div data-market-panel="honey">
         <p class="modal-sub" id="m-sub">Fiyatlar her gün dalgalanır. Kışın bal daha değerli, yazın daha ucuz.</p>
         <div class="festival" id="m-festival" hidden></div>
         <div class="festival" id="m-forecast" hidden></div>
@@ -251,8 +253,9 @@
           <label>Sırala <select id="market-sort"><option value="default">Varsayılan</option><option value="price">Fiyat (yüksekten)</option><option value="stock">Depodaki miktar</option></select></label>
         </div>
         <ul class="market-list" id="market-list"></ul>
-        <div class="market-goods-head"><b>📦 Dükkân Malları</b><small>Açılan dükkânların yarı mamulleri her gün Pazara gelir.</small></div>
-        <div class="market-goods" id="market-goods"></div>
+        </div><div data-market-panel="inputs" hidden><div class="market-goods-head"><b>📦 Dükkân Malları</b><small>Açılan dükkânların yarı mamulleri her gün Pazara gelir.</small></div>
+        <div class="market-goods" id="market-goods"></div></div>
+        <div data-market-panel="products" hidden><p class="modal-sub">Siparişe ayrılan ürünler satışta korunur.</p><button type="button" id="market-product-orders">Ürün siparişleri · en fazla 10 · her 5 gerçek dakikada</button><ul id="market-products" class="market-list"></ul></div>
       </section>
       <aside class="depot">
         <div class="modal-head">
@@ -321,7 +324,7 @@
         <h2>📜 Siparişler</h2>
         <button class="round small" id="orders-close" type="button" aria-label="Kapat">✕</button>
       </div>
-      <p class="modal-sub">Köylüler özel bal istiyor! Siparişler piyasadan çok daha iyi öder. Sadece ekili çiçeklerinin balı istenir.</p>
+      <p class="modal-sub">Bal ve üretilen ürün siparişleri ayrı listelerde gelir; her grubun kotası ve gerçek-zaman sayacı bağımsızdır.</p>
       <div class="orders-tabs">
         <button type="button" class="on" data-order-tab="honey">🍯 Bal Siparişleri</button>
         <button type="button" data-order-tab="product">📦 Ürünler ve Mallar</button>
@@ -418,7 +421,7 @@
           <summary>🔨 Yan ürünler ve Arıcılık Atölyesi</summary>
           <p>Bal üretirken kovanda üç gerçek yan ürün birikir: <b>Polen</b>, <b>Propolis</b> ve <b>Arı Sütü</b>. Polen aktif çiçek ve biyoçeşitlilikten etkilenir; monokültür poleni azaltır. Propolis için sağlıklı ve en az 8 arılı koloni gerekir. Arı Sütü için sağlıklı, en az 12 arılı ve en az Sağlıklı Kraliçe seviyesine yükselmiş bir kovan gerekir. Yan ürünler balı hasat ettiğinde aynı oranda atölye deposuna taşınır.</p>
           <p><b>Atölye (9. yerleşimci)</b> temel üretimi açar; Çiçekçi Ezgi ile başlayan ticari tarifler burada işlenir. <b>Fırın 30. sırada</b> gelir ve kendi tarif ailesini açar. <b>Eczane (44)</b> Atölye II'yi açar: Propolis Kalkanı ve Propolis Merhemi. <b>Arıcılar Derneği (53)</b> Atölye III'ü açar, aynı anda 2 üretim yapılabilir ve Polen Keki, Özel Polen Karışımı, Arı Sütü Kürü açılır. <b>Köy Serası (73)</b> Aromalı Bal Kavanozu, <b>Bal Müzesi (78)</b> Bal Hediye Seti tarifini açar.</p>
-          <p>Atölye üretimleri oyun zamanı ile ilerler ve oyun durduğunda durur. Ticari ürünler sabit fiyattan satılabilir; kovan ürünleri envanterden seçtiğin kovana uygulanır. Kışın normal bal fiyatı artık <b>+%15</b> mevsim bonusu alır.</p>
+          <p>Atölye üretimleri oyun zamanı ile ilerler ve oyun durduğunda durur. Pazar → <b>Üretilen Ürünler</b> sekmesinde ticari ürünler satılır; buradan <b>Ürün Siparişleri</b> sayfasına geçilir. Siparişe ayrılan ürünler satışta korunur. Ticari ürünler sabit fiyattan satılabilir; kovan ürünleri envanterden seçtiğin kovana uygulanır. Kışın normal bal fiyatı artık <b>+%15</b> mevsim bonusu alır.</p>
         </details>
 
         <details class="guide-topic">
@@ -433,7 +436,7 @@
           <summary>⚙️ Ayarlar, kovanlar ve kolaylıklar</summary>
           <p>Oyunla ilgili bütün ayarlar sağ üstteki <b>⚙️ Ayarlar</b>'da: grafik kalitesi (Yüksek / Dengeli / Hafif; hafif modda gölgeler, ateş böcekleri ve kar/yağmur kapanır, her kovanın etrafında daha az arı uçar; üretim etkilenmez), gece modu, efekt ve ortam sesleri, masaüstündeki Nero'nun hangi durumlarda haber vereceği, kaydı dışa/içe aktarma, fotoğraf klasörü ve oyunu sıfırlama.</p>
           <p><b>🐝 Kovanlar</b> (K) bütün kovanları tek listede gösterir; birine tıklayınca kamera oraya gider. Buradan <b>tüm kovanlara şurup</b> verebilirsin. Kovan ekranında ‹ › ya da ←/→ ile kovanlar arasında gezinirsin. <b>⌖</b> (R) kamerayı adanın ortasına döndürür.</p>
-          <p>Siparişlerde depodan hemen karşılanabilenler <b>✓ hazır</b> yazar; <b>Hazır olanların hepsini teslim et</b> kabul ettiğin hazır siparişleri tek tuşla teslim eder. Siparişleri süreye, ödüle ya da hazır olanlara göre, Pazar'ı fiyata ya da miktara göre sıralayabilir, "Sadece depomdakiler" ile süzebilirsin. Kovanın ya da tarhın üstüne gelince doluluğu, üretimi ya da kalan ömrü görürsün. 500 🪙 ve üstü alımlarda onay istenir. Bildirim panelindeki bir bildirime tıklayınca ilgili yer açılır. Köşedeki Nero da ters giden bir şey olunca (depo dolmak üzere, yanında çiçek olmayan kovan, hazır sipariş…) haber verir.</p>
+          <p>Siparişlerde depodan hemen karşılanabilenler <b>✓ hazır</b> yazar; <b>Hazır olanların hepsini teslim et</b> seçili sekmedeki kabul ettiğin hazır siparişleri tek tuşla teslim eder. Siparişleri süreye, ödüle ya da hazır olanlara göre, Pazar'ı fiyata ya da miktara göre sıralayabilir, "Sadece depomdakiler" ile süzebilirsin. Kovanın ya da tarhın üstüne gelince doluluğu, üretimi ya da kalan ömrü görürsün. 500 🪙 ve üstü alımlarda onay istenir. Bildirim panelindeki bir bildirime tıklayınca ilgili yer açılır. Köşedeki Nero da ters giden bir şey olunca (depo dolmak üzere, yanında çiçek olmayan kovan, hazır sipariş…) haber verir.</p>
           <p><b>✉️ Mektuplar:</b> köylüler 30–45 gerçek dakikada bir mektup yazar; 1×/2×/4× bu süreyi değiştirmez. Aynı metin 3 oyun günü içinde tekrarlanmaz; oyun kapalıyken açılışta en fazla 1 mektup birikir. Bazılarının içinde küçük bir hediye olur. Bal Defteri → Mektuplar'dan okursun.</p>
         </details>
 
@@ -489,7 +492,7 @@
           <summary>🍯 Pazar mı, sipariş mi?</summary>
           <p>Pazar fiyatları her gün değişir. Yazın bal daha ucuz, kışın daha pahalıdır. Acil jeton gerekiyorsa Pazar hızlıdır.</p>
           <p>Siparişler genellikle daha çok kazandırır ve köylülerle kalp biriktirir. Ancak kabul ettikten sonra süre başlar; yetiştiremezsen ödülün %20'si kadar ceza ödersin. Kabul etmeden önce depodaki miktarı kontrol et.</p>
-          <p>Yeni sipariş <b>gerçek zamanla 5 dakikada bir</b> gelir (oyun hızından bağımsız). Uzun süre bakmadıysan geri döndüğünde en fazla <b>3 yeni normal sipariş</b> birden birikir; toplam sipariş sınırı yine geçilmez. <b>Aynı köylünün aynı anda yalnızca 1 açık/kabul edilmiş normal siparişi</b> olabilir. Bir siparişi <b>reddetmek</b> o kişiyle ilişkini <b>%2</b> azaltır (her teslim %10 kazandırır; ilişki %0'ın altına inmez). Solan bir tarhı tohum fiyatının <b>%25'ine canlandırabilirsin</b>.</p>
+          <p>Bal ve ürün gruplarına bağımsız olarak <b>5 gerçek dakikada bir</b> sipariş gelir; hız ve duraklatma bunu değiştirmez. Bal sınırı <b>5 + köy bonusları</b>, ürün sınırı ayrı olarak <b>10</b> açık/kabul edilmiş sipariştir. Kapalı geçen sürede bal için en fazla <b>3</b>, ürün için en fazla <b>10</b> sipariş telafi edilir. Bal grubunda aynı köylünün bir aktif siparişi olabilir; ürün grubu kendi müşterilerini kullanır. Bir siparişi <b>reddetmek</b> o kişiyle ilişkini <b>%2</b> azaltır (her teslim %10 kazandırır; ilişki %0'ın altına inmez). Solan bir tarhı tohum fiyatının <b>%25'ine canlandırabilirsin</b>.</p>
           <p>Sol alttaki 🔔 <b>zil</b> son 20 bildirimi gösterir; okunmamış bildirim varsa üstünde sayı çıkar. 📊 İstatistikler'in en üstünde oyun boyunca sattığın toplam bal (ton) yazar.</p>
         </details>
 
@@ -515,6 +518,7 @@
           <p><b>💛 Köy İtibarı — 150:</b> o mevsimde tamamlanan başarılı sipariş ×15 + min(90, ilişki puanı).</p>
           <p><b>🎯 Puanı yükseltmek için:</b> doğru mevsimde değerli bal gönder, 10 kg kotayı doldur, biyoçeşitliliği koru, kovanları sağlıklı tut, arı kaybını azalt, verimli üret ve siparişleri tamamla.</p>
           <p><b>🥇 Ödüller:</b> 1. 300 🪙 + Altın Kupa, 2. 200 🪙 + Gümüş Kupa, 3. 100 🪙 + Bronz Kupa. Altın Kupa gelecek yıl aynı mevsimde <b>+%20 bal üretimi</b> sağlar. Kupalar ve kategori sonuçları Bal Defteri’nde görünür.</p>
+          <p><b>Sıralama:</b> Bal/kış şurubu hem oyuncu hem yapay zekâ için sermayeye eklenmez; şurup satın almak puan kazandırmaz.</p>
           <p><b>Rakipler:</b> Temkinli Ali, Riskçi Kaya ve Dengeli Nur aynı kategori hesaplayıcısını kullanır; girdileri kendi gerçek simüle edilmiş stok, üretim, hastalık, sipariş ve ilişki verileridir. Turnuvaya gönderdikleri bal kendi stoklarından düşer ve kazandıkları ödül jetonu ekonomilerine eklenir.</p>
         </details>
 

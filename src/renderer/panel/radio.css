@@ -1,0 +1,44 @@
+/* Radyo Akşamı: home screen and its shared radio frame. */
+[data-skin="radyo-aksami"] .shell{inset:12px;border-radius:19px;background:#73503b;background-image:none;border:3px solid #51392c;box-shadow:inset 0 0 0 1px #b28760,0 8px 24px #38231540}
+[data-skin="radyo-aksami"] .gingham,[data-skin="radyo-aksami"] .mast-meta,[data-skin="radyo-aksami"] .tagline{display:none}
+[data-skin="radyo-aksami"] .top{padding:44px 17px 10px;color:#f7e9cd}
+[data-skin="radyo-aksami"] .brand{align-items:center;justify-content:space-between}
+[data-skin="radyo-aksami"] h1{font-size:28px;letter-spacing:1px}
+[data-skin="radyo-aksami"] .brand::after{content:'RADYO AKŞAMI';font-size:9px;letter-spacing:2px;color:#d8c0a1}
+[data-skin="radyo-aksami"] .window-controls{top:9px;right:10px;gap:5px}
+[data-skin="radyo-aksami"] .window-controls button{border-radius:5px;color:#f0dfc0;background:#624431;border:1px solid #987555}
+[data-skin="radyo-aksami"] .mood-note{color:#dac6aa;font-size:10px;margin:7px 0 0}
+[data-skin="radyo-aksami"] .mood-note #mood-detail{display:none}
+[data-skin="radyo-aksami"] .meter{display:none}
+.radio-dial{display:none}
+[data-skin="radyo-aksami"] .radio-dial{display:block;position:relative;background:#332d25;border:1px solid #b59059;box-shadow:inset 0 1px 4px #0008;border-radius:6px;height:44px;margin-top:12px;overflow:hidden}
+[data-skin="radyo-aksami"] .radio-dial::before{content:'';position:absolute;inset:8px 14px 17px;background:repeating-linear-gradient(90deg,#bca070 0 1px,transparent 1px 9px);opacity:.75}
+[data-skin="radyo-aksami"] .radio-dial::after{content:'';position:absolute;top:5px;bottom:5px;left:calc(14px + (100% - 28px)*var(--radio-mood,.5));width:2px;background:#e9b568;box-shadow:0 0 5px #edac5380;transition:left .4s}
+[data-skin="radyo-aksami"] .radio-dial span{position:absolute;bottom:4px;left:14px;right:14px;display:flex;justify-content:space-between;color:#d9be8d;font-size:8px;letter-spacing:1px}
+[data-skin="radyo-aksami"] .tabs{margin:4px 12px 12px;padding:0;border:0;gap:5px;background:none;display:flex}
+[data-skin="radyo-aksami"] .tabs button{min-width:0;flex:1;display:flex;flex-direction:column;gap:4px;padding:8px 2px;border:1px solid #493324;border-radius:5px;background:linear-gradient(#f7ead2,#dec8a5);color:#614a35;box-shadow:0 3px 0 #493324;font-size:10px}
+[data-skin="radyo-aksami"] .tabs button[aria-selected="true"]{background:linear-gradient(#d7a458,#bf8641);color:#3e2a1d;box-shadow:inset 0 2px 3px #5f3f2940,0 1px 0 #493324;transform:translateY(2px)}
+[data-skin="radyo-aksami"] .tabs svg{width:13px;height:13px}
+[data-skin="radyo-aksami"] .radio-dial i{font-style:normal}
+[data-skin="radyo-aksami"] main{background:#f1e5cf;border-radius:10px 10px 0 0;margin:0 9px;padding:14px 12px}
+[data-skin="radyo-aksami"] #view-home .home-grid{grid-template-columns:minmax(0,1fr);gap:11px}
+[data-skin="radyo-aksami"] #view-home .card{background:#fff8e8;background-image:none;border:1px solid #cbb797;border-radius:8px;box-shadow:none;padding:12px}
+[data-skin="radyo-aksami"] #view-home .hello h2{font-size:22px}
+[data-skin="radyo-aksami"] #view-home .hello p{font-family:var(--sans);font-size:11px}
+[data-skin="radyo-aksami"] #view-home .sticky-note{display:none}
+[data-skin="radyo-aksami"] #view-home .nero-says{border:2px solid #9e8362;background:#e5d6b9;min-height:72px;gap:12px}
+[data-skin="radyo-aksami"] #view-home .nero-says::before{position:static;flex:none;transform:none;rotate:none;width:46px;height:46px;border-radius:50%;background:radial-gradient(#665847 1px,transparent 1.6px) 0 0/4px 4px #b3a080;border:3px solid #968161}
+[data-skin="radyo-aksami"] #view-home .deco-cat{display:none}
+[data-skin="radyo-aksami"] #view-home .nero-says p{font-size:12px}
+[data-skin="radyo-aksami"] #view-home .tiles{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+[data-skin="radyo-aksami"] #view-home .tile{display:flex;flex-direction:column;align-items:start;min-height:81px;background:#ead8b7;padding:10px}
+[data-skin="radyo-aksami"] #view-home .tile strong{background:#3d362d;color:#f0ca88;border-radius:4px;border:1px solid #261f17;box-shadow:inset 0 2px 4px #0006;padding:5px 9px;font:700 23px/1 monospace;font-variant-numeric:tabular-nums}
+[data-skin="radyo-aksami"] #view-home .tile span{font-size:10px;margin-top:3px}
+[data-skin="radyo-aksami"] #view-home .tile>svg{display:none}
+[data-skin="radyo-aksami"] #view-home .ritual-q{font-size:12px}
+[data-skin="radyo-aksami"] #view-home .pill{border:1px solid #bea681;border-radius:5px;background:#f5ead4;font-size:11px;padding:7px 10px;box-shadow:0 2px 0 #c4af8d}
+[data-skin="radyo-aksami"] #view-home .pill.active,[data-skin="radyo-aksami"] #view-home .pill.primary{background:#d5a359;color:#3e2d1e}
+[data-skin="radyo-aksami"] #view-home .card h3{font-family:var(--sans);font-size:13px}
+[data-skin="radyo-aksami"] #view-home .bar i{background:#c49147}
+[data-skin="radyo-aksami"] .panel-drag-zone{height:38px;right:290px}
+@media(max-width:390px){[data-skin="radyo-aksami"] .brand::after{font-size:8px;letter-spacing:1px}[data-skin="radyo-aksami"] .tabs{gap:3px;margin-left:9px;margin-right:9px}[data-skin="radyo-aksami"] main{padding:12px 10px}}

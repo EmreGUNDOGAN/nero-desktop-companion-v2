@@ -5,7 +5,7 @@ const { contextBridge, ipcRenderer } = require('electron');
 const INVOKE = new Set([
   'state:get', 'theme:get', 'motion:play',
   'notes:save', 'notes:delete', 'notes:archive',
-  'todos:add', 'todos:toggle', 'todos:rename', 'todos:delete', 'todos:clearDone', 'todos:archive', 'todos:archiveDone', 'todos:setReminder',
+  'todos:reorder', 'todos:addSubtask', 'todos:toggleSubtask', 'todos:renameSubtask', 'todos:deleteSubtask', 'todos:add', 'todos:toggle', 'todos:rename', 'todos:delete', 'todos:clearDone', 'todos:archive', 'todos:archiveDone', 'todos:setReminder',
   'todos:stopwatchStart', 'todos:stopwatchPause', 'jar:add', 'moodboard:get', 'moodboard:set',
   'data:export', 'data:import', 'data:openBackups',
   'bee:open', 'bee:export', 'bee:import', 'bee:reset',

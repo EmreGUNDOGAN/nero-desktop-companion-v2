@@ -38,6 +38,7 @@ const {
   focusCredit: todoFocusCredit,
   applyCredit: applyTodoFocusCredit
 } = require('./todo-stopwatch');
+const todoTree = require('./todo-tree');
 const QUOTES = require('../data/quotes.tr.json');
 
 protocol.registerSchemesAsPrivileged([
@@ -169,6 +170,8 @@ function watchWindow(win, name) {
 let charWin = null;
 let panelWin = null;
 let quickWin = null;
+let focusNoticeWin = null;
+let focusNoticePayload = null;
 let beeWin = null;
 let beeStore = null;
 let bee = null;
@@ -362,6 +365,23 @@ function defaultPosition(layout) {
   return { x: wa.x + wa.width - layout.width - 40, y: wa.y + wa.height - layout.height };
 }
 
+function showFocusNotice(minutes) {
+  if (focusNoticeWin && !focusNoticeWin.isDestroyed()) focusNoticeWin.close();
+  focusNoticePayload = { manifest: currentTheme.manifest, outfit: currentOutfit(), minutes };
+  const display = screen.getDisplayNearestPoint(screen.getCursorScreenPoint());
+  const area = display.workArea;
+  const width = Math.min(390, area.width), height = 205;
+  const win = new BrowserWindow({ width, height, x: area.x + area.width - width - 12, y: area.y + area.height - height - 12,
+    frame: false, transparent: true, resizable: false, maximizable: false, minimizable: false, skipTaskbar: true, alwaysOnTop: true, show: false,
+    webPreferences: { preload: path.join(__dirname, '..', 'preload', 'notification-preload.js'), contextIsolation: true, nodeIntegration: false, sandbox: true }
+  });
+  focusNoticeWin = win;
+  win.setAlwaysOnTop(true, 'screen-saver');
+  win.once('ready-to-show', () => { if (!win.isDestroyed()) win.showInactive(); });
+  win.on('closed', () => { if (focusNoticeWin === win) { focusNoticeWin = null; focusNoticePayload = null; } });
+  win.loadFile(path.join(__dirname, '..', 'renderer', 'notification', 'index.html'));
+}
+
 function createCharacterWindow() {
   const layout = characterLayout(currentTheme, settings().scale);
   let pos = settings().position;
@@ -391,6 +411,7 @@ function createCharacterWindow() {
       contextIsolation: true,
       nodeIntegration: false,
       sandbox: true,
+      autoplayPolicy: 'no-user-gesture-required',
       backgroundThrottling: false
     }
   });
@@ -1678,7 +1699,7 @@ function registerIpc() {
       setting: () => bee.setGameSetting(arg1, arg2),
       syrupAll: () => bee.giveSyrupAll(),
       winterSyrup: () => bee.giveWinterSyrup(),
-      deliverReady: () => bee.deliverReady(),
+      deliverReady: () => bee.deliverReady(arg1),
       placeDecor: () => bee.placeDecor(arg1, arg2),
       removeDecor: () => bee.removeDecor(arg1),
       enterFestival: () => bee.enterFestival(arg1, arg2),
@@ -1708,6 +1729,8 @@ function registerIpc() {
 
   ipcMain.handle('state:get', () => fullState());
   ipcMain.handle('theme:get', () => themePayload());
+  ipcMain.handle('focusNotice:get', e => e.sender === focusNoticeWin?.webContents ? focusNoticePayload : null);
+  ipcMain.on('focusNotice:close', e => { if (e.sender === focusNoticeWin?.webContents) focusNoticeWin.close(); });
 
   // Notlar
   ipcMain.handle('notes:save', (_e, note) => {
@@ -1775,12 +1798,10 @@ function registerIpc() {
     });
     return todo;
   });
-  ipcMain.handle('todos:toggle', (_e, id) => {
-    const todos = todosStore.get();
-    const todo = todos.find((t) => t.id === id);
-    if (!todo) return null;
+  function completeTodo(todos, todo, done) {
+    if (todo.done === done) { todosStore.set(todos); broadcastState(); return todo; }
     const now = Date.now();
-    todo.done = !todo.done;
+    todo.done = done;
     todo.doneAt = todo.done ? now : null;
     if (todo.done) {
       // Çalışan kronometre işi bitirirken otomatik durur. Kalan saniyeler finalde en yakın dakikaya tamamlanır.
@@ -1807,10 +1828,47 @@ function registerIpc() {
         }
         else if (chance(0.7)) say('todo_done', { label: truncate(todo.text, 40) });
       }, { preferFallback: allDone });
-    } else {
-      broadcastState();
     }
+    broadcastState();
     return todo;
+  }
+  ipcMain.handle('todos:toggle', (_e, id) => {
+    const todos = todosStore.get(), todo = todos.find(t => t.id === id);
+    if (!todo) return null;
+    const done = !todo.done;
+    for (const child of todoTree.children(todo)) { child.done = done; child.doneAt = done ? Date.now() : null; }
+    return completeTodo(todos, todo, done);
+  });
+  ipcMain.handle('todos:reorder', (_e, ids) => {
+    todosStore.set(todoTree.reorder(todosStore.get(), ids));
+    broadcastState(); return true;
+  });
+  ipcMain.handle('todos:addSubtask', (_e, parentId, text) => {
+    const todos = todosStore.get(), todo = todos.find(t => t.id === parentId && !t.archivedAt);
+    const clean = String(text || '').trim().slice(0, 300);
+    if (!todo || !clean) return null;
+    todo.subtasks = [...todoTree.children(todo), { id: uid(), text: clean, done: false, createdAt: Date.now(), doneAt: null }];
+    return completeTodo(todos, todo, false);
+  });
+  ipcMain.handle('todos:toggleSubtask', (_e, parentId, childId) => {
+    const todos = todosStore.get(), todo = todos.find(t => t.id === parentId && !t.archivedAt);
+    const child = todo && todoTree.children(todo).find(t => t.id === childId);
+    if (!child) return null;
+    child.done = !child.done; child.doneAt = child.done ? Date.now() : null;
+    return completeTodo(todos, todo, todoTree.parentDone(todo));
+  });
+  ipcMain.handle('todos:renameSubtask', (_e, parentId, childId, text) => {
+    const todos = todosStore.get(), todo = todos.find(t => t.id === parentId && !t.archivedAt);
+    const child = todo && todoTree.children(todo).find(t => t.id === childId);
+    const clean = String(text || '').trim().slice(0, 300);
+    if (!child || !clean) return null;
+    child.text = clean; todosStore.set(todos); broadcastState(); return todo;
+  });
+  ipcMain.handle('todos:deleteSubtask', (_e, parentId, childId) => {
+    const todos = todosStore.get(), todo = todos.find(t => t.id === parentId && !t.archivedAt);
+    if (!todo) return null;
+    todo.subtasks = todoTree.children(todo).filter(t => t.id !== childId);
+    return completeTodo(todos, todo, todoTree.parentDone(todo));
   });
   ipcMain.handle('todos:rename', (_e, id, text) => {
     const todos = todosStore.get();
@@ -2233,20 +2291,14 @@ function wireTimer() {
     const woke = wakeNap('timer');
     mood.interact('timer_done');
     updateBaseline();
-    if (settings().sound) sendTo(charWin, 'sound', 'chime');
+    if (settings().sound) sendTo(charWin, 'sound', 'focus-done');
     if (woke) setTimeout(() => say('timer_done', { minutes, label }, { force: true }), 4500);
     else say('timer_done', { minutes, label }, { force: true });
-    if (Notification.isSupported()) {
-      new Notification({
-        title: 'Nero: süre bitti',
-        body: label ? `"${label}" için ${minutes} dakika tamam.` : `${minutes} dakika tamam. Etkilendim.`,
-        icon: iconPath,
-        silent: !settings().sound
-      }).show();
-    }
+    showFocusNotice(minutes);
     broadcastState();
   });
   timer.on('cancelled', ({ progress, minutes }) => {
+    if (settings().sound) sendTo(charWin, 'sound', 'focus-cancel');
     stats.focus(minutes * progress, false, { pajama: wearingSleepwear(), pauseResumeCount: timerPauseResumeCount });
     timerPauseResumeCount = 0;
     homeDialogue.recordTimerResult(false);

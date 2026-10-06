@@ -182,6 +182,7 @@
   const NEW_THEME_TABS = { home: 'Bugün', badges: 'Rozetler', notes: 'Notlar', todos: 'İşler', timer: 'Sayaç', settings: 'Ayarlar' };
 
   Object.assign(SKINS, {
+    'radyo-aksami': { ...SKINS.cozy, tabs: NEW_THEME_TABS, tagline: '', sticky: '' },
     nero98: {
       ...SKINS.cozy,
       tabs: { home: 'Today', notes: 'Notes', todos: 'Tasks', timer: 'Timer', badges: 'Awards', settings: 'Control' },
@@ -431,6 +432,7 @@
   function renderMood(m) {
     if (!m) return;
     renderMeter(m.happiness);
+    document.documentElement.style.setProperty('--radio-mood', String(Math.max(0, Math.min(100, Number(m.happiness) || 0)) / 100));
     const k = skin();
     const key = m.asleep ? 'asleep' : (m.stage === 'content' && m.happiness >= 80 ? 'happy' : m.stage);
     $('mood-label').textContent = k.moodLabels ? `${k.moodPrefix}${k.moodLabels[key]}` : `${k.moodPrefix || ''}${m.label.toLowerCase()}.`;
@@ -685,8 +687,46 @@
 
   setInterval(updateTodoStopwatchClocks, 1000);
 
+  let todoDrag = null;
+  function beginTodoDrag(e, row) {
+    if (e.button !== 0 || e.target.closest('button, input, label, form, .subtask, [contenteditable="true"]')) return;
+    const startY = e.clientY, startX = e.clientX;
+    const main = $('view-todos');
+    let held = false, scrollFrame = null, pointerY = startY;
+    const originalIds = [...$('todo-list').children].map(el => el.dataset.todoId);
+    const timer = setTimeout(() => { held = true; todoDrag = row; row.classList.add('todo-dragging'); document.body.classList.add('todo-reordering'); window.getSelection()?.removeAllRanges(); scrollFrame = requestAnimationFrame(scroll); }, 280);
+    const place = () => {
+      const siblings = [...$('todo-list').children].filter(el => el !== row);
+      const next = siblings.find(el => pointerY < el.getBoundingClientRect().top + el.getBoundingClientRect().height / 2);
+      $('todo-list').insertBefore(row, next || null);
+    };
+    const scroll = () => {
+      if (!held) return;
+      const r = main.getBoundingClientRect();
+      if (pointerY < r.top + 35) main.scrollTop -= 7;
+      else if (pointerY > r.bottom - 35) main.scrollTop += 7;
+      place(); scrollFrame = requestAnimationFrame(scroll);
+    };
+    const move = event => {
+      pointerY = event.clientY;
+      if (!held && (Math.abs(event.clientY-startY) > 8 || Math.abs(event.clientX-startX) > 8)) { clearTimeout(timer); return; }
+      if (held) { event.preventDefault(); place(); }
+    };
+    const finish = async event => {
+      clearTimeout(timer); cancelAnimationFrame(scrollFrame);
+      document.removeEventListener('pointermove', move); document.removeEventListener('pointerup', finish); document.removeEventListener('pointercancel', finish); window.removeEventListener('blur', finish); document.removeEventListener('keydown', escape);
+      if (!held) return;
+      held = false; todoDrag = null; row.classList.remove('todo-dragging'); document.body.classList.remove('todo-reordering');
+      const ids = [...$('todo-list').children].map(el => el.dataset.todoId);
+      if (event.type === 'pointerup' && JSON.stringify(ids) !== JSON.stringify(originalIds)) await api.invoke('todos:reorder', ids);
+      renderTodos();
+    };
+    const escape = event => { if (event.key === 'Escape') finish(event); };
+    document.addEventListener('pointermove', move, { passive: false }); document.addEventListener('pointerup', finish); document.addEventListener('pointercancel', finish); document.addEventListener('keydown', escape); window.addEventListener('blur', finish);
+  }
+
   function renderTodos() {
-    if (document.querySelector('.todo-text[contenteditable="true"]')) return;
+    if (todoDrag || document.querySelector('.todo-text[contenteditable="true"], .subtask-text[contenteditable="true"], .subtask-input')) return;
     const list = $('todo-list');
     list.textContent = '';
     const todos = state.todos || [];
@@ -713,10 +753,12 @@
     }
     $('todo-clear').hidden = !activeTodos.some((t) => t.done);
 
-    const sorted = [...activeTodos].sort((a, b) => Number(a.done) - Number(b.done));
+    const sorted = activeTodos;
     for (const todo of sorted) {
       const li = document.createElement('li');
       li.classList.toggle('done', todo.done);
+      li.dataset.todoId = todo.id;
+      li.addEventListener('pointerdown', e => beginTodoDrag(e, li));
 
       const check = document.createElement('button');
       check.className = 'check';
@@ -809,7 +851,38 @@
       bell.appendChild(tInput);
       if (todo.done) bell.hidden = true;
 
-      li.append(check, main, stopwatch, bell, archive, del);
+      const addChild = document.createElement('button');
+      addChild.type = 'button'; addChild.className = 'todo-add-child'; addChild.textContent = '+';
+      addChild.title = 'Alt görev ekle'; addChild.setAttribute('aria-label', 'Alt görev ekle');
+      addChild.addEventListener('click', () => {
+        if (li.querySelector('.subtask-input')) return;
+        const form = document.createElement('form'); form.className = 'subtask-form';
+        const input = document.createElement('input'); input.className = 'subtask-input'; input.placeholder = 'Yeni alt görev'; input.maxLength = 300; input.setAttribute('aria-label', 'Yeni alt görev');
+        const save = document.createElement('button'); save.type = 'submit'; save.textContent = 'Ekle';
+        const cancel = document.createElement('button'); cancel.type = 'button'; cancel.textContent = '×'; cancel.setAttribute('aria-label', 'Vazgeç');
+        const close = () => { form.remove(); renderTodos(); };
+        cancel.addEventListener('click', close);
+        input.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+        form.addEventListener('submit', async e => { e.preventDefault(); const value = input.value.trim(); if (!value) return; save.disabled = true; try { await api.invoke('todos:addSubtask', todo.id, value); close(); } finally { save.disabled = false; } });
+        form.append(input, save, cancel); children.append(form); input.focus();
+      });
+      const children = document.createElement('div'); children.className = 'subtask-list';
+      for (const child of todo.subtasks || []) {
+        const row = document.createElement('div'); row.className = `subtask${child.done ? ' done' : ''}`;
+        const cb = document.createElement('button'); cb.type = 'button'; cb.className = 'subtask-check'; cb.textContent = child.done ? '✓' : ''; cb.setAttribute('aria-label', child.done ? 'Alt görevi yeniden aç' : 'Alt görevi tamamla'); cb.setAttribute('aria-pressed', String(!!child.done));
+        cb.addEventListener('click', () => api.invoke('todos:toggleSubtask', todo.id, child.id));
+        const label = document.createElement('span'); label.className = 'subtask-text'; label.textContent = child.text; label.title = 'Düzenlemek için çift tıkla';
+        label.addEventListener('dblclick', () => {
+          label.contentEditable = 'true'; label.focus();
+          let saved = false;
+          const finish = async cancel => { if (saved) return; saved = true; const value = label.textContent.trim(); label.contentEditable = 'false'; if (!cancel && value) await api.invoke('todos:renameSubtask', todo.id, child.id, value); renderTodos(); };
+          label.addEventListener('blur', () => finish(false), { once: true });
+          label.onkeydown = e => { if (e.key === 'Enter' || e.key === 'Escape') { e.preventDefault(); finish(e.key === 'Escape'); } };
+        });
+        const remove = document.createElement('button'); remove.type = 'button'; remove.className = 'subtask-remove'; remove.textContent = '×'; remove.setAttribute('aria-label', 'Alt görevi sil'); remove.addEventListener('click', () => api.invoke('todos:deleteSubtask', todo.id, child.id));
+        row.append(cb, label, remove); children.append(row);
+      }
+      li.append(check, main, addChild, stopwatch, bell, archive, del, children);
       if (todo.done) li.insertAdjacentHTML('beforeend', '<span class="stamp todo-stamp" aria-hidden="true">OLDU BU İŞ</span>');
       list.appendChild(li);
     }

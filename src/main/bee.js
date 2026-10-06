@@ -599,6 +599,7 @@ class BeeGame {
     this.lastDay = this.dayIndex();
     if (!this.state.market) this.state.market = this.newMarket();
     if (!this.state.orders) this.state.orders = { list: [], nextAtClock: ORDER_EVERY_MS, lastWallAt: Date.now() };
+    if (!Number.isFinite(this.state.orders.nextProductAtClock)) this.state.orders.nextProductAtClock = (this.state.orderClockMs || 0) + ORDER_EVERY_REAL_MS;
     if (!Number.isFinite(this.state.orderClockMs)) this.state.orderClockMs = 0;
     if (!Number.isFinite(this.state.orders.lastWallAt)) this.state.orders.lastWallAt = Number(this.state.lastSeenAt) || Date.now();
     this.state.pendingHoneyReturns = { ...(this.state.pendingHoneyReturns || {}) };
@@ -666,8 +667,8 @@ class BeeGame {
     {
       const now = Date.now();
       const wallGap = Math.max(0, now - (Number(this.state.orders.lastWallAt) || now));
-      // Uygulama gerçekten kapalı/uykuda kaldıysa açılışta en fazla 3 siparişlik gerçek-zaman farkını taşı.
-      this.state.orderClockMs += Math.min(wallGap, ORDER_EVERY_REAL_MS * ORDER_CATCHUP_MAX);
+      // Kapalı geçen süre gerçek saate eklenir; bal en fazla 3, ürün en fazla 10 sipariş telafi eder.
+      this.state.orderClockMs += wallGap;
       this.state.orders.lastWallAt = now;
       this.lastTickAt = now;
       this.processOrders();
@@ -1932,7 +1933,7 @@ class BeeGame {
       const utility = ['propolisShield','pollenCake','pollenMix','royalJellyCure'].includes(keyName);
       out.push({ key: keyName, name: this.workshopProductName(keyName), count, sellValue: utility ? 0 : this.workshopProductValue(keyName), kind: utility ? 'utility' : 'commercial' });
     }
-    return out;
+    return out.map(p => ({ ...p, available: this.availableProductCount(p.key) }));
   }
 
   workshopView() {
@@ -2128,8 +2129,8 @@ class BeeGame {
   }
 
   // Kabul edilmiş ve depodan hemen karşılanabilen siparişlerin hepsini teslim et
-  deliverReady() {
-    const ready = this.state.orders.list.filter((o) => o.status === 'accepted');
+  deliverReady(kind = null) {
+    const ready = this.state.orders.list.filter((o) => o.status === 'accepted' && (!kind || (o.kind || 'honey') === kind));
     let n = 0;
     let gain = 0;
     for (const o of ready) {
@@ -2697,7 +2698,7 @@ class BeeGame {
       { key: 'muhtarlik', who: '🏛️ Muhtarlık (köy isteği)', every: 7, flowers: null, kg: [20, 20], mult: 1.8, days: 6 }
     ];
     for (const d of defs) {
-      if (this.state.orders.list.length >= this.orderMax()) break;
+      if (this.state.orders.list.filter(x => x.kind !== 'product').length >= this.orderMax()) break;
       if (!this.fx(d.key)) continue;
       if (day - (v.special[d.key] || 0) < d.every) continue;
       if (this.state.orders.list.some((x) => x.special === d.key)) continue;
@@ -3315,8 +3316,8 @@ class BeeGame {
     return [...set];
   }
 
-  orderPeoplePool() {
-    const used = new Set(this.state.orders.list.filter((x) => !x.special && (x.status === 'open' || x.status === 'accepted')).map((x) => x.who));
+  orderPeoplePool(kind = null) {
+    const used = new Set(this.state.orders.list.filter((x) => !x.special && (!kind || (x.kind || 'honey') === kind) && (x.status === 'open' || x.status === 'accepted')).map((x) => x.who));
     return this.villagePeople().filter((p) => !used.has(p.name));
   }
 
@@ -3346,7 +3347,7 @@ class BeeGame {
   makeHoneyOrder(pool = null) {
     const planted = this.orderableFlowers();
     if (!planted.length) return null;
-    pool = pool || this.orderPeoplePool();
+    pool = pool || this.orderPeoplePool('honey');
     if (!pool.length) return null;
     const known = pool.filter((p) => ((this.state.customers[p.name] || {}).hearts || 0) > 0);
     const person = known.length && Math.random() < 0.45 ? known[Math.floor(Math.random() * known.length)] : pool[Math.floor(Math.random() * pool.length)];
@@ -3370,7 +3371,8 @@ class BeeGame {
   makeProductOrder(pool = null) {
     const recipes = this.commercialOrderCandidates();
     if (!recipes.length) return null;
-    pool = pool || this.orderPeoplePool();
+    pool = pool || this.orderPeoplePool('product');
+    if (!pool.length) pool = this.villagePeople();
     if (!pool.length) return null;
     const person = pool[Math.floor(Math.random() * pool.length)];
     const raw = recipes[Math.floor(Math.random() * recipes.length)];
@@ -3381,13 +3383,8 @@ class BeeGame {
     return { id: uid(), kind: 'product', who: person.name, productId: raw.id, count, reward, days, status: 'open', deadline: null };
   }
 
-  makeOrder(prefer = 'auto') {
-    const pool = this.orderPeoplePool();
-    if (!pool.length) return null;
-    if (prefer === 'product') return this.makeProductOrder(pool) || this.makeHoneyOrder(pool);
-    if (prefer === 'honey') return this.makeHoneyOrder(pool) || this.makeProductOrder(pool);
-    const products = this.commercialOrderCandidates();
-    return products.length && Math.random() < .38 ? (this.makeProductOrder(pool) || this.makeHoneyOrder(pool)) : (this.makeHoneyOrder(pool) || this.makeProductOrder(pool));
+  makeOrder(prefer = 'honey') {
+    return prefer === 'product' ? this.makeProductOrder() : this.makeHoneyOrder();
   }
 
   processOrders() {
@@ -3402,19 +3399,21 @@ class BeeGame {
       }
     }
     this.specialOrders();
-    if (!Number.isFinite(o.nextAtClock)) o.nextAtClock = now + ORDER_EVERY_REAL_MS;
-    const totalCount = o.list.length;
-    if (totalCount >= this.orderMax()) { o.nextAtClock = now + ORDER_EVERY_REAL_MS; return; }
-    if (now >= o.nextAtClock) {
-      const elapsedSlots = Math.floor((now - o.nextAtClock) / ORDER_EVERY_REAL_MS) + 1;
-      const addCount = Math.min(elapsedSlots, ORDER_CATCHUP_MAX, this.orderMax() - totalCount);
-      o.nextAtClock += elapsedSlots * ORDER_EVERY_REAL_MS;
+    for (const [kind, clock, max] of [['honey', 'nextAtClock', this.orderMax()], ['product', 'nextProductAtClock', 10]]) {
+      if (!Number.isFinite(o[clock])) o[clock] = now + ORDER_EVERY_REAL_MS;
+      const count = o.list.filter(x => kind === 'product' ? x.kind === 'product' : x.kind !== 'product').length;
+      if (count >= max) { o[clock] = now + ORDER_EVERY_REAL_MS; continue; }
+      if (now < o[clock]) continue;
+      const slots = Math.floor((now - o[clock]) / ORDER_EVERY_REAL_MS) + 1;
+      // Ürünler kapalı geçen gerçek zamanda da birikir; balın mevcut telafisi korunur.
+      const addCount = Math.min(slots, kind === 'product' ? 10 : ORDER_CATCHUP_MAX, max - count);
+      o[clock] += slots * ORDER_EVERY_REAL_MS;
       for (let i = 0; i < addCount; i++) {
-        const ord = this.makeOrder();
+        const ord = this.makeOrder(kind);
         if (!ord) break;
         o.list.push(ord);
         this.state.counters.ordersIn += 1;
-        this.events.push({ msg: ord.kind === 'product' ? `📦 Yeni ürün siparişi: ${ord.who} ${ord.count} × ${this.workshopProductName(ord.productId)} istiyor.` : `📜 Yeni sipariş: ${ord.who} ${ord.kg} kg ${FLOWERS[ord.flower].name} balı istiyor.` });
+        this.events.push({ msg: kind === 'product' ? `📦 Yeni ürün siparişi: ${ord.who} ${ord.count} × ${this.workshopProductName(ord.productId)} istiyor.` : `📜 Yeni sipariş: ${ord.who} ${ord.kg} kg ${FLOWERS[ord.flower].name} balı istiyor.` });
       }
     }
   }
@@ -3514,7 +3513,7 @@ class BeeGame {
     const ord = this.findOrder(id);
     if (!ord || ord.status !== 'open') return this.fail('Sadece açık siparişler değiştirilebilir.');
     if (this.state.coins < ORDER_SWAP_COST) return this.fail(`Yeterli jeton yok (${ORDER_SWAP_COST} gerekli).`);
-    const fresh = this.makeOrder();
+    const fresh = this.makeOrder(ord.kind === 'product' ? 'product' : 'honey');
     if (!fresh) return this.fail('Ekili çiçek yok, yeni sipariş gelmez.');
     this.state.coins -= ORDER_SWAP_COST;
     const i = this.state.orders.list.findIndex((x) => x.id === id);
@@ -3562,7 +3561,9 @@ class BeeGame {
           have: this.availableHoneyKg(x.flower, x.id),
           ...this.honeyOrderEstimate(x, rates) };
       }),
-      nextInMs: o.list.length >= this.orderMax() ? null : Math.max(0, (o.nextAtClock || now + ORDER_EVERY_REAL_MS) - now),
+      productMax: 10,
+      productNextInMs: o.list.filter(x => x.kind === 'product').length >= 10 ? null : Math.max(0, (o.nextProductAtClock ?? now + ORDER_EVERY_REAL_MS) - now),
+      nextInMs: o.list.filter(x => x.kind !== 'product').length >= this.orderMax() ? null : Math.max(0, (o.nextAtClock || now + ORDER_EVERY_REAL_MS) - now),
       realTime: true, max: this.orderMax(), swapCost: ORDER_SWAP_COST, planted: this.plantedFlowers().length
     };
   }
@@ -3611,7 +3612,7 @@ class BeeGame {
       if (t.decor && DECOR[t.decor] && !DECOR[t.decor].prize) v += DECOR[t.decor].cost * 0.5;
     }
     for (const [id, n] of Object.entries(this.state.decorInventory || {})) if (DECOR[id] && !DECOR[id].prize) v += (Number(n) || 0) * DECOR[id].cost * 0.5;
-    for (const h of Object.values(this.state.hives)) v += (Number(h.syrup) || 0) / SYRUP_KG * SYRUP_COST * CAPITAL_BOOK_RATE;
+    // Tüketilen kış erzağı sıralamada sermaye sayılmaz.
     return v;
   }
 
@@ -3702,7 +3703,7 @@ class BeeGame {
       const level = Math.max(0, Math.min(UPGRADES.length, Number(h.level) || 0));
       v += (HIVE_COST + UPGRADES.slice(0, level).reduce((sum, u) => sum + u.cost, 0)) * CAPITAL_BOOK_RATE;
       for (let n = BEE_PRICE_BASE_NUMBER; n <= (h.bees || 0); n++) v += Math.floor(this.beeNumberPrice(n) / 2);
-      v += (Number(h.syrup) || 0) / SYRUP_KG * SYRUP_COST * CAPITAL_BOOK_RATE;
+      // Rakiplerin şurubu da sıralamada sermaye sayılmaz.
     }
     const storageCap = Math.max(50, Number(farm.storageCap) || 50);
     v += STORAGE_UPGRADES.filter((u) => u.cap <= storageCap).reduce((sum, u) => sum + u.cost, 0) * CAPITAL_BOOK_RATE;

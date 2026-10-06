@@ -1001,3 +1001,6 @@ kbd { display: inline-block; min-width: 22px; text-align: center; background: va
 .florist-choice{color:var(--muted);font-size:12px;font-weight:700}
 .florist-coins{margin-left:auto;font-weight:800}
 @media(max-width:760px){.florist-counter{grid-template-columns:1fr}}
+
+.market-product-row{display:flex;align-items:center;gap:8px;padding:12px 0;border-bottom:1px solid var(--line,#ddd);flex-wrap:wrap}.market-product-row>span{flex:1;min-width:180px}.market-product-row small{display:block;margin-top:4px}
+[data-market-panel][hidden]{display:none!important}

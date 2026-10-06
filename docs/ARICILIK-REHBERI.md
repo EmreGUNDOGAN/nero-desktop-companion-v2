@@ -237,11 +237,11 @@ Bir kovana tıklayınca **kovanın içi** açılır: solda canlı petek (ortada 
 ## 10. Siparişler ve köylüler
 ### 📦 Ürünler ve Mallar siparişleri (6.6.1)
 
-Siparişler ekranı artık **🍯 Bal Siparişleri** ve **📦 Ürünler ve Mallar** olarak iki sekmedir. Ürün siparişleri yalnız açılmış dükkânların ve gerçekten kullanılabilir Atölye tariflerinin havuzundan gelir. Kartta gereken yarı mamuller, mevcut/eksik miktar, şu an üretilebilecek maksimum adet, üretim süresi ve ödül görünür. Bal ve ürün siparişleri aynı toplam sipariş limitini ve aynı köylü ilişki kurallarını paylaşır. Kabul edilen bitmiş ürünler sipariş için rezerve edilir ve başka yerde yanlışlıkla satılamaz.
+Siparişler ekranı artık **🍯 Bal Siparişleri** ve **📦 Ürünler ve Mallar** olarak iki sekmedir. Ürün siparişleri yalnız açılmış dükkânların ve gerçekten kullanılabilir Atölye tariflerinin havuzundan gelir. Kartta gereken yarı mamuller, mevcut/eksik miktar, şu an üretilebilecek maksimum adet, üretim süresi ve ödül görünür. Bal ve ürün siparişleri bağımsız kotaları ve geliş sayaçları kullanır; köylü ilişki kuralları ortaktır. Ürün siparişlerinin açık ve kabul edilmiş toplamı en fazla **10** olabilir. Pazarda **Bal**, **Dükkân Malları** ve **Üretilen Ürünler** ayrı sekmelerdir. Ürünler sekmesinden doğrudan ürün siparişlerine geçebilirsin. Kabul edilen bitmiş ürünler sipariş için rezerve edilir ve başka yerde yanlışlıkla satılamaz.
 
 Fiziksel Pazar'daki **Dükkân Malları** bölümünde açılmış Bakkal, Çiçekçi, Atölye ve ilerleyen dükkânların günlük yarı mamul stokları bulunur. Yarı mamul fiyatları açılış seviyesi/kalite derecesinden, bitmiş ürünlerin değeri ise gerçek girdi maliyeti + üretim süresi + ilerleme marjından hesaplanır; işlemek ham girdiyi zararına çevirmemelidir.
 
-- **Gerçek aktif zamanla 5 dakikada bir** yeni sipariş gelir. 2x/4x hız bunu hızlandırmaz; oyun duraklatılırsa sipariş saati de durur. Uzun süre bakmadıysan geri döndüğünde tek seferde en fazla **3 yeni normal sipariş** birikir; aynı anda toplam sipariş sınırı yine **5** (Pazar Yeri varsa 6).
+- Her iki sipariş grubuna bağımsız olarak **5 gerçek dakikada bir** yeni sipariş gelir; 2x/4x, manuel duraklatma ve oyunun kapalı olması bu saati değiştirmez. Bal grubunda mevcut **5** sınırı (köy bonuslarıyla artabilir), ürün grubunda bağımsız **10** sınırı vardır. Uzun dönüşte bal için en fazla **3**, ürün için en fazla **10** sipariş telafi edilir. Uygun üretim/tarif yoksa ilgili sipariş oluşturulmaz.
 - **Aynı köylünün aynı anda yalnızca 1 normal siparişi** listede olabilir. O kişinin açık ya da kabul edilmiş siparişi varken yeni normal sipariş üretiminde adı kullanılmaz; sipariş listeden çıkınca tekrar gelebilir.
 - **Sadece şu an ekili (solmamış) çiçeklerin balı istenir.** Hiç Kış Fundası tarhın yoksa Kış Fundası balı siparişi gelmez.
 - Siparişler oluşturuldukları andaki **güncel piyasa fiyatının 1.4–1.8 katı** temel ödeme verir; ilişki ve köy bonusları bunun üstüne eklenir.
@@ -313,6 +313,7 @@ Temkinli Ali, Riskçi Kaya ve Dengeli Nur kendi çiftlik verilerine göre puan a
 
 - Her gün net değerleri değişir; **hep yukarı gitmez**. Ara sıra olay yaşarlar ("Riskçi Kaya: kötü bir hasat geçirdi -%22").
 - Sen çok geride kalırsan yavaşlarlar, çok öne geçersen hızlanırlar; yarış hep canlı kalır.
+- **Şurup sıralama puanı kazandırmaz:** oyuncunun ve yapay zekâ rakiplerinin bal/kış şurubu sermaye hesabına eklenmez. Satın alma yalnız jeton harcar; besleme etkisi korunur.
 - **Net değer** = jeton + depodaki balın o günkü piyasa değeri + kovanların ve arıların değeri + satın alınan araziler + mumlar.
 - 🏆 düğmesi: sıralama, son 14 günün grafiği ve günlük değişim.
 
@@ -536,7 +537,7 @@ Oyun Nero'nun asıl amacıyla bağlantılı: **sen çalıştıkça çiftlik büy
 ## 16. Sen yokken
 - Nero açıkken Arıcılık penceresini kapatsan ya da başka işlere geçsen de çiftlik **son görülmeden sonraki ilk 2 gerçek saat** çalışmaya devam eder.
 - Arıcılık **2 saat boyunca hiç görülmezse oyun tamamen durur**: üretim, takvim, mevsimler, hastalık, doğumlar, kış erzağı, Yakup'un kalış süresi, festival, oyun-zamanlı sipariş süreleri ve arıcının yürüyüşü ilerlemez.
-- Tekrar Arıcılık penceresine baktığında kaldığın noktadan devam eder; 2 saatten sonraki süre için üretim/takvim/rakip simülasyonu yapılmaz. Normal siparişler gerçek-zaman saatinden bağımsız izlenir; uzun dönüşte tek seferde en fazla 3 yeni normal sipariş birikir.
+- Tekrar Arıcılık penceresine baktığında kaldığın noktadan devam eder; 2 saatten sonraki süre için üretim/takvim/rakip simülasyonu yapılmaz. Siparişler gerçek-zaman saatinden izlenir; uzun dönüşte bal için en fazla 3, ürün için bağımsız en fazla 10 yeni sipariş birikir.
 - **Nero tamamen kapalıyken** oyunun zamanı da durur.
 - Oyundan **20 gerçek dakika veya daha uzun** süre uzak kaldıysan geri döndüğünde **"Tekrar hoş geldin!"** kartı çıkar: ne kadar bal üretildiği, doğan ve ölen arılar, gelen siparişler, hasat bekleyen ve hasta kovanlar, sıralamadaki değişim gösterilir.
 
@@ -647,3 +648,12 @@ Turnuvaya **1–10 kg** gerçek bal stokundan gönderilir ve gönderilen bal dep
 ### Haritadaki Arıcılık Atölyesi (6.5.0)
 
 Arıcılık Atölyesi çiftliğin yanında fiziksel bir bina olarak görünür ve köyün **9. yerleşimcisi** geldiğinde aktifleşir. Çiçekçi Ezgi 7. sırada açıldığı için onunla ilişkili işlenmiş ürünlere erişim gereksiz yere geç oyuna kalmaz. Fırın artık **30. sırada** açılır. Atölye sayfasındaki **Rehber / Nasıl Çalışır?** sekmesi malzeme, tarif, kuyruk, iptal/iade ve ürün akışını açıklar. İlerleyen köy yapıları yeni tarifleri ve seviyeleri açar; tamamlanan ürünler doğrudan **Depo → Ürünler** sekmesine gider.
+
+## Nero 6.9.0 — İşler, odak ve Radyo Akşamı
+
+- İşler listesinde ana göreve yaklaşık 280 ms basılı tutup yukarı/aşağı sürükle. Alt görevler ana görevle birlikte taşınır; sıra yeniden açılışta korunur.
+- Ana görevin yanındaki **+** ile alt görev ekle. Her alt görev ayrı tamamlanabilir; tümü bittiğinde ana görev otomatik biter. Bir alt görev yeniden açıldığında ana görev de açılır. Ana görevin kutusu tüm alt görevleri birlikte işaretler/açar.
+- Alt görev metnini çift tıklayarak düzenle; × ile sil. Ana görevi arşivlemek veya silmek grubun tamamını kapsar. Alt görevler ayrı iş ödülü kazandırmaz; ana görev tamamlanınca mevcut günlük iş ödülü kuralları uygulanır.
+- Odak süresi bittiğinde sağ altta krem/yeşil Nero kartı açılır. Gerçek Nero ve o anki kıyafeti gösterilir; **Tamam** veya × ile kapanır. Handpan MP3 yalnız bir kez çalar.
+- **Durdur** SpongeBob MP3'ünü yalnız bir kez çalar; **Duraklat** bu sesi çalmaz. Ses kapalıysa melodi çalmaz; ikinci bir Windows bildirim sesi yoktur.
+- Ayarlar → Tema → **Radyo Akşamı**: Bugün sayfası için ceviz/krem radyo çerçevesi, fiziksel tuşlar ve mekanik sayaç görünümü. Radyo ibresi Nero'nun mevcut keyfini gösterir. Diğer sayfalara özel yeni tasarım bu sürümün kapsamı değildir.

@@ -2505,7 +2505,9 @@ function renderOrders(force = false) {
   if (!ordersOpen) return;
   const current = o.list.filter((x) => ordersTab === 'product' ? x.kind === 'product' : x.kind !== 'product');
   const openCount = current.filter((x) => x.status === 'open').length;
-  const meta = `${o.list.length} / ${o.max} toplam sipariş · ${current.length} bu sekmede · ` + (o.nextInMs === null ? 'liste dolu' : `yeni sipariş: ${view.speed ? realLeft(o.nextInMs, 1) : 'duraklatıldı'}`);
+  const max = ordersTab === 'product' ? o.productMax : o.max;
+  const next = ordersTab === 'product' ? o.productNextInMs : o.nextInMs;
+  const meta = `${current.length} / ${max} sipariş · ` + (next === null ? 'liste dolu' : `yeni sipariş: ${realLeft(next, 1)} · gerçek zaman`);
   $('orders-meta').innerHTML = `<span>${meta}</span><span>${openCount} yeni</span>`;
   const ready = (x) => x.kind === 'product' ? x.have >= x.count : x.have + 1e-6 >= x.kg;
   const sig = JSON.stringify([ordersTab, current.map((x) => [x.id, x.status, ready(x), x.have, x.maxCraftable, x.leftMs]), view.customers, $('order-sort').value, Math.floor(view.coins / 10)]);
@@ -2553,6 +2555,22 @@ $('order-list').addEventListener('click', (e) => {
 // Pazar ve Depo
 // ---------------------------------------------------------------------------
 let marketOpen = false;
+let marketTab = 'honey';
+function setMarketTab(tab) {
+  marketTab = tab;
+  for (const b of document.querySelectorAll('[data-market-tab]')) b.classList.toggle('on', b.dataset.marketTab === tab);
+  for (const panel of document.querySelectorAll('[data-market-panel]')) panel.hidden = panel.dataset.marketPanel !== tab;
+}
+for (const b of document.querySelectorAll('[data-market-tab]')) b.addEventListener('click', () => setMarketTab(b.dataset.marketTab));
+$('market-product-orders').addEventListener('click', () => {
+  closeMarket(); ordersTab = 'product';
+  for (const b of document.querySelectorAll('[data-order-tab]')) b.classList.toggle('on', b.dataset.orderTab === ordersTab);
+  openOrders();
+});
+$('market-products').addEventListener('click', e => {
+  const b = e.target.closest('[data-product-sell]');
+  if (b && !b.disabled) doAct('workshopSell', b.dataset.productSell, b.dataset.amount);
+});
 function openMarket() { marketOpen = true; $('market-modal').hidden = false; renderMarket(true); }
 function closeMarket() { marketOpen = false; $('market-modal').hidden = true; }
 $('open-market').addEventListener('click', openMarket);
@@ -2584,7 +2602,7 @@ function marketEffectTip(m) {
 
 function renderMarket(force = false) {
   if (!marketOpen || !view) return;
-  const sig = JSON.stringify([view.market, view.shopMarket, view.marketForecast, view.storage, view.materials, Math.floor(view.coins), view.storageCap, view.marketEvent, view.calendar.season, view.wax, view.candles, view.festival]);
+  const sig = JSON.stringify([view.market, view.workshop, view.orders.list, view.shopMarket, view.marketForecast, view.storage, view.materials, Math.floor(view.coins), view.storageCap, view.marketEvent, view.calendar.season, view.wax, view.candles, view.festival]);
   if (!force && sig === marketSig) return;
   marketSig = sig;
   const season = view.calendar.season;
@@ -2629,6 +2647,8 @@ function renderMarket(force = false) {
     </li>`;
   }).join('');
 
+  const products = (view.workshop?.products || []).filter(p => p.sellValue > 0);
+  $('market-products').innerHTML = products.length ? products.map(p => `<li class="market-product-row"><span><b>${esc(p.name)}</b><small>Depoda ${p.count} · satılabilir ${p.available} · siparişe ayrılan ${p.count - p.available}</small></span><b>${p.sellValue} 🪙</b><button data-product-sell="${esc(p.key)}" data-amount="1" ${p.available < 1 ? 'disabled' : ''}>1 adet sat</button><button data-product-sell="${esc(p.key)}" data-amount="all" ${p.available < 1 ? 'disabled' : ''}>Hepsi</button></li>`).join('') : '<li class="order-empty">Henüz satılacak üretilmiş ürün yok. Atölyede üretim yapabilirsin.</li>';
   const shops = view.shopMarket || [];
   $('market-goods').innerHTML = shops.length ? shops.map((shop) => `<section class="market-shop"><h4>${esc(shop.name)}</h4>${shop.inputs.map((input) => `<div class="market-input-row"><span>${input.icon || '📦'} <b>${esc(input.name)}</b><small> · sende ${input.owned}</small></span><small>stok ${input.stock}</small><b>${input.price} 🪙</b><button type="button" data-market-input="${esc(input.id)}" ${input.stock < 1 || view.coins < input.price ? 'disabled' : ''}>Satın al</button></div>`).join('')}</section>`).join('') : '<p class="note">Henüz yarı mamul satan bir dükkân açılmadı.</p>';
 
@@ -4117,7 +4137,7 @@ $('keys-modal').addEventListener('click', (e) => { if (e.target === $('keys-moda
 
 // Siparişler ve pazar araçları
 $('order-sort').addEventListener('change', () => renderOrders(true));
-$('deliver-ready').addEventListener('click', () => doAct('deliverReady'));
+$('deliver-ready').addEventListener('click', () => doAct('deliverReady', ordersTab));
 $('market-mine').addEventListener('change', () => renderMarket(true));
 $('market-sort').addEventListener('change', () => renderMarket(true));
 

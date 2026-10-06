@@ -1,0 +1,4 @@
+{
+  "id": "radyo-aksami", "name": "Radyo Akşamı", "author": "Stenwick", "formatVersion": 1, "inherits": "default",
+  "ui": { "skin": "radyo-aksami", "paper": "#f1e5cf", "surface": "#fff8e8", "ink": "#473629", "muted": "#87715a", "accent": "#d19a4b", "accentInk": "#38271b", "secondary": "#899276", "danger": "#a45846", "line": "#cbb797", "bubbleBg": "#fff8e8", "bubbleInk": "#473629", "bubbleLine": "#a48a69", "noteColors": ["#fff8e8", "#e7ecd9", "#f6e5c8"] }
+}

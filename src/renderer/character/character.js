@@ -769,12 +769,21 @@
   });
   api.on('settings', (s) => {
     settings = s || {};
+    if((settings.sound===false||settings.muted)&&focusAudio)focusAudio.pause();
     if(settings.characterAnimations===false||settings.hidden)wardrobeMotion?.reset();
     onTimer(lastTimer);
     updateAmbient();
   });
   api.on('timer', onTimer);
-  api.on('sound', (kind) => { if (kind === 'chime') chime(); else if (kind === 'pop') pop(); });
+  let focusAudio = null;
+  function playFocusAudio(kind) {
+    if (settings.sound === false || settings.muted) return;
+    if (focusAudio) { focusAudio.pause(); focusAudio.currentTime = 0; }
+    focusAudio = new Audio(kind === 'focus-done' ? '../sounds/focus-complete.mp3' : '../sounds/focus-stop.mp3');
+    focusAudio.loop = false; focusAudio.volume = 0.7;
+    focusAudio.play().catch(err => console.warn('Odak sesi çalınamadı', err));
+  }
+  api.on('sound', (kind) => { if (kind === 'focus-done' || kind === 'focus-cancel') playFocusAudio(kind); else if (kind === 'chime') chime(); else if (kind === 'pop') pop(); });
   let peekView = null;
   api.on('peek', (p) => {
     peekView = p ? p.visible : null;
