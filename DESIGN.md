@@ -1,26 +1,31 @@
-# Nero finans tasarım kuralları
+# Nero finans tasarımı
 
-Finans masaüstü penceresi için tasarlanır: 440 × 660 temel boyut; küçük ve geniş pencerelerde de okunabilir. Finans tema seçimi Nero'nun genel tema tercihinden bağımsızdır.
+440 × 660 masaüstü penceresi temel boyuttur; içerik kaydırılır ve büyük pencerede genişler. Finans görünümü Nero'nun genel temasından bağımsız saklanan, geri alınabilir bir tercihtir. Kullanıcı kayıtları tema seçiminden etkilenmez.
 
-## Görünümler
+## Premium Black
 
-- `nero`: genel Nero temasının tipografisi, renkleri ve yüzeyleri.
-- `modern`: sabit açık renkler ve sol finans menüsü.
-- `cards`: sabit açık kart görünümü ve üst finans menüsü.
-- `premium-black`: kömür siyahı yüzeyler, limon yeşili ana vurgu, lavanta grafikler ve kırmızı gider/uyarı tutarları.
+Kullanıcının paylaştığı @reddiodesigns Analytics / Saving Plans görseli bu görünümün esas referansıdır. Önceki Nero ekranının yalnız renk değiştirmesi yeterli değildir. Premium Black'in sayfa hiyerarşisi ve grafik geometrisi ayrı olarak uygulanır:
 
-Premium Black sekiz finans sayfasını, bütün yerel finans diyaloglarını ve yalnız Bütçe açıkken uygulama çerçevesini kapsar. Bütçeden çıkılınca normal Nero görünümü geri gelir. Seçim ayarlarda saklanır; kullanıcı verilerini değiştirmez.
+- Büyük kutuya alınmayan beyaz bakiye, Tümü/Gelir/Gider/Birikim kapsülleri.
+- Gerçek aylık örneklerden geçen, taşma yapmayan ince limon yeşili ve lavanta Bézier eğrileri; seçilebilir aylar ve tutarlar. Kayıt yokken sıfır çizgisi ve açıklama; sahte dalga yok.
+- Yuvarlak ikonlu gelir/gider özetleri ve lavanta önceki ay karşılaştırması.
+- Kalın, yuvarlak uçlu, boşluklu birikim/harcama halkası; gerçek paylar ve merkez toplamı.
+- Kompakt hedef satırlarında tutar/tarih, ince ilerleme çubuğu ve para ayırma eylemi; kapsül biçiminde yeni hedef düğmesi.
+- Hesap kartları, filtrelenebilir işlem geçmişi, ödeme akışı, raporlar, yuvarlak tarihli takvim ve ders ilerlemesi aynı tipografi, yüzey ve ikon dilini kullanır.
 
-## Bileşenler
+Mobil çerçeve kopyalanmaz. Nero'nun sekiz finans bölümü, fare/klavye erişimi ve kayıt düzenleme davranışları korunur. Geniş pencerede özet iki sütuna yerleşir; küçük pencerede tek sütunda kayar. Finans menüsü kaydırmadan bağımsızdır. Ok/Home/End tuşlarıyla bölüm seçimi; grafik aylarında klavye odağını koruyan düğmeler; azaltılmış hareket tercihi desteklenir.
 
-Renk, ölçü ve boşluk değerleri `budget-tokens.css` dosyasında tutulur. Ortak yapı `budget-modern.css`, kart/premium yapıları `budget-premium.css`, SVG ikonları `budget-icons.js` dosyasındadır. Aynı işlem, plan, grafik, takvim, hedef ve ders bileşenleri tüm görünümlerde kullanılır.
+## Kaynak yapısı
 
-Sabit menü ve kaydırılabilir içerik ayrı alanlardır. Aktif menü durumu ve klavye odağı belirgindir. Ok/Home/End tuşlarıyla finans sekmelerinde gezinilir. Aktif menü renkleri geçiş sırasında düşük kontrasta düşmez. Hareket azaltma tercihi uygulanır.
+- `budget-tokens.css`: tüm görünüm renkleri, ölçüler ve boşluklar.
+- `budget-premium-redesign.css`: Premium Black'in sayfa, grafik, menü ve diyalog yerleşimi.
+- `budget-premium-charts.js`: örneklerden eğri oluşturma, halka yayları ve tam sayı kur dönüşümü; saf fonksiyonlar.
+- `budget-premium-view.js`: sekiz sayfanın Premium Black sunumu.
+- `budget.js`: mevcut olay, form, filtre ve finans motoru bağlantıları.
+- `budget-icons.js`: yerel SVG ikonları; marka ikonları ayrı yerel dosyalardır.
 
-Hesapların gerçek kayıtları üst sıradadır; açıklama gerektiğinde açılır. İşlem ayrıntıları diyalogdan düzenlenir; diyaloglarda başlık ve eylemler erişilebilir kalır. Gelir/gider türleri renk yanında işaret ve metinle belirtilir.
+`nero`, `modern`, `cards` görünümleri kendi yerleşimlerini korur. Premium Black yalnız Bütçe açıkken uygulama çerçevesini değiştirir; çıkınca normal Nero görünümü döner. Ayarlar, işlem, plan, taksit, ders, hesaplayıcı ve yardım diyalogları da koyu temayı kullanır.
 
-Mevcut para, beklenen gelir, ödenecek tutar ve toplam borç farklı değerlerdir. Tema değişimi hesaplamayı veya kayıtları değiştirmez. Önizleme verileri yalnız testlerde bulunur.
+## Finans anlamı
 
-Marka ikonları yereldir; koyu görünümde okunabilir bir yüzeyde gösterilir. Ağ olmadan kullanılabilir. Yeni dekoratif gradyan, parıltı, gürültü veya gölge kullanılmaz. Grafik renkleri tokenlardan alınır. Özgün tasarımlar doğrudan kopyalanmaz.
-
-Dış kaynaklar ve uygulanan ilkeler `docs/FINANS-TASARIM-REFERANSLARI.md` dosyasında belgelenir.
+Mevcut banka/nakit para, hedef rezervleri, beklenen gelir, ödeme ve toplam borç ayrı kavramlardır. Başlangıç bakiyesi gelir sayılmaz. Birikime ayırma hesap içi rezervdir; yeni işlem üretmez. Halka toplamı mevcut kurla temel paraya dönüştürülür; eksik kurlar hariç tutulur ve açıklanır. Negatif net kategori giderleri halkaya girmez, ayrıntılı dökümde görünür. Boş ekrana sahte veri konmaz. Önizleme örnekleri yalnız geçici test verileridir.

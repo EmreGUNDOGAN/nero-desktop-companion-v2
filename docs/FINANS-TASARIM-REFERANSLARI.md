@@ -46,3 +46,11 @@ Bu çalışmada açılan kaynaklar:
 Pinterest ve Mobbin arama sonuçları doğrudan tasarım kanıtı kabul edilmedi; erişilmeyen ekranlar incelenmiş gibi değerlendirilmedi.
 
 Uygulanan ilkeler: sabit ve etiketli gezinme; tutarların hizalanması; bilanço/plan/gerçekleşen işlem ayrımı; hesap yardımının açılır ayrıntıda sunulması; yerel marka ikonları; token tabanlı renkler ve boşluklar; kontrastı koruyan anlık menü seçimi; azaltılmış hareket tercihi. Tema bütün sekiz sayfada ve ayar, işlem, plan, taksit, yardım, ders, hesaplayıcı ve ikon seçimi pencerelerinde uygulanır.
+
+## Premium Black yeniden tasarımı — kullanıcı düzeltmesi
+
+Bu revizyonda kullanıcı tarafından doğrudan verilen @reddiodesigns görseli önceki Premium Black renk uyarlamasının yerini alan esas görsel referanstır. Görselin iki ekranı açılıp incelendi: kutusuz bakiye, ince ve yumuşak yeşil/lavanta çizgiler, kapsül filtreleri, yuvarlak ikonlu iki özet, lavanta karşılaştırma; boşluklu ve yuvarlak uçlu halka, merkez toplamı ve ince ilerleme çubuklu hedef satırları uygulanır. Referanstaki tasarım dili istenen kapsamda Nero masaüstüne uyarlanır; telefon çerçevesi ve örnek rakamlar üretim arayüzüne alınmaz.
+
+https://dribbble.com/shots/27656973-Financial-Web-App-Banking-Dashboard-UI-UX-Dark-Mode adresindeki tasarımcı açıklaması ayrıca incelendi; masaüstü özet/işlem/rapor ayrımı için ikincil kaynak olarak değerlendirilir. Bu kaynak, kullanıcının sağladığı görselin önüne geçmez.
+
+Önceki bölümlerdeki mevcut kartları yeniden kullanma kararı Premium Black'in yeni sayfa yerleşimi için geçerli değildir. Veri motoru, eylemler ve form akışları yeniden kullanılır; Premium Black ayrı sayfa sunumu ve grafik geometrisine sahiptir. Diğer finans görünümleri bu revizyonun tasarım kapsamına girmez.

@@ -43,3 +43,23 @@
 /* Finance frame tokens are scoped to the selected budget appearance. */
 html[data-tab="budget"][data-finance-theme="premium-black"]{--premium-canvas:#0d0f12;--premium-surface:#191c21;--premium-ink:#f4f3ed;--premium-muted:#a7adb8;--premium-line:#30353e;--premium-accent:#b8f562;--premium-radius:14px;--premium-gap:12px;--premium-type:system-ui,-apple-system,"Segoe UI",sans-serif}
 #view-budget{--finance-brand-surface:#fff}
+
+/* Reference-led Premium Black geometry. No decorative effects or invented data. */
+#view-budget[data-finance-theme="premium-black"] {
+ --pb-canvas:#0f1012; --pb-surface:#1c1d20; --pb-field:#232428; --pb-ink:#f6f6f5; --pb-muted:#a3a4a8; --pb-line:#2d2f34;
+ --pb-lime:#b8f562; --pb-lavender:#b6a6f7; --pb-coral:#ee8078; --pb-yellow:#e7c568; --pb-on-bright:#111313;
+ --paper:var(--pb-canvas); --surface:var(--pb-surface); --ink:var(--pb-ink); --muted:var(--pb-muted); --line:var(--pb-line);
+ --pb-space-xs:4px; --pb-space-sm:8px; --pb-space-md:12px; --pb-space-lg:18px; --pb-space-xl:24px;
+ --pb-radius:16px; --pb-pill-radius:999px; --pb-heading:20px; --pb-balance:34px; --pb-total:24px;
+ --pb-icon:30px; --pb-nav-height:30px; --pb-chart-height:148px; --pb-ring:220px; --pb-ring-stroke:22px; --pb-track:5px;
+ --pb-small:12px; --pb-caption:11px; --pb-nav-font:12px; --pb-main-max:960px; --pb-min-page:180px;
+ --pb-chart-stroke:1.8px; --pb-cursor-opacity:.22; --pb-inactive-opacity:.35; --pb-hover-opacity:.9;
+ --pb-button-height:36px; --pb-header-height:38px; --pb-label-tracking:-.3px; --pb-legibility:1.5;
+ --pb-dialog-width:520px; --pb-chart-label:11px; --pb-ring-label:11px; --pb-ring-total:21px; --pb-ring-sub:9px;
+ --pb-week-day:40px; --pb-tab-icon:14px; --pb-brand-icon:24px; --pb-shell-space:12px; --pb-sr-edge:-10000px;
+}
+html[data-tab="budget"][data-finance-theme="premium-black"] {
+ --premium-canvas:#0f1012; --premium-surface:#1c1d20; --premium-ink:#f6f6f5; --premium-muted:#a3a4a8; --premium-line:#2d2f34;
+ --pb-chrome-padding:12px; --pb-chrome-top:10px; --pb-chrome-type:20px; --pb-global-height:32px; --pb-global-font:11px;
+ --pb-chrome-icon:14px; --pb-chrome-control:30px; --pb-chrome-gap:4px; --pb-chrome-bottom:6px;
+}
