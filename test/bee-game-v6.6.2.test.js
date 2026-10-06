@@ -9,7 +9,7 @@ const ROOT = path.join(__dirname, '..');
 
 test('6.8.1 paket sürümü doğrudur', () => {
   const pkg = JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8'));
-  assert.equal(pkg.version, '6.9.0');
+  assert.equal(pkg.version, '6.9.1');
 });
 
 test('6.8.1 wardrobe çekirdek dosyaları vardır', () => {
