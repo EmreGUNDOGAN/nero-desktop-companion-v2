@@ -997,4 +997,804 @@
   }
 
   function choose(minutes) {
-    chosenMinutes = Math.max(1, Math.min(600, Math.round(Number(minutes) || 25)));
+    chosenMinutes = Math.max(1, Math.min(600, Math.round(Number(minutes) || 25)));    $('timer-custom').value = chosenMinutes;
+    for (const b of document.querySelectorAll('#presets button')) {
+      b.classList.toggle('on', Number(b.dataset.min) === chosenMinutes);
+    }
+    if (!state || state.timer.status === 'idle') $('timer-digits').textContent = fmt(chosenMinutes * 60000);
+  }
+
+  document.querySelectorAll('#presets button').forEach((b) => b.addEventListener('click', () => choose(b.dataset.min)));
+  $('timer-custom').addEventListener('change', (e) => choose(e.target.value));
+  $('timer-start').addEventListener('click', () => api.invoke('timer:start', chosenMinutes, $('timer-label').value.trim()));
+  $('timer-pause').addEventListener('click', () => api.invoke('timer:pause'));
+  $('timer-resume').addEventListener('click', () => api.invoke('timer:resume'));
+  $('timer-cancel').addEventListener('click', () => api.invoke('timer:cancel'));
+
+  // ---------------------------------------------------------------------------
+  // Ayarlar
+  // ---------------------------------------------------------------------------
+  const set = (key, value) => api.invoke('settings:set', key, value);
+  $('set-character-animations').addEventListener('change',e=>set('characterAnimations',e.target.checked));
+  document.querySelectorAll('[data-motion]').forEach(button=>button.addEventListener('click',async()=>{
+    const played=await api.invoke('motion:play',button.dataset.motion);
+    $('motion-feedback').textContent=played?'':'Nero şu anda bu hareketi yapamıyor. Uyanık ve görünür olduğundan, animasyonların açık olduğundan emin ol.';
+  }));
+  const wardrobeGroups = { costume: 'Sevimli', daily: 'Gündelik', spring: 'İlkbahar', summer: 'Yaz', autumn: 'Sonbahar', winter: 'Kış', retro: 'Retro Gardırop', fairy: 'Masal Dünyası', cozy: 'Cozy Ev Hayatı', space: 'Uzay ve Bilim', absurd: 'Absürt Şıklık' };
+  let wardrobeGroup = 'daily';
+  function renderWardrobe() {
+    const locked = !!state.specialOutfit;
+    const builtin = state.themes.some((t) => t.id === state.currentThemeId && t.source === 'builtin');
+    const tabs = $('wardrobe-tabs');
+    tabs.replaceChildren();
+    for (const [group, label] of Object.entries(wardrobeGroups)) {
+      const button = document.createElement('button');
+      button.type = 'button'; button.textContent = label;
+      button.setAttribute('role', 'tab'); button.setAttribute('aria-selected', String(group === wardrobeGroup));
+      button.addEventListener('click', () => { wardrobeGroup = group; renderWardrobe(); });
+      tabs.appendChild(button);
+    }
+    const grid = $('wardrobe-grid');
+    grid.replaceChildren();
+    for (const item of (state.wardrobe || []).filter((item) => item.group === wardrobeGroup)) {
+      const button = document.createElement('button');
+      button.className = 'wardrobe-item'; button.type = 'button'; button.disabled = locked || !builtin;
+      button.setAttribute('aria-pressed', String(state.activeOutfit === item.id));
+      const portrait = document.createElement('span'); portrait.className = 'wardrobe-portrait';
+      const garment = document.createElement('img'); garment.src = `nero-theme://default/assets/wardrobe/outfit-${item.id}.png`; garment.alt = '';
+      portrait.append(garment);
+      const label = document.createElement('span'); label.textContent = item.name;
+      button.append(portrait, label);
+      button.addEventListener('click', () => set('wardrobeOutfit', item.id));
+      grid.appendChild(button);
+    }
+    $('wardrobe-remove').disabled = locked || !builtin;
+    $('wardrobe-status').textContent = locked ? 'Bugün özel gün kıyafeti giyiliyor; yarın seçtiğin kıyafet geri dönecek.'
+      : !builtin ? 'Dolap Nero ile gelen temalarda kullanılabilir.'
+      : (new Date().getHours() >= 21 || new Date().getHours() < 6) ? 'Nero şimdi gecenin pijamasını giyiyor. Gündüz seçimin saklı.'
+      : 'Giydirmek için bir kıyafete dokun.';
+  }
+  $('wardrobe-remove').addEventListener('click', () => set('wardrobeOutfit', null));
+
+  function renderSettings() {
+    $('set-character-animations').checked=state.settings.characterAnimations!==false;
+    renderWardrobe();
+    const s = state.settings;
+    const select = $('set-theme');
+    select.textContent = '';
+    for (const t of state.themes) {
+      const opt = document.createElement('option');
+      opt.value = t.id;
+      opt.textContent = `${t.name}${t.source === 'user' ? ' (eklenen)' : ''}${t.broken ? ' - bozuk' : ''}`;
+      opt.disabled = t.broken;
+      opt.selected = t.id === state.currentThemeId;
+      select.appendChild(opt);
+    }
+    const current = state.themes.find((t) => t.id === state.currentThemeId);
+    const errors = current?.errors || [];
+    $('theme-errors').hidden = errors.length === 0;
+    $('theme-errors').textContent = errors.length ? `Bu temada sorun var:\n${errors.join('\n')}` : '';
+
+    const pct = Math.round(s.scale * 100);
+    $('set-scale').value = pct;
+    $('scale-out').textContent = `${pct}%`;
+    for (const b of document.querySelectorAll('#set-talk button')) {
+      b.setAttribute('aria-checked', String(b.dataset.value === s.talkativeness));
+    }
+    $('set-muted').checked = s.muted;
+    $('set-badge').checked = s.showTimerBadge;
+    $('set-sound').checked = s.sound;
+    $('set-top').checked = s.alwaysOnTop;
+    $('set-lock').checked = s.lockPosition;
+    $('set-stay').checked = s.stayVisible !== false;
+    $('set-desk').checked = s.desktopJokes !== false;
+    $('set-peek').checked = s.peekVisits !== false;
+    $('set-fx').checked = s.weatherFx !== false;
+    $('set-scene').checked = s.sceneBg !== false;
+    $('set-ambient').checked = !!s.ambientSound;
+    $('set-quick').checked = !!s.quickCapture;
+    $('quick-hint').textContent = s.quickCapture ? 'Ctrl + Alt + Boşluk ile aç' : 'Açtığında Ctrl + Alt + Boşluk ile bir not ya da iş ekleyebilirsin.';
+    document.documentElement.classList.toggle('no-scene', s.sceneBg === false);
+    document.documentElement.classList.toggle('no-fx', s.weatherFx === false);
+    $('set-water').value = String(s.waterEvery || 0);
+    $('set-break').value = String(s.breakEvery || 0);
+    $('set-summary').checked = s.daySummary !== false;
+    $('set-autoupdate').checked = s.autoUpdate !== false;
+    const [bm, bd] = (s.birthday || '-').split('-');
+    $('set-bday-month').value = bm || '';
+    $('set-bday-day').value = bd || '';
+    if (document.activeElement !== $('set-name')) $('set-name').value = s.userName || '';
+    $('pin').setAttribute('aria-pressed', String(!!s.panelPinned));
+    $('pin').title = s.panelPinned ? 'Sabitlemeyi kaldır' : 'Sabitle: Nero\'ya tıklayınca kapanmasın';
+    $('set-startup').checked = s.launchAtStartup;
+    $('char-hide').textContent = s.hidden ? 'Nero\'yu göster' : 'Nero\'yu gizle';
+    $('app-version').textContent = `v${state.version}`;
+    $('version').textContent = `Nero ${state.version}, Stenwick'ten sevgilerle`;
+  }
+
+  $('set-theme').addEventListener('change', (e) => set('themeId', e.target.value));
+  $('set-scale').addEventListener('input', (e) => { $('scale-out').textContent = `${e.target.value}%`; });
+  $('set-scale').addEventListener('change', (e) => set('scale', Number(e.target.value) / 100));
+  document.querySelectorAll('#set-talk button').forEach((b) => b.addEventListener('click', () => set('talkativeness', b.dataset.value)));
+  $('set-muted').addEventListener('change', (e) => set('muted', e.target.checked));
+  $('set-badge').addEventListener('change', (e) => set('showTimerBadge', e.target.checked));
+  $('set-sound').addEventListener('change', (e) => set('sound', e.target.checked));
+  $('set-top').addEventListener('change', (e) => set('alwaysOnTop', e.target.checked));
+  $('set-lock').addEventListener('change', (e) => set('lockPosition', e.target.checked));
+  $('set-stay').addEventListener('change', (e) => set('stayVisible', e.target.checked));
+  $('set-desk').addEventListener('change', (e) => set('desktopJokes', e.target.checked));
+  $('set-peek').addEventListener('change', (e) => set('peekVisits', e.target.checked));
+  $('set-fx').addEventListener('change', (e) => set('weatherFx', e.target.checked));
+  $('set-scene').addEventListener('change', (e) => set('sceneBg', e.target.checked));
+  $('set-ambient').addEventListener('change', (e) => set('ambientSound', e.target.checked));
+  $('set-quick').addEventListener('change', (e) => set('quickCapture', e.target.checked));
+  $('set-water').addEventListener('change', (e) => set('waterEvery', Number(e.target.value)));
+  $('set-break').addEventListener('change', (e) => set('breakEvery', Number(e.target.value)));
+  $('set-summary').addEventListener('change', (e) => set('daySummary', e.target.checked));
+  $('set-autoupdate').addEventListener('change', (e) => set('autoUpdate', e.target.checked));
+  const saveBday = () => {
+    const m = $('set-bday-month').value;
+    const d = $('set-bday-day').value;
+    set('birthday', m && d ? `${m}-${d}` : '');
+  };
+  $('set-bday-month').addEventListener('change', saveBday);
+  $('set-bday-day').addEventListener('change', saveBday);
+  $('set-name').addEventListener('change', (e) => set('userName', e.target.value));
+  $('set-startup').addEventListener('change', (e) => set('launchAtStartup', e.target.checked));
+  $('themes-reload').addEventListener('click', () => api.invoke('themes:reload'));
+  $('themes-folder').addEventListener('click', () => api.invoke('themes:openFolder'));
+  $('themes-guide').addEventListener('click', () => api.invoke('themes:openGuide'));
+  $('mood-reset').addEventListener('click', () => api.invoke('mood:reset'));
+  $('char-hide').addEventListener('click', () => set('hidden', !state.settings.hidden));
+  $('app-quit').addEventListener('click', () => api.invoke('app:quit'));
+
+  // ---------------------------------------------------------------------------
+  // Ana sayfa
+  // ---------------------------------------------------------------------------
+  const WEEKDAYS = ['Paz', 'Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt'];
+  const longDate = new Intl.DateTimeFormat('tr-TR', { day: 'numeric', month: 'long', weekday: 'long' });
+
+  function minutesText(min) {
+    if (min < 60) return `${min} dk`;
+    const h = Math.floor(min / 60);
+    const m = min % 60;
+    return m ? `${h} sa ${m} dk` : `${h} saat`;
+  }
+
+  const BADGE_RARITY_LABELS = {
+    yaygin: 'Yaygın',
+    siradisi: 'Sıradışı',
+    nadir: 'Nadir',
+    efsanevi: 'Efsanevi',
+    gizli: 'Gizli'
+  };
+  let activeBadgeRarity = 'yaygin';
+
+  function renderBadgeRarityTabs(list) {
+    const tabs = [...document.querySelectorAll('#badge-rarity-tabs [data-rarity]')];
+    const discoveredHidden = list.some((a) => a.rarity === 'gizli' && a.unlockedAt);
+    for (const tab of tabs) {
+      const rarity = tab.dataset.rarity;
+      if (rarity === 'gizli') tab.hidden = !discoveredHidden;
+      const selected = rarity === activeBadgeRarity && !tab.hidden;
+      tab.setAttribute('aria-selected', selected ? 'true' : 'false');
+      tab.tabIndex = selected ? 0 : -1;
+    }
+    if (activeBadgeRarity === 'gizli' && !discoveredHidden) {
+      activeBadgeRarity = 'yaygin';
+      return renderBadgeRarityTabs(list);
+    }
+  }
+
+  function renderBadges() {
+    const list = state.achievements || [];
+    const normal = list.filter((a) => a.rarity !== 'gizli');
+    const got = normal.filter((a) => a.unlockedAt).length;
+    $('badge-count').textContent = `${got} / 100`;
+    renderBadgeRarityTabs(list);
+
+    const filtered = list.filter((a) => a.rarity === activeBadgeRarity);
+    const unlockedInCategory = filtered.filter((a) => a.unlockedAt).length;
+    $('badge-category-title').textContent = BADGE_RARITY_LABELS[activeBadgeRarity] || 'Rozetler';
+    $('badge-category-count').textContent = activeBadgeRarity === 'gizli'
+      ? `${unlockedInCategory} keşfedildi`
+      : `${unlockedInCategory} / ${filtered.length}`;
+
+    const grid = $('badge-grid');
+    grid.textContent = '';
+    // Seçili nadirlikte kazanılanlar önce, en yeni en başta.
+    const sorted = [...filtered].sort((a, b) => {
+      const unlockedDiff = Number(Boolean(b.unlockedAt)) - Number(Boolean(a.unlockedAt));
+      if (unlockedDiff) return unlockedDiff;
+      return (b.unlockedAt || 0) - (a.unlockedAt || 0);
+    });
+    for (const a of sorted) {
+      const li = document.createElement('li');
+      li.className = `badge badge-${a.rarity}${a.unlockedAt ? ' on' : ''}`;
+      const icon = document.createElement('span');
+      icon.className = 'badge-icon';
+      icon.textContent = a.unlockedAt ? a.icon : '?';
+      const name = document.createElement('span');
+      name.className = 'badge-name';
+      name.textContent = a.title;
+      const desc = document.createElement('span');
+      desc.className = 'badge-desc';
+      desc.textContent = a.unlockedAt ? new Date(a.unlockedAt).toLocaleDateString('tr-TR') : a.desc;
+      li.append(icon, name, desc);
+      if (a.unlockedAt) {
+        li.tabIndex = 0;
+        li.setAttribute('aria-label', `${a.title}. ${a.completedDesc || a.desc}`);
+        const tip = document.createElement('span');
+        tip.className = 'badge-tooltip';
+        tip.setAttribute('role', 'tooltip');
+        tip.textContent = a.completedDesc || a.desc;
+        li.appendChild(tip);
+      }
+      grid.appendChild(li);
+    }
+  }
+
+  $('badge-rarity-tabs').addEventListener('click', (event) => {
+    const tab = event.target.closest('[data-rarity]');
+    if (!tab || tab.hidden) return;
+    activeBadgeRarity = tab.dataset.rarity;
+    renderBadges();
+  });
+
+  $('badge-rarity-tabs').addEventListener('keydown', (event) => {
+    if (!['ArrowLeft', 'ArrowRight'].includes(event.key)) return;
+    const tabs = [...document.querySelectorAll('#badge-rarity-tabs [data-rarity]:not([hidden])')];
+    const current = tabs.findIndex((tab) => tab.dataset.rarity === activeBadgeRarity);
+    if (current < 0 || !tabs.length) return;
+    event.preventDefault();
+    const delta = event.key === 'ArrowRight' ? 1 : -1;
+    const next = tabs[(current + delta + tabs.length) % tabs.length];
+    activeBadgeRarity = next.dataset.rarity;
+    renderBadges();
+    next.focus();
+  });
+
+  function renderUpdate() {
+    const u = state.update || {};
+    const banner = $('update-banner');
+    const showBanner = (u.status === 'ready' && !u.dismissed) || u.status === 'onquit';
+    banner.hidden = !showBanner;
+    if (u.status === 'ready') {
+      $('update-text').textContent = `Yeni sürüm hazır: v${u.version}`;
+      $('update-now').hidden = false; $('update-onquit').hidden = false; $('update-dismiss').hidden = false;
+    } else if (u.status === 'onquit') {
+      $('update-text').textContent = `Nero kapanınca v${u.version} kurulacak.`;
+      $('update-now').hidden = false; $('update-onquit').hidden = true; $('update-dismiss').hidden = true;
+    }
+    const labels = {
+      dev: 'Geliştirme sürümünde güncelleme yok.',
+      idle: 'Henüz denetlenmedi.',
+      checking: 'Denetleniyor…',
+      latest: `En güncel sürümdesin (v${state.version}).`,
+      downloading: `v${u.version} indiriliyor… %${u.percent || 0}`,
+      ready: `v${u.version} hazır, kurulmayı bekliyor.`,
+      onquit: `v${u.version} Nero kapanınca kurulacak.`,
+      error: 'Denetlenemedi. İnternet bağlantını kontrol et.',
+      mismatch: 'İndirilen dosya doğrulanamadı. Yayındaki kurulum dosyası ile latest.yml aynı sürüme ait değil.'
+    };
+    $('update-status').textContent = labels[u.status] || '';
+  }
+
+  $('update-now').addEventListener('click', () => api.invoke('update:install'));
+  $('update-onquit').addEventListener('click', () => api.invoke('update:onQuit'));
+  $('update-dismiss').addEventListener('click', () => api.invoke('update:dismiss'));
+  $('update-check').addEventListener('click', () => api.invoke('update:check'));
+  $('bee-open').addEventListener('click', () => api.invoke('bee:open'));
+  $('data-export').addEventListener('click', () => api.invoke('data:export'));
+  $('data-import').addEventListener('click', () => api.invoke('data:import'));
+  $('data-backups').addEventListener('click', () => api.invoke('data:openBackups'));
+
+
+  function renderRitual() {
+    const done = !!state.dayMode;
+    $('ritual').hidden = done;
+    if (done) {
+      const label = { sakin: 'sakin', uretken: 'üretken', kendime: 'kendine iyi davrandığın' }[state.dayMode];
+      $('hello-date').textContent = `${longDate.format(new Date()).toLocaleLowerCase('tr-TR')} · ${label} bir gün`;
+    }
+  }
+
+  for (const b of document.querySelectorAll('.ritual-opts .pill')) {
+    b.addEventListener('click', async () => renderAll(await api.invoke('day:mode', b.dataset.mode)));
+  }
+
+  function renderRest() {
+    const on = !!state.rest;
+    $('rest-screen').hidden = !on;
+    if (!on) return;
+    const st = state.stats;
+    $('rest-summary').textContent = st
+      ? `Bugün ${st.today.todos} iş bitirdin ve ${minutesText(st.today.focus)} odaklandın. Gerisi yarının sorunu.`
+      : 'Gerisi yarının sorunu.';
+  }
+
+  $('rest-night').addEventListener('click', () => api.invoke('rest:goodnight'));
+  $('rest-continue').addEventListener('click', async () => renderAll(await api.invoke('rest:exit')));
+
+  function renderDesk() {
+    const d = state.desk;
+    if (!d) return;
+    $('desk-next').textContent = d.next ? `sıradaki: ${d.next.minutesLeft} dk kaldı` : 'hepsi açıldı';
+    const grid = $('desk-grid');
+    grid.textContent = '';
+    for (const item of d.items) {
+      const li = document.createElement('li');
+      li.className = `desk-item${item.unlockedAt ? ' on' : ''}`;
+      li.title = item.unlockedAt ? item.title : `${item.title} — toplam ${item.hours * 60} dk odaklanınca açılır`;
+      li.textContent = item.unlockedAt ? item.icon : '?';
+      grid.appendChild(li);
+    }
+  }
+
+  function renderLetter() {
+    const letter = state.home?.letter;
+    $('letter-card').hidden = !letter || letter.week === dismissedLetterWeek;
+    if (letter) $('letter-text').textContent = letter.text;
+  }
+  // Kapatma bilgisi bellekte tutulur; bir sonraki açılışta mektup tekrar görünse de zararsız.
+  let dismissedLetterWeek = null;
+  $('letter-close').addEventListener('click', () => { dismissedLetterWeek = state.home?.letter?.week || null; renderLetter(); });
+
+  function moodDateLabel(date) {
+    return new Date(`${date}T12:00:00`).toLocaleDateString('tr-TR', { day: 'numeric', month: 'short' });
+  }
+
+  function renderMoodCalendar(container, days, mode, editable = false) {
+    container.textContent = '';
+    for (const day of days || []) {
+      const wrap = document.createElement('div');
+      wrap.className = 'mood-day-wrap';
+      if (day.day === 1 && day.date) {
+        const weekday = new Date(`${day.date}T12:00:00`).getDay();
+        wrap.style.gridColumnStart = String(((weekday + 6) % 7) + 1);
+      }
+
+      const interactive = mode === 'user' && editable && !day.future;
+      const dot = document.createElement(interactive ? 'button' : 'span');
+      dot.className = `mood-day ${mode === 'user' ? 'user-day' : 'nero-day'}`;
+      dot.textContent = day.day;
+      dot.dataset.date = day.date;
+
+      if (mode === 'user') {
+        if (day.value) dot.classList.add(`mood-${day.value}`);
+        else dot.classList.add('empty');
+        if (day.future) dot.classList.add('future');
+        const moodName = day.value === 'green' ? 'muhteşem' : day.value === 'yellow' ? 'idare eder' : day.value === 'red' ? 'kötü' : 'seçilmedi';
+        const stateLabel = day.future ? 'gelecek gün' : moodName;
+        dot.title = `${moodDateLabel(day.date)}: ${stateLabel}`;
+        dot.setAttribute('aria-label', `${moodDateLabel(day.date)} ruh hali: ${stateLabel}`);
+
+        if (interactive) {
+          dot.type = 'button';
+          const picker = document.createElement('div');
+          picker.className = 'mood-picker';
+          picker.hidden = true;
+          for (const [value, label] of [['green', 'Muhteşem'], ['yellow', 'İdare eder'], ['red', 'Kötü']]) {
+            const choice = document.createElement('button');
+            choice.type = 'button';
+            choice.className = `mood-choice mood-${value}`;
+            choice.setAttribute('aria-label', `${label} olarak işaretle`);
+            choice.title = label;
+            choice.addEventListener('click', async (event) => {
+              event.stopPropagation();
+              picker.hidden = true;
+              await api.invoke('moodboard:set', day.date, value);
+            });
+            picker.appendChild(choice);
+          }
+          dot.addEventListener('click', () => {
+            const wasHidden = picker.hidden;
+            for (const other of document.querySelectorAll('.mood-picker')) other.hidden = true;
+            picker.hidden = !wasHidden;
+          });
+          wrap.append(dot, picker);
+          container.appendChild(wrap);
+          continue;
+        }
+      } else {
+        if (day.cls) dot.classList.add(day.cls);
+        else dot.classList.add('empty');
+        if (day.future) dot.classList.add('future');
+        dot.title = `${moodDateLabel(day.date)}: ${day.label || 'kayıt yok'}`;
+        dot.setAttribute('aria-label', `${moodDateLabel(day.date)} Nero ruh hali: ${day.label || 'kayıt yok'}`);
+      }
+
+      wrap.appendChild(dot);
+      container.appendChild(wrap);
+    }
+  }
+
+  function closeMoodHistory() {
+    $('mood-history-popover').hidden = true;
+    $('mood-history-toggle').setAttribute('aria-expanded', 'false');
+  }
+
+  async function showMoodboardMonth(key) {
+    const currentKey = state?.moodboard?.currentKey;
+    if (!key || !currentKey) return;
+    closeMoodHistory();
+    if (key === currentKey) {
+      viewedMoodboard = null;
+      renderMoodboards();
+      return;
+    }
+    const board = await api.invoke('moodboard:get', key);
+    if (!board) return;
+    viewedMoodboard = board;
+    renderMoodboards();
+  }
+
+  function renderMoodHistory(board) {
+    const current = state?.moodboard;
+    const months = current?.availableMonths || board.availableMonths || [];
+    const years = new Map();
+    for (const month of [...months].sort((a, b) => b.key.localeCompare(a.key))) {
+      const year = month.key.slice(0, 4);
+      if (!years.has(year)) years.set(year, []);
+      years.get(year).push(month);
+    }
+
+    const root = $('mood-history-years');
+    root.textContent = '';
+    for (const [year, items] of years) {
+      const group = document.createElement('div');
+      group.className = 'mood-history-year';
+      const title = document.createElement('strong');
+      title.textContent = year;
+      const buttons = document.createElement('div');
+      buttons.className = 'mood-history-months';
+      for (const item of items) {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.dataset.monthKey = item.key;
+        button.className = 'mood-history-month';
+        if (item.key === board.key) button.classList.add('active');
+        button.textContent = item.label.replace(/\s+\d{4}$/, '');
+        button.addEventListener('click', () => showMoodboardMonth(item.key));
+        buttons.appendChild(button);
+      }
+      group.append(title, buttons);
+      root.appendChild(group);
+    }
+
+    const pastCount = months.filter((month) => month.key !== current?.currentKey).length;
+    const toggle = $('mood-history-toggle');
+    toggle.disabled = pastCount === 0;
+    toggle.title = pastCount ? 'Geçmiş moodboard ayları' : 'Henüz geçmiş moodboard kaydı yok';
+  }
+
+  function renderMoodboardNav(board) {
+    const months = state?.moodboard?.availableMonths || board.availableMonths || [];
+    const keys = months.map((month) => month.key).sort();
+    const currentKey = state?.moodboard?.currentKey || board.currentKey;
+    const index = keys.indexOf(board.key);
+    let prevKey = null;
+    let nextKey = null;
+
+    if (index >= 0) {
+      prevKey = keys[index - 1] || null;
+      nextKey = keys[index + 1] || null;
+    } else if (board.key === currentKey && keys.length) {
+      prevKey = keys[keys.length - 1];
+    }
+
+    const prev = $('moodboard-prev');
+    const next = $('moodboard-next');
+    prev.disabled = !prevKey;
+    next.disabled = !nextKey;
+    prev.dataset.monthKey = prevKey || '';
+    next.dataset.monthKey = nextKey || '';
+    $('moodboard-current').hidden = board.key === currentKey;
+  }
+
+  function renderMoodboards() {
+    const board = viewedMoodboard || state.moodboard;
+    if (!board) return;
+    $('moodboard-month').textContent = board.label || '';
+    $('user-mood-hint').textContent = board.editable ? 'güne dokun, rengini seç' : 'geçmiş kayıt · salt okunur';
+    renderMoodCalendar($('user-mood-calendar'), board.user, 'user', !!board.editable);
+    renderMoodCalendar($('nero-mood-calendar'), board.nero, 'nero', false);
+    renderMoodHistory(board);
+    renderMoodboardNav(board);
+  }
+
+  $('mood-history-toggle').addEventListener('click', (event) => {
+    event.stopPropagation();
+    const popover = $('mood-history-popover');
+    if ($('mood-history-toggle').disabled) return;
+    popover.hidden = !popover.hidden;
+    $('mood-history-toggle').setAttribute('aria-expanded', popover.hidden ? 'false' : 'true');
+  });
+  $('moodboard-prev').addEventListener('click', () => showMoodboardMonth($('moodboard-prev').dataset.monthKey));
+  $('moodboard-next').addEventListener('click', () => showMoodboardMonth($('moodboard-next').dataset.monthKey));
+  $('moodboard-current').addEventListener('click', () => showMoodboardMonth(state?.moodboard?.currentKey));
+  document.addEventListener('click', (event) => {
+    if (!event.target.closest('.user-mood-board')) closeMoodHistory();
+    if (!event.target.closest('.section-help')) closeSectionHelp();
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      closeMoodHistory();
+      closeSectionHelp();
+      if (!$('stats-reset-modal').hidden) closeStatsResetModal();
+    }
+  });
+
+  function renderArchive() {
+    const a = state.home?.archive;
+    $('archive-card').hidden = !a || a.total === 0;
+    if (!a) return;
+    $('archive-count').textContent = `${a.total} iş`;
+    const list = $('archive-list');
+    const more = $('archive-more');
+    const moreList = $('archive-more-list');
+    const wasOpen = more.open;
+    list.textContent = '';
+    moreList.textContent = '';
+    const items = a.recent || [];
+    const visible = items.slice(0, 5);
+    const rest = items.slice(5);
+    for (const item of visible) {
+      const li = document.createElement('li');
+      li.textContent = item.text;
+      list.appendChild(li);
+    }
+    for (const item of rest) {
+      const li = document.createElement('li');
+      li.textContent = item.text;
+      moreList.appendChild(li);
+    }
+    more.hidden = rest.length === 0;
+    more.open = rest.length > 0 && wasOpen;
+    $('archive-more-summary').textContent = rest.length ? `${rest.length} iş daha` : '';
+  }
+
+  $('jar-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const input = $('jar-input');
+    const text = input.value.trim();
+    if (!text) return;
+    input.value = '';
+    await api.invoke('jar:add', text);
+  });
+  function renderJar() { $('jar-count').textContent = `${state.jarCount || 0} anı`; }
+
+  function markHomeDialogueSeen() {
+    const id = state?.home?.dialogueId;
+    if (currentTab !== 'home' || !id || !state.home?.jab) return;
+    if (lastSeenHomeDialogueId === id) return;
+    lastSeenHomeDialogueId = id;
+    api.invoke('home:seen', id).catch(() => {});
+  }
+
+  function renderHomeJab() {
+    const el = $('home-jab');
+    const id = state?.home?.dialogueId || null;
+    const text = state?.home?.jab || '';
+    if (id === lastHomeDialogueId && el.textContent === text) {
+      markHomeDialogueSeen();
+      return;
+    }
+    clearTimeout(homeJabFadeTimer);
+    el.classList.add('home-jab-fade');
+    homeJabFadeTimer = setTimeout(() => {
+      el.textContent = text;
+      lastHomeDialogueId = id;
+      requestAnimationFrame(() => el.classList.remove('home-jab-fade'));
+      markHomeDialogueSeen();
+    }, 140);
+  }
+
+  function renderHome() {
+    const st = state.stats;
+    if (!st) return;
+    const h = new Date().getHours();
+    const greet = h >= 5 && h < 12 ? 'Günaydın' : h >= 12 && h < 17 ? 'İyi günler' : h >= 17 && h < 22 ? 'İyi akşamlar' : 'İyi geceler';
+    const name = (state.settings.userName || '').trim();
+    $('hello').textContent = name ? `${greet}, ${name}` : greet;
+    $('mm-issue').textContent = `Sayı ${st.daysTogether}`;
+    $('mm-date').textContent = new Intl.DateTimeFormat('tr-TR', { day: 'numeric', month: 'long', weekday: 'long' }).format(new Date());
+    $('hello-date').textContent = longDate.format(new Date()).toLocaleLowerCase('tr-TR');
+
+    if (state.home) {
+      renderHomeJab();
+      $('quote-t').textContent = state.home.quote?.t || '';
+      $('quote-nero').textContent = state.home.quote?.nero || '';
+    }
+
+    $('st-today-todos').textContent = st.today.todos;
+    $('st-today-focus').textContent = minutesText(st.today.focus);
+    $('st-streak').textContent = st.streak;
+    $('st-days').textContent = st.daysTogether;
+
+    const max = Math.max(30, ...st.week.map((d) => d.focus));
+    const bars = $('week-bars');
+    bars.textContent = '';
+    st.week.forEach((d, i) => {
+      const bar = document.createElement('div');
+      bar.className = `bar${i === st.week.length - 1 ? ' today' : ''}`;
+      bar.title = `${d.focus} dk odak, ${d.todos} iş`;
+      bar.dataset.focus = String(d.focus || 0);
+      bar.dataset.todos = String(d.todos || 0);
+      const col = document.createElement('i');
+      col.style.height = `${Math.max(4, Math.round((d.focus / max) * 86))}px`;
+      const label = document.createElement('span');
+      label.textContent = WEEKDAYS[d.weekday];
+      bar.append(col, label);
+      bars.appendChild(bar);
+    });
+    $('week-total').textContent = minutesText(st.week.reduce((a, d) => a + d.focus, 0));
+
+    const display = st.display || { totals: st.totals, bestStreak: st.bestStreak, baselineAt: null };
+    const totals = display.totals || st.totals;
+    $('tt-todos').textContent = totals.todos || 0;
+    $('tt-focus').textContent = minutesText(totals.focusMin || 0);
+    $('tt-done').textContent = totals.timersDone || 0;
+    $('tt-quit').textContent = totals.timersQuit || 0;
+    $('tt-notes').textContent = totals.notes || 0;
+    $('tt-best').textContent = `${display.bestStreak || 0} gün`;
+    $('tt-pets').textContent = `${totals.pets || 0} kere`;
+    $('stats-reset').classList.toggle('has-baseline', !!display.baselineAt);
+    $('stats-reset').title = display.baselineAt ? 'Bu başlangıç noktasını yeniden sıfırla' : 'Yeni bir başlangıç';
+    $('q-focus').textContent = `${state.settings.lastTimerMinutes || 25} dk odaklan`;
+  }
+
+  const sectionTooltipLayer = $('section-tooltip-layer');
+  let activeSectionHelp = null;
+  let pinnedSectionHelp = null;
+
+  function positionSectionTooltip(button) {
+    if (!button || sectionTooltipLayer.hidden) return;
+    const r = button.getBoundingClientRect();
+    const tip = sectionTooltipLayer.getBoundingClientRect();
+    const pad = 12;
+    const gap = 7;
+
+    let left = r.left + (r.width / 2) - (tip.width / 2);
+    left = Math.max(pad, Math.min(left, window.innerWidth - tip.width - pad));
+
+    let top = r.bottom + gap;
+    if (top + tip.height > window.innerHeight - pad) {
+      top = Math.max(pad, r.top - tip.height - gap);
+    }
+
+    sectionTooltipLayer.style.left = `${Math.round(left)}px`;
+    sectionTooltipLayer.style.top = `${Math.round(top)}px`;
+  }
+
+  function showSectionHelp(button, { pinned = false } = {}) {
+    const source = button?.querySelector('.section-tooltip');
+    if (!button || !source) return;
+
+    if (activeSectionHelp && activeSectionHelp !== button) {
+      activeSectionHelp.classList.remove('open');
+      activeSectionHelp.setAttribute('aria-expanded', 'false');
+    }
+
+    activeSectionHelp = button;
+    if (pinned) pinnedSectionHelp = button;
+    button.classList.add('open');
+    button.setAttribute('aria-expanded', 'true');
+
+    sectionTooltipLayer.textContent = source.textContent.trim();
+    sectionTooltipLayer.hidden = false;
+    sectionTooltipLayer.dataset.skin = document.documentElement.dataset.skin || '';
+    positionSectionTooltip(button);
+  }
+
+  function closeSectionHelp(except = null) {
+    for (const button of document.querySelectorAll('.section-help.open')) {
+      if (button === except) continue;
+      button.classList.remove('open');
+      button.setAttribute('aria-expanded', 'false');
+    }
+    if (!except || activeSectionHelp !== except) {
+      activeSectionHelp = except || null;
+    }
+    if (!except) {
+      pinnedSectionHelp = null;
+      sectionTooltipLayer.hidden = true;
+      sectionTooltipLayer.textContent = '';
+    }
+  }
+
+  for (const button of document.querySelectorAll('.section-help')) {
+    button.addEventListener('mouseenter', () => {
+      if (pinnedSectionHelp && pinnedSectionHelp !== button) return;
+      showSectionHelp(button);
+    });
+    button.addEventListener('mouseleave', () => {
+      if (pinnedSectionHelp === button) return;
+      if (activeSectionHelp === button) closeSectionHelp();
+    });
+    button.addEventListener('focus', () => {
+      if (pinnedSectionHelp && pinnedSectionHelp !== button) return;
+      showSectionHelp(button);
+    });
+    button.addEventListener('blur', () => {
+      if (pinnedSectionHelp === button) return;
+      if (activeSectionHelp === button) closeSectionHelp();
+    });
+    button.addEventListener('click', (event) => {
+      event.stopPropagation();
+      const wasPinned = pinnedSectionHelp === button;
+      closeSectionHelp();
+      if (!wasPinned) showSectionHelp(button, { pinned: true });
+    });
+  }
+
+  window.addEventListener('resize', () => {
+    if (activeSectionHelp && !sectionTooltipLayer.hidden) positionSectionTooltip(activeSectionHelp);
+  });
+
+  function closeStatsResetModal() {
+    $('stats-reset-modal').hidden = true;
+    $('stats-reset').focus();
+  }
+
+  $('stats-reset').addEventListener('click', () => {
+    closeSectionHelp();
+    $('stats-reset-modal').hidden = false;
+    requestAnimationFrame(() => $('stats-reset-cancel').focus());
+  });
+  $('stats-reset-cancel').addEventListener('click', closeStatsResetModal);
+  $('stats-reset-confirm').addEventListener('click', async () => {
+    $('stats-reset-confirm').disabled = true;
+    try {
+      await api.invoke('stats:resetDisplay');
+      $('stats-reset-modal').hidden = true;
+    } finally {
+      $('stats-reset-confirm').disabled = false;
+      $('stats-reset').focus();
+    }
+  });
+  $('stats-reset-modal').addEventListener('click', (event) => {
+    if (event.target === $('stats-reset-modal')) closeStatsResetModal();
+  });
+
+  $('q-focus').addEventListener('click', () => {
+    api.invoke('timer:start', state?.settings.lastTimerMinutes || 25, '');
+    selectTab('timer');
+  });
+  $('q-todo').addEventListener('click', () => selectTab('todos'));
+  $('q-note').addEventListener('click', () => { selectTab('notes'); openEditor(null); });
+
+  // ---------------------------------------------------------------------------
+  // Durum
+  // ---------------------------------------------------------------------------
+  function renderAll(next) {
+    state = next;
+    applyUi(state.ui);
+    renderMood(state.mood);
+    renderNotes();
+    renderTodos();
+    renderTimer(state.timer);
+    renderSettings();
+    renderHome();
+    renderBadges();
+    renderUpdate();
+    renderRitual();
+    renderRest();
+    renderDesk();
+    renderLetter();
+    renderMoodboards();
+    renderArchive();
+    renderJar();
+  }
+
+  api.on('state', renderAll);
+  api.on('timer', (t) => { if (state) state.timer = t; renderTimer(t); });
+  api.on('panel:tab', (tab) => selectTab(tab));
+  api.on('theme', (payload) => applyUi(payload.manifest.ui));
+
+  document.documentElement.dataset.skin = skinName;
+  applySkinText();
+  api.invoke('state:get').then(renderAll);
+  choose(25);
+  selectTab('home');
+})();
