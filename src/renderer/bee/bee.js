@@ -1063,7 +1063,7 @@ function onTileClick(k, x, y) {
   }
 
   if (t.item.type === 'house') {
-    openPopupAt(x, y, `<h3>Arıcının evi</h3><p class="sub">Burası senin çiftliğin. Arıcı hasat için buradan yola çıkar.</p>`);
+    openHouseInterior();
     return;
   }
 
@@ -1289,7 +1289,7 @@ let lastSpeed = 1;
 window.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
     closePopup(); $('seed-modal').hidden = true; closeHive(); closeMarket(); closeOrders(); closeBoard(); closeShop(); closeWorkshop(); closeWarehouse();
-    $('guide-modal').hidden = true; closeWhatsNew(); cancelPlacing(); closeLedger(); closeStats(); closeNotifs(); closeMerchant();
+    $('guide-modal').hidden = true; closeWhatsNew(); cancelPlacing(); closeHouseInterior(); closeLedger(); closeStats(); closeNotifs(); closeMerchant();
     $('settings-modal').hidden = true; $('hives-modal').hidden = true; $('keys-modal').hidden = true;
     return;
   }
@@ -1399,6 +1399,91 @@ $('h-name').addEventListener('click', () => {
   if (h) inlineRename($('h-name'), $('h-name-input'), h.name, (n) => doAct('renameHive', openHiveId, n));
 });
 $('farm-name').addEventListener('click', () => inlineRename($('farm-name'), $('farm-name-input'), view.farmName, (n) => doAct('setFarmName', n)));
+
+
+// ---------------------------------------------------------------------------
+// Arıcının Evi · tek ekran iç mekân denemesi
+// ---------------------------------------------------------------------------
+let houseInteriorOpen = false;
+let houseInteriorSig = '';
+
+function openHouseInterior() {
+  if (!view) return;
+  houseInteriorOpen = true;
+  closePopup();
+  $('house-modal').hidden = false;
+  renderHouseInterior(true);
+}
+function closeHouseInterior() {
+  houseInteriorOpen = false;
+  const modal = $('house-modal');
+  if (modal) modal.hidden = true;
+}
+function houseOpenLedger(tab) {
+  closeHouseInterior();
+  ledgerTab = tab;
+  for (const x of document.querySelectorAll('[data-ltab]')) x.classList.toggle('on', x.dataset.ltab === tab);
+  openLedger();
+}
+function houseDateFromStamp(stamp) {
+  if (!stamp) return '';
+  try { return new Intl.DateTimeFormat('tr-TR', { day: 'numeric', month: 'short', year: 'numeric' }).format(new Date(stamp)); }
+  catch { return ''; }
+}
+function houseFirstHoney() {
+  const seasonOrder = { İlkbahar: 0, Yaz: 1, Sonbahar: 2, Kış: 3 };
+  const rows = Object.entries(view?.ledger?.honey || {}).filter(([, h]) => h?.first).map(([flower, h]) => ({ flower, ...h.first }));
+  rows.sort((a, b) => (a.year - b.year) || ((seasonOrder[a.season] ?? 9) - (seasonOrder[b.season] ?? 9)) || (a.day - b.day));
+  return rows[0] || null;
+}
+function houseMemoryCards() {
+  const cards = [];
+  const firstHoney = houseFirstHoney();
+  if (firstHoney) {
+    const flower = view.flowers?.[firstHoney.flower];
+    cards.push({ icon: '🍯', tone: 'honey', title: 'İlk Balımız', date: `${firstHoney.year}. yıl · ${firstHoney.season} · ${firstHoney.day}. gün`, text: `${flower?.name || 'İlk'} balıyla başladı.` });
+  }
+  const firstCup = (view.festival?.cups || [])[0];
+  if (firstCup) {
+    const medal = firstCup.cup === 'altın' ? '🥇' : firstCup.cup === 'gümüş' ? '🥈' : '🥉';
+    cards.push({ icon: medal, tone: 'cup', title: 'İlk Kupamız', date: `${firstCup.year}. yıl · ${seasonsTr[firstCup.season] || firstCup.season}`, text: `${firstCup.place}. sıra · ${firstCup.score || 0} puan` });
+  }
+  const villageStamp = view.milestones?.koy_seviye_1;
+  if (villageStamp || (view.village?.residents || []).length) cards.push({ icon: '🏘️', tone: 'village', title: 'Köy Büyümeye Başladı', date: villageStamp ? houseDateFromStamp(villageStamp) : 'Kayıt mevcut', text: `${view.village?.residents?.length || 0} yerleşimci bugün köyün bir parçası.` });
+  const jarStamp = view.milestones?.ilk_kavanoz;
+  if (cards.length < 3 && jarStamp) cards.push({ icon: '🌟', tone: 'milestone', title: '20 kg Dönüm Noktası', date: houseDateFromStamp(jarStamp), text: 'İlk büyük bal dönüm noktasına ulaştın.' });
+  while (cards.length < 3) cards.push({ icon: '✦', tone: 'locked', title: 'Yeni bir hatıra bekliyor', date: 'Henüz açılmadı', text: 'Oynadıkça bu kart kendiliğinden dolacak.' });
+  return cards.slice(0, 3);
+}
+function renderHouseInterior(force = false) {
+  if (!houseInteriorOpen || !view) return;
+  const sig = JSON.stringify([view.calendar, view.ledger, view.festival?.cups, view.letters, view.milestones, view.village?.residents?.length, Object.keys(view.hives || {}).length, Object.values(view.tiles || {}).filter((t) => t.owned).length]);
+  if (!force && sig === houseInteriorSig) return;
+  houseInteriorSig = sig;
+  const stage = farmStage(view);
+  const room = $('house-room');
+  room.dataset.stage = String(stage);
+  room.style.backgroundImage = `url('./assets/house/room-${stage}.svg')`;
+  const names = ['Arıcının Kulübesi', 'Arıcının Evi', 'Bal Evi', 'Usta Arıcının Evi'];
+  $('house-title').textContent = `🏡 ${names[stage] || names[0]}`;
+  $('house-subtitle').textContent = `${view.farmName} · dışarıdaki evinle aynı gelişim seviyesi`;
+  $('house-stage-note').textContent = `Ev seviyesi ${stage + 1}/4 · ${Object.keys(view.hives || {}).length} kovan`;
+  const cups = view.festival?.cups || [];
+  $('house-cups').innerHTML = cups.length ? cups.slice(-5).map((c) => `<i title="${c.year}. yıl · ${seasonsTr[c.season] || c.season}">${c.cup === 'altın' ? '🥇' : c.cup === 'gümüş' ? '🥈' : '🥉'}</i>`).join('') : '<small>Henüz kupa yok</small>';
+  const honey = Object.entries(view.ledger?.honey || {}).filter(([, h]) => h?.first);
+  $('house-honey-shelf').innerHTML = honey.length ? honey.map(([f]) => `<i class="house-jar" style="--jar:${view.flowers?.[f]?.color || '#e4aa3b'}" title="${esc(view.flowers?.[f]?.name || f)} balı"></i>`).join('') : '<small>İlk balını bekliyor</small>';
+  const letters = view.letters || [];
+  $('house-letter-count').innerHTML = `<b>${letters.length}</b><small>${view.lettersUnread || 0} yeni</small>`;
+  const totalKg = Object.values(view.ledger?.honey || {}).reduce((n, h) => n + Number(h.kg || 0), 0);
+  $('house-journal-stat').textContent = `${totalKg.toFixed(1)} kg toplam hasat · ${view.ledger?.harvests || 0} hasat`;
+  $('house-calendar-day').textContent = `${view.calendar.day}. gün`;
+  $('house-calendar-season').textContent = `${view.calendar.year}. yıl · ${seasonsTr[view.calendar.season] || view.calendar.season}`;
+  $('house-polaroids').innerHTML = houseMemoryCards().map((m, i) => `<article class="house-polaroid ${m.tone}" style="--tilt:${[-2,1.6,-1][i]}deg"><div class="house-photo"><span>${m.icon}</span></div><b>${esc(m.title)}</b><small>${esc(m.date)}</small><p>${esc(m.text)}</p></article>`).join('');
+}
+$('house-close').addEventListener('click', closeHouseInterior);
+$('house-back').addEventListener('click', closeHouseInterior);
+$('house-modal').addEventListener('click', (e) => { if (e.target === $('house-modal')) closeHouseInterior(); });
+$('house-room').addEventListener('click', (e) => { const hit = e.target.closest('[data-house-ledger]'); if (hit) houseOpenLedger(hit.dataset.houseLedger); });
 
 // ---------------------------------------------------------------------------
 // Bal Defteri
@@ -3080,7 +3165,7 @@ function applyView(v) {
   setTimeout(() => { if (view && view.merchant) renderMerchant(); }, 0);
   setTimeout(renderNotifs, 0);
   setTimeout(() => { if (view && view.village) buildVillage(); }, 0);
-  setTimeout(() => { renderQuests(); renderLedger(); renderStats(); renderWorkshop(); renderWarehouse(); }, 0);
+  setTimeout(() => { renderQuests(); renderHouseInterior(); renderLedger(); renderStats(); renderWorkshop(); renderWarehouse(); }, 0);
   const first = !view;
   const prevWeather = prev && prev.weather ? prev.weather.id : null;
   const prevFestivalOpen = !!(prev && prev.festival && prev.festival.open);

@@ -569,6 +569,30 @@
     </div>
   </div>
 
+  <!-- Arıcının Evi · iç mekân denemesi -->
+  <div class="modal-bg house-interior-bg" id="house-modal" hidden>
+    <div class="house-interior-card" role="dialog" aria-modal="true" aria-labelledby="house-title">
+      <div class="house-interior-head">
+        <div>
+          <span class="house-kicker">ARICININ EVİ · DENEME</span>
+          <h2 id="house-title">🏡 Evin</h2>
+          <p id="house-subtitle">Çiftliğinin hikâyesi burada birikiyor.</p>
+        </div>
+        <button class="round small" id="house-close" type="button" aria-label="Köye dön">✕</button>
+      </div>
+      <div class="house-room" id="house-room" data-stage="0">
+        <button type="button" class="house-hotspot house-cups" data-house-ledger="cups" title="Kupaları aç"><span class="house-hotspot-label">🏆 Kupalar</span><span id="house-cups"></span></button>
+        <button type="button" class="house-hotspot house-honey" data-house-ledger="honey" title="Bal Defterini aç"><span class="house-hotspot-label">🍯 Bal Rafı</span><span id="house-honey-shelf"></span></button>
+        <button type="button" class="house-hotspot house-letters" data-house-ledger="letters" title="Mektupları aç"><span class="house-hotspot-label">✉️ Mektuplar</span><span id="house-letter-count"></span></button>
+        <button type="button" class="house-hotspot house-journal" data-house-ledger="records" title="Kayıtları aç"><span class="house-hotspot-label">📖 Arıcının Defteri</span><small id="house-journal-stat"></small></button>
+        <div class="house-calendar" aria-label="Oyun takvimi"><span>TAKVİM</span><b id="house-calendar-day">—</b><small id="house-calendar-season">—</small></div>
+        <section class="house-memory-board" aria-label="Hatıra panosu"><div class="house-memory-head"><b>📸 Hatıralar</b><small>Gerçek oyun kayıtlarından</small></div><div class="house-polaroids" id="house-polaroids"></div></section>
+        <div class="house-stage-note" id="house-stage-note"></div>
+      </div>
+      <div class="house-footer"><span>Odadaki raf ve objelere tıklayabilirsin.</span><button type="button" class="act" id="house-back">← Köye dön</button></div>
+    </div>
+  </div>
+
   <!-- Bal Defteri -->
   <div class="modal-bg" id="ledger-modal" hidden>
     <div class="modal card ledger-card">

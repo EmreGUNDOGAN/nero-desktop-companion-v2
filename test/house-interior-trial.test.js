@@ -1,0 +1,13 @@
+const test=require('node:test');
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const path=require('node:path');
+const root=path.join(__dirname,'..');
+const html=fs.readFileSync(path.join(root,'src/renderer/bee/index.html'),'utf8');
+const js=fs.readFileSync(path.join(root,'src/renderer/bee/bee.js'),'utf8');
+const css=fs.readFileSync(path.join(root,'src/renderer/bee/bee.css'),'utf8');
+test('arıcının evi tıklanınca iç mekân ekranı açılır',()=>{assert.match(html,/id="house-modal"/);assert.match(js,/if \(t\.item\.type === 'house'\) \{\s*openHouseInterior\(\)/);assert.match(js,/function openHouseInterior\(\)/);assert.match(js,/function renderHouseInterior\(force = false\)/);});
+test('ev içi gerçek oyun verilerini polaroid ve raflara bağlar',()=>{assert.match(js,/view\.ledger\?\.honey/);assert.match(js,/view\.festival\?\.cups/);assert.match(js,/view\.letters/);assert.match(js,/view\.milestones\?\.koy_seviye_1/);assert.match(js,/firstHoney\.year/);});
+test('ev iç mekânı dış evle aynı 4 gelişim aşamasını kullanır',()=>{assert.match(js,/const stage = farmStage\(view\)/);for(let i=0;i<4;i++)assert.equal(fs.existsSync(path.join(root,`src/renderer/bee/assets/house/room-${i}.svg`)),true);});
+test('evdeki etkileşimli objeler mevcut Bal Defteri sekmelerini açar',()=>{for(const tab of ['cups','honey','letters','records'])assert.match(html,new RegExp(`data-house-ledger="${tab}"`));assert.match(js,/function houseOpenLedger\(tab\)/);});
+test('ev içi responsive ve ayrı bir görsel sahne olarak stillenir',()=>{assert.match(css,/\.house-room\{/);assert.match(css,/\.house-polaroid\{/);assert.match(css,/@media\(max-width:760px\)/);});
