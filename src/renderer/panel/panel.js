@@ -179,7 +179,7 @@
       }
     }
   };
-  const NEW_THEME_TABS = { home: 'Bugün', badges: 'Rozetler', notes: 'Notlar', todos: 'İşler', timer: 'Sayaç', settings: 'Ayarlar' };
+  const NEW_THEME_TABS = { home: 'Bugün', badges: 'Rozetler', notes: 'Notlar', todos: 'İşler', timer: 'Sayaç', settings: 'Ayarlar', budget: 'Bütçe' };
 
   Object.assign(SKINS, {
     'radyo-aksami': { ...SKINS.cozy, tabs: NEW_THEME_TABS, tagline: '', sticky: '' },
@@ -232,7 +232,7 @@
 
   function applySkinText() {
     const k = skin();
-    const FALLBACK_TABS = { home: 'Bugün', badges: 'Rozetler', notes: 'Notlar', todos: 'İşler', timer: 'Zaman', settings: 'Ayarlar' };
+    const FALLBACK_TABS = { home: 'Bugün', badges: 'Rozetler', notes: 'Notlar', todos: 'İşler', timer: 'Zaman', settings: 'Ayarlar', budget: 'Bütçe' };
     for (const el of document.querySelectorAll('.tl')) el.textContent = k.tabs[el.dataset.k] || FALLBACK_TABS[el.dataset.k];
     $('todo-input').placeholder = k.todoPlaceholder;
     $('list-title').innerHTML = k.listTitle;
@@ -281,6 +281,7 @@
     for (const b of tabButtons) b.setAttribute('aria-selected', String(b.dataset.tab === tab));
     $('settings-button').setAttribute('aria-pressed', String(tab === 'settings'));
     for (const v of document.querySelectorAll('.view')) v.hidden = v.id !== `view-${tab}`;
+    if (tab === 'budget') window.neroBudget?.open();
     if (tab === 'todos') setTimeout(() => $('todo-input').focus(), 30);
     if (tab === 'home') setTimeout(markHomeDialogueSeen, 60);
   }
