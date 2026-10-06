@@ -10,8 +10,8 @@ function registerBudgetIPC({ipcMain,dialog,shell,BrowserWindow,budget,getPanel,b
   });
   handle('budget:duplicate',input=>({ok:true,duplicates:budget.duplicate(input)}));
   handle('budget:sourceOpen',async id=>{const {sources,books}=require('../renderer/panel/budget-handbook');const source=sources[id]||books.find(b=>b.id===id);if(!source)throw new Error('Kaynak bulunamadı.');await shell.openExternal(source.url);return {ok:true};});
-  handle('budget:get',month=>({ok:true,view:budget.view(month)}));
-  handle('budget:act',(action,input,month)=>{budget.act(action,input);return {ok:true,view:budget.view(month)};});
+  handle('budget:get',month=>{const auto=budget.autoPost();return {ok:true,view:budget.view(month),auto};});
+  handle('budget:act',(action,input,month)=>{budget.act(action,input);const auto=['plan','scheduleTransaction','revisePlan'].includes(action)?budget.autoPost():null;return {ok:true,view:budget.view(month),auto};});
   handle('budget:csvExport',async(from,to)=>{
     const r=await dialog.showSaveDialog(getPanel(),{title:'Bütçe işlemlerini CSV olarak kaydet',defaultPath:`Nero-Butce-${from||'tum'}.csv`,filters:[{name:'CSV',extensions:['csv']}]});
     if(r.canceled)return {ok:false,canceled:true};fs.writeFileSync(r.filePath,exportCSV(budget,from,to),'utf8');return {ok:true};

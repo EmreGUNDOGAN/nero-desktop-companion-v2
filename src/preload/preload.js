@@ -24,6 +24,7 @@ const SEND = new Set([
 ]);
 
 const ON = new Set([
+  'budget:focus',
   'motion',
   'cursor', 'say', 'baseline', 'theme', 'settings', 'timer', 'state', 'panel:tab', 'sound', 'dragging', 'interaction:reset', 'peek'
 ]);

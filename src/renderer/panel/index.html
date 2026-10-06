@@ -10,6 +10,8 @@
   <link rel="stylesheet" href="skins.css">
   <link rel="stylesheet" href="radio.css">
   <link rel="stylesheet" href="budget.css">
+  <link rel="stylesheet" href="budget-tokens.css">
+  <link rel="stylesheet" href="budget-modern.css">
 </head>
 <body>
   <div class="shell">
@@ -83,9 +85,11 @@
 
     <main>
       <section class="view budget-view" id="view-budget" role="tabpanel" hidden>
-        <div class="budget-top-tools"><button type="button" id="budget-guide">Başlangıç rehberi</button><label>Yazı<select id="budget-text-size" aria-label="Bütçe yazı boyutu"><option value="comfortable">Rahat</option><option value="large">Büyük</option></select></label></div><header class="budget-head"><div><p class="budget-eyebrow">NERO · KİŞİSEL FİNANS</p><h2>Bütçe</h2></div><label class="budget-month-label">Dönem<input type="month" id="budget-month" aria-label="Bütçe ayı"></label></header>
-        <nav class="budget-tabs" aria-label="Bütçe bölümleri" role="tablist"><button role="tab" type="button" data-budget-tab="overview">Özet</button><button role="tab" type="button" data-budget-tab="transactions">İşlemler</button><button role="tab" type="button" data-budget-tab="accounts">Hesaplar</button><button role="tab" type="button" data-budget-tab="budgets">Bütçeler</button><button role="tab" type="button" data-budget-tab="plans">Ödemeler</button><button role="tab" type="button" data-budget-tab="reports">Raporlar</button><button role="tab" type="button" data-budget-tab="calendar">Takvim</button><button role="tab" type="button" data-budget-tab="handbook">El Kitabı</button></nav>
-        <p id="budget-message" role="status" hidden></p><div id="budget-content" role="tabpanel"></div>
+        <aside class="finance-sidebar" aria-label="Finans menüsü"><h2 class="finance-side-title">Bütçe</h2><nav class="budget-tabs" aria-label="Bütçe bölümleri" role="tablist"><button role="tab" type="button" data-budget-tab="overview"><span class="finance-nav-icon" aria-hidden="true">◔</span><span>Özet</span></button><button role="tab" type="button" data-budget-tab="transactions"><span class="finance-nav-icon" aria-hidden="true">☷</span><span>İşlemler</span></button><button role="tab" type="button" data-budget-tab="accounts"><span class="finance-nav-icon" aria-hidden="true">▣</span><span>Hesaplar</span></button><button role="tab" type="button" data-budget-tab="budgets"><span class="finance-nav-icon" aria-hidden="true">▥</span><span>Bütçeler</span></button><button role="tab" type="button" data-budget-tab="plans"><span class="finance-nav-icon" aria-hidden="true">▤</span><span>Ödemeler</span></button><button role="tab" type="button" data-budget-tab="reports"><span class="finance-nav-icon" aria-hidden="true">▥</span><span>Raporlar</span></button><button role="tab" type="button" data-budget-tab="calendar"><span class="finance-nav-icon" aria-hidden="true">▦</span><span>Takvim</span></button><button role="tab" type="button" data-budget-tab="handbook"><span class="finance-nav-icon" aria-hidden="true">◇</span><span>Akademi</span></button></nav><div class="finance-sidebar-footer"><button type="button" id="budget-settings"><span aria-hidden="true">⚙</span><span>Finans ayarları</span></button><button type="button" id="budget-guide"><span aria-hidden="true">?</span><span>Rehber</span></button></div></aside>
+        <div class="finance-main"><header class="budget-head"><h2 id="budget-page-title">Genel bakış</h2><button type="button" class="budget-primary" data-budget-action="new-transaction">+ İşlem</button></header>
+        <div class="finance-month"><button type="button" id="budget-prev-month" aria-label="Önceki ay">‹</button><span id="budget-month-caption"></span><button type="button" id="budget-next-month" aria-label="Sonraki ay">›</button><button type="button" id="budget-current-month">Bu ay</button><input type="month" id="budget-month" aria-label="Ay seç" hidden></div>
+        <select id="budget-text-size" aria-label="Bütçe yazı boyutu" hidden><option value="comfortable">Rahat</option><option value="large">Büyük</option></select>
+        <p id="budget-message" role="status" hidden></p><div id="budget-content" role="tabpanel"></div></div>
         <dialog id="budget-editor" aria-labelledby="budget-editor-title"><form id="budget-form"><div class="budget-dialog-head"><h3 id="budget-editor-title"></h3><button type="button" data-budget-close aria-label="Kapat">×</button></div><div id="budget-fields"></div><p class="budget-form-error" id="budget-form-error" role="alert" hidden></p><footer class="budget-form-actions"><button type="button" data-budget-close>Vazgeç</button><button type="submit" class="budget-primary" id="budget-save">Kaydet</button></footer></form></dialog>
         <dialog id="budget-help-editor" aria-labelledby="budget-help-title"><header><h3 id="budget-help-title"></h3><button type="button" data-budget-help-close aria-label="Açıklamayı kapat">×</button></header><div id="budget-help-body"></div></dialog>
       </section>
@@ -511,6 +515,7 @@
   <script src="panel.js"></script>
   <script src="budget-handbook.js"></script>
   <script src="budget-calculators.js"></script>
+  <script src="budget-brands.js"></script>
   <script src="budget.js"></script>
 </body>
 </html>

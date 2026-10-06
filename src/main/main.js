@@ -2392,10 +2392,16 @@ function startLoops() {
     journal.recordHappiness(mood.summary().happiness, moodNow);
     journal.finalizeDue(moodNow);
     archiveClosedMoodboards();
-    if(!screenLocked){
+    try {
+      budget.autoPost();
+      if(!screenLocked && Notification.isSupported()){
       const due=budget.reminders();
-      if(due.length&&Notification.isSupported()){const cards=due.filter(o=>o.kind==='card').length;const notice=new Notification({title:cards?'Nero · Kart son ödeme günü':'Nero · Bütçe hatırlatması',body:cards?`Bugün ${cards} kartının son ödeme günü. Bütçe bölümünden kontrol edebilirsin.`:`Bugün ${due.length} planlı ödeme/gelir var. Bütçe bölümünden kontrol edebilirsin.`,icon:iconPath,silent:!settings().sound});notice.on('click',()=>showPanel('budget'));notice.show();}
-    }
+      for(const item of due){
+        const notice=new Notification({title:'Nero · Finans hatırlatması',body:`${item.name} · ${item.lead===0?'Bugün':item.lead+' gün sonra'}${item.kind==='card'?' kart son ödeme günü':''}`,icon:iconPath,silent:!settings().sound});
+        notice.on('click',()=>{showPanel('budget');const focus=()=>sendTo(panelWin,'budget:focus',item);if(panelWin.webContents.isLoading())panelWin.webContents.once('did-finish-load',focus);else focus();});notice.show();
+      }
+      }
+    } catch(err) { console.warn('Finans kontrolü:',err.message); }
     trackActivity(dt);
     if (settings().lastBackupDay !== new Date().toDateString()) autoBackup();
     updateBaseline();

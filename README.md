@@ -28,7 +28,7 @@ Nero ekranın sağ alt köşesinde belirir. Tepside (saatin yanındaki gizli sim
 npm run dist
 ```
 
-Kurulum dosyası `dist\Nero-Setup-6.3.6.exe` olarak oluşur.
+Kurulum dosyası `dist\Nero-Setup-6.9.3.exe` olarak oluşur.
 
 Yeni sürüm çıkarırken `package.json` içindeki `"version"` değerini artır (ör. `3.0.1`). `appId` değerini (`com.stenwick.nero`) **değiştirme**; kurulum programı eski sürümü bu kimlikten tanıyıp kaldırır.
 
@@ -100,3 +100,7 @@ Tüm veriler `%APPDATA%\Nero` klasöründedir: `settings.json`, `notes.json`, `t
 - **Ruh hali:** sen bilgisayar başındayken onunla ilgilenmediğin süreyi sayar. İlk 3 saat keyfi yerinde, sonra sırasıyla sıkılır, küser ve yalnız hisseder. Bilgisayardan 10 dakikadan uzun uzaklaşırsan uyur, dönünce uyanır.
 - **Kendi kendine konuşma:** ruh haline göre arada bir söylenir ya da sana laf atar. Sıklığı Ayarlar > Konuşkanlık'tan değişir.
 - **Zamanlayıcı:** bitince kutlar (ses + Windows bildirimi), erken bırakılırsa ne kadar erken bırakıldığına göre farklı tepki verir.
+
+## 6.9.3 finans çalışma alanı
+
+Bütçe kullanımı ve kaynak kodunu çalıştırma: [Bütçe rehberi](docs/BUTCE-REHBERI.md). Finans teması, bildirim ve yazı tercihleri Bütçe içindeki Finans ayarları bölümündedir. Bu paket yalnız kaynak koddur; bağımlılıklar `npm ci` ile kurulur.

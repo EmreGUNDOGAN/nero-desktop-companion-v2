@@ -1,0 +1,18 @@
+/* Finance component tokens inherit Nero; the optional modern skin has a fixed palette. */
+#view-budget {
+  --finance-income:var(--secondary); --finance-sidebar:var(--paper); --finance-soft:color-mix(in srgb,var(--accent) 9%,var(--surface));
+  --finance-soft-income:color-mix(in srgb,var(--secondary) 10%,var(--surface)); --finance-soft-expense:color-mix(in srgb,var(--danger) 9%,var(--surface));
+  --finance-font:var(--text); --finance-side-width:104px; --finance-side-wide:116px;
+  --finance-space-1:4px; --finance-space-2:8px; --finance-space-3:12px; --finance-space-4:16px; --finance-space-5:24px;
+  --finance-radius-sm:8px; --finance-radius-md:12px; --finance-radius-lg:14px;
+  --finance-size-body:14px; --finance-size-large:16px; --finance-size-small:.86em; --finance-size-caption:.78em;
+  --finance-size-title:22px; --finance-size-amount:30px; --finance-size-stat:18px; --finance-size-total:26px;
+  --finance-size-icon:30px; --finance-size-logo:22px; --finance-control-height:34px;
+  --finance-border:1px solid var(--line); --finance-focus:2px solid var(--accent); --finance-letter-spacing:-.5px;
+}
+#view-budget[data-finance-theme="modern"] {
+  --ink:#182a43; --muted:#607086; --accent:#4f60d9; --accent-ink:#fff; --secondary:#23845e; --danger:#b13946;
+  --line:#e4e9f1; --surface:#fff; --paper:#fff; --finance-sidebar:#f5f7fb; --finance-income:#19734f;
+  --finance-soft:#eef0ff; --finance-soft-income:#e8f7ee; --finance-soft-expense:#fff0ef;
+  --text:system-ui,-apple-system,"Segoe UI",sans-serif; --serif:var(--text); --finance-font:var(--text);
+}

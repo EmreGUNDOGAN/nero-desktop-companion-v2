@@ -1,0 +1,106 @@
+# Marka ikonları
+
+100 yerel SVG marka ikonu. İnternet bağlantısı veya harici resim isteği gerekmez.
+
+Simple Icons 16.34.0 ve 11.15.0 (CC0 paket lisansları ikon klasöründe). Marka işaretlerinin hakları ilgili sahiplerindedir. İkonlar yalnız işlem/abonelik tanımak için kullanılır; sponsorluk ifade etmez. Uygulama içinde rastgele URL veya SVG yüklenmez.
+
+- Netflix — https://brand.netflix.com/en/assets/logos
+- YouTube — https://www.youtube.com/howyoutubeworks/resources/brand-resources/#logos-icons-and-colors
+- ChatGPT / OpenAI — https://openai.com
+- Spotify — https://developer.spotify.com/documentation/general/design-and-branding/#using-our-logo
+- Amazon Prime — https://www.amazon.com/b?node=17277626011
+- Amazon — https://www.amazon.com
+- Apple TV — https://en.wikipedia.org/wiki/File:Apple_TV_(logo).svg
+- Apple — https://www.apple.com
+- Apple Music — https://www.apple.com/itunes/marketing-on-music/identity-guidelines.html#apple-music-icon
+- Google — https://partnermarketinghub.withgoogle.com
+- Google Drive — https://developers.google.com/drive/web/branding
+- Google Photos — https://partnermarketinghub.withgoogle.com/brands/google-photos/visual-identity/visual-identity/icon/
+- Google Play — https://partnermarketinghub.withgoogle.com/brands/google-play/visual-identity/primary-logos/
+- YouTube Music — https://partnermarketinghub.withgoogle.com/#/brands
+- Twitch — https://brand.twitch.tv
+- Discord — https://discord.com/branding
+- Telegram — https://telegram.org/tour/screenshots
+- WhatsApp — https://about.meta.com/brand/resources/whatsapp/whatsapp-brand
+- Instagram — https://about.meta.com/brand/resources/instagram
+- Facebook — https://about.meta.com/brand/resources/facebook/logo
+- TikTok — https://tiktok.com
+- X — https://x.com
+- Snapchat — https://www.snapchat.com/brand-guidelines
+- Pinterest — https://business.pinterest.com/en/brand-guidelines
+- Reddit — https://www.redditinc.com/brand
+- LinkedIn — https://brand.linkedin.com
+- Steam — https://partner.steamgames.com/doc/marketing/branding
+- Epic Games — https://dev.epicgames.com/docs/services/en-US/EpicAccountServices/DesignGuidelines/index.html#epicgamesbrandguidelines
+- PlayStation — https://www.playstation.com/en-us/
+- Xbox — https://www.xbox.com/en-US/consoles
+- Nintendo — https://www.nintendo.com
+- EA — https://www.ea.com
+- Riot Games — https://www.riotgames.com/en/press
+- Roblox — https://www.roblox.com
+- Patreon — https://www.patreon.com/brand
+- Kick — https://kick.com
+- Substack — https://on.substack.com
+- Medium — https://medium.design/logos-and-brand-guidelines-f1a01a733592
+- Adobe — https://www.adobe.com
+- Adobe Photoshop — https://www.adobe.com/creativecloud.html
+- Adobe Illustrator — https://www.adobe.com/creativecloud.html
+- Adobe Creative Cloud — https://www.adobe.com/creativecloud.html
+- Canva — https://www.canva.com
+- Figma — https://www.figma.com/using-the-figma-brand/
+- Notion — https://www.notion.so
+- Dropbox — https://www.dropbox.com/branding
+- Microsoft — https://developer.microsoft.com
+- Microsoft OneDrive — https://developer.microsoft.com/en-us/fluentui#/styles/web/colors/products
+- Zoom — https://brand.zoom.us/media-library/
+- Skype — https://blogs.skype.com/?attachment_id=56273
+- Slack — https://slack.com/brand-guidelines
+- GitHub — https://github.com/logos
+- DigitalOcean — https://www.digitalocean.com/press/
+- Cloudflare — https://www.cloudflare.com/logo/
+- Hostinger — https://www.hostinger.com/newsroom
+- WordPress — https://wordpress.org/about/logos
+- Wix — https://www.wix.com/about/design-assets
+- Squarespace — https://www.squarespace.com/logo-guidelines
+- Shopify — https://www.shopify.com/brand-assets
+- eBay — https://go.developer.ebay.com/logos
+- Etsy — https://www.etsy.com/uk/press
+- AliExpress — https://www.alibabagroup.com/en/ir/reports
+- Nike — https://www.nike.com
+- Adidas — https://www.adidas.com
+- Puma — https://us.puma.com
+- IKEA — https://www.ikea.com
+- Zara — https://www.zara.com
+- Starbucks — https://starbucks.com
+- McDonald's — https://www.mcdonalds.com/gb/en-gb/newsroom.html
+- Burger King — https://www.bk.com
+- KFC — https://global.kfc.com/asset-library/
+- Uber — https://assets.uber.com/d/k4nuxdZ8MC7E/logos/collection/151
+- Uber Eats — https://assets.uber.com/d/k4nuxdZ8MC7E/logos/collection/150
+- Airbnb — https://www.airbnb.com
+- Booking.com — https://www.bookingholdings.com/media-room
+- Tripadvisor — https://tripadvisor.mediaroom.com/logo-guidelines
+- Turkish Airlines — https://www.turkishairlines.com/en-int/press-room/logo-archive/index.html
+- Ryanair — https://corporate.ryanair.com/media-centre/stock-images-gallery/#album-container-3
+- Duolingo — https://design.duolingo.com
+- Coursera — https://about.coursera.org/press
+- Udemy — https://udemy.com
+- Skillshare — https://www.skillshare.com
+- Grammarly — https://www.grammarly.com/media-assets
+- DeepL — https://www.deepl.com/press.html
+- Proton — https://proton.me/media/kit
+- Proton Mail — https://proton.me/media/kit
+- NordVPN — https://nordvpn.com/press-area/
+- ExpressVPN — https://www.expressvpn.com/press
+- Surfshark — https://surfshark.com/press/assets
+- Bitwarden — https://bitwarden.com/brand
+- 1Password — https://1password.com/press
+- LastPass — https://lastpass.com/press-room/
+- Trello — https://atlassian.design/resources/logo-library
+- Asana — https://asana.com/brand
+- Todoist — https://doist.com/press
+- Evernote — https://evernote.com/about-us
+- TickTick — https://ticktick.com
+- Samsung — https://www.samsung.com/us/about-us/brand-identity/logo/
+- Huawei — https://e.huawei.com/ph/material/partner/0a72728b864949c48b22106454352483
+- Xiaomi — https://www.mi.com/global
