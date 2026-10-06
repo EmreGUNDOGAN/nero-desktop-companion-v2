@@ -39,6 +39,8 @@ const {
   applyCredit: applyTodoFocusCredit
 } = require('./todo-stopwatch');
 const todoTree = require('./todo-tree');
+const { Budget, defaults: budgetDefaults } = require('./budget');
+const { registerBudgetIPC, validateReceipt } = require('./budget-ipc');
 const QUOTES = require('../data/quotes.tr.json');
 
 protocol.registerSchemesAsPrivileged([
@@ -118,6 +120,7 @@ const iconPath = path.join(app.getAppPath(), 'build', 'icon.png');
 
 let settingsStore, notesStore, todosStore, moodStore, statsStore, moodLogStore, archiveStore, jarStore, homeDialogueStore, userMoodStore, dialogueHistoryStore;
 let themes, dialogue, mood, timer, stats, journal, homeDialogue;
+let budgetStore, budget;
 let homeCache = null;
 let resize = null;
 let panelDrag = null;
@@ -1589,6 +1592,10 @@ function pauseAllTodoStopwatches({ final = false } = {}) {
 // IPC
 // ---------------------------------------------------------------------------
 function registerIpc() {
+  registerBudgetIPC({ipcMain,dialog,shell,BrowserWindow,budget,getPanel:()=>panelWin,backup:()=>{
+    fs.mkdirSync(backupDir,{recursive:true});
+    fs.writeFileSync(path.join(backupDir,`nero-butce-islem-oncesi-${Date.now()}.json`),JSON.stringify({app:'NeroBudget',version:1,budget:budget.export()},null,2),'utf8');
+  }});
   ipcMain.handle('bee:open', () => openBeeWindow());
   ipcMain.handle('bee:state', () => {
     if (!bee) return null;
@@ -2385,6 +2392,10 @@ function startLoops() {
     journal.recordHappiness(mood.summary().happiness, moodNow);
     journal.finalizeDue(moodNow);
     archiveClosedMoodboards();
+    if(!screenLocked){
+      const due=budget.reminders();
+      if(due.length&&Notification.isSupported())new Notification({title:'Nero · Bütçe hatırlatması',body:`Bugün ${due.length} planlı ödeme/gelir var. Bütçe bölümünden kontrol edebilirsin.`,icon:iconPath,silent:!settings().sound}).show();
+    }
     trackActivity(dt);
     if (settings().lastBackupDay !== new Date().toDateString()) autoBackup();
     updateBaseline();
@@ -2743,6 +2754,7 @@ function snapshotData() {
     moodLog: moodLogStore?.get() || null, archive: archiveStore?.get() || null, jar: jarStore?.get() || null,
     userMoodboard: userMoodStore?.get() || null,
     homeDialogue: homeDialogueStore?.get() || null,
+    budget: budget ? budget.export() : null,
     bee: beeStore ? beeStore.get() : null
   };
 }
@@ -2784,6 +2796,7 @@ async function importData() {
   try {
     data = JSON.parse(fs.readFileSync(res.filePaths[0], 'utf8'));
     if (data.app !== 'Nero' || !Array.isArray(data.notes) || !Array.isArray(data.todos)) throw new Error('Bu dosya bir Nero yedeği değil.');
+    if(data.budget){budget.validate(data.budget);for(const r of data.budget.receipts)validateReceipt(r.ext,Buffer.from(r.data,'base64'));}
   } catch (err) {
     await dialog.showMessageBox(panelWin, { type: 'error', title: 'Geri yüklenemedi', message: err.message });
     return { ok: false };
@@ -2797,6 +2810,7 @@ async function importData() {
   if (answer.response !== 0) return { ok: false };
   autoBackup();
   fs.writeFileSync(path.join(backupDir, `nero-geri-yukleme-oncesi-${Date.now()}.json`), JSON.stringify(snapshotData(), null, 2), 'utf8');
+  if(data.budget)budget.replace(data.budget);
   notesStore.set(data.notes);
   todosStore.set(data.todos);
   if (data.moodLog && typeof data.moodLog === 'object') moodLogStore.set(data.moodLog);
@@ -2875,7 +2889,7 @@ function checkForUpdates(manual) {
 function installUpdateNow() {
   if (!updater || updateState.status === 'idle') return false;
   isQuitting = true;
-  for (const store of [settingsStore, notesStore, todosStore, moodStore, statsStore, moodLogStore, archiveStore, jarStore, homeDialogueStore, userMoodStore, dialogueHistoryStore, beeStore]) store?.flush();
+  for (const store of [settingsStore, notesStore, todosStore, moodStore, statsStore, moodLogStore, archiveStore, jarStore, homeDialogueStore, userMoodStore, dialogueHistoryStore, beeStore, budgetStore]) store?.flush();
   setImmediate(() => updater.quitAndInstall(true, true));
   return true;
 }
@@ -2943,6 +2957,8 @@ app.whenReady().then(() => {
   settingsStore = new JsonStore(userData, 'settings', DEFAULT_SETTINGS);
   notesStore = new JsonStore(userData, 'notes', []);
   todosStore = new JsonStore(userData, 'todos', []);
+  budgetStore = new JsonStore(userData, 'budget', budgetDefaults());
+  budget = new Budget(budgetStore);
   // 4.3.0 timing migration: eski işler alanlar olmadan da çalışır.
   // Önceki oturum beklenmedik kapandıysa çalışan kronometreyi çevrimdışı zamanı saymadan duraklat.
   {
@@ -3036,7 +3052,7 @@ app.on('before-quit', () => {
   // Açık iş kronometresini son kez güvenle durdur; kapalı geçen süre bir sonraki açılışta sayılmaz.
   try { pauseAllTodoStopwatches({ final: false }); } catch (err) { log('iş kronometresi kapatılırken durdurulamadı:', err); }
   try { globalShortcut.unregisterAll(); } catch (_) { /* yoksay */ }
-  for (const store of [settingsStore, notesStore, todosStore, moodStore, statsStore, moodLogStore, archiveStore, jarStore, homeDialogueStore, userMoodStore, beeStore]) store?.flush();
+  for (const store of [settingsStore, notesStore, todosStore, moodStore, statsStore, moodLogStore, archiveStore, jarStore, homeDialogueStore, userMoodStore, beeStore, budgetStore]) store?.flush();
 });
 
 app.on('window-all-closed', (e) => {
