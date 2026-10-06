@@ -1,0 +1,38 @@
+'use strict';
+const {app,BrowserWindow,ipcMain,protocol,net}=require('electron');
+const assert=require('node:assert/strict'),path=require('node:path'),fs=require('node:fs'),{pathToFileURL}=require('node:url');
+const {Budget,defaults,dateKey}=require('../src/main/budget'),{registerBudgetIPC}=require('../src/main/budget-ipc');
+const root=path.join(__dirname,'..'),out=path.join(app.getPath('temp'),'nero-budget-smoke-'+process.pid);fs.mkdirSync(out,{recursive:true});app.setPath('userData',out);
+protocol.registerSchemesAsPrivileged([{scheme:'nero-theme',privileges:{standard:true,secure:true,corsEnabled:true,supportFetchAPI:true}}]);
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+app.whenReady().then(async()=>{
+ const errors=[],b=new Budget({get:()=>defaults(),set:()=>{}});let panel,openFile=path.join(root,'build/icon.png'),saveFile=path.join(out,'budget.csv'),backupCount=0;
+ try{
+ protocol.handle('nero-theme',request=>{const u=new URL(request.url);return net.fetch(pathToFileURL(path.join(root,'themes',u.hostname,decodeURIComponent(u.pathname))).href);});
+ panel=new BrowserWindow({width:440,height:660,show:false,frame:false,webPreferences:{preload:path.join(__dirname,'budget-ui-preload.js'),sandbox:false,contextIsolation:true,offscreen:true}});
+ panel.webContents.on('console-message',(event)=>{if(event.level==='error'){errors.push(event.message);console.error('RENDERER:',event.message);}});
+ registerBudgetIPC({ipcMain,BrowserWindow,budget:b,getPanel:()=>panel,backup:()=>{backupCount++;},shell:{openPath:async()=>''},dialog:{showOpenDialog:async()=>({canceled:false,filePaths:[openFile]}),showSaveDialog:async()=>({canceled:false,filePath:saveFile}),showMessageBox:async()=>({response:0})}});
+ await panel.loadFile(path.join(root,'src/renderer/panel/index.html'));await wait(150);
+ const js=async code=>{try{return await panel.webContents.executeJavaScript(code);}catch(e){console.error('FAILED SCRIPT:',code);throw e;}};
+ const click=async(action)=>{await js(`document.querySelector('[data-budget-action="${action}"]').click();true`);await wait(90);};
+ const fill=async(values)=>{await js(`(()=>{const f=document.getElementById('budget-form');const values=${JSON.stringify(values)};for(const [k,v] of Object.entries(values)){f.elements[k].value=v;f.elements[k].dispatchEvent(new Event('change',{bubbles:true}));}f.requestSubmit();return true;})()`);await wait(90);assert.equal(await js("document.getElementById('budget-form-error').hidden"),true,await js("document.getElementById('budget-form-error').textContent"));};
+ await js(`document.querySelector('[data-tab="budget"]').click();true`);await wait(90);
+ await click('new-transaction');await fill({name:'Maaş hesabı',opening:'5000'});assert.equal(b.state.accounts.length,1);
+ await click('new-transaction');await fill({type:'income',categoryId:'income-0',amount:'1000',note:'Maaş'});assert.equal(b.state.transactions.length,1);
+ await click('new-transaction');await fill({type:'expense',categoryId:'expense-0',amount:'250.75',note:'Market'});assert.equal(b.state.transactions.length,2);
+ const expense=b.state.transactions[1];await js(`document.querySelector('[data-budget-action="edit-transaction"][data-id="${expense.id}"]').click();true`);await wait(80);await click('attach-receipt');assert.equal(b.state.receipts.length,1);assert.equal(await js("document.querySelectorAll('.budget-receipt').length"),1);await js("document.getElementById('budget-editor').close();true");await wait(40);
+ const month=dateKey().slice(0,7),bank=b.state.accounts[0];b.act('budget',{month,categoryId:'all',amount:'2000'});b.act('plan',{name:'İnternet',accountId:bank.id,categoryId:'expense-3',amount:'500',frequency:'monthly',start:dateKey()});b.act('goal',{name:'Yeni bilgisayar',accountId:bank.id,target:'20000'});await js('window.neroBudget.open()');
+ const themes=fs.readdirSync(path.join(root,'themes')).filter(n=>fs.existsSync(path.join(root,'themes',n,'theme.json')));
+ for(const width of [380,440,700]){
+ panel.setSize(width,width===380?540:660);await wait(50);
+ for(const theme of themes){const ui=JSON.parse(fs.readFileSync(path.join(root,'themes',theme,'theme.json'),'utf8')).ui;await js(`window.nero.__theme(${JSON.stringify(ui)});true`);
+ for(const tab of ['overview','transactions','accounts','budgets','plans','reports']){await js(`document.querySelector('[data-budget-tab="${tab}"]').click();true`);const state=await js(`(()=>{const v=document.getElementById('view-budget'),r=document.getElementById('budget-content');return {overflow:v.scrollWidth-v.clientWidth,height:r.getBoundingClientRect().height,skin:document.documentElement.dataset.skin,selected:document.querySelector('[data-budget-tab="${tab}"]').getAttribute('aria-selected')};})()`);assert.ok(state.overflow<=2,JSON.stringify({width,theme,tab,...state}));assert.ok(state.height>30);assert.equal(state.selected,'true');}
+ }
+ }
+ panel.setSize(440,660);await js(`window.nero.__theme(${JSON.stringify(require('../themes/radyo-aksami/theme.json').ui)});document.querySelector('[data-budget-tab="overview"]').click();true`);await wait(70);fs.writeFileSync(path.join(app.getPath('temp'),'nero-budget-preview.png'),(await panel.webContents.capturePage()).toPNG());
+ let result=await js(`window.nero.invoke('budget:csvExport','${month}-01','${month}-31')`);assert.equal(result.ok,true);assert.ok(fs.readFileSync(saveFile,'utf8').includes('Market'));openFile=saveFile;result=await js("window.nero.invoke('budget:csvPreview')");assert.equal(result.duplicates,2);
+ saveFile=path.join(out,'budget.json');result=await js("window.nero.invoke('budget:backup')");assert.equal(result.ok,true);assert.equal(JSON.parse(fs.readFileSync(saveFile)).budget.receipts.length,1);openFile=saveFile;result=await js(`window.nero.invoke('budget:restore','${month}')`);assert.equal(result.ok,true);assert.equal(backupCount,1);
+ saveFile=path.join(out,'budget.pdf');result=await js(`window.nero.invoke('budget:reportPDF','${month}')`);assert.equal(result.ok,true,result.error);assert.equal(fs.readFileSync(saveFile).subarray(0,5).toString(),'%PDF-');
+ assert.deepEqual(errors,[]);console.log(`Budget UI passed: ${themes.length} themes × 3 sizes × 6 tabs; actual forms, receipt, CSV, backup/restore and PDF.`);app.exit(0);
+ }catch(e){console.error(e);app.exit(1);}
+});
