@@ -11,6 +11,7 @@ import { buildKeeper } from './keeper.js';
 import { makeHiveV2 } from './gorsel/kovan.js';
 import { makeFarmHouse, farmStage } from './gorsel/ciftlik-evi.js';
 import { createHouseInterior } from './gorsel/ev-ici.js';
+import { createFloristInterior } from './gorsel/cicekci-ici.js';
 import { makeStorage } from './gorsel/depo.js';
 import { makeWorkshopBuilding } from './gorsel/atolye.js';
 import { makePhysicalMarket } from './gorsel/pazar.js';
@@ -1510,6 +1511,76 @@ for (const chip of document.querySelectorAll('.house-chip')) {
   chip.addEventListener('pointerenter', () => houseRoom?.hover(chip.dataset.houseLedger));
   chip.addEventListener('pointerleave', () => houseRoom?.hover(null));
 }
+
+// ---------------------------------------------------------------------------
+// Çiçekçi Ezgi · dükkân içi dioraması (gorsel/cicekci-ici.js)
+// ---------------------------------------------------------------------------
+let floristOpen = false;
+let floristSig = '';
+let floristRoom = null;
+const EZGI_LINES = ['Bugünün çiçekleri taptaze!', 'Lavanta kokusu bütün dükkâna yayıldı.', 'Arıların favorisi hangisi, sen söyle.', 'Tohumlara da bir göz at, mevsimine uygun olanlar rafta.'];
+function getFloristRoom() {
+  if (!floristRoom) {
+    floristRoom = createFloristInterior($('florist-room'), { onPick: (tab) => floristPick(tab) });
+    $('florist-room').addEventListener('florist-hover', (e) => {
+      for (const c of document.querySelectorAll('.florist-item')) c.classList.toggle('on', c.dataset.id === e.detail);
+    });
+    window.addEventListener('resize', () => { if (floristOpen) floristRoom.resize(); });
+  }
+  return floristRoom;
+}
+function floristShop() { return (view?.shopMarket || []).find((s) => s.id === 'cicekci') || null; }
+async function floristPick(tab) {
+  if (tab === 'seeds') { floristSeeds(); return; }
+  if (tab === 'gift') { await doAct('claimEzgiWelcome'); return; }
+  const input = floristShop()?.inputs.find((i) => i.id === tab);
+  if (!input) return;
+  if (input.stock < 1) { toast('Bu ürün bugün tükendi. Yarın yeniden gelir.', true); return; }
+  if (view.coins < input.price) { toast(`Yeterli jeton yok (${input.price} 🪙 gerekli).`, true); return; }
+  await doAct('marketBuyInput', input.id);
+}
+function floristSeeds() {
+  closeFlorist();
+  shopTab = 'seeds';
+  for (const x of document.querySelectorAll('.shop-tabs button')) x.classList.toggle('on', x.dataset.tab === 'seeds');
+  openShop();
+}
+function openFlorist() {
+  if (!view) return;
+  floristOpen = true;
+  closePopup();
+  $('florist-modal').hidden = false;
+  try { getFloristRoom().open(); } catch (err) { console.error('Çiçekçi açılamadı', err); }
+  renderFlorist(true);
+}
+function closeFlorist() {
+  floristOpen = false;
+  floristRoom?.close();
+  $('florist-modal').hidden = true;
+}
+function renderFlorist(force = false) {
+  if (!floristOpen || !view) return;
+  const shop = floristShop();
+  const sig = JSON.stringify([shop, view.coins, view.ezgi, view.vouchers, view.calendar?.day]);
+  if (!force && sig === floristSig) return;
+  floristSig = sig;
+  const resident = view.village?.residents?.find((r) => Number(r.n) === 7);
+  const rel = view.relations?.Ezgi;
+  $('florist-subtitle').textContent = [resident?.effectText, rel != null ? `🤝 İlişkiniz %${rel}` : ''].filter(Boolean).join(' · ') || 'Tohum, fide ve çiçek malzemeleri';
+  const products = (shop?.inputs || []).map((i) => ({ id: i.id, name: i.name, icon: i.icon || '📦', price: i.price, stock: i.stock, owned: i.owned }));
+  $('florist-counter').innerHTML = products.map((p) => `<div class="florist-item" data-id="${esc(p.id)}"><span class="ic">${p.icon}</span><b>${esc(p.name)}</b><small>sende ${p.owned} · stok ${p.stock}</small><div class="buy-row"><span class="price">${p.price} 🪙</span><button type="button" data-florist-buy="${esc(p.id)}" ${p.stock < 1 || view.coins < p.price ? 'disabled' : ''}>${p.stock < 1 ? 'Tükendi' : 'Satın al'}</button></div></div>`).join('');
+  const choice = view.ezgi?.choice && view.flowers[view.ezgi.choice] ? view.flowers[view.ezgi.choice] : null;
+  $('florist-choice').textContent = choice ? `🌷 Ezgi’nin Seçimi: ${choice.name} tohumu · %15 indirimli · ${choice.seed} 🪙` : EZGI_LINES[(view.calendar?.day || 0) % EZGI_LINES.length];
+  $('florist-coins').textContent = `🪙 ${view.coins}`;
+  getFloristRoom().update({ products, seedColors: Object.values(view.flowers || {}).map((f) => f.color), seedLine: 'Tohum Rafı — tohumları gör', welcome: !!view.ezgi?.welcomePending });
+}
+$('florist-close').addEventListener('click', closeFlorist);
+$('florist-back').addEventListener('click', closeFlorist);
+$('florist-modal').addEventListener('click', (e) => { if (e.target === $('florist-modal')) closeFlorist(); });
+$('florist-seeds').addEventListener('click', floristSeeds);
+$('florist-counter').addEventListener('click', (e) => { const b = e.target.closest('[data-florist-buy]'); if (b && !b.disabled) floristPick(b.dataset.floristBuy); });
+$('florist-counter').addEventListener('pointerover', (e) => { const it = e.target.closest('.florist-item'); floristRoom?.hover(it ? it.dataset.id : null); });
+$('florist-counter').addEventListener('pointerleave', () => floristRoom?.hover(null));
 
 // ---------------------------------------------------------------------------
 // Bal Defteri
@@ -3191,7 +3262,7 @@ function applyView(v) {
   setTimeout(() => { if (view && view.merchant) renderMerchant(); }, 0);
   setTimeout(renderNotifs, 0);
   setTimeout(() => { if (view && view.village) buildVillage(); }, 0);
-  setTimeout(() => { renderQuests(); renderHouseInterior(); renderLedger(); renderStats(); renderWorkshop(); renderWarehouse(); }, 0);
+  setTimeout(() => { renderQuests(); renderHouseInterior(); renderFlorist(); renderLedger(); renderStats(); renderWorkshop(); renderWarehouse(); }, 0);
   const first = !view;
   const prevWeather = prev && prev.weather ? prev.weather.id : null;
   const prevFestivalOpen = !!(prev && prev.festival && prev.festival.open);
@@ -3662,6 +3733,7 @@ function buildVillage() {
 function openVillagerPopup(n, x, y) {
   const r = view.village.residents.find((e) => String(e.n) === String(n));
   if (!r) return;
+  if (Number(r.n) === 7 && view.ezgi?.unlocked) { openFlorist(); return; } // Çiçekçi Ezgi: dükkânın içi açılır
   const hearts = r.hearts ? ` <span class="hearts">${'♥'.repeat(r.hearts)}${'♡'.repeat(view.heartMax - r.hearts)}</span>` : '';
   const kind = { koylu: 'Köylü', dukkan: 'Dükkân', bina: 'Köy binası' }[r.type];
   const relName = r.type === 'koylu' ? r.name : r.owner;

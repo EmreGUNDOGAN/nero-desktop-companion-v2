@@ -7,12 +7,12 @@ const path = require('node:path');
 
 const ROOT = path.join(__dirname, '..');
 
-test('6.8.0 paket sürümü doğrudur', () => {
+test('6.8.1 paket sürümü doğrudur', () => {
   const pkg = JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8'));
-  assert.equal(pkg.version, '6.8.0');
+  assert.equal(pkg.version, '6.8.1');
 });
 
-test('6.8.0 wardrobe çekirdek dosyaları vardır', () => {
+test('6.8.1 wardrobe çekirdek dosyaları vardır', () => {
   for (const rel of [
     'src/main/wardrobe.js',
     'src/renderer/character/wardrobe-renderer.js',
@@ -23,7 +23,7 @@ test('6.8.0 wardrobe çekirdek dosyaları vardır', () => {
   }
 });
 
-test('6.8.0 wardrobe kataloğunda 88 kıyafet vardır', () => {
+test('6.8.1 wardrobe kataloğunda 88 kıyafet vardır', () => {
   const catalog = JSON.parse(fs.readFileSync(
     path.join(ROOT, 'themes/default/assets/wardrobe/catalog.json'),
     'utf8'
@@ -31,7 +31,7 @@ test('6.8.0 wardrobe kataloğunda 88 kıyafet vardır', () => {
   assert.equal(Object.keys(catalog).length, 88 + require('../src/main/wardrobe-additions.json').length);
 });
 
-test('6.8.0 wardrobe asset paketi eksik değildir', () => {
+test('6.8.1 wardrobe asset paketi eksik değildir', () => {
   const dir = path.join(ROOT, 'themes/default/assets/wardrobe');
   let count = 0;
   const walk = p => {
