@@ -1,4 +1,4 @@
-# Bütçe kapsamı — 6.9.5
+# Bütçe kapsamı — 9.6.5
 
 - [x] Sekiz sekme: Özet, İşlemler, Hesaplar, Bütçeler, Ödemeler, Raporlar, Takvim, Akademi.
 - [x] Mevcut pencere boyutlarına ve bütün yerleşik temalara uyum.
@@ -36,7 +36,7 @@ Banka entegrasyonu, otomatik banka aktarımı, bulut senkronizasyonu ve ek oyun 
 - [x] 46 terim, arama, konu filtresi, okuma/kaydetme ilerlemesi.
 - [x] Dört hesaplayıcı, doğrulanmış resmi kaynaklar, yayınevi kaynaklı okuma rafı.
 
-Sürüm 6.9.5 olarak hazırlanmıştır. Kaynak ZIP’i, kurulum dosyaları ve changelog GitHub Actions paketinde sunulur.
+Sürüm 9.6.5 olarak hazırlanmıştır. Kaynak ZIP’i, kurulum dosyaları ve changelog GitHub Actions paketinde sunulur.
 
 
 ## Son onaylanan kapsam
