@@ -10,6 +10,7 @@ import { buildHouse } from './evler/index.js';
 import { buildKeeper } from './keeper.js';
 import { makeHiveV2 } from './gorsel/kovan.js';
 import { makeFarmHouse, farmStage } from './gorsel/ciftlik-evi.js';
+import { createHouseInterior } from './gorsel/ev-ici.js';
 import { makeStorage } from './gorsel/depo.js';
 import { makeWorkshopBuilding } from './gorsel/atolye.js';
 import { makePhysicalMarket } from './gorsel/pazar.js';
@@ -1402,20 +1403,33 @@ $('farm-name').addEventListener('click', () => inlineRename($('farm-name'), $('f
 
 
 // ---------------------------------------------------------------------------
-// Arıcının Evi · tek ekran iç mekân denemesi
+// Arıcının Evi · izometrik iç mekân dioraması (gorsel/ev-ici.js)
 // ---------------------------------------------------------------------------
 let houseInteriorOpen = false;
 let houseInteriorSig = '';
 
+let houseRoom = null;
+function getHouseRoom() {
+  if (!houseRoom) {
+    houseRoom = createHouseInterior($('house-room'), { onPick: (tab) => houseOpenLedger(tab) });
+    $('house-room').addEventListener('house-hover', (e) => {
+      for (const c of document.querySelectorAll('.house-chip')) c.classList.toggle('on', c.dataset.houseLedger === e.detail);
+    });
+    window.addEventListener('resize', () => { if (houseInteriorOpen) houseRoom.resize(); });
+  }
+  return houseRoom;
+}
 function openHouseInterior() {
   if (!view) return;
   houseInteriorOpen = true;
   closePopup();
   $('house-modal').hidden = false;
+  try { getHouseRoom().open(); } catch (err) { console.error('Ev içi açılamadı', err); }
   renderHouseInterior(true);
 }
 function closeHouseInterior() {
   houseInteriorOpen = false;
+  houseRoom?.close();
   const modal = $('house-modal');
   if (modal) modal.hidden = true;
 }
@@ -1449,7 +1463,9 @@ function houseMemoryCards() {
     cards.push({ icon: medal, tone: 'cup', title: 'İlk Kupamız', date: `${firstCup.year}. yıl · ${seasonsTr[firstCup.season] || firstCup.season}`, text: `${firstCup.place}. sıra · ${firstCup.score || 0} puan` });
   }
   const villageStamp = view.milestones?.koy_seviye_1;
-  if (villageStamp || (view.village?.residents || []).length) cards.push({ icon: '🏘️', tone: 'village', title: 'Köy Büyümeye Başladı', date: villageStamp ? houseDateFromStamp(villageStamp) : 'Kayıt mevcut', text: `${view.village?.residents?.length || 0} yerleşimci bugün köyün bir parçası.` });
+  if (villageStamp || (view.village?.residents || []).length) {
+    cards.push({ icon: '🏘️', tone: 'village', title: 'Köy Büyümeye Başladı', date: villageStamp ? houseDateFromStamp(villageStamp) : 'Kayıt mevcut', text: `${view.village?.residents?.length || 0} yerleşimci bugün köyün bir parçası.` });
+  }
   const jarStamp = view.milestones?.ilk_kavanoz;
   if (cards.length < 3 && jarStamp) cards.push({ icon: '🌟', tone: 'milestone', title: '20 kg Dönüm Noktası', date: houseDateFromStamp(jarStamp), text: 'İlk büyük bal dönüm noktasına ulaştın.' });
   while (cards.length < 3) cards.push({ icon: '✦', tone: 'locked', title: 'Yeni bir hatıra bekliyor', date: 'Henüz açılmadı', text: 'Oynadıkça bu kart kendiliğinden dolacak.' });
@@ -1461,29 +1477,39 @@ function renderHouseInterior(force = false) {
   if (!force && sig === houseInteriorSig) return;
   houseInteriorSig = sig;
   const stage = farmStage(view);
-  const room = $('house-room');
-  room.dataset.stage = String(stage);
-  room.style.backgroundImage = `url('./assets/house/room-${stage}.svg')`;
+  $('house-room').dataset.stage = String(stage);
   const names = ['Arıcının Kulübesi', 'Arıcının Evi', 'Bal Evi', 'Usta Arıcının Evi'];
-  $('house-title').textContent = `🏡 ${names[stage] || names[0]}`;
-  $('house-subtitle').textContent = `${view.farmName} · dışarıdaki evinle aynı gelişim seviyesi`;
+  $('house-title').textContent = names[stage] || names[0];
+  $('house-subtitle').textContent = view.farmName;
   $('house-stage-note').textContent = `Ev seviyesi ${stage + 1}/4 · ${Object.keys(view.hives || {}).length} kovan`;
   const cups = view.festival?.cups || [];
-  $('house-cups').innerHTML = cups.length ? cups.slice(-5).map((c) => `<i title="${c.year}. yıl · ${seasonsTr[c.season] || c.season}">${c.cup === 'altın' ? '🥇' : c.cup === 'gümüş' ? '🥈' : '🥉'}</i>`).join('') : '<small>Henüz kupa yok</small>';
   const honey = Object.entries(view.ledger?.honey || {}).filter(([, h]) => h?.first);
-  $('house-honey-shelf').innerHTML = honey.length ? honey.map(([f]) => `<i class="house-jar" style="--jar:${view.flowers?.[f]?.color || '#e4aa3b'}" title="${esc(view.flowers?.[f]?.name || f)} balı"></i>`).join('') : '<small>İlk balını bekliyor</small>';
   const letters = view.letters || [];
-  $('house-letter-count').innerHTML = `<b>${letters.length}</b><small>${view.lettersUnread || 0} yeni</small>`;
   const totalKg = Object.values(view.ledger?.honey || {}).reduce((n, h) => n + Number(h.kg || 0), 0);
-  $('house-journal-stat').textContent = `${totalKg.toFixed(1)} kg toplam hasat · ${view.ledger?.harvests || 0} hasat`;
-  $('house-calendar-day').textContent = `${view.calendar.day}. gün`;
-  $('house-calendar-season').textContent = `${view.calendar.year}. yıl · ${seasonsTr[view.calendar.season] || view.calendar.season}`;
-  $('house-polaroids').innerHTML = houseMemoryCards().map((m, i) => `<article class="house-polaroid ${m.tone}" style="--tilt:${[-2,1.6,-1][i]}deg"><div class="house-photo"><span>${m.icon}</span></div><b>${esc(m.title)}</b><small>${esc(m.date)}</small><p>${esc(m.text)}</p></article>`).join('');
+  $('house-cups-n').textContent = String(cups.length);
+  $('house-honey-n').textContent = String(honey.length);
+  $('house-letter-count').textContent = view.lettersUnread ? `${letters.length} · ${view.lettersUnread} yeni` : String(letters.length);
+  $('house-journal-stat').textContent = `${totalKg.toFixed(1)} kg`;
+  getHouseRoom().update({
+    stage,
+    jars: honey.map(([f]) => view.flowers?.[f]?.color || '#e4aa3b'),
+    cups: cups.map((c) => c.cup),
+    letters: letters.length,
+    unread: view.lettersUnread || 0,
+    day: view.calendar.day,
+    dateLine: `${view.calendar.year}. yıl`,
+    seasonLine: seasonsTr[view.calendar.season] || view.calendar.season,
+    cards: houseMemoryCards()
+  });
 }
 $('house-close').addEventListener('click', closeHouseInterior);
 $('house-back').addEventListener('click', closeHouseInterior);
 $('house-modal').addEventListener('click', (e) => { if (e.target === $('house-modal')) closeHouseInterior(); });
-$('house-room').addEventListener('click', (e) => { const hit = e.target.closest('[data-house-ledger]'); if (hit) houseOpenLedger(hit.dataset.houseLedger); });
+$('house-chips').addEventListener('click', (e) => { const hit = e.target.closest('[data-house-ledger]'); if (hit) houseOpenLedger(hit.dataset.houseLedger); });
+for (const chip of document.querySelectorAll('.house-chip')) {
+  chip.addEventListener('pointerenter', () => houseRoom?.hover(chip.dataset.houseLedger));
+  chip.addEventListener('pointerleave', () => houseRoom?.hover(null));
+}
 
 // ---------------------------------------------------------------------------
 // Bal Defteri
