@@ -1,8 +1,8 @@
-name: Build Nero 6.7.9 Final
+name: Build Nero 6.7.10 Final
 on:
   workflow_dispatch:
   push:
-    branches: [feature/bee-v6.7.9]
+    branches: [feature/bee-v6.7.10]
 permissions:
   contents: read
 jobs:
@@ -20,14 +20,14 @@ jobs:
       - run: npm test
       - run: npm run dist
       - name: Export source
-        run: git archive --format=zip -o Nero-v6_7_9-source.zip HEAD
+        run: git archive --format=zip -o Nero-v6_7_10-source.zip HEAD
       - uses: actions/upload-artifact@v4
         with:
-          name: Nero-6.7.9-final-bundle
+          name: Nero-6.7.10-final-bundle
           if-no-files-found: error
           path: |
-            dist/Nero-Setup-6.7.9.exe
-            dist/Nero-Setup-6.7.9.exe.blockmap
+            dist/Nero-Setup-6.7.10.exe
+            dist/Nero-Setup-6.7.10.exe.blockmap
             dist/latest.yml
-            Nero-v6_7_9-source.zip
-            CHANGELOG-6.7.9.md
+            Nero-v6_7_10-source.zip
+            CHANGELOG-6.7.10.md
