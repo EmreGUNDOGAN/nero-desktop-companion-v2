@@ -149,4 +149,73 @@ class Budget {
   }
   setBudget(input) {
     invariant(/^\d{4}-\d{2}$/.test(input.month),'Bütçe ayını seç.');validDate(input.month+'-01');
-    invariant(input.categoryId==='all'||this.state.categories.some(c=>c.id===input.categoryId&&c.type==='expense'),'Bütçe kategorisi geçersiz.'
+    invariant(input.categoryId==='all'||this.state.categories.some(c=>c.id===input.categoryId&&c.type==='expense'),'Bütçe kategorisi geçersiz.');
+    const amount=money(input.amount);invariant(amount>0,'Bütçe sıfırdan büyük olmalı.');
+    const old=this.state.budgets.find(b=>b.month===input.month&&b.categoryId===input.categoryId);const b={id:old?.id||randomUUID(),month:input.month,categoryId:input.categoryId,amount,rollover:!!input.rollover};
+    this.state.budgets=this.state.budgets.filter(x=>x.id!==b.id);this.state.budgets.push(b);this.save('budget.set',b.id);return b;
+  }
+  plan(input) {
+    const old=this.state.plans.find(p=>p.id===input.id); const name=clean(input.name,100);invariant(name,'Ödeme adı gerekli.');
+    invariant(['daily','weekly','monthly','yearly','once'].includes(input.frequency),'Tekrar sıklığı geçersiz.');
+    const amount=money(input.amount);invariant(amount>0,'Tutar sıfırdan büyük olmalı.');
+    const start=validDate(input.start),end=input.end?validDate(input.end):null;invariant(!end||end>=start,'Bitiş tarihi başlangıçtan önce olamaz.');
+    const type=input.type||'expense', account=this.getAccount(input.accountId);
+    invariant(['expense','income','transfer'].includes(type),'Plan türü geçersiz.');
+    const count=input.installments?Number(input.installments):null;invariant(count===null||(Number.isInteger(count)&&count>=2&&count<=120&&input.frequency==='monthly'),'Taksit sayısı 2–120, sıklık aylık olmalı.');
+    invariant(!count||amount>=count,'Her taksit en az bir kuruş olmalı.');
+    invariant(!old||!this.state.transactions.some(t=>t.planId===old.id),'Ödenmiş kaydı bulunan planı değiştirmek yerine duraklatıp yeni plan oluştur.');
+    const prototype=this.buildTransaction({type,accountId:account.id,toAccountId:input.toAccountId,toAmount:input.toAmount,amount:input.amount,date:start,categoryId:input.categoryId,rate:input.rate});
+    const p={id:old?.id||randomUUID(),name,type,accountId:account.id,categoryId:input.categoryId||null,toAccountId:prototype.toAccountId||null,toAmount:prototype.toAmount||null,amount,rate:prototype.rate,start,end,frequency:input.frequency,count,paused:!!input.paused,skipped:old?.skipped||[],purchaseId:old?.purchaseId||null};
+    if(count&&account.type==='credit') {
+      invariant(type==='expense','Kart taksit planı alışveriş gideri olmalı.');
+      invariant(!old,'Kart taksit planı yeniden oluşturulmalı.');const funding=this.getAccount(input.fundingAccountId);invariant(funding.type!=='credit'&&funding.currency===account.currency,'Kart taksitleri için aynı para biriminde bir nakit/banka hesabı seç.');
+      const purchase=this.buildTransaction({type:'expense',accountId:account.id,amount:input.amount,date:input.purchaseDate||start,categoryId:input.categoryId,rate:input.rate,note:name+' · taksitli alışveriş'});
+      this.state.transactions.push(purchase);p.purchaseId=purchase.id;p.type='transfer';p.accountId=funding.id;p.toAccountId=account.id;p.toAmount=amount;
+    }
+    this.state.plans=this.state.plans.filter(x=>x.id!==p.id);this.state.plans.push(p);this.save('plan.set',p.id);return p;
+  }
+  occurrences(from, to) {
+    const out=[];
+    for(const p of this.state.plans.filter(p=>!p.paused)) {
+      const start=new Date(p.start+'T12:00:00Z'),begin=new Date(from+'T12:00:00Z');
+      const months=(begin.getUTCFullYear()-start.getUTCFullYear())*12+begin.getUTCMonth()-start.getUTCMonth();
+      const index=p.frequency==='monthly'?months:p.frequency==='yearly'?Math.floor(months/12):p.frequency==='weekly'?Math.floor((begin-start)/604800000):p.frequency==='daily'?Math.floor((begin-start)/86400000):0;
+      for(let i=Math.max(0,index-1);i<(p.count||1000000);i++) {
+        if(p.frequency==='once'&&i>0)break;
+        const date=nextDate(p,i);if(date>to||(p.end&&date>p.end))break;if(date<from)continue;
+        const paid=this.state.transactions.find(t=>t.planId===p.id&&t.occurrence===date);if(paid||p.skipped.includes(date))continue;
+        const amount=p.count?Math.floor(p.amount/p.count)+(i<p.amount%p.count?1:0):p.amount;
+        const toAmount=p.count&&p.toAmount?Math.floor(p.toAmount/p.count)+(i<p.toAmount%p.count?1:0):p.toAmount;
+        out.push({planId:p.id,name:p.name,date,type:p.type,accountId:p.accountId,toAccountId:p.toAccountId,categoryId:p.categoryId,amount,toAmount,rate:p.rate,index:i+1,count:p.count,currency:this.getAccount(p.accountId,true).currency});
+      }
+    }
+    return out.sort((a,b)=>a.date.localeCompare(b.date));
+  }
+  pay(input) {
+    const p=this.state.plans.find(p=>p.id===input.planId);invariant(p&&!p.paused,'Plan bulunamadı veya duraklatıldı.');
+    const occurrence=this.occurrences(input.occurrence,input.occurrence).find(o=>o.planId===p.id);invariant(occurrence,'Bu ödeme zaten kaydedilmiş veya tarih geçersiz.');
+    const amount=(occurrence.amount/100).toFixed(2);
+    const t=this.buildTransaction({type:p.type,accountId:p.accountId,toAccountId:p.toAccountId,toAmount:((occurrence.toAmount||0)/100).toFixed(2),categoryId:p.categoryId,amount,rate:input.rate||String(p.rate/1000000),date:input.date||input.occurrence,note:p.name+(p.count?` · ${occurrence.index}/${p.count}`:'')});
+    t.planId=p.id;t.occurrence=input.occurrence;this.state.transactions.push(t);this.save('plan.pay',t.id);return t;
+  }
+  pausePlan(id) {const p=this.state.plans.find(p=>p.id===id);invariant(p,'Plan bulunamadı.');p.paused=!p.paused;this.save('plan.pause',id);}
+  skip(input) {const p=this.state.plans.find(p=>p.id===input.planId);invariant(p,'Plan bulunamadı.');invariant(this.occurrences(input.occurrence,input.occurrence).some(o=>o.planId===p.id),'Plan tarihi geçersiz.');p.skipped.push(input.occurrence);this.save('plan.skip',p.id);}
+  goal(input) {
+    const old=this.state.goals.find(g=>g.id===input.id);const account=this.getAccount(input.accountId);invariant(account.type!=='credit','Birikim için nakit/banka hesabı seç.');
+    const name=clean(input.name,100),target=money(input.target);invariant(name&&target>0,'Hedef adı ve tutarı gerekli.');const deadline=input.deadline?validDate(input.deadline):null;
+    invariant(!old||old.accountId===account.id||!old.contributions.length,'Birikim ayrılmış hedefin hesabı değiştirilemez.');
+    const g={id:old?.id||randomUUID(),name,target,deadline,accountId:account.id,contributions:old?.contributions||[],archived:!!input.archived};this.state.goals=this.state.goals.filter(x=>x.id!==g.id);this.state.goals.push(g);this.save('goal.set',g.id);
+  }
+  fund(input) {
+    const g=this.state.goals.find(g=>g.id===input.goalId&&!g.archived);invariant(g,'Hedef bulunamadı.');const amount=money(input.amount);invariant(amount>0,'Tutar sıfırdan büyük olmalı.');
+    const total=g.contributions.reduce((s,c)=>s+c.amount,0), reserve=this.state.goals.filter(x=>x.accountId===g.accountId&&!x.archived).reduce((s,x)=>s+x.contributions.reduce((n,c)=>n+c.amount,0),0);
+    if(input.withdraw)invariant(total>=amount,'Ayrılandan fazlası geri alınamaz.');else invariant(this.accountBalance(g.accountId,dateKey())-reserve>=amount,'Bu hesapta ayrılabilecek bakiye yeterli değil.');
+    g.contributions.push({id:randomUUID(),amount:input.withdraw?-amount:amount,date:dateKey()});this.save('goal.fund',g.id);
+  }
+  setRate(input) {invariant(CURRENCIES.includes(input.currency)&&input.currency!==this.state.baseCurrency,'Yabancı para birimi seç.');this.state.rates[input.currency]=rate(input.rate);this.save('rate.set',input.currency);}
+  settings(input) {invariant(CURRENCIES.includes(input.baseCurrency),'Para birimi geçersiz.');invariant(!this.state.transactions.length&&!this.state.budgets.length&&!this.state.plans.length,'İşlem/bütçe kayıtlarından sonra ana para birimi değiştirilemez.');if(this.state.baseCurrency!==input.baseCurrency)this.state.rates={[input.baseCurrency]:1000000};this.state.baseCurrency=input.baseCurrency;this.save('settings.set','base');}
+  allocations(t) {
+    let remaining=t.baseAmount;return t.splits.map((s,i)=>{const n=i===t.splits.length-1?remaining:Math.min(remaining,converted(s.amount,t.rate));remaining-=n;return {...s,baseAmount:n};});
+  }
+  summary(from,to) {
+    const tx=this.state.transactions.filter(t=>t.date>=from&&t.date<=to), c
