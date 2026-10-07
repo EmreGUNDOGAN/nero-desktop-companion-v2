@@ -16,7 +16,7 @@ function dailyFlow(view, month) {
 function scheduledFlow(view, month) {
   const days = new Date(Number(month.slice(0, 4)), Number(month.slice(5)), 0).getDate();
   return Array.from({ length: Math.ceil(days / 7) }, (_, i) => {
-    const rows = view.calendar.filter(o => o.date.startsWith(month) && Math.min(4, Math.floor((Number(o.date.slice(8)) - 1) / 7)) === i);
+    const rows = [...view.calendar,...(view.calendarRecorded||[]).filter(t=>t.date>view.today)].filter(o => o.date.startsWith(month) && Math.min(4, Math.floor((Number(o.date.slice(8)) - 1) / 7)) === i);
     const sum = type => rows.filter(o => o.type === type).reduce((n, o) => n + (inBase(o.amount, o.currency, view.baseCurrency, { ...view.rates, [o.currency]: o.rate || view.rates[o.currency] }) || 0), 0);
     return { name: `${i * 7 + 1}–${Math.min(days, i * 7 + 7)}`, income: sum('income'), expense: sum('expense') };
   });

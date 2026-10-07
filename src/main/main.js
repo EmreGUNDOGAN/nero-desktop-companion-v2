@@ -1,3 +1,5 @@
+const {Productivity}=require('./productivity');
+let productivity, productivityStore;
 const wardrobe = require('./wardrobe');
 const motionRules=require('./motion-rules');
 let lastMotionAt=0;
@@ -1222,6 +1224,7 @@ function reactToInteraction(kind, fallback, { preferFallback = false } = {}) {
 // ---------------------------------------------------------------------------
 function fullState() {
   return {
+    productivity: productivity?.snapshot(),
     notes: notesStore.get(),
     todos: todosStore.get(),
     settings: settings(),
@@ -1427,6 +1430,7 @@ function timerMenuItem() {
 }
 
 function startTimer(minutes, label = '') {
+  if(timer.status!=='idle')return;
   const m = Math.max(1, Math.min(600, Math.round(Number(minutes) || 25)));
   // Aynı anda iki odak sayacı çalışıp süreyi iki kez yazmasın.
   pauseAllTodoStopwatches({ final: false });
@@ -1735,6 +1739,13 @@ function registerIpc() {
     return { res, view: bee.view(), events: bee.drainEvents() };
   });
 
+  ipcMain.handle('features:get',()=>productivity.snapshot());
+  ipcMain.handle('features:note',(_e,input)=>productivity.meta('note',input));
+  ipcMain.handle('features:todo',(_e,input)=>productivity.meta('todo',input));
+  ipcMain.handle('features:reorder',(_e,ids,bucket)=>productivity.reorder(ids,bucket));
+  ipcMain.handle('features:preference',(_e,key,value)=>productivity.preference(key,value));
+  ipcMain.handle('jar:list',()=>productivity.snapshot().jar);
+  ipcMain.handle('jar:random',()=>productivity.randomMemory());
   ipcMain.handle('state:get', () => fullState());
   ipcMain.handle('theme:get', () => themePayload());
   ipcMain.handle('focusNotice:get', e => e.sender === focusNoticeWin?.webContents ? focusNoticePayload : null);
@@ -1959,7 +1970,7 @@ function registerIpc() {
   });
 
   // Zamanlayıcı
-  ipcMain.handle('timer:start', (_e, minutes, label) => { startTimer(minutes, label); return timer.snapshot(); });
+  ipcMain.handle('timer:start', (_e, minutes, label, todoId) => { if(timer.status!=='idle')throw Error('Önce mevcut oturumu bitir veya bırak.');productivity.prepare(todoId);startTimer(minutes, label); return timer.snapshot(); });
   // Karakterin altındaki rozet: boşta başlatır, çalışırken duraklatır, duraklatılmışsa devam ettirir.
   ipcMain.handle('timer:badge', () => {
     const t = timer.snapshot();
@@ -2390,7 +2401,7 @@ function startLoops() {
     if (userActive) stats.markActive();
     stats.sessionTick(dt, userActive);
     const moodNow = new Date();
-    journal.recordHappiness(mood.summary().happiness, moodNow);
+    if(userActive&&!mood.state.napping&&!mood.state.asleep){const cap={bored:55,sulky:40,lonely:25}[mood.stage]??100;const score=Math.min(mood.summary().happiness,cap);journal.recordHappiness(score,moodNow);}
     journal.finalizeDue(moodNow);
     archiveClosedMoodboards();
     try {
@@ -2757,7 +2768,7 @@ function snapshotData() {
   const { position, ...cleanSettings } = settings();
   return {
     app: 'Nero', version: app.getVersion(), createdAt: new Date().toISOString(),
-    notes: notesStore.get(), todos: todosStore.get(), stats: statsStore.get(), settings: cleanSettings,
+    productivity: productivityStore?.get(), notes: notesStore.get(), todos: todosStore.get(), stats: statsStore.get(), settings: cleanSettings,
     moodLog: moodLogStore?.get() || null, archive: archiveStore?.get() || null, jar: jarStore?.get() || null,
     userMoodboard: userMoodStore?.get() || null,
     homeDialogue: homeDialogueStore?.get() || null,
@@ -2822,6 +2833,7 @@ async function importData() {
   todosStore.set(data.todos);
   if (data.moodLog && typeof data.moodLog === 'object') moodLogStore.set(data.moodLog);
   if (data.archive && typeof data.archive === 'object') archiveStore.set(data.archive);
+  if(data.productivity&&Array.isArray(data.productivity.sessions))productivityStore.set({...data.productivity,sessions:data.productivity.sessions.slice(0,5000)});
   if (data.jar && typeof data.jar === 'object') jarStore.set(data.jar);
   if (data.userMoodboard && typeof data.userMoodboard === 'object') userMoodStore.set(data.userMoodboard);
   if (data.bee && typeof data.bee === 'object' && data.bee.tiles && data.bee.hives) {
@@ -2896,7 +2908,7 @@ function checkForUpdates(manual) {
 function installUpdateNow() {
   if (!updater || updateState.status === 'idle') return false;
   isQuitting = true;
-  for (const store of [settingsStore, notesStore, todosStore, moodStore, statsStore, moodLogStore, archiveStore, jarStore, homeDialogueStore, userMoodStore, dialogueHistoryStore, beeStore, budgetStore]) store?.flush();
+  for (const store of [productivityStore, settingsStore, notesStore, todosStore, moodStore, statsStore, moodLogStore, archiveStore, jarStore, homeDialogueStore, userMoodStore, dialogueHistoryStore, beeStore, budgetStore]) store?.flush();
   setImmediate(() => updater.quitAndInstall(true, true));
   return true;
 }
@@ -2989,6 +3001,8 @@ app.whenReady().then(() => {
   bee = new BeeGame(beeStore);
   bee.markAway();
   journal = new Journal({ moodStore: moodLogStore, archiveStore, jarStore });
+  productivityStore=new JsonStore(userData,'productivity',{sessions:[],preferences:{}});
+  productivity=new Productivity({store:productivityStore,notes:notesStore,todos:todosStore,jar:jarStore,timer,changed:broadcastState});
   // Nero Moodboard sonucu 23:00'te kesinleşir; uygulama o saatte kapalı kaldıysa önceki günü açılışta tamamla.
   journal.finalizeDue(new Date());
   // Migration sırasında mevcut saatli görevler sayılır; onUnlock henüz bağlı olmadığı için eski
@@ -3059,7 +3073,7 @@ app.on('before-quit', () => {
   // Açık iş kronometresini son kez güvenle durdur; kapalı geçen süre bir sonraki açılışta sayılmaz.
   try { pauseAllTodoStopwatches({ final: false }); } catch (err) { log('iş kronometresi kapatılırken durdurulamadı:', err); }
   try { globalShortcut.unregisterAll(); } catch (_) { /* yoksay */ }
-  for (const store of [settingsStore, notesStore, todosStore, moodStore, statsStore, moodLogStore, archiveStore, jarStore, homeDialogueStore, userMoodStore, beeStore, budgetStore]) store?.flush();
+  for (const store of [productivityStore, settingsStore, notesStore, todosStore, moodStore, statsStore, moodLogStore, archiveStore, jarStore, homeDialogueStore, userMoodStore, beeStore, budgetStore]) store?.flush();
 });
 
 app.on('window-all-closed', (e) => {

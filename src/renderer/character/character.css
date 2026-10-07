@@ -348,3 +348,5 @@ html[data-skin="biletini-sakla"] .badge.last-minute {background:var(--accent);bo
 
 html[data-skin="cizgi-roman-arasi"] .bubble{border:3px solid #11110f;border-radius:35% 30% 28% 25% / 20% 25% 22% 25%;background:#f8f1de;color:#11110f;box-shadow:2px 3px 0 #11110f;padding:13px 17px;font-weight:800}
 html[data-skin="cizgi-roman-arasi"] .badge{border:2px solid #11110f;border-radius:0;background:#f1cd55;color:#11110f;box-shadow:2px 2px 0 #11110f}
+
+html[data-skin="bikini-bottom"] .bubble{border:2px solid #072747;border-radius:30px;background:#fff6df;color:#072747;box-shadow:0 3px #07789455;font-weight:800}html[data-skin="bikini-bottom"] .badge{border:2px solid #b9993c;border-radius:12px;background:#ffdc58;color:#072747;box-shadow:0 2px #097d9055}

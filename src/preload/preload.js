@@ -3,6 +3,7 @@
 const { contextBridge, ipcRenderer } = require('electron');
 
 const INVOKE = new Set([
+  "features:get","features:note","features:todo","features:reorder","features:preference","jar:list","jar:random",
   'budget:duplicate', 'budget:sourceOpen', 'budget:get', 'budget:act', 'budget:csvExport', 'budget:csvPreview', 'budget:csvImport', 'budget:receiptAdd', 'budget:receiptOpen', 'budget:receiptRemove', 'budget:reportPDF', 'budget:backup', 'budget:restore',
   'state:get', 'theme:get', 'motion:play',
   'notes:save', 'notes:delete', 'notes:archive',

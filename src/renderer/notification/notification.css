@@ -3,3 +3,5 @@
 html[data-skin="cizgi-roman-arasi"] .notice{border:3px solid #11110f;border-radius:0;background:#f8f1de;color:#11110f;box-shadow:3px 3px 0 #11110f}
 html[data-skin="cizgi-roman-arasi"] :is(.brand,.remark,#duration,.close){color:#11110f}
 html[data-skin="cizgi-roman-arasi"] .okay{background:#f1cd55;color:#11110f;border:2px solid #11110f;border-radius:0;box-shadow:2px 2px 0 #11110f}
+
+html[data-skin="bikini-bottom"] .notice{background:#fff3d2;border:2px solid #228e9c;border-radius:18px;color:#072747}html[data-skin="bikini-bottom"] :is(.brand,.remark,#duration,.close){color:#072747}html[data-skin="bikini-bottom"] .okay{background:#ff754f;color:#fff;border:1px solid #e76541;border-radius:11px}

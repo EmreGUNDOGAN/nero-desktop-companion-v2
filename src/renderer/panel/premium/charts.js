@@ -21,8 +21,8 @@ export function createChart(canvas, spec) {
   } else if (kind === 'bar') {
     type = 'bar';
     const keys = spec.keys || ['amount'];
-    data = { labels: rows.map(r => r.name), datasets: keys.map((key, i) => ({ label: key === 'income' ? 'Gelir' : key === 'expense' ? 'Ödeme' : 'Tutar', data: rows.map(r => r[key] || 0), backgroundColor: palette[i], borderRadius: 6, maxBarThickness: 25, borderSkipped: false })) };
-    options = { indexAxis: spec.horizontal ? 'y' : 'x', scales: { x: { grid: { display: !!spec.horizontal, color: grid }, border: { display: false }, ticks: { color: muted, font: { size: 10 }, maxRotation: 0, callback: spec.horizontal ? n => compact(n) : function(n) { return this.getLabelForValue(n); } } }, y: { beginAtZero: true, grid: { display: !spec.horizontal, color: grid }, border: { display: false }, ticks: { color: muted, font: { size: 10 }, callback: spec.horizontal ? function(n) { return this.getLabelForValue(n); } : n => compact(n) } } }, plugins: { tooltip: { callbacks: { label: item => format(spec.horizontal ? item.parsed.x : item.parsed.y) } } } };
+    data = { labels: rows.map(r => r.name), datasets: keys.map((key, i) => ({ label: key === 'income' ? 'Gelir' : key === 'expense' ? 'Ödeme' : 'Tutar', data: rows.map(r => r[key] || 0), backgroundColor: rows.map(r=>(r[key]||0)<0?'#ee8078':palette[i]), borderRadius: 6, maxBarThickness: 25, borderSkipped: false })) };
+    options = { indexAxis: spec.horizontal ? 'y' : 'x', scales: { x: { beginAtZero:!!spec.horizontal,grid: { display: !!spec.horizontal, color: grid }, border: { display: false }, ticks: { color: muted, font: { size: 10 }, maxRotation: 0, callback: spec.horizontal ? n => compact(n) : function(n) { return this.getLabelForValue(n); } } }, y: { beginAtZero: true, grid: { display: !spec.horizontal, color: grid }, border: { display: false }, ticks: { color: muted, font: { size: 10 }, callback: spec.horizontal ? function(n) { return this.getLabelForValue(n); } : n => compact(n) } } }, plugins: { tooltip: { callbacks: { label: item => format(spec.horizontal ? item.parsed.x : item.parsed.y) } } } };
   } else {
     type = 'line';
     const keys = focus === 'income' ? ['income'] : focus === 'expense' ? ['netExpense'] : ['income', 'netExpense'];
@@ -58,6 +58,10 @@ export function createChart(canvas, spec) {
   const chart = new Chart(canvas, { type, data, options: { responsive: true, maintainAspectRatio: false, animation: false, ...options, font: { family: font }, plugins: { legend: { display: false }, ...options.plugins } }, plugins: [readout] });
   charts.set(canvas, chart);
   canvas.dataset.chartReady = 'true'; canvas.dataset.chartKind = kind;
+  const empty=kind==='bar'&&data.datasets.every(d=>d.data.every(v=>!v));
+  canvas.style.display=empty?'none':'';
+  canvas.parentElement.querySelector('.nf-chart-empty')?.remove();
+  if(empty){const caption=document.createElement('p');caption.className='nf-chart-empty';caption.textContent='Bu dönemde gösterilecek gelir veya ödeme yok.';canvas.after(caption);}
   return () => { chart.destroy(); charts.delete(canvas); };
 }
 function compact(n) { return Math.abs(n) >= 100000 ? `${Math.round(n / 100000)}k` : (n / 100).toLocaleString('tr-TR', { maximumFractionDigits: 0 }); }

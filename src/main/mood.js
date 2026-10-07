@@ -86,8 +86,8 @@ class Mood extends EventEmitter {
       if (this.state.ignoredMs > STAGE_THRESHOLDS.bored) {
         // Sıkılmaya başladıktan sonra her 10 dakikada 1 puan düşer.
         this.state.happiness -= dtMs / (10 * MIN);
-      } else if (this.state.happiness > 75) {
-        // Aşırı neşe de kalıcı değil; 20 dakikada 1 puan normale döner.
+      } else if (this.state.happiness > 75 || this.state.ignoredMs > 15 * MIN) {
+        // İlgi kesildiğinde normal keyif de yavaşça azalır; aksi halde 65 puan tabanı her günü yeşil yapar.
         this.state.happiness -= dtMs / (20 * MIN);
       }
       this.state.happiness = clamp(this.state.happiness, 5, 100);

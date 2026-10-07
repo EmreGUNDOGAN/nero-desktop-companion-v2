@@ -227,6 +227,7 @@
   let skinName = 'cozy';
   Object.assign(SKINS, window.NeroThemeTrio.skins(SKINS.cozy));
   Object.assign(SKINS, window.NeroComicTheme.skins(SKINS.cozy));
+  Object.assign(SKINS, window.NeroSpongeTheme.skins(SKINS.cozy));
   const skin = () => SKINS[skinName] || SKINS.cozy;
 
   function applyUi(ui = {}) {
@@ -237,6 +238,7 @@
     const next = SKINS[ui.skin] ? ui.skin : 'cozy';
     if (next !== skinName || !document.documentElement.dataset.skin) {
       window.NeroComicTheme?.leave(next);
+      window.NeroSpongeTheme?.leave(next);
       skinName = next;
       document.documentElement.dataset.skin = skinName;
       applySkinText();
@@ -738,7 +740,7 @@
       document.removeEventListener('pointermove', move); document.removeEventListener('pointerup', finish); document.removeEventListener('pointercancel', finish); window.removeEventListener('blur', finish); document.removeEventListener('keydown', escape);
       if (!held) return;
       held = false; todoDrag = null; row.classList.remove('todo-dragging'); document.body.classList.remove('todo-reordering');
-      const ids = [...$('todo-list').children].map(el => el.dataset.todoId);
+      const ids = [...$('todo-list').children].filter(el=>el.dataset.todoId).map(el => el.dataset.todoId);
       if (event.type === 'pointerup' && JSON.stringify(ids) !== JSON.stringify(originalIds)) await api.invoke('todos:reorder', ids);
       renderTodos();
     };
@@ -1375,6 +1377,10 @@
 
   function renderMoodCalendar(container, days, mode, editable = false) {
     container.textContent = '';
+    for (const name of ['Pzt','Sal','Çar','Per','Cum','Cmt','Paz']) {
+      const header = document.createElement('small');
+      header.className = 'nf-weekday'; header.textContent = name; container.append(header);
+    }
     for (const day of days || []) {
       const wrap = document.createElement('div');
       wrap.className = 'mood-day-wrap';
@@ -1817,6 +1823,8 @@
     window.NeroTicketTheme?.update(state, chosenMinutes);
     window.NeroThemeTrio?.update(state, chosenMinutes);
     window.NeroComicTheme?.update(state, chosenMinutes);
+    window.NeroSpongeTheme?.update(state,chosenMinutes);
+    window.NeroFeaturesUI?.update(state);
   }
 
   api.on('state', renderAll);

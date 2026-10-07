@@ -319,4 +319,5 @@ class Budget {
   replace(state) {this.validate(state);this.state={...defaults(),...structuredClone(state)};this.save('backup.import','budget');}
 }
 require('./budget-finance')(Budget,{dateKey,validDate,shiftMonth,converted,money,nextDate});
+require('./budget-enhancements')(Budget,{money,validDate,dateKey,nextDate});
 module.exports={Budget,money,rate,converted,dateKey,validDate,shiftMonth,nextDate,defaults,CURRENCIES};

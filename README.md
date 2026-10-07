@@ -1,3 +1,7 @@
+# Nero 6.9.12
+
+SpongeBob teması ve not, iş, odak, anı ve finans geliştirmeleri eklendi. Önceki içerikler korunur.
+
 # Nero 6.9.11
 
 Çizgi Roman Arası kartları, not seçimi ve odak çubukları düzeltildi.
@@ -40,7 +44,7 @@ Nero ekranın sağ alt köşesinde belirir. Tepside (saatin yanındaki gizli sim
 npm run dist
 ```
 
-Kurulum dosyası `dist\Nero-Setup-6.9.11.exe` olarak oluşur.
+Kurulum dosyası `dist\Nero-Setup-6.9.12.exe` olarak oluşur.
 
 Yeni sürüm çıkarırken `package.json` içindeki `"version"` değerini artır (ör. `3.0.1`). `appId` değerini (`com.stenwick.nero`) **değiştirme**; kurulum programı eski sürümü bu kimlikten tanıyıp kaldırır.
 

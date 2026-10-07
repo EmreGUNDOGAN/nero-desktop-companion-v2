@@ -1,0 +1,12 @@
+{
+  "passed": true,
+  "checks": 72,
+  "actions": [
+    "notes: autosave, checkbox summary, pin and tag",
+    "task priority, label, plan summary, search",
+    "real pointer drag Today to Later",
+    "linked focus and pause exclusion",
+    "jar history, no repeat, compact moodboard"
+  ],
+  "errors": []
+}

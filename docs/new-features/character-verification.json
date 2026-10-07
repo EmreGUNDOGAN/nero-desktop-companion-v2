@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "themes": [
+    {
+      "theme": "bikini-bottom",
+      "skin": "bikini-bottom",
+      "bubble": true,
+      "badge": "12:30",
+      "inside": true,
+      "images": true
+    }
+  ],
+  "rendererErrors": [],
+  "focusNotification": true
+}
