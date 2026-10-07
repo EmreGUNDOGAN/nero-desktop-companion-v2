@@ -20,7 +20,7 @@ app.whenReady().then(async()=>{
   });
   win=new BrowserWindow({width:500,height:900,show:true,frame:false,webPreferences:{preload:path.join(__dirname,'theme-trio-preload.js'),contextIsolation:true,sandbox:false,nodeIntegration:false}});
   win.webContents.on('console-message',(_e,l,m)=>{if(l>=3)report.rendererErrors.push(m);});
-  const js=code=>win.webContents.executeJavaScript(code);
+  const js=async code=>{try{return await win.webContents.executeJavaScript(code);}catch(error){console.error("Renderer script failed:",code);throw error;}};
   await win.loadFile(path.join(root,'src/renderer/panel/index.html'));win.setContentSize(500,900);await wait(550);
   const select=async tab=>{await js(tab==='settings'?'document.getElementById("settings-button").click();true':`document.querySelector('.tabs [data-tab="${tab}"]').click();true`);await wait(90);};
   const capture=async name=>{await wait(230);fs.writeFileSync(path.join(out,name+'.png'),(await win.webContents.capturePage()).toPNG());};
@@ -55,8 +55,8 @@ app.whenReady().then(async()=>{
    await select('todos');
    await js(`document.getElementById('todo-input').value='Kontrol işi ${theme}';document.getElementById('todo-form').requestSubmit();true`);await wait(100);
    assert.ok(await js(`window.nero.__snapshot().todos.some(t=>t.text==='Kontrol işi ${theme}')`));
-   const todoBefore=await js('(()=>{const id=document.querySelector("#todo-list>li").dataset.todoId;const t=window.nero.__snapshot().todos.find(t=>t.id===id);return {id:t.id,done:t.done}})()');
-   await js('document.querySelector("#todo-list .check").click();true');await wait(100);
+   const todoBefore=await js('(()=>{const id=document.querySelector("#todo-list>li[data-todo-id]").dataset.todoId;const t=window.nero.__snapshot().todos.find(t=>t.id===id);return {id:t.id,done:t.done}})()');
+   await js(`document.querySelector('#todo-list>li[data-todo-id=${JSON.stringify(todoBefore.id)}] .check').click();true`);await wait(100);
    assert.equal(await js(`window.nero.__snapshot().todos.find(t=>t.id===${JSON.stringify(todoBefore.id)}).done`),!todoBefore.done);
    await select('timer');await js(`document.querySelector('#presets [data-min="45"]').click();true`);
    assert.equal(await js('document.getElementById("timer-digits").textContent'),'45:00');
