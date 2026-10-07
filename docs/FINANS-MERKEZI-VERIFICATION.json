@@ -1,0 +1,58 @@
+{
+  "baseVersion": "9.6.8",
+  "theme": "Finans Merkezi",
+  "themeId": "financial-dashboard",
+  "referencePalette": {
+    "canvas": "#0a0a0a",
+    "card": "#171717",
+    "iconSurface": "#262626",
+    "text": "#fafafa",
+    "muted": "#a1a1a1",
+    "income": "#05df72",
+    "expense": "#ff6467"
+  },
+  "originalFilesPreserved": true,
+  "changedOriginalFiles": [
+    ".gitignore",
+    "DESIGN.md",
+    "package-lock.json",
+    "package.json",
+    "scripts/build-finance-ui.js",
+    "src/main/budget-finance.js",
+    "src/main/budget.js",
+    "src/renderer/panel/budget-premium-app.js",
+    "src/renderer/panel/budget-premium-app.js.LEGAL.txt",
+    "src/renderer/panel/budget-premium-app.js.map",
+    "src/renderer/panel/budget.js",
+    "src/renderer/panel/index.html",
+    "src/renderer/panel/premium/charts.js",
+    "test/budget-premium.test.js"
+  ],
+  "unitTests": {
+    "passed": 340,
+    "failed": 0
+  },
+  "typescript": "passed",
+  "windowsRendererLayouts": 120,
+  "rendererErrors": [],
+  "sourceHashes": {
+    "src/renderer/panel/components/ui/financial-dashboard.tsx": "254988d854fe77ea94eb602614c7d2e02869a883eb8a4afc57967ad72d116ee1",
+    "src/renderer/panel/lib/utils.ts": "9304a861c8673bee09e0f12de31773abbde503b02e59dfd74763ddec2e37cf05",
+    "src/renderer/panel/financial/index.tsx": "14ad96db12aba8b9d3380898a376ecf843ed0b1dc98c7b75e12ab0ef19eff4b8",
+    "src/renderer/panel/financial/tailwind.css": "527d36b572d98161a89362c608e2afd81a36002665c54d6a9e1056e7ecefd3e8",
+    "src/renderer/panel/budget-financial-app.js": "416b5f57b82cd121570dc9d4b3b6a4421b5c7e8700112e4638dd20b1fda65786",
+    "src/renderer/panel/budget-financial-app.js.map": "c89203b83845f8c193a86b02a0e407f91f7cc9728779e5422b2711fb7038fa81",
+    "src/renderer/panel/budget-financial.css": "5fc8da24cc4c2602877175d6901f36fa7f2f930d5ab1183fc75b95b2f885fe8a",
+    "src/renderer/panel/budget-financial-tailwind.css": "a12542e57f699283fa7d0f107b1a8d953928f88170c0c57f96ab8ccda1ee8e7f",
+    "tsconfig.json": "d68250adab769dad75e05c28e930d7accfdb2711c2a1a7a378ee6a787830867e",
+    "tsconfig.finance.json": "35cdf8d8795b08b05fc84ac84f17f62c8ff8ad4974ea5bce18c99e10b412a314",
+    "components.json": "632f112bc2fed3362ba6335936be8f983cefdefbdcd26e90c80092df72c8f69a",
+    "docs/FINANS-MERKEZI.md": "d7dc9a78deda19d30ec59f5ab92ec0348e24f22adff8a07f8e67a81f18e3ed8e",
+    "test/financial-dashboard-ui.cjs": "e53871575cfcabf18b8722ba0711c825a0909d5c17f73b854cfe80dd4d45a894",
+    "docs/financial-dashboard-screens/validation.json": "8ec1dc29bd49fb8fda5db392c31c79f16e4d7aeb0b37c4b7884b09c6a4f89864",
+    "docs/financial-dashboard-screens/index.html": "b8bfac3e9952fe7affa1f42358af4cef43888366040877a9318ace81eda18926",
+    "docs/financial-dashboard-screens/Nero-Finans-Merkezi-Tum-Sekmeler.png": "403499083d252a7b140245e6f598da80d36b3ca77c770c80a9fd966796baa24d",
+    "docs/financial-dashboard-reference/user-dark-reference.png": "19d4775189a178a73bf57661bb727588cad051ca79596719f98fa20cc1b60438"
+  },
+  "previewData": "Temporary test fixture only; not application defaults or user records"
+}

@@ -270,7 +270,7 @@ class Budget {
   }
   preferences(input) {
     if(input.textSize!==undefined){invariant(['comfortable','large'].includes(input.textSize),'Yazı boyutu geçersiz.');this.state.preferences.textSize=input.textSize;}
-    if(input.financeTheme!==undefined){invariant(['modern','nero','cards','premium-black'].includes(input.financeTheme),'Finans teması geçersiz.');this.state.preferences.financeTheme=input.financeTheme;}
+    if(input.financeTheme!==undefined){invariant(['modern','nero','cards','premium-black','financial-dashboard'].includes(input.financeTheme),'Finans teması geçersiz.');this.state.preferences.financeTheme=input.financeTheme;}
     this.save('preferences.set','budget');
   }
   view(month = dateKey().slice(0,7)) {

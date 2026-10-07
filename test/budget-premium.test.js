@@ -9,11 +9,11 @@ test('Premium Black survives export, restart and restore without changing financ
  b.act('preferences',{financeTheme:'premium-black'});
  const restored=setup();restored.replace(b.export());assert.equal(restored.view().preferences.financeTheme,'premium-black');assert.deepEqual(restored.state.transactions,before);assert.equal(restored.accountBalance(a.id),balance);
 });
-test('All four finance looks are reversible preferences, independent of accounts and plans',()=>{
+test('All five finance looks are reversible preferences, independent of accounts and plans',()=>{
  const b=setup(),a=b.act('account',{name:'Nakit',type:'cash',opening:'2000'});
  b.act('plan',{name:'Netflix',accountId:a.id,categoryId:'expense-0',amount:'150',frequency:'monthly',start:'2026-11-01',auto:false});
  const accounts=structuredClone(b.state.accounts),plans=structuredClone(b.state.plans);
- for(const financeTheme of ['nero','modern','cards','premium-black','modern']){b.act('preferences',{financeTheme});assert.equal(b.view().preferences.financeTheme,financeTheme);assert.deepEqual(b.state.accounts,accounts);assert.deepEqual(b.state.plans,plans);assert.equal(b.state.transactions.length,0);}
+ for(const financeTheme of ['nero','modern','cards','premium-black','financial-dashboard','modern']){b.act('preferences',{financeTheme});assert.equal(b.view().preferences.financeTheme,financeTheme);assert.deepEqual(b.state.accounts,accounts);assert.deepEqual(b.state.plans,plans);assert.equal(b.state.transactions.length,0);}
 });
 test('Unknown finance themes reject preference changes and imported backups',()=>{
  const b=setup();b.act('preferences',{financeTheme:'premium-black'});assert.throws(()=>b.act('preferences',{financeTheme:'missing'}),/Finans teması/);assert.equal(b.state.preferences.financeTheme,'premium-black');

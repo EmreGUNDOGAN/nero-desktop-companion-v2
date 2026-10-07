@@ -1,5 +1,7 @@
 # Nero
 
+**9.6.9:** Finans ayarları → Finans teması → Finans Merkezi. Sekiz finans sayfası için yeni bir görünüm; önceki görünümler ve Nero temaları korunur. Ayrıntılar: [Finans Merkezi](docs/FINANS-MERKEZI.md).
+
 **9.6.8 güncel paket:** Arcade Molası, Yörünge ve Serada Bir Gün temaları eklendi. Biletini Sakla ve mevcut temalar korunur. Ayarlar → Görünüm → Tema menüsünden seçilir. Ayrıntılar: [UC-TEMA.md](UC-TEMA.md).
 
 Masaüstünde yaşayan, huysuz ama seni seven küçük bir arkadaş. Notlar, yapılacaklar ve zamanlayıcı içerir; ruh hali zamanla değişir.
@@ -30,7 +32,7 @@ Nero ekranın sağ alt köşesinde belirir. Tepside (saatin yanındaki gizli sim
 npm run dist
 ```
 
-Kurulum dosyası `dist\Nero-Setup-9.6.8.exe` olarak oluşur.
+Kurulum dosyası `dist\Nero-Setup-9.6.9.exe` olarak oluşur.
 
 Yeni sürüm çıkarırken `package.json` içindeki `"version"` değerini artır (ör. `3.0.1`). `appId` değerini (`com.stenwick.nero`) **değiştirme**; kurulum programı eski sürümü bu kimlikten tanıyıp kaldırır.
 

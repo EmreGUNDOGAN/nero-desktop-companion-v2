@@ -1,5 +1,9 @@
 # Nero finans tasarımı
 
+## Finans Merkezi
+
+Kullanıcının sağladığı FinancialDashboard React bileşenini ve ardından paylaştığı koyu renk referansını temel alan yeni finans görünümü. Siyah dış zemin, antrasit kartlar, gri ikon alanları, beyaz metinler ve yeşil/kırmızı tutarlar kullanılır. Arama, yuvarlak hızlı eylemler, gerçek marka ikonlarıyla hizalı işlem satırları ve yönlendiren araç kartları sekiz Bütçe sayfasına uyarlanır. Ayrıntılar ve kaynak yapısı `docs/FINANS-MERKEZI.md` içindedir. Mevcut dört finans görünümü korunur; seçim kayıtları değiştirmez.
+
 440 × 660 masaüstü penceresi temel boyuttur; içerik kaydırılır ve büyük pencerede genişler. Finans görünümü Nero'nun genel temasından bağımsız saklanan, geri alınabilir bir tercihtir. Kullanıcı kayıtları tema seçiminden etkilenmez.
 
 ## Premium Black

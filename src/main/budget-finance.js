@@ -7,7 +7,7 @@ module.exports = function installFinance(Budget, {dateKey, validDate, shiftMonth
   const baseView=Budget.prototype.view, baseValidate=Budget.prototype.validate;
   Budget.prototype.validate=function(s){
     baseValidate.call(this,s);
-    if(s.preferences?.financeTheme!==undefined)check(['modern','nero','cards','premium-black'].includes(s.preferences.financeTheme),'Finans teması geçersiz.');
+    if(s.preferences?.financeTheme!==undefined)check(['modern','nero','cards','premium-black','financial-dashboard'].includes(s.preferences.financeTheme),'Finans teması geçersiz.');
     if(s.notifications){const n=s.notifications;check(typeof n.enabled==='boolean'&&Array.isArray(n.days)&&n.days.every(d=>[0,1,7].includes(d))&&new Set(n.days).size===n.days.length&&/^([01]\d|2[0-3]):[0-5]\d$/.test(n.time),'Bildirim ayarları geçersiz.');}
     for(const p of s.plans){if(p.auto!==undefined)check(typeof p.auto==='boolean','Otomatik kayıt ayarı geçersiz.');if(p.manualOverrides)check(Array.isArray(p.manualOverrides)&&p.manualOverrides.every(d=>validDate(d)),'Ödeme geri alma kaydı geçersiz.');if(p.revisions)check(Array.isArray(p.revisions)&&p.revisions.every(r=>validDate(r.effective)&&Number.isSafeInteger(r.amount)&&r.amount>0&&r.amount<=1000000000000),'Plan tutar geçmişi geçersiz.');if(p.purchaseId)check(s.transactions.some(t=>t.id===p.purchaseId&&t.type==='expense'),'Taksitli alışveriş kaydı eksik.');}
     if(s.learning?.answers){
