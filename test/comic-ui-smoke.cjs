@@ -23,6 +23,7 @@ app.whenReady().then(async()=>{
   assert.equal(await js('document.documentElement.dataset.skin'),'cizgi-roman-arasi');
   const tm=new ThemeManager({builtinDir:path.join(root,'themes'),userDir:null});tm.scan();assert.deepEqual(tm.get('cizgi-roman-arasi').errors,[]);
   for(const asset of fs.readdirSync(path.join(root,'themes/cizgi-roman-arasi/assets'))){const size=await js(`new Promise(resolve=>{const i=new Image();i.onload=()=>resolve([i.naturalWidth,i.naturalHeight]);i.onerror=()=>resolve(null);i.src='nero-theme://cizgi-roman-arasi/assets/${asset}'})`);assert.ok(size?.[0]>300);report.assets.push({asset,size});}
+  await select('home');assert.ok(await js('[...document.querySelectorAll(".tiles>.tile")].every(t=>getComputedStyle(t).backgroundImage.includes("stats-panels.png"))'));await select('notes');assert.ok(await js('getComputedStyle(document.querySelector("#notes-list .comic-panel")).backgroundImage.includes("note-lead.png")'));
   await js('document.fonts.ready');assert.ok(await js('document.fonts.check(\'italic 700 32px "Comic Head"\')'));
   for(const [w,h,z] of [[380,660,1],[440,820,1],[500,900,1],[900,900,1.25]]){
    win.setContentSize(w,h);win.webContents.setZoomFactor(z);await wait(160);
@@ -35,6 +36,8 @@ app.whenReady().then(async()=>{
     if(w===500||w===380)await capture(`${tab}-${w}`);
    }
   }
+  win.setContentSize(500,1180);win.webContents.setZoomFactor(1);await wait(180);
+  for(const name of ['home','notes','timer']){await select(name);await js(`document.getElementById('view-${name}').scrollTop=0;true`);await capture(name+'-showcase');}
   win.setContentSize(500,900);win.webContents.setZoomFactor(1);await select('notes');
   await js('document.getElementById("comic-note-title").value="Çizgi roman kontrolü";document.getElementById("comic-note-title").dispatchEvent(new Event("input",{bubbles:true}));document.getElementById("comic-note-body").textContent="Türkçe: ç ğ ı ö ş ü";document.getElementById("comic-note-body").dispatchEvent(new Event("input",{bubbles:true}));true');await wait(650);
   assert.ok(await js('window.nero.__snapshot().notes.some(n=>n.body==="Çizgi roman kontrolü\\nTürkçe: ç ğ ı ö ş ü")'));

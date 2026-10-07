@@ -1,0 +1,99 @@
+/* Approved comic panels: illustrated backgrounds with live content above them. */
+html[data-skin="cizgi-roman-arasi"]{--comic-paper:#f7eed7;--comic-yellow:#f0cd58;--comic-red:#df4937;--comic-blue:#5488a6}
+html[data-skin="cizgi-roman-arasi"] .shell{box-shadow:inset 0 0 0 2px #fdf8e8;background:#f3ead5}
+html[data-skin="cizgi-roman-arasi"] .top{min-height:55px;background:linear-gradient(105deg,#fff8e8,#eee3ca);gap:13px}
+html[data-skin="cizgi-roman-arasi"] .brand h1{font-size:49px;letter-spacing:-1.5px;transform:skew(-5deg);text-shadow:.6px 0 currentColor}
+html[data-skin="cizgi-roman-arasi"] .comic-theme-name{width:126px;font-size:11px}
+html[data-skin="cizgi-roman-arasi"] .tabs{min-height:58px;background:#f7eed7}
+html[data-skin="cizgi-roman-arasi"] .tabs button{font-family:"Comic Digits",sans-serif;font-size:13px;gap:4px}
+html[data-skin="cizgi-roman-arasi"] .tabs button[aria-selected="true"] svg{stroke:#11110f}
+html[data-skin="cizgi-roman-arasi"] .tabs button[aria-selected="true"] .tl{border-bottom:2px solid #11110f}
+html[data-skin="cizgi-roman-arasi"] .comic-nav-icon .comic-icon{width:24px;height:24px}
+html[data-skin="cizgi-roman-arasi"] .view{padding:9px 12px 20px}
+html[data-skin="cizgi-roman-arasi"] .hello{min-height:210px;background-position:center;background-size:cover}
+html[data-skin="cizgi-roman-arasi"] .hello h2{font-size:40px;padding:7px 12px;max-width:72%;line-height:1.05}
+html[data-skin="cizgi-roman-arasi"] .hello .nero-says{width:58%;max-width:330px;min-height:83px;border-radius:48%;padding:14px 18px;margin:9px 0 0 13px}
+html[data-skin="cizgi-roman-arasi"] .hello .nero-says p{font-family:"Comic Digits",sans-serif;font-size:22px;line-height:1.1;color:#11110f}
+html[data-skin="cizgi-roman-arasi"] .tiles{gap:7px;align-items:stretch}
+html[data-skin="cizgi-roman-arasi"] .tiles .tile{aspect-ratio:4/4.1;min-height:150px;padding:20px 15% 28px;gap:6px;justify-content:center;background-image:url("nero-theme://cizgi-roman-arasi/assets/stats-panels.png");background-size:300% 100%;background-repeat:no-repeat;background-color:#f7eed7}
+html[data-skin="cizgi-roman-arasi"] .tiles .tile:nth-child(1){background-position:0 0}
+html[data-skin="cizgi-roman-arasi"] .tiles .tile:nth-child(2){background-position:50% 0}
+html[data-skin="cizgi-roman-arasi"] .tiles .tile:nth-child(3){background-position:100% 0}
+html[data-skin="cizgi-roman-arasi"] .tiles .tile>*{background:none;padding:0}
+html[data-skin="cizgi-roman-arasi"] .comic-tile-icon{width:34px;height:34px;border-radius:0;display:flex;align-items:center;justify-content:center}
+html[data-skin="cizgi-roman-arasi"] .comic-tile-icon .comic-icon{width:32px;height:32px;stroke:#11110f}
+html[data-skin="cizgi-roman-arasi"] .tiles .tile strong{font-size:clamp(30px,7vw,54px);line-height:1.05;padding:0;max-width:100%;overflow-wrap:anywhere}
+html[data-skin="cizgi-roman-arasi"] .tiles .tile>span:not(.comic-tile-icon){font:900 clamp(12px,2.8vw,20px)/1.15 "Comic Digits",sans-serif;padding:0}
+html[data-skin="cizgi-roman-arasi"] .week{background-image:url("nero-theme://cizgi-roman-arasi/assets/note-lead.png");background-size:100% 100%;padding:16px 22% 17px 17px;min-height:180px}
+html[data-skin="cizgi-roman-arasi"] .week .card-head{margin-bottom:8px}
+html[data-skin="cizgi-roman-arasi"] .week h3{font-size:21px}
+html[data-skin="cizgi-roman-arasi"] #week-total{font:900 17px "Comic Digits",sans-serif;color:#11110f}
+html[data-skin="cizgi-roman-arasi"] .bars{margin:0;height:130px;gap:8px}
+html[data-skin="cizgi-roman-arasi"] .bar i{background:linear-gradient(90deg,#5488a6,#74a0b8);border:1px solid #11110f33}
+html[data-skin="cizgi-roman-arasi"] .bar.comic-zero i{height:0!important;min-height:0!important;border:0}
+html[data-skin="cizgi-roman-arasi"] .comic-bar-value{font:900 12px "Comic Digits",sans-serif}
+html[data-skin="cizgi-roman-arasi"] .bar span{font:900 11px "Comic Digits",sans-serif}
+html[data-skin="cizgi-roman-arasi"] .jar{min-height:108px;padding-left:105px;background-color:#f7eed7}
+html[data-skin="cizgi-roman-arasi"] .comic-jar-art{width:80px;left:12px;top:4px;bottom:5px}
+html[data-skin="cizgi-roman-arasi"] .comic-jar-art span{display:none}
+html[data-skin="cizgi-roman-arasi"] .jar h3{font-size:22px}
+html[data-skin="cizgi-roman-arasi"] .jar-form{align-items:stretch}
+html[data-skin="cizgi-roman-arasi"] .jar-form input{font-size:13px;padding:8px 10px}
+html[data-skin="cizgi-roman-arasi"] .jar-form button{font:900 23px "Comic Digits",sans-serif;padding:7px 12px}
+html[data-skin="cizgi-roman-arasi"] .quick{padding:25px 8px 8px}
+html[data-skin="cizgi-roman-arasi"] .quick::after{content:"Hızlı işlemler";position:absolute;top:3px;left:24px;font:900 12px "Comic Digits",sans-serif}
+html[data-skin="cizgi-roman-arasi"] .quick button{font:900 22px "Comic Digits",sans-serif;padding:11px 4px}
+html[data-skin="cizgi-roman-arasi"] .comic-heading{min-height:67px;padding:7px 12px;background-image:none;background-color:#f7eed7}
+html[data-skin="cizgi-roman-arasi"] .comic-heading h2{font-size:43px;margin:0;letter-spacing:0}
+html[data-skin="cizgi-roman-arasi"] .comic-notes-heading h2{min-width:44%;padding:6px 15px 9px;background:radial-gradient(#11110f 1px,transparent 1.6px) right top/7px 7px,linear-gradient(100deg,#df4937 70%,#e98162);background-repeat:no-repeat;background-size:37% 100%,100% 100%;clip-path:polygon(1% 1%,100% 0,96% 99%,0 97%);border:2px solid #11110f;color:#11110f;transform:rotate(-1deg)}
+html[data-skin="cizgi-roman-arasi"] .comic-heading button{font:900 23px "Comic Digits",sans-serif;padding:8px 14px;min-height:41px}
+html[data-skin="cizgi-roman-arasi"] .notes{gap:8px;margin:0;align-items:stretch}
+html[data-skin="cizgi-roman-arasi"] .notes li{background-color:#f7eed7!important;background-image:url("nero-theme://cizgi-roman-arasi/assets/note-pair.png")!important;background-size:200% 100%!important;background-position:0 0!important;padding:19px 18% 32%;min-height:210px;aspect-ratio:1.05;box-shadow:none;border-width:1px;overflow:hidden}
+html[data-skin="cizgi-roman-arasi"] .notes li:nth-of-type(2n+1){background-position:100% 0!important;padding-left:7%;padding-right:22%}
+html[data-skin="cizgi-roman-arasi"] .notes li[data-comic-number="01"]{background-image:url("nero-theme://cizgi-roman-arasi/assets/note-lead.png")!important;background-size:100% 100%!important;background-position:0 0!important;aspect-ratio:2.55;min-height:165px;padding:24px 26% 23px 8%}
+html[data-skin="cizgi-roman-arasi"] .notes li.comic-note-selected{box-shadow:none}
+html[data-skin="cizgi-roman-arasi"] .note-title{font-size:23px;line-height:1.15;color:#11110f;margin-bottom:7px}
+html[data-skin="cizgi-roman-arasi"] .note-preview{font-size:13px;line-height:1.4;max-width:100%;white-space:pre-line;-webkit-line-clamp:4;color:#11110f}
+html[data-skin="cizgi-roman-arasi"] .note-date{font-size:10px;margin:4px 0 0;padding:0;background:none;color:#5a574e}
+html[data-skin="cizgi-roman-arasi"] .comic-composer{order:0;margin:9px 0;background-color:#f7eed7;background-image:linear-gradient(108deg,#fff9e780,#e9dcc430);border:2px solid #11110f;min-height:315px;box-shadow:inset 0 0 0 3px #f7eed7,inset 0 0 0 4px #11110f55}
+html[data-skin="cizgi-roman-arasi"] .comic-composer::after{content:"";position:absolute;inset:3px;border:1px solid #11110f;clip-path:polygon(0 0,5% 0,5% 5%,0 5%,0 95%,5% 95%,5% 100%,0 100%,0 0,95% 0,100% 0,100% 5%,95% 5%,95% 95%,100% 95%,100% 100%,95% 100%);pointer-events:none}
+html[data-skin="cizgi-roman-arasi"] .comic-composer>header{padding:13px 16px 9px 23px;border-bottom:1px solid #11110f88}
+html[data-skin="cizgi-roman-arasi"] #comic-note-title{font-size:27px;color:#11110f}
+html[data-skin="cizgi-roman-arasi"] .comic-format{padding:3px 14px;gap:4px;border-bottom:1px solid #11110f55}
+html[data-skin="cizgi-roman-arasi"] #comic-note-body{padding:19px 22px;line-height:28px;font-size:14px;min-height:230px;background:repeating-linear-gradient(transparent 0 27px,#11110f33 27px 28px);background-position:0 20px}
+html[data-skin="cizgi-roman-arasi"] .archive-drawer{margin:10px 0}
+html[data-skin="cizgi-roman-arasi"] .comic-timer-heading{background-image:url("nero-theme://cizgi-roman-arasi/assets/note-lead.png");background-size:100% 260%;background-position:center bottom;min-height:83px}
+html[data-skin="cizgi-roman-arasi"] .comic-timer-heading h2{font-size:44px;transform:rotate(-3deg);border:2px solid #11110f}
+html[data-skin="cizgi-roman-arasi"] #timer-setup{padding:22px 8px 8px;position:relative}
+html[data-skin="cizgi-roman-arasi"] #timer-setup::before{content:"02 · Süre seç";position:absolute;top:3px;left:7px;font:900 12px "Comic Digits",sans-serif}
+html[data-skin="cizgi-roman-arasi"] #presets>button{font-size:26px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:7px 4px}
+html[data-skin="cizgi-roman-arasi"] #presets>button::after{font:900 14px "Comic Digits",sans-serif}
+html[data-skin="cizgi-roman-arasi"] .digits{font-size:clamp(85px,24vw,175px);letter-spacing:-3px}
+html[data-skin="cizgi-roman-arasi"] .digits.comic-long-time{font-size:clamp(50px,15vw,105px)}
+html[data-skin="cizgi-roman-arasi"] .timer-actions{padding-top:23px;position:relative}
+html[data-skin="cizgi-roman-arasi"] .timer-actions::before{content:"05 · Kontroller";position:absolute;left:8px;top:3px;font:900 12px "Comic Digits",sans-serif}
+html[data-skin="cizgi-roman-arasi"] .timer-actions button{font-size:29px}
+html[data-skin="cizgi-roman-arasi"] .comic-timer-stats>div{background:#f7eed7 url("nero-theme://cizgi-roman-arasi/assets/note-pair.png") 0 0/200% 100%;min-height:97px;padding:12px 15px 12px 24px}
+html[data-skin="cizgi-roman-arasi"] .comic-timer-stats>div:nth-child(2){background-position:100% 0}
+html[data-skin="cizgi-roman-arasi"] .comic-timer-stats strong{font-size:39px}
+html[data-skin="cizgi-roman-arasi"] .comic-no-scene :is(.tiles .tile,.notes li,.week,.comic-timer-heading,.comic-timer-stats>div){background-image:none!important}
+@media(min-width:760px){html[data-skin="cizgi-roman-arasi"] .hello{min-height:260px}html[data-skin="cizgi-roman-arasi"] .hello h2{font-size:49px}html[data-skin="cizgi-roman-arasi"] .hello .nero-says p{font-size:25px}html[data-skin="cizgi-roman-arasi"] .tiles .tile{max-height:260px;aspect-ratio:auto;min-height:205px}html[data-skin="cizgi-roman-arasi"] .notes li{min-height:250px;max-height:330px}html[data-skin="cizgi-roman-arasi"] .notes li[data-comic-number="01"]{min-height:205px;max-height:300px}html[data-skin="cizgi-roman-arasi"] .week{min-height:225px}html[data-skin="cizgi-roman-arasi"] .bars{height:160px}}
+@media(max-width:430px){html[data-skin="cizgi-roman-arasi"] .top{gap:7px;padding-right:146px}html[data-skin="cizgi-roman-arasi"] .brand h1{font-size:40px}html[data-skin="cizgi-roman-arasi"] .comic-theme-name{width:66px;font-size:9px}html[data-skin="cizgi-roman-arasi"] .tabs button{font-size:11px}html[data-skin="cizgi-roman-arasi"] .hello{min-height:195px}html[data-skin="cizgi-roman-arasi"] .hello h2{font-size:31px}html[data-skin="cizgi-roman-arasi"] .hello .nero-says p{font-size:17px}html[data-skin="cizgi-roman-arasi"] .tiles .tile{padding:16px 12% 25px;min-height:142px;gap:5px}html[data-skin="cizgi-roman-arasi"] .tiles .tile strong{font-size:28px}html[data-skin="cizgi-roman-arasi"] .comic-tile-icon .comic-icon{width:26px;height:26px}html[data-skin="cizgi-roman-arasi"] .week{padding-left:12px;padding-right:24%}html[data-skin="cizgi-roman-arasi"] .comic-bar-value{font-size:10px}html[data-skin="cizgi-roman-arasi"] .jar{padding-left:79px}html[data-skin="cizgi-roman-arasi"] .comic-jar-art{width:60px}html[data-skin="cizgi-roman-arasi"] .jar-form input{font-size:11px}html[data-skin="cizgi-roman-arasi"] .quick button{font-size:17px}html[data-skin="cizgi-roman-arasi"] .comic-heading h2{font-size:34px}html[data-skin="cizgi-roman-arasi"] .comic-heading button{font-size:20px;padding:7px 10px}html[data-skin="cizgi-roman-arasi"] .notes li{min-height:195px;padding-top:18px}html[data-skin="cizgi-roman-arasi"] .notes li[data-comic-number="01"]{min-height:166px;padding-top:22px}html[data-skin="cizgi-roman-arasi"] .note-title{font-size:21px}html[data-skin="cizgi-roman-arasi"] .note-preview{font-size:11px}html[data-skin="cizgi-roman-arasi"] #comic-note-title{font-size:23px}html[data-skin="cizgi-roman-arasi"] .comic-timer-heading h2{font-size:35px}html[data-skin="cizgi-roman-arasi"] .comic-timer-stats strong{font-size:33px}}
+html[data-skin="cizgi-roman-arasi"] .tiles .tile{min-width:0;padding-left:8px;padding-right:8px}html[data-skin="cizgi-roman-arasi"] .notes li{min-width:0;padding:20px 25px 65px 20px}html[data-skin="cizgi-roman-arasi"] .notes li:nth-of-type(2n+1){padding-left:17px;padding-right:38px}html[data-skin="cizgi-roman-arasi"] .notes li[data-comic-number="01"]{padding:24px 26% 23px 8%}
+html[data-skin="cizgi-roman-arasi"] .tiles .tile{aspect-ratio:auto;width:100%;min-height:0;height:clamp(145px,36vw,185px)}html[data-skin="cizgi-roman-arasi"] .week .card-head{background:#f7eed7;padding:2px 4px}@media(min-width:760px){html[data-skin="cizgi-roman-arasi"] .tiles .tile{height:220px}}
+html[data-skin="cizgi-roman-arasi"] .notes li{width:100%;aspect-ratio:auto;height:clamp(195px,44vw,255px)}html[data-skin="cizgi-roman-arasi"] .notes li[data-comic-number="01"]{height:clamp(166px,38vw,220px)}
+html[data-skin="cizgi-roman-arasi"] .week{background-image:url("nero-theme://cizgi-roman-arasi/assets/week-panel.png");padding-top:13px}html[data-skin="cizgi-roman-arasi"] .week .card-head{background:none}
+
+html[data-skin="cizgi-roman-arasi"] .notes li:nth-of-type(2n+1){background-position:0 0!important;padding-left:20px;padding-right:25px}
+html[data-skin="cizgi-roman-arasi"] .notes li:nth-of-type(2n):not([data-comic-number="01"]){background-position:100% 0!important;padding-left:17px;padding-right:38px}
+html[data-skin="cizgi-roman-arasi"] .tiles .tile{padding-top:13px;padding-bottom:37px}
+html[data-skin="cizgi-roman-arasi"] .tiles .tile>span:not(.comic-tile-icon){color:#11110f;font-size:16px;text-shadow:0 1px #f7eed7}
+html[data-skin="cizgi-roman-arasi"] .comic-jar-art span{display:block;font-size:8px;margin-top:8px}
+
+html[data-skin="cizgi-roman-arasi"] .hello{background-image:url("nero-theme://cizgi-roman-arasi/assets/hero-street.png");background-size:100% 100%}
+html[data-skin="cizgi-roman-arasi"] .comic-no-scene .hello{background-image:none}
+html[data-skin="cizgi-roman-arasi"] .comic-notes-heading h2{background-image:radial-gradient(#11110f 1px,transparent 1.6px),linear-gradient(100deg,#df4937 70%,#e98162);background-size:7px 7px,100% 100%;background-repeat:repeat,no-repeat}
+
+html[data-skin="cizgi-roman-arasi"] #presets>button{min-height:60px;height:auto;line-height:1;overflow:hidden}
+html[data-skin="cizgi-roman-arasi"] .comic-notes-heading h2{background:#df4937;position:relative}
+html[data-skin="cizgi-roman-arasi"] .comic-notes-heading h2::after{content:"";position:absolute;right:0;top:0;bottom:0;width:26%;background:radial-gradient(#11110f 1px,transparent 1.6px) 0 0/7px 7px;mask-image:linear-gradient(90deg,transparent,#000);pointer-events:none}

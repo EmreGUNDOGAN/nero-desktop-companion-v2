@@ -1,3 +1,7 @@
+# Nero 6.9.11
+
+Çizgi Roman Arası kartları, not seçimi ve odak çubukları düzeltildi.
+
 # Nero 6.9.10
 
 Çizgi Roman Arası teması eklendi; önceki Finans Merkezi, temalar ve oyun korunur.
@@ -36,7 +40,7 @@ Nero ekranın sağ alt köşesinde belirir. Tepside (saatin yanındaki gizli sim
 npm run dist
 ```
 
-Kurulum dosyası `dist\Nero-Setup-6.9.10.exe` olarak oluşur.
+Kurulum dosyası `dist\Nero-Setup-6.9.11.exe` olarak oluşur.
 
 Yeni sürüm çıkarırken `package.json` içindeki `"version"` değerini artır (ör. `3.0.1`). `appId` değerini (`com.stenwick.nero`) **değiştirme**; kurulum programı eski sürümü bu kimlikten tanıyıp kaldırır.
 

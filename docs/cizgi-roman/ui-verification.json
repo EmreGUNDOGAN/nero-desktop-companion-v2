@@ -17,6 +17,13 @@
       ]
     },
     {
+      "asset": "hero-street.png",
+      "size": [
+        1983,
+        793
+      ]
+    },
+    {
       "asset": "memory-jar.png",
       "size": [
         1225,
@@ -24,10 +31,38 @@
       ]
     },
     {
+      "asset": "note-lead.png",
+      "size": [
+        1942,
+        809
+      ]
+    },
+    {
+      "asset": "note-pair.png",
+      "size": [
+        1774,
+        887
+      ]
+    },
+    {
+      "asset": "stats-panels.png",
+      "size": [
+        1942,
+        809
+      ]
+    },
+    {
       "asset": "timer-print.png",
       "size": [
         1611,
         976
+      ]
+    },
+    {
+      "asset": "week-panel.png",
+      "size": [
+        2022,
+        778
       ]
     }
   ],

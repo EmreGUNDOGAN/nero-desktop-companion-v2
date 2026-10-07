@@ -1,4 +1,4 @@
-# Çizgi Roman Arası — Nero 6.9.10
+# Çizgi Roman Arası — Nero 6.9.11
 
 Onaylanan çizgi roman konseptinin çalışan Nero ekranlarına uygulanmış yeni, seçilebilir temasıdır. Mevcut temalar ve Finans Merkezi bu kaynak paketinde korunur.
 
