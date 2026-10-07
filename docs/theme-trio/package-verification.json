@@ -1,0 +1,16 @@
+{
+  "passed": true,
+  "originalFiles": 5508,
+  "missingOriginalFiles": [],
+  "localPngAssets": 19,
+  "iconsPerTheme": 16,
+  "themes": [
+    "arcade-molasi",
+    "yorunge",
+    "serada-bir-gun"
+  ],
+  "unitTests": 287,
+  "viewportChecks": 72,
+  "characterChecks": 3,
+  "sourceArchiveChecks": "Reopened after writing; all entry CRCs and required source/asset paths checked."
+}

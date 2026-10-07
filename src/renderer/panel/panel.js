@@ -225,6 +225,7 @@
 
 
   let skinName = 'cozy';
+  Object.assign(SKINS, window.NeroThemeTrio.skins(SKINS.cozy));
   const skin = () => SKINS[skinName] || SKINS.cozy;
 
   function applyUi(ui = {}) {
@@ -239,6 +240,7 @@
       applySkinText();
       if (state) { renderNotes(); renderTodos(); renderTimer(state.timer); renderMood(state.mood); }
       window.NeroTicketTheme?.update(state, chosenMinutes);
+      window.NeroThemeTrio?.update(state, chosenMinutes);
     }
   }
 
@@ -297,6 +299,7 @@
     if (tab === 'todos') setTimeout(() => $('todo-input').focus(), 30);
     if (tab === 'home') setTimeout(markHomeDialogueSeen, 60);
     window.NeroTicketTheme?.selectTab(tab);
+    window.NeroThemeTrio?.selectTab(tab);
   }
   tabButtons.forEach((b) => b.addEventListener('click', () => selectTab(b.dataset.tab)));
   $('settings-button').addEventListener('click', () => selectTab('settings'));
@@ -1008,6 +1011,7 @@
       $('ring-fill').style.strokeDashoffset = String(RING * (1 - Math.min(1, t.progress)));
     }
     window.NeroTicketTheme?.updateTimer(state, chosenMinutes);
+    window.NeroThemeTrio?.updateTimer(state, chosenMinutes);
   }
 
   function choose(minutes) {
@@ -1018,6 +1022,7 @@
     }
     if (!state || state.timer.status === 'idle') $('timer-digits').textContent = fmt(chosenMinutes * 60000);
     window.NeroTicketTheme?.updateTimer(state, chosenMinutes);
+    window.NeroThemeTrio?.updateTimer(state, chosenMinutes);
   }
 
   document.querySelectorAll('#presets button').forEach((b) => b.addEventListener('click', () => choose(b.dataset.min)));
@@ -1248,6 +1253,7 @@
       }
       grid.appendChild(li);
     }
+    window.NeroThemeTrio?.updateBadges();
   }
 
   $('badge-rarity-tabs').addEventListener('click', (event) => {
@@ -1345,6 +1351,7 @@
       li.textContent = item.unlockedAt ? item.icon : '?';
       grid.appendChild(li);
     }
+    window.NeroThemeTrio?.updateBadges();
   }
 
   function renderLetter() {
@@ -1802,6 +1809,7 @@
     renderArchive();
     renderJar();
     window.NeroTicketTheme?.update(state, chosenMinutes);
+    window.NeroThemeTrio?.update(state, chosenMinutes);
   }
 
   api.on('state', renderAll);

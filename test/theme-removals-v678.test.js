@@ -14,7 +14,9 @@ test('6.7.8 kaldırılan tasarımları runtime kaynaklarından temizler',()=>{
 });
 
 test('6.7.8 kaldırılan tema klasörleri ve özel Yörünge dosyaları yoktur',()=>{
- for(const id of ['bakanlik','radyo','son-seans','gece-ekspresi','dedektif','tamir','yorunge']) assert.equal(fs.existsSync(path.join(root,'themes',id)),false,id);
+ for(const id of ['bakanlik','radyo','son-seans','gece-ekspresi','dedektif','tamir']) assert.equal(fs.existsSync(path.join(root,'themes',id)),false,id);
+ const newTheme=JSON.parse(fs.readFileSync(path.join(root,'themes/yorunge/theme.json'),'utf8'));
+ assert.equal(newTheme.name,'Yörünge');assert.equal(newTheme.inherits,'default');assert.equal(newTheme.ui.skin,'yorunge');
  assert.equal(fs.existsSync(path.join(root,'src/renderer/panel/yorunge-v667.css')),false);
  assert.equal(fs.existsSync(path.join(root,'src/renderer/panel/yorunge-v677.css')),false);
  assert.equal(fs.existsSync(path.join(root,'src/renderer/panel/deco/yorunge-v677')),false);

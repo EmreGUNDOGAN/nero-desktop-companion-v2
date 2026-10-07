@@ -1,6 +1,6 @@
 # Nero
 
-**9.6.8:** Biletini Sakla teması Ayarlar → Görünüm → Tema menüsüne eklendi. Ayrıntılar: [BILETINI-SAKLA.md](BILETINI-SAKLA.md).
+**9.6.8 güncel paket:** Arcade Molası, Yörünge ve Serada Bir Gün temaları eklendi. Biletini Sakla ve mevcut temalar korunur. Ayarlar → Görünüm → Tema menüsünden seçilir. Ayrıntılar: [UC-TEMA.md](UC-TEMA.md).
 
 Masaüstünde yaşayan, huysuz ama seni seven küçük bir arkadaş. Notlar, yapılacaklar ve zamanlayıcı içerir; ruh hali zamanla değişir.
 

@@ -1,0 +1,30 @@
+{
+  "passed": true,
+  "themes": [
+    {
+      "theme": "arcade-molasi",
+      "skin": "arcade-molasi",
+      "bubble": true,
+      "badge": "12:30",
+      "inside": true,
+      "images": true
+    },
+    {
+      "theme": "yorunge",
+      "skin": "yorunge",
+      "bubble": true,
+      "badge": "12:30",
+      "inside": true,
+      "images": true
+    },
+    {
+      "theme": "serada-bir-gun",
+      "skin": "serada-bir-gun",
+      "bubble": true,
+      "badge": "12:30",
+      "inside": true,
+      "images": true
+    }
+  ],
+  "rendererErrors": []
+}

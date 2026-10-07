@@ -27,6 +27,10 @@ jobs:
         run: npx electron --disable-gpu test/budget-ui-smoke.js
       - name: Check Biletini Sakla theme UI
         run: npx electron --disable-gpu test/biletini-sakla-ui-smoke.js
+      - name: Check three new theme screens
+        run: npx electron --disable-gpu test/theme-trio-ui-smoke.js
+      - name: Check character theme integration
+        run: npx electron --disable-gpu test/theme-trio-character-smoke.js
       - run: npm run dist
       - name: Export source
         run: git archive --format=zip -o Nero-v9_6_8-source.zip HEAD

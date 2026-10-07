@@ -1,0 +1,191 @@
+{
+  "passed": true,
+  "viewportChecks": 72,
+  "assets": [
+    {
+      "theme": "arcade-molasi",
+      "asset": "arcade-cabinet.png",
+      "size": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "theme": "arcade-molasi",
+      "asset": "cartridge.png",
+      "size": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "theme": "arcade-molasi",
+      "asset": "hero-console.png",
+      "size": [
+        1942,
+        809
+      ]
+    },
+    {
+      "theme": "arcade-molasi",
+      "asset": "icons.png",
+      "size": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "theme": "arcade-molasi",
+      "asset": "timer-console.png",
+      "size": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "theme": "arcade-molasi",
+      "asset": "window-frame.png",
+      "size": [
+        1024,
+        1536
+      ]
+    },
+    {
+      "theme": "yorunge",
+      "asset": "icons.png",
+      "size": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "theme": "yorunge",
+      "asset": "lunar-panorama.png",
+      "size": [
+        1942,
+        809
+      ]
+    },
+    {
+      "theme": "yorunge",
+      "asset": "moon-hero.png",
+      "size": [
+        1737,
+        905
+      ]
+    },
+    {
+      "theme": "yorunge",
+      "asset": "orbital-diagram.png",
+      "size": [
+        1738,
+        905
+      ]
+    },
+    {
+      "theme": "yorunge",
+      "asset": "starfield.png",
+      "size": [
+        1536,
+        1024
+      ]
+    },
+    {
+      "theme": "yorunge",
+      "asset": "timer-dial.png",
+      "size": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "theme": "serada-bir-gun",
+      "asset": "botany.png",
+      "size": [
+        1942,
+        809
+      ]
+    },
+    {
+      "theme": "serada-bir-gun",
+      "asset": "conservatory-scene.png",
+      "size": [
+        1024,
+        1536
+      ]
+    },
+    {
+      "theme": "serada-bir-gun",
+      "asset": "greenhouse-hero.png",
+      "size": [
+        1942,
+        809
+      ]
+    },
+    {
+      "theme": "serada-bir-gun",
+      "asset": "icons.png",
+      "size": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "theme": "serada-bir-gun",
+      "asset": "message-placard.png",
+      "size": [
+        1942,
+        809
+      ]
+    },
+    {
+      "theme": "serada-bir-gun",
+      "asset": "timer-clock.png",
+      "size": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "theme": "serada-bir-gun",
+      "asset": "window-frame.png",
+      "size": [
+        1024,
+        1536
+      ]
+    }
+  ],
+  "actions": {
+    "arcade-molasi": {
+      "notes": true,
+      "todos": true,
+      "timer": true,
+      "badges": true,
+      "jar": true,
+      "keyboard": true,
+      "sceneSetting": true
+    },
+    "yorunge": {
+      "notes": true,
+      "todos": true,
+      "timer": true,
+      "badges": true,
+      "jar": true,
+      "keyboard": true,
+      "sceneSetting": true
+    },
+    "serada-bir-gun": {
+      "notes": true,
+      "todos": true,
+      "timer": true,
+      "badges": true,
+      "jar": true,
+      "keyboard": true,
+      "sceneSetting": true
+    }
+  },
+  "rendererErrors": [],
+  "themeSwitching": true,
+  "emptyData": true,
+  "quickCapture": true
+}

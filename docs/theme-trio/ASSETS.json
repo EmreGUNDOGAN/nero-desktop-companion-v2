@@ -1,0 +1,154 @@
+[
+  {
+    "path": "themes/arcade-molasi/assets/arcade-cabinet.png",
+    "width": 1254,
+    "height": 1254,
+    "mode": "RGBA",
+    "bytes": 949061,
+    "sha256": "0c9b3fd407f7e127f95a498e4eb9a441537a681833b84dfee226284004f08fd7"
+  },
+  {
+    "path": "themes/arcade-molasi/assets/cartridge.png",
+    "width": 1254,
+    "height": 1254,
+    "mode": "RGBA",
+    "bytes": 1071493,
+    "sha256": "4c317c816d1dd7cc961e4a2c2bc4ef66de5bd3f13966bcc9f060591ab6e07fd1"
+  },
+  {
+    "path": "themes/arcade-molasi/assets/hero-console.png",
+    "width": 1942,
+    "height": 809,
+    "mode": "RGBA",
+    "bytes": 1539941,
+    "sha256": "18b2548db3b5eacf61f2b015b8048bde887852ed86f08dbea90350530199861f"
+  },
+  {
+    "path": "themes/arcade-molasi/assets/icons.png",
+    "width": 1254,
+    "height": 1254,
+    "mode": "RGBA",
+    "bytes": 1077067,
+    "sha256": "1aa06fd5f69bac455ecdd5c83d3c0b0a5c80b50fb2a3ab9b9d80e84dd984be6c"
+  },
+  {
+    "path": "themes/arcade-molasi/assets/timer-console.png",
+    "width": 1254,
+    "height": 1254,
+    "mode": "RGBA",
+    "bytes": 1661374,
+    "sha256": "d29644ce4f2c9d869495231a5c9bcff7e30b07d672eb9aa7d03f437b79bdf943"
+  },
+  {
+    "path": "themes/arcade-molasi/assets/window-frame.png",
+    "width": 1024,
+    "height": 1536,
+    "mode": "RGBA",
+    "bytes": 1044941,
+    "sha256": "1d08037f2fbf40ac8a1ecdaf601bd0c8c43b793e1d74d234211b989c5ffd6db1"
+  },
+  {
+    "path": "themes/yorunge/assets/icons.png",
+    "width": 1254,
+    "height": 1254,
+    "mode": "RGBA",
+    "bytes": 1847042,
+    "sha256": "000bbfb0fe388c497b91302fb1eb384e56e668d8ae57f4f5780fe5a433bb7ff6"
+  },
+  {
+    "path": "themes/yorunge/assets/lunar-panorama.png",
+    "width": 1942,
+    "height": 809,
+    "mode": "RGBA",
+    "bytes": 1565692,
+    "sha256": "e4dc6dd25e4e36eb1bba47bde7b682c1afeed659da0640900958c788efa698e3"
+  },
+  {
+    "path": "themes/yorunge/assets/moon-hero.png",
+    "width": 1737,
+    "height": 905,
+    "mode": "RGB",
+    "bytes": 2286979,
+    "sha256": "095d831edef71addc6a27a8a91079e7fa2c47b26a05821aeebb1bae84e96068b"
+  },
+  {
+    "path": "themes/yorunge/assets/orbital-diagram.png",
+    "width": 1738,
+    "height": 905,
+    "mode": "RGBA",
+    "bytes": 787902,
+    "sha256": "6df649b47021a494f96db4645410d39e222be8058c4e245f7904ac533fe6945c"
+  },
+  {
+    "path": "themes/yorunge/assets/starfield.png",
+    "width": 1536,
+    "height": 1024,
+    "mode": "RGB",
+    "bytes": 2333664,
+    "sha256": "f5788eca507d0d934580978e86449e5fd7e4001ea3db2ca9d6ecce9dab5e4a43"
+  },
+  {
+    "path": "themes/yorunge/assets/timer-dial.png",
+    "width": 1254,
+    "height": 1254,
+    "mode": "RGBA",
+    "bytes": 1891243,
+    "sha256": "0eccefd9742d910c0f7910ce0a0e273749b2dedae3441fb312bddd6369255c4b"
+  },
+  {
+    "path": "themes/serada-bir-gun/assets/botany.png",
+    "width": 1942,
+    "height": 809,
+    "mode": "RGBA",
+    "bytes": 1731178,
+    "sha256": "1b40b888db7edfdaef3a1374ceb2c09efb04010a9bb8e0a72d51eef9c33b2872"
+  },
+  {
+    "path": "themes/serada-bir-gun/assets/conservatory-scene.png",
+    "width": 1024,
+    "height": 1536,
+    "mode": "RGB",
+    "bytes": 3165295,
+    "sha256": "419a2a8aef4439cf9ed98f63d0e6a9d763c43ef96326364ad0781b23bd90a4fc"
+  },
+  {
+    "path": "themes/serada-bir-gun/assets/greenhouse-hero.png",
+    "width": 1942,
+    "height": 809,
+    "mode": "RGB",
+    "bytes": 3078695,
+    "sha256": "0eac5ae73c509fe521b381c93b3bf9a775dc4d8748400b78be45e94bb8f2da73"
+  },
+  {
+    "path": "themes/serada-bir-gun/assets/icons.png",
+    "width": 1254,
+    "height": 1254,
+    "mode": "RGBA",
+    "bytes": 2386403,
+    "sha256": "8765f09f4e6466ebaf547cbd713afaaa3ffe8ed99e47d1b46b32dbb41a708958"
+  },
+  {
+    "path": "themes/serada-bir-gun/assets/message-placard.png",
+    "width": 1942,
+    "height": 809,
+    "mode": "RGBA",
+    "bytes": 1915505,
+    "sha256": "9777578c672d18289574f7bfc9c4247d8050dbe409e6a9ba6f8c52988cffa47e"
+  },
+  {
+    "path": "themes/serada-bir-gun/assets/timer-clock.png",
+    "width": 1254,
+    "height": 1254,
+    "mode": "RGBA",
+    "bytes": 2386410,
+    "sha256": "9b646f5116041e869fc0909bc428b239e17a94b9a7f7d5c94990b1291b534d31"
+  },
+  {
+    "path": "themes/serada-bir-gun/assets/window-frame.png",
+    "width": 1024,
+    "height": 1536,
+    "mode": "RGBA",
+    "bytes": 1621884,
+    "sha256": "4358a0fa1963ded4a465f3f2ce7f75899bc4e9ea288c23a0a18f163f970ed808"
+  }
+]

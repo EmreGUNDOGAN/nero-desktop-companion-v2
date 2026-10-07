@@ -1,0 +1,29 @@
+{
+  "id": "serada-bir-gun",
+  "name": "Serada Bir Gün",
+  "author": "Stenwick",
+  "formatVersion": 1,
+  "inherits": "default",
+  "ui": {
+    "paper": "#f1ebdd",
+    "surface": "#f6efdf",
+    "ink": "#263a25",
+    "muted": "#6e775d",
+    "accent": "#b8663e",
+    "accentInk": "#fff5e4",
+    "secondary": "#93a16c",
+    "danger": "#a74732",
+    "line": "#b9a77f",
+    "bubbleBg": "#f6efdf",
+    "bubbleInk": "#263a25",
+    "bubbleLine": "#ac9366",
+    "skin": "serada-bir-gun",
+    "noteColors": [
+      "#f6efdf",
+      "#f6efdf",
+      "#f6efdf",
+      "#f6efdf",
+      "#f6efdf"
+    ]
+  }
+}

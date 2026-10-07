@@ -63,3 +63,18 @@ html[data-skin="biletini-sakla"] .type button.on {background:var(--ink)}
 html[data-skin="biletini-sakla"] .hint {font-size:9px}
 html[data-skin="biletini-sakla"] input {padding:6px 9px;font-size:11px;border:1px dashed var(--muted);border-radius:3px;background:transparent}
 html[data-skin="biletini-sakla"] input:focus {box-shadow:0 0 0 1px var(--accent)}
+
+:root[data-skin="arcade-molasi"]{--paper:#251b37;--ink:#ffe7da;--muted:#c9aecf;--accent:#ff7485;--line:#78638e}
+:root[data-skin="yorunge"]{--paper:#111e25;--ink:#f1eee3;--muted:#8b9da5;--accent:#91d9ef;--line:#3a515c}
+:root[data-skin="serada-bir-gun"]{--paper:#f6efdf;--ink:#263a25;--muted:#6e775d;--accent:#b8663e;--line:#ac9366}
+:root:is([data-skin="arcade-molasi"],[data-skin="yorunge"],[data-skin="serada-bir-gun"]) .box{height:calc(100% - 16px);background:var(--paper);color:var(--ink);border:1px solid var(--line);border-radius:7px}
+:root:is([data-skin="arcade-molasi"],[data-skin="yorunge"],[data-skin="serada-bir-gun"]) body{display:flow-root}
+:root:is([data-skin="arcade-molasi"],[data-skin="yorunge"],[data-skin="serada-bir-gun"]) .type button{color:var(--muted)}
+:root:is([data-skin="arcade-molasi"],[data-skin="yorunge"],[data-skin="serada-bir-gun"]) .type button.on{background:var(--accent);color:var(--paper)}
+:root:is([data-skin="arcade-molasi"],[data-skin="yorunge"],[data-skin="serada-bir-gun"]) input{color:var(--ink)}
+:root[data-skin="arcade-molasi"] .box{font-family:'VT323',monospace;border:3px double #78638e}
+:root[data-skin="serada-bir-gun"] .box{font-family:'Fraunces',Georgia,serif;border:3px double #ac9366}
+/* Keep both tabs and the input inside Nero's native 380 × 96 quick window. */
+:root:is([data-skin="arcade-molasi"],[data-skin="yorunge"],[data-skin="serada-bir-gun"]) .box{padding:6px 12px;gap:4px}
+:root:is([data-skin="arcade-molasi"],[data-skin="yorunge"],[data-skin="serada-bir-gun"]) .type button{padding:3px 10px;font-size:12px;line-height:1.2}
+:root:is([data-skin="arcade-molasi"],[data-skin="yorunge"],[data-skin="serada-bir-gun"]) input{padding:6px 9px;font-size:12px;line-height:1.4}

@@ -1,0 +1,154 @@
+[
+  {
+    "theme": "arcade-molasi",
+    "file": "icons",
+    "reference": "Nero’s nostalgic arcade productivity suite.png",
+    "transparentBackground": true,
+    "prompt": "16 separate crisp pixel-art UI pictograms in a strict 4 by 4 equal-cell grid, matching the purple/peach arcade concept exactly. In reading order: home, notepad, checklist, stopwatch, trophy, gear, coin jar, joystick, star, clock, flame, plus, floppy disk, archive box, refresh arrow, bar chart. No letters numbers labels; every icon centered in its cell with generous transparent padding. Cells equally sized. No background card or baked text.",
+    "mode": "built-in image_gen"
+  },
+  {
+    "theme": "serada-bir-gun",
+    "file": "icons",
+    "reference": "Nero: A Day in the Greenhouse.png",
+    "transparentBackground": true,
+    "prompt": "16 separate delicate botanical antique UI pictograms in strict 4 by 4 equal-cell grid. Dark forest-green and warm brass, finely detailed ink and watercolor like reference. Reading order: leaf sprig, botanical notebook, checklist, stopwatch, rosette badge, brass gear, glass jar, watering can, seedling, clock, leaf with flame shape, plus sign, check seal, archive drawer, circular refresh arrow, bar chart. No words numbers labels; equal transparent cells and generous padding.",
+    "mode": "built-in image_gen"
+  },
+  {
+    "theme": "yorunge",
+    "file": "icons",
+    "reference": "Yörünge orbital productivity concept sheet.png",
+    "transparentBackground": true,
+    "prompt": "16 separate refined astronomical UI pictograms in strict 4 by 4 equal-cell grid, ivory/cyan/brass finely detailed technical etched icon style like reference. Reading order: home, notebook, checklist, stopwatch, star medal, gear, jar, satellite, crosshair star, clock, golden flame, plus, document with seal, archive case, circular refresh arrow, bar chart. No words numbers labels; equal transparent cells and generous padding.",
+    "mode": "built-in image_gen"
+  },
+  {
+    "theme": "arcade-molasi",
+    "file": "timer-console",
+    "reference": "Nero’s nostalgic arcade productivity suite.png",
+    "transparentBackground": true,
+    "prompt": "Extract and faithfully recreate the large timer console from the RIGHT panel as a stand-alone front-on production art asset. Detailed purple pixel-art arcade console, bevels, screws, dark CRT screen with pixel sunset city and tiny walking orange character along bottom, 3 separate recessed bottom compartments. Absolutely remove ALL text, time digits, labels, numeric markings and glowing progress LEDs. Keep large clear dark center for live timer digits and lower3 compartments blank for live UI. Console silhouette fills90% square canvas, transparent outside only. Screen remains opaque dark. Exactly same colors/materials/layout as reference. Square1024x1024.",
+    "mode": "built-in image_gen"
+  },
+  {
+    "theme": "serada-bir-gun",
+    "file": "timer-clock",
+    "reference": "Nero: A Day in the Greenhouse.png",
+    "transparentBackground": true,
+    "prompt": "Extract faithfully the ornate green and brass timer clock from RIGHT panel. Standalone front-facing octagonal forest-green enamel clock with golden beveled metal edges, screws, detailed fine ivory circular dial calibration ticks, golden knob top, botanical wreath inside bottom. Remove all25:00 text and all other words/numbers, NO hands, clear ivory center for live digital timer. Transparent outside clock, opaque ivory dial. Main dial centered at50%width50%height, diameter74% ofcanvas. Full clock90%canvas.1024x1024 square. Preserve handcrafted exact botanical/antique style reference.",
+    "mode": "built-in image_gen"
+  },
+  {
+    "theme": "yorunge",
+    "file": "timer-dial",
+    "reference": "Yörünge orbital productivity concept sheet.png",
+    "transparentBackground": true,
+    "prompt": "Extract faithfully the circular astronomical timer dial from RIGHT panel as stand-alone1024x1024 asset. Intricate concentric ivory calibration marks, technical rings, crosshair guides, tiny stars, small moon near center top, subtle brass orbit dots, darknavy textured dial. Remove ALL25:00 digits and text. Remove cyan progress arc and its trackingdot: these will be live code overlays. Keep blank center forlive digits andsubtitle. Outer circle diameter92%canvas, center50%50%; transparent outside dial. Exact reference aesthetic. No interface cards/buttons.",
+    "mode": "built-in image_gen"
+  },
+  {
+    "theme": "arcade-molasi",
+    "file": "hero-console",
+    "reference": "Nero’s nostalgic arcade productivity suite.png",
+    "transparentBackground": true,
+    "prompt": "Faithfully extract/recreate the WIDE purple pixel CRT message panel from LEFT home screen. Wide rounded beveled purple arcade console with screws, sunset pixel city skyline and orange sun at right, dark purple center and left. Remove ALL letters/words, leave ample center-left dark negative space forlive message. Keep detailed pixelcity at bottom/sides. One wide landscape asset1536x640, transparent outside cabinet.",
+    "mode": "built-in image_gen"
+  },
+  {
+    "theme": "arcade-molasi",
+    "file": "window-frame",
+    "reference": "Nero’s nostalgic arcade productivity suite.png",
+    "transparentBackground": true,
+    "prompt": "One empty arcade application outer FRAME asset for CSS9slice. Faithfully match purple pixel cabinet beveled border from reference appwindow, tiny screws and peach reflective edge accents. Rectangleportrait1024x1536, thin 30px frame, fully transparent center, no content, no text, no buttons, no screens. Keep corners withincanvas.",
+    "mode": "built-in image_gen"
+  },
+  {
+    "theme": "serada-bir-gun",
+    "file": "greenhouse-hero",
+    "reference": "Nero: A Day in the Greenhouse.png",
+    "transparentBackground": false,
+    "prompt": "One wide1536x640 illustrated morning greenhouse scene from LEFT greeting panel. Glass/brassgreenhouse occupiesRIGHThalf, terracotta potted plants and wateringcanatbottomright, warm sunlitgarden, climbinggreenleaves. Soft brightcream sky/negative spaceLEFT55% for livegreetingtext. Fine watercolor/ink painterly natural warm botanical style exactlyreference. No words/noUI/no border.",
+    "mode": "built-in image_gen"
+  },
+  {
+    "theme": "serada-bir-gun",
+    "file": "window-frame",
+    "reference": "Nero: A Day in the Greenhouse.png",
+    "transparentBackground": true,
+    "prompt": "One empty slim BRASS botanical outer application frame, portrait1024x1536 for CSS9slice. Thin agedgold/brass bevel andtiny4cornersscrews, climbingivy sprigs limitedsmallcorners andedges. Completely transparent center, no content, no panels/numbers/words/buttons. Keepframe withincanvas. Exact approved botanicalink/watercolorstyle.",
+    "mode": "built-in image_gen"
+  },
+  {
+    "theme": "yorunge",
+    "file": "moon-hero",
+    "reference": "Yörünge orbital productivity concept sheet.png",
+    "transparentBackground": false,
+    "prompt": "One wide1536x800 illustrated lunar astronomy scene matching LEFT greetinghero. Enormous detailed halfmoon surface onRIGHThalf, little satellite lowerRIGHT, delicate ivory orbitalellipses/crosshairs andfewtinygoldstars on navy. LEFT55%quiet darknavy negative space for livegreeting. No letters/numbers/text/UI. Detailed scientificetched lunartexture, exactreference mood.",
+    "mode": "built-in image_gen"
+  },
+  {
+    "theme": "serada-bir-gun",
+    "file": "conservatory-scene",
+    "reference": "Nero: A Day in the Greenhouse.png",
+    "transparentBackground": false,
+    "prompt": "One portrait1024x1536 full conservatory interior illustration, brass glass greenhouse windows, dappled morninglight, greenivy huggingedges, pottedbotanicalplants/terracotta/wateringcan aroundbottomcorners. CENTER70%bright cream glass/quietlightlowcontrastfreeofobjects for UIoverlay. No clocks/no words/noUI/nopeople. Exactnaturalwarm ink/watercolor style asRIGHTreferencebackground.",
+    "mode": "built-in image_gen"
+  },
+  {
+    "theme": "arcade-molasi",
+    "file": "cartridge",
+    "reference": "Nero’s nostalgic arcade productivity suite.png",
+    "transparentBackground": true,
+    "prompt": "One front-facing uprightpurple pixel-art videogame cartridge faithfully based on threecartridgesinmiddleNotlar panel. Deepviolet plastic, bevels, labelrecess, littlebottomconnector. Absolutely blanklabel, no numbers orwords. Centered fills85%height, transparentoutside, narrowportrait silhouette on square768canvas. Usefulasnotecardindex with live01overlay.",
+    "mode": "built-in image_gen"
+  },
+  {
+    "theme": "serada-bir-gun",
+    "file": "botany",
+    "reference": "Nero: A Day in the Greenhouse.png",
+    "transparentBackground": true,
+    "prompt": "One horizontal botanical watercolor assetATLASwith3 equal side-by-side cells, 1536x640, transparentbackground. Leftcell delicate herbbranchsage, middlecell ripecluster3orangetomatoeswithleaves, rightcell fragrantrosemarysprig/fern. Faithfully recreate notebookbotanicalillustrationsfromreference middlepanel. Each centered in owncell with generouspadding, identicalscales/spacing. NoUI/text/borders.",
+    "mode": "built-in image_gen"
+  },
+  {
+    "theme": "serada-bir-gun",
+    "file": "message-placard",
+    "reference": "Nero: A Day in the Greenhouse.png",
+    "transparentBackground": true,
+    "prompt": "Faithfully extract/recreate WIDE brass-framed messageplacard from LEFT belowgreeting. Antique rectangularslimbrassborder4cornerscrews, softivorypapercenter, botanical greenleafsprigsextendinginfrombothends. Center60%blankivory forlive2linequote. Remove ALLwords/text. Wide1536x640, transparentoutsideplacard, finebotanical watercolorink like approvedreference.",
+    "mode": "built-in image_gen"
+  },
+  {
+    "theme": "yorunge",
+    "file": "starfield",
+    "reference": "Yörünge orbital productivity concept sheet.png",
+    "transparentBackground": false,
+    "prompt": "One seamless quiet darkNAVY astronomy papertexture1536x1024. Sparseverytinyivorystars, finesubtle technicalgrid/orbitlines, faintetchedgrain. Lowcontrast anddarkenough forwhitebodytext. No moon/noobjects/no brightnebula/no text/no interface. Match quiet backgroundreference.",
+    "mode": "built-in image_gen"
+  },
+  {
+    "theme": "yorunge",
+    "file": "lunar-panorama",
+    "reference": "Yörünge orbital productivity concept sheet.png",
+    "transparentBackground": true,
+    "prompt": "One verywide lunarhorizon engravedillustration1536x640. Delicate palegray/ivorycratermountains runONLYbottom35%, little domedobservatory atfarRIGHT, resttransparent. Exactlyetching frombottomRIGHT referencepanel, no words/noUI/no sky. Mountainsoccupyfulllowerwidth, thinlinedetailedfinelyillustrated.",
+    "mode": "built-in image_gen"
+  },
+  {
+    "theme": "yorunge",
+    "file": "orbital-diagram",
+    "reference": "Yörünge orbital productivity concept sheet.png",
+    "transparentBackground": true,
+    "prompt": "One wide scientificengraving cutout1536x800 with3detailedsmallmoons circlingalongthinivoryellipticalorbitpaths, matchingdecoraboveNotlarreference. Delicate technicalwhite/cyanlines, mediumsmallmoonleftlower, smallcenter, mediumrightupper, tinycrosshairstars. Allbackgroundtransparent, no words/no labels/noUI, ornamentwidehorizontal.",
+    "mode": "built-in image_gen"
+  },
+  {
+    "theme": "arcade-molasi",
+    "file": "arcade-cabinet",
+    "reference": "Nero’s nostalgic arcade productivity suite.png",
+    "transparentBackground": true,
+    "prompt": "Using the attached approved Arcade Molası productivity concept as style reference, create ONE standalone upright arcade cabinet sprite corresponding to the small upright arcade machine at top right of the first home panel. Isolated sprite, transparent background, no UI page, no text or typography, no logos. Retro clean richly detailed 16-bit pixel art, three-quarter front facing left, violet purple cabinet body, pale peach side highlights, cream panel, tiny glowing orange pixel CRT screen with colorful simple pixel blocks, purple joystick control deck and orange/coral button, lilac marquee without lettering, narrow base and tiny feet. Entire machine visible with small transparent margins, cabinet occupies about 80 percent of square canvas height and 55 percent width. Hard pixel edges, no blur or photorealism. This is a reusable actual application artwork asset, not a mockup.",
+    "mode": "built-in image_gen"
+  }
+]

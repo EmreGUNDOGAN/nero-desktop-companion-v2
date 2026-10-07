@@ -1,0 +1,29 @@
+{
+  "id": "arcade-molasi",
+  "name": "Arcade Molası",
+  "author": "Stenwick",
+  "formatVersion": 1,
+  "inherits": "default",
+  "ui": {
+    "paper": "#f6e8cd",
+    "surface": "#fff1d5",
+    "ink": "#251b37",
+    "muted": "#766076",
+    "accent": "#ff7485",
+    "accentInk": "#281832",
+    "secondary": "#695187",
+    "danger": "#ac3451",
+    "line": "#a58f99",
+    "bubbleBg": "#251b37",
+    "bubbleInk": "#ffe7da",
+    "bubbleLine": "#78638e",
+    "skin": "arcade-molasi",
+    "noteColors": [
+      "#fff1d5",
+      "#fff1d5",
+      "#fff1d5",
+      "#fff1d5",
+      "#fff1d5"
+    ]
+  }
+}

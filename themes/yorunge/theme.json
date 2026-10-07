@@ -1,0 +1,29 @@
+{
+  "id": "yorunge",
+  "name": "Yörünge",
+  "author": "Stenwick",
+  "formatVersion": 1,
+  "inherits": "default",
+  "ui": {
+    "paper": "#0d181f",
+    "surface": "#111e25",
+    "ink": "#f1eee3",
+    "muted": "#8b9da5",
+    "accent": "#91d9ef",
+    "accentInk": "#0b1b24",
+    "secondary": "#558da1",
+    "danger": "#e39773",
+    "line": "#3a515c",
+    "bubbleBg": "#111e25",
+    "bubbleInk": "#f1eee3",
+    "bubbleLine": "#526b73",
+    "skin": "yorunge",
+    "noteColors": [
+      "#111e25",
+      "#111e25",
+      "#111e25",
+      "#111e25",
+      "#111e25"
+    ]
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "command": "npm test",
+  "passed": true,
+  "tests": 287,
+  "failures": 0,
+  "result": "ℹ tests 287\nℹ suites 0\nℹ pass 287\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 2106.799276\n"
+}
