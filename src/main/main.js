@@ -454,6 +454,7 @@ function themePayload() {
 function sendTheme() {
   sendTo(charWin, 'theme', themePayload());
   sendTo(panelWin, 'theme', themePayload());
+  sendTo(quickWin, 'theme', themePayload());
 }
 
 // ---------------------------------------------------------------------------

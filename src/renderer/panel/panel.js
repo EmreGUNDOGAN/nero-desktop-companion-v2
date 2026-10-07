@@ -182,6 +182,17 @@
   const NEW_THEME_TABS = { home: 'Bugün', badges: 'Rozetler', notes: 'Notlar', todos: 'İşler', timer: 'Sayaç', settings: 'Ayarlar', budget: 'Bütçe' };
 
   Object.assign(SKINS, {
+    'biletini-sakla': {
+      ...SKINS.cozy,
+      tabs: NEW_THEME_TABS,
+      newNote: '+ Yeni not', newNoteSub: '', saved: 'saklandı', typing: 'yazılıyor…',
+      todoPlaceholder: 'Bir sonraki küçük adım…', listTitle: '',
+      todoLeft: n => `${n} iş sırada`, allDone: 'Bugünün işleri tamam. İyi yolculuklar.',
+      timerIdle: 'Bir durak daha ilerle.', timerRunning: 'Bir durak daha ilerle.', timerPaused: 'Bu durakta kısa bir mola.',
+      timerStart: 'Başlat', timerPause: 'Duraklat', timerResume: 'Devam et',
+      quickFocus: '25 dk odaklan', quickTodo: 'İş ekle', quickNote: 'Not al',
+      tagline: '', sticky: '', subs: {}, moodPrefix: '', moodLabels: null
+    },
     'radyo-aksami': { ...SKINS.cozy, tabs: NEW_THEME_TABS, tagline: '', sticky: '' },
     nero98: {
       ...SKINS.cozy,
@@ -227,6 +238,7 @@
       document.documentElement.dataset.skin = skinName;
       applySkinText();
       if (state) { renderNotes(); renderTodos(); renderTimer(state.timer); renderMood(state.mood); }
+      window.NeroTicketTheme?.update(state, chosenMinutes);
     }
   }
 
@@ -284,6 +296,7 @@
     if (tab === 'budget') window.neroBudget?.open();
     if (tab === 'todos') setTimeout(() => $('todo-input').focus(), 30);
     if (tab === 'home') setTimeout(markHomeDialogueSeen, 60);
+    window.NeroTicketTheme?.selectTab(tab);
   }
   tabButtons.forEach((b) => b.addEventListener('click', () => selectTab(b.dataset.tab)));
   $('settings-button').addEventListener('click', () => selectTab('settings'));
@@ -994,6 +1007,7 @@
         : (t.label || skin().timerRunning);
       $('ring-fill').style.strokeDashoffset = String(RING * (1 - Math.min(1, t.progress)));
     }
+    window.NeroTicketTheme?.updateTimer(state, chosenMinutes);
   }
 
   function choose(minutes) {
@@ -1003,6 +1017,7 @@
       b.classList.toggle('on', Number(b.dataset.min) === chosenMinutes);
     }
     if (!state || state.timer.status === 'idle') $('timer-digits').textContent = fmt(chosenMinutes * 60000);
+    window.NeroTicketTheme?.updateTimer(state, chosenMinutes);
   }
 
   document.querySelectorAll('#presets button').forEach((b) => b.addEventListener('click', () => choose(b.dataset.min)));
@@ -1786,6 +1801,7 @@
     renderMoodboards();
     renderArchive();
     renderJar();
+    window.NeroTicketTheme?.update(state, chosenMinutes);
   }
 
   api.on('state', renderAll);

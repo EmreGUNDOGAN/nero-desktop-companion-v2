@@ -5,5 +5,11 @@ const { contextBridge, ipcRenderer } = require('electron');
 contextBridge.exposeInMainWorld('neroQuick', {
   addTodo: (text) => ipcRenderer.invoke('quick:addTodo', text),
   addNote: (text) => ipcRenderer.invoke('quick:addNote', text),
-  close: () => ipcRenderer.send('quick:close')
+  close: () => ipcRenderer.send('quick:close'),
+  getTheme: () => ipcRenderer.invoke('theme:get'),
+  onTheme: (callback) => {
+    const listener = (_event, payload) => callback(payload);
+    ipcRenderer.on('theme', listener);
+    return () => ipcRenderer.removeListener('theme', listener);
+  }
 });

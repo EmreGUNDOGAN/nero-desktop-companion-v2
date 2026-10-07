@@ -53,3 +53,13 @@ input {
   outline: none;
 }
 input:focus { box-shadow: 0 0 0 2px var(--accent); }
+
+/* Ticket stationery for the selected Biletini Sakla theme. */
+html[data-skin="biletini-sakla"] {--paper:#f5efe3;--surface:#fffcf5;--ink:#18334b;--muted:#61717c;--accent:#cd541f}
+html[data-skin="biletini-sakla"] body {font-family:"Manrope","Segoe UI",sans-serif;display:flow-root;overflow:hidden}
+html[data-skin="biletini-sakla"] .box {height:calc(100% - 16px);border-radius:5px;border:1px solid var(--ink);padding:8px 13px;gap:6px;background-image:linear-gradient(#fffcf5b0,#fffcf5b0),url("nero-theme://biletini-sakla/assets/paper-grain.png");background-size:auto,520px 520px;box-shadow:0 3px 10px #18334b30}
+html[data-skin="biletini-sakla"] .type button {border-radius:4px;font:650 10px/1.2 "Manrope",sans-serif;padding:4px 12px}
+html[data-skin="biletini-sakla"] .type button.on {background:var(--ink)}
+html[data-skin="biletini-sakla"] .hint {font-size:9px}
+html[data-skin="biletini-sakla"] input {padding:6px 9px;font-size:11px;border:1px dashed var(--muted);border-radius:3px;background:transparent}
+html[data-skin="biletini-sakla"] input:focus {box-shadow:0 0 0 1px var(--accent)}

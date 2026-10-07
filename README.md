@@ -1,5 +1,7 @@
 # Nero
 
+**9.6.8:** Biletini Sakla teması Ayarlar → Görünüm → Tema menüsüne eklendi. Ayrıntılar: [BILETINI-SAKLA.md](BILETINI-SAKLA.md).
+
 Masaüstünde yaşayan, huysuz ama seni seven küçük bir arkadaş. Notlar, yapılacaklar ve zamanlayıcı içerir; ruh hali zamanla değişir.
 
 Yayıncı: **Stenwick**
@@ -28,7 +30,7 @@ Nero ekranın sağ alt köşesinde belirir. Tepside (saatin yanındaki gizli sim
 npm run dist
 ```
 
-Kurulum dosyası `dist\Nero-Setup-9.6.7.exe` olarak oluşur.
+Kurulum dosyası `dist\Nero-Setup-9.6.8.exe` olarak oluşur.
 
 Yeni sürüm çıkarırken `package.json` içindeki `"version"` değerini artır (ör. `3.0.1`). `appId` değerini (`com.stenwick.nero`) **değiştirme**; kurulum programı eski sürümü bu kimlikten tanıyıp kaldırır.
 
@@ -101,7 +103,7 @@ Tüm veriler `%APPDATA%\Nero` klasöründedir: `settings.json`, `notes.json`, `t
 - **Kendi kendine konuşma:** ruh haline göre arada bir söylenir ya da sana laf atar. Sıklığı Ayarlar > Konuşkanlık'tan değişir.
 - **Zamanlayıcı:** bitince kutlar (ses + Windows bildirimi), erken bırakılırsa ne kadar erken bırakıldığına göre farklı tepki verir.
 
-## 9.6.7 finans çalışma alanı
+## 9.6.8 finans çalışma alanı
 
 Bütçe kullanımı ve kaynak kodunu çalıştırma: [Bütçe rehberi](docs/BUTCE-REHBERI.md). Finans teması, bildirim ve yazı tercihleri Bütçe içindeki Finans ayarları bölümündedir. Bu paket yalnız kaynak koddur; bağımlılıklar `npm ci` ile kurulur.
 
@@ -109,7 +111,7 @@ Bütçe kullanımı ve kaynak kodunu çalıştırma: [Bütçe rehberi](docs/BUTC
 
 Bütçe → Finans ayarları → Finans teması → Premium Black. Sekiz finans sayfası ve finans pencereleri koyu görünüme geçer. Diğer üç görünüm de kullanılabilir.
 
-Kullanım: `KULLANIM-9.6.7.md`. Tasarım: `DESIGN.md`. Kontroller: `docs/9.6.7-PREMIUM-BLACK-VALIDATION.md`.
+Kullanım: `KULLANIM-9.6.8.md`. Tasarım: `DESIGN.md`. Tema kontrolleri ve kullanım: `BILETINI-SAKLA.md`.
 
 Premium Black'in sekiz finans sayfası React + CSS ile, grafikler Chart.js Canvas ile uygulanır. Paket derlenmiş yerel arayüzü de içerir.
 

@@ -330,3 +330,11 @@ html, body {
 .character-layer-slot { position: absolute; inset: 0; pointer-events: none; }
 
 .wardrobe-motion-root,.wardrobe-motion-torso{position:absolute;inset:0;transform-origin:50% 90%;pointer-events:none}.wardrobe-motion-body{position:absolute;width:100%;height:100%;inset:0;overflow:visible;pointer-events:none}#char #char-inner.motion-active{animation:none}
+
+/* Railway stationery also follows Nero's conversations and timer badge. */
+html[data-skin="biletini-sakla"] body {font-family:"Manrope","Segoe UI",sans-serif}
+html[data-skin="biletini-sakla"] .bubble {border-radius:5px;border:1px solid var(--bubble-line);border-left:3px solid var(--accent);background-image:linear-gradient(#fffcf5b0,#fffcf5b0),url("nero-theme://biletini-sakla/assets/paper-grain.png");background-size:auto,520px 520px;box-shadow:0 3px 12px #18334b20;font-size:12px}
+html[data-skin="biletini-sakla"] .bubble-tail::before {border-width:10px 8px 0 8px;margin-left:-8px}
+html[data-skin="biletini-sakla"] .bubble-tail::after {top:-1px;border-width:9px 7px 0 7px;margin-left:-7px}
+html[data-skin="biletini-sakla"] .badge {border-radius:4px;background:#18334b;color:#fffcf5;border:1px solid #18334b;padding:6px 12px;font:600 11px/1.2 "Space Mono",monospace;box-shadow:0 2px 7px #18334b25}
+html[data-skin="biletini-sakla"] .badge.last-minute {background:var(--accent);border-color:var(--accent)}

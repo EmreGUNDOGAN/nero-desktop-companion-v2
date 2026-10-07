@@ -1,4 +1,7 @@
 (() => {
+  const applyTheme = payload => { document.documentElement.dataset.skin = payload?.manifest?.ui?.skin || 'cozy'; };
+  window.neroQuick.onTheme(applyTheme);
+  window.neroQuick.getTheme().then(applyTheme);
   let type = 'todo';
   const input = document.getElementById('input');
   const form = document.getElementById('form');

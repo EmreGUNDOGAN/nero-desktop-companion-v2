@@ -1,0 +1,25 @@
+{
+  "id": "biletini-sakla",
+  "name": "Biletini Sakla",
+  "author": "Stenwick",
+  "formatVersion": 1,
+  "inherits": "default",
+  "ui": {
+    "skin": "biletini-sakla",
+    "paper": "#F5EFE3",
+    "surface": "#FFFCF5",
+    "ink": "#18334B",
+    "muted": "#61717C",
+    "accent": "#CD541F",
+    "accentInk": "#FFFFFF",
+    "secondary": "#5B7F78",
+    "danger": "#A6372B",
+    "line": "#D9CCB6",
+    "bubbleBg": "#FFFCF5",
+    "bubbleInk": "#18334B",
+    "bubbleLine": "#D9CCB6",
+    "noteColors": [
+      "#FFFCF5"
+    ]
+  }
+}
