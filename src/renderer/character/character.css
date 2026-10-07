@@ -345,3 +345,6 @@ html[data-skin="biletini-sakla"] .badge.last-minute {background:var(--accent);bo
 :root[data-skin="arcade-molasi"] .badge{background:#251b37;color:#ffe3a1;border-color:#78638e}
 :root[data-skin="yorunge"] .badge{background:#111e25;color:#91d9ef;border-color:#526b73}
 :root[data-skin="serada-bir-gun"] .badge{background:#f6efdf;color:#263a25;border-color:#ac9366}
+
+html[data-skin="cizgi-roman-arasi"] .bubble{border:3px solid #11110f;border-radius:35% 30% 28% 25% / 20% 25% 22% 25%;background:#f8f1de;color:#11110f;box-shadow:2px 3px 0 #11110f;padding:13px 17px;font-weight:800}
+html[data-skin="cizgi-roman-arasi"] .badge{border:2px solid #11110f;border-radius:0;background:#f1cd55;color:#11110f;box-shadow:2px 2px 0 #11110f}

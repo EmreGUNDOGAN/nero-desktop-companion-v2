@@ -1,0 +1,24 @@
+{
+  "id": "cizgi-roman-arasi",
+  "name": "Çizgi Roman Arası",
+  "author": "Stenwick",
+  "formatVersion": 1,
+  "inherits": "default",
+  "ui": {
+    "skin": "cizgi-roman-arasi",
+    "paper": "#F1E8D1",
+    "surface": "#F8F1DE",
+    "ink": "#11110F",
+    "muted": "#5A574E",
+    "accent": "#DD4937",
+    "accentInk": "#FFFFFF",
+    "secondary": "#497FA0",
+    "danger": "#B82F27",
+    "line": "#24221D",
+    "bubbleBg": "#F8F1DE",
+    "bubbleInk": "#11110F",
+    "bubbleLine": "#11110F",
+    "noteColors": ["#F8F1DE"],
+    "comicYellow": "#F1CD55"
+  }
+}

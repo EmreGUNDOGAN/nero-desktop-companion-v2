@@ -1,0 +1,46 @@
+{
+  "passed": true,
+  "viewportChecks": 24,
+  "assets": [
+    {
+      "asset": "city-strip.png",
+      "size": [
+        2172,
+        724
+      ]
+    },
+    {
+      "asset": "hero-city.png",
+      "size": [
+        1942,
+        809
+      ]
+    },
+    {
+      "asset": "memory-jar.png",
+      "size": [
+        1225,
+        1284
+      ]
+    },
+    {
+      "asset": "timer-print.png",
+      "size": [
+        1611,
+        976
+      ]
+    }
+  ],
+  "actions": [
+    "inline note autosave, bold, link",
+    "native editor, archive, new note",
+    "task add and complete",
+    "25/45/600 minute timer, progress, pause, resume, cancel",
+    "badge filters",
+    "memory jar and keyboard tabs",
+    "theme switching and restored native layout",
+    "empty notes and tasks",
+    "production quick capture preload"
+  ],
+  "errors": []
+}

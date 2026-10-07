@@ -1,0 +1,1104 @@
+{
+  "status": "passed",
+  "layouts": 120,
+  "comicLayouts": 24,
+  "checks": [
+    {
+      "size": [
+        380,
+        600
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "overview"
+    },
+    {
+      "size": [
+        380,
+        600
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "transactions"
+    },
+    {
+      "size": [
+        380,
+        600
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "accounts"
+    },
+    {
+      "size": [
+        380,
+        600
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "budgets"
+    },
+    {
+      "size": [
+        380,
+        600
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "plans"
+    },
+    {
+      "size": [
+        380,
+        600
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "reports"
+    },
+    {
+      "size": [
+        380,
+        600
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "calendar"
+    },
+    {
+      "size": [
+        380,
+        600
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "handbook"
+    },
+    {
+      "size": [
+        380,
+        600
+      ],
+      "zoom": 1,
+      "textSize": "large",
+      "page": "overview"
+    },
+    {
+      "size": [
+        380,
+        600
+      ],
+      "zoom": 1,
+      "textSize": "large",
+      "page": "transactions"
+    },
+    {
+      "size": [
+        380,
+        600
+      ],
+      "zoom": 1,
+      "textSize": "large",
+      "page": "accounts"
+    },
+    {
+      "size": [
+        380,
+        600
+      ],
+      "zoom": 1,
+      "textSize": "large",
+      "page": "budgets"
+    },
+    {
+      "size": [
+        380,
+        600
+      ],
+      "zoom": 1,
+      "textSize": "large",
+      "page": "plans"
+    },
+    {
+      "size": [
+        380,
+        600
+      ],
+      "zoom": 1,
+      "textSize": "large",
+      "page": "reports"
+    },
+    {
+      "size": [
+        380,
+        600
+      ],
+      "zoom": 1,
+      "textSize": "large",
+      "page": "calendar"
+    },
+    {
+      "size": [
+        380,
+        600
+      ],
+      "zoom": 1,
+      "textSize": "large",
+      "page": "handbook"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "overview"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "transactions"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "accounts"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "budgets"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "plans"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "reports"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "calendar"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "handbook"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "large",
+      "page": "overview"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "large",
+      "page": "transactions"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "large",
+      "page": "accounts"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "large",
+      "page": "budgets"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "large",
+      "page": "plans"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "large",
+      "page": "reports"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "large",
+      "page": "calendar"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "large",
+      "page": "handbook"
+    },
+    {
+      "size": [
+        700,
+        850
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "overview"
+    },
+    {
+      "size": [
+        700,
+        850
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "transactions"
+    },
+    {
+      "size": [
+        700,
+        850
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "accounts"
+    },
+    {
+      "size": [
+        700,
+        850
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "budgets"
+    },
+    {
+      "size": [
+        700,
+        850
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "plans"
+    },
+    {
+      "size": [
+        700,
+        850
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "reports"
+    },
+    {
+      "size": [
+        700,
+        850
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "calendar"
+    },
+    {
+      "size": [
+        700,
+        850
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "handbook"
+    },
+    {
+      "size": [
+        700,
+        850
+      ],
+      "zoom": 1,
+      "textSize": "large",
+      "page": "overview"
+    },
+    {
+      "size": [
+        700,
+        850
+      ],
+      "zoom": 1,
+      "textSize": "large",
+      "page": "transactions"
+    },
+    {
+      "size": [
+        700,
+        850
+      ],
+      "zoom": 1,
+      "textSize": "large",
+      "page": "accounts"
+    },
+    {
+      "size": [
+        700,
+        850
+      ],
+      "zoom": 1,
+      "textSize": "large",
+      "page": "budgets"
+    },
+    {
+      "size": [
+        700,
+        850
+      ],
+      "zoom": 1,
+      "textSize": "large",
+      "page": "plans"
+    },
+    {
+      "size": [
+        700,
+        850
+      ],
+      "zoom": 1,
+      "textSize": "large",
+      "page": "reports"
+    },
+    {
+      "size": [
+        700,
+        850
+      ],
+      "zoom": 1,
+      "textSize": "large",
+      "page": "calendar"
+    },
+    {
+      "size": [
+        700,
+        850
+      ],
+      "zoom": 1,
+      "textSize": "large",
+      "page": "handbook"
+    },
+    {
+      "size": [
+        1100,
+        900
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "overview"
+    },
+    {
+      "size": [
+        1100,
+        900
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "transactions"
+    },
+    {
+      "size": [
+        1100,
+        900
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "accounts"
+    },
+    {
+      "size": [
+        1100,
+        900
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "budgets"
+    },
+    {
+      "size": [
+        1100,
+        900
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "plans"
+    },
+    {
+      "size": [
+        1100,
+        900
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "reports"
+    },
+    {
+      "size": [
+        1100,
+        900
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "calendar"
+    },
+    {
+      "size": [
+        1100,
+        900
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "handbook"
+    },
+    {
+      "size": [
+        1100,
+        900
+      ],
+      "zoom": 1,
+      "textSize": "large",
+      "page": "overview"
+    },
+    {
+      "size": [
+        1100,
+        900
+      ],
+      "zoom": 1,
+      "textSize": "large",
+      "page": "transactions"
+    },
+    {
+      "size": [
+        1100,
+        900
+      ],
+      "zoom": 1,
+      "textSize": "large",
+      "page": "accounts"
+    },
+    {
+      "size": [
+        1100,
+        900
+      ],
+      "zoom": 1,
+      "textSize": "large",
+      "page": "budgets"
+    },
+    {
+      "size": [
+        1100,
+        900
+      ],
+      "zoom": 1,
+      "textSize": "large",
+      "page": "plans"
+    },
+    {
+      "size": [
+        1100,
+        900
+      ],
+      "zoom": 1,
+      "textSize": "large",
+      "page": "reports"
+    },
+    {
+      "size": [
+        1100,
+        900
+      ],
+      "zoom": 1,
+      "textSize": "large",
+      "page": "calendar"
+    },
+    {
+      "size": [
+        1100,
+        900
+      ],
+      "zoom": 1,
+      "textSize": "large",
+      "page": "handbook"
+    },
+    {
+      "size": [
+        900,
+        900
+      ],
+      "zoom": 1.25,
+      "textSize": "comfortable",
+      "page": "overview"
+    },
+    {
+      "size": [
+        900,
+        900
+      ],
+      "zoom": 1.25,
+      "textSize": "comfortable",
+      "page": "transactions"
+    },
+    {
+      "size": [
+        900,
+        900
+      ],
+      "zoom": 1.25,
+      "textSize": "comfortable",
+      "page": "accounts"
+    },
+    {
+      "size": [
+        900,
+        900
+      ],
+      "zoom": 1.25,
+      "textSize": "comfortable",
+      "page": "budgets"
+    },
+    {
+      "size": [
+        900,
+        900
+      ],
+      "zoom": 1.25,
+      "textSize": "comfortable",
+      "page": "plans"
+    },
+    {
+      "size": [
+        900,
+        900
+      ],
+      "zoom": 1.25,
+      "textSize": "comfortable",
+      "page": "reports"
+    },
+    {
+      "size": [
+        900,
+        900
+      ],
+      "zoom": 1.25,
+      "textSize": "comfortable",
+      "page": "calendar"
+    },
+    {
+      "size": [
+        900,
+        900
+      ],
+      "zoom": 1.25,
+      "textSize": "comfortable",
+      "page": "handbook"
+    },
+    {
+      "size": [
+        900,
+        900
+      ],
+      "zoom": 1.25,
+      "textSize": "large",
+      "page": "overview"
+    },
+    {
+      "size": [
+        900,
+        900
+      ],
+      "zoom": 1.25,
+      "textSize": "large",
+      "page": "transactions"
+    },
+    {
+      "size": [
+        900,
+        900
+      ],
+      "zoom": 1.25,
+      "textSize": "large",
+      "page": "accounts"
+    },
+    {
+      "size": [
+        900,
+        900
+      ],
+      "zoom": 1.25,
+      "textSize": "large",
+      "page": "budgets"
+    },
+    {
+      "size": [
+        900,
+        900
+      ],
+      "zoom": 1.25,
+      "textSize": "large",
+      "page": "plans"
+    },
+    {
+      "size": [
+        900,
+        900
+      ],
+      "zoom": 1.25,
+      "textSize": "large",
+      "page": "reports"
+    },
+    {
+      "size": [
+        900,
+        900
+      ],
+      "zoom": 1.25,
+      "textSize": "large",
+      "page": "calendar"
+    },
+    {
+      "size": [
+        900,
+        900
+      ],
+      "zoom": 1.25,
+      "textSize": "large",
+      "page": "handbook"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "overview"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "transactions"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "accounts"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "budgets"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "plans"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "reports"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "calendar"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "handbook"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "overview"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "transactions"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "accounts"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "budgets"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "plans"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "reports"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "calendar"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "handbook"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "overview"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "transactions"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "accounts"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "budgets"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "plans"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "reports"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "calendar"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "handbook"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "overview"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "transactions"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "accounts"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "budgets"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "plans"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "reports"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "calendar"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "handbook"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "overview"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "transactions"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "accounts"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "budgets"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "plans"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "reports"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "calendar"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "handbook"
+    }
+  ],
+  "functional": [
+    "theme selection",
+    "empty pages",
+    "income/expense/transfer forms",
+    "overview search",
+    "Ctrl+K",
+    "sticky navigation",
+    "fund goal",
+    "pay/unpay",
+    "calendar months and day dialog",
+    "academy lesson/dictionary/calculator",
+    "no HTML injection",
+    "five appearances reversible",
+    "backup restore"
+  ],
+  "screenshotsUseTemporaryTestRecords": true,
+  "errors": []
+}

@@ -1,6 +1,7 @@
 'use strict';
 (async () => {
   const { manifest, outfit, minutes } = await window.focusNotice.get();
+  document.documentElement.dataset.skin = manifest.ui?.skin || "cozy";
   document.getElementById('duration').textContent = `${minutes} dakika tamamlandı`;
   const portrait = document.getElementById('portrait');
   const scale = Math.min(100 / manifest.canvas.width, 120 / manifest.canvas.height);

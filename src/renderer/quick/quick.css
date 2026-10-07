@@ -78,3 +78,8 @@ html[data-skin="biletini-sakla"] input:focus {box-shadow:0 0 0 1px var(--accent)
 :root:is([data-skin="arcade-molasi"],[data-skin="yorunge"],[data-skin="serada-bir-gun"]) .box{padding:6px 12px;gap:4px}
 :root:is([data-skin="arcade-molasi"],[data-skin="yorunge"],[data-skin="serada-bir-gun"]) .type button{padding:3px 10px;font-size:12px;line-height:1.2}
 :root:is([data-skin="arcade-molasi"],[data-skin="yorunge"],[data-skin="serada-bir-gun"]) input{padding:6px 9px;font-size:12px;line-height:1.4}
+
+html[data-skin="cizgi-roman-arasi"] .box{border:3px solid #11110f;border-radius:0;background:#f8f1de;box-shadow:3px 3px 0 #11110f;color:#11110f}
+html[data-skin="cizgi-roman-arasi"] :is(input,.type button,button){border-radius:0;border:2px solid #11110f}
+html[data-skin="cizgi-roman-arasi"] .type button.on{background:#f1cd55;color:#11110f}
+html[data-skin="cizgi-roman-arasi"] body{display:flow-root}html[data-skin="cizgi-roman-arasi"] .box{height:calc(100% - 16px);padding:6px 10px;gap:4px}html[data-skin="cizgi-roman-arasi"] .type button{font-size:11px;line-height:1;padding:3px 9px}html[data-skin="cizgi-roman-arasi"] input{padding:5px 8px;font-size:12px;line-height:1.2}html[data-skin="cizgi-roman-arasi"] .hint{font-size:9px}

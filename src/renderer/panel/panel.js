@@ -226,6 +226,7 @@
 
   let skinName = 'cozy';
   Object.assign(SKINS, window.NeroThemeTrio.skins(SKINS.cozy));
+  Object.assign(SKINS, window.NeroComicTheme.skins(SKINS.cozy));
   const skin = () => SKINS[skinName] || SKINS.cozy;
 
   function applyUi(ui = {}) {
@@ -235,12 +236,14 @@
     noteColors = Array.isArray(ui.noteColors) && ui.noteColors.length ? ui.noteColors : DEFAULT_NOTE_COLORS;
     const next = SKINS[ui.skin] ? ui.skin : 'cozy';
     if (next !== skinName || !document.documentElement.dataset.skin) {
+      window.NeroComicTheme?.leave(next);
       skinName = next;
       document.documentElement.dataset.skin = skinName;
       applySkinText();
       if (state) { renderNotes(); renderTodos(); renderTimer(state.timer); renderMood(state.mood); }
       window.NeroTicketTheme?.update(state, chosenMinutes);
       window.NeroThemeTrio?.update(state, chosenMinutes);
+      window.NeroComicTheme?.update(state, chosenMinutes);
     }
   }
 
@@ -300,6 +303,7 @@
     if (tab === 'home') setTimeout(markHomeDialogueSeen, 60);
     window.NeroTicketTheme?.selectTab(tab);
     window.NeroThemeTrio?.selectTab(tab);
+    window.NeroComicTheme?.selectTab(tab);
   }
   tabButtons.forEach((b) => b.addEventListener('click', () => selectTab(b.dataset.tab)));
   $('settings-button').addEventListener('click', () => selectTab('settings'));
@@ -1012,6 +1016,7 @@
     }
     window.NeroTicketTheme?.updateTimer(state, chosenMinutes);
     window.NeroThemeTrio?.updateTimer(state, chosenMinutes);
+    window.NeroComicTheme?.updateTimer(state, chosenMinutes);
   }
 
   function choose(minutes) {
@@ -1023,6 +1028,7 @@
     if (!state || state.timer.status === 'idle') $('timer-digits').textContent = fmt(chosenMinutes * 60000);
     window.NeroTicketTheme?.updateTimer(state, chosenMinutes);
     window.NeroThemeTrio?.updateTimer(state, chosenMinutes);
+    window.NeroComicTheme?.updateTimer(state, chosenMinutes);
   }
 
   document.querySelectorAll('#presets button').forEach((b) => b.addEventListener('click', () => choose(b.dataset.min)));
@@ -1810,6 +1816,7 @@
     renderJar();
     window.NeroTicketTheme?.update(state, chosenMinutes);
     window.NeroThemeTrio?.update(state, chosenMinutes);
+    window.NeroComicTheme?.update(state, chosenMinutes);
   }
 
   api.on('state', renderAll);
