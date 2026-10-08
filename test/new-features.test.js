@@ -2,6 +2,19 @@ const test=require('node:test'),assert=require('node:assert/strict');const {Prod
 const memory=data=>({data,get(){return this.data;},set(next){this.data=next;}});
 test('Note checklists count checked rows without treating normal text as tasks',()=>{assert.deepEqual(checklist('Başlık\n- [x] A\n- [ ] B\nMetin').tasks.map(t=>t.done),[true,false]);assert.equal(checklist('normal [x] text').total,0);});
 function fixture(){const store=memory({sessions:[],preferences:{}}),notes=memory([{id:'n',body:'Not'}]),todos=memory([{id:'t',text:'İş',bucket:'today'}]),jar=memory({items:[{id:'a',text:'A'},{id:'b',text:'B'},{id:'c',text:'C'}]}),timer=new Timer(),p=new Productivity({store,notes,todos,jar,timer});return {p,store,notes,todos,jar,timer};}
+test('çoklu iş etiketleri kalıcıdır; eski tek etiket ve filtre metni korunur',()=>{
+ const Labels=require('../src/data/task-labels'),f=fixture();
+ f.p.meta('todo',{id:'t',priority:'high',tags:['İş','Kişisel','Planlama','İş']});
+ assert.deepEqual(f.todos.get()[0].tags,['İş','Kişisel','Planlama']);
+ assert.equal(f.todos.get()[0].tag,'İş, Kişisel, Planlama');
+ assert.deepEqual(Labels.entries(f.todos.get()[0]).map(l=>l.kind),['priority','work','personal','planning']);
+ const reopened=new Productivity({...f,changed:()=>{}});assert.deepEqual(Labels.tags(f.todos.get()[0]),['İş','Kişisel','Planlama']);
+ reopened.meta('todo',{id:'t',tag:'Kişisel, Planlama'});assert.deepEqual(f.todos.get()[0].tags,['Kişisel','Planlama']);
+ assert.deepEqual(Labels.tags({tag:'İş'}),['İş']);
+ const before=structuredClone(f.todos.get()[0]);assert.throws(()=>reopened.meta('todo',{id:'t',priority:'low',tags:[{}]}));assert.deepEqual(f.todos.get()[0],before);
+ assert.throws(()=>reopened.meta('todo',{id:'t',tags:Array(9).fill('A')}));
+ reopened.meta('todo',{id:'t',tags:[]});assert.equal(f.todos.get()[0].tag,'');assert.deepEqual(f.todos.get()[0].tags,[]);
+});
 test('Note metadata preserves body; invalid colors fail',()=>{const f=fixture();f.p.meta('note',{id:'n',pinned:true,tag:'İş',color:'blue'});assert.equal(f.notes.get()[0].body,'Not');assert.equal(f.notes.get()[0].pinned,true);assert.throws(()=>f.p.meta('note',{id:'n',color:'invalid'}));});
 test('Todo grouping and priority persist and malformed reorders fail',()=>{const f=fixture();f.p.meta('todo',{id:'t',bucket:'later',priority:'high',plannedDurationMin:45});assert.equal(f.todos.get()[0].plannedDurationMin,45);assert.throws(()=>f.p.prepare('t'));assert.throws(()=>f.p.reorder(['missing'],'today'));assert.throws(()=>f.p.reorder(['t','t'],'today'));});
 test('Memory cycle survives restart and avoids immediate repeat at cycle boundary',()=>{const f=fixture(),seen=new Set();let last;for(let i=0;i<3;i++){last=f.p.randomMemory();seen.add(last.id);}assert.equal(seen.size,3);const p=new Productivity({...f,changed:()=>{}});assert.notEqual(p.randomMemory().id,last.id);});

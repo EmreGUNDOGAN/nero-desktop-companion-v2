@@ -1,0 +1,64 @@
+/* User-approved Rozetler artwork with native collection, categories and dates. */
+html[data-skin=bikini-bottom][data-tab=badges] .top{height:12.686cqw;background-image:url('nero-theme://bikini-bottom/assets/reference/badges-header.png')}
+html[data-skin=bikini-bottom][data-tab=badges] .tabs{height:11.771cqw;padding:0 2.7%;background-image:url('nero-theme://bikini-bottom/assets/reference/badges-nav.png')}
+html[data-skin=bikini-bottom][data-tab=badges] .tabs button,html[data-skin=bikini-bottom][data-tab=badges] .tabs button[aria-selected=true]{background:none;color:transparent;font-size:0}
+html[data-skin=bikini-bottom][data-tab=badges] .tabs :is(.sbf-nav-icon,.tl){display:none!important}
+html[data-skin=bikini-bottom][data-tab=badges] .window-controls{left:54.7%;right:5.4%;top:2.6cqw;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0}
+html[data-skin=bikini-bottom][data-tab=badges] .window-controls button{width:100%;height:6.5cqw}
+html[data-skin=bikini-bottom] #view-badges.view{padding:0;margin:0;background:#43c6dd;border-radius:0;container-type:inline-size;scrollbar-gutter:stable;overflow-x:hidden}
+html[data-skin=bikini-bottom] #view-badges>.sb-heading{height:39.657cqw;min-height:0;margin:0;padding:0;background:url('nero-theme://bikini-bottom/assets/reference/badges-hero.png') center/100% 100% no-repeat}
+html[data-skin=bikini-bottom] #view-badges>.sb-heading h2,html[data-skin=bikini-bottom] #view-badges .card-head h3{position:absolute;clip-path:inset(50%);width:1px;height:1px;padding:0;margin:0;overflow:hidden}
+html[data-skin=bikini-bottom] #view-badges>.badges{position:relative;display:flex;flex-direction:column;gap:0;padding:0;margin:0;border:0;border-radius:0;box-shadow:none;background:none}
+html[data-skin=bikini-bottom] #sbb-overview{position:relative;height:26.286cqw;padding:0;margin:0;flex:none;background:url('nero-theme://bikini-bottom/assets/reference/badges-overview.png') center/100% 100% no-repeat}
+html[data-skin=bikini-bottom] #sbb-overview>.card-head{position:absolute;top:2.3cqw;left:69.3%;width:15%;height:4.8cqw;margin:0;padding:0;border:0;display:flex;align-items:center;justify-content:center;background:none}
+html[data-skin=bikini-bottom] #badge-count{font:400 3.2cqw/1 'Reference Sponge',sans-serif;white-space:nowrap;color:#062747}
+html[data-skin=bikini-bottom] .sbb-progress{position:absolute;left:6.86%;top:7.77cqw;width:73.26%;height:2.17cqw;overflow:hidden;border-radius:999px}
+html[data-skin=bikini-bottom] .sbb-progress i{display:block;height:100%;border-radius:inherit;background:url('nero-theme://bikini-bottom/assets/reference/badges-progress-fill.png') center/100% 100% no-repeat}
+html[data-skin=bikini-bottom] .sbb-progress-caption{position:absolute;left:6.86%;top:11.2cqw;font:400 2.4cqw/1.15 'Reference Office',sans-serif;color:#42637a}
+html[data-skin=bikini-bottom] #badge-rarity-tabs{position:absolute;left:5.26%;right:5.26%;top:14.97cqw;height:8.46cqw;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1.25cqw;padding:0;margin:0;border:0;background:none}
+html[data-skin=bikini-bottom] #badge-rarity-tabs:has([data-rarity=gizli]:not([hidden])){grid-template-columns:repeat(5,minmax(0,1fr));gap:.65cqw}
+html[data-skin=bikini-bottom] #badge-rarity-tabs button{position:relative;min-width:0;width:100%;height:100%;padding:0 1cqw 0 6.7cqw;margin:0;border:0;border-radius:0;box-shadow:none;background:url('nero-theme://bikini-bottom/assets/reference/badges-button-plain.png') center/100% 100% no-repeat;color:#062747;font:400 clamp(10px,2.6cqw,25px)/1 'Reference Sponge',sans-serif;display:flex;align-items:center;justify-content:center}
+html[data-skin=bikini-bottom] #badge-rarity-tabs button[aria-selected=true]{background-image:url('nero-theme://bikini-bottom/assets/reference/badges-button-selected.png');color:#062747}
+html[data-skin=bikini-bottom] #badge-rarity-tabs button[hidden]{display:none!important}
+html[data-skin=bikini-bottom] .sbb-rarity-icon{position:absolute;left:3.4cqw;top:50%;transform:translateY(-50%);width:4.7cqw;height:5.1cqw;object-fit:contain;pointer-events:none}
+html[data-skin=bikini-bottom] #badge-rarity-tabs:has([data-rarity=gizli]:not([hidden])) button{padding-left:4.6cqw;font-size:2.1cqw}
+html[data-skin=bikini-bottom] #badge-rarity-tabs:has([data-rarity=gizli]:not([hidden])) .sbb-rarity-icon{left:1.4cqw;width:3.7cqw}
+html[data-skin=bikini-bottom] #sbb-board{position:relative;width:95.77%;height:94.29cqw;margin:.8cqw 1.94% 0 2.29%;padding:0;border:solid transparent;border-width:13.714cqw 2.514cqw 3.2cqw;border-image:url('nero-theme://bikini-bottom/assets/reference/badges-board-frame.png') 120 22 28 22 fill stretch;border-radius:0;background:url('nero-theme://bikini-bottom/assets/reference/badges-wood-tile.png') center/8.8cqw 1.829cqw repeat}
+html[data-skin=bikini-bottom] .badge-category-meta{position:absolute;left:4.23cqw;right:4.57cqw;top:-9.3cqw;height:7.2cqw;margin:0;padding:0;display:flex;align-items:center;justify-content:space-between;border:0;background:none;color:#062747}
+html[data-skin=bikini-bottom] #badge-category-title{font:400 4.35cqw/1 'Reference Sponge',sans-serif}
+html[data-skin=bikini-bottom] #badge-category-count{font:400 3.2cqw/1 'Reference Sponge',sans-serif;white-space:nowrap}
+html[data-skin=bikini-bottom] #badge-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-auto-rows:minmax(35.7cqw,auto);align-items:stretch;align-content:start;column-gap:1.37cqw;row-gap:2.51cqw;width:100%;height:100%;padding:.4cqw .34cqw 0;margin:0;border:0;border-radius:0;box-shadow:none;list-style:none;background:none;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;overscroll-behavior:contain}
+html[data-skin=bikini-bottom] #badge-grid::-webkit-scrollbar{width:0}
+html[data-skin=bikini-bottom] #badge-grid>.badge{position:relative;display:flex;flex-direction:column;align-items:center;min-width:0;min-height:35.7cqw;margin:0;padding:2.8cqw 1.4cqw 1.8cqw;border:0;border-radius:0;box-shadow:none;background:url('nero-theme://bikini-bottom/assets/reference/badges-paper-1.png') center/100% 100% no-repeat;color:#062747;text-align:center;opacity:1;transform:none}
+html[data-skin=bikini-bottom] #badge-grid>.badge[data-sbb-paper=blue]{background-image:url('nero-theme://bikini-bottom/assets/reference/badges-paper-2.png')}
+html[data-skin=bikini-bottom] #badge-grid>.badge[data-sbb-paper=muted]{background-image:url('nero-theme://bikini-bottom/assets/reference/badges-paper-6.png')}
+html[data-skin=bikini-bottom] #badge-grid>.badge::before,html[data-skin=bikini-bottom] #badge-grid>.badge::after{display:none}
+html[data-skin=bikini-bottom] .sbb-fastener{position:absolute;left:50%;top:-1.1cqw;transform:translateX(-50%);width:2.97cqw;height:3.2cqw;object-fit:contain;z-index:2;pointer-events:none}
+html[data-skin=bikini-bottom] .sbb-status{position:absolute;top:1.1cqw;right:1.7cqw;width:4.7cqw;height:4.7cqw;object-fit:contain;pointer-events:none}
+html[data-skin=bikini-bottom] .badge:not(.on) .sbb-status{width:5.94cqw;height:5.94cqw;top:.4cqw;right:1.3cqw}
+html[data-skin=bikini-bottom] .badge .badge-icon{display:flex;align-items:center;justify-content:center;flex:none;width:100%;height:19.1cqw;margin:0 0 1cqw;padding:0;border:0;border-radius:0;box-shadow:none;background:none;color:transparent}
+html[data-skin=bikini-bottom] .sbb-collectible{display:block;width:21.6cqw;height:19.1cqw;object-fit:contain;pointer-events:none}
+html[data-skin=bikini-bottom] .badge .badge-name{display:block;width:100%;margin:0;padding:0;font:400 2.7cqw/1.12 'Reference Sponge',sans-serif;color:#062747;overflow-wrap:anywhere}
+html[data-skin=bikini-bottom] .badge .badge-desc{display:block;width:100%;margin:1cqw 0 0;padding:0;font:400 2.4cqw/1.18 'Reference Office',sans-serif;color:#062747}
+html[data-skin=bikini-bottom] .badge:not(.on) .badge-desc{color:#536679}
+html[data-skin=bikini-bottom] .badge:not(.on) .sbb-collectible{opacity:.6}
+html[data-skin=bikini-bottom] .sbb-date{display:flex;align-items:center;justify-content:center;gap:1.2cqw;margin:auto 0 0;padding-top:1.6cqw;font:400 2.4cqw/1 'Reference Office',sans-serif;color:#062747}
+html[data-skin=bikini-bottom] .sbb-date-icon{width:2.86cqw;height:3.1cqw;object-fit:contain}
+html[data-skin=bikini-bottom] .badge .badge-tooltip{display:none!important}
+html[data-skin=bikini-bottom] .badge:focus-visible{outline:2px solid #148fa5;outline-offset:-3px}
+html[data-skin=bikini-bottom] .sbb-footer{display:block;width:100%;height:20cqw;margin:0;padding:0;object-fit:fill;flex:none}
+/* The first two rows fit fully in the scrollable source board. */
+html[data-skin=bikini-bottom] #badge-grid{grid-template-rows:minmax(35.7cqw,max-content);grid-auto-rows:minmax(38.3cqw,max-content)}
+html[data-skin=bikini-bottom] #badge-grid>.badge{gap:0;min-height:35.7cqw;padding-bottom:1.8cqw}
+html[data-skin=bikini-bottom] #badge-grid>.badge:nth-child(n+4){min-height:38.3cqw}
+html[data-skin=bikini-bottom] .badge .badge-icon{height:16.8cqw;min-height:0}
+html[data-skin=bikini-bottom] .sbb-collectible{height:16.8cqw}
+html[data-skin=bikini-bottom] .badge:nth-child(n+4) .badge-icon,html[data-skin=bikini-bottom] .badge:nth-child(n+4) .sbb-collectible{height:19.1cqw}
+html[data-skin=bikini-bottom] .badge :is(.badge-name,.badge-desc){flex:none}
+html[data-skin=bikini-bottom] .sbb-date{position:static;flex:none;margin:auto 0 0;padding-top:1.5cqw}
+html[data-skin=bikini-bottom] #view-badges #badge-rarity-tabs button{font-family:'Reference Sponge',sans-serif;font-weight:400}
+html[data-skin=bikini-bottom] .sbb-clip{position:absolute;top:-15.886cqw;width:7.43cqw;height:6.86cqw;z-index:3;pointer-events:none}
+html[data-skin=bikini-bottom] .sbb-clip-left{left:11.1cqw}
+html[data-skin=bikini-bottom] .sbb-clip-right{right:11.2cqw}
+html[data-skin=bikini-bottom] #badge-rarity-tabs{grid-template-columns:196fr 183fr 184fr 193fr;gap:1.029cqw}
+html[data-skin=bikini-bottom] #badge-rarity-tabs:has([data-rarity=gizli]:not([hidden])){grid-template-columns:repeat(5,minmax(0,1fr))}

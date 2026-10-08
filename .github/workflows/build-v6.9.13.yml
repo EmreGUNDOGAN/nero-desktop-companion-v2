@@ -1,4 +1,4 @@
-name: Build Nero 6.9.13 Final
+name: Build Nero 6.9.13 — Final Themes and SpongeBob Wardrobe
 on:
   workflow_dispatch:
   push:
@@ -29,6 +29,12 @@ jobs:
         run: npx electron --disable-gpu test/new-features-finance-ui.cjs
       - name: Check character and notification integration
         run: npx electron --disable-gpu test/tv-character-smoke.cjs
+      - name: Check SpongeBob wardrobe and editable night outfits
+        run: npx electron --disable-gpu test/bikini-wardrobe-production.cjs
+      - name: Check Bikini Bottom startup and timer
+        env:
+          NERO_STARTUP_THEME: bikini-bottom
+        run: npx electron --disable-gpu test/production-startup-smoke.cjs
       - name: Check Stars Hollow startup and timer
         env:
           NERO_STARTUP_THEME: stars-hollow
@@ -39,7 +45,14 @@ jobs:
         run: npx electron --disable-gpu test/production-startup-smoke.cjs
       - name: Build Windows installer
         run: npm run dist
-      - name: Verify packaged startup
+      - name: Verify every packaged source and theme file
+        run: node scripts/verify-packaged-resources.cjs
+      - name: Verify packaged Bikini Bottom startup
+        env:
+          NERO_PACKAGED_RESOURCES: ${{ github.workspace }}\dist\win-unpacked\resources
+          NERO_STARTUP_THEME: bikini-bottom
+        run: npx electron --disable-gpu test/production-startup-smoke.cjs
+      - name: Verify packaged Scranton startup
         env:
           NERO_PACKAGED_RESOURCES: ${{ github.workspace }}\dist\win-unpacked\resources
           NERO_STARTUP_THEME: scranton
@@ -48,7 +61,7 @@ jobs:
         run: git archive --format=zip -o Nero-v6_9_13-source.zip HEAD
       - uses: actions/upload-artifact@v4
         with:
-          name: Nero-6.9.13-final-bundle
+          name: Nero-6.9.13-final-themes-and-wardrobe
           if-no-files-found: error
           path: |
             dist/Nero-Setup-6.9.13.exe

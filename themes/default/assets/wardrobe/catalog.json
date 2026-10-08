@@ -7330,5 +7330,200 @@
         "smirk": "mouth-smirk.svg"
       }
     }
+  },
+  "bikini-spongebob": {
+    "layers": {
+      "body": {
+        "default": "body.svg"
+      },
+      "eyes": {
+        "default": "eyes-default.svg"
+      },
+      "pupils": {
+        "default": "pupils-default.svg"
+      },
+      "lids": {
+        "heavy": "lids-heavy.svg",
+        "half": "lids-half.svg",
+        "closed": "lids-closed.svg"
+      },
+      "brows": {
+        "normal": "brows-normal.svg",
+        "happy": "brows-happy.svg",
+        "curious": "brows-curious.svg",
+        "sad": "brows-sad.svg",
+        "angry": "brows-angry.svg",
+        "surprised": "brows-surprised.svg",
+        "sleepy": "brows-sleepy.svg"
+      },
+      "mouth": {
+        "neutral": "mouth-neutral.svg",
+        "smile": "mouth-smile.svg",
+        "happy": "mouth-happy.svg",
+        "talk1": "mouth-talk1.svg",
+        "talk2": "mouth-talk2.svg",
+        "sad": "mouth-sad.svg",
+        "surprised": "mouth-surprised.svg",
+        "flat": "mouth-flat.svg",
+        "sleepy": "mouth-sleepy.svg",
+        "smirk": "mouth-smirk.svg"
+      }
+    }
+  },
+  "bikini-squidward": {
+    "layers": {
+      "body": {
+        "default": "body.svg"
+      },
+      "eyes": {
+        "default": "eyes-default.svg"
+      },
+      "pupils": {
+        "default": "pupils-default.svg"
+      },
+      "lids": {
+        "heavy": "lids-heavy.svg",
+        "half": "lids-half.svg",
+        "closed": "lids-closed.svg"
+      },
+      "brows": {
+        "normal": "brows-normal.svg",
+        "happy": "brows-happy.svg",
+        "curious": "brows-curious.svg",
+        "sad": "brows-sad.svg",
+        "angry": "brows-angry.svg",
+        "surprised": "brows-surprised.svg",
+        "sleepy": "brows-sleepy.svg"
+      },
+      "mouth": {
+        "neutral": "mouth-neutral.svg",
+        "smile": "mouth-smile.svg",
+        "happy": "mouth-happy.svg",
+        "talk1": "mouth-talk1.svg",
+        "talk2": "mouth-talk2.svg",
+        "sad": "mouth-sad.svg",
+        "surprised": "mouth-surprised.svg",
+        "flat": "mouth-flat.svg",
+        "sleepy": "mouth-sleepy.svg",
+        "smirk": "mouth-smirk.svg"
+      }
+    }
+  },
+  "bikini-patrick": {
+    "layers": {
+      "body": {
+        "default": "body.svg"
+      },
+      "eyes": {
+        "default": "eyes-default.svg"
+      },
+      "pupils": {
+        "default": "pupils-default.svg"
+      },
+      "lids": {
+        "heavy": "lids-heavy.svg",
+        "half": "lids-half.svg",
+        "closed": "lids-closed.svg"
+      },
+      "brows": {
+        "normal": "brows-normal.svg",
+        "happy": "brows-happy.svg",
+        "curious": "brows-curious.svg",
+        "sad": "brows-sad.svg",
+        "angry": "brows-angry.svg",
+        "surprised": "brows-surprised.svg",
+        "sleepy": "brows-sleepy.svg"
+      },
+      "mouth": {
+        "neutral": "mouth-neutral.svg",
+        "smile": "mouth-smile.svg",
+        "happy": "mouth-happy.svg",
+        "talk1": "mouth-talk1.svg",
+        "talk2": "mouth-talk2.svg",
+        "sad": "mouth-sad.svg",
+        "surprised": "mouth-surprised.svg",
+        "flat": "mouth-flat.svg",
+        "sleepy": "mouth-sleepy.svg",
+        "smirk": "mouth-smirk.svg"
+      }
+    }
+  },
+  "bikini-mr-krabs": {
+    "layers": {
+      "body": {
+        "default": "body.svg"
+      },
+      "eyes": {
+        "default": "eyes-default.svg"
+      },
+      "pupils": {
+        "default": "pupils-default.svg"
+      },
+      "lids": {
+        "heavy": "lids-heavy.svg",
+        "half": "lids-half.svg",
+        "closed": "lids-closed.svg"
+      },
+      "brows": {
+        "normal": "brows-normal.svg",
+        "happy": "brows-happy.svg",
+        "curious": "brows-curious.svg",
+        "sad": "brows-sad.svg",
+        "angry": "brows-angry.svg",
+        "surprised": "brows-surprised.svg",
+        "sleepy": "brows-sleepy.svg"
+      },
+      "mouth": {
+        "neutral": "mouth-neutral.svg",
+        "smile": "mouth-smile.svg",
+        "happy": "mouth-happy.svg",
+        "talk1": "mouth-talk1.svg",
+        "talk2": "mouth-talk2.svg",
+        "sad": "mouth-sad.svg",
+        "surprised": "mouth-surprised.svg",
+        "flat": "mouth-flat.svg",
+        "sleepy": "mouth-sleepy.svg",
+        "smirk": "mouth-smirk.svg"
+      }
+    }
+  },
+  "bikini-sandy": {
+    "layers": {
+      "body": {
+        "default": "body.svg"
+      },
+      "eyes": {
+        "default": "eyes-default.svg"
+      },
+      "pupils": {
+        "default": "pupils-default.svg"
+      },
+      "lids": {
+        "heavy": "lids-heavy.svg",
+        "half": "lids-half.svg",
+        "closed": "lids-closed.svg"
+      },
+      "brows": {
+        "normal": "brows-normal.svg",
+        "happy": "brows-happy.svg",
+        "curious": "brows-curious.svg",
+        "sad": "brows-sad.svg",
+        "angry": "brows-angry.svg",
+        "surprised": "brows-surprised.svg",
+        "sleepy": "brows-sleepy.svg"
+      },
+      "mouth": {
+        "neutral": "mouth-neutral.svg",
+        "smile": "mouth-smile.svg",
+        "happy": "mouth-happy.svg",
+        "talk1": "mouth-talk1.svg",
+        "talk2": "mouth-talk2.svg",
+        "sad": "mouth-sad.svg",
+        "surprised": "mouth-surprised.svg",
+        "flat": "mouth-flat.svg",
+        "sleepy": "mouth-sleepy.svg",
+        "smirk": "mouth-smirk.svg"
+      }
+    }
   }
 }

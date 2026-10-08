@@ -1,0 +1,10 @@
+{
+  "status": "user-approved-v2",
+  "characterRenderer": "src/renderer/character/wardrobe-renderer.js",
+  "garmentBody": "sponge-body-fit-v2.png",
+  "garmentSource": "sponge-body-generated-v2.png",
+  "garmentSourceSha256": "af1edc61de4b4e5a675a8499c0d26afdaf454fc5c04fa77eb5c9cb4822f373ea",
+  "nativeFaceLayers": "themes/default/assets/wardrobe/daily-kot-ceket",
+  "alignment": "220x260; original denim face transforms retained; generated body uniformly resized only",
+  "productionIntegration": true
+}

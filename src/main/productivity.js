@@ -1,5 +1,6 @@
 'use strict';
 const {randomUUID}=require('node:crypto');
+const TaskLabels=require('../data/task-labels');
 const dayKey=(time=Date.now())=>{const d=new Date(time);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;};
 const clean=(value,max=100)=>String(value??'').trim().slice(0,max);
 const check=(ok,msg)=>{if(!ok)throw Error(msg);};
@@ -9,8 +10,25 @@ class Productivity{
   timer.on('started',()=>this.started());timer.on('paused',()=>this.track('paused'));timer.on('resumed',()=>this.track('running'));timer.on('tick',()=>{if(this.current&&Date.now()-(this.persistedAt||0)>30000)this.track(timer.status);});timer.on('done',()=>this.finish('completed'));timer.on('cancelled',p=>this.finish('cancelled',p.minutes*60000*p.progress));
  }
  snapshot(){return {sessions:this.store.get().sessions.map(s=>({...s})),preferences:this.store.get().preferences,jar:this.jar.get().items||[]};}
- meta(kind,input){const source=kind==='note'?this.notes:this.todos;const row=source.get().find(r=>r.id===input.id);check(row,'Kayıt bulunamadı.');if(kind==='note'){if('pinned' in input)row.pinned=!!input.pinned;if('tag' in input)row.tag=clean(input.tag,40);if('color' in input){check(['paper','yellow','pink','blue','green'].includes(input.color),'Renk geçersiz.');row.color=input.color;}}else{if('bucket' in input){check(['today','later'].includes(input.bucket),'Bölüm geçersiz.');row.bucket=input.bucket;}if('priority' in input){check(['normal','high','low'].includes(input.priority),'Öncelik geçersiz.');row.priority=input.priority;}if('tag' in input)row.tag=clean(input.tag,40);if('plannedDurationMin' in input){const n=Number(input.plannedDurationMin);check(Number.isInteger(n)&&n>=0&&n<=10080,'Süre geçersiz.');row.plannedDurationMin=n||null;}}
- source.set(source.get());this.changed();return structuredClone(row);}
+ meta(kind,input){
+  check(input&&typeof input==='object','Kayıt bilgisi geçersiz.');
+  const source=kind==='note'?this.notes:this.todos,rows=source.get(),index=rows.findIndex(r=>r.id===input.id);check(index>=0,'Kayıt bulunamadı.');const row={...rows[index]};
+  if(kind==='note'){
+   if('pinned' in input)row.pinned=!!input.pinned;
+   if('tag' in input)row.tag=clean(input.tag,40);
+   if('color' in input){check(['paper','yellow','pink','blue','green'].includes(input.color),'Renk geçersiz.');row.color=input.color;}
+  }else{
+   if('bucket' in input){check(['today','later'].includes(input.bucket),'Bölüm geçersiz.');row.bucket=input.bucket;}
+   if('priority' in input){check(['normal','high','low'].includes(input.priority),'Öncelik geçersiz.');row.priority=input.priority;}
+   if('tags' in input||'tag' in input){
+    if('tags' in input)check(Array.isArray(input.tags)&&input.tags.length<=8&&input.tags.every(t=>typeof t==='string'),'Etiketler geçersiz.');
+    row.tags=TaskLabels.normalize('tags' in input?input.tags:input.tag);row.tag=clean(row.tags.join(', '),40);
+   }
+   if('plannedDurationMin' in input){const n=Number(input.plannedDurationMin);check(Number.isInteger(n)&&n>=0&&n<=10080,'Süre geçersiz.');row.plannedDurationMin=n||null;}
+  }
+  // Commit only after all fields have passed validation.
+  source.set(rows.map((current,i)=>i===index?row:current));this.changed();return structuredClone(row);
+ }
  reorder(ids,bucket){check(Array.isArray(ids)&&ids.length<=10000,'Sıralama geçersiz.');const all=this.todos.get(),map=new Map(all.map(t=>[t.id,t]));check(ids.every(id=>map.has(id))&&new Set(ids).size===ids.length,'İş sıralaması geçersiz.');if(bucket){check(['today','later'].includes(bucket),'Bölüm geçersiz.');for(const id of ids)map.get(id).bucket=bucket;}this.todos.set([...ids.map(id=>map.get(id)),...all.filter(t=>!ids.includes(t.id))]);this.changed();return true;}
  preference(key,value){check(['todoFilters','reportFilters','moodboardMode','lessonPosition','toolInputs','hideAmounts'].includes(key),'Tercih geçersiz.');check(JSON.stringify(value).length<=20000,'Tercih çok uzun.');this.store.get().preferences[key]=structuredClone(value);this.store.set(this.store.get());return value;}
  prepare(id){if(!id){this.pending=null;return;}const t=this.todos.get().find(t=>t.id===id&&!t.done&&!t.archivedAt&&(t.bucket||'today')==='today');check(t,'Bugün listesindeki açık bir işi seç.');check(!t.stopwatchStartedAt,'İş kronometresini duraklatıp odak sayacını başlat.');this.pending={todoId:t.id,todoName:t.text};}

@@ -99,6 +99,10 @@ const DEFAULT_SETTINGS = {
   waterEvery: 0,        // dakika, 0 = kapalı
   breakEvery: 60,       // kesintisiz çalışma sonrası mola hatırlatması (dakika), 0 = kapalı
   wardrobeOutfit: null,
+  wardrobeNightChoiceDate: '',
+  wardrobeNightChoice: null,
+  wardrobeBeforeBikini: null,
+  bikiniWardrobeInitialized: false,
   characterAnimations: true,
   sleepNight: '',
   sleepOutfit: '',
@@ -1473,13 +1477,13 @@ function setSetting(key, value) {
   switch (key) {
     case 'wardrobeOutfit':
       if (wardrobe.special(new Date(), s.birthday)) return s;
-      settingsStore.patch({ wardrobeOutfit: wardrobe.VALID.has(value) ? value : null });
+      settingsStore.patch(wardrobe.selectionPatch(s, value, new Date()));
       updateBaseline(true);
       break;
     case 'themeId': {
       const previous = currentTheme.id;
       loadTheme(String(value));
-      settingsStore.patch({ themeId: currentTheme.id, scale: currentTheme.manifest.defaultScale || s.scale });
+      settingsStore.patch({ themeId: currentTheme.id, scale: currentTheme.manifest.defaultScale || s.scale, ...wardrobe.themePatch(s, previous, currentTheme.id, new Date()) });
       applyCharacterLayout();
       if (previous !== currentTheme.id) setTimeout(() => say('theme_change'), 600);
       break;
@@ -3021,6 +3025,7 @@ app.whenReady().then(() => {
   dialogue = new Dialogue({ historyStore: dialogueHistoryStore });
   loadTheme(settings().themeId);
   if (currentTheme.id !== settings().themeId) settingsStore.patch({ themeId: currentTheme.id });
+  settingsStore.patch(wardrobe.themePatch(settings(), null, currentTheme.id, new Date(), true));
 
   mood = new Mood(moodStore);
   timer = new Timer();

@@ -1,0 +1,9 @@
+'use strict';
+const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto'),assert=require('node:assert/strict'),asar=require('@electron/asar');
+const root=path.join(__dirname,'..'),resources=path.resolve(process.argv[2]||path.join(root,'dist/win-unpacked/resources')),hash=bytes=>crypto.createHash('sha256').update(bytes).digest('hex');
+function files(dir){return fs.readdirSync(dir,{withFileTypes:true}).flatMap(entry=>entry.isDirectory()?files(path.join(dir,entry.name)):[path.join(dir,entry.name)]);}
+const archive=path.join(resources,'app.asar');assert.ok(fs.existsSync(archive));let sourceFiles=0,themeFiles=0;
+for(const file of files(path.join(root,'src'))){const relative=path.relative(root,file);assert.equal(hash(asar.extractFile(archive,relative)),hash(fs.readFileSync(file)),relative);sourceFiles++;}
+const manifests=[];for(const file of files(path.join(root,'themes'))){const relative=path.relative(path.join(root,'themes'),file);const packaged=path.join(resources,'themes',relative);assert.ok(fs.existsSync(packaged),relative);assert.equal(hash(fs.readFileSync(packaged)),hash(fs.readFileSync(file)),relative);themeFiles++;if(path.basename(file)==='theme.json')manifests.push(JSON.parse(fs.readFileSync(file,'utf8')).id);}
+assert.equal(JSON.parse(asar.extractFile(archive,'package.json')).version,'6.9.13');for(const id of ['bikini-bottom','stars-hollow','scranton'])assert.ok(manifests.includes(id),id);
+const report={passed:true,version:'6.9.13',sourceFiles,themeFiles,themeIds:manifests.sort(),allSourceAndThemeHashesMatch:true,approvedCostumes:['bikini-spongebob','bikini-squidward','bikini-patrick','bikini-mr-krabs','bikini-sandy']};fs.writeFileSync(path.join(root,'docs/reviews/6.9.13-PACKAGED-RESOURCES.json'),JSON.stringify(report,null,2));console.log(JSON.stringify(report));

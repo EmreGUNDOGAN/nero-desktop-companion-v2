@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "realMain": true,
+  "isolatedProfile": true,
+  "controlledLocalTime": true,
+  "themeEntry": true,
+  "manualChoicePreserved": true,
+  "nightPajamas": true,
+  "nightChangingAndRemoval": true,
+  "nextMorningAndNight": true,
+  "nativeWardrobeTab": true,
+  "characterCostumeLoaded": true,
+  "errors": []
+}

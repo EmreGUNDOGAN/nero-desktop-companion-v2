@@ -1,0 +1,58 @@
+<div id="nero-costume-fitting" data-review-costume="REVIEW_COSTUME" data-preview-version="PREVIEW_VERSION">
+  <h3>Kıyafet provası</h3>
+  <div class="viz-controls">
+    <label class="form-label">Kıyafet
+      <select class="form-select" data-fitting="costume">
+        <option value="sponge">SpongeBob</option>
+        <option value="squidward">Squidward</option>
+        <option value="patrick">Patrick</option>
+        <option value="mrkrabs">Mr. Krabs</option>
+        <option value="sandy">Sandy</option>
+        <option value="denim">Mevcut kot ceket</option>
+      </select>
+    </label>
+    <button class="btn btn-primary" type="button" data-fitting="wear">Giydir</button>
+    <button class="btn" type="button" data-fitting="remove">Çıkar</button>
+    <button class="btn" type="button" data-fitting="blink">Göz kırp</button>
+  </div>
+  <div class="nero-fitting-stage" role="img" aria-label="Nero kıyafet önizlemesi">
+    <div data-layer="body"></div>
+    <div data-layer="eyes"></div>
+    <div data-layer="pupils"></div>
+    <div data-layer="lids"></div>
+    <div data-layer="brows"></div>
+    <div data-layer="mouth"></div>
+  </div>
+  <div class="text-small text-muted text-center" data-fitting="status" role="status">SpongeBob taslağı</div>
+</div>
+<style>
+#nero-costume-fitting .nero-fitting-stage{position:relative;width:min(100%,280px);aspect-ratio:220/260;margin:12px auto}
+#nero-costume-fitting [data-layer]{position:absolute;inset:0;pointer-events:none}
+#nero-costume-fitting .layer{position:absolute;inset:0!important;left:0!important;top:0!important;width:100%!important;height:100%!important;object-fit:contain;pointer-events:none}
+</style>
+<script type="application/json" id="nero-fitting-assets">ASSET_PAYLOAD</script>
+<script>
+(()=>{
+  RENDERER_SOURCE
+  const root=document.getElementById('nero-costume-fitting');
+  const assets=JSON.parse(document.getElementById('nero-fitting-assets').textContent);
+  const controls={};for(const n of root.querySelectorAll('[data-fitting]'))controls[n.dataset.fitting]=n;
+  const slots={};for(const n of root.querySelectorAll('[data-layer]'))slots[n.dataset.layer]=n;
+  const saved=window.openai?.widgetState?.privateContent||{},version=root.dataset.previewVersion;
+  const validSaved=saved.version===version&&Object.hasOwn(assets.catalog,saved.costume);
+  let costume=validSaved?saved.costume:root.dataset.reviewCostume,worn=validSaved?saved.worn!==false:true,blinkTimer;
+  const base={};for(const [layer,variants]of Object.entries(assets.base)){base[layer]={};for(const [variant,url]of Object.entries(variants)){const img=new Image();img.src=url;img.className='layer';img.alt='';base[layer][variant]=img;}}
+  let current=base;
+  function expression(closed=true){for(const [layer,variants]of Object.entries(current)){const variant={body:'default',eyes:'default',pupils:'default',lids:closed?'closed':'heavy',brows:'normal',mouth:'neutral'}[layer];for(const [key,img]of Object.entries(variants))img.hidden=key!==variant;}}
+  const renderer=new NeroWardrobeRenderer({catalog:assets.catalog,scale:1,slots,base,changed(bundle,id){current=bundle;expression();root.dataset.activeOutfit=id||'none';controls.status.textContent=id?assets.labels[id]+' giyili':'Kıyafet çıkarıldı';}});
+  renderer.install(base,null);
+  function render(){clearTimeout(blinkTimer);controls.costume.value=costume;controls.wear.setAttribute('aria-pressed',String(worn));controls.remove.setAttribute('aria-pressed',String(!worn));renderer.select(worn?costume:null);}
+  function remember(){window.openai?.setWidgetState?.({modelContent:{costume,worn},privateContent:{costume,worn,version}})?.catch(()=>{});}
+  controls.wear.onclick=()=>{worn=true;render();remember();};
+  controls.remove.onclick=()=>{worn=false;render();remember();};
+  controls.costume.onchange=()=>{costume=controls.costume.value;render();remember();};
+  controls.blink.onclick=()=>{clearTimeout(blinkTimer);expression(false);blinkTimer=setTimeout(()=>expression(true),650);};
+  window.addEventListener('openai:set_globals',event=>{const next=event.detail?.globals?.widgetState?.privateContent;if(!next||next.version!==version)return;costume=Object.hasOwn(assets.catalog,next.costume)?next.costume:costume;worn=next.worn!==false;render();});
+  render();
+})();
+</script>

@@ -1,0 +1,212 @@
+[
+  {
+    "page": "home",
+    "width": 380,
+    "overflow": 0,
+    "offenders": [],
+    "font": "\"Times New Roman\", Times, serif",
+    "heading": {
+      "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+      "top": "9px",
+      "font": "700 23px / 23px \"Times New Roman\", serif",
+      "position": "absolute",
+      "height": "23px"
+    }
+  },
+  {
+    "page": "notes",
+    "width": 380,
+    "overflow": 0,
+    "offenders": [],
+    "font": "\"Times New Roman\", Times, serif",
+    "heading": {
+      "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+      "top": "9px",
+      "font": "700 23px / 23px \"Times New Roman\", serif",
+      "position": "absolute",
+      "height": "auto"
+    }
+  },
+  {
+    "page": "todos",
+    "width": 380,
+    "overflow": 0,
+    "offenders": [],
+    "font": "\"Times New Roman\", Times, serif",
+    "heading": {
+      "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+      "top": "9px",
+      "font": "700 23px / 23px \"Times New Roman\", serif",
+      "position": "absolute",
+      "height": "auto"
+    }
+  },
+  {
+    "page": "timer",
+    "width": 380,
+    "overflow": 0,
+    "offenders": [],
+    "font": "\"Times New Roman\", Times, serif",
+    "heading": {
+      "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+      "top": "9px",
+      "font": "700 23px / 23px \"Times New Roman\", serif",
+      "position": "absolute",
+      "height": "auto"
+    }
+  },
+  {
+    "page": "badges",
+    "width": 380,
+    "overflow": 0,
+    "offenders": [],
+    "font": "\"Times New Roman\", Times, serif",
+    "heading": {
+      "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+      "top": "9px",
+      "font": "700 23px / 23px \"Times New Roman\", serif",
+      "position": "absolute",
+      "height": "auto"
+    }
+  },
+  {
+    "page": "home",
+    "width": 600,
+    "overflow": 0,
+    "offenders": [],
+    "font": "\"Times New Roman\", Times, serif",
+    "heading": {
+      "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+      "top": "9px",
+      "font": "700 25.585px / 25.585px \"Times New Roman\", serif",
+      "position": "absolute",
+      "height": "25.5781px"
+    }
+  },
+  {
+    "page": "notes",
+    "width": 600,
+    "overflow": 0,
+    "offenders": [],
+    "font": "\"Times New Roman\", Times, serif",
+    "heading": {
+      "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+      "top": "9px",
+      "font": "700 25.585px / 25.585px \"Times New Roman\", serif",
+      "position": "absolute",
+      "height": "auto"
+    }
+  },
+  {
+    "page": "todos",
+    "width": 600,
+    "overflow": 0,
+    "offenders": [],
+    "font": "\"Times New Roman\", Times, serif",
+    "heading": {
+      "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+      "top": "9px",
+      "font": "700 25.585px / 25.585px \"Times New Roman\", serif",
+      "position": "absolute",
+      "height": "auto"
+    }
+  },
+  {
+    "page": "timer",
+    "width": 600,
+    "overflow": 0,
+    "offenders": [],
+    "font": "\"Times New Roman\", Times, serif",
+    "heading": {
+      "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+      "top": "9px",
+      "font": "700 25.585px / 25.585px \"Times New Roman\", serif",
+      "position": "absolute",
+      "height": "auto"
+    }
+  },
+  {
+    "page": "badges",
+    "width": 600,
+    "overflow": 0,
+    "offenders": [],
+    "font": "\"Times New Roman\", Times, serif",
+    "heading": {
+      "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+      "top": "9px",
+      "font": "700 25.585px / 25.585px \"Times New Roman\", serif",
+      "position": "absolute",
+      "height": "auto"
+    }
+  },
+  {
+    "page": "home",
+    "width": 900,
+    "overflow": 0,
+    "offenders": [],
+    "font": "\"Times New Roman\", Times, serif",
+    "heading": {
+      "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+      "top": "9px",
+      "font": "700 34px / 34px \"Times New Roman\", serif",
+      "position": "absolute",
+      "height": "34px"
+    }
+  },
+  {
+    "page": "notes",
+    "width": 900,
+    "overflow": 0,
+    "offenders": [],
+    "font": "\"Times New Roman\", Times, serif",
+    "heading": {
+      "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+      "top": "9px",
+      "font": "700 34px / 34px \"Times New Roman\", serif",
+      "position": "absolute",
+      "height": "auto"
+    }
+  },
+  {
+    "page": "todos",
+    "width": 900,
+    "overflow": 0,
+    "offenders": [],
+    "font": "\"Times New Roman\", Times, serif",
+    "heading": {
+      "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+      "top": "9px",
+      "font": "700 34px / 34px \"Times New Roman\", serif",
+      "position": "absolute",
+      "height": "auto"
+    }
+  },
+  {
+    "page": "timer",
+    "width": 900,
+    "overflow": 0,
+    "offenders": [],
+    "font": "\"Times New Roman\", Times, serif",
+    "heading": {
+      "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+      "top": "9px",
+      "font": "700 34px / 34px \"Times New Roman\", serif",
+      "position": "absolute",
+      "height": "auto"
+    }
+  },
+  {
+    "page": "badges",
+    "width": 900,
+    "overflow": 0,
+    "offenders": [],
+    "font": "\"Times New Roman\", Times, serif",
+    "heading": {
+      "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+      "top": "9px",
+      "font": "700 34px / 34px \"Times New Roman\", serif",
+      "position": "absolute",
+      "height": "auto"
+    }
+  }
+]

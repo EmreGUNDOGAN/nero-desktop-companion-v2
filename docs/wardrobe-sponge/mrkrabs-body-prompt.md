@@ -1,0 +1,11 @@
+# mrkrabs gövde görseli üretim kaydı
+
+Araç: yerleşik imagegen; şeffaf arka plan. Sonradan oran korunarak 220×260 boyutuna küçültüldü. Yüz uygulamanın bağımsız katmanlarından gelir.
+
+Use case: precise-object-edit.
+Image 1 is the user-approved BLANK-FACE Nero SpongeBob outfit body: exact edit target and fixed alignment. Image 2 is the same Nero in a brown polo, only a supporting crisp-contour and original bare-feet reference.
+Create ONE MR. KRABS-INSPIRED clothing variant on this SAME Nero. Replace the clothing below his head with Mr. Krabs' unmistakable pale/light blue short-sleeved collared button shirt, two small dark buttons, sturdy black belt with a clear rectangular golden buckle, and purple-blue trousers neatly following Nero's short rounded lower body. Show two original small rounded mint-green feet at the same positions as Image 2. Small mint hands remain under the sleeves at the same locations. No tie, white socks, black dress shoes, cap, prop, money bag or logos.
+Do not create a crab character: no red skin, giant claws, eye stalks, crab head, extra limbs or changed Nero anatomy. Preserve the exact mint head, blank face, white forehead highlight, head silhouette, neck contour, shoulder height, hand positions, center and scale from Image 1. Keep the face completely blank for the original separate animated eyes/brows/mouth.
+Keep the same 220x260 working-canvas proportions, safe margins and pose. Full body and both feet visible, transparent background. No change outside garment details.
+Match the same cozy polished hand-painted 2D Nero style and restrained soft cloth shading. CRITICAL USER REQUIREMENT: every outline is dark brown charcoal, continuous and sharp, high contrast at the final 220x260 size, approximately 3–4px line weight at that working size. Crisp shirt collar, sleeve hems, belt, buckle, trouser seam, hands and feet. No faint low-opacity contour, sketchy lines, haze, blur or washed-out blue/purple edges. Blue shirt and purple trousers must be visibly distinct.
+Output ONE complete blank-face Nero wardrobe body, exactly registered to Image 1, with genuine alpha transparency. No text, surrounding desktop, illustration background or comparison sheet.

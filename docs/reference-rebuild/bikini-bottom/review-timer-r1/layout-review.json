@@ -1,0 +1,155 @@
+{
+  "report": [
+    {
+      "width": 380,
+      "overflow": 0,
+      "digits": "25:00",
+      "resetVisible": true,
+      "nodes": [
+        {
+          "id": "timer-status",
+          "text": "Bir adım daha ileri.",
+          "inline": null,
+          "rect": {
+            "x": 94.78125,
+            "y": 413.78125,
+            "width": 191.84375,
+            "height": 20.765625
+          },
+          "maxWidth": "none",
+          "font": "12.96px / 14.256px \"Reference Office\", sans-serif",
+          "display": "flex"
+        },
+        {
+          "id": "timer-digits",
+          "text": "25:00",
+          "inline": "--sbf-clock-size: 17cqw;",
+          "rect": {
+            "x": 94.78125,
+            "y": 347.5625,
+            "width": 191.84375,
+            "height": 67.5
+          },
+          "maxWidth": "none",
+          "font": "61.2px / 61.2px \"Reference Sponge\", sans-serif",
+          "display": "grid"
+        },
+        {
+          "id": "timer-label",
+          "text": "",
+          "inline": null,
+          "rect": {
+            "x": 100.234375,
+            "y": 176.828125,
+            "width": 200.15625,
+            "height": 19.3125
+          },
+          "maxWidth": "none",
+          "font": "11.52px / 11.52px \"Reference Office\", \"Segoe UI\", sans-serif",
+          "display": "block"
+        }
+      ]
+    },
+    {
+      "width": 600,
+      "overflow": 0,
+      "digits": "25:00",
+      "resetVisible": true,
+      "nodes": [
+        {
+          "id": "timer-status",
+          "text": "Bir adım daha ileri.",
+          "inline": null,
+          "rect": {
+            "x": 150.15625,
+            "y": 657.625,
+            "width": 312.828125,
+            "height": 33.21875
+          },
+          "maxWidth": "none",
+          "font": "21.132px / 23.2452px \"Reference Office\", sans-serif",
+          "display": "flex"
+        },
+        {
+          "id": "timer-digits",
+          "text": "25:00",
+          "inline": "--sbf-clock-size: 17cqw;",
+          "rect": {
+            "x": 150.15625,
+            "y": 551.734375,
+            "width": 312.828125,
+            "height": 107.96875
+          },
+          "maxWidth": "none",
+          "font": "99.79px / 99.79px \"Reference Sponge\", sans-serif",
+          "display": "grid"
+        },
+        {
+          "id": "timer-label",
+          "text": "",
+          "inline": null,
+          "rect": {
+            "x": 159.03125,
+            "y": 278.625,
+            "width": 326.359375,
+            "height": 30.90625
+          },
+          "maxWidth": "none",
+          "font": "18.784px / 18.784px \"Reference Office\", \"Segoe UI\", sans-serif",
+          "display": "block"
+        }
+      ]
+    },
+    {
+      "width": 900,
+      "overflow": 0,
+      "digits": "25:00",
+      "resetVisible": true,
+      "nodes": [
+        {
+          "id": "timer-status",
+          "text": "Bir adım daha ileri.",
+          "inline": null,
+          "rect": {
+            "x": 221.625,
+            "y": 990.1875,
+            "width": 468.984375,
+            "height": 50.1875
+          },
+          "maxWidth": "none",
+          "font": "31.68px / 34.848px \"Reference Office\", sans-serif",
+          "display": "flex"
+        },
+        {
+          "id": "timer-digits",
+          "text": "25:00",
+          "inline": "--sbf-clock-size: 17cqw;",
+          "rect": {
+            "x": 221.625,
+            "y": 830.171875,
+            "width": 468.984375,
+            "height": 163.140625
+          },
+          "maxWidth": "none",
+          "font": "149.6px / 149.6px \"Reference Sponge\", sans-serif",
+          "display": "grid"
+        },
+        {
+          "id": "timer-label",
+          "text": "",
+          "inline": null,
+          "rect": {
+            "x": 234.90625,
+            "y": 417.484375,
+            "width": 489.265625,
+            "height": 46.703125
+          },
+          "maxWidth": "none",
+          "font": "28.16px / 28.16px \"Reference Office\", \"Segoe UI\", sans-serif",
+          "display": "block"
+        }
+      ]
+    }
+  ],
+  "errors": []
+}

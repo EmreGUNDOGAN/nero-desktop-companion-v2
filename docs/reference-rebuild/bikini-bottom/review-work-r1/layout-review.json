@@ -1,0 +1,103 @@
+{
+  "report": [
+    {
+      "width": 380,
+      "overflow": 0,
+      "rows": 6,
+      "columns": 2,
+      "summary": "Bugün: 3 iş · yaklaşık 1 sa 20 dk1 işin süresi belirtilmedi"
+    },
+    {
+      "width": 600,
+      "overflow": 0,
+      "rows": 6,
+      "columns": 2,
+      "summary": "Bugün: 3 iş · yaklaşık 1 sa 20 dk1 işin süresi belirtilmedi"
+    },
+    {
+      "width": 900,
+      "overflow": 0,
+      "rows": 6,
+      "columns": 2,
+      "summary": "Bugün: 3 iş · yaklaşık 1 sa 20 dk1 işin süresi belirtilmedi"
+    }
+  ],
+  "errors": [],
+  "diagnostic": [
+    {
+      "id": "",
+      "cls": "",
+      "width": 1,
+      "scroll": 69,
+      "before": "",
+      "after": "none",
+      "overflow": "hidden",
+      "transform": "none"
+    },
+    {
+      "id": "todo-count",
+      "cls": "",
+      "width": 1,
+      "scroll": 27,
+      "before": "",
+      "after": "none",
+      "overflow": "hidden",
+      "transform": "none"
+    }
+  ],
+  "geometry": {
+    "width": 880,
+    "scrollWidth": 880,
+    "rectWidth": 887,
+    "border": "0px",
+    "padding": "0px",
+    "culprits": [
+      {
+        "id": "",
+        "cls": "sb-only sb-heading",
+        "overflow": 0
+      },
+      {
+        "id": "",
+        "cls": "sb-only sb-kitchen",
+        "overflow": 0
+      },
+      {
+        "id": "",
+        "cls": "nf-dropzones",
+        "overflow": 0
+      },
+      {
+        "id": "",
+        "cls": "card list-card",
+        "overflow": 0
+      },
+      {
+        "id": "delay",
+        "cls": "delay",
+        "overflow": 0
+      },
+      {
+        "id": "todos-archive",
+        "cls": "archive-drawer",
+        "overflow": 0
+      },
+      {
+        "id": "sbf-work-capture",
+        "cls": "sbf-only sbf-work-capture",
+        "overflow": 0
+      },
+      {
+        "id": "",
+        "cls": "sbf-only sbf-work-footer",
+        "overflow": 0
+      },
+      {
+        "id": "sbf-work-tags",
+        "cls": "",
+        "overflow": 0
+      }
+    ],
+    "candidates": []
+  }
+}

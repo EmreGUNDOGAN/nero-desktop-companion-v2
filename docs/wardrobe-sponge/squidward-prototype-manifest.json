@@ -1,0 +1,10 @@
+{
+  "status": "visual-review-required",
+  "characterRenderer": "src/renderer/character/wardrobe-renderer.js",
+  "garmentBody": "squidward-body-fit-v1.png",
+  "garmentSource": "squidward-body-generated-v1.png",
+  "garmentSourceSha256": "6c3ef584fe9996292ad3c3fdd5278b7043e09f84f01ecd9fa3480278702a5c1f",
+  "nativeFaceLayers": "themes/default/assets/wardrobe/daily-kot-ceket",
+  "alignment": "220x260; original denim face transforms retained; generated body uniformly resized only",
+  "productionIntegration": false
+}

@@ -17,6 +17,27 @@ const LEGACY_IDS = [
   'birlikte_30','birlikte_100','ilk_not','not_25','sev_1','sev_50','sev_200','uyandirdin','salladin','yakaladin','dogum_gunu'
 ];
 
+test('rozet ilerlemesi gerçek sayaçtan hesaplanır ve kilidi erken açmaz', () => {
+  const stats = new Stats(new MemoryStore());
+  stats.todoDone(4);
+  const partial = stats.achievementList().find(a => a.id === 'is_10');
+  assert.equal(partial.progress, 0.4);
+  assert.equal(partial.progressCurrent, 4);
+  assert.equal(partial.progressTarget, 10);
+  assert.equal(partial.unlockedAt, null);
+  stats.todoDone(8);
+  const finished = stats.achievementList().find(a => a.id === 'is_10');
+  assert.equal(finished.progress, 1);
+  assert.equal(finished.progressCurrent, 12);
+  assert.ok(finished.unlockedAt);
+  const event = stats.achievementList().find(a => a.id === 'hepsi_bitti');
+  assert.equal(event.progress, null);
+  assert.equal(event.progressTarget, null);
+  const compound = ACHIEVEMENTS.find(a => a.check && String(a.check).includes('&&') && !a.hidden);
+  assert.ok(compound);
+  assert.equal(stats.achievementList().find(a => a.id === compound.id).progress, null);
+});
+
 test('Achievement v2 tam 125 benzersiz rozet içerir ve dağılım doğrudur', () => {
   assert.equal(ACHIEVEMENTS.length, 125);
   assert.equal(new Set(ACHIEVEMENTS.map((a) => a.id)).size, 125);

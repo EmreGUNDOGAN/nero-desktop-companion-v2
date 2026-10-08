@@ -1,0 +1,9 @@
+.nf-task-meta .nf-label{display:inline-block;vertical-align:middle;white-space:nowrap;padding:2px 6px;margin:2px 5px 2px 0;border-radius:3px;font:normal 13px/1.2 var(--text);color:#314859;background:#dce5e7;border:1px solid #bacbd2}
+.nf-task-meta .nf-label[data-label-kind=priority]{background:#ee9093;border-color:#d66f78;color:#691c24}
+.nf-task-meta .nf-label[data-label-kind=low]{background:#dce1e6;border-color:#b5c0ca;color:#465a70}
+.nf-task-meta .nf-label[data-label-kind=work]{background:#285fbc;border-color:#1a489c;color:#fff}
+.nf-task-meta .nf-label[data-label-kind=personal]{background:#a2c293;border-color:#7fa76c;color:#244b2e}
+.nf-task-meta .nf-label[data-label-kind=planning]{background:#c1b8e4;border-color:#a89ccd;color:#443377}
+.nf-task-meta .nf-label[data-label-kind=custom]{background:#ead4a1;border-color:#cdb37a;color:#655022}
+html[data-skin=scranton] .nf-task-meta .nf-label{font-family:'Reference Office',sans-serif;border:0;padding:2px 6px;font-size:14px}
+html[data-skin=stars-hollow] .nf-task-meta .nf-label{font-family:'Times New Roman',serif}

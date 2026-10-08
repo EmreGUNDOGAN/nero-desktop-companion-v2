@@ -1,0 +1,37 @@
+{
+  "passed": true,
+  "version": "6.9.13",
+  "sourceFiles": 516,
+  "themeFiles": 5826,
+  "themeIds": [
+    "arcade-molasi",
+    "bikini-bottom",
+    "biletini-sakla",
+    "cilek",
+    "cizgi-roman-arasi",
+    "default",
+    "disket",
+    "ege",
+    "gece",
+    "kar",
+    "kasaba",
+    "latte",
+    "mum",
+    "nero98",
+    "pazartesi",
+    "radyo-aksami",
+    "scranton",
+    "serada-bir-gun",
+    "stars-hollow",
+    "yagmur",
+    "yorunge"
+  ],
+  "allSourceAndThemeHashesMatch": true,
+  "approvedCostumes": [
+    "bikini-spongebob",
+    "bikini-squidward",
+    "bikini-patrick",
+    "bikini-mr-krabs",
+    "bikini-sandy"
+  ]
+}

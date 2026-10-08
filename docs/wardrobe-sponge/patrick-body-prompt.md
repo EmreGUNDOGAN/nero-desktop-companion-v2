@@ -1,0 +1,11 @@
+# patrick gövde görseli üretim kaydı
+
+Araç: yerleşik imagegen; şeffaf arka plan. Sonradan oran korunarak 220×260 boyutuna küçültüldü. Yüz uygulamanın bağımsız katmanlarından gelir.
+
+Use case: precise-object-edit.
+Image 1 is the USER-APPROVED blank-face Nero SpongeBob costume body, the exact edit target and alignment reference. Image 2 is a new same-family blank-face Squidward-polo variant, only a supporting style and bare mint-feet reference.
+Make one PATRICK-INSPIRED OUTFIT on the SAME Nero body. Change only the clothing below his original head: remove the white shirt and red tie so his rounded mint-green torso and small mint arms are visible, and dress him in Patrick's iconic bright lime-green swim shorts with three or four clean bold PURPLE FLOWER motifs, soft waistband and subtle simple seams. No belt, socks, black shoes, shirt, hat, props or accessories. His two small rounded mint-green feet remain in the original positions, like Image 2. Shorts must fit the existing oval lower torso naturally, not look pasted on, oversized or detached.
+Do not create Patrick's body: no pink skin, star-shaped torso, pointy head or exaggerated arms. The original Nero mint-green head, blank face surface, highlight, head silhouette, neck contour, body center, shoulder/hand positions and overall proportions stay EXACTLY as Image 1. Keep the head blank: existing native animated eyes/brows/mouth will be added separately in the actual app.
+Preserve the same 220x260 working-canvas aspect, center, scale and safe margins. Full figure and both feet completely visible; genuine transparent background. Keep all non-clothing character features unchanged.
+Match the existing cozy polished hand-painted 2D Nero style with restrained clean shading and dark brown charcoal outlines. CRITICAL USER REQUIREMENT: crisp continuous high-contrast outlines around the head, hands, torso, shorts, flower motifs and feet; garment seams stay clear at 220x260, equivalent to a steady 3–4px contour. No faint low-opacity lines, blur, hazy gradients, watercolor, sketchiness or muddy purple motifs. Purple flowers should be simple legible shapes at the small app size. No face, logos, text, surrounding desktop, background scene or montage.
+Output ONE full-body blank-face costume asset, precisely registered to Image 1, with alpha transparency.

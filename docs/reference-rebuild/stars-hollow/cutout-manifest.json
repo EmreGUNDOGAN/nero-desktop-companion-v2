@@ -1,0 +1,483 @@
+[
+  {
+    "asset": "themes/stars-hollow/assets/reference/badge-library-tag-cutout.png",
+    "sourceAsset": "themes/stars-hollow/assets/reference/badge-library-tag.png",
+    "sourceSha256": "47c4287ad2a916804fe5d013dfd9da966fe9197600a300c93efa5bba1bed49f7",
+    "method": "traced polygon, original pixels retained",
+    "polygon": [
+      [
+        44,
+        7
+      ],
+      [
+        68,
+        9
+      ],
+      [
+        72,
+        0
+      ],
+      [
+        90,
+        1
+      ],
+      [
+        103,
+        16
+      ],
+      [
+        111,
+        27
+      ],
+      [
+        120,
+        58
+      ],
+      [
+        134,
+        78
+      ],
+      [
+        113,
+        87
+      ],
+      [
+        101,
+        59
+      ],
+      [
+        98,
+        42
+      ],
+      [
+        91,
+        66
+      ],
+      [
+        71,
+        158
+      ],
+      [
+        54,
+        158
+      ],
+      [
+        3,
+        145
+      ],
+      [
+        0,
+        137
+      ],
+      [
+        24,
+        55
+      ]
+    ],
+    "size": [
+      135,
+      164
+    ]
+  },
+  {
+    "asset": "themes/stars-hollow/assets/reference/badge-dragonfly-tag-cutout.png",
+    "sourceAsset": "themes/stars-hollow/assets/reference/badge-dragonfly-tag.png",
+    "sourceSha256": "afb44865ac8ca137d8f694aeb090aa0a32763e39af75c78d2e1beced49584e89",
+    "method": "traced polygon, original pixels retained",
+    "polygon": [
+      [
+        0,
+        1
+      ],
+      [
+        39,
+        0
+      ],
+      [
+        59,
+        9
+      ],
+      [
+        86,
+        1
+      ],
+      [
+        130,
+        1
+      ],
+      [
+        129,
+        16
+      ],
+      [
+        114,
+        34
+      ],
+      [
+        120,
+        45
+      ],
+      [
+        117,
+        92
+      ],
+      [
+        29,
+        103
+      ],
+      [
+        18,
+        99
+      ],
+      [
+        16,
+        48
+      ],
+      [
+        4,
+        47
+      ],
+      [
+        0,
+        33
+      ],
+      [
+        18,
+        28
+      ],
+      [
+        2,
+        12
+      ]
+    ],
+    "size": [
+      145,
+      146
+    ]
+  },
+  {
+    "asset": "themes/stars-hollow/assets/reference/badge-cassette-cutout.png",
+    "sourceAsset": "themes/stars-hollow/assets/reference/badge-cassette.png",
+    "sourceSha256": "0f4ed40a48ce69509d4c65516395448743f2077584816579fceb24a9852ed672",
+    "method": "traced polygon, original pixels retained",
+    "polygon": [
+      [
+        15,
+        44
+      ],
+      [
+        106,
+        27
+      ],
+      [
+        115,
+        32
+      ],
+      [
+        138,
+        105
+      ],
+      [
+        136,
+        117
+      ],
+      [
+        31,
+        131
+      ],
+      [
+        17,
+        124
+      ],
+      [
+        1,
+        59
+      ]
+    ],
+    "size": [
+      141,
+      139
+    ]
+  },
+  {
+    "asset": "themes/stars-hollow/assets/reference/badge-cup-cutout.png",
+    "sourceAsset": "themes/stars-hollow/assets/reference/badge-cup.png",
+    "sourceSha256": "b303dc5ccac88fbbdcfb70f6c29867bfe8d46ba4402ab636c0d084bf6a95c875",
+    "method": "traced polygon, original pixels retained",
+    "polygon": [
+      [
+        13,
+        7
+      ],
+      [
+        41,
+        3
+      ],
+      [
+        75,
+        4
+      ],
+      [
+        98,
+        12
+      ],
+      [
+        98,
+        24
+      ],
+      [
+        112,
+        24
+      ],
+      [
+        121,
+        37
+      ],
+      [
+        119,
+        58
+      ],
+      [
+        99,
+        77
+      ],
+      [
+        94,
+        98
+      ],
+      [
+        71,
+        109
+      ],
+      [
+        20,
+        105
+      ],
+      [
+        12,
+        91
+      ]
+    ],
+    "size": [
+      122,
+      111
+    ]
+  },
+  {
+    "asset": "themes/stars-hollow/assets/reference/home-memory-jar-cutout.png",
+    "sourceAsset": "themes/stars-hollow/assets/reference/home-memory-jar.png",
+    "sourceSha256": "db110106cd666e935228f1b5d70af8c7a0677cda1689572a97984f45b3eca7c3",
+    "method": "traced polygon, original pixels retained",
+    "polygon": [
+      [
+        13,
+        2
+      ],
+      [
+        111,
+        1
+      ],
+      [
+        119,
+        8
+      ],
+      [
+        119,
+        21
+      ],
+      [
+        115,
+        29
+      ],
+      [
+        132,
+        47
+      ],
+      [
+        142,
+        157
+      ],
+      [
+        120,
+        175
+      ],
+      [
+        16,
+        175
+      ],
+      [
+        0,
+        155
+      ],
+      [
+        0,
+        70
+      ],
+      [
+        4,
+        52
+      ],
+      [
+        15,
+        37
+      ],
+      [
+        13,
+        25
+      ]
+    ],
+    "size": [
+      143,
+      175
+    ]
+  },
+  {
+    "asset": "themes/stars-hollow/assets/reference/note-clip-cutout.png",
+    "sourceAsset": "themes/stars-hollow/assets/reference/note-clip.png",
+    "sourceSha256": "a19cd6d56cae01c344860ff204d15c16240df5ea18a96303198ee48968794b8e",
+    "method": "traced polygon, original pixels retained",
+    "polygon": [
+      [
+        27,
+        0
+      ],
+      [
+        42,
+        2
+      ],
+      [
+        42,
+        20
+      ],
+      [
+        24,
+        74
+      ],
+      [
+        17,
+        78
+      ],
+      [
+        4,
+        78
+      ],
+      [
+        0,
+        63
+      ],
+      [
+        15,
+        12
+      ]
+    ],
+    "size": [
+      43,
+      79
+    ]
+  },
+  {
+    "asset": "themes/stars-hollow/assets/reference/todo-keyring-cutout.png",
+    "sourceAsset": "themes/stars-hollow/assets/reference/todo-keyring.png",
+    "sourceSha256": "06b970dede1087555f458d405d0a7bc1e283b7d422e63bc8b62a4c80f7518730",
+    "method": "traced polygon, original pixels retained",
+    "polygon": [
+      [
+        5,
+        29
+      ],
+      [
+        98,
+        5
+      ],
+      [
+        141,
+        6
+      ],
+      [
+        156,
+        18
+      ],
+      [
+        247,
+        33
+      ],
+      [
+        281,
+        69
+      ],
+      [
+        277,
+        97
+      ],
+      [
+        252,
+        109
+      ],
+      [
+        171,
+        82
+      ],
+      [
+        142,
+        62
+      ],
+      [
+        100,
+        60
+      ],
+      [
+        80,
+        44
+      ],
+      [
+        29,
+        68
+      ],
+      [
+        0,
+        57
+      ]
+    ],
+    "size": [
+      362,
+      120
+    ]
+  },
+  {
+    "asset": "themes/stars-hollow/assets/reference/yale-stamp-live.png",
+    "sourceAsset": "themes/stars-hollow/assets/reference/yale-stamp.png",
+    "liveDateArea": [
+      8,
+      36,
+      123,
+      26
+    ]
+  },
+  {
+    "asset": "themes/stars-hollow/assets/reference/tag-green-live.png",
+    "liveLabelArea": [
+      3,
+      3,
+      57,
+      21
+    ]
+  },
+  {
+    "asset": "themes/stars-hollow/assets/reference/tag-wine-live.png",
+    "liveLabelArea": [
+      3,
+      3,
+      51,
+      20
+    ]
+  },
+  {
+    "asset": "themes/stars-hollow/assets/reference/tag-blue-live.png",
+    "liveLabelArea": [
+      3,
+      3,
+      59,
+      20
+    ]
+  }
+]

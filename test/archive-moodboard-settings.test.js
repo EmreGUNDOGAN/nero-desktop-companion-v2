@@ -85,6 +85,7 @@ test('Nero mood günlüğü bir takvim ayını 5 bucket sistemiyle döndürür',
   assert.equal(days[0].cls, 'c1');
   assert.equal(days[1].cls, 'c5');
   assert.equal(days[2].cls, 'c4');
+  assert.deepEqual(days.slice(0, 3).map(day => day.label), ['Kötü', 'İyi', 'İyi']);
   assert.equal(days[3].cls, null);
 });
 
@@ -96,6 +97,9 @@ test('aylık PNG kaynağı iki moodboardu aynı görselde üretmek için SVG iç
   assert.match(svg, /Nero’nun Moodboard’u/);
   assert.match(svg, /Eylül 2026 Moodboard/);
   assert.match(svg, /<svg/);
+  assert.match(svg, />Kötü<\/text>/);
+  assert.match(svg, />İdare eder<\/text>/);
+  assert.match(svg, />İyi<\/text>/);
 });
 
 test('İşler ve Notlar sayfalarında manuel aylık arşiv UI/IPC altyapısı vardır', () => {

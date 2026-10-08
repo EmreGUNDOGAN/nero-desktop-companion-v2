@@ -1,0 +1,15 @@
+{
+  "source": "src\\renderer\\fonts\\reference-lilita-one.ttf",
+  "sourceSha256": "f5b641c45c69d772ee4eda687bc9fda411d5cad6b0b45371491da4580cbc8d59",
+  "output": "src\\renderer\\fonts\\reference-sponge-tr.ttf",
+  "family": "Nero Sponge TR",
+  "license": "OFL-1.1; original OFL-LilitaOne.txt retained",
+  "addedCodepoints": [
+    "U+0130",
+    "U+015E",
+    "U+015F",
+    "U+011E",
+    "U+011F"
+  ],
+  "latinOutlines": "unchanged"
+}

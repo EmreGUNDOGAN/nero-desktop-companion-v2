@@ -238,6 +238,11 @@
     noteColors = Array.isArray(ui.noteColors) && ui.noteColors.length ? ui.noteColors : DEFAULT_NOTE_COLORS;
     const next = SKINS[ui.skin] ? ui.skin : 'cozy';
     if (next !== skinName || !document.documentElement.dataset.skin) {
+      window.NeroOfficeFidelity?.leave(next);
+      window.NeroSpongeFidelity?.leave(next);
+      window.NeroSpongeWork?.leave(next);
+      window.NeroSpongeBadges?.leave(next);
+      window.NeroGilmoreFidelity?.leave(next);
       window.NeroComicTheme?.leave(next);
       window.NeroSpongeTheme?.leave(next);
       window.NeroTVThemes?.leave(next);
@@ -708,12 +713,14 @@
       const ms = todoElapsedMs(todo);
       el.textContent = todo.stopwatchStartedAt ? `⏱ ${todoStopwatchText(ms)}` : `Gerçek: ${minutesText(Math.max(1, Math.round(ms / 60000)))}`;
     }
+    window.NeroSpongeWork?.clocks();
   }
 
   setInterval(updateTodoStopwatchClocks, 1000);
 
   let todoDrag = null;
   function beginTodoDrag(e, row) {
+    if (window.NeroSpongeWork?.beginDrag(e, row)) return;
     if (e.button !== 0 || e.target.closest('button, input, label, form, .subtask, [contenteditable="true"]')) return;
     const startY = e.clientY, startX = e.clientX;
     const main = $('view-todos');
@@ -751,6 +758,7 @@
   }
 
   function renderTodos() {
+    if (window.NeroSpongeWork?.dragging()) return;
     if (todoDrag || document.querySelector('.todo-text[contenteditable="true"], .subtask-text[contenteditable="true"], .subtask-input')) return;
     const list = $('todo-list');
     list.textContent = '';
@@ -942,6 +950,7 @@
         }
       });
     }
+    window.NeroSpongeWork?.nativeTodos(state);
   }
 
   function startRename(el, todo) {
@@ -1022,6 +1031,9 @@
     window.NeroThemeTrio?.updateTimer(state, chosenMinutes);
     window.NeroComicTheme?.updateTimer(state, chosenMinutes);
     window.NeroTVThemes?.timer(t);
+    window.NeroGilmoreFidelity?.timer(t);
+    window.NeroOfficeFidelity?.timer(t);
+    window.NeroSpongeFidelity?.timer(t);
   }
 
   function choose(minutes) {
@@ -1035,6 +1047,9 @@
     window.NeroThemeTrio?.updateTimer(state, chosenMinutes);
     window.NeroComicTheme?.updateTimer(state, chosenMinutes);
     window.NeroTVThemes?.timer(state?.timer||{status:'idle'});
+    window.NeroGilmoreFidelity?.timer(state?.timer||{status:'idle'});
+    window.NeroOfficeFidelity?.timer(state?.timer||{status:'idle'});
+    window.NeroSpongeFidelity?.timer(state?.timer||{status:'idle'});
   }
 
   document.querySelectorAll('#presets button').forEach((b) => b.addEventListener('click', () => choose(b.dataset.min)));
@@ -1053,20 +1068,22 @@
     const played=await api.invoke('motion:play',button.dataset.motion);
     $('motion-feedback').textContent=played?'':'Nero şu anda bu hareketi yapamıyor. Uyanık ve görünür olduğundan, animasyonların açık olduğundan emin ol.';
   }));
-  const wardrobeGroups = { costume: 'Sevimli', daily: 'Gündelik', spring: 'İlkbahar', summer: 'Yaz', autumn: 'Sonbahar', winter: 'Kış', retro: 'Retro Gardırop', fairy: 'Masal Dünyası', cozy: 'Cozy Ev Hayatı', space: 'Uzay ve Bilim', absurd: 'Absürt Şıklık' };
+  const wardrobeGroups = { costume: 'Sevimli', daily: 'Gündelik', spring: 'İlkbahar', summer: 'Yaz', autumn: 'Sonbahar', winter: 'Kış', retro: 'Retro Gardırop', fairy: 'Masal Dünyası', cozy: 'Cozy Ev Hayatı', space: 'Uzay ve Bilim', absurd: 'Absürt Şıklık', 'bikini-bottom': 'SpongeBob' };
   let wardrobeGroup = 'daily';
   function renderWardrobe() {
     const locked = !!state.specialOutfit;
     const builtin = state.themes.some((t) => t.id === state.currentThemeId && t.source === 'builtin');
     const tabs = $('wardrobe-tabs');
+    const tabsScroll = tabs.scrollLeft;
     tabs.replaceChildren();
     for (const [group, label] of Object.entries(wardrobeGroups)) {
       const button = document.createElement('button');
       button.type = 'button'; button.textContent = label;
       button.setAttribute('role', 'tab'); button.setAttribute('aria-selected', String(group === wardrobeGroup));
-      button.addEventListener('click', () => { wardrobeGroup = group; renderWardrobe(); });
+      button.addEventListener('click', () => { wardrobeGroup = group; renderWardrobe(); tabs.querySelector('[aria-selected="true"]').scrollIntoView({block:'nearest', inline:'nearest'}); });
       tabs.appendChild(button);
     }
+    tabs.scrollLeft = tabsScroll;
     const grid = $('wardrobe-grid');
     grid.replaceChildren();
     for (const item of (state.wardrobe || []).filter((item) => item.group === wardrobeGroup)) {
@@ -1084,7 +1101,7 @@
     $('wardrobe-remove').disabled = locked || !builtin;
     $('wardrobe-status').textContent = locked ? 'Bugün özel gün kıyafeti giyiliyor; yarın seçtiğin kıyafet geri dönecek.'
       : !builtin ? 'Dolap Nero ile gelen temalarda kullanılabilir.'
-      : (new Date().getHours() >= 21 || new Date().getHours() < 6) ? 'Nero şimdi gecenin pijamasını giyiyor. Gündüz seçimin saklı.'
+      : (new Date().getHours() >= 21 || new Date().getHours() < 6) ? (/^sleep-/.test(state.activeOutfit || '') ? 'Nero gecenin pijamasını giyiyor; başka kıyafet seçebilirsin. Gündüz seçimin saklı.' : 'Gece kıyafetini değiştirebilirsin. Gündüz seçimin saklı.')
       : 'Giydirmek için bir kıyafete dokun.';
   }
   $('wardrobe-remove').addEventListener('click', () => set('wardrobeOutfit', null));
@@ -1244,6 +1261,7 @@
     for (const a of sorted) {
       const li = document.createElement('li');
       li.className = `badge badge-${a.rarity}${a.unlockedAt ? ' on' : ''}`;
+      li.dataset.badgeId=a.id;
       const icon = document.createElement('span');
       icon.className = 'badge-icon';
       icon.textContent = a.unlockedAt ? a.icon : '?';
@@ -1266,6 +1284,9 @@
       grid.appendChild(li);
     }
     window.NeroThemeTrio?.updateBadges();
+    window.NeroGilmoreFidelity?.badges();
+    window.NeroOfficeFidelity?.badges();
+    window.NeroSpongeBadges?.badges();
   }
 
   $('badge-rarity-tabs').addEventListener('click', (event) => {
@@ -1403,7 +1424,7 @@
         if (day.value) dot.classList.add(`mood-${day.value}`);
         else dot.classList.add('empty');
         if (day.future) dot.classList.add('future');
-        const moodName = day.value === 'green' ? 'muhteşem' : day.value === 'yellow' ? 'idare eder' : day.value === 'red' ? 'kötü' : 'seçilmedi';
+        const moodName = day.value === 'green' ? 'iyi' : day.value === 'yellow' ? 'idare eder' : day.value === 'red' ? 'kötü' : 'seçilmedi';
         const stateLabel = day.future ? 'gelecek gün' : moodName;
         dot.title = `${moodDateLabel(day.date)}: ${stateLabel}`;
         dot.setAttribute('aria-label', `${moodDateLabel(day.date)} ruh hali: ${stateLabel}`);
@@ -1413,7 +1434,7 @@
           const picker = document.createElement('div');
           picker.className = 'mood-picker';
           picker.hidden = true;
-          for (const [value, label] of [['green', 'Muhteşem'], ['yellow', 'İdare eder'], ['red', 'Kötü']]) {
+          for (const [value, label] of [['green', 'İyi'], ['yellow', 'İdare eder'], ['red', 'Kötü']]) {
             const choice = document.createElement('button');
             choice.type = 'button';
             choice.className = `mood-choice mood-${value}`;
@@ -1540,6 +1561,8 @@
     renderMoodCalendar($('nero-mood-calendar'), board.nero, 'nero', false);
     renderMoodHistory(board);
     renderMoodboardNav(board);
+    window.NeroOfficeFidelity?.home();
+    window.NeroSpongeFidelity?.home();
   }
 
   $('mood-history-toggle').addEventListener('click', (event) => {
@@ -1576,8 +1599,8 @@
     list.textContent = '';
     moreList.textContent = '';
     const items = a.recent || [];
-    const visible = items.slice(0, 5);
-    const rest = items.slice(5);
+    const visible = ['scranton', 'bikini-bottom'].includes(skinName) ? items.slice(0, 4) : items.slice(0, 5);
+    const rest = ['scranton', 'bikini-bottom'].includes(skinName) ? items.slice(4) : items.slice(5);
     for (const item of visible) {
       const li = document.createElement('li');
       li.textContent = item.text;
@@ -1830,6 +1853,11 @@
     window.NeroSpongeTheme?.update(state,chosenMinutes);
     window.NeroFeaturesUI?.update(state);
     window.NeroTVThemes?.update(state);
+    window.NeroGilmoreFidelity?.update(state);
+    window.NeroOfficeFidelity?.update(state);
+    window.NeroSpongeFidelity?.update(state);
+    window.NeroSpongeWork?.update(state);
+    window.NeroSpongeBadges?.update(state);
   }
 
   api.on('state', renderAll);

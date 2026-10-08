@@ -1,0 +1,55 @@
+[
+  {
+    "asset": "themes/bikini-bottom/assets/reference/timer-live-master.png",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "method": {
+      "glassFields": [
+        [
+          133,
+          311,
+          359,
+          391
+        ],
+        [
+          157,
+          396,
+          332,
+          423
+        ]
+      ],
+      "otherFields": [
+        "input",
+        "presets",
+        "progress",
+        "action captions",
+        "stat values"
+      ],
+      "outsideLiveFields": "original scene/casing/flowers/houses/jellyfish/seabed/Patrick unchanged"
+    }
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/timer-preset-live.png",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "method": "original rounded button edge/shadow; changing number cleared"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/timer-preset-selected-live.png",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "method": "original rounded button edge/shadow; changing number cleared"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/timer-progress-empty-strip.png",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "method": "seven individually extracted original glass progress capsules"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/timer-progress-filled-strip.png",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "method": "seven individually extracted original glass progress capsules"
+  }
+]

@@ -1,0 +1,52 @@
+[
+  {
+    "id": "bikini-spongebob",
+    "source": "sponge-body-generated-v2.png",
+    "sourceSha256": "af1edc61de4b4e5a675a8499c0d26afdaf454fc5c04fa77eb5c9cb4822f373ea",
+    "body": "sponge-body-fit-v2.png",
+    "faceProfile": "unchanged approved denim face transforms",
+    "layers": 23
+  },
+  {
+    "id": "bikini-squidward",
+    "source": "squidward-body-generated-v1.png",
+    "sourceSha256": "6c3ef584fe9996292ad3c3fdd5278b7043e09f84f01ecd9fa3480278702a5c1f",
+    "body": "squidward-body-fit-v1.png",
+    "faceProfile": "unchanged approved denim face transforms",
+    "layers": 23
+  },
+  {
+    "id": "bikini-patrick",
+    "source": "patrick-body-generated-v2.png",
+    "sourceSha256": "3999cd5427a269172e2cfdaf516bd16510827b807b3cf8ff77d54ac10dadbcdb",
+    "body": "patrick-body-fit-v2.png",
+    "faceProfile": "unchanged approved denim face transforms",
+    "layers": 23
+  },
+  {
+    "id": "bikini-mr-krabs",
+    "source": "mrkrabs-body-generated-v1.png",
+    "sourceSha256": "c56723150af707f857076767e6b2a46bf903aba9620fba01d260ed55c146605f",
+    "body": "mrkrabs-body-fit-v1.png",
+    "faceProfile": "unchanged approved denim face transforms",
+    "layers": 23
+  },
+  {
+    "id": "bikini-sandy",
+    "source": "sandy-body-generated-v1.png",
+    "sourceSha256": "4a9b21e2254f688221bb28d89db60af89417291db3d9b2278b5b3328455466d4",
+    "body": "sandy-body-fit-v1.png",
+    "faceProfile": {
+      "x": 36.0,
+      "y": 10.799999999999997,
+      "mouthY": 2.390000000000015,
+      "scale": 0.65,
+      "headRows": [
+        34,
+        133
+      ],
+      "skin": "#c6dcc6"
+    },
+    "layers": 23
+  }
+]

@@ -1,6 +1,7 @@
 {
   "passed": true,
   "realMainProcess": true,
+  "packaged": false,
   "isolatedProfile": true,
   "characterCreated": true,
   "pinnedPanelReopened": true,

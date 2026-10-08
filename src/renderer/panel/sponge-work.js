@@ -1,0 +1,48 @@
+// The approved task illustration around existing records, controls and IPC.
+(()=>{'use strict';const $=id=>document.getElementById(id),active=()=>document.documentElement.dataset.skin==='bikini-bottom';let state,mounted=false,drag=null;const positions=new Map(),openSubtasks=new Set();let placeholder;
+ const el=(tag,value,cls)=>{const n=document.createElement(tag);if(value!==undefined)n.textContent=value;if(cls)n.className=cls;return n;};
+ const image=(name,cls)=>{const n=el('img',undefined,'sbf-only '+cls);n.src='nero-theme://bikini-bottom/assets/reference/'+name+'.png';n.alt='';n.setAttribute('aria-hidden','true');return n;};
+ function move(n,parent){if(!n||n.parentNode===parent)return;if(!positions.has(n)){const mark=document.createComment('Sponge work original');n.before(mark);positions.set(n,mark);}parent.append(n);}
+ function restore(){for(const [n,mark]of positions)if(mark.parentNode){mark.after(n);mark.remove();}positions.clear();if(placeholder!==undefined)$('todo-input').placeholder=placeholder;}
+ const duration=min=>{min=Math.max(0,Math.round(Number(min)||0));return min>=60?Math.floor(min/60)+' sa'+(min%60?' '+min%60+' dk':''):min+' dk';};
+ function mount(){if(mounted)return;mounted=true;placeholder=$('todo-input').placeholder;const root=$('view-todos'),capture=el('div',undefined,'sbf-only sbf-work-capture');capture.id='sbf-work-capture';root.append(capture);
+  const board=document.querySelector('#view-todos .list-card');board.append(image('work-clip-1','sbf-work-clip sbf-work-clip-left'),image('work-clip-2','sbf-work-clip sbf-work-clip-right'));
+  const hint=el('p','Sıralamak için sürükle · Bugün ve Sonra arasında taşı','sbf-only sbf-work-hint');board.append(hint);root.append(image('work-footer','sbf-work-footer'));
+  const tags=el('datalist');tags.id='sbf-work-tags';root.append(tags);$('nf-todo-filters').lastElementChild.setAttribute('list',tags.id);
+ }
+ function assemble(){const capture=$('sbf-work-capture');for(const n of [$('nf-plan'),$('nf-todo-filters'),$('todo-form')])move(n,capture);move($('todo-footer'),document.querySelector('#view-todos .list-card'));$('todo-input').placeholder='Bir sonraki küçük adım…';
+  const tags=$('sbf-work-tags');tags.replaceChildren();for(const tag of new Set(state.todos.flatMap(t=>window.NeroTaskLabels.tags(t)))){const option=el('option');option.value=tag;tags.append(option);}
+  const today=state.todos.filter(t=>!t.done&&!t.archivedAt&&(t.bucket||'today')==='today'),sum=today.reduce((n,t)=>n+(t.plannedDurationMin||0),0),unknown=today.filter(t=>!t.plannedDurationMin).length;
+  const plan=$('nf-plan');plan.replaceChildren(el('strong',`Bugün: ${today.length} iş · yaklaşık ${duration(sum)}`));if(unknown)plan.append(el('small',`${unknown} işin süresi belirtilmedi`));
+ }
+ function card(row,t,bucket,index){row.classList.add('sbf-task');row.dataset.sbfBucket=bucket;row.dataset.sbfPaper=t.done?'done':bucket==='later'?(index%2?'pink':'yellow'):(window.NeroTaskLabels.tags(t).includes('İş')?'blue':'cream');
+  const main=row.querySelector('.todo-main'),meta=row.querySelector('.nf-task-meta');if(meta){row.querySelector('.todo-text')?.after(meta);meta.replaceChildren();for(const label of window.NeroTaskLabels.entries(t)){const chip=el('span',label.text,'nf-label');chip.dataset.labelKind=label.kind;meta.append(chip);}}
+  if(!t.done&&!row.querySelector('.todo-meta'))main.append(el('div','Süre belirtilmedi','todo-meta'));
+  row.querySelectorAll('[data-todo-elapsed]').forEach(n=>n.textContent=n.textContent.replace('Gerçek:','Çalışılan:'));
+  if(t.done&&t.doneAt&&!row.querySelector('.sbf-task-date')){const date=el('time',new Date(t.doneAt).toLocaleDateString('tr-TR',{day:'numeric',month:'short'}),'sbf-task-date');date.dateTime=new Date(t.doneAt).toISOString();row.append(date);}
+  let details=row.querySelector('.sbf-subdetails');if(!details){details=el('details',undefined,'sbf-subdetails');details.open=openSubtasks.has(t.id);details.addEventListener('toggle',()=>{if(details.open)openSubtasks.add(t.id);else openSubtasks.delete(t.id);});const summary=el('summary');summary.append(el('span',undefined,'sbf-sub-progress'),el('span',undefined,'sbf-sub-count'));details.append(summary);const add=row.querySelector('.todo-add-child'),children=row.querySelector('.subtask-list');if(add){summary.append(add);add.addEventListener('click',()=>{details.open=true;children.querySelector('.subtask-input')?.focus();});}if(children)details.append(children);row.append(details);}
+  const tasks=t.subtasks||[],done=tasks.filter(s=>s.done).length;details.dataset.hasSubtasks=String(tasks.length>0);details.querySelector('.sbf-sub-count').textContent=tasks.length?`${done}/${tasks.length} adım`:'Alt görevler';const progress=details.querySelector('.sbf-sub-progress');progress.style.setProperty('--sbf-sub-progress',tasks.length?done/tasks.length*100+'%':'0%');progress.setAttribute('role','progressbar');progress.setAttribute('aria-label','Alt görev ilerlemesi');progress.setAttribute('aria-valuemin','0');progress.setAttribute('aria-valuemax',String(tasks.length));progress.setAttribute('aria-valuenow',String(done));
+ }
+ function todos(){if(!active()||!mounted||!state||drag||document.querySelector('#todo-list [contenteditable=true],#todo-list .subtask-input'))return;
+  assemble();
+  const root=$('todo-list'),headers=[...root.querySelectorAll('.nf-group')],rows=[...root.querySelectorAll('[data-todo-id]')];root.replaceChildren();
+  for(const bucket of ['today','later','done','older']){const matches=rows.filter(row=>{const t=state.todos.find(t=>t.id===row.dataset.todoId);if(!t)return false;const today=t.doneAt&&new Date(t.doneAt).toDateString()===new Date().toDateString();return bucket==='done'?t.done&&today:bucket==='older'?t.done&&!today:!t.done&&(t.bucket||'today')===bucket;});if(!matches.length&&['done','older'].includes(bucket))continue;
+   const page=el('li',undefined,'sbf-work-page'),list=el('ul',undefined,'sbf-work-rows');page.dataset.sbfBucket=bucket;if(['today','later'].includes(bucket)){page.classList.add('nf-dropzone');page.dataset.bucket=bucket;}
+   const name={today:'Bugün',later:'Sonra',done:'Bugün tamamlananlar',older:'Önceki günlerde tamamlananlar'}[bucket];let heading=headers.find(n=>n.querySelector('strong')?.textContent.startsWith(name));if(!heading){heading=el('li',undefined,'nf-group');heading.append(el('strong',name));}
+   const count=matches.filter(n=>n.dataset.nfMatches!=='false').length;heading.querySelector('strong').textContent=['today','later'].includes(bucket)?`${name} (${count})`:`${name} · ${count} iş`;heading.dataset.sbfBucket=bucket;
+   const fold=heading.querySelector('button');if(fold){fold.setAttribute('aria-label',name+' göster / gizle');fold.textContent='⌄';}
+   list.append(heading,...matches);if(!matches.some(n=>n.dataset.nfMatches!=='false')&&['today','later'].includes(bucket))list.append(el('li',matches.length?'Aradığın iş bulunamadı.':bucket==='today'?'Bugün için sırada iş yok.':'Sonraya bıraktığın işler burada.','sbf-work-empty'));
+   matches.forEach((row,i)=>card(row,state.todos.find(t=>t.id===row.dataset.todoId),bucket,i));page.append(list);root.append(page);
+  }
+ }
+ function update(next){state=next;if(!active()){restore();return;}mount();assemble();todos();}
+ function nativeTodos(next){if(active()&&mounted&&!drag){state=next;window.NeroFeaturesUI?.todos(next);}}
+ function clocks(){if(active())for(const n of document.querySelectorAll('#todo-list [data-todo-elapsed]'))n.textContent=n.textContent.replace('Gerçek:','Çalışılan:');}
+ function beginDrag(e,row){if(!active()||!mounted)return false;if(e.button!==0||e.target.closest('button,input,label,form,.subtask,summary,[contenteditable=true]'))return true;const source=row.closest('.sbf-work-page')?.dataset.bucket;if(!source)return true;
+  let started=false;const origin={x:e.clientX,y:e.clientY};const movePointer=event=>{if(!started&&Math.hypot(event.clientX-origin.x,event.clientY-origin.y)>8){started=true;drag=row;row.classList.add('todo-dragging');document.body.classList.add('nf-dragging');window.getSelection()?.removeAllRanges();}if(!started)return;event.preventDefault();const target=document.elementFromPoint(event.clientX,event.clientY)?.closest('.sbf-work-page.nf-dropzone');if(!target)return;const list=target.querySelector('.sbf-work-rows'),next=[...list.querySelectorAll(':scope>[data-todo-id]')].find(n=>n!==row&&event.clientY<n.getBoundingClientRect().top+n.getBoundingClientRect().height/2);list.insertBefore(row,next||null);};
+  const finish=async event=>{document.removeEventListener('pointermove',movePointer);document.removeEventListener('pointerup',finish);document.removeEventListener('pointercancel',finish);document.removeEventListener('keydown',escape);window.removeEventListener('blur',finish);if(!started)return;row.classList.remove('todo-dragging');document.body.classList.remove('nf-dragging');drag=null;try{if(event.type==='pointerup'){const page=row.closest('.sbf-work-page'),ids=[...page.querySelectorAll('[data-todo-id]')].map(n=>n.dataset.todoId);await window.nero.invoke('features:reorder',ids,page.dataset.bucket);}}catch(error){$('nf-status').textContent=error.message;}finally{window.NeroFeaturesUI?.todos(state);}};
+  const escape=event=>{if(event.key==='Escape')finish(event);};document.addEventListener('pointermove',movePointer,{passive:false});document.addEventListener('pointerup',finish);document.addEventListener('pointercancel',finish);document.addEventListener('keydown',escape);window.addEventListener('blur',finish);return true;
+ }
+ function leave(next){if(next!=='bikini-bottom')restore();}
+ window.NeroSpongeWork={update,todos,nativeTodos,clocks,leave,beginDrag,dragging:()=>!!drag,handlesDragging:()=>active()&&mounted};
+})();

@@ -1,0 +1,23 @@
+{
+  "report": [
+    {
+      "width": 380,
+      "overflow": 0,
+      "headingFont": "\"Reference Sponge\", sans-serif",
+      "counter": "75 dk"
+    },
+    {
+      "width": 600,
+      "overflow": 0,
+      "headingFont": "\"Reference Sponge\", sans-serif",
+      "counter": "75 dk"
+    },
+    {
+      "width": 900,
+      "overflow": 0,
+      "headingFont": "\"Reference Sponge\", sans-serif",
+      "counter": "75 dk"
+    }
+  ],
+  "errors": []
+}

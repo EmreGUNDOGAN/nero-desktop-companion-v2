@@ -23,12 +23,12 @@ test('6.8.1 wardrobe çekirdek dosyaları vardır', () => {
   }
 });
 
-test('6.8.1 wardrobe kataloğunda 88 kıyafet vardır', () => {
+test('wardrobe catalog retains the original 88 and all added costume groups', () => {
   const catalog = JSON.parse(fs.readFileSync(
     path.join(ROOT, 'themes/default/assets/wardrobe/catalog.json'),
     'utf8'
   ));
-  assert.equal(Object.keys(catalog).length, 88 + require('../src/main/wardrobe-additions.json').length);
+  assert.equal(Object.keys(catalog).length, 88 + require('../src/main/wardrobe-additions.json').length + require('../src/main/wardrobe-bikini.json').length);
 });
 
 test('6.8.1 wardrobe asset paketi eksik değildir', () => {

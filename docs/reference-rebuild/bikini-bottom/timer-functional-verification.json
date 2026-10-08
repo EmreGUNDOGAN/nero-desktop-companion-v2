@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "actions": [
+    "all five presets and long custom duration fit the porthole; today counters use live state",
+    "linked timer starts, shows progress, pauses without adding focus time and resumes",
+    "reset restores selected duration and records the interrupted task session",
+    "theme changes restore the existing controls; three widths have no horizontal overflow"
+  ],
+  "errors": []
+}

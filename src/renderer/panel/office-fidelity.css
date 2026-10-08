@@ -1,0 +1,321 @@
+/* Original Scranton scenes and physical objects, with live native controls. */
+.oc-only{display:none}
+html[data-skin=scranton]{--text:'Reference Office','Segoe UI',sans-serif;--serif:'Reference Office','Segoe UI',sans-serif;--hand:'Caveat',cursive;--oc-blue:#092c55;--oc-paper:#ecebe6}
+html[data-skin=scranton] .oc-only{display:block}
+html[data-skin=scranton] .oc-only[hidden],html[data-skin=scranton] .view[hidden]{display:none!important}
+html[data-skin=scranton] .oc-art{pointer-events:none;max-width:100%;object-fit:contain}
+html[data-skin=scranton] .shell{inset:2px;border:1px solid #8c8c87;border-radius:7px;background:#d5d5ce}
+html[data-skin=scranton] .top{min-height:62px;height:62px;padding:0;background:linear-gradient(105deg,#e8e6e1,#d7d4d0,#eeeae6);border:0;position:relative}
+html[data-skin=scranton] .brand{position:absolute;left:12px;top:7px;display:block}
+html[data-skin=scranton] .brand h1{width:120px;height:48px;margin:0;font-size:0;color:transparent;background:url('nero-theme://scranton/assets/reference/brand-logo.png') left center/contain no-repeat}
+html[data-skin=scranton] .tv-subtitle{position:absolute;left:126px;top:0;width:180px;font:normal 13px 'Reference Office',sans-serif;letter-spacing:0;color:#687084;white-space:nowrap}
+html[data-skin=scranton] .tv-company{position:absolute;right:112px;top:5px;width:64px;height:49px;padding:0;border:0;font-size:0;background:url('nero-theme://scranton/assets/reference/brand-company.png') center/contain no-repeat}
+html[data-skin=scranton] .window-controls{right:4px;top:6px;gap:0}
+html[data-skin=scranton] .window-controls button{width:20px;min-width:20px;height:25px;padding:3px}
+html[data-skin=scranton] .tabs{position:absolute;z-index:7;top:31px;left:146px;right:190px;min-height:26px;padding:0;gap:0;background:none;border:0;display:grid;grid-template-columns:repeat(6,minmax(0,1fr))}
+html[data-skin=scranton] .tabs button{border:1px solid #bfc0c0;border-radius:3px;font:500 14px 'Reference Office',sans-serif;letter-spacing:0;padding:4px 2px;min-width:0;gap:4px;background:#eae8e4;color:#243456}
+html[data-skin=scranton] .tabs svg{display:none}
+html[data-skin=scranton] .tabs button[aria-selected=true]{background:linear-gradient(#163c70,#07284f);color:#fff;border-color:#395578;box-shadow:inset 0 1px #6a82a4}
+html[data-skin=scranton]:has(:is(#view-todos,#view-timer,#view-badges):not([hidden])) .top{background:linear-gradient(110deg,#eef0ef,#d5d9dc)}
+html[data-skin=scranton]:has(:is(#view-todos,#view-timer,#view-badges):not([hidden])) .tabs{position:relative;top:auto;left:auto;right:auto;min-height:48px;background:linear-gradient(#f2f2f0,#dcdedd);padding:0;z-index:4}
+html[data-skin=scranton]:has(:is(#view-todos,#view-timer,#view-badges):not([hidden])) .tabs svg{display:block;width:22px;height:22px}
+html[data-skin=scranton]:has(:is(#view-todos,#view-timer,#view-badges):not([hidden])) .tabs button{display:flex;flex-direction:row;justify-content:center;align-items:center;font-size:clamp(12px,2cqw,19px);border-radius:0}
+html[data-skin=scranton] .view:not(#view-budget){width:100%;max-width:1122px;margin:0 auto;padding:0 0 20px;container-type:inline-size;background:#c8c9c5 url('nero-theme://scranton/assets/reference/desk-texture-clean.png') center/140px auto repeat}
+html[data-skin=scranton] .view:not(#view-budget) :is(button,input,select,textarea){font-family:'Reference Office','Segoe UI',sans-serif}
+html[data-skin=scranton] .view:not(#view-budget) :is(button,input,select,textarea):focus-visible{outline:2px solid #184c88;outline-offset:3px}
+html[data-skin=scranton] .tv-page-head{position:relative;padding:0;margin:0;border:0;display:block}
+html[data-skin=scranton] .tv-page-scene{min-height:0;aspect-ratio:1122/349;background-size:100% 100%;background-position:center;border:0;border-radius:0;box-shadow:none}
+html[data-skin=scranton] [data-tv-page=notes] .tv-page-scene{background-image:url('nero-theme://scranton/assets/reference/notes-hero.png')!important}
+html[data-skin=scranton] [data-tv-page=todos] .tv-page-scene{background-image:url('nero-theme://scranton/assets/reference/todos-hero.png')!important;aspect-ratio:1122/247}
+html[data-skin=scranton] [data-tv-page=badges] .tv-page-scene{background-image:url('nero-theme://scranton/assets/reference/badges-hero.png')!important;aspect-ratio:1038/234}
+html[data-skin=scranton] :is([data-tv-page=notes],[data-tv-page=todos],[data-tv-page=badges])>h2{position:absolute;clip-path:inset(50%);width:1px;height:1px;overflow:hidden}
+html[data-skin=scranton] [data-tv-page=notes]>.tv-button{position:absolute;right:2%;bottom:3%;width:19%;height:18%;font-size:0;color:transparent;background:none;border:0;box-shadow:none}
+html[data-skin=scranton] [data-tv-page=notes]>.tv-button:hover{outline:2px solid #fff9da;border-radius:5px}
+/* Home: reception scene and its blue physical counter tray. */
+html[data-skin=scranton] .home-grid{gap:12px;padding:0;max-width:900px;margin:0 auto}
+html[data-skin=scranton] .hello{position:relative;width:100%;aspect-ratio:734/310;min-height:0;margin:0;padding:0;background:none;overflow:hidden}
+html[data-skin=scranton] .tv-home-scene{position:absolute;inset:0;aspect-ratio:auto;min-height:0;background-image:url('nero-theme://scranton/assets/reference/home-hero-clean.png')!important;background-size:100% 100%;border:0;border-radius:0}
+html[data-skin=scranton] .hello h2{position:absolute;z-index:2;top:6%;left:27%;right:27%;margin:0;padding:0;height:auto;font:800 clamp(21px,4cqw,37px)/1.05 'Reference Office',sans-serif;color:#092849;background:none;text-align:center;white-space:nowrap}
+html[data-skin=scranton] .oc-home-caption{position:absolute;z-index:2;top:18%;left:27%;right:27%;margin:0;font:normal clamp(13px,2.7cqw,24px) 'Reference Office',sans-serif;color:#172f4c;text-align:center;white-space:nowrap}
+html[data-skin=scranton] .hello::after{content:'';position:absolute;z-index:1;left:27%;top:4%;width:46%;height:21%;background:#e9e7dbbb;pointer-events:none}
+html[data-skin=scranton] :is(#hello-date,.hello .nero-says){position:absolute;clip-path:inset(50%);width:1px;height:1px;overflow:hidden;padding:0;margin:0}
+html[data-skin=scranton] .tiles{position:relative;z-index:3;margin:-2.85cqw 8% 0;padding:0;aspect-ratio:618/132;background:url('nero-theme://scranton/assets/reference/home-tray-cutout.png') center/100% 100% no-repeat;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border:0;border-radius:0;box-shadow:none}
+html[data-skin=scranton] .tiles>.tile{background:none;border:0;box-shadow:none;border-radius:0;padding:19% 0 8%;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px}
+html[data-skin=scranton] .tiles>.tile::before{display:none}
+html[data-skin=scranton] .tiles strong{margin-left:21%;font:800 clamp(18px,4cqw,32px)/1 'Reference Office',sans-serif;color:#163c66}
+html[data-skin=scranton] .tiles span{font:normal clamp(9px,1.7cqw,15px) 'Reference Office',sans-serif;color:#223b56;white-space:nowrap}
+html[data-skin=scranton] .week{position:relative;margin:0 3%;padding:12px 22px 15px;min-height:245px;border:10px solid transparent;border-image:url('nero-theme://scranton/assets/reference/home-report-live.png') 18 fill stretch;background:none;border-radius:0;box-shadow:0 4px 5px #34352e66}
+html[data-skin=scranton] .week::before,html[data-skin=scranton] .totals::before{display:none;content:none}
+html[data-skin=scranton] .week .card-head{display:flex;flex-direction:column;gap:1px;margin:0 0 8px;text-align:center}
+html[data-skin=scranton] .week .card-head .section-heading{justify-content:center;width:100%}
+html[data-skin=scranton] .week .card-head #week-total{align-self:center}
+html[data-skin=scranton] .week h3{font:800 clamp(20px,3.1cqw,28px) 'Reference Office',sans-serif;color:#092a50;margin:0}
+html[data-skin=scranton] #week-total{font:850 clamp(30px,5.3cqw,44px)/1 'Reference Office',sans-serif;color:#092a50}
+html[data-skin=scranton] .oc-report-logo{position:absolute;left:8%;top:8px;width:12%;height:49px}
+html[data-skin=scranton] .oc-report-clip{position:absolute;left:2px;top:-12px;width:29px;height:58px}
+html[data-skin=scranton] .oc-report-label{position:absolute;right:1%;top:13px;width:14%;height:36px}
+html[data-skin=scranton] #week-bars{height:135px;margin-left:34px;gap:9px;align-items:flex-end;border-left:1px solid #acb5be;border-bottom:1px solid #acb5be;background:repeating-linear-gradient(0deg,transparent 0 30px,#b4bac144 30px 31px)}
+html[data-skin=scranton] .bar{position:relative;padding-bottom:20px;gap:2px;min-width:0}
+html[data-skin=scranton] .bar i{border:0;border-radius:0;background:linear-gradient(#2164a4,#174981);min-height:0}
+html[data-skin=scranton] .bar span{position:absolute;bottom:0;font:500 14px 'Reference Office',sans-serif;color:#263d53}
+html[data-skin=scranton] .oc-week-axis{position:absolute;left:4px;bottom:31px;height:112px;display:flex;flex-direction:column;justify-content:space-between;font:normal 11px 'Reference Office',sans-serif;color:#697780}
+html[data-skin=scranton] .jar{position:relative;margin:0;padding:0;border:0;border-radius:0;background:url('nero-theme://scranton/assets/reference/home-jar-clean.png') center/100% 100% no-repeat;min-height:clamp(190px,28cqw,255px);box-shadow:none}
+html[data-skin=scranton] .jar .card-head{position:absolute;left:10%;top:4%;margin:0}
+html[data-skin=scranton] .jar .card-head{display:contents}
+html[data-skin=scranton] .jar .card-head>.section-heading{position:absolute;left:10%;top:4%}
+html[data-skin=scranton] .jar h3{font:800 clamp(21px,3.1cqw,29px) 'Reference Office',sans-serif;color:#16365c}
+html[data-skin=scranton] #jar-count{position:absolute;top:57%;left:24%;width:80px;text-align:center;font:700 16px 'Reference Office',sans-serif;color:#193958;white-space:nowrap}
+html[data-skin=scranton] .jar-form{position:absolute;left:40%;top:31%;width:28%;display:grid;grid-template-columns:1fr 1fr;gap:7px}
+html[data-skin=scranton] .jar-form::before{content:'Bugün güzel bir şey oldu mu?';grid-column:1/-1;font:normal clamp(11px,1.8cqw,16px) 'Reference Office',sans-serif;color:#173255}
+html[data-skin=scranton] .jar-form input{grid-column:1/-1;min-width:0;width:100%;background:#f6f3ec;border:1px solid #b6b4a9;border-radius:3px;padding:7px 5px;font-size:clamp(10px,1.7cqw,15px)}
+html[data-skin=scranton] .jar-form button[type=submit]{background:#123364;color:#fff;font-size:15px;border:1px solid #5d6c85;border-radius:4px;padding:6px}
+html[data-skin=scranton] .oc-read-memories{padding:3px 0;color:#244774;text-decoration:underline;background:none;border:0;box-shadow:none;white-space:nowrap;font-size:13px}
+html[data-skin=scranton] :is(.tv-jar,.tv-jello,.tv-bobble){display:none}
+html[data-skin=scranton] .quick{margin:0 3%;gap:8px}
+html[data-skin=scranton] .quick button{font:700 clamp(15px,2.8cqw,24px) 'Reference Office',sans-serif;padding:11px 4px;min-width:0;background:linear-gradient(#f8f7f1,#e3e2dc);border:2px solid #6a85a7;border-radius:7px;box-shadow:0 3px 4px #6c6a5855;color:#122c4c}
+html[data-skin=scranton] #q-focus{background:linear-gradient(#235b95,#123568);color:#fff;border-color:#7894b2}
+html[data-skin=scranton] #q-note{background:linear-gradient(#c8ccb7,#aeb695);border-color:#9ca482}
+html[data-skin=scranton] .totals{position:relative;margin:0 4%;padding:12px 16px 17px;border:12px solid transparent;border-image:url('nero-theme://scranton/assets/reference/home-total-live.png') 20 fill stretch;background:none;border-radius:0;box-shadow:0 4px 5px #55574a55}
+html[data-skin=scranton] .totals h3{font:850 27px 'Reference Office',sans-serif;color:#143351}
+html[data-skin=scranton] .totals dl{font:normal 14px 'Courier Prime',monospace;margin-top:5px;position:relative;z-index:1}
+html[data-skin=scranton] .totals dl>div{padding:3px 8px;border:1px solid #b7bbc0;border-bottom:0;display:grid;grid-template-columns:35% 65%;gap:0}
+html[data-skin=scranton] .totals dl>div:last-child{border-bottom:1px solid #b7bbc0}
+html[data-skin=scranton] .totals dd{border-left:1px solid #b7bbc0;padding-left:9px;text-align:left;font-weight:normal}
+html[data-skin=scranton] .oc-total-stamp{position:absolute;right:0;bottom:0;width:27%;height:132px;opacity:.55}
+html[data-skin=scranton] .oc-quarter-label{position:absolute;right:46px;top:7px;width:99px;height:20px}
+html[data-skin=scranton] .desk{position:relative;margin:0;padding:12px 4% 15px;min-height:150px;border:0;border-radius:0;background:url('nero-theme://scranton/assets/reference/home-desk-live.png') center/100% 100% no-repeat;box-shadow:none}
+html[data-skin=scranton] .desk h3{font:850 25px 'Reference Office',sans-serif;color:#183553}
+html[data-skin=scranton] .desk>.card-head{padding-right:12%;gap:8px;align-items:center}
+html[data-skin=scranton] #desk-next{font:normal 13px 'Reference Office',sans-serif;color:#36526f;text-align:right;max-width:48%;white-space:normal}
+html[data-skin=scranton] .desk-grid{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:0;margin-top:9px;padding-right:10%}
+html[data-skin=scranton] .desk-item{height:72px;border:3px solid #d2d3d0;border-bottom:13px solid #9e9f9b;background:linear-gradient(#626663,#a5a6a2);border-radius:0;box-shadow:inset 2px 3px 4px #30363055;font:23px 'Reference Office',sans-serif;color:#d0d2cc}
+html[data-skin=scranton] .desk-item{position:relative;border:0;background:url('nero-theme://scranton/assets/reference/home-desk-slot-live.png') center/100% 100%;box-shadow:none}
+html[data-skin=scranton] .desk-item::after{content:attr(data-oc-desk-index);position:absolute;bottom:1px;left:0;right:0;text-align:center;font:11px 'Reference Office',sans-serif;color:#243c4f}
+html[data-skin=scranton] .desk-item.on:nth-child(1){font-size:0;background:#888 url('nero-theme://scranton/assets/reference/home-desk-cup.png') center/contain no-repeat}
+html[data-skin=scranton] .desk-item.on:nth-child(2){font-size:0;background:#888 url('nero-theme://scranton/assets/reference/home-desk-book.png') center/contain no-repeat}
+html[data-skin=scranton] .oc-desk-bobble{display:none!important}
+html[data-skin=scranton] .moodboards{position:relative;margin:0;padding:25px 20% 30px 25%;min-height:clamp(310px,42cqw,385px);border:0;border-radius:0;background:url('nero-theme://scranton/assets/reference/home-calendar-live.png') center/100% 100% no-repeat;box-shadow:none;width:100%;max-width:100%}
+html[data-skin=scranton] .moodboard-card-head{margin:0 0 6px;gap:4px}
+html[data-skin=scranton] .moodboards h3{position:absolute;left:5%;top:8%;font:850 clamp(20px,3.1cqw,28px) 'Reference Office',sans-serif;color:#14335a}
+html[data-skin=scranton] .moodboards h3,html[data-skin=scranton] .mood-board h4{position:absolute;clip-path:inset(50%);width:1px;height:1px;overflow:hidden}
+html[data-skin=scranton] .moodboards .nf-mood-modes{position:relative;display:flex;gap:3px;margin:7px 0}
+html[data-skin=scranton] .nf-mood-modes button{font:normal 13px 'Reference Office',sans-serif;background:#eeede9;color:#123456;border:1px solid #b7b8b7;border-radius:4px;padding:3px 12px}
+html[data-skin=scranton] .nf-mood-modes button:first-child{background:#173b6d;color:#fff}
+html[data-skin=scranton] .mood-calendar{gap:0;border:1px solid #bbc0c3}
+html[data-skin=scranton] .mood-calendar>*{min-height:24px;border-right:1px solid #bbc0c3;border-bottom:1px solid #bbc0c3}
+html[data-skin=scranton] .mood-day{height:25px;min-height:25px;width:100%;border-radius:0;margin:0;font:normal 13px 'Reference Office',sans-serif}
+html[data-skin=scranton] .moodboards>small{font:11px 'Reference Office',sans-serif;color:#506372}
+html[data-skin=scranton] .oc-home-lower{display:grid;grid-template-columns:62% 38%;gap:0;order:19}
+html[data-skin=scranton] .archive{margin:0;padding:20px 21px;border:12px solid transparent;border-image:url('nero-theme://scranton/assets/reference/home-archive-live.png') 25 fill stretch;background:none;border-radius:0;min-width:0}
+html[data-skin=scranton] .archive h3{font:850 clamp(20px,3cqw,27px) 'Reference Office',sans-serif;color:#173759}
+html[data-skin=scranton] .archive-list li{font:normal 14px 'Reference Office',sans-serif;border-bottom:1px solid #bac0c4;padding:7px 0}
+html[data-skin=scranton] .quote{margin:7px 9px 12px;padding:17px 15px;border:8px solid transparent;border-image:url('nero-theme://scranton/assets/reference/home-quote-live.png') 12 fill stretch;background:none;border-radius:0;transform:rotate(-4deg);max-width:none;box-shadow:0 4px 5px #403b2e55;align-self:center}
+html[data-skin=scranton] .quote blockquote{font:600 clamp(18px,3.2cqw,28px)/1.1 'Caveat',cursive;color:#102c47}
+html[data-skin=scranton] .quote figcaption{font:600 clamp(16px,2.7cqw,24px)/1.1 'Caveat',cursive;color:#102c47}
+html[data-skin=scranton] .oc-home-footer{position:relative;order:22}
+html[data-skin=scranton] .oc-footer{display:block;width:100%;height:auto}
+html[data-skin=scranton] .oc-home-footer>.tile{position:absolute;left:2%;top:15%;width:44%;height:60%;display:flex;align-items:center;gap:8px;border:0;border-radius:0;background:none;box-shadow:none;padding:0}
+html[data-skin=scranton] .oc-home-footer #st-days{font:900 clamp(42px,9cqw,80px)/1 'Reference Office',sans-serif;color:#0f2d4a}
+html[data-skin=scranton] .oc-home-footer .tile>span{font:800 clamp(16px,2.9cqw,25px)/1.1 'Reference Office',sans-serif;color:#0f2d4a}
+/* Notes: blue IN tray beside the original clipboard and ruled paper. */
+html[data-skin=scranton] #notes-list-view{display:grid;grid-template-columns:40% 60%;gap:0;padding:0}
+html[data-skin=scranton] #notes-list-view>.tv-page-head{grid-column:1/-1}
+html[data-skin=scranton] #notes-list{grid-column:1;grid-row:2;display:flex;flex-direction:column;gap:11px;margin:0;padding:37px 6% 18px;background:url('nero-theme://scranton/assets/reference/notes-tray-live.png') center/100% 100%;border:0;border-radius:0;box-shadow:none;height:fit-content}
+html[data-skin=scranton] #notes-list{position:relative;padding-top:42px}
+html[data-skin=scranton] #notes-list::before{content:'Notların · ' attr(data-oc-notes-count);position:absolute;top:0;left:15%;width:73%;height:27px;padding:5px 7px;background:#eeede7;color:#193555;font:700 18px 'Reference Office',sans-serif;border:1px solid #b8c0c2;z-index:4}
+html[data-skin=scranton] #notes-list>li:not(.new-note){--oc-note-indent:37px;position:relative;min-height:155px;padding:17px 10px 37px var(--oc-note-indent);border:7px solid transparent;border-image:url('nero-theme://scranton/assets/reference/note-yellow.png') 12 fill stretch;background:none;border-radius:0;box-shadow:0 3px 4px #0005}
+html[data-skin=scranton] #notes-list>li[data-tv-color=green]{border-image-source:url('nero-theme://scranton/assets/reference/note-green.png')}
+html[data-skin=scranton] #notes-list>li[data-tv-color=pink]{border-image-source:url('nero-theme://scranton/assets/reference/note-pink.png')}
+html[data-skin=scranton] .note-title{font:800 clamp(19px,3.1cqw,31px)/1.1 'Reference Office',sans-serif;color:#102c4b;padding-right:17px}
+html[data-skin=scranton] .note-preview{font:normal clamp(14px,2cqw,22px)/1.3 'Reference Office',sans-serif;-webkit-line-clamp:3;margin-top:9px}
+html[data-skin=scranton] .note-date{font:normal clamp(11px,1.6cqw,16px) 'Reference Office',sans-serif;color:#203b52;position:absolute;bottom:8px;left:var(--oc-note-indent,37px)}
+html[data-skin=scranton] .nf-menu{background:none;box-shadow:none;border:0;font:800 22px 'Reference Office',sans-serif;top:6px;right:1px;padding:0 4px}
+html[data-skin=scranton] .nf-note-tag{position:relative;left:auto;right:auto;top:auto;bottom:auto;display:inline-block;margin:7px 0 0;background:#acc5da;color:#132e49;border-radius:4px;padding:2px 8px;font:normal 13px 'Reference Office',sans-serif}
+html[data-skin=scranton] .nf-note-tag{align-self:flex-start;max-width:80%}
+html[data-skin=scranton] [data-tv-color=green] .nf-note-tag{background:#8cbea4}
+html[data-skin=scranton] .oc-note-pin{position:absolute;left:10px;top:-9px;width:22px;height:42px}
+html[data-skin=scranton] #tv-composer{grid-column:2;grid-row:2/4;position:relative;margin:0;padding:62px 6% 26px;border:12px solid transparent;border-image:url('nero-theme://scranton/assets/reference/note-composer-live.png') 28 fill stretch;background:none;border-radius:0;min-height:clamp(410px,59cqw,670px);box-shadow:none}
+html[data-skin=scranton] #tv-composer::before{display:none}
+html[data-skin=scranton] #tv-note-title{font:850 clamp(24px,4cqw,42px)/1.1 'Reference Office',sans-serif;color:#0c2d53;background:none;padding:0;min-width:0}
+html[data-skin=scranton] #view-notes #tv-note-title{display:block;height:1.5em;line-height:1.2;padding:3px 0}
+html[data-skin=scranton] #tv-composer>header{gap:7px;align-items:center;padding-right:12px}
+html[data-skin=scranton] #tv-save{position:absolute;right:5%;top:39px;font:normal 13px 'Reference Office',sans-serif;white-space:nowrap;color:#176449}
+html[data-skin=scranton] .tv-note-tools{display:flex;gap:2px;flex-wrap:wrap;margin:11px 0 0;border-bottom:1px solid #b8bec5;padding-bottom:4px}
+html[data-skin=scranton] .tv-note-tools button{font:normal clamp(13px,1.9cqw,20px) 'Reference Office',sans-serif;background:#e5e6e6;border:1px solid #cbd0d2;border-radius:3px;padding:5px 7px;color:#123458}
+html[data-skin=scranton] #tv-note-text{width:100%;min-height:310px;resize:vertical;padding:14px 13px 12px 0;border:0;border-radius:0;box-shadow:none;color:#092a4b;font:600 clamp(20px,3cqw,31px)/1.45 'Caveat',cursive;background:repeating-linear-gradient(transparent 0 30px,#bac6ce80 30px 31px)}
+html[data-skin=scranton] #view-notes #tv-note-text{font-family:'Caveat',cursive;font-weight:500}
+html[data-skin=scranton] .oc-composer-clip{position:absolute;top:-15px;left:21%;width:54%;height:48px}
+html[data-skin=scranton] .oc-composer-logo{position:absolute;left:9%;top:18px;width:46px;height:34px;object-fit:contain}
+html[data-skin=scranton] .oc-composer-pen{position:absolute;right:-1%;bottom:4%;width:8%;height:64%}
+html[data-skin=scranton] #notes-archive{grid-column:1;grid-row:3;margin:0 3% 0;padding:10px 15px;border:8px solid transparent;border-image:url('nero-theme://scranton/assets/reference/archive-tab.png') 14 fill stretch;background:none;border-radius:0}
+html[data-skin=scranton] #notes-archive summary{font:800 19px 'Reference Office',sans-serif}
+html[data-skin=scranton] .oc-notes-footer{grid-column:1/-1;grid-row:4}
+/* Work: the native list becomes pinned sheets on the exact metal whiteboard. */
+html[data-skin=scranton] .oc-whiteboard{position:relative;margin:0 1%;padding:20px 3% 12px;border:17px solid transparent;border-image:url('nero-theme://scranton/assets/reference/todo-board-live.png') 32 fill stretch;background:none;box-shadow:0 3px 4px #26282155}
+html[data-skin=scranton] .oc-work-capture{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+html[data-skin=scranton] #nf-plan{font:700 clamp(14px,2.2cqw,22px) 'Reference Office',sans-serif;margin:0;align-self:center;color:#173e6a}
+html[data-skin=scranton] #nf-todo-filters{margin:0;gap:6px;grid-template-columns:1.5fr 1.2fr .7fr}
+html[data-skin=scranton] #nf-todo-filters :is(input,select){font-size:14px;padding:7px 6px;background:#ececed;border:1px solid #adb6c0;border-radius:4px}
+html[data-skin=scranton] #todo-form{grid-column:1/-1;display:grid;grid-template-columns:1fr 46px;gap:6px;margin:0}
+html[data-skin=scranton] #todo-input{min-width:0;border:1px solid #aeb8c1;border-radius:4px;background:#ececed;font:normal 18px 'Reference Office',sans-serif;padding:9px 10px}
+html[data-skin=scranton] #todo-form>.add{border-radius:5px;background:linear-gradient(#1b4677,#143560);color:#fff;border:1px solid #546e90;padding:4px;font-size:27px}
+html[data-skin=scranton] .nf-capture-options{grid-column:1/-1;margin:0;font-size:13px;color:#264a74}
+html[data-skin=scranton] #view-todos .list-card{padding:0;margin:13px 0 0;border:0;border-radius:0;background:none;box-shadow:none}
+html[data-skin=scranton] .list-card::before,html[data-skin=scranton] .list-card .rings,html[data-skin=scranton] #tv-todo-board{display:none!important}
+html[data-skin=scranton] #todo-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0;padding:0;border:2px solid #385e8c}
+html[data-skin=scranton] #todo-list>.oc-work-page{padding:8px;border:0;border-radius:0;background:none;box-shadow:none;list-style:none;display:block;min-width:0;text-align:left}
+html[data-skin=scranton] #todo-list>.oc-work-page[data-oc-bucket=later]{border-left:2px solid #385e8c}
+html[data-skin=scranton] #todo-list>.oc-work-page:is([data-oc-bucket=done],[data-oc-bucket=older]){grid-column:1/-1;border-top:2px solid #385e8c}
+html[data-skin=scranton] .oc-work-rows{width:100%;margin:0;padding:0;list-style:none}
+html[data-skin=scranton] .oc-work-rows>.nf-group{width:100%;font:600 clamp(28px,4.1cqw,42px)/1 'Caveat',cursive;padding:3px 1px 8px!important;color:#204b7b;border:0!important;min-width:0}
+html[data-skin=scranton] .oc-work-rows>.nf-group>strong{font:inherit}
+html[data-skin=scranton] .oc-work-rows>[data-todo-id]{position:relative;width:100%;min-width:0;display:flex;align-items:center;flex-wrap:wrap;gap:6px;min-height:110px;margin:8px 0 13px;padding:15px 30px 12px 8px;border:7px solid transparent;border-image:url('nero-theme://scranton/assets/reference/todo-white.png') 12 fill stretch;background:none;border-radius:0;box-shadow:0 3px 3px #30384533}
+html[data-skin=scranton] .oc-work-rows>[data-todo-id] .todo-main{flex-basis:calc(100% - 35px);max-width:calc(100% - 35px)}
+html[data-skin=scranton] .oc-work-rows>[data-todo-id] .check{border:1px solid #183a67;border-radius:3px}
+html[data-skin=scranton] .oc-work-rows .nf-group .nf-button{font-size:14px;padding:5px 8px}
+html[data-skin=scranton] .oc-work-rows>[data-oc-bucket=later]{border-image-source:url('nero-theme://scranton/assets/reference/todo-yellow.png')}
+html[data-skin=scranton] .oc-work-rows>[data-todo-id]::before{content:'';position:absolute;left:47%;top:-18px;width:25px;height:25px;background:url('nero-theme://scranton/assets/reference/todo-pin-blue.png') center/contain no-repeat}
+html[data-skin=scranton] .oc-work-rows>[data-oc-bucket=later]::before{background-image:url('nero-theme://scranton/assets/reference/todo-pin-yellow.png')}
+html[data-skin=scranton] .oc-work-rows>[data-todo-id]:first-of-type::before{background-image:url('nero-theme://scranton/assets/reference/todo-pin-red.png')}
+html[data-skin=scranton] .oc-work-rows>[hidden]{display:none!important}
+html[data-skin=scranton] .todo-text{font:750 clamp(17px,2.7cqw,28px)/1.1 'Reference Office',sans-serif;color:#12345c}
+html[data-skin=scranton] .todo-check{border:1px solid #183a67;border-radius:3px;background:transparent;width:23px;height:23px;min-width:23px}
+html[data-skin=scranton] .nf-task-meta{display:flex;gap:6px;flex-wrap:wrap;padding-left:30px;font:normal 13px 'Reference Office',sans-serif;color:#23496b}
+html[data-skin=scranton] .todo-main .nf-task-meta{padding-left:0;flex-basis:auto;gap:1px;align-items:center}
+html[data-skin=scranton] .oc-priority{padding:2px 5px;background:#e98686;border-radius:3px;color:#721e27}
+html[data-skin=scranton] .oc-task-tag{padding:2px 5px;background:#94b4cd;border-radius:3px;color:#163c67}
+html[data-skin=scranton] .oc-empty-work{padding:15px 4px;list-style:none;font:normal 15px 'Reference Office',sans-serif;color:#607488}
+html[data-skin=scranton] #todos-empty{display:none}
+html[data-skin=scranton] .todo-footer{font:normal 14px 'Reference Office',sans-serif;color:#234a6c;margin:12px 0 0}
+/* Timer: actual black casing, with setup at left and the paper ledger below. */
+html[data-skin=scranton] #view-timer{display:block}
+html[data-skin=scranton] [data-tv-page=timer]{display:none!important}
+html[data-skin=scranton] #view-timer>.tv-page-scene{width:100%;aspect-ratio:1122/295;min-height:0;background-image:url('nero-theme://scranton/assets/reference/timer-hero.png')!important;background-size:100% 100%;border:0;border-radius:0}
+html[data-skin=scranton] .oc-timer-body{position:relative;display:grid;grid-template-columns:43% 54%;gap:12px 2%;padding:13px 3% 0}
+html[data-skin=scranton] .oc-timer-setup{grid-column:1;grid-row:1}
+html[data-skin=scranton] .oc-timer-console{grid-column:2;grid-row:1;display:flex;flex-direction:column;gap:10px;align-self:start}
+html[data-skin=scranton] .oc-timer-setup>h2{font:850 clamp(29px,5.2cqw,58px)/1 'Reference Office',sans-serif;color:#0b2c4b;margin:0 0 5px}
+html[data-skin=scranton] .oc-timer-caption{font:normal clamp(17px,2.5cqw,28px) 'Reference Office',sans-serif;color:#273b50;margin:0 0 15px}
+html[data-skin=scranton] #timer-setup{border:2px solid #163a65;border-radius:5px;background:#f0f0ed;padding:clamp(8px,1.2cqw,14px);margin:0;display:block}
+html[data-skin=scranton] :is(.oc-task-caption,.oc-duration-caption,.oc-custom-caption){font:500 clamp(13px,1.8cqw,19px) 'Reference Office',sans-serif;color:#213c59;margin:0 0 5px}
+html[data-skin=scranton] #nf-timer-task{display:block!important;font-size:clamp(13px,1.7cqw,19px);border:1px solid #b9c1ca;border-radius:4px;padding:7px 8px;background:#f3f3f2;margin:0 0 9px}
+html[data-skin=scranton] #timer-label{font-size:clamp(13px,1.7cqw,19px);border:1px solid #b9c1ca;border-radius:4px;padding:9px;background:#f3f3f2;margin-bottom:14px}
+html[data-skin=scranton] .presets{grid-template-columns:repeat(5,minmax(0,1fr));display:grid;gap:5px;align-items:start}
+html[data-skin=scranton] .presets>button{font:600 clamp(14px,2cqw,22px) 'Reference Office',sans-serif;padding:6px 0;min-width:0;border:1px solid #bbc4cc;border-radius:4px;background:#f6f7f4;color:#113252}
+html[data-skin=scranton] .presets>button.on{background:linear-gradient(#194b7b,#103252);border-color:#294b75;color:#fff}
+html[data-skin=scranton] .presets .custom{grid-column:1/-1;display:grid;grid-template-columns:1fr auto;gap:3px;margin-top:8px;justify-content:start;background:none;box-shadow:none;border:0;padding:0}
+html[data-skin=scranton] .oc-custom-caption{grid-column:1/-1}
+html[data-skin=scranton] #timer-custom{width:100%;padding:7px;border:1px solid #b9c1ca;border-radius:4px;background:#f3f3f2;font-size:18px}
+html[data-skin=scranton] .dial{grid-column:2;grid-row:1;position:relative;height:auto;aspect-ratio:1588/968;width:100%;margin:8px 0 0;box-shadow:none;border:0;border-radius:0;background:url('nero-theme://scranton/assets/reference/timer-clock-clean.png') center/100% 100% no-repeat;container-type:normal}
+html[data-skin=scranton] .dial::before,html[data-skin=scranton] .dial::after{display:none!important}
+html[data-skin=scranton] .dial-center{position:absolute;inset:28% 9% 24%;padding:0;transform:none;background:none;border:0;border-radius:0;display:flex;align-items:center;justify-content:center;gap:0}
+html[data-skin=scranton] .digits{font:750 clamp(42px,var(--oc-digits,10cqw),117px)/1 'Reference Office',sans-serif!important;color:#edf5fa;letter-spacing:-1px;text-shadow:0 0 3px #8cbbd666}
+html[data-skin=scranton] .dial-label{font:normal clamp(12px,1.9cqw,21px)/1.15 'Reference Office',sans-serif;color:#d4eafa;text-align:center;margin-top:7px}
+html[data-skin=scranton] .lcd-bar{grid-column:2;grid-row:2;margin:0;width:100%;height:15px;border:1px solid #bcc6d0;background:#d1d6dc;border-radius:10px}
+html[data-skin=scranton] .lcd-bar>i{height:100%;background:linear-gradient(#225e93,#08325b);border-radius:10px}
+html[data-skin=scranton] .timer-actions{grid-column:2;grid-row:3;display:flex;flex-wrap:wrap;gap:9px;margin:0;width:100%}
+html[data-skin=scranton] .timer-actions>button{min-height:44px;min-width:0;flex:1;border:2px solid #284c76;border-radius:6px;background:#f3f4f3;color:#0f2f50;font:750 clamp(20px,2.8cqw,32px) 'Reference Office',sans-serif;padding:10px 3px}
+html[data-skin=scranton] #timer-start{background:linear-gradient(#194d7d,#0b2d4f);color:#fff}
+html[data-skin=scranton] #timer-start::before{content:'▶';margin-right:8px;font-size:.8em}
+html[data-skin=scranton] #tv-timer-reset::before{content:'↻';margin-right:8px;font-size:1.25em}
+html[data-skin=scranton] .nf-sessions{grid-column:1;grid-row:2;margin:5px 0 0;padding:20px 11px 16px;border:9px solid transparent;border-image:url('nero-theme://scranton/assets/reference/timer-sessions-live.png') 17 fill stretch;min-height:160px;background:none;border-radius:0;box-shadow:0 3px 3px #4c4f4655}
+html[data-skin=scranton] .nf-sessions h3{font:800 clamp(18px,2.2cqw,25px) 'Reference Office',sans-serif;color:#123558;margin:0 0 7px}
+html[data-skin=scranton] .nf-session,html[data-skin=scranton] .oc-session-head{display:grid;grid-template-columns:1.7fr .7fr 1.1fr .6fr;gap:4px;padding:9px 0;border-bottom:1px solid #c1c4c1;font:normal clamp(11px,1.4cqw,16px) 'Reference Office',sans-serif}
+html[data-skin=scranton] .nf-session strong{font-weight:normal;overflow-wrap:anywhere}
+html[data-skin=scranton] .nf-session small{color:#35566a}
+html[data-skin=scranton] #tv-timer-info{grid-column:2;grid-row:2;width:65%;padding:24px 12px 20px 26px;margin:5px 0 0;background:url('nero-theme://scranton/assets/reference/timer-stat-clean.png') center/100% 100% no-repeat;border:0;border-radius:0;display:flex;flex-direction:column;gap:9px;align-items:flex-start;min-height:185px}
+html[data-skin=scranton] #tv-timer-info span{font:600 clamp(14px,1.8cqw,20px) 'Reference Office',sans-serif;color:#133252}
+html[data-skin=scranton] #tv-timer-info strong{font:800 clamp(25px,4.5cqw,50px)/1 'Reference Office',sans-serif;color:#113551}
+html[data-skin=scranton] #tv-timer-info strong:first-of-type{padding-bottom:10px;width:100%;margin-bottom:5px}
+html[data-skin=scranton] .oc-timer-sticky{position:absolute;right:0;bottom:17%;width:21%;height:165px}
+html[data-skin=scranton] .oc-timer-footer{grid-column:1/-1;grid-row:3;width:calc(100% + 6cqw);max-width:none;margin-left:-3cqw;margin-top:-10px}
+/* Dundies cabinet: real shelf objects with native achievement labels. */
+html[data-skin=scranton] .badges{padding:0 4% 15px;border:0;background:none;box-shadow:none;margin:0}
+html[data-skin=scranton] .badges>.card-head{margin:0;padding:14px 0 5px}
+html[data-skin=scranton] .badges>.card-head h3{display:none}
+html[data-skin=scranton] #badges-count{font:700 22px 'Reference Office',sans-serif;color:#17314e}
+html[data-skin=scranton] #badge-rarity-tabs{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;padding:0;margin:5px 0 9px}
+html[data-skin=scranton] #badge-rarity-tabs button{font:normal clamp(14px,2cqw,20px) 'Reference Office',sans-serif;background:#ececed;color:#1b385c;border:1px solid #b3b9c2;padding:7px;border-radius:4px}
+html[data-skin=scranton] #badge-rarity-tabs button[aria-selected=true]{background:#103766;color:#fff}
+html[data-skin=scranton] #badge-rarity-tabs button[hidden]{display:none!important}
+html[data-skin=scranton] #badge-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:13px 9px;padding:34px 15px 19px;border:15px solid transparent;border-image:url('nero-theme://scranton/assets/reference/badge-cabinet-live.png') 28 fill stretch;border-radius:0;background:none;box-shadow:inset 0 4px 6px #0005}
+html[data-skin=scranton] #badge-grid{position:relative;padding-top:58px;border:10px ridge #8e9290;border-image:none;background:#8e8371 url('nero-theme://scranton/assets/reference/badge-wall-texture.png') center/37px 176px repeat}
+html[data-skin=scranton] #badge-grid::before{content:'';position:absolute;top:0;left:0;right:0;height:49px;background:url('nero-theme://scranton/assets/reference/badge-cabinet-rim.png') center/100% 100% no-repeat}
+html[data-skin=scranton] .badge{position:relative;display:flex;flex-direction:column;justify-content:flex-end;gap:3px;padding:142px 10px 14px;min-height:245px;border:0;border-bottom:10px ridge #a1a3a0;border-radius:0;background:linear-gradient(#8b7e6d,#a79882,#938776);box-shadow:inset 5px 2px 18px #352d2444;text-align:center}
+html[data-skin=scranton] .badge:not(.on){background:linear-gradient(#7c776e,#968e80,#8d8475);color:#5e6462}
+html[data-skin=scranton] .badge-icon{position:absolute;top:9px;left:8%;width:84%;height:128px;font-size:0}
+html[data-skin=scranton] .oc-badge-prop{width:100%;height:100%;object-fit:contain}
+html[data-skin=scranton] .badge:not(.on) .badge-icon{filter:grayscale(1);opacity:.45}
+html[data-skin=scranton] .badge:not(.on)::after{content:'🔒';position:absolute;top:70px;left:45%;font-size:20px;filter:grayscale(1);opacity:.8}
+html[data-skin=scranton] .badge-name{font:800 clamp(16px,2cqw,23px)/1.1 'Reference Office',sans-serif;color:#122d4b;z-index:2;padding:7px 3px 0;background:#e8e2d6;border:1px solid #cdc7bc;border-bottom:0;border-radius:3px 3px 0 0;overflow-wrap:anywhere}
+html[data-skin=scranton] .badge-desc{font:normal clamp(13px,1.6cqw,18px)/1.2 'Reference Office',sans-serif;color:#455164;z-index:2;background:#e8e2d6;border:1px solid #cdc7bc;border-top:0;padding:3px 5px 10px;min-height:46px}
+html[data-skin=scranton] .oc-badge-caption{position:relative;z-index:2;padding:8px 5px 7px;border:7px solid transparent;border-image:url('nero-theme://scranton/assets/reference/badge-base-live.png') 12 fill stretch;min-height:87px;text-align:center}
+html[data-skin=scranton] .oc-badge-caption :is(.badge-name,.badge-desc){display:block;width:100%;border:0;border-radius:0;background:none;padding:0;min-height:0;font-size:clamp(13px,2.2cqw,21px)}
+html[data-skin=scranton] .oc-badge-caption .badge-desc{font-size:clamp(12px,1.6cqw,17px);margin-top:4px}
+html[data-skin=scranton] .oc-badge-date{font:normal 12px 'Reference Office',sans-serif;color:#354e52}
+html[data-skin=scranton] .oc-badge-date::before{content:'✓ ';color:#498258}
+html[data-skin=scranton] .oc-badge-next{margin:8px 11% 18px;padding:33px 10% 37px;position:relative;min-height:220px;background:url('nero-theme://scranton/assets/reference/badge-next-live.png') center/100% 100% no-repeat;color:#183753}
+html[data-skin=scranton] .oc-badge-next h3{font:800 clamp(25px,3.7cqw,41px) 'Reference Office',sans-serif;margin:0 0 10px}
+html[data-skin=scranton] .oc-next-title{font:normal 20px 'Reference Office',sans-serif;margin:0 0 18px}
+html[data-skin=scranton] .oc-next-progress{position:relative;background:#c8c9c6;height:18px;border-radius:12px;width:80%}
+html[data-skin=scranton] .oc-next-progress i{display:block;height:100%;background:#548461;border-radius:12px}
+html[data-skin=scranton] .oc-next-progress span{position:absolute;left:105%;top:0;font:normal 18px 'Reference Office',sans-serif;white-space:nowrap}
+html[data-skin=scranton] .oc-badge-footer{display:none}
+/* Memories are loose paper on the office desk, using original stationery. */
+html[data-skin=scranton] #nf-dialog[data-kind=memories]{padding:25px 25px 30px;border:13px solid transparent;border-image:url('nero-theme://scranton/assets/reference/home-report-live.png') 22 fill stretch;background:none;box-shadow:0 16px 60px #10203299;border-radius:0}
+html[data-skin=scranton] #nf-dialog[data-kind=memories]::backdrop{background:#14202b99;backdrop-filter:blur(4px)}
+html[data-skin=scranton] #nf-dialog[data-kind=memories] h2{font:800 29px 'Reference Office',sans-serif;color:#173b61}
+html[data-skin=scranton] #nf-dialog[data-kind=memories] .nf-memory-row{position:relative;margin:15px 0;padding:14px 20px;border:8px solid transparent;border-image:url('nero-theme://scranton/assets/reference/note-green.png') 14 fill stretch;background:none;font:normal 18px 'Reference Office',sans-serif;box-shadow:0 3px 4px #14233433}
+html[data-skin=scranton] #nf-dialog[data-kind=memories] .nf-memory:empty{display:none}
+html[data-skin=scranton] #nf-dialog[data-kind=memories] .nf-memory{padding:16px;background:#f7e5a3;border:1px solid #b9a874;box-shadow:0 3px 4px #14233433}
+@media(max-width:550px){
+ html[data-skin=scranton] .top{height:48px;min-height:48px}
+ html[data-skin=scranton] .brand h1{width:86px;height:35px}
+ html[data-skin=scranton] .tv-subtitle{left:94px;top:2px;font-size:12px;width:115px}
+ html[data-skin=scranton] .tv-company{display:none}
+ html[data-skin=scranton] .tabs{position:relative;left:auto;right:auto;top:auto;min-height:37px;padding:0;background:#e3e3df}
+ html[data-skin=scranton] .tabs button{font-size:12px;padding:5px 0}
+ html[data-skin=scranton] #notes-list-view{grid-template-columns:1fr}
+ html[data-skin=scranton] #notes-list{grid-column:1;grid-row:2;padding:37px 6% 16px}
+ html[data-skin=scranton] #tv-composer{grid-column:1;grid-row:4;min-height:450px;margin:14px 3% 0}
+ html[data-skin=scranton] #notes-archive{grid-column:1;grid-row:3}
+ html[data-skin=scranton] .oc-notes-footer{grid-column:1;grid-row:5}
+ html[data-skin=scranton] .oc-timer-body{display:flex;flex-direction:column;padding:14px 4% 0;gap:12px}
+ html[data-skin=scranton] .dial{margin:0;align-self:center;width:95%}
+ html[data-skin=scranton] .digits{font-size:clamp(50px,15cqw,85px)!important}
+ html[data-skin=scranton] .oc-timer-sticky{display:none}
+ html[data-skin=scranton] #tv-timer-info{width:100%;display:grid;grid-template-columns:1fr 1fr;min-height:130px;margin:0}
+ html[data-skin=scranton] .nf-sessions{margin:0}
+ html[data-skin=scranton] .oc-work-capture{grid-template-columns:1fr}
+ html[data-skin=scranton] #todo-list{grid-template-columns:1fr}
+ html[data-skin=scranton] #todo-list>.oc-work-page[data-oc-bucket=later]{border-left:0;border-top:2px solid #385e8c}
+ html[data-skin=scranton] .oc-home-lower{grid-template-columns:1fr}
+ html[data-skin=scranton] .quote{margin:6px 15% 10px}
+ html[data-skin=scranton] .jar-form{left:38%;width:32%}
+ html[data-skin=scranton] #jar-count{font-size:13px;left:24%;width:64px;top:57%}
+ html[data-skin=scranton] .jar-form input{font-size:10px;padding:5px}
+ html[data-skin=scranton] .jar-form button{font-size:12px!important}
+ html[data-skin=scranton] .week{padding:13px 9px;min-height:230px}
+ html[data-skin=scranton] .oc-report-logo{width:12%;height:32px;top:9px}
+ html[data-skin=scranton] .oc-report-label{height:24px;width:13%;top:9px}
+ html[data-skin=scranton] .desk-grid{grid-template-columns:repeat(5,minmax(0,1fr))}
+ html[data-skin=scranton] .desk-item{height:60px}
+ html[data-skin=scranton] .desk{min-height:200px}
+ html[data-skin=scranton] .moodboards{padding:60px 5% 30px;min-height:330px}
+ html[data-skin=scranton] .moodboards h3{left:8%;top:17px}
+ html[data-skin=scranton] #badge-grid{grid-template-columns:repeat(2,minmax(0,1fr));padding:25px 8px 15px}
+ html[data-skin=scranton] .badge{min-height:245px;padding-left:5px;padding-right:5px}
+ html[data-skin=scranton] .oc-badge-next{margin:8px 4%;padding:30px 9%}
+}
+/* Native values use the documented centers of the three photographed cards. */
+html[data-skin=scranton] .tiles>.tile{position:absolute;inset:0;width:100%;height:100%;padding:0;display:block}
+html[data-skin=scranton] .tiles strong{position:absolute;top:39%;left:23.3%;transform:translateX(-50%);margin:0}
+html[data-skin=scranton] .tiles>.tile:nth-child(2) strong{left:54.8%}
+html[data-skin=scranton] .tiles>.tile:nth-child(3) strong{left:79.8%}
+html[data-skin=scranton] .tiles span{position:absolute;top:63%;left:22.6%;transform:translateX(-50%);margin:0}
+html[data-skin=scranton] .tiles>.tile:nth-child(2) span{left:51.5%}
+html[data-skin=scranton] .tiles>.tile:nth-child(3) span{left:77.5%}
+html[data-skin=scranton] .tabs .oc-nav-icon{display:none}
+html[data-skin=scranton]:has(:is(#view-todos,#view-timer,#view-badges):not([hidden])) .tabs svg{display:none}
+html[data-skin=scranton]:has(:is(#view-todos,#view-timer,#view-badges):not([hidden])) .tabs .oc-nav-icon{display:block;width:25px;height:27px;order:-1}
+html[data-skin=scranton] .tabs [aria-selected=true] .oc-nav-icon{filter:brightness(0) invert(1)}

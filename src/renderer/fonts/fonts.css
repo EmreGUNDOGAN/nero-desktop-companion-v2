@@ -1,4 +1,6 @@
 /* Uygulamayla birlikte gelen yazı tipleri (SIL Open Font License 1.1). */
+@font-face{font-family:"Reference Office";font-style:normal;font-display:block;font-weight:100 900;src:url("reference-office-condensed.ttf") format("truetype")}
+@font-face{font-family:"Reference Sponge";font-style:normal;font-display:block;font-weight:400;src:url("reference-sponge-tr.ttf") format("truetype")}
 @font-face {
   font-family: "Fraunces";
   font-style: normal;

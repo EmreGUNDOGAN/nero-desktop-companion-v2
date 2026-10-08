@@ -1,0 +1,35 @@
+{
+  "report": [
+    {
+      "width": 380,
+      "overflow": 0,
+      "notes": 3,
+      "bodyOverflow": 0,
+      "editor": {
+        "width": 336.734375,
+        "height": 228.75
+      }
+    },
+    {
+      "width": 600,
+      "overflow": 0,
+      "notes": 3,
+      "bodyOverflow": 0,
+      "editor": {
+        "width": 549.078125,
+        "height": 372.984375
+      }
+    },
+    {
+      "width": 900,
+      "overflow": 0,
+      "notes": 3,
+      "bodyOverflow": 0,
+      "editor": {
+        "width": 823.140625,
+        "height": 559.15625
+      }
+    }
+  ],
+  "errors": []
+}

@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "actions": [
+    "live counts, two groups, completed row and search remain functional",
+    "subtask completion and adding a subtask update real progress",
+    "task complete/reopen and real stopwatch controls work",
+    "native menu stores multiple colored labels",
+    "real pointer drag moves a task into the later column",
+    "pointer reorder persists the task order within a column",
+    "completed section folds and opens without losing its records",
+    "new task keeps duration; native archive and restore controls work",
+    "theme switches restore native form without duplicated controls"
+  ],
+  "errors": []
+}

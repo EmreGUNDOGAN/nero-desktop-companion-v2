@@ -1,0 +1,11 @@
+{
+  "scope": "Gilmore Girls, The Office ve SpongeBob tema düzeltmeleri, gerçek ekran kontrolleri, Setup ve GitHub Actions teslimi",
+  "estimatedPercent": 60,
+  "lastReportedMilestone": 60,
+  "nextMilestone": 80,
+  "milestones": [20, 40, 60, 80, 100],
+  "sequentialThemeOrder": ["stars-hollow", "scranton", "bikini-bottom"],
+  "activeTheme": "bikini-bottom",
+  "status": "in_progress",
+  "notes": "Office'in beş sayfası kullanıcı tarafından onaylandı. 354 birim testi ve Office işlev kontrolleri geçti. Aktif çalışma yalnız SpongeBob; ardından bekleyen Gilmore rötuşları, son kontroller, Setup ve yeni Actions teslimi. Yüzde bir iş tahminidir."
+}

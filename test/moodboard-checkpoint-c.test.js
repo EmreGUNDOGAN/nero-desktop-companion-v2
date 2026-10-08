@@ -20,11 +20,11 @@ test('dar panelde moodboard 32px hücre ve 5px satır aralığına iner', () => 
 });
 
 test('moodboard duygu dili görev zorluğu değil gün hissi anlatır', () => {
-  assert.match(panel, /day\.value === 'green' \? 'muhteşem'/);
+  assert.match(panel, /day\.value === 'green' \? 'iyi'/);
   assert.match(panel, /day\.value === 'yellow' \? 'idare eder'/);
   assert.match(panel, /day\.value === 'red' \? 'kötü'/);
-  assert.match(panel, /\['green', 'Muhteşem'\]/);
+  assert.match(panel, /\['green', 'İyi'\]/);
   assert.match(panel, /\['yellow', 'İdare eder'\]/);
   assert.match(panel, /\['red', 'Kötü'\]/);
-  assert.doesNotMatch(panel, /\['green', 'İyi'\]|\['yellow', 'Orta'\]|\['red', 'Zor'\]/);
+  assert.doesNotMatch(panel, /\['green', 'Muhteşem'\]|\['yellow', 'Orta'\]|\['red', 'Zor'\]/);
 });

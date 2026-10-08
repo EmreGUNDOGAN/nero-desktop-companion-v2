@@ -1,0 +1,223 @@
+[
+  {
+    "asset": "home-report-exact.png",
+    "sourceSha256": "d70ab21572ee446f0aeb700029b84e28b09f522f7620c18111f00b4370275039",
+    "sourceCrop": [
+      0,
+      489,
+      734,
+      727
+    ],
+    "cleanupSample": "home-report-generated.png",
+    "cleanupSha256": "dc656728299053ed448933dfce34f8d279152847b825e2fa8f17964709853d70",
+    "replaceableRectangles": [
+      [
+        286,
+        55,
+        456,
+        100
+      ],
+      [
+        52,
+        102,
+        687,
+        219
+      ]
+    ],
+    "replaceablePolygons": [],
+    "outsideMask": "unchanged original pixels"
+  },
+  {
+    "asset": "home-quick-clock-cutout.png",
+    "sourceCrop": [
+      75,
+      968,
+      103,
+      1006
+    ],
+    "method": "original white clock shape isolated from blue button"
+  },
+  {
+    "asset": "home-middle-exact.png",
+    "sourceSha256": "d70ab21572ee446f0aeb700029b84e28b09f522f7620c18111f00b4370275039",
+    "sourceCrop": [
+      0,
+      1021,
+      734,
+      1730
+    ],
+    "cleanupSample": "home-middle-generated.png",
+    "cleanupSha256": "eccc84ef4825ca18139fcf9d088cd8993909f2f4b3413eb42363506754e35723",
+    "replaceableRectangles": [
+      [
+        323,
+        61,
+        485,
+        228
+      ],
+      [
+        508,
+        264,
+        632,
+        287
+      ],
+      [
+        48,
+        295,
+        634,
+        400
+      ],
+      [
+        253,
+        431,
+        602,
+        471
+      ],
+      [
+        198,
+        504,
+        588,
+        665
+      ]
+    ],
+    "replaceablePolygons": [],
+    "outsideMask": "unchanged original pixels"
+  },
+  {
+    "asset": "home-legend-final.png",
+    "sourceAsset": "home-legend-original.png",
+    "edit": "user wording: Kötü, İdare eder, İyi",
+    "cleanupSample": "home-legend-updated.png",
+    "size": [
+      110,
+      73
+    ]
+  },
+  {
+    "asset": "home-total-exact.png",
+    "sourceAsset": "home-middle-exact.png",
+    "crop": [
+      0,
+      0,
+      734,
+      242
+    ]
+  },
+  {
+    "asset": "home-desk-exact.png",
+    "sourceAsset": "home-middle-exact.png",
+    "crop": [
+      0,
+      242,
+      734,
+      409
+    ]
+  },
+  {
+    "asset": "home-calendar-exact.png",
+    "sourceAsset": "home-middle-exact.png",
+    "crop": [
+      0,
+      409,
+      734,
+      709
+    ]
+  },
+  {
+    "asset": "home-lower-exact.png",
+    "sourceSha256": "d70ab21572ee446f0aeb700029b84e28b09f522f7620c18111f00b4370275039",
+    "sourceCrop": [
+      0,
+      1730,
+      734,
+      2141
+    ],
+    "cleanupSample": "home-lower-generated.png",
+    "cleanupSha256": "95e02779067d48a85c5ae0efd43f1c259e89fc4c5a0cdc3686d0b83b35528d1b",
+    "replaceableRectangles": [
+      [
+        75,
+        70,
+        413,
+        94
+      ],
+      [
+        75,
+        101,
+        413,
+        125
+      ],
+      [
+        75,
+        132,
+        413,
+        156
+      ],
+      [
+        75,
+        163,
+        413,
+        187
+      ],
+      [
+        203,
+        200,
+        273,
+        219
+      ],
+      [
+        382,
+        28,
+        416,
+        53
+      ],
+      [
+        25,
+        275,
+        314,
+        347
+      ]
+    ],
+    "replaceablePolygons": [
+      [
+        [
+          482,
+          56
+        ],
+        [
+          674,
+          35
+        ],
+        [
+          691,
+          206
+        ],
+        [
+          501,
+          230
+        ]
+      ]
+    ],
+    "outsideMask": "unchanged original pixels"
+  },
+  {
+    "asset": "home-desk-lock-exact.png",
+    "sourceCrop": [
+      199,
+      1334,
+      227,
+      1395
+    ],
+    "method": "retain source light question mark and dark padlock shapes"
+  },
+  {
+    "asset": "home-desk-locked-slot-exact.png",
+    "sourceCrop": [
+      177,
+      1317,
+      228,
+      1405
+    ],
+    "method": "retain full original question, padlock and metal slot; erase only source number 3"
+  }
+]

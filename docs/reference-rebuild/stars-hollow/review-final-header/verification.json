@@ -1,0 +1,123 @@
+{
+  "passed": true,
+  "layouts": [
+    {
+      "width": 380,
+      "overflow": 0,
+      "noOverlap": true,
+      "inside": true,
+      "nav": [
+        {
+          "id": "home",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "notes",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "todos",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "timer",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "badges",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "budget",
+          "visible": true,
+          "inside": true
+        }
+      ],
+      "captureHeight": 409
+    },
+    {
+      "width": 600,
+      "overflow": 0,
+      "noOverlap": true,
+      "inside": true,
+      "nav": [
+        {
+          "id": "home",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "notes",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "todos",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "timer",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "badges",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "budget",
+          "visible": true,
+          "inside": true
+        }
+      ],
+      "captureHeight": 514
+    },
+    {
+      "width": 900,
+      "overflow": 0,
+      "noOverlap": true,
+      "inside": true,
+      "nav": [
+        {
+          "id": "home",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "notes",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "todos",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "timer",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "badges",
+          "visible": true,
+          "inside": true
+        },
+        {
+          "id": "budget",
+          "visible": true,
+          "inside": true
+        }
+      ],
+      "captureHeight": 674
+    }
+  ],
+  "errors": []
+}

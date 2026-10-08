@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "actions": [
+    "editable title uses Turkish theme font; title and body autosave",
+    "keyboard selects inline notebook; format toolbar persists edits",
+    "new note opens editable notebook",
+    "native note menu saves pin, tag and paper color; archive and restore preserve note",
+    "theme changes, three widths and empty-to-first-note state remain functional"
+  ],
+  "errors": []
+}

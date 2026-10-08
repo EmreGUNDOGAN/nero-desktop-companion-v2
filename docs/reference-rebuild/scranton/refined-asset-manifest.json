@@ -1,0 +1,186 @@
+[
+  {
+    "asset": "themes/scranton/assets/reference/home-tray-clean.png",
+    "sourceAsset": "themes/scranton/assets/reference/home-tray-generated.png",
+    "sourceSha256": "ce7f184ce62c41e4a0af9e00bf87a8fdd15aa7461a796c900434f5abeee7d2ef",
+    "method": "trim surrounding black matte from text-cleaned reference",
+    "crop": [
+      0,
+      130,
+      2170,
+      594
+    ],
+    "size": [
+      2170,
+      464
+    ]
+  },
+  {
+    "asset": "themes/scranton/assets/reference/home-jar-clean.png",
+    "sourceAsset": "themes/scranton/assets/reference/home-jar-generated.png",
+    "sourceSha256": "4cb257e0a4a7e0c2aa8b4b8204136eb81c681990466d3d0d64ee73ee8dd7d1c5",
+    "method": "trim surrounding black matte from text-cleaned reference",
+    "crop": [
+      0,
+      59,
+      2170,
+      666
+    ],
+    "size": [
+      2170,
+      607
+    ]
+  },
+  {
+    "asset": "themes/scranton/assets/reference/home-tray-cutout.png",
+    "sourceAsset": "themes/scranton/assets/reference/home-tray-clean.png",
+    "sourceSha256": "0062bda51a2381b6f86b1c202f8811a293165565684a04ae10a49060c27b0c7d",
+    "method": "trace tray silhouette; exclude duplicate hero/nameplate pixels",
+    "polygon": [
+      [
+        48,
+        195
+      ],
+      [
+        195,
+        79
+      ],
+      [
+        265,
+        44
+      ],
+      [
+        536,
+        46
+      ],
+      [
+        731,
+        56
+      ],
+      [
+        942,
+        46
+      ],
+      [
+        1434,
+        51
+      ],
+      [
+        1862,
+        44
+      ],
+      [
+        1996,
+        165
+      ],
+      [
+        2094,
+        206
+      ],
+      [
+        2114,
+        422
+      ],
+      [
+        2070,
+        442
+      ],
+      [
+        65,
+        434
+      ],
+      [
+        48,
+        422
+      ]
+    ]
+  },
+  {
+    "asset": "themes/scranton/assets/reference/note-composer-logo-clean.png",
+    "source": "docs/tv-themes/concepts/scranton/notes.png",
+    "crop": [
+      549,
+      482,
+      635,
+      543
+    ],
+    "method": "complete company logo and tagline; excludes adjacent note title"
+  },
+  {
+    "asset": "themes/scranton/assets/reference/timer-stat-raw.png",
+    "source": "docs/tv-themes/concepts/scranton/timer.png",
+    "crop": [
+      646,
+      951,
+      899,
+      1220
+    ],
+    "method": "full standing folded stats paper before text cleaning"
+  },
+  {
+    "asset": "themes/scranton/assets/reference/nav-home-cutout.png",
+    "source": "docs/tv-themes/concepts/scranton/timer.png",
+    "crop": [
+      54,
+      88,
+      83,
+      119
+    ],
+    "method": "isolate complete original menu glyph; source alpha shape with neutral ink, three-pixel padding"
+  },
+  {
+    "asset": "themes/scranton/assets/reference/nav-notes-cutout.png",
+    "source": "docs/tv-themes/concepts/scranton/timer.png",
+    "crop": [
+      240,
+      88,
+      270,
+      120
+    ],
+    "method": "isolate complete original menu glyph; source alpha shape with neutral ink, three-pixel padding"
+  },
+  {
+    "asset": "themes/scranton/assets/reference/nav-todos-cutout.png",
+    "source": "docs/tv-themes/concepts/scranton/timer.png",
+    "crop": [
+      415,
+      87,
+      448,
+      120
+    ],
+    "method": "isolate complete original menu glyph; source alpha shape with neutral ink, three-pixel padding"
+  },
+  {
+    "asset": "themes/scranton/assets/reference/nav-timer-cutout.png",
+    "source": "docs/tv-themes/concepts/scranton/timer.png",
+    "crop": [
+      584,
+      85,
+      622,
+      120
+    ],
+    "method": "isolate complete original menu glyph; source alpha shape with neutral ink, three-pixel padding"
+  },
+  {
+    "asset": "themes/scranton/assets/reference/nav-badges-cutout.png",
+    "source": "docs/tv-themes/concepts/scranton/timer.png",
+    "crop": [
+      776,
+      87,
+      807,
+      120
+    ],
+    "method": "isolate complete original menu glyph; source alpha shape with neutral ink, three-pixel padding"
+  },
+  {
+    "asset": "themes/scranton/assets/reference/nav-budget-cutout.png",
+    "source": "docs/tv-themes/concepts/scranton/timer.png",
+    "crop": [
+      976,
+      87,
+      1010,
+      120
+    ],
+    "method": "isolate complete original menu glyph; source alpha shape with neutral ink, three-pixel padding"
+  }
+]

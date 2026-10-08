@@ -1,0 +1,269 @@
+[
+  {
+    "asset": "themes/bikini-bottom/assets/reference/home-live-master.png",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "method": {
+      "liveAreas": [
+        {
+          "rect": [
+            60,
+            186,
+            445,
+            253
+          ],
+          "method": "blank live heading field sampled from surrounding original clear cyan water; source illustrations outside the field unchanged",
+          "sample": [
+            40,
+            171,
+            465,
+            271
+          ]
+        },
+        {
+          "rect": [
+            139,
+            277,
+            283,
+            328
+          ],
+          "sample": [
+            151,
+            265,
+            227,
+            275
+          ]
+        },
+        {
+          "rect": [
+            121,
+            458,
+            168,
+            495
+          ],
+          "sample": [
+            175,
+            455,
+            188,
+            480
+          ]
+        },
+        {
+          "rect": [
+            243,
+            458,
+            320,
+            495
+          ],
+          "sample": [
+            175,
+            455,
+            188,
+            480
+          ]
+        },
+        {
+          "rect": [
+            435,
+            458,
+            477,
+            495
+          ],
+          "sample": [
+            175,
+            455,
+            188,
+            480
+          ]
+        },
+        {
+          "rect": [
+            62,
+            590,
+            483,
+            713
+          ],
+          "sample": [
+            73,
+            576,
+            415,
+            589
+          ]
+        },
+        {
+          "rect": [
+            178,
+            800,
+            365,
+            827
+          ],
+          "sample": [
+            177,
+            793,
+            365,
+            800
+          ]
+        }
+      ],
+      "outsideLiveAreas": "unchanged original pixels"
+    }
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/home-hero-live.png",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "method": {
+      "crop": [
+        30,
+        178,
+        508,
+        447
+      ],
+      "sourceMaster": "home-live-master.png"
+    }
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/home-stats-live.png",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "method": {
+      "crop": [
+        46,
+        446,
+        498,
+        527
+      ],
+      "sourceMaster": "home-live-master.png"
+    }
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/home-week-live.png",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "method": {
+      "crop": [
+        46,
+        540,
+        498,
+        727
+      ],
+      "sourceMaster": "home-live-master.png"
+    }
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/home-jar-live.png",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "method": {
+      "crop": [
+        46,
+        736,
+        498,
+        864
+      ],
+      "sourceMaster": "home-live-master.png"
+    }
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/home-quick-live.png",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "method": {
+      "crop": [
+        30,
+        864,
+        508,
+        944
+      ],
+      "sourceMaster": "home-live-master.png"
+    }
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/home-footer-live.png",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "method": {
+      "crop": [
+        30,
+        944,
+        508,
+        1024
+      ],
+      "sourceMaster": "home-live-master.png"
+    }
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/home-lower-live.png",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "method": {
+      "crop": [
+        30,
+        736,
+        508,
+        1024
+      ],
+      "sourceMaster": "home-live-master.png"
+    }
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/nav-live.png",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "method": "original scalloped cream strip; only replaceable icon/label fields cleared"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/nav-selected-live.png",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "method": "original coral rounded edge and shadow with source coral interior"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/nav-home-cutout.png",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "method": "isolate original navy ink and colored interior from pale navigation paper"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/nav-notes-cutout.png",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "method": "isolate original navy ink and colored interior from pale navigation paper"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/nav-todos-cutout.png",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "method": "isolate original navy ink and colored interior from pale navigation paper"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/nav-timer-cutout.png",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "method": "isolate original navy ink and colored interior from pale navigation paper"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/nav-badges-cutout.png",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "method": "isolate original navy ink and colored interior from pale navigation paper"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/nav-budget-cutout.png",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "method": "isolate original navy ink and colored interior from pale navigation paper"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/header-live.png",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "method": "unchanged original sponge header, brand lettering and control glyphs"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/sand-paper-tile.png",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "method": "blank source parchment grain"
+  }
+]

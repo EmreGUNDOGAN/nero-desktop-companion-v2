@@ -23,11 +23,11 @@ function isoWeekKey(d = new Date()) {
 
 // 0-100 keyif puanını beş kategoriden birine indirger; her biri panelde bir nokta rengi.
 const MOOD_BUCKETS = [
-  { max: 34, cls: 'c1', label: 'zor bir gündü' },
-  { max: 49, cls: 'c2', label: 'sıkıntılı bir gündü' },
-  { max: 64, cls: 'c3', label: 'idare eden bir gündü' },
-  { max: 79, cls: 'c4', label: 'iyi bir gündü' },
-  { max: 101, cls: 'c5', label: 'keyifli bir gündü' }
+  { max: 34, cls: 'c1', label: 'Kötü' },
+  { max: 49, cls: 'c2', label: 'İdare eder' },
+  { max: 64, cls: 'c3', label: 'İdare eder' },
+  { max: 79, cls: 'c4', label: 'İyi' },
+  { max: 101, cls: 'c5', label: 'İyi' }
 ];
 function moodBucket(avg) {
   return MOOD_BUCKETS.find((b) => avg <= b.max) || MOOD_BUCKETS[MOOD_BUCKETS.length - 1];

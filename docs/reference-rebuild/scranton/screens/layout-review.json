@@ -1,0 +1,16 @@
+[
+  {
+    "page": "home",
+    "width": 600,
+    "overflow": 0,
+    "offenders": [],
+    "font": "\"Reference Office\", \"Segoe UI\", sans-serif",
+    "heading": {
+      "background": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+      "top": "14.8594px",
+      "font": "800 23.48px / 24.654px \"Reference Office\", sans-serif",
+      "position": "absolute",
+      "height": "24.6562px"
+    }
+  }
+]

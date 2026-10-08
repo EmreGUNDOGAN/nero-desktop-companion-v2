@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "actions": [
+    "saved mood choice, user/Nero switch, past month and current month",
+    "all archive records accessible and expanded rows stay above quote",
+    "memory dialog does not submit jar form",
+    "theme switching restores native controls; ten shelf objects stay in one row at three widths"
+  ],
+  "errors": []
+}

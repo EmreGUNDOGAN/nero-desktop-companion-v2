@@ -1,0 +1,255 @@
+{
+  "report": [
+    {
+      "width": 380,
+      "overflow": 0,
+      "gridOverflow": 0,
+      "rows": 25,
+      "count": "5 / 100",
+      "category": "5 / 25",
+      "progress": "5",
+      "cards": [
+        {
+          "id": "ilk_is",
+          "w": 104.828125,
+          "h": 128.515625,
+          "name": "Bir yerden başlamak lazım",
+          "date": 1,
+          "mark": 1
+        },
+        {
+          "id": "is_10",
+          "w": 104.828125,
+          "h": 128.515625,
+          "name": "Isınma turları",
+          "date": 1,
+          "mark": 1
+        },
+        {
+          "id": "gunde_5",
+          "w": 104.828125,
+          "h": 128.515625,
+          "name": "Verimli gün",
+          "date": 1,
+          "mark": 1
+        },
+        {
+          "id": "ilk_sayac",
+          "w": 104.828125,
+          "h": 137.875,
+          "name": "İlk odak",
+          "date": 1,
+          "mark": 1
+        },
+        {
+          "id": "seri_3",
+          "w": 104.828125,
+          "h": 137.875,
+          "name": "Alışkanlık başlıyor",
+          "date": 1,
+          "mark": 1
+        },
+        {
+          "id": "ilk_not",
+          "w": 104.828125,
+          "h": 137.875,
+          "name": "Aklımda tutarım demedin",
+          "date": 0,
+          "mark": 1
+        }
+      ]
+    },
+    {
+      "width": 600,
+      "overflow": 0,
+      "gridOverflow": 0,
+      "rows": 25,
+      "count": "5 / 100",
+      "category": "5 / 25",
+      "progress": "5",
+      "cards": [
+        {
+          "id": "ilk_is",
+          "w": 169.203125,
+          "h": 207.046875,
+          "name": "Bir yerden başlamak lazım",
+          "date": 1,
+          "mark": 1
+        },
+        {
+          "id": "is_10",
+          "w": 169.21875,
+          "h": 207.046875,
+          "name": "Isınma turları",
+          "date": 1,
+          "mark": 1
+        },
+        {
+          "id": "gunde_5",
+          "w": 169.21875,
+          "h": 207.046875,
+          "name": "Verimli gün",
+          "date": 1,
+          "mark": 1
+        },
+        {
+          "id": "ilk_sayac",
+          "w": 169.203125,
+          "h": 222.125,
+          "name": "İlk odak",
+          "date": 1,
+          "mark": 1
+        },
+        {
+          "id": "seri_3",
+          "w": 169.21875,
+          "h": 222.125,
+          "name": "Alışkanlık başlıyor",
+          "date": 1,
+          "mark": 1
+        },
+        {
+          "id": "ilk_not",
+          "w": 169.21875,
+          "h": 222.125,
+          "name": "Aklımda tutarım demedin",
+          "date": 0,
+          "mark": 1
+        }
+      ]
+    },
+    {
+      "width": 900,
+      "overflow": 0,
+      "gridOverflow": 0,
+      "rows": 25,
+      "count": "5 / 100",
+      "category": "5 / 25",
+      "progress": "5",
+      "cards": [
+        {
+          "id": "ilk_is",
+          "w": 256.234375,
+          "h": 314.15625,
+          "name": "Bir yerden başlamak lazım",
+          "date": 1,
+          "mark": 1
+        },
+        {
+          "id": "is_10",
+          "w": 256.234375,
+          "h": 314.15625,
+          "name": "Isınma turları",
+          "date": 1,
+          "mark": 1
+        },
+        {
+          "id": "gunde_5",
+          "w": 256.234375,
+          "h": 314.15625,
+          "name": "Verimli gün",
+          "date": 1,
+          "mark": 1
+        },
+        {
+          "id": "ilk_sayac",
+          "w": 256.234375,
+          "h": 337.03125,
+          "name": "İlk odak",
+          "date": 1,
+          "mark": 1
+        },
+        {
+          "id": "seri_3",
+          "w": 256.234375,
+          "h": 337.03125,
+          "name": "Alışkanlık başlıyor",
+          "date": 1,
+          "mark": 1
+        },
+        {
+          "id": "ilk_not",
+          "w": 256.234375,
+          "h": 337.03125,
+          "name": "Aklımda tutarım demedin",
+          "date": 0,
+          "mark": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "gridGeometry": {
+    "top": 931.234375,
+    "bottom": 1612.984375,
+    "height": 681.75,
+    "scroll": 0,
+    "rows": "314.156px 337.031px 337.031px 337.031px 337.031px 337.031px 337.031px 337.031px 337.031px",
+    "gap": "22.088px",
+    "children": [
+      {
+        "id": "ilk_is",
+        "top": 934.75,
+        "bottom": 1248.90625,
+        "pinTop": 925.078125,
+        "pinBottom": 953.234375
+      },
+      {
+        "id": "is_10",
+        "top": 934.75,
+        "bottom": 1248.90625,
+        "pinTop": 925.078125,
+        "pinBottom": 953.234375
+      },
+      {
+        "id": "gunde_5",
+        "top": 934.75,
+        "bottom": 1248.90625,
+        "pinTop": 925.078125,
+        "pinBottom": 953.234375
+      },
+      {
+        "id": "ilk_sayac",
+        "top": 1270.984375,
+        "bottom": 1608.015625,
+        "pinTop": 1261.3125,
+        "pinBottom": 1289.46875
+      },
+      {
+        "id": "seri_3",
+        "top": 1270.984375,
+        "bottom": 1608.015625,
+        "pinTop": 1261.3125,
+        "pinBottom": 1289.46875
+      },
+      {
+        "id": "ilk_not",
+        "top": 1270.984375,
+        "bottom": 1608.015625,
+        "pinTop": 1261.3125,
+        "pinBottom": 1289.46875
+      },
+      {
+        "id": "sev_1",
+        "top": 1630.09375,
+        "bottom": 1967.125,
+        "pinTop": 1620.421875,
+        "pinBottom": 1648.578125
+      },
+      {
+        "id": "tanistik_1gun",
+        "top": 1630.09375,
+        "bottom": 1967.125,
+        "pinTop": 1620.421875,
+        "pinBottom": 1648.578125
+      },
+      {
+        "id": "uyandir_3",
+        "top": 1630.09375,
+        "bottom": 1967.125,
+        "pinTop": 1620.421875,
+        "pinBottom": 1648.578125
+      }
+    ]
+  }
+}

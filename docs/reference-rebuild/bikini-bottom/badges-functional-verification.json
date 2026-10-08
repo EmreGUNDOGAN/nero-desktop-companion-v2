@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "actions": [
+    "live count and progress; earned dates and locked cards; secret category stays hidden",
+    "three widths keep every earned date inside its paper and separate from the description",
+    "four categories filter real records; native keyboard navigation selects the next category",
+    "pointer scroll and keyboard focus reach the collection beyond its six visible example cards",
+    "theme switches preserve native controls and do not duplicate markers or dates"
+  ],
+  "errors": []
+}

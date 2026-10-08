@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "actions": [
+    "memory dialog opens without submitting jar form",
+    "search works after nested paper assembly",
+    "real pointer drag moves native task between paper boards",
+    "linked timer creates live dated ledger and restores reset",
+    "rarity controls retain native collection filtering"
+  ],
+  "errors": []
+}

@@ -1,0 +1,373 @@
+/* Approved Stars Hollow composition. Original-source objects, native live UI. */
+.gg-only{display:none}
+html[data-skin=stars-hollow] .view[hidden]{display:none!important}
+html[data-skin=stars-hollow] .tabs button svg{display:none}
+html[data-skin=stars-hollow] .tabs button .gg-nav-icon{order:-1;width:23px;height:25px;object-fit:contain}
+html[data-skin=stars-hollow]{--text:"Times New Roman",Times,serif;--serif:"Times New Roman",Times,serif;--hand:"Caveat",cursive;--gg-navy:#0c234b;--gg-wine:#7b1027;--gg-paper:#f6ead6}
+html[data-skin=stars-hollow] .gg-only{display:block}
+html[data-skin=stars-hollow] .gg-only[hidden]{display:none!important}
+html[data-skin=stars-hollow] .gg-art{pointer-events:none;object-fit:contain;max-width:100%}
+html[data-skin=stars-hollow] .shell{inset:2px;border:1px solid #9c8a6e;border-radius:9px;background:#f6eddd}
+html[data-skin=stars-hollow] .top{height:52px;min-height:52px;padding:5px 0;background:linear-gradient(100deg,#f8efdf,#eee3d3,#fff9ee);position:relative}
+html[data-skin=stars-hollow] .brand{position:absolute;top:3px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:1px}
+html[data-skin=stars-hollow] .brand h1{width:85px;height:26px;margin:0;background:url("nero-theme://stars-hollow/assets/reference/brand-logo.png") center/contain no-repeat;color:transparent;font-size:0}
+html[data-skin=stars-hollow] .tv-subtitle{font:14px/1.1 "Times New Roman",serif;color:#6b1c22;letter-spacing:0}
+html[data-skin=stars-hollow] .tv-subtitle::before,html[data-skin=stars-hollow] .tv-subtitle::after{content:"★";padding:0 7px;color:#795533;font-size:10px}
+html[data-skin=stars-hollow] .window-controls{top:7px;right:6px;gap:1px}
+html[data-skin=stars-hollow] .window-controls button{min-width:19px;width:19px;height:21px;padding:3px}
+html[data-skin=stars-hollow] .top::before{content:"";position:absolute;top:16px;left:13px;width:10px;height:10px;border-radius:50%;background:#d66b48;box-shadow:18px 0 #dfb04e,36px 0 #80915d}
+html[data-skin=stars-hollow] .tabs{min-height:53px;gap:0;padding:0 25px 2px;background:linear-gradient(#f8efe2,#f2e7d7);border-color:#ded0bc}
+html[data-skin=stars-hollow] .tabs button{font:16px/1.1 "Times New Roman",serif;padding:5px 0 3px;gap:2px;border-bottom:2px solid transparent}
+html[data-skin=stars-hollow] .tabs button[aria-selected=true]{background:none;color:var(--gg-wine);border-bottom-color:var(--gg-wine);font-weight:bold}
+html[data-skin=stars-hollow] .tabs svg{width:23px;height:23px;stroke-width:1.5}
+html[data-skin=stars-hollow] .view:not(#view-budget){max-width:887px;width:100%;margin:0 auto;padding:0 0 22px;background:#764b2f url("nero-theme://stars-hollow/assets/reference/wood-wide.png") center top/887px auto repeat;container-type:inline-size}
+html[data-skin=stars-hollow] :is(.view:not(#view-budget) button,.view:not(#view-budget) input,.view:not(#view-budget) select,.view:not(#view-budget) textarea){font-family:"Times New Roman",serif;font-weight:normal}
+html[data-skin=stars-hollow] :is(.view:not(#view-budget) button,.view:not(#view-budget) input,.view:not(#view-budget) select,.view:not(#view-budget) textarea):focus-visible{outline:2px solid #8b1930;outline-offset:3px}
+html[data-skin=stars-hollow] .view :is(.tv-page-head,.sb-heading)>h2{color:var(--gg-navy);font-weight:bold}
+html[data-skin=stars-hollow] .tv-page-head{display:block;position:relative;gap:0;margin:0;border:0;padding:0}
+html[data-skin=stars-hollow] .tv-page-head>h2{position:absolute;z-index:2;top:15px;left:11%;font:700 clamp(26px,5.4cqw,48px)/1 "Times New Roman",serif}
+html[data-skin=stars-hollow] .tv-page-scene{min-height:0;aspect-ratio:887/383;border-radius:0;box-shadow:none;background-position:center;background-size:100% 100%}
+html[data-skin=stars-hollow] [data-tv-page=notes] .tv-page-scene{background-image:url("nero-theme://stars-hollow/assets/reference/notes-hero.png")!important}
+html[data-skin=stars-hollow] [data-tv-page=todos] .tv-page-scene{background-image:url("nero-theme://stars-hollow/assets/reference/todos-hero.png")!important;aspect-ratio:887/389}
+html[data-skin=stars-hollow] [data-tv-page=badges] .tv-page-scene{background-image:url("nero-theme://stars-hollow/assets/reference/badges-hero.png")!important;aspect-ratio:887/317}
+html[data-skin=stars-hollow] :is([data-tv-page=notes],[data-tv-page=todos],[data-tv-page=badges])>h2{clip-path:inset(50%);width:1px;height:1px;overflow:hidden}
+html[data-skin=stars-hollow] [data-tv-page=notes]>.tv-button{position:absolute;right:2.7%;top:4.4%;width:19.5%;height:12%;padding:0;border:0;box-shadow:none;background:transparent;color:transparent;font-size:0}
+html[data-skin=stars-hollow] [data-tv-page=notes]>.tv-button:hover{box-shadow:0 0 0 2px #fff9d4;border-radius:7px}
+/* Notes: paper cards, original clip and return stamp, then the bound notebook. */
+html[data-skin=stars-hollow] #notes-list-view{display:flex;flex-direction:column;gap:14px;padding:0}
+html[data-skin=stars-hollow] #notes-list-view>.tv-page-head{margin-bottom:0}
+html[data-skin=stars-hollow] #notes-list{margin:0 4%;padding:0;gap:14px;grid-template-columns:repeat(2,minmax(0,1fr));background:none;border:0}
+html[data-skin=stars-hollow] #notes-list>li:not(.new-note){min-height:clamp(145px,24cqw,215px);padding:24px 19px 38px;border:9px solid transparent;border-image:url("nero-theme://stars-hollow/assets/reference/note-yellow.png") 18 fill stretch;box-shadow:1px 3px 5px #28160455;border-radius:0;background:none}
+html[data-skin=stars-hollow] #notes-list>li[data-tv-color=green]{border-image-source:url("nero-theme://stars-hollow/assets/reference/note-green.png")}
+html[data-skin=stars-hollow] #notes-list>li[data-tv-color=pink]{border-image-source:url("nero-theme://stars-hollow/assets/reference/note-pink.png")}
+html[data-skin=stars-hollow] .note-title{font:700 clamp(22px,4cqw,34px)/1.1 "Times New Roman",serif;color:var(--gg-navy);padding-right:64px}
+html[data-skin=stars-hollow] .note-preview{font:normal clamp(16px,2.6cqw,23px)/1.35 "Times New Roman",serif;margin-top:10px;-webkit-line-clamp:3}
+html[data-skin=stars-hollow] .note-date{font:normal clamp(12px,1.8cqw,16px) "Times New Roman",serif;color:#354039;position:absolute;bottom:12px;left:20px}
+html[data-skin=stars-hollow] .nf-note-tag{top:10px;bottom:auto;right:39px;font:normal 13px/1.15 "Times New Roman",serif;padding:3px 12px;border-radius:5px;background:#34566d;color:#fff9ec;letter-spacing:0;max-width:30%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+html[data-skin=stars-hollow] [data-tv-color=green] .nf-note-tag{background:#647855}
+html[data-skin=stars-hollow] [data-tv-color=pink] .nf-note-tag{background:#a44a50}
+html[data-skin=stars-hollow] .nf-menu{background:none;border:0;box-shadow:none;font-size:22px;padding:0 4px;right:5px;top:6px}
+html[data-skin=stars-hollow] .gg-card-clip{position:absolute;left:12px;top:-17px;width:33px;height:65px}
+html[data-skin=stars-hollow] #notes-list>li.tv-wide-note{padding-left:9%;padding-right:23%}
+html[data-skin=stars-hollow] .gg-library-stamp{position:absolute;right:19px;bottom:23px;width:112px;height:76px;transform:rotate(-1deg)}
+html[data-skin=stars-hollow] .gg-library-stamp img{width:100%;height:100%}
+html[data-skin=stars-hollow] .gg-library-stamp time{position:absolute;left:8%;right:8%;top:43%;font:13px "Courier Prime",monospace;text-align:center;color:#b83f36;white-space:nowrap}
+html[data-skin=stars-hollow] .nf-check-preview{margin-top:8px;font:normal 16px/1.35 "Times New Roman",serif}
+html[data-skin=stars-hollow] .nf-check-preview label{gap:6px}
+html[data-skin=stars-hollow] .nf-check-preview input{appearance:none;width:19px;height:19px;border:1px solid #683040;border-radius:3px;margin:0;background:transparent}
+html[data-skin=stars-hollow] .nf-check-preview input:checked{background:#71825e;box-shadow:inset 0 0 0 2px #e8e3c8}
+html[data-skin=stars-hollow] .nf-check-count{font:normal 13px "Times New Roman",serif;background:none;position:absolute;left:20px;bottom:12px}
+html[data-skin=stars-hollow] #notes-archive{margin:0 4%;padding:8px 13px;border:8px solid transparent;border-image:url("nero-theme://stars-hollow/assets/reference/notes-archive-strip.png") 12 fill stretch;border-radius:0;background:none;box-shadow:0 3px 4px #0003}
+html[data-skin=stars-hollow] #notes-archive summary{font:bold 18px "Times New Roman",serif}
+html[data-skin=stars-hollow] #tv-composer{margin:0 2%;padding:25px 6% 20px 9%;border:0;background:url("nero-theme://stars-hollow/assets/reference/note-book.png") center/100% 100% no-repeat;min-height:clamp(360px,57cqw,510px);box-shadow:0 3px 5px #27180355;border-radius:0}
+html[data-skin=stars-hollow] #tv-composer::before{display:none}
+html[data-skin=stars-hollow] #tv-composer::after{content:"";position:absolute;right:3%;top:4px;width:48px;height:99px;background:url("nero-theme://stars-hollow/assets/reference/yale-ribbon.png") center/contain no-repeat;pointer-events:none}
+html[data-skin=stars-hollow] #tv-note-title{font:700 clamp(23px,4cqw,35px) "Times New Roman",serif;color:var(--gg-navy);padding-right:30px}
+html[data-skin=stars-hollow] #tv-save{font:normal 12px "Times New Roman",serif}
+html[data-skin=stars-hollow] #tv-composer>header{padding-right:45px}
+html[data-skin=stars-hollow] #tv-composer::after{width:clamp(32px,6cqw,48px);height:clamp(72px,14cqw,99px)}
+html[data-skin=stars-hollow] .tv-note-tools{gap:0;padding:8px 0;border-bottom:1px solid #b7a79066}
+html[data-skin=stars-hollow] .tv-note-tools button{border:0;border-right:1px solid #b7a79077;border-radius:0;background:none;color:var(--gg-navy);font:normal 14px "Times New Roman",serif;padding:3px 9px}
+html[data-skin=stars-hollow] #tv-note-text{font:normal clamp(16px,2.1cqw,19px)/29px "Courier Prime",monospace;background:none;padding:8px 0;border:0;min-height:270px;resize:vertical}
+html[data-skin=stars-hollow] .gg-notes-footer{margin-top:-20px;position:relative;z-index:1}
+html[data-skin=stars-hollow] .gg-footer{display:block;width:100%;height:auto;object-fit:contain}
+/* Dragonfly Inn: the capture sheet followed by the physical clipboard. */
+html[data-skin=stars-hollow] .gg-todo-capture{display:grid;grid-template-columns:1fr 1fr;gap:7px 14px;margin:0 3%;padding:15px 17px 12px;border:10px solid transparent;border-image:url("nero-theme://stars-hollow/assets/reference/todo-capture.png") 17 fill stretch;box-shadow:0 3px 5px #1e130c55}
+html[data-skin=stars-hollow] .gg-todo-caption{display:none}
+html[data-skin=stars-hollow] #nf-plan{margin:0;font:bold clamp(14px,2.15cqw,19px)/1.35 "Times New Roman",serif;color:var(--gg-navy);align-self:center}
+html[data-skin=stars-hollow] #nf-todo-filters{margin:0;gap:5px;grid-template-columns:1.5fr 1.2fr .8fr}
+html[data-skin=stars-hollow] #nf-todo-filters :is(input,select){font:normal 14px "Times New Roman",serif;padding:6px;border-radius:4px;background:#f5ede2;border-color:#ab9c86}
+html[data-skin=stars-hollow] #todo-form{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1fr) 43px;gap:5px 8px;margin:2px 0 0}
+html[data-skin=stars-hollow] #todo-input{grid-column:1;min-width:0;width:100%;font:normal 18px "Times New Roman",serif;border-radius:4px;padding:9px 12px;background:#fff8ee;border:1px solid #b2a08b}
+html[data-skin=stars-hollow] #todo-form>.add{grid-column:2;padding:9px;background:var(--gg-wine);border-radius:5px;color:#fff8ef}
+html[data-skin=stars-hollow] .nf-capture-options{grid-column:1/-1;margin:0;font:normal 15px "Times New Roman",serif}
+html[data-skin=stars-hollow] #view-todos .list-card{margin:26px 3% 0;padding:25px 15px 17px;border:12px solid transparent;border-image:url("nero-theme://stars-hollow/assets/reference/todo-paper.png") 24 fill stretch;border-radius:0;background:none;box-shadow:0 3px 5px #0005}
+html[data-skin=stars-hollow] #view-todos .list-card::before{display:block;left:calc(50% - 61px);top:-32px;width:122px;height:49px;border:0;border-radius:0;background:url("nero-theme://stars-hollow/assets/reference/todo-clip.png") center/contain no-repeat;box-shadow:none;z-index:2}
+html[data-skin=stars-hollow] .list-card::after{content:"";position:absolute;top:0;right:10px;width:65px;height:93px;background:url("nero-theme://stars-hollow/assets/reference/todo-paper-flower.png") center/contain no-repeat;pointer-events:none;opacity:.65}
+html[data-skin=stars-hollow] #todo-list{display:flex;flex-direction:column;gap:0;padding:0;margin:0}
+html[data-skin=stars-hollow] .nf-group{padding:9px 6px!important;color:var(--gg-navy);border-bottom:1px solid #b1a58e!important}
+html[data-skin=stars-hollow] .nf-group>strong{font:bold clamp(22px,3.8cqw,33px) "Times New Roman",serif}
+html[data-skin=stars-hollow] .nf-group[data-gg-bucket=later]{margin-top:22px;background:#e4e9eb!important}
+html[data-skin=stars-hollow] #todo-list>li[data-todo-id]{padding:12px 42px 13px 9px;min-height:75px;border-bottom:1px solid #b1a58e;background:transparent}
+html[data-skin=stars-hollow] #todo-list>li[data-gg-bucket=later]{background:#e7ecec55}
+html[data-skin=stars-hollow] .todo-text{font:bold clamp(18px,2.65cqw,24px)/1.25 "Times New Roman",serif;color:var(--gg-navy)}
+html[data-skin=stars-hollow] .todo-check{width:25px;height:25px;min-width:25px;border:1px solid #132834;border-radius:4px;background:transparent}
+html[data-skin=stars-hollow] .nf-task-meta{padding-left:34px;font:normal 14px "Times New Roman",serif;display:flex;gap:6px;flex-wrap:wrap}
+html[data-skin=stars-hollow] .gg-task-label{display:inline-block;padding:2px 9px;border-radius:5px;background:#355976;color:#fff8e8}
+html[data-skin=stars-hollow] .gg-task-priority{background:#9c3440}
+html[data-skin=stars-hollow] .todo-footer,html[data-skin=stars-hollow] #todos-archive{margin:10px 9% 0;background:#f7ebd7;border:8px solid transparent;border-image:url("nero-theme://stars-hollow/assets/reference/todo-archive-strip.png") 12 fill stretch;padding:8px;font:normal 16px "Times New Roman",serif}
+html[data-skin=stars-hollow] .gg-todo-footer{margin-top:-4px}
+html[data-skin=stars-hollow] #view-todos .list-card{margin:21px 0 0;padding:0;border:0;background:none;box-shadow:none}
+html[data-skin=stars-hollow] #view-todos .list-card::before,html[data-skin=stars-hollow] #view-todos .list-card::after{display:none}
+html[data-skin=stars-hollow] #todo-list{gap:15px}
+html[data-skin=stars-hollow] #todo-list>.gg-work-page{position:relative;margin:0 3%;padding:15px 10px 10px;border:12px solid transparent;border-image:url("nero-theme://stars-hollow/assets/reference/todo-paper.png") 24 fill stretch;background:none;border-radius:0;box-shadow:0 3px 4px #1f120a55;text-align:left;flex:none}
+html[data-skin=stars-hollow] .gg-work-rows{padding:0;margin:0;list-style:none}
+html[data-skin=stars-hollow] .gg-work-rows>[data-todo-id]{position:relative;display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:12px 39px 12px 9px;min-height:76px;border-bottom:1px solid #b0a68f}
+html[data-skin=stars-hollow] .gg-work-page[data-gg-paper=later]{border-image-source:url("nero-theme://stars-hollow/assets/reference/todo-later.png")!important}
+html[data-skin=stars-hollow] .gg-work-page[data-gg-paper=today]::before{content:"";position:absolute;left:calc(50% - 61px);top:-31px;width:122px;height:47px;background:url("nero-theme://stars-hollow/assets/reference/todo-clip.png") center/contain no-repeat;pointer-events:none}
+html[data-skin=stars-hollow] .gg-work-page[data-gg-paper=later]::before{content:"";position:absolute;left:48%;top:-21px;width:22px;height:33px;background:url("nero-theme://stars-hollow/assets/reference/todo-pin-gold.png") center/contain no-repeat}
+html[data-skin=stars-hollow] .gg-work-page::after{content:"";position:absolute;right:5px;top:3px;width:53px;height:73px;background:url("nero-theme://stars-hollow/assets/reference/todo-paper-flower.png") center/contain no-repeat;pointer-events:none;opacity:.6}
+html[data-skin=stars-hollow] .nf-group[data-gg-bucket=later]{margin-top:0;background:none!important}
+html[data-skin=stars-hollow] .gg-empty-work{padding:17px 10px;color:#796e5d;font:normal 15px "Times New Roman",serif;list-style:none}
+html[data-skin=stars-hollow] #todos-empty{display:none}
+/* Luke's counter: setup paper, tagged coffee, receipt, progress strip and ledger. */
+html[data-skin=stars-hollow] #view-timer{display:block;padding-bottom:0}
+html[data-skin=stars-hollow] [data-tv-page=timer]{display:none!important}
+html[data-skin=stars-hollow] #view-timer>.tv-page-scene{width:100%;aspect-ratio:887/343;min-height:0;background-image:url("nero-theme://stars-hollow/assets/reference/timer-hero.png")!important;background-size:100% 100%;border:0;border-radius:0}
+html[data-skin=stars-hollow] .gg-timer-body{position:relative;padding:0 0 0;isolation:isolate}
+html[data-skin=stars-hollow] .gg-timer-paper{position:relative;width:72%;margin:0 auto;padding:14px 17px 23px;border:14px solid transparent;border-image:url("nero-theme://stars-hollow/assets/reference/timer-setup.png") 24 fill stretch;z-index:2}
+html[data-skin=stars-hollow] .gg-timer-paper>h2{font:bold clamp(26px,5.2cqw,46px)/1.05 "Times New Roman",serif;text-align:center;color:var(--gg-navy);margin:0}
+html[data-skin=stars-hollow] .gg-timer-subtitle{margin:3px 0 13px;text-align:center;font:normal clamp(14px,2.6cqw,23px) "Times New Roman",serif;color:var(--gg-navy)}
+html[data-skin=stars-hollow] .gg-paper-cup{position:absolute;top:6px;width:44px;height:42px}
+html[data-skin=stars-hollow] .gg-paper-cup-left{left:4px}.gg-paper-cup-right{right:4px}
+html[data-skin=stars-hollow] #timer-setup{width:100%;padding:0;margin:0;background:none;border:0}
+html[data-skin=stars-hollow] #nf-timer-task{display:block!important;width:100%;font:normal clamp(14px,2.1cqw,18px) "Times New Roman",serif;background:#f7efe3;border:1px solid #c6b59e;border-radius:5px;padding:7px 10px;margin-bottom:7px}
+html[data-skin=stars-hollow] #timer-label{font:normal clamp(14px,2.1cqw,18px) "Times New Roman",serif;padding:7px 10px;background:#f7efe3;border:1px solid #c6b59e;border-radius:5px;margin-bottom:11px}
+html[data-skin=stars-hollow] .presets{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:5px}
+html[data-skin=stars-hollow] .presets>button{width:100%;min-width:0;padding:7px 0;font:normal clamp(12px,1.95cqw,18px) "Times New Roman",serif;border:1px solid #c3b19b;border-radius:5px;background:#f9eee0}
+html[data-skin=stars-hollow] .presets>button::after{content:" dk"}
+html[data-skin=stars-hollow] .presets>button.on{background:#820e25;color:#fff2dd;border-color:#820e25}
+html[data-skin=stars-hollow] .gg-custom{position:relative;padding:0;color:var(--gg-navy);font:normal clamp(12px,1.9cqw,17px) "Times New Roman",serif}
+html[data-skin=stars-hollow] .gg-custom summary{list-style:none;cursor:pointer;padding:8px 3px;text-align:center;border:1px solid #c3b19b;border-radius:5px;background:#f9eee0}
+html[data-skin=stars-hollow] .gg-custom .custom{position:absolute;z-index:8;top:100%;right:0;width:130px;padding:10px;background:#fff7e6;box-shadow:0 2px 6px #0005;border:1px solid #ad987a;border-radius:5px;display:flex;gap:5px}
+html[data-skin=stars-hollow] .gg-custom .custom input{width:80px;padding:7px;font:normal 17px "Times New Roman",serif}
+html[data-skin=stars-hollow] .dial{width:64%;height:auto;aspect-ratio:1389/1107;margin:-8px auto 0;background:url("nero-theme://stars-hollow/assets/reference/timer-coffee-clean.png") center/100% 100% no-repeat;border:0;box-shadow:none;border-radius:0;position:relative;z-index:3;container-type:normal}
+html[data-skin=stars-hollow] .dial::before,html[data-skin=stars-hollow] .dial::after{display:none!important}
+html[data-skin=stars-hollow] .dial-center{position:absolute;inset:37% 29% 19% 15%;padding:0;transform:none;border:0;background:none;border-radius:0;display:flex;align-items:center;justify-content:center;gap:5px}
+html[data-skin=stars-hollow] .digits{font:bold clamp(34px,var(--gg-timer-size,10cqw),88px)/1 "Times New Roman",serif!important;color:#fff1d0!important;letter-spacing:-1px;text-shadow:0 1px #000}
+html[data-skin=stars-hollow] .dial-label{font:normal clamp(11px,1.9cqw,17px)/1.1 "Times New Roman",serif;color:#fff1d0;max-width:100%;margin-top:7px;text-align:center}
+html[data-skin=stars-hollow] .gg-receipt{position:absolute;z-index:1;width:20%;height:auto;right:0;top:clamp(320px,48cqw,610px)}
+html[data-skin=stars-hollow] .gg-sugar{position:absolute;top:50px;left:0;width:13%;height:auto;z-index:0}
+html[data-skin=stars-hollow] .gg-napkins{position:absolute;top:50px;right:0;width:13%;height:auto;z-index:0}
+html[data-skin=stars-hollow] .lcd-bar{position:relative;z-index:4;margin:-7px auto 14px;width:62%;height:25px;border:6px solid transparent;border-image:url("nero-theme://stars-hollow/assets/reference/progress-paper.png") 7 fill stretch;border-radius:0;background:none;box-shadow:none}
+html[data-skin=stars-hollow] .lcd-bar>i{height:6px;top:4px;background:#758969;border-radius:3px}
+html[data-skin=stars-hollow] .timer-actions{position:relative;z-index:5;width:70%;display:flex;margin:0 auto 17px;gap:8px;flex-wrap:wrap}
+html[data-skin=stars-hollow] .timer-actions>button{font:normal clamp(16px,2.6cqw,23px) "Times New Roman",serif;padding:10px 7px;min-width:80px;min-height:39px;border:2px solid #b8a386;border-radius:6px;box-shadow:0 2px 3px #0004}
+html[data-skin=stars-hollow] #timer-start{flex:1.7;background:linear-gradient(#970f2a,#6d0f21);color:#fff4e1;border-color:#e7d4b7}
+html[data-skin=stars-hollow] #timer-start::before{content:"▶";font-size:.8em;margin-right:8px}
+html[data-skin=stars-hollow] #tv-timer-reset{flex:1;background:#f6ead8;color:var(--gg-navy)}
+html[data-skin=stars-hollow] #tv-timer-reset::before{content:"↻";font-size:1.3em;margin-right:10px}
+html[data-skin=stars-hollow] .nf-sessions{position:relative;z-index:2;width:75%;margin:0 auto 10px;padding:9px 17px 12px;background:none;border:12px solid transparent;border-image:url("nero-theme://stars-hollow/assets/reference/timer-sessions.png") 22 fill stretch;box-shadow:0 2px 4px #0004;border-radius:0;min-height:128px}
+html[data-skin=stars-hollow] .nf-sessions h3{font:bold clamp(17px,2.5cqw,22px) "Times New Roman",serif;color:var(--gg-navy);margin:0 0 10px}
+html[data-skin=stars-hollow] .nf-sessions p{font:normal 15px "Times New Roman",serif}
+html[data-skin=stars-hollow] .nf-session,html[data-skin=stars-hollow] .gg-session-columns{display:grid;grid-template-columns:minmax(0,2fr) .7fr 1.1fr .8fr;align-items:center;gap:6px;padding:9px 0;border-bottom:1px solid #cbbb9f;font:normal 14px "Times New Roman",serif}
+html[data-skin=stars-hollow] .nf-session strong{font-weight:normal;overflow-wrap:anywhere}
+html[data-skin=stars-hollow] .nf-session small{padding:3px 6px;border-radius:8px;background:#e4cf9f;color:#443b2e}
+html[data-skin=stars-hollow] .nf-session[data-gg-status=completed] small{background:#d3d9ba}
+html[data-skin=stars-hollow] .gg-timer-stat-papers{position:relative;z-index:2;width:61%;margin:0 auto 13px}
+html[data-skin=stars-hollow] #tv-timer-info{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0;margin:0;border:0;background:none}
+html[data-skin=stars-hollow] .gg-stat-paper{background:url("nero-theme://stars-hollow/assets/reference/timer-stat.png") center/100% 100%;padding:11px 10px;text-align:center;min-height:70px}
+html[data-skin=stars-hollow] .gg-stat-paper>span{display:block;font:normal 12px "Times New Roman",serif}
+html[data-skin=stars-hollow] .gg-stat-paper>strong{display:block;font:bold clamp(22px,4.5cqw,40px) "Times New Roman",serif;color:var(--gg-navy)}
+html[data-skin=stars-hollow] .gg-timer-footer{position:relative;z-index:0;margin-top:-3px}
+/* Home: the original diner photo and seven physical surfaces in source order. */
+html[data-skin=stars-hollow] .home-grid{gap:12px;padding:0}
+html[data-skin=stars-hollow] .hello{width:100%;aspect-ratio:743/313;min-height:0;background:none;position:relative;padding:0}
+html[data-skin=stars-hollow] .tv-home-scene{position:absolute;inset:0;aspect-ratio:auto;min-height:0;background-image:url("nero-theme://stars-hollow/assets/reference/home-hero-clean.png")!important;background-size:100% 100%;border-radius:0}
+html[data-skin=stars-hollow] .hello h2{position:absolute;z-index:2;top:9px;left:10%;right:10%;font:bold clamp(23px,4.3cqw,34px)/1 "Times New Roman",serif;text-align:center;color:var(--gg-navy);margin:0;padding:0;background:none;height:auto}
+html[data-skin=stars-hollow] .gg-home-caption{position:absolute;z-index:2;top:clamp(33px,5.5cqw,43px);left:0;right:0;text-align:center;font:normal clamp(12px,2cqw,17px) "Times New Roman",serif;color:var(--gg-navy);margin:0}
+html[data-skin=stars-hollow] #hello-date,html[data-skin=stars-hollow] .hello .nero-says{clip-path:inset(50%);position:absolute;width:1px;height:1px;overflow:hidden;margin:0;padding:0}
+html[data-skin=stars-hollow] .tiles{padding:0 4%;gap:3%;background:none;border:0;box-shadow:none;border-radius:0;grid-template-columns:repeat(3,minmax(0,1fr));margin:0}
+html[data-skin=stars-hollow] .tiles>.tile{position:relative;min-height:clamp(75px,12cqw,99px);padding:17px 5px 12px 28%;border:8px solid transparent;border-image:url("nero-theme://stars-hollow/assets/reference/home-stat.png") 14 fill stretch;border-radius:0;background:none;box-shadow:0 3px 3px #28160744;text-align:left}
+html[data-skin=stars-hollow] .tiles>.tile::before{top:-17px;left:44%;width:22px;height:31px;background:url("nero-theme://stars-hollow/assets/reference/home-stat-clip.png") center/contain no-repeat;box-shadow:none;border:0;border-radius:0}
+html[data-skin=stars-hollow] .tiles>.tile::after{content:"";position:absolute;left:4px;top:21px;width:35px;height:39px;background:url("nero-theme://stars-hollow/assets/reference/home-stat-cup.png") center/contain no-repeat}
+html[data-skin=stars-hollow] .tiles>.tile:nth-child(2)::after{background-image:url("nero-theme://stars-hollow/assets/reference/home-stat-takeaway.png")}
+html[data-skin=stars-hollow] .tiles>.tile:nth-child(3)::after{background-image:url("nero-theme://stars-hollow/assets/reference/home-stat-steaming-cup.png")}
+html[data-skin=stars-hollow] .tiles strong{font:bold clamp(18px,4cqw,30px)/1 "Times New Roman",serif;color:var(--gg-wine);white-space:nowrap}
+html[data-skin=stars-hollow] .tiles span{font:normal clamp(10px,1.6cqw,14px) "Times New Roman",serif;color:var(--gg-wine);margin-top:0}
+html[data-skin=stars-hollow] .week{margin:0 2.5%;padding:11px 18px 12px;min-height:180px;border:10px solid #79502e;border-radius:0;background:#252723 url("nero-theme://stars-hollow/assets/reference/home-chalk-texture-clean.png") center/90px repeat;box-shadow:inset 0 0 0 2px #291c15,0 3px 3px #24130766;color:#e8e8dd}
+html[data-skin=stars-hollow] .week h3{font:600 clamp(23px,4cqw,31px) "Caveat",cursive;color:#f6f3de}
+html[data-skin=stars-hollow] .week #week-total{font:normal 19px "Times New Roman",serif;color:#f7efdb}
+html[data-skin=stars-hollow] #week-bars{height:145px;border-left:1px solid #e6e3d380;border-bottom:1px solid #e6e3d380;background:repeating-linear-gradient(0deg,transparent 0 35px,#e6e3d32b 35px 36px);margin-top:6px;gap:14px;align-items:flex-end}
+html[data-skin=stars-hollow] .bar{min-width:0;position:relative;justify-content:flex-end;padding-bottom:18px}
+html[data-skin=stars-hollow] .bar i{background:repeating-linear-gradient(140deg,#96a584 0 3px,#b6c09b 3px 4px);border:1px solid #c1c7ae;border-radius:0;min-height:0}
+html[data-skin=stars-hollow] .bar span{position:absolute;bottom:0;color:#f3efdc;font:normal 13px "Times New Roman",serif}
+html[data-skin=stars-hollow] .week{position:relative}
+html[data-skin=stars-hollow] .week #week-total::before{content:'Toplam';display:block;font-size:12px}
+html[data-skin=stars-hollow] #week-bars{margin-left:22px}
+html[data-skin=stars-hollow] .gg-week-axis{position:absolute;left:5px;bottom:25px;height:110px;display:flex;flex-direction:column;justify-content:space-between;font:12px 'Times New Roman',serif;color:#f3efdc;text-align:right;width:26px}
+html[data-skin=stars-hollow] .jar{margin:0;padding:clamp(52px,9.5cqw,84px) 36% 28px 20%;min-height:clamp(185px,30.7cqw,270px);border:0;border-radius:0;box-shadow:none;background:url("nero-theme://stars-hollow/assets/reference/home-jar-scene-live.png") center/100% 100% no-repeat}
+html[data-skin=stars-hollow] .jar .tv-jar{display:none}
+html[data-skin=stars-hollow] .jar .card-head{justify-content:flex-start}
+html[data-skin=stars-hollow] .jar .jar-form{grid-template-columns:1.5fr 1fr}
+html[data-skin=stars-hollow] .jar::before{display:none;content:none}
+html[data-skin=stars-hollow] .jar{margin:0 3%;padding:42px 33% 14px 9%;min-height:155px;background:none;border:11px solid transparent;border-image:url("nero-theme://stars-hollow/assets/reference/home-jar-paper.png") 22 fill stretch;border-radius:0;box-shadow:0 3px 4px #21120955}
+html[data-skin=stars-hollow] .jar h3{font:bold clamp(19px,3cqw,25px) "Times New Roman",serif;color:var(--gg-navy)}
+html[data-skin=stars-hollow] .jar .card-head{margin:0 0 7px;gap:10px}
+html[data-skin=stars-hollow] #jar-count{font:bold 18px "Times New Roman",serif;color:var(--gg-wine)}
+html[data-skin=stars-hollow] .tv-jar{left:auto;right:-10px;bottom:-10px;width:31%;height:100%;object-fit:contain;src:unset}
+html[data-skin=stars-hollow] .jar-form{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+html[data-skin=stars-hollow] .jar-form input{grid-column:1/-1;font:normal 15px "Times New Roman",serif;padding:7px;background:#fff9ee;border-radius:4px;min-width:0}
+html[data-skin=stars-hollow] .jar-form button[type=submit]{background:var(--gg-wine);color:#fff9ed;border:1px solid #a35358;border-radius:5px;font:normal 17px "Times New Roman",serif;padding:6px}
+html[data-skin=stars-hollow] .gg-read-memories{font:normal 14px "Times New Roman",serif;color:var(--gg-navy);text-decoration:underline;background:none;border:0;box-shadow:none;padding:5px;white-space:nowrap}
+html[data-skin=stars-hollow] .quick{margin:0 3%;gap:8px}
+html[data-skin=stars-hollow] .quick button{font:normal clamp(14px,2.5cqw,20px) "Times New Roman",serif;border:2px solid #beaa88;border-radius:6px;padding:10px 5px;background:#f7e8d0;color:var(--gg-navy)}
+html[data-skin=stars-hollow] #q-focus{background:#821329;color:#fff0dc}
+html[data-skin=stars-hollow] #q-note{background:#17334b;color:#fff0dc}
+html[data-skin=stars-hollow] .totals{position:relative;margin:0 3%;padding:12px 20px 17px;border:11px solid transparent;border-image:url("nero-theme://stars-hollow/assets/reference/home-newspaper.png") 22 fill stretch;border-radius:0;background:none;min-height:195px;box-shadow:0 3px 4px #24150a55}
+html[data-skin=stars-hollow] .totals h3{font:bold 22px "Times New Roman",serif;color:var(--gg-navy)}
+html[data-skin=stars-hollow] .totals dl{width:61%;margin-left:39%;margin-top:6px;font:normal 14px "Times New Roman",serif}
+html[data-skin=stars-hollow] .totals dl>div{padding:2px 0;border-bottom:1px solid #b6a28766;font-size:13px;display:flex;gap:8px;justify-content:space-between}
+html[data-skin=stars-hollow] .totals dd{font-weight:normal}
+html[data-skin=stars-hollow] .gg-gazebo-photo{position:absolute;left:17px;bottom:17px;width:33%;height:calc(100% - 60px);object-fit:cover}
+html[data-skin=stars-hollow] .desk{position:relative;margin:0 1%;padding:10px 20px 16px;border:8px solid #754826;background:transparent;border-radius:0;min-height:135px;color:#f2e2c7}
+html[data-skin=stars-hollow] .desk-grid{grid-template-columns:repeat(10,minmax(0,1fr));gap:5px;padding-right:75px;margin-top:10px}
+html[data-skin=stars-hollow] .desk h3{font:normal 22px "Times New Roman",serif;color:#f7eedb}
+html[data-skin=stars-hollow] .desk-item{height:48px;border:1px solid #c7a684;background:#cda98277;color:#e5d3b4;border-radius:5px}
+html[data-skin=stars-hollow] .tv-bobble{display:none}
+html[data-skin=stars-hollow] .gg-snowglobe{position:absolute;right:0;bottom:6px;width:75px;height:80px}
+html[data-skin=stars-hollow] .desk-item.on:nth-child(1){color:transparent;background:url("nero-theme://stars-hollow/assets/reference/home-desk-mug.png") center/contain no-repeat;border:0}
+html[data-skin=stars-hollow] .desk-item.on:nth-child(2){color:transparent;background:url("nero-theme://stars-hollow/assets/reference/home-desk-book.png") center/contain no-repeat;border:0}
+html[data-skin=stars-hollow] .desk-item.on:nth-child(n+3){font-size:25px;color:var(--gg-navy);background:#e8d4b277}
+html[data-skin=stars-hollow] .moodboards{position:relative;margin:0 2%;padding:18px 7% 20px 9%;border:0;background:url("nero-theme://stars-hollow/assets/reference/home-calendar-live.png") center/100% 100%;border-radius:0;box-shadow:0 3px 4px #29190e77}
+html[data-skin=stars-hollow] .home-grid>.moodboards{width:96%;max-width:96%}
+html[data-skin=stars-hollow] .moodboard-card-head{gap:4px}
+html[data-skin=stars-hollow] .moodboards h3{font:bold clamp(20px,3.7cqw,29px) "Times New Roman",serif;color:var(--gg-navy)}
+html[data-skin=stars-hollow] .nf-mood-modes{font:normal 12px "Times New Roman",serif;margin:7px 0}
+html[data-skin=stars-hollow] .nf-mood-modes button{padding:3px 16px;background:#f8eddd;border:1px solid #c7b397;border-radius:5px;font:normal 14px "Times New Roman",serif}
+html[data-skin=stars-hollow] .mood-calendar{gap:0;border:1px solid #bcae9366}
+html[data-skin=stars-hollow] .mood-calendar>*{border-right:1px solid #bcae9344;border-bottom:1px solid #bcae9344;min-height:25px}
+html[data-skin=stars-hollow] .mood-day{font:normal 14px "Times New Roman",serif;border-radius:0;background:none;height:30px}
+html[data-skin=stars-hollow] .mood-day{width:25px;height:25px;min-height:25px;border-radius:50%;margin:3px auto;border:0}
+html[data-skin=stars-hollow] .mood-day .dot{border-radius:50%}
+html[data-skin=stars-hollow] .gg-calendar-ribbon{position:absolute;right:0;top:5px;width:45px;height:104px}
+html[data-skin=stars-hollow] .archive{position:relative;margin:0 4%;padding:17px 24px 20px 32%;border:10px solid transparent;border-image:url("nero-theme://stars-hollow/assets/reference/home-archive.png") 20 fill stretch;background:none;border-radius:0;min-height:185px;box-shadow:0 3px 4px #29180a55}
+html[data-skin=stars-hollow] .archive h3{font:bold 22px "Times New Roman",serif;color:var(--gg-navy)}
+html[data-skin=stars-hollow] .archive-list li{padding:4px 0;font:normal 13px "Times New Roman",serif}
+html[data-skin=stars-hollow] .gg-archive-photo{position:absolute;left:4px;top:30px;width:28%;height:145px;object-fit:contain}
+html[data-skin=stars-hollow] .quote{margin:0 14%;padding:17px 20px;border:8px solid transparent;border-image:url("nero-theme://stars-hollow/assets/reference/timer-sessions.png") 22 fill stretch;background:none;box-shadow:0 3px 5px #29170b55;font-family:"Caveat",cursive;min-height:85px}
+html[data-skin=stars-hollow] .quote blockquote{font:600 19px/1.15 "Caveat",cursive}
+html[data-skin=stars-hollow] .quote figcaption{font:normal 13px "Times New Roman",serif}
+html[data-skin=stars-hollow] .tv-day-footer{margin:0 12%}
+html[data-skin=stars-hollow] .tv-day-footer .tile{border:10px solid transparent;border-image:url("nero-theme://stars-hollow/assets/reference/home-stat.png") 18 fill stretch;border-radius:0;background:none;justify-content:center;gap:10px;padding:9px}
+html[data-skin=stars-hollow] .tv-day-footer strong{font:bold 58px "Times New Roman",serif;color:var(--gg-wine)}
+html[data-skin=stars-hollow] .tv-day-footer span{font:bold 24px "Times New Roman",serif;color:var(--gg-wine)}
+html[data-skin=stars-hollow] .gg-home-footer{position:relative;order:21;margin:0;width:100%}
+html[data-skin=stars-hollow] .gg-home-footer>.quote{position:absolute;top:5%;left:30%;width:51%;margin:0;padding:6px 0;background:none;border:0;box-shadow:none;min-height:0}
+html[data-skin=stars-hollow] .gg-home-footer>.quote blockquote{font:600 clamp(12px,2.5cqw,20px)/1.05 "Caveat",cursive}
+html[data-skin=stars-hollow] .gg-home-footer>.quote figcaption{font:normal clamp(10px,1.8cqw,14px) "Times New Roman",serif}
+html[data-skin=stars-hollow] .gg-home-footer>.tile{position:absolute;top:40%;left:31%;width:47%;height:38%;display:flex;align-items:center;gap:13px;justify-content:center;background:none;border:0;box-shadow:none;border-radius:0;padding:0}
+html[data-skin=stars-hollow] .gg-home-footer #st-days{font:bold clamp(42px,10cqw,79px)/1 "Times New Roman",serif;color:var(--gg-wine)}
+html[data-skin=stars-hollow] .gg-home-footer>.tile>span{font:bold clamp(16px,3.4cqw,27px)/1.1 "Times New Roman",serif;color:var(--gg-wine)}
+/* Festival: corkboard, individual original pins and keepsakes, live labels. */
+html[data-skin=stars-hollow] #view-badges>.tv-page-head{margin:0}
+html[data-skin=stars-hollow] .badges{padding:0 3% 16px;margin:0;background:none;border:0;box-shadow:none}
+html[data-skin=stars-hollow] .badges>.card-head{justify-content:flex-end;margin-top:-80px;min-height:30px;position:relative;z-index:3;padding-right:20px}
+html[data-skin=stars-hollow] .badges>.card-head h3{display:none}
+html[data-skin=stars-hollow] .gg-badge-summary{position:relative;padding:19px 27px 13px;border:12px solid transparent;border-image:url("nero-theme://stars-hollow/assets/reference/badge-header-paper.png") 20 fill stretch;min-height:125px;color:var(--gg-wine)}
+html[data-skin=stars-hollow] .gg-badge-summary h2{font:bold clamp(32px,6cqw,52px) "Times New Roman",serif;margin:0}
+html[data-skin=stars-hollow] .gg-badge-summary p{font:normal 21px "Times New Roman",serif;margin:3px 0}
+html[data-skin=stars-hollow] .gg-badge-gazebo{position:absolute;right:32%;top:0;width:25%;height:105px;opacity:.6}
+html[data-skin=stars-hollow] .badge-categories{position:relative;z-index:4;padding:2px 15px 12px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+html[data-skin=stars-hollow] .badge-categories button{font:normal 18px "Times New Roman",serif;padding:7px 2px;border-radius:6px;background:#e4d4ba;color:var(--gg-navy)}
+html[data-skin=stars-hollow] .badge-categories button[aria-selected=true]{background:var(--gg-wine);color:#fff4df}
+html[data-skin=stars-hollow] #badge-rarity-tabs{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;position:relative;z-index:4;margin:14px 10px 0;padding:0}
+html[data-skin=stars-hollow] #badge-rarity-tabs button{font:normal clamp(14px,2.5cqw,21px) "Times New Roman",serif;padding:8px 2px;background:#e9d9bf;color:var(--gg-navy);border:1px solid #d4c2a7;border-radius:6px}
+html[data-skin=stars-hollow] #badge-rarity-tabs button[aria-selected=true]{background:var(--gg-wine);color:#fff4df;border-color:#a26a5d}
+html[data-skin=stars-hollow] #badge-rarity-tabs button[hidden]{display:none!important}
+html[data-skin=stars-hollow] .badge-category-meta{font:normal 14px "Times New Roman",serif;color:#f0e3d2;margin:9px 0}
+html[data-skin=stars-hollow] #badge-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;padding:24px 18px;background:#976340 url("nero-theme://stars-hollow/assets/reference/badge-cork-texture.png") center/14px auto repeat;border:11px ridge #8a5731;border-radius:0;box-shadow:0 3px 5px #25150655}
+html[data-skin=stars-hollow] .badge{position:relative;min-height:clamp(240px,29cqw,295px);padding:18px 7px 130px;border:8px solid transparent;border-image:url("nero-theme://stars-hollow/assets/reference/badge-paper.png") 17 fill stretch;background:none;border-radius:0;box-shadow:0 3px 4px #301a0a66;text-align:left;display:flex;flex-direction:column;gap:6px}
+html[data-skin=stars-hollow] .badge::before{content:"";position:absolute;top:-17px;left:42%;width:26px;height:27px;background:url("nero-theme://stars-hollow/assets/reference/badge-pin-red.png") center/contain no-repeat}
+html[data-skin=stars-hollow] .badge:nth-child(3n+2)::before{background-image:url("nero-theme://stars-hollow/assets/reference/badge-pin-blue.png")}
+html[data-skin=stars-hollow] .badge:nth-child(3n)::before{background-image:url("nero-theme://stars-hollow/assets/reference/badge-pin-green.png")}
+html[data-skin=stars-hollow] .badge-name{font:bold clamp(14px,2.3cqw,21px)/1.15 "Times New Roman",serif;color:var(--gg-navy);position:relative;z-index:2;margin-top:0;padding-right:15px;overflow-wrap:anywhere}
+html[data-skin=stars-hollow] .badge-desc{font:normal clamp(12px,1.9cqw,17px)/1.25 "Times New Roman",serif;position:relative;z-index:2;max-width:100%}
+html[data-skin=stars-hollow] .badge-icon{position:absolute;right:4px;bottom:22px;width:67%;height:110px;font-size:0;z-index:1}
+html[data-skin=stars-hollow] .badge-icon .gg-badge-object{width:100%;height:100%;object-fit:contain}
+html[data-skin=stars-hollow] .badge:not(.on) .badge-icon{filter:grayscale(1);opacity:.4}
+html[data-skin=stars-hollow] .badge:not(.on)::after{content:"⌑";position:absolute;right:10px;top:19px;width:25px;height:25px;border:1px solid #887b69;border-radius:50%;font:18px/24px serif;text-align:center;color:#887b69}
+html[data-skin=stars-hollow] .badge-date{position:absolute;bottom:3px;right:4px;font:normal 12px "Times New Roman",serif}
+html[data-skin=stars-hollow] .gg-badge-date{position:absolute;bottom:4px;right:6px;font:normal 13px "Times New Roman",serif;z-index:3}
+html[data-skin=stars-hollow] .badge.on::after{content:"✓";position:absolute;right:2px;top:8px;width:24px;height:24px;border-radius:50%;background:#748b5e;color:#fff9e8;font:normal 19px/24px "Times New Roman",serif;text-align:center}
+html[data-skin=stars-hollow] .gg-badge-next{position:relative;min-height:160px;margin:10px 3%;padding:17px 22px 20px 32%;border:11px solid transparent;border-image:url("nero-theme://stars-hollow/assets/reference/badge-next-paper.png") 22 fill stretch;background:none;color:var(--gg-wine);box-shadow:0 3px 5px #24130966}
+html[data-skin=stars-hollow] .gg-work-rows>[hidden]{display:none!important}
+html[data-skin=stars-hollow] .gg-stat-paper>strong{font-size:clamp(20px,4cqw,36px);white-space:nowrap}
+html[data-skin=stars-hollow] .gg-badge-next h3{font:bold 27px "Times New Roman",serif;margin:0 0 10px}
+html[data-skin=stars-hollow] .gg-next-badge-title{font:normal 19px "Times New Roman",serif;margin:0 0 15px}
+html[data-skin=stars-hollow] .gg-next-badge-photo{position:absolute;left:3px;top:24px;width:28%;height:130px}
+html[data-skin=stars-hollow] .gg-next-badge-progress{position:relative;height:17px;background:#cbbc9f;border-radius:7px;width:80%}
+html[data-skin=stars-hollow] .gg-next-badge-progress i{display:block;height:100%;background:#6a8357;border-radius:7px}
+html[data-skin=stars-hollow] .gg-next-badge-progress span{position:absolute;left:105%;top:0;font:normal 16px "Times New Roman",serif;color:var(--gg-navy)}
+html[data-skin=stars-hollow] .gg-badge-next{margin-right:15%;padding-right:20%}
+html[data-skin=stars-hollow] .gg-festival-ticket{position:absolute;right:-15%;top:-12px;width:35%;max-height:95px;transform:rotate(6deg);z-index:3}
+html[data-skin=stars-hollow] .gg-coffee-card{position:absolute;right:-12%;top:78px;width:31%;max-height:95px;transform:rotate(4deg);z-index:3}
+/* Memory reading uses the same source paper and library clip. */
+html[data-skin=stars-hollow] #nf-dialog[data-kind=memories]{width:min(620px,calc(100vw - 38px));padding:32px 34px;border:18px solid transparent;border-image:url("nero-theme://stars-hollow/assets/reference/note-yellow.png") 20 fill stretch;background:none;box-shadow:0 18px 60px #130b08aa;border-radius:0;color:var(--gg-navy)}
+html[data-skin=stars-hollow] #nf-dialog[data-kind=memories]::backdrop{background:#20140ba8;backdrop-filter:blur(5px)}
+html[data-skin=stars-hollow] #nf-dialog[data-kind=memories] h2{font:bold 29px "Times New Roman",serif}
+html[data-skin=stars-hollow] #nf-dialog[data-kind=memories] .nf-memory:empty{display:none}
+html[data-skin=stars-hollow] #nf-dialog[data-kind=memories] .nf-memory-row{margin:16px 0;padding:15px 21px;border:8px solid transparent;border-image:url("nero-theme://stars-hollow/assets/reference/note-green.png") 16 fill stretch;background:none;box-shadow:0 3px 5px #38231133;font:normal 18px/1.4 "Times New Roman",serif}
+html[data-skin=stars-hollow] #nf-dialog[data-kind=memories] .nf-memory{margin:18px 0;padding:20px;border:8px solid transparent;border-image:url("nero-theme://stars-hollow/assets/reference/note-pink.png") 16 fill stretch;background:none;font:normal 20px/1.4 "Times New Roman",serif}
+@media(max-width:550px){
+ html[data-skin=stars-hollow] .gg-todo-capture{grid-template-columns:1fr}
+ html[data-skin=stars-hollow] #nf-todo-filters{grid-template-columns:1.5fr 1fr 1fr}
+ html[data-skin=stars-hollow] .gg-timer-paper{width:85%;padding:12px 10px 18px}
+ html[data-skin=stars-hollow] .gg-paper-cup{width:26px;height:28px}
+ html[data-skin=stars-hollow] .dial{width:73%}
+ html[data-skin=stars-hollow] .nf-sessions{width:87%;padding:8px 11px}
+ html[data-skin=stars-hollow] .nf-session,html[data-skin=stars-hollow] .gg-session-columns{font-size:12px;gap:4px;grid-template-columns:minmax(0,1.7fr) .7fr 1.1fr .7fr}
+ html[data-skin=stars-hollow] .timer-actions{width:78%}
+ html[data-skin=stars-hollow] .gg-timer-stat-papers{width:72%}
+ html[data-skin=stars-hollow] .gg-sugar,html[data-skin=stars-hollow] .gg-napkins{top:90px}
+ html[data-skin=stars-hollow] .gg-receipt{top:330px;width:20%}
+ html[data-skin=stars-hollow] #notes-list>li:not(.new-note){padding:17px 9px 33px}
+ html[data-skin=stars-hollow] #notes-list>li.tv-wide-note{padding-left:35px;padding-right:115px}
+ html[data-skin=stars-hollow] .gg-library-stamp{width:86px;height:60px;right:8px;bottom:22px}
+ html[data-skin=stars-hollow] .gg-library-stamp time{font-size:10px}
+ html[data-skin=stars-hollow] .note-title{font-size:21px}
+ html[data-skin=stars-hollow] .nf-note-tag{font-size:11px;right:26px;top:6px;padding:3px 7px}
+ html[data-skin=stars-hollow] #notes-list>li:not(.tv-wide-note) .nf-note-tag{position:relative;top:auto;right:auto;display:inline-block;margin:7px 0 0;max-width:100%}
+ html[data-skin=stars-hollow] .note-preview{font-size:15px}
+ html[data-skin=stars-hollow] .tv-note-tools button{font-size:12px;padding:4px 5px}
+ html[data-skin=stars-hollow] #tv-note-text{font-size:15px;line-height:27px}
+ html[data-skin=stars-hollow] .tiles>.tile{padding-left:28%;min-height:77px;border-width:6px}
+ html[data-skin=stars-hollow] .tiles>.tile::after{left:0;width:24px;height:32px}
+ html[data-skin=stars-hollow] .tiles strong{font-size:22px}
+ html[data-skin=stars-hollow] .tiles span{font-size:clamp(8px,2.1cqw,11px);white-space:nowrap}
+ html[data-skin=stars-hollow] .week{padding:8px 12px}
+ html[data-skin=stars-hollow] .jar{padding:41px 35% 23px 20%;min-height:178px}
+ html[data-skin=stars-hollow] .jar .card-head{gap:5px;flex-wrap:wrap}
+ html[data-skin=stars-hollow] .tv-jar{width:31%;right:-5px}
+ html[data-skin=stars-hollow] .quick button{font-size:14px}
+ html[data-skin=stars-hollow] .totals{padding:11px 12px;min-height:222px}
+ html[data-skin=stars-hollow] .totals dl{width:64%;margin-left:36%}
+ html[data-skin=stars-hollow] .totals dl>div{font-size:12px;gap:4px}
+ html[data-skin=stars-hollow] .totals dt{max-width:60%}
+ html[data-skin=stars-hollow] .gg-gazebo-photo{left:8px;width:29%}
+ html[data-skin=stars-hollow] .desk-grid{grid-template-columns:repeat(5,minmax(0,1fr));padding-right:60px}
+ html[data-skin=stars-hollow] .desk{min-height:160px}
+ html[data-skin=stars-hollow] .gg-snowglobe{width:62px;height:72px}
+ html[data-skin=stars-hollow] .archive{padding-left:29%;padding-right:9px}
+ html[data-skin=stars-hollow] .archive h3{font-size:19px}
+ html[data-skin=stars-hollow] #badge-grid{gap:11px;padding:20px 10px;grid-template-columns:repeat(2,minmax(0,1fr))}
+ html[data-skin=stars-hollow] .gg-badge-summary p{font-size:16px}
+ html[data-skin=stars-hollow] .badge-categories{gap:4px;padding:0 2px 9px}
+ html[data-skin=stars-hollow] .badge-categories button{font-size:14px}
+}
+/* Full scene keeps the original flowers and jar outside the live paper area. */
+html[data-skin=stars-hollow] .jar{margin:0;padding:clamp(52px,9.5cqw,84px) 36% 28px 20%;min-height:clamp(185px,30.7cqw,270px);border:0;border-radius:0;box-shadow:none;background:url("nero-theme://stars-hollow/assets/reference/home-jar-scene-live.png") center/100% 100% no-repeat}
+html[data-skin=stars-hollow] .jar .jar-form{grid-template-columns:1.5fr 1fr}
+html[data-skin=stars-hollow] .gg-work-rows{width:100%;min-width:0;flex:1}
+html[data-skin=stars-hollow] .gg-work-rows>[data-todo-id],html[data-skin=stars-hollow] .gg-work-rows>.nf-group{width:100%;max-width:100%}
+html[data-skin=stars-hollow] .badge-name{padding-right:23px}
+html[data-skin=stars-hollow] .gg-custom summary{white-space:nowrap}
+html[data-skin=stars-hollow] .mood-day:is(.mood-green,.c5){background:#a9c794;color:#244128}
+html[data-skin=stars-hollow] .mood-day:is(.mood-yellow,.c3){background:#efce75;color:#6b451a}
+html[data-skin=stars-hollow] .mood-day:is(.mood-red,.c1){background:#ce7e66;color:#652624}
+html[data-skin=stars-hollow] .mood-day.c2{background:#dfa263;color:#713c20}
+html[data-skin=stars-hollow] .mood-day.c4{background:#a1bf91;color:#244128}
+html[data-skin=stars-hollow] #letter-card{margin:0 4%;padding:16px 20px;border:9px solid transparent;border-image:url("nero-theme://stars-hollow/assets/reference/note-green.png") 18 fill stretch;background:none;border-radius:0;box-shadow:0 3px 4px #281a0e44}
+@media(max-width:550px){html[data-skin=stars-hollow] .jar{padding:41px 35% 23px 20%;min-height:178px}html[data-skin=stars-hollow] .jar-form :is(input,button){font-size:12px}}
+/* Final user corrections: complete nav glyphs and flowing badge heading paper. */
+html[data-skin=stars-hollow] .tabs{min-height:61px}
+html[data-skin=stars-hollow] .tabs button .gg-nav-icon{width:26px;height:29px;flex:none}
+html[data-skin=stars-hollow] .gg-badge-summary{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:3px 12px;min-height:0;padding:2.1cqw 3.3cqw 1.2cqw;border-width:1.35cqw;isolation:isolate}
+html[data-skin=stars-hollow] .gg-badge-summary h2{grid-column:1;grid-row:1;position:relative;z-index:1;line-height:1.1}
+html[data-skin=stars-hollow] .gg-badge-summary p{grid-column:1;grid-row:2;position:relative;z-index:1;font-size:clamp(15px,3.15cqw,27px);line-height:1.2;margin:0}
+html[data-skin=stars-hollow] .gg-badge-summary>.card-head{grid-column:2;grid-row:1/3;position:static;display:flex;align-items:center;justify-content:flex-end;margin:0;padding:0;min-height:0;z-index:1}
+html[data-skin=stars-hollow] .gg-badge-summary>.card-head h3{display:none}
+html[data-skin=stars-hollow] .gg-badge-summary #badge-count{font:normal clamp(15px,2.5cqw,22px)/1.2 'Caveat',cursive;white-space:nowrap}
+html[data-skin=stars-hollow] .gg-badge-summary .gg-badge-gazebo{z-index:0;top:1cqw;height:12cqw;max-height:105px}
+html[data-skin=stars-hollow] #gg-badge-summary #badge-rarity-tabs{grid-column:1/-1;grid-row:3;position:relative;margin:1.4cqw 0 0;padding:0;overflow:visible;background:none}
+html[data-skin=stars-hollow] #badge-rarity-tabs:has([data-rarity=gizli]:not([hidden])){grid-template-columns:repeat(5,minmax(0,1fr))}

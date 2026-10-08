@@ -1,0 +1,116 @@
+[
+  {
+    "asset": "themes/stars-hollow/assets/reference/nav-home-cutout.png",
+    "source": "themes/stars-hollow/assets/reference/nav-home.png",
+    "sourceSha256": "6c5487924b315f280327ba0b9ca6b3c2daf6fce00b646ff1a4c8c177e656e692",
+    "crop": [
+      0,
+      0,
+      40,
+      36
+    ],
+    "inkBounds": [
+      6,
+      7,
+      33,
+      33
+    ],
+    "padding": 3,
+    "method": "complete original glyph with transparent padding; all printed caption pixels excluded"
+  },
+  {
+    "asset": "themes/stars-hollow/assets/reference/nav-notes-cutout.png",
+    "source": "themes/stars-hollow/assets/reference/nav-notes.png",
+    "sourceSha256": "45ce36b73590e08dcdce7f650affc405d2d70831bfc0d110be87812597c16414",
+    "crop": [
+      0,
+      0,
+      42,
+      35
+    ],
+    "inkBounds": [
+      12,
+      6,
+      34,
+      31
+    ],
+    "padding": 3,
+    "method": "complete original glyph with transparent padding; all printed caption pixels excluded"
+  },
+  {
+    "asset": "themes/stars-hollow/assets/reference/nav-todos-cutout.png",
+    "source": "themes/stars-hollow/assets/reference/nav-todos.png",
+    "sourceSha256": "8a4448e5a0bd50d24a63690540cc9ee9af0d7e412d410c56224458fdf985e925",
+    "crop": [
+      0,
+      0,
+      42,
+      35
+    ],
+    "inkBounds": [
+      10,
+      6,
+      34,
+      31
+    ],
+    "padding": 3,
+    "method": "complete original glyph with transparent padding; all printed caption pixels excluded"
+  },
+  {
+    "asset": "themes/stars-hollow/assets/reference/nav-timer-cutout.png",
+    "source": "themes/stars-hollow/assets/reference/nav-timer.png",
+    "sourceSha256": "ddbc45061511d370b4c495a803ecd06a6d6ac518db18075e683b56a94c13cc6e",
+    "crop": [
+      0,
+      0,
+      42,
+      39
+    ],
+    "inkBounds": [
+      7,
+      6,
+      34,
+      37
+    ],
+    "padding": 3,
+    "method": "complete original glyph with transparent padding; all printed caption pixels excluded"
+  },
+  {
+    "asset": "themes/stars-hollow/assets/reference/nav-badges-cutout.png",
+    "source": "themes/stars-hollow/assets/reference/nav-badges.png",
+    "sourceSha256": "d3991d589f259a819e2db089d5faf0cb9c9bc761fec9c2fe68a8fc957ffb0b37",
+    "crop": [
+      0,
+      0,
+      42,
+      36
+    ],
+    "inkBounds": [
+      2,
+      6,
+      29,
+      32
+    ],
+    "padding": 3,
+    "method": "complete original glyph with transparent padding; all printed caption pixels excluded"
+  },
+  {
+    "asset": "themes/stars-hollow/assets/reference/nav-budget-cutout.png",
+    "source": "themes/stars-hollow/assets/reference/nav-budget.png",
+    "sourceSha256": "9a4336eaa36d0f5092fb42d79518a29e5b2788b8921d9512445773f932f74904",
+    "crop": [
+      0,
+      0,
+      42,
+      36
+    ],
+    "inkBounds": [
+      4,
+      4,
+      30,
+      32
+    ],
+    "padding": 3,
+    "method": "complete original glyph with transparent padding; all printed caption pixels excluded"
+  }
+]

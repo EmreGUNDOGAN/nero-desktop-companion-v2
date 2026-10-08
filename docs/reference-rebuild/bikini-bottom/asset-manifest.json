@@ -1,0 +1,1490 @@
+[
+  {
+    "asset": "themes/bikini-bottom/assets/reference/header-original.png",
+    "page": "shared",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      30,
+      38,
+      478,
+      69
+    ],
+    "size": [
+      478,
+      69
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/nav-original.png",
+    "page": "shared",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      30,
+      107,
+      478,
+      70
+    ],
+    "size": [
+      478,
+      70
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/brand-original.png",
+    "page": "shared",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      44,
+      44,
+      137,
+      55
+    ],
+    "size": [
+      137,
+      55
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/header-gear-original.png",
+    "page": "shared",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      351,
+      49,
+      28,
+      27
+    ],
+    "size": [
+      28,
+      27
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/header-pin-original.png",
+    "page": "shared",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      389,
+      48,
+      29,
+      30
+    ],
+    "size": [
+      29,
+      30
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/header-min-original.png",
+    "page": "shared",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      433,
+      53,
+      25,
+      24
+    ],
+    "size": [
+      25,
+      24
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/header-close-original.png",
+    "page": "shared",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      470,
+      52,
+      26,
+      26
+    ],
+    "size": [
+      26,
+      26
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/nav-selected-original.png",
+    "page": "shared",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      46,
+      109,
+      70,
+      57
+    ],
+    "size": [
+      70,
+      57
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/nav-home-original.png",
+    "page": "shared",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      565,
+      114,
+      34,
+      35
+    ],
+    "size": [
+      34,
+      35
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/nav-notes-original.png",
+    "page": "shared",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      647,
+      114,
+      28,
+      36
+    ],
+    "size": [
+      28,
+      36
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/nav-todos-original.png",
+    "page": "shared",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      224,
+      114,
+      31,
+      35
+    ],
+    "size": [
+      31,
+      35
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/nav-timer-original.png",
+    "page": "shared",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      299,
+      114,
+      31,
+      36
+    ],
+    "size": [
+      31,
+      36
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/nav-badges-original.png",
+    "page": "shared",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      374,
+      114,
+      31,
+      36
+    ],
+    "size": [
+      31,
+      36
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/nav-budget-original.png",
+    "page": "shared",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      449,
+      114,
+      32,
+      35
+    ],
+    "size": [
+      32,
+      35
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/home-original.png",
+    "page": "home",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      30,
+      178,
+      478,
+      846
+    ],
+    "size": [
+      478,
+      846
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/home-hero-original.png",
+    "page": "home",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      30,
+      178,
+      478,
+      269
+    ],
+    "size": [
+      478,
+      269
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/home-bubble-original.png",
+    "page": "home",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      111,
+      258,
+      208,
+      90
+    ],
+    "size": [
+      208,
+      90
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/home-character-original.png",
+    "page": "home",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      294,
+      259,
+      212,
+      193
+    ],
+    "size": [
+      212,
+      193
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/home-pineapple-original.png",
+    "page": "home",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      46,
+      280,
+      92,
+      137
+    ],
+    "size": [
+      92,
+      137
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/home-stat-original.png",
+    "page": "home",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      46,
+      446,
+      452,
+      81
+    ],
+    "size": [
+      452,
+      81
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/home-stat-check.png",
+    "page": "home",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      64,
+      465,
+      32,
+      29
+    ],
+    "size": [
+      32,
+      29
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/home-stat-clock.png",
+    "page": "home",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      211,
+      464,
+      31,
+      31
+    ],
+    "size": [
+      31,
+      31
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/home-stat-flame.png",
+    "page": "home",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      377,
+      461,
+      33,
+      38
+    ],
+    "size": [
+      33,
+      38
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/home-week-original.png",
+    "page": "home",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      46,
+      540,
+      452,
+      187
+    ],
+    "size": [
+      452,
+      187
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/home-week-heading.png",
+    "page": "home",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      63,
+      550,
+      138,
+      29
+    ],
+    "size": [
+      138,
+      29
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/home-week-flower.png",
+    "page": "home",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      438,
+      551,
+      45,
+      47
+    ],
+    "size": [
+      45,
+      47
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/home-jar-original.png",
+    "page": "home",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      46,
+      736,
+      452,
+      128
+    ],
+    "size": [
+      452,
+      128
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/home-jar-heading.png",
+    "page": "home",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      62,
+      746,
+      93,
+      24
+    ],
+    "size": [
+      93,
+      24
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/home-bottle-original.png",
+    "page": "home",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      65,
+      775,
+      86,
+      85
+    ],
+    "size": [
+      86,
+      85
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/home-jar-jellyfish.png",
+    "page": "home",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      441,
+      744,
+      49,
+      49
+    ],
+    "size": [
+      49,
+      49
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/home-jar-input-original.png",
+    "page": "home",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      162,
+      788,
+      233,
+      48
+    ],
+    "size": [
+      233,
+      48
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/home-jar-button-original.png",
+    "page": "home",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      403,
+      788,
+      81,
+      51
+    ],
+    "size": [
+      81,
+      51
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/home-quick-original.png",
+    "page": "home",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      46,
+      873,
+      452,
+      67
+    ],
+    "size": [
+      452,
+      67
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/home-quick-focus-original.png",
+    "page": "home",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      47,
+      873,
+      139,
+      66
+    ],
+    "size": [
+      139,
+      66
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/home-quick-todo-original.png",
+    "page": "home",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      194,
+      873,
+      129,
+      66
+    ],
+    "size": [
+      129,
+      66
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/home-quick-note-original.png",
+    "page": "home",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      335,
+      873,
+      122,
+      66
+    ],
+    "size": [
+      122,
+      66
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/home-quick-jellyfish.png",
+    "page": "home",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      66,
+      884,
+      38,
+      46
+    ],
+    "size": [
+      38,
+      46
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/home-quick-todo-icon.png",
+    "page": "home",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      214,
+      884,
+      30,
+      42
+    ],
+    "size": [
+      30,
+      42
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/home-quick-note-icon.png",
+    "page": "home",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      354,
+      885,
+      32,
+      38
+    ],
+    "size": [
+      32,
+      38
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/home-footer-original.png",
+    "page": "home",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      30,
+      940,
+      478,
+      84
+    ],
+    "size": [
+      478,
+      84
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/home-patrick-original.png",
+    "page": "home",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      407,
+      855,
+      101,
+      153
+    ],
+    "size": [
+      101,
+      153
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/sand-texture-original.png",
+    "page": "home",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      166,
+      946,
+      111,
+      20
+    ],
+    "size": [
+      111,
+      20
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/notes-original.png",
+    "page": "notes",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      532,
+      178,
+      480,
+      846
+    ],
+    "size": [
+      480,
+      846
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/notes-heading-original.png",
+    "page": "notes",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      555,
+      197,
+      147,
+      48
+    ],
+    "size": [
+      147,
+      48
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/notes-flower-original.png",
+    "page": "notes",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      721,
+      190,
+      75,
+      66
+    ],
+    "size": [
+      75,
+      66
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/notes-new-button-original.png",
+    "page": "notes",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      854,
+      203,
+      135,
+      53
+    ],
+    "size": [
+      135,
+      53
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/note-yellow-original.png",
+    "page": "notes",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      551,
+      272,
+      433,
+      132
+    ],
+    "size": [
+      433,
+      132
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/note-pink-original.png",
+    "page": "notes",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      550,
+      421,
+      212,
+      142
+    ],
+    "size": [
+      212,
+      142
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/note-blue-original.png",
+    "page": "notes",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      777,
+      419,
+      214,
+      143
+    ],
+    "size": [
+      214,
+      143
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/note-pin-original.png",
+    "page": "notes",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      566,
+      286,
+      29,
+      31
+    ],
+    "size": [
+      29,
+      31
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/note-shell-original.png",
+    "page": "notes",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      563,
+      435,
+      34,
+      33
+    ],
+    "size": [
+      34,
+      33
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/note-anchor-original.png",
+    "page": "notes",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      792,
+      431,
+      32,
+      38
+    ],
+    "size": [
+      32,
+      38
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/note-yellow-flower.png",
+    "page": "notes",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      902,
+      316,
+      65,
+      60
+    ],
+    "size": [
+      65,
+      60
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/note-pink-flower.png",
+    "page": "notes",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      721,
+      518,
+      33,
+      38
+    ],
+    "size": [
+      33,
+      38
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/note-blue-flower.png",
+    "page": "notes",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      945,
+      516,
+      37,
+      39
+    ],
+    "size": [
+      37,
+      39
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/notebook-original.png",
+    "page": "notes",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      545,
+      579,
+      449,
+      305
+    ],
+    "size": [
+      449,
+      305
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/notebook-hole-original.png",
+    "page": "notes",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      546,
+      591,
+      26,
+      29
+    ],
+    "size": [
+      26,
+      29
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/notebook-saved-icon.png",
+    "page": "notes",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      876,
+      599,
+      26,
+      25
+    ],
+    "size": [
+      26,
+      25
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/notebook-paper-original.png",
+    "page": "notes",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      640,
+      687,
+      215,
+      25
+    ],
+    "size": [
+      215,
+      25
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/notes-footer-original.png",
+    "page": "notes",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      532,
+      879,
+      480,
+      145
+    ],
+    "size": [
+      480,
+      145
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/notes-sign-original.png",
+    "page": "notes",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      850,
+      876,
+      110,
+      85
+    ],
+    "size": [
+      110,
+      85
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/notes-seaweed-left.png",
+    "page": "notes",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      532,
+      884,
+      80,
+      132
+    ],
+    "size": [
+      80,
+      132
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/notes-seaweed-right.png",
+    "page": "notes",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      959,
+      877,
+      53,
+      140
+    ],
+    "size": [
+      53,
+      140
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/notes-rock-coral.png",
+    "page": "notes",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      625,
+      933,
+      204,
+      69
+    ],
+    "size": [
+      204,
+      69
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/timer-original.png",
+    "page": "timer",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      1030,
+      178,
+      482,
+      846
+    ],
+    "size": [
+      482,
+      846
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/timer-top-original.png",
+    "page": "timer",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      1030,
+      178,
+      482,
+      180
+    ],
+    "size": [
+      482,
+      180
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/timer-heading-original.png",
+    "page": "timer",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      1151,
+      193,
+      243,
+      46
+    ],
+    "size": [
+      243,
+      46
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/timer-label-original.png",
+    "page": "timer",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      1104,
+      250,
+      340,
+      45
+    ],
+    "size": [
+      340,
+      45
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/timer-pencil-original.png",
+    "page": "timer",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      1119,
+      260,
+      22,
+      24
+    ],
+    "size": [
+      22,
+      24
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/timer-preset-original.png",
+    "page": "timer",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      1088,
+      304,
+      68,
+      50
+    ],
+    "size": [
+      68,
+      50
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/timer-preset-selected-original.png",
+    "page": "timer",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      1236,
+      304,
+      68,
+      50
+    ],
+    "size": [
+      68,
+      50
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/timer-presets-original.png",
+    "page": "timer",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      1088,
+      304,
+      358,
+      50
+    ],
+    "size": [
+      358,
+      50
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/timer-porthole-original.png",
+    "page": "timer",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      1107,
+      359,
+      338,
+      341
+    ],
+    "size": [
+      338,
+      341
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/timer-face-original.png",
+    "page": "timer",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      1140,
+      393,
+      271,
+      270
+    ],
+    "size": [
+      271,
+      270
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/timer-casing-bolt.png",
+    "page": "timer",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      1254,
+      363,
+      33,
+      25
+    ],
+    "size": [
+      33,
+      25
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/timer-status-original.png",
+    "page": "timer",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      1211,
+      575,
+      142,
+      28
+    ],
+    "size": [
+      142,
+      28
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/timer-top-jellyfish.png",
+    "page": "timer",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      1447,
+      196,
+      64,
+      79
+    ],
+    "size": [
+      64,
+      79
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/timer-side-jellyfish.png",
+    "page": "timer",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      1436,
+      376,
+      74,
+      78
+    ],
+    "size": [
+      74,
+      78
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/timer-bottom-jellyfish.png",
+    "page": "timer",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      1036,
+      781,
+      68,
+      69
+    ],
+    "size": [
+      68,
+      69
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/timer-squid-house.png",
+    "page": "timer",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      1035,
+      361,
+      79,
+      171
+    ],
+    "size": [
+      79,
+      171
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/timer-pineapple-original.png",
+    "page": "timer",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      1437,
+      467,
+      75,
+      166
+    ],
+    "size": [
+      75,
+      166
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/timer-corals-original.png",
+    "page": "timer",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      1030,
+      580,
+      80,
+      135
+    ],
+    "size": [
+      80,
+      135
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/timer-progress-original.png",
+    "page": "timer",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      1115,
+      705,
+      316,
+      19
+    ],
+    "size": [
+      316,
+      19
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/timer-progress-filled.png",
+    "page": "timer",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      1117,
+      706,
+      44,
+      16
+    ],
+    "size": [
+      44,
+      16
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/timer-progress-empty.png",
+    "page": "timer",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      1344,
+      706,
+      43,
+      16
+    ],
+    "size": [
+      43,
+      16
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/timer-start-original.png",
+    "page": "timer",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      1114,
+      734,
+      318,
+      54
+    ],
+    "size": [
+      318,
+      54
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/timer-start-play-original.png",
+    "page": "timer",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      1222,
+      747,
+      30,
+      29
+    ],
+    "size": [
+      30,
+      29
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/timer-reset-original.png",
+    "page": "timer",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      1114,
+      794,
+      318,
+      46
+    ],
+    "size": [
+      318,
+      46
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/timer-stat-original.png",
+    "page": "timer",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      1058,
+      853,
+      426,
+      86
+    ],
+    "size": [
+      426,
+      86
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/timer-stat-clock.png",
+    "page": "timer",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      1097,
+      869,
+      36,
+      39
+    ],
+    "size": [
+      36,
+      39
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/timer-stat-check.png",
+    "page": "timer",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      1293,
+      870,
+      38,
+      35
+    ],
+    "size": [
+      38,
+      35
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/timer-footer-original.png",
+    "page": "timer",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      1030,
+      936,
+      482,
+      88
+    ],
+    "size": [
+      482,
+      88
+    ]
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/timer-patrick-original.png",
+    "page": "timer",
+    "source": "docs/spongebob/approved-concept.png",
+    "sourceSha256": "50567a3a601e5f8ca9c13f6d6dce056cdff23868c6f9556d27cb6ab31de3bf06",
+    "crop": [
+      1330,
+      895,
+      182,
+      125
+    ],
+    "size": [
+      182,
+      125
+    ]
+  }
+]

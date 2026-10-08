@@ -1,0 +1,504 @@
+[
+  {
+    "asset": "themes/bikini-bottom/assets/reference/bottom-live-master.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/home-lower-proposal-v1.png",
+    "sourceSha256": "11002a931d9aa03dc111ead3467bbdc0e5ccde3da3e6e52d40e76791fe9b1219",
+    "crop": [
+      0,
+      0,
+      959,
+      1639
+    ],
+    "method": {
+      "liveBoxes": [
+        [
+          660,
+          75,
+          818,
+          310
+        ],
+        [
+          694,
+          356,
+          869,
+          399
+        ],
+        [
+          121,
+          501,
+          846,
+          536
+        ],
+        [
+          400,
+          580,
+          567,
+          627
+        ],
+        [
+          626,
+          580,
+          812,
+          628
+        ],
+        [
+          102,
+          628,
+          549,
+          682
+        ],
+        [
+          137,
+          683,
+          808,
+          981
+        ],
+        [
+          824,
+          1062,
+          866,
+          1100
+        ],
+        [
+          110,
+          1103,
+          860,
+          1290
+        ],
+        [
+          247,
+          1325,
+          715,
+          1393
+        ],
+        [
+          317,
+          1428,
+          416,
+          1504
+        ]
+      ],
+      "glassInnerCenters": [
+        141,
+        218,
+        294,
+        370,
+        445,
+        521,
+        598,
+        674,
+        750,
+        825
+      ],
+      "outsideMask": "unchanged approved source pixels"
+    }
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/bottom-totals-live.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/home-lower-proposal-v1.png",
+    "sourceSha256": "11002a931d9aa03dc111ead3467bbdc0e5ccde3da3e6e52d40e76791fe9b1219",
+    "crop": [
+      0,
+      0,
+      959,
+      335
+    ],
+    "method": "approved scene crop, live fields cleaned"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/bottom-desk-live.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/home-lower-proposal-v1.png",
+    "sourceSha256": "11002a931d9aa03dc111ead3467bbdc0e5ccde3da3e6e52d40e76791fe9b1219",
+    "crop": [
+      0,
+      335,
+      959,
+      552
+    ],
+    "method": "approved scene crop, live fields cleaned"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/bottom-mood-live.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/home-lower-proposal-v1.png",
+    "sourceSha256": "11002a931d9aa03dc111ead3467bbdc0e5ccde3da3e6e52d40e76791fe9b1219",
+    "crop": [
+      0,
+      552,
+      959,
+      1040
+    ],
+    "method": "approved scene crop, live fields cleaned"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/bottom-archive-live.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/home-lower-proposal-v1.png",
+    "sourceSha256": "11002a931d9aa03dc111ead3467bbdc0e5ccde3da3e6e52d40e76791fe9b1219",
+    "crop": [
+      0,
+      1040,
+      959,
+      1306
+    ],
+    "method": "approved scene crop, live fields cleaned"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/bottom-quote-live.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/home-lower-proposal-v1.png",
+    "sourceSha256": "11002a931d9aa03dc111ead3467bbdc0e5ccde3da3e6e52d40e76791fe9b1219",
+    "crop": [
+      0,
+      1306,
+      959,
+      1409
+    ],
+    "method": "approved scene crop, live fields cleaned"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/bottom-footer-live.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/home-lower-proposal-v1.png",
+    "sourceSha256": "11002a931d9aa03dc111ead3467bbdc0e5ccde3da3e6e52d40e76791fe9b1219",
+    "crop": [
+      0,
+      1409,
+      959,
+      1639
+    ],
+    "method": "approved scene crop, live fields cleaned"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/desk-glass-01-empty.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/home-lower-proposal-v1.png",
+    "sourceSha256": "11002a931d9aa03dc111ead3467bbdc0e5ccde3da3e6e52d40e76791fe9b1219",
+    "crop": [
+      102,
+      417,
+      180,
+      497
+    ],
+    "method": "individual empty original sea-glass compartment"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/desk-glass-01-original.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/home-lower-proposal-v1.png",
+    "sourceSha256": "11002a931d9aa03dc111ead3467bbdc0e5ccde3da3e6e52d40e76791fe9b1219",
+    "crop": [
+      102,
+      417,
+      180,
+      497
+    ],
+    "method": "individual approved cup/book or question/lock, no slot number"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/desk-glass-02-empty.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/home-lower-proposal-v1.png",
+    "sourceSha256": "11002a931d9aa03dc111ead3467bbdc0e5ccde3da3e6e52d40e76791fe9b1219",
+    "crop": [
+      179,
+      417,
+      257,
+      497
+    ],
+    "method": "individual empty original sea-glass compartment"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/desk-glass-02-original.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/home-lower-proposal-v1.png",
+    "sourceSha256": "11002a931d9aa03dc111ead3467bbdc0e5ccde3da3e6e52d40e76791fe9b1219",
+    "crop": [
+      179,
+      417,
+      257,
+      497
+    ],
+    "method": "individual approved cup/book or question/lock, no slot number"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/desk-glass-03-empty.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/home-lower-proposal-v1.png",
+    "sourceSha256": "11002a931d9aa03dc111ead3467bbdc0e5ccde3da3e6e52d40e76791fe9b1219",
+    "crop": [
+      255,
+      417,
+      333,
+      497
+    ],
+    "method": "individual empty original sea-glass compartment"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/desk-glass-03-original.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/home-lower-proposal-v1.png",
+    "sourceSha256": "11002a931d9aa03dc111ead3467bbdc0e5ccde3da3e6e52d40e76791fe9b1219",
+    "crop": [
+      255,
+      417,
+      333,
+      497
+    ],
+    "method": "individual approved cup/book or question/lock, no slot number"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/desk-glass-04-empty.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/home-lower-proposal-v1.png",
+    "sourceSha256": "11002a931d9aa03dc111ead3467bbdc0e5ccde3da3e6e52d40e76791fe9b1219",
+    "crop": [
+      331,
+      417,
+      409,
+      497
+    ],
+    "method": "individual empty original sea-glass compartment"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/desk-glass-04-original.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/home-lower-proposal-v1.png",
+    "sourceSha256": "11002a931d9aa03dc111ead3467bbdc0e5ccde3da3e6e52d40e76791fe9b1219",
+    "crop": [
+      331,
+      417,
+      409,
+      497
+    ],
+    "method": "individual approved cup/book or question/lock, no slot number"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/desk-glass-05-empty.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/home-lower-proposal-v1.png",
+    "sourceSha256": "11002a931d9aa03dc111ead3467bbdc0e5ccde3da3e6e52d40e76791fe9b1219",
+    "crop": [
+      406,
+      417,
+      484,
+      497
+    ],
+    "method": "individual empty original sea-glass compartment"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/desk-glass-05-original.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/home-lower-proposal-v1.png",
+    "sourceSha256": "11002a931d9aa03dc111ead3467bbdc0e5ccde3da3e6e52d40e76791fe9b1219",
+    "crop": [
+      406,
+      417,
+      484,
+      497
+    ],
+    "method": "individual approved cup/book or question/lock, no slot number"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/desk-glass-06-empty.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/home-lower-proposal-v1.png",
+    "sourceSha256": "11002a931d9aa03dc111ead3467bbdc0e5ccde3da3e6e52d40e76791fe9b1219",
+    "crop": [
+      482,
+      417,
+      560,
+      497
+    ],
+    "method": "individual empty original sea-glass compartment"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/desk-glass-06-original.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/home-lower-proposal-v1.png",
+    "sourceSha256": "11002a931d9aa03dc111ead3467bbdc0e5ccde3da3e6e52d40e76791fe9b1219",
+    "crop": [
+      482,
+      417,
+      560,
+      497
+    ],
+    "method": "individual approved cup/book or question/lock, no slot number"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/desk-glass-07-empty.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/home-lower-proposal-v1.png",
+    "sourceSha256": "11002a931d9aa03dc111ead3467bbdc0e5ccde3da3e6e52d40e76791fe9b1219",
+    "crop": [
+      559,
+      417,
+      637,
+      497
+    ],
+    "method": "individual empty original sea-glass compartment"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/desk-glass-07-original.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/home-lower-proposal-v1.png",
+    "sourceSha256": "11002a931d9aa03dc111ead3467bbdc0e5ccde3da3e6e52d40e76791fe9b1219",
+    "crop": [
+      559,
+      417,
+      637,
+      497
+    ],
+    "method": "individual approved cup/book or question/lock, no slot number"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/desk-glass-08-empty.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/home-lower-proposal-v1.png",
+    "sourceSha256": "11002a931d9aa03dc111ead3467bbdc0e5ccde3da3e6e52d40e76791fe9b1219",
+    "crop": [
+      635,
+      417,
+      713,
+      497
+    ],
+    "method": "individual empty original sea-glass compartment"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/desk-glass-08-original.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/home-lower-proposal-v1.png",
+    "sourceSha256": "11002a931d9aa03dc111ead3467bbdc0e5ccde3da3e6e52d40e76791fe9b1219",
+    "crop": [
+      635,
+      417,
+      713,
+      497
+    ],
+    "method": "individual approved cup/book or question/lock, no slot number"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/desk-glass-09-empty.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/home-lower-proposal-v1.png",
+    "sourceSha256": "11002a931d9aa03dc111ead3467bbdc0e5ccde3da3e6e52d40e76791fe9b1219",
+    "crop": [
+      711,
+      417,
+      789,
+      497
+    ],
+    "method": "individual empty original sea-glass compartment"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/desk-glass-09-original.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/home-lower-proposal-v1.png",
+    "sourceSha256": "11002a931d9aa03dc111ead3467bbdc0e5ccde3da3e6e52d40e76791fe9b1219",
+    "crop": [
+      711,
+      417,
+      789,
+      497
+    ],
+    "method": "individual approved cup/book or question/lock, no slot number"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/desk-glass-10-empty.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/home-lower-proposal-v1.png",
+    "sourceSha256": "11002a931d9aa03dc111ead3467bbdc0e5ccde3da3e6e52d40e76791fe9b1219",
+    "crop": [
+      786,
+      417,
+      864,
+      497
+    ],
+    "method": "individual empty original sea-glass compartment"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/desk-glass-10-original.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/home-lower-proposal-v1.png",
+    "sourceSha256": "11002a931d9aa03dc111ead3467bbdc0e5ccde3da3e6e52d40e76791fe9b1219",
+    "crop": [
+      786,
+      417,
+      864,
+      497
+    ],
+    "method": "individual approved cup/book or question/lock, no slot number"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/bottom-total-flower.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/home-lower-proposal-v1.png",
+    "sourceSha256": "11002a931d9aa03dc111ead3467bbdc0e5ccde3da3e6e52d40e76791fe9b1219",
+    "crop": [
+      799,
+      17,
+      868,
+      89
+    ],
+    "method": "approved ornament, complete bounds"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/bottom-reset.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/home-lower-proposal-v1.png",
+    "sourceSha256": "11002a931d9aa03dc111ead3467bbdc0e5ccde3da3e6e52d40e76791fe9b1219",
+    "crop": [
+      731,
+      20,
+      785,
+      75
+    ],
+    "method": "approved ornament, complete bounds"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/bottom-mood-flower.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/home-lower-proposal-v1.png",
+    "sourceSha256": "11002a931d9aa03dc111ead3467bbdc0e5ccde3da3e6e52d40e76791fe9b1219",
+    "crop": [
+      823,
+      568,
+      883,
+      635
+    ],
+    "method": "approved ornament, complete bounds"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/bottom-archive-check.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/home-lower-proposal-v1.png",
+    "sourceSha256": "11002a931d9aa03dc111ead3467bbdc0e5ccde3da3e6e52d40e76791fe9b1219",
+    "crop": [
+      115,
+      1109,
+      146,
+      1143
+    ],
+    "method": "approved ornament, complete bounds"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/bottom-note-left-flower.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/home-lower-proposal-v1.png",
+    "sourceSha256": "11002a931d9aa03dc111ead3467bbdc0e5ccde3da3e6e52d40e76791fe9b1219",
+    "crop": [
+      83,
+      1324,
+      156,
+      1396
+    ],
+    "method": "approved ornament, complete bounds"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/bottom-note-right-flower.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/home-lower-proposal-v1.png",
+    "sourceSha256": "11002a931d9aa03dc111ead3467bbdc0e5ccde3da3e6e52d40e76791fe9b1219",
+    "crop": [
+      805,
+      1324,
+      876,
+      1394
+    ],
+    "method": "approved ornament, complete bounds"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/bottom-sign.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/home-lower-proposal-v1.png",
+    "sourceSha256": "11002a931d9aa03dc111ead3467bbdc0e5ccde3da3e6e52d40e76791fe9b1219",
+    "crop": [
+      710,
+      1416,
+      870,
+      1639
+    ],
+    "method": "approved ornament, complete bounds"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/mood-day-empty-source.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/home-lower-proposal-v1.png",
+    "sourceSha256": "11002a931d9aa03dc111ead3467bbdc0e5ccde3da3e6e52d40e76791fe9b1219",
+    "crop": [
+      150,
+      763,
+      205,
+      819
+    ],
+    "method": "original circular paper day, only numeral cleared"
+  }
+]

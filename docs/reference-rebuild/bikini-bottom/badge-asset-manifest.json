@@ -1,0 +1,642 @@
+[
+  {
+    "asset": "themes/bikini-bottom/assets/reference/badges-live-master.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/badges-proposal-v1.png",
+    "sourceSha256": "5296165b6b2f985866dc3489f2debe55cd8c329613e594a71b7738f41986cf44",
+    "crop": [
+      0,
+      0,
+      875,
+      1798
+    ],
+    "method": {
+      "liveFields": [
+        [
+          607,
+          582,
+          715,
+          618
+        ],
+        [
+          55,
+          626,
+          708,
+          688
+        ],
+        [
+          129,
+          708,
+          232,
+          750
+        ],
+        [
+          330,
+          708,
+          424,
+          750
+        ],
+        [
+          518,
+          708,
+          610,
+          750
+        ],
+        [
+          702,
+          708,
+          819,
+          750
+        ],
+        [
+          61,
+          841,
+          208,
+          887
+        ],
+        [
+          716,
+          843,
+          813,
+          885
+        ]
+      ],
+      "outsideFields": "original approved pixels"
+    }
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/badges-header.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/badges-proposal-v1.png",
+    "sourceSha256": "5296165b6b2f985866dc3489f2debe55cd8c329613e594a71b7738f41986cf44",
+    "crop": [
+      0,
+      0,
+      875,
+      111
+    ],
+    "method": "original scene; only designated live fields cleared"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/badges-nav.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/badges-proposal-v1.png",
+    "sourceSha256": "5296165b6b2f985866dc3489f2debe55cd8c329613e594a71b7738f41986cf44",
+    "crop": [
+      0,
+      111,
+      875,
+      214
+    ],
+    "method": "original scene; only designated live fields cleared"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/badges-hero.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/badges-proposal-v1.png",
+    "sourceSha256": "5296165b6b2f985866dc3489f2debe55cd8c329613e594a71b7738f41986cf44",
+    "crop": [
+      0,
+      214,
+      875,
+      561
+    ],
+    "method": "original scene; only designated live fields cleared"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/badges-overview.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/badges-proposal-v1.png",
+    "sourceSha256": "5296165b6b2f985866dc3489f2debe55cd8c329613e594a71b7738f41986cf44",
+    "crop": [
+      0,
+      561,
+      875,
+      791
+    ],
+    "method": "original scene; only designated live fields cleared"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/badges-footer.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/badges-proposal-v1.png",
+    "sourceSha256": "5296165b6b2f985866dc3489f2debe55cd8c329613e594a71b7738f41986cf44",
+    "crop": [
+      0,
+      1623,
+      875,
+      1798
+    ],
+    "method": "original scene; only designated live fields cleared"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/badges-wood-tile.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/badges-proposal-v1.png",
+    "sourceSha256": "5296165b6b2f985866dc3489f2debe55cd8c329613e594a71b7738f41986cf44",
+    "crop": [
+      58,
+      903,
+      135,
+      919
+    ],
+    "method": "original wood grain between source cards"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/badges-board-frame.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/badges-proposal-v1.png",
+    "sourceSha256": "5296165b6b2f985866dc3489f2debe55cd8c329613e594a71b7738f41986cf44",
+    "crop": [
+      20,
+      798,
+      858,
+      1623
+    ],
+    "method": "original wood edges, category paper and brass clips; transparent dynamic card interior"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/badges-paper-1.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/badges-proposal-v1.png",
+    "sourceSha256": "5296165b6b2f985866dc3489f2debe55cd8c329613e594a71b7738f41986cf44",
+    "crop": [
+      46,
+      929,
+      304,
+      1239
+    ],
+    "method": "original 12-pixel paper perimeter; clean live interior; outside wood made transparent"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/badges-paper-2.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/badges-proposal-v1.png",
+    "sourceSha256": "5296165b6b2f985866dc3489f2debe55cd8c329613e594a71b7738f41986cf44",
+    "crop": [
+      314,
+      930,
+      567,
+      1239
+    ],
+    "method": "original 12-pixel paper perimeter; clean live interior; outside wood made transparent"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/badges-paper-3.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/badges-proposal-v1.png",
+    "sourceSha256": "5296165b6b2f985866dc3489f2debe55cd8c329613e594a71b7738f41986cf44",
+    "crop": [
+      575,
+      929,
+      834,
+      1239
+    ],
+    "method": "original 12-pixel paper perimeter; clean live interior; outside wood made transparent"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/badges-paper-4.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/badges-proposal-v1.png",
+    "sourceSha256": "5296165b6b2f985866dc3489f2debe55cd8c329613e594a71b7738f41986cf44",
+    "crop": [
+      45,
+      1264,
+      304,
+      1596
+    ],
+    "method": "original 12-pixel paper perimeter; clean live interior; outside wood made transparent"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/badges-paper-5.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/badges-proposal-v1.png",
+    "sourceSha256": "5296165b6b2f985866dc3489f2debe55cd8c329613e594a71b7738f41986cf44",
+    "crop": [
+      313,
+      1264,
+      567,
+      1596
+    ],
+    "method": "original 12-pixel paper perimeter; clean live interior; outside wood made transparent"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/badges-paper-6.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/badges-proposal-v1.png",
+    "sourceSha256": "5296165b6b2f985866dc3489f2debe55cd8c329613e594a71b7738f41986cf44",
+    "crop": [
+      574,
+      1264,
+      835,
+      1596
+    ],
+    "method": "original 12-pixel paper perimeter; clean live interior; outside wood made transparent"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/badges-medal.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/badges-proposal-v1.png",
+    "sourceSha256": "5296165b6b2f985866dc3489f2debe55cd8c329613e594a71b7738f41986cf44",
+    "crop": [
+      96,
+      948,
+      251,
+      1096
+    ],
+    "method": "complete original object with hand-traced transparent silhouette"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/badges-orderpad.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/badges-proposal-v1.png",
+    "sourceSha256": "5296165b6b2f985866dc3489f2debe55cd8c329613e594a71b7738f41986cf44",
+    "crop": [
+      370,
+      946,
+      522,
+      1116
+    ],
+    "method": "complete original object with hand-traced transparent silhouette"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/badges-patty.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/badges-proposal-v1.png",
+    "sourceSha256": "5296165b6b2f985866dc3489f2debe55cd8c329613e594a71b7738f41986cf44",
+    "crop": [
+      602,
+      950,
+      801,
+      1097
+    ],
+    "method": "complete original object with hand-traced transparent silhouette"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/badges-porthole.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/badges-proposal-v1.png",
+    "sourceSha256": "5296165b6b2f985866dc3489f2debe55cd8c329613e594a71b7738f41986cf44",
+    "crop": [
+      87,
+      1273,
+      257,
+      1466
+    ],
+    "method": "complete original object with hand-traced transparent silhouette"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/badges-calendar.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/badges-proposal-v1.png",
+    "sourceSha256": "5296165b6b2f985866dc3489f2debe55cd8c329613e594a71b7738f41986cf44",
+    "crop": [
+      345,
+      1289,
+      534,
+      1466
+    ],
+    "method": "complete original object with hand-traced transparent silhouette"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/badges-notebook.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/badges-proposal-v1.png",
+    "sourceSha256": "5296165b6b2f985866dc3489f2debe55cd8c329613e594a71b7738f41986cf44",
+    "crop": [
+      608,
+      1298,
+      787,
+      1474
+    ],
+    "method": "complete original object with hand-traced transparent silhouette"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/badges-check.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/badges-proposal-v1.png",
+    "sourceSha256": "5296165b6b2f985866dc3489f2debe55cd8c329613e594a71b7738f41986cf44",
+    "crop": [
+      248,
+      936,
+      289,
+      977
+    ],
+    "method": "whole source circular control with transparent surroundings"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/badges-lock.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/badges-proposal-v1.png",
+    "sourceSha256": "5296165b6b2f985866dc3489f2debe55cd8c329613e594a71b7738f41986cf44",
+    "crop": [
+      765,
+      1267,
+      817,
+      1318
+    ],
+    "method": "whole source circular control with transparent surroundings"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/badges-fastener.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/badges-proposal-v1.png",
+    "sourceSha256": "5296165b6b2f985866dc3489f2debe55cd8c329613e594a71b7738f41986cf44",
+    "crop": [
+      161,
+      913,
+      187,
+      941
+    ],
+    "method": "whole source circular control with transparent surroundings"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/badges-date.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/badges-proposal-v1.png",
+    "sourceSha256": "5296165b6b2f985866dc3489f2debe55cd8c329613e594a71b7738f41986cf44",
+    "crop": [
+      137,
+      1194,
+      162,
+      1221
+    ],
+    "method": "complete original source ornament/control/character"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/badges-progress-trough.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/badges-proposal-v1.png",
+    "sourceSha256": "5296165b6b2f985866dc3489f2debe55cd8c329613e594a71b7738f41986cf44",
+    "crop": [
+      57,
+      626,
+      706,
+      651
+    ],
+    "method": "complete original source ornament/control/character"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/badges-progress-fill.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/badges-proposal-v1.png",
+    "sourceSha256": "5296165b6b2f985866dc3489f2debe55cd8c329613e594a71b7738f41986cf44",
+    "crop": [
+      60,
+      629,
+      104,
+      648
+    ],
+    "method": "complete original source ornament/control/character"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/badges-blue-flower.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/badges-proposal-v1.png",
+    "sourceSha256": "5296165b6b2f985866dc3489f2debe55cd8c329613e594a71b7738f41986cf44",
+    "crop": [
+      208,
+      841,
+      245,
+      886
+    ],
+    "method": "complete original source ornament/control/character"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/badges-overview-flower.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/badges-proposal-v1.png",
+    "sourceSha256": "5296165b6b2f985866dc3489f2debe55cd8c329613e594a71b7738f41986cf44",
+    "crop": [
+      725,
+      570,
+      832,
+      680
+    ],
+    "method": "complete original source ornament/control/character"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/badges-sign.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/badges-proposal-v1.png",
+    "sourceSha256": "5296165b6b2f985866dc3489f2debe55cd8c329613e594a71b7738f41986cf44",
+    "crop": [
+      618,
+      1632,
+      777,
+      1758
+    ],
+    "method": "complete original source ornament/control/character"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/badges-star-tab.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/badges-proposal-v1.png",
+    "sourceSha256": "5296165b6b2f985866dc3489f2debe55cd8c329613e594a71b7738f41986cf44",
+    "crop": [
+      80,
+      708,
+      125,
+      752
+    ],
+    "method": "complete original source ornament/control/character"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/badges-shell-tab.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/badges-proposal-v1.png",
+    "sourceSha256": "5296165b6b2f985866dc3489f2debe55cd8c329613e594a71b7738f41986cf44",
+    "crop": [
+      276,
+      708,
+      320,
+      752
+    ],
+    "method": "complete original source ornament/control/character"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/badges-diamond-tab.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/badges-proposal-v1.png",
+    "sourceSha256": "5296165b6b2f985866dc3489f2debe55cd8c329613e594a71b7738f41986cf44",
+    "crop": [
+      483,
+      708,
+      517,
+      751
+    ],
+    "method": "complete original source ornament/control/character"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/badges-crown-tab.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/badges-proposal-v1.png",
+    "sourceSha256": "5296165b6b2f985866dc3489f2debe55cd8c329613e594a71b7738f41986cf44",
+    "crop": [
+      662,
+      708,
+      707,
+      751
+    ],
+    "method": "complete original source ornament/control/character"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/badges-sponge.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/badges-proposal-v1.png",
+    "sourceSha256": "5296165b6b2f985866dc3489f2debe55cd8c329613e594a71b7738f41986cf44",
+    "crop": [
+      155,
+      308,
+      452,
+      562
+    ],
+    "method": "complete original source ornament/control/character"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/badges-patrick.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/badges-proposal-v1.png",
+    "sourceSha256": "5296165b6b2f985866dc3489f2debe55cd8c329613e594a71b7738f41986cf44",
+    "crop": [
+      417,
+      350,
+      647,
+      562
+    ],
+    "method": "complete original source ornament/control/character"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/badges-speech.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/badges-proposal-v1.png",
+    "sourceSha256": "5296165b6b2f985866dc3489f2debe55cd8c329613e594a71b7738f41986cf44",
+    "crop": [
+      504,
+      260,
+      735,
+      379
+    ],
+    "method": "complete original source ornament/control/character"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/badges-clip-left.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/badges-proposal-v1.png",
+    "sourceSha256": "5296165b6b2f985866dc3489f2debe55cd8c329613e594a71b7738f41986cf44",
+    "crop": [
+      139,
+      779,
+      204,
+      839
+    ],
+    "method": "complete original object with hand-traced transparent silhouette"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/badges-clip-right.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/badges-proposal-v1.png",
+    "sourceSha256": "5296165b6b2f985866dc3489f2debe55cd8c329613e594a71b7738f41986cf44",
+    "crop": [
+      674,
+      779,
+      738,
+      839
+    ],
+    "method": "complete original object with hand-traced transparent silhouette"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/badges-tab-1.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/badges-proposal-v1.png",
+    "sourceSha256": "5296165b6b2f985866dc3489f2debe55cd8c329613e594a71b7738f41986cf44",
+    "crop": [
+      46,
+      692,
+      242,
+      766
+    ],
+    "method": "original category surface and icon; native word area cleared"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/badges-tab-2.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/badges-proposal-v1.png",
+    "sourceSha256": "5296165b6b2f985866dc3489f2debe55cd8c329613e594a71b7738f41986cf44",
+    "crop": [
+      251,
+      692,
+      434,
+      766
+    ],
+    "method": "original category surface and icon; native word area cleared"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/badges-tab-3.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/badges-proposal-v1.png",
+    "sourceSha256": "5296165b6b2f985866dc3489f2debe55cd8c329613e594a71b7738f41986cf44",
+    "crop": [
+      443,
+      692,
+      627,
+      766
+    ],
+    "method": "original category surface and icon; native word area cleared"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/badges-tab-4.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/badges-proposal-v1.png",
+    "sourceSha256": "5296165b6b2f985866dc3489f2debe55cd8c329613e594a71b7738f41986cf44",
+    "crop": [
+      636,
+      692,
+      829,
+      766
+    ],
+    "method": "original category surface and icon; native word area cleared"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/badges-tab-neutral.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/badges-proposal-v1.png",
+    "sourceSha256": "5296165b6b2f985866dc3489f2debe55cd8c329613e594a71b7738f41986cf44",
+    "crop": [
+      251,
+      692,
+      434,
+      766
+    ],
+    "method": "native category selection uses source cream material"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/badges-button-selected.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/badges-proposal-v1.png",
+    "sourceSha256": "5296165b6b2f985866dc3489f2debe55cd8c329613e594a71b7738f41986cf44",
+    "crop": [
+      46,
+      692,
+      242,
+      766
+    ],
+    "method": "source button with native icon and word area blank"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/badges-button-plain.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/badges-proposal-v1.png",
+    "sourceSha256": "5296165b6b2f985866dc3489f2debe55cd8c329613e594a71b7738f41986cf44",
+    "crop": [
+      251,
+      692,
+      434,
+      766
+    ],
+    "method": "source button with native icon and word area blank"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/badges-star-icon.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/badges-proposal-v1.png",
+    "sourceSha256": "5296165b6b2f985866dc3489f2debe55cd8c329613e594a71b7738f41986cf44",
+    "crop": [
+      80,
+      708,
+      125,
+      752
+    ],
+    "method": "complete original object with hand-traced transparent silhouette"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/badges-shell-icon.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/badges-proposal-v1.png",
+    "sourceSha256": "5296165b6b2f985866dc3489f2debe55cd8c329613e594a71b7738f41986cf44",
+    "crop": [
+      276,
+      708,
+      320,
+      752
+    ],
+    "method": "complete original object with hand-traced transparent silhouette"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/badges-diamond-icon.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/badges-proposal-v1.png",
+    "sourceSha256": "5296165b6b2f985866dc3489f2debe55cd8c329613e594a71b7738f41986cf44",
+    "crop": [
+      483,
+      708,
+      517,
+      751
+    ],
+    "method": "complete original object with hand-traced transparent silhouette"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/badges-crown-icon.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/badges-proposal-v1.png",
+    "sourceSha256": "5296165b6b2f985866dc3489f2debe55cd8c329613e594a71b7738f41986cf44",
+    "crop": [
+      662,
+      708,
+      707,
+      751
+    ],
+    "method": "complete original object with hand-traced transparent silhouette"
+  }
+]

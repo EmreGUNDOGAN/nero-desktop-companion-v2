@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "errors": [],
+  "actions": [
+    "Sponge prototype loads with original native face layers",
+    "remove restores exact existing base body and face",
+    "switching to the existing denim outfit retains all layers",
+    "blink control switches original lid variants",
+    "rapid wear/remove does not leave stale or duplicated layers"
+  ]
+}

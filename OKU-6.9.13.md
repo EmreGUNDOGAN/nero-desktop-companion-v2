@@ -1,6 +1,6 @@
-# Nero 6.9.13 — Gilmore Girls, The Office ve açılış düzeltmesi
+# Nero 6.9.13 — Onaylı temalar, SpongeBob kıyafetleri ve açılış düzeltmesi
 
-Bu **tam kaynak paketi**, önceki bütün özellikleri ve temaları içerir. Harry Potter eklenmemiştir. Kurulu Nero dosyalarını veya kişisel kayıtları otomatik değiştirmez.
+Bu sürüm önceki bütün özellikleri ve temaları içerir. Kullanıcının güncel teslim isteği tüm tema/program değişikliklerini içeren Windows Setup, güncel tam GitHub kaynakları ve Actions bağlantısıdır. Harry Potter eklenmemiştir. Kaynak klasörünü açmak kişisel kayıtları otomatik değiştirmez.
 
 ## Başlatma
 
@@ -26,6 +26,12 @@ Notlarda üstteki **Yeni not** ve karttaki **⋯** menüsü kullanılır. Uzun n
 
 Scranton İşler sayfasında geniş pencerelerde Bugün / Sonra sütunları, dar pencerelerde dikey liste kullanılır. Asıl sıralama ve sürükleme işleyicileri korunmuştur. Sayaçta mevcut iş seçimi, duraklatma, devam, bırakma ve oturum geçmişi çalışır. Büyük özel sürelerde rakam boyutu otomatik küçülür.
 
+## SpongeBob kıyafetleri ve gece kuralı
+
+Ayarlar → Kıyafet Dolabı → **SpongeBob** sekmesinde SpongeBob, Squidward, Patrick, Mr. Krabs ve Sandy bulunur. Bikini Bottom temasına geçişte SpongeBob kıyafeti otomatik giyilir; kilitli değildir, başka kıyafet seçilebilir veya çıkarılabilir. Aynı tema içinde ayar değiştirmek ve uygulamayı yeniden açmak elle seçilen kıyafeti sıfırlamaz.
+
+21.00'de rastgele pijama giyilir; sonrasında kıyafet değiştirmek ve çıkarmak serbesttir. Gündüz seçimi saklanır, 06.00'da geri gelir. Ertesi gece yeniden rastgele pijama seçilir. Patrick'in boyun izi olmayan ve SpongeBob'un belirgin kol çizgili v2 gövdeleri kullanıcı tarafından onaylanmıştır. Kıyafet kaynakları ve doğrulamalar `docs/wardrobe-sponge` içindedir.
+
 ## Açılmama hatası
 
 Görev yöneticisinde görünüp pencerelerin oluşmamasının nedeni, odak kayıtlarını yöneten `Productivity` bölümünün `Timer` oluşturulmadan başlatılmasıydı. Önce sayaç, sonra ona bağlanan kayıt bölümü oluşturulur. Bu hata kullanıcı kaydını silerek veya temayı sıfırlayarak giderilmemiştir.
@@ -40,6 +46,6 @@ Sahneler onaylı görsellerden çıkarıldı. Arka plandaki örnek selamlama, ro
 
 Konseptler referanstır; gerçek arayüz farklı pencere boyutlarında uyarlanır. Özellikle dar pencerelerde iki sütun tek sütuna geçer. Bu yüzden konsept görselleri gerçek uygulama ekranı olarak sunulmaz.
 
-352 otomatik test, yeni temalar için 60 panel yerleşimi, 136 finans yerleşimi ve 24 çizgi roman finans yerleşimi doğrulandı. Karakter, odak bildirimi, hızlı not gönderimi, not kaydı, kontrol listesi, bağlı sayaç ve temalar arası geri dönüş ayrıca kontrol edildi. Son kaynak ZIP’i dosya dosya içerik karşılaştırmasıyla doğrulanır.
+359 otomatik test, yeni temalar için 60 panel yerleşimi, 136 finans yerleşimi ve 24 çizgi roman finans yerleşimi doğrulandı. Karakter, odak bildirimi, hızlı not gönderimi, not kaydı, kontrol listesi, bağlı sayaç ve temalar arası geri dönüş ayrıca kontrol edildi. Son kaynak ZIP’i dosya dosya içerik karşılaştırmasıyla doğrulanır.
 
 Önceki bütün özelliklerin rehberi: `TUM-GELISTIRMELER-OKU.md`.

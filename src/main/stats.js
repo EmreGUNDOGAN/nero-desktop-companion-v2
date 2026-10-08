@@ -463,12 +463,23 @@ class Stats {
   }
 
   achievementList() {
+    const summary=this.summary();
+    const progressFor=(achievement)=>{
+      // Only single numeric counters have a meaningful fraction. Composite and
+      // event-only checks remain unknown instead of displaying a fabricated 0%.
+      const rule=String(achievement.check||'').match(/^\(?s\)?\s*=>\s*s\.([a-zA-Z0-9_.]+)\s*>=\s*(\d+)\s*$/);
+      if(!rule)return {progress:null,progressCurrent:null,progressTarget:null};
+      const value=rule[1].split('.').reduce((object,key)=>object?.[key],summary),target=Number(rule[2]);
+      if(!Number.isFinite(value)||target<=0)return {progress:null,progressCurrent:null,progressTarget:null};
+      return {progress:Math.max(0,Math.min(1,value/target)),progressCurrent:value,progressTarget:target};
+    };
     return ACHIEVEMENTS
       .filter((a) => !a.hidden || !!this.data.achievements[a.id])
       .map((a) => ({
         id: a.id, icon: a.icon, title: a.title, desc: a.desc,
         completedDesc: a.completedDesc, rarity: a.rarity, hidden: !!a.hidden, type: a.type,
-        unlockedAt: this.data.achievements[a.id] || null
+        unlockedAt: this.data.achievements[a.id] || null,
+        ...progressFor(a)
       }));
   }
 

@@ -1,0 +1,92 @@
+[
+  {
+    "asset": "themes/stars-hollow/assets/reference/nav-home-cutout.png",
+    "source": "themes/stars-hollow/assets/reference/nav-home.png",
+    "sourceSha256": "6c5487924b315f280327ba0b9ca6b3c2daf6fce00b646ff1a4c8c177e656e692",
+    "method": "isolate original header glyph; paper removed by luminance mask, labels excluded"
+  },
+  {
+    "asset": "themes/stars-hollow/assets/reference/nav-notes-cutout.png",
+    "source": "themes/stars-hollow/assets/reference/nav-notes.png",
+    "sourceSha256": "45ce36b73590e08dcdce7f650affc405d2d70831bfc0d110be87812597c16414",
+    "method": "isolate original header glyph; paper removed by luminance mask, labels excluded"
+  },
+  {
+    "asset": "themes/stars-hollow/assets/reference/nav-todos-cutout.png",
+    "source": "themes/stars-hollow/assets/reference/nav-todos.png",
+    "sourceSha256": "8a4448e5a0bd50d24a63690540cc9ee9af0d7e412d410c56224458fdf985e925",
+    "method": "isolate original header glyph; paper removed by luminance mask, labels excluded"
+  },
+  {
+    "asset": "themes/stars-hollow/assets/reference/nav-timer-cutout.png",
+    "source": "themes/stars-hollow/assets/reference/nav-timer.png",
+    "sourceSha256": "ddbc45061511d370b4c495a803ecd06a6d6ac518db18075e683b56a94c13cc6e",
+    "method": "isolate original header glyph; paper removed by luminance mask, labels excluded"
+  },
+  {
+    "asset": "themes/stars-hollow/assets/reference/nav-badges-cutout.png",
+    "source": "themes/stars-hollow/assets/reference/nav-badges.png",
+    "sourceSha256": "d3991d589f259a819e2db089d5faf0cb9c9bc761fec9c2fe68a8fc957ffb0b37",
+    "method": "isolate original header glyph; paper removed by luminance mask, labels excluded"
+  },
+  {
+    "asset": "themes/stars-hollow/assets/reference/nav-budget-cutout.png",
+    "source": "themes/stars-hollow/assets/reference/nav-budget.png",
+    "sourceSha256": "9a4336eaa36d0f5092fb42d79518a29e5b2788b8921d9512445773f932f74904",
+    "method": "isolate original header glyph; paper removed by luminance mask, labels excluded"
+  },
+  {
+    "asset": "themes/stars-hollow/assets/reference/badge-gazebo-photo-cutout.png",
+    "source": "themes/stars-hollow/assets/reference/badge-gazebo-photo.png",
+    "sourceSha256": "450b30564138c93dfce81cad1281578fc132d54f3ffe4c0aecdc425c270e7c8a",
+    "method": "exclude baked date beneath the photo"
+  },
+  {
+    "asset": "themes/stars-hollow/assets/reference/badge-signpost-sketch-cutout.png",
+    "source": "themes/stars-hollow/assets/reference/badge-signpost-sketch.png",
+    "sourceSha256": "c2ff2fac9d77ea1afed550477cd004c1069e9f1fe550b4ce31efbe8554af9507",
+    "method": "retain original pencil lines; remove pale paper matte"
+  },
+  {
+    "asset": "themes/stars-hollow/assets/reference/badge-books-sketch-cutout.png",
+    "source": "themes/stars-hollow/assets/reference/badge-books-sketch.png",
+    "sourceSha256": "3a81e3983f85cbd3ee8b7609ab491cc9d4f37222daa328879bdb92f00f642067",
+    "method": "retain original pencil lines; remove pale paper matte"
+  },
+  {
+    "asset": "themes/stars-hollow/assets/reference/badge-headphones-sketch-cutout.png",
+    "source": "themes/stars-hollow/assets/reference/badge-headphones-sketch.png",
+    "sourceSha256": "aed7ed4e39b9d4d18a6536ba0cd63ad9c9981a2f7d826fffd1ddd9dd4e4b9bd4",
+    "method": "retain original pencil lines; remove pale paper matte"
+  },
+  {
+    "asset": "themes/stars-hollow/assets/reference/badge-road-sketch-cutout.png",
+    "source": "themes/stars-hollow/assets/reference/badge-road-sketch.png",
+    "sourceSha256": "dcddf8df05df4f3b52870205461042e256427418b8bdd5a408d818a3227dff7b",
+    "method": "retain original pencil lines; remove pale paper matte"
+  },
+  {
+    "asset": "themes/stars-hollow/assets/reference/home-chalk-texture-clean.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/home.png",
+    "sourceSha256": "7bef7c04f902407fee581290b506917cdf950d0df49fc7e958cea8b4db579ad1",
+    "method": "blank chalk texture sampled between chart gridlines"
+  },
+  {
+    "asset": "themes/stars-hollow/assets/reference/home-jar-scene-live.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/home.png",
+    "sourceSha256": "7bef7c04f902407fee581290b506917cdf950d0df49fc7e958cea8b4db579ad1",
+    "method": "retain original flowers, jar, bell and keyring; replace only live text/control area"
+  },
+  {
+    "asset": "themes/stars-hollow/assets/reference/home-desk-snowglobe.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/home.png",
+    "sourceSha256": "7bef7c04f902407fee581290b506917cdf950d0df49fc7e958cea8b4db579ad1",
+    "method": "original snowglobe prop"
+  },
+  {
+    "asset": "themes/stars-hollow/assets/reference/badge-cork-texture.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/badges.png",
+    "sourceSha256": "926f268f5af941c7acdecba5e9454346d49c9ec620e726265809be5b93b69a0e",
+    "method": "cork gap between cards; excludes paper edge"
+  }
+]

@@ -1,0 +1,10 @@
+{
+  "status": "design-approved; fitted-face-review-required",
+  "characterRenderer": "src/renderer/character/wardrobe-renderer.js",
+  "garmentBody": "sandy-body-fit-v1.png",
+  "garmentSource": "sandy-body-generated-v1.png",
+  "garmentSourceSha256": "4a9b21e2254f688221bb28d89db60af89417291db3d9b2278b5b3328455466d4",
+  "nativeFaceLayers": "themes/default/assets/wardrobe/daily-kot-ceket",
+  "alignment": "220x260; face fitted to measured helmet opening; generated body uniformly resized only",
+  "productionIntegration": true
+}

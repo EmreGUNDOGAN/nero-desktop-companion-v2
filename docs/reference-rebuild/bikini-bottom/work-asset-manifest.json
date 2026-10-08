@@ -1,0 +1,516 @@
+[
+  {
+    "asset": "themes/bikini-bottom/assets/reference/work-live-master.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/todos-proposal-v1.png",
+    "sourceSha256": "3faac7f03b1630cbf6bcce2e9ba2d5596aac494c4dc6b119307c5fa0aeac0895",
+    "crop": [
+      0,
+      0,
+      874,
+      1799
+    ],
+    "method": {
+      "liveFields": [
+        [
+          121,
+          563,
+          681,
+          596
+        ],
+        [
+          153,
+          597,
+          642,
+          624
+        ],
+        [
+          109,
+          645,
+          368,
+          680
+        ],
+        [
+          411,
+          645,
+          568,
+          681
+        ],
+        [
+          642,
+          645,
+          783,
+          681
+        ],
+        [
+          73,
+          730,
+          677,
+          768
+        ],
+        [
+          95,
+          791,
+          367,
+          823
+        ],
+        [
+          56,
+          902,
+          824,
+          1532
+        ],
+        [
+          146,
+          1585,
+          664,
+          1630
+        ],
+        [
+          151,
+          830,
+          241,
+          901
+        ],
+        [
+          641,
+          830,
+          723,
+          901
+        ]
+      ],
+      "outsideFields": "original approved pixels"
+    }
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/work-header.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/todos-proposal-v1.png",
+    "sourceSha256": "3faac7f03b1630cbf6bcce2e9ba2d5596aac494c4dc6b119307c5fa0aeac0895",
+    "crop": [
+      0,
+      0,
+      874,
+      110
+    ],
+    "method": "source surface with only live fields cleared"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/work-nav.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/todos-proposal-v1.png",
+    "sourceSha256": "3faac7f03b1630cbf6bcce2e9ba2d5596aac494c4dc6b119307c5fa0aeac0895",
+    "crop": [
+      0,
+      110,
+      874,
+      212
+    ],
+    "method": "source surface with only live fields cleared"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/work-hero.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/todos-proposal-v1.png",
+    "sourceSha256": "3faac7f03b1630cbf6bcce2e9ba2d5596aac494c4dc6b119307c5fa0aeac0895",
+    "crop": [
+      0,
+      212,
+      874,
+      547
+    ],
+    "method": "source surface with only live fields cleared"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/work-capture.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/todos-proposal-v1.png",
+    "sourceSha256": "3faac7f03b1630cbf6bcce2e9ba2d5596aac494c4dc6b119307c5fa0aeac0895",
+    "crop": [
+      0,
+      547,
+      874,
+      844
+    ],
+    "method": "source surface with only live fields cleared"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/work-board-frame.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/todos-proposal-v1.png",
+    "sourceSha256": "3faac7f03b1630cbf6bcce2e9ba2d5596aac494c4dc6b119307c5fa0aeac0895",
+    "crop": [
+      20,
+      854,
+      857,
+      1563
+    ],
+    "method": "source surface with only live fields cleared"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/work-archive.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/todos-proposal-v1.png",
+    "sourceSha256": "3faac7f03b1630cbf6bcce2e9ba2d5596aac494c4dc6b119307c5fa0aeac0895",
+    "crop": [
+      20,
+      1565,
+      855,
+      1649
+    ],
+    "method": "source surface with only live fields cleared"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/work-footer.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/todos-proposal-v1.png",
+    "sourceSha256": "3faac7f03b1630cbf6bcce2e9ba2d5596aac494c4dc6b119307c5fa0aeac0895",
+    "crop": [
+      0,
+      1649,
+      874,
+      1799
+    ],
+    "method": "source surface with only live fields cleared"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/work-clock.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/todos-proposal-v1.png",
+    "sourceSha256": "3faac7f03b1630cbf6bcce2e9ba2d5596aac494c4dc6b119307c5fa0aeac0895",
+    "crop": [
+      57,
+      564,
+      103,
+      613
+    ],
+    "method": "complete original icon/ornament"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/work-info.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/todos-proposal-v1.png",
+    "sourceSha256": "3faac7f03b1630cbf6bcce2e9ba2d5596aac494c4dc6b119307c5fa0aeac0895",
+    "crop": [
+      121,
+      596,
+      150,
+      624
+    ],
+    "method": "complete original icon/ornament"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/work-search.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/todos-proposal-v1.png",
+    "sourceSha256": "3faac7f03b1630cbf6bcce2e9ba2d5596aac494c4dc6b119307c5fa0aeac0895",
+    "crop": [
+      70,
+      646,
+      106,
+      681
+    ],
+    "method": "complete original icon/ornament"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/work-add.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/todos-proposal-v1.png",
+    "sourceSha256": "3faac7f03b1630cbf6bcce2e9ba2d5596aac494c4dc6b119307c5fa0aeac0895",
+    "crop": [
+      737,
+      716,
+      828,
+      788
+    ],
+    "method": "complete original icon/ornament"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/work-chevron.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/todos-proposal-v1.png",
+    "sourceSha256": "3faac7f03b1630cbf6bcce2e9ba2d5596aac494c4dc6b119307c5fa0aeac0895",
+    "crop": [
+      583,
+      653,
+      600,
+      671
+    ],
+    "method": "complete original icon/ornament"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/work-capture-arrow.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/todos-proposal-v1.png",
+    "sourceSha256": "3faac7f03b1630cbf6bcce2e9ba2d5596aac494c4dc6b119307c5fa0aeac0895",
+    "crop": [
+      67,
+      795,
+      92,
+      819
+    ],
+    "method": "complete original icon/ornament"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/work-blue-flower.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/todos-proposal-v1.png",
+    "sourceSha256": "3faac7f03b1630cbf6bcce2e9ba2d5596aac494c4dc6b119307c5fa0aeac0895",
+    "crop": [
+      350,
+      900,
+      410,
+      963
+    ],
+    "method": "complete original icon/ornament"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/work-yellow-flower.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/todos-proposal-v1.png",
+    "sourceSha256": "3faac7f03b1630cbf6bcce2e9ba2d5596aac494c4dc6b119307c5fa0aeac0895",
+    "crop": [
+      746,
+      900,
+      810,
+      964
+    ],
+    "method": "complete original icon/ornament"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/work-green-flower.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/todos-proposal-v1.png",
+    "sourceSha256": "3faac7f03b1630cbf6bcce2e9ba2d5596aac494c4dc6b119307c5fa0aeac0895",
+    "crop": [
+      770,
+      1380,
+      811,
+      1422
+    ],
+    "method": "complete original icon/ornament"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/work-archive-folder.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/todos-proposal-v1.png",
+    "sourceSha256": "3faac7f03b1630cbf6bcce2e9ba2d5596aac494c4dc6b119307c5fa0aeac0895",
+    "crop": [
+      74,
+      1586,
+      116,
+      1625
+    ],
+    "method": "complete original icon/ornament"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/work-archive-chevron.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/todos-proposal-v1.png",
+    "sourceSha256": "3faac7f03b1630cbf6bcce2e9ba2d5596aac494c4dc6b119307c5fa0aeac0895",
+    "crop": [
+      775,
+      1593,
+      805,
+      1618
+    ],
+    "method": "complete original icon/ornament"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/work-sign.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/todos-proposal-v1.png",
+    "sourceSha256": "3faac7f03b1630cbf6bcce2e9ba2d5596aac494c4dc6b119307c5fa0aeac0895",
+    "crop": [
+      626,
+      1650,
+      779,
+      1766
+    ],
+    "method": "complete original icon/ornament"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/work-clip-1.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/todos-proposal-v1.png",
+    "sourceSha256": "3faac7f03b1630cbf6bcce2e9ba2d5596aac494c4dc6b119307c5fa0aeac0895",
+    "crop": [
+      151,
+      830,
+      241,
+      901
+    ],
+    "method": "separate brass clip with transparent silhouette"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/work-clip-2.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/todos-proposal-v1.png",
+    "sourceSha256": "3faac7f03b1630cbf6bcce2e9ba2d5596aac494c4dc6b119307c5fa0aeac0895",
+    "crop": [
+      641,
+      830,
+      723,
+      901
+    ],
+    "method": "separate brass clip with transparent silhouette"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/work-card-blue.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/todos-proposal-v1.png",
+    "sourceSha256": "3faac7f03b1630cbf6bcce2e9ba2d5596aac494c4dc6b119307c5fa0aeac0895",
+    "crop": [
+      66,
+      967,
+      429,
+      1112
+    ],
+    "method": "original 8-pixel paper edge/shadow; changing contents cleared"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/work-card-cream.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/todos-proposal-v1.png",
+    "sourceSha256": "3faac7f03b1630cbf6bcce2e9ba2d5596aac494c4dc6b119307c5fa0aeac0895",
+    "crop": [
+      66,
+      1118,
+      429,
+      1239
+    ],
+    "method": "original 8-pixel paper edge/shadow; changing contents cleared"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/work-card-yellow.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/todos-proposal-v1.png",
+    "sourceSha256": "3faac7f03b1630cbf6bcce2e9ba2d5596aac494c4dc6b119307c5fa0aeac0895",
+    "crop": [
+      454,
+      970,
+      813,
+      1096
+    ],
+    "method": "original 8-pixel paper edge/shadow; changing contents cleared"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/work-card-pink.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/todos-proposal-v1.png",
+    "sourceSha256": "3faac7f03b1630cbf6bcce2e9ba2d5596aac494c4dc6b119307c5fa0aeac0895",
+    "crop": [
+      454,
+      1100,
+      813,
+      1228
+    ],
+    "method": "original 8-pixel paper edge/shadow; changing contents cleared"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/work-card-done.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/todos-proposal-v1.png",
+    "sourceSha256": "3faac7f03b1630cbf6bcce2e9ba2d5596aac494c4dc6b119307c5fa0aeac0895",
+    "crop": [
+      66,
+      1423,
+      813,
+      1479
+    ],
+    "method": "original 8-pixel paper edge/shadow; changing contents cleared"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/work-label-priority.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/todos-proposal-v1.png",
+    "sourceSha256": "3faac7f03b1630cbf6bcce2e9ba2d5596aac494c4dc6b119307c5fa0aeac0895",
+    "crop": [
+      131,
+      1010,
+      217,
+      1043
+    ],
+    "method": "original colored tag; words replaced by native labels"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/work-label-work.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/todos-proposal-v1.png",
+    "sourceSha256": "3faac7f03b1630cbf6bcce2e9ba2d5596aac494c4dc6b119307c5fa0aeac0895",
+    "crop": [
+      224,
+      1010,
+      271,
+      1043
+    ],
+    "method": "original colored tag; words replaced by native labels"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/work-label-personal.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/todos-proposal-v1.png",
+    "sourceSha256": "3faac7f03b1630cbf6bcce2e9ba2d5596aac494c4dc6b119307c5fa0aeac0895",
+    "crop": [
+      519,
+      1016,
+      591,
+      1048
+    ],
+    "method": "original colored tag; words replaced by native labels"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/work-label-planning.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/todos-proposal-v1.png",
+    "sourceSha256": "3faac7f03b1630cbf6bcce2e9ba2d5596aac494c4dc6b119307c5fa0aeac0895",
+    "crop": [
+      597,
+      1016,
+      689,
+      1048
+    ],
+    "method": "original colored tag; words replaced by native labels"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/work-check-empty.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/todos-proposal-v1.png",
+    "sourceSha256": "3faac7f03b1630cbf6bcce2e9ba2d5596aac494c4dc6b119307c5fa0aeac0895",
+    "crop": [
+      83,
+      984,
+      119,
+      1020
+    ],
+    "method": "original control with border-connected paper removed"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/work-check-done.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/todos-proposal-v1.png",
+    "sourceSha256": "3faac7f03b1630cbf6bcce2e9ba2d5596aac494c4dc6b119307c5fa0aeac0895",
+    "crop": [
+      97,
+      1433,
+      131,
+      1469
+    ],
+    "method": "original control with border-connected paper removed"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/work-play.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/todos-proposal-v1.png",
+    "sourceSha256": "3faac7f03b1630cbf6bcce2e9ba2d5596aac494c4dc6b119307c5fa0aeac0895",
+    "crop": [
+      327,
+      991,
+      368,
+      1033
+    ],
+    "method": "original control with border-connected paper removed"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/work-menu.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/todos-proposal-v1.png",
+    "sourceSha256": "3faac7f03b1630cbf6bcce2e9ba2d5596aac494c4dc6b119307c5fa0aeac0895",
+    "crop": [
+      379,
+      996,
+      410,
+      1028
+    ],
+    "method": "original control with border-connected paper removed"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/work-drag-arrow.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/todos-proposal-v1.png",
+    "sourceSha256": "3faac7f03b1630cbf6bcce2e9ba2d5596aac494c4dc6b119307c5fa0aeac0895",
+    "crop": [
+      244,
+      1491,
+      267,
+      1526
+    ],
+    "method": "original control with border-connected paper removed"
+  },
+  {
+    "asset": "themes/bikini-bottom/assets/reference/work-progress-empty.png",
+    "source": "docs/reference-rebuild/bikini-bottom/concepts/todos-proposal-v1.png",
+    "sourceSha256": "3faac7f03b1630cbf6bcce2e9ba2d5596aac494c4dc6b119307c5fa0aeac0895",
+    "crop": [
+      131,
+      1076,
+      330,
+      1098
+    ],
+    "method": "source segmented progress strip"
+  }
+]

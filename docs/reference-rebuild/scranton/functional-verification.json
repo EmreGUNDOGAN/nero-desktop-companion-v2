@@ -1,0 +1,13 @@
+{
+  "passed": true,
+  "actions": [
+    "mood labels, saved selection, user/Nero mode, history and all archive rows remain functional",
+    "memory dialog opens without submitting jar form",
+    "saved multiple labels render distinct colors beneath task title",
+    "search works after nested paper assembly",
+    "real pointer drag moves native task between paper boards",
+    "linked timer creates live dated ledger and restores reset",
+    "rarity controls retain native collection filtering"
+  ],
+  "errors": []
+}

@@ -1,0 +1,926 @@
+[
+  {
+    "asset": "themes/scranton/assets/reference/home-report-live.png",
+    "source": "docs/tv-themes/concepts/scranton/home.png",
+    "sourceSha256": "d70ab21572ee446f0aeb700029b84e28b09f522f7620c18111f00b4370275039",
+    "method": {
+      "crop": [
+        22,
+        488,
+        690,
+        230
+      ],
+      "clearedLiveAreas": [
+        [
+          9,
+          10,
+          680,
+          220
+        ]
+      ],
+      "fill": "#ecebe8"
+    }
+  },
+  {
+    "asset": "themes/scranton/assets/reference/home-total-live.png",
+    "source": "docs/tv-themes/concepts/scranton/home.png",
+    "sourceSha256": "d70ab21572ee446f0aeb700029b84e28b09f522f7620c18111f00b4370275039",
+    "method": {
+      "crop": [
+        25,
+        1029,
+        684,
+        225
+      ],
+      "clearedLiveAreas": [
+        [
+          9,
+          10,
+          674,
+          216
+        ]
+      ],
+      "fill": "#ecebe5"
+    }
+  },
+  {
+    "asset": "themes/scranton/assets/reference/notes-tray-live.png",
+    "source": "docs/tv-themes/concepts/scranton/notes.png",
+    "sourceSha256": "d105143aa85b7ff90bf94d18d4c6da19d32795c67feb29a3b3bf66f61600a3c1",
+    "method": {
+      "crop": [
+        18,
+        402,
+        444,
+        703
+      ],
+      "clearedLiveAreas": [
+        [
+          20,
+          77,
+          422,
+          650
+        ],
+        [
+          32,
+          8,
+          247,
+          64
+        ]
+      ],
+      "fill": "#244d76"
+    }
+  },
+  {
+    "asset": "themes/scranton/assets/reference/note-composer-live.png",
+    "source": "docs/tv-themes/concepts/scranton/notes.png",
+    "sourceSha256": "d105143aa85b7ff90bf94d18d4c6da19d32795c67feb29a3b3bf66f61600a3c1",
+    "method": {
+      "crop": [
+        470,
+        427,
+        643,
+        677
+      ],
+      "clearedLiveAreas": [
+        [
+          25,
+          59,
+          625,
+          657
+        ]
+      ],
+      "fill": "#eff0ee"
+    }
+  },
+  {
+    "asset": "themes/scranton/assets/reference/todo-board-live.png",
+    "source": "docs/tv-themes/concepts/scranton/todos.png",
+    "sourceSha256": "69f8a10fd671ab0c386525ffefadb17042c2c116b36bd453ec642b121a80c35f",
+    "method": {
+      "crop": [
+        14,
+        371,
+        1098,
+        734
+      ],
+      "clearedLiveAreas": [
+        [
+          28,
+          38,
+          1064,
+          697
+        ]
+      ],
+      "fill": "#e9e9e8"
+    }
+  },
+  {
+    "asset": "themes/scranton/assets/reference/home-calendar-live.png",
+    "source": "docs/tv-themes/concepts/scranton/home.png",
+    "sourceSha256": "d70ab21572ee446f0aeb700029b84e28b09f522f7620c18111f00b4370275039",
+    "method": {
+      "crop": [
+        0,
+        1430,
+        734,
+        300
+      ],
+      "clearedLiveAreas": [
+        [
+          183,
+          16,
+          608,
+          275
+        ],
+        [
+          532,
+          251,
+          636,
+          299
+        ]
+      ],
+      "fill": "#efeee8"
+    }
+  },
+  {
+    "asset": "themes/scranton/assets/reference/home-archive-live.png",
+    "source": "docs/tv-themes/concepts/scranton/home.png",
+    "sourceSha256": "d70ab21572ee446f0aeb700029b84e28b09f522f7620c18111f00b4370275039",
+    "method": {
+      "crop": [
+        19,
+        1740,
+        436,
+        243
+      ],
+      "clearedLiveAreas": [
+        [
+          10,
+          9,
+          426,
+          232
+        ]
+      ],
+      "fill": "#f3f1e9"
+    }
+  },
+  {
+    "asset": "themes/scranton/assets/reference/home-footer-live.png",
+    "source": "docs/tv-themes/concepts/scranton/home.png",
+    "sourceSha256": "d70ab21572ee446f0aeb700029b84e28b09f522f7620c18111f00b4370275039",
+    "method": {
+      "crop": [
+        0,
+        1982,
+        734,
+        159
+      ],
+      "clearedLiveAreas": [
+        [
+          10,
+          18,
+          350,
+          118
+        ]
+      ],
+      "fill": "#e8d8ba"
+    }
+  },
+  {
+    "asset": "themes/scranton/assets/reference/home-quote-live.png",
+    "source": "docs/tv-themes/concepts/scranton/home.png",
+    "sourceSha256": "d70ab21572ee446f0aeb700029b84e28b09f522f7620c18111f00b4370275039",
+    "method": {
+      "crop": [
+        467,
+        1743,
+        245,
+        259
+      ],
+      "clearedLiveAreas": [
+        [
+          12,
+          15,
+          231,
+          241
+        ]
+      ],
+      "fill": "#f7dd7d"
+    }
+  },
+  {
+    "asset": "themes/scranton/assets/reference/home-desk-live.png",
+    "source": "docs/tv-themes/concepts/scranton/home.png",
+    "sourceSha256": "d70ab21572ee446f0aeb700029b84e28b09f522f7620c18111f00b4370275039",
+    "method": {
+      "crop": [
+        0,
+        1262,
+        734,
+        165
+      ],
+      "clearedLiveAreas": [
+        [
+          22,
+          6,
+          625,
+          153
+        ]
+      ],
+      "fill": "#a9aaa7"
+    }
+  },
+  {
+    "asset": "themes/scranton/assets/reference/badge-cabinet-live.png",
+    "source": "docs/tv-themes/concepts/scranton/badges.png",
+    "sourceSha256": "a55ec23289ec6205c5c049de733b34e6073057777a43545361aefb82eb26a5d8",
+    "method": {
+      "crop": [
+        52,
+        421,
+        1015,
+        740
+      ],
+      "clearedLiveAreas": [
+        [
+          28,
+          65,
+          985,
+          270
+        ],
+        [
+          28,
+          298,
+          985,
+          506
+        ],
+        [
+          28,
+          531,
+          985,
+          710
+        ]
+      ],
+      "fill": "#918575"
+    }
+  },
+  {
+    "asset": "themes/scranton/assets/reference/badge-next-live.png",
+    "source": "docs/tv-themes/concepts/scranton/badges.png",
+    "sourceSha256": "a55ec23289ec6205c5c049de733b34e6073057777a43545361aefb82eb26a5d8",
+    "method": {
+      "crop": [
+        152,
+        1154,
+        670,
+        229
+      ],
+      "clearedLiveAreas": [
+        [
+          66,
+          59,
+          596,
+          186
+        ]
+      ],
+      "fill": "#eee4d1"
+    }
+  },
+  {
+    "asset": "themes/scranton/assets/reference/timer-sessions-live.png",
+    "source": "docs/tv-themes/concepts/scranton/timer.png",
+    "sourceSha256": "365ff879c8129bdfa74a989621362c402cdc9f0928b247e140710baf96586ba0",
+    "method": {
+      "crop": [
+        20,
+        977,
+        637,
+        252
+      ],
+      "clearedLiveAreas": [
+        [
+          31,
+          38,
+          607,
+          232
+        ]
+      ],
+      "fill": "#efede6"
+    }
+  },
+  {
+    "asset": "themes/scranton/assets/reference/timer-stat-live.png",
+    "source": "docs/tv-themes/concepts/scranton/timer.png",
+    "sourceSha256": "365ff879c8129bdfa74a989621362c402cdc9f0928b247e140710baf96586ba0",
+    "method": {
+      "crop": [
+        646,
+        951,
+        253,
+        269
+      ],
+      "clearedLiveAreas": [
+        [
+          23,
+          25,
+          225,
+          243
+        ]
+      ],
+      "fill": "#ebe5d6"
+    }
+  },
+  {
+    "asset": "themes/scranton/assets/reference/badge-base-live.png",
+    "source": "docs/tv-themes/concepts/scranton/badges.png",
+    "sourceSha256": "a55ec23289ec6205c5c049de733b34e6073057777a43545361aefb82eb26a5d8",
+    "method": {
+      "crop": [
+        135,
+        631,
+        260,
+        69
+      ],
+      "clearedLiveAreas": [
+        [
+          8,
+          7,
+          252,
+          62
+        ]
+      ],
+      "fill": "#e8e1d4"
+    }
+  },
+  {
+    "asset": "themes/scranton/assets/reference/home-tray-live.png",
+    "source": "docs/tv-themes/concepts/scranton/home.png",
+    "sourceSha256": "d70ab21572ee446f0aeb700029b84e28b09f522f7620c18111f00b4370275039",
+    "method": "exact blue physical tray, digit/label replacement regions only"
+  },
+  {
+    "asset": "themes/scranton/assets/reference/note-yellow.png",
+    "source": "docs/tv-themes/concepts/scranton/notes.png",
+    "sourceSha256": "d105143aa85b7ff90bf94d18d4c6da19d32795c67feb29a3b3bf66f61600a3c1",
+    "method": {
+      "crop": [
+        40,
+        478,
+        400,
+        192
+      ],
+      "clearedLiveAreas": [
+        [
+          8,
+          8,
+          392,
+          184
+        ]
+      ],
+      "fill": "#f7e7ba"
+    }
+  },
+  {
+    "asset": "themes/scranton/assets/reference/note-green.png",
+    "source": "docs/tv-themes/concepts/scranton/notes.png",
+    "sourceSha256": "d105143aa85b7ff90bf94d18d4c6da19d32795c67feb29a3b3bf66f61600a3c1",
+    "method": {
+      "crop": [
+        39,
+        670,
+        404,
+        161
+      ],
+      "clearedLiveAreas": [
+        [
+          8,
+          8,
+          396,
+          153
+        ]
+      ],
+      "fill": "#dce5de"
+    }
+  },
+  {
+    "asset": "themes/scranton/assets/reference/note-pink.png",
+    "source": "docs/tv-themes/concepts/scranton/notes.png",
+    "sourceSha256": "d105143aa85b7ff90bf94d18d4c6da19d32795c67feb29a3b3bf66f61600a3c1",
+    "method": {
+      "crop": [
+        39,
+        846,
+        405,
+        218
+      ],
+      "clearedLiveAreas": [
+        [
+          8,
+          8,
+          397,
+          210
+        ]
+      ],
+      "fill": "#f6e6a1"
+    }
+  },
+  {
+    "asset": "themes/scranton/assets/reference/todo-white.png",
+    "source": "docs/tv-themes/concepts/scranton/todos.png",
+    "sourceSha256": "69f8a10fd671ab0c386525ffefadb17042c2c116b36bd453ec642b121a80c35f",
+    "method": {
+      "crop": [
+        62,
+        581,
+        501,
+        126
+      ],
+      "clearedLiveAreas": [
+        [
+          8,
+          8,
+          493,
+          118
+        ]
+      ],
+      "fill": "#edeeee"
+    }
+  },
+  {
+    "asset": "themes/scranton/assets/reference/todo-yellow.png",
+    "source": "docs/tv-themes/concepts/scranton/todos.png",
+    "sourceSha256": "69f8a10fd671ab0c386525ffefadb17042c2c116b36bd453ec642b121a80c35f",
+    "method": {
+      "crop": [
+        590,
+        579,
+        474,
+        136
+      ],
+      "clearedLiveAreas": [
+        [
+          8,
+          8,
+          466,
+          128
+        ]
+      ],
+      "fill": "#f0df9e"
+    }
+  },
+  {
+    "asset": "themes/scranton/assets/reference/desk-texture-clean.png",
+    "source": "docs/tv-themes/concepts/scranton/timer.png",
+    "sourceSha256": "365ff879c8129bdfa74a989621362c402cdc9f0928b247e140710baf96586ba0",
+    "method": {
+      "crop": [
+        494,
+        941,
+        140,
+        26
+      ],
+      "method": "blank tabletop sample, no folded paper objects"
+    }
+  },
+  {
+    "asset": "themes/scranton/assets/reference/home-jar-scene-live.png",
+    "source": "docs/tv-themes/concepts/scranton/home.png",
+    "sourceSha256": "d70ab21572ee446f0aeb700029b84e28b09f522f7620c18111f00b4370275039",
+    "method": "clear native heading, form and jar count, preserve all surrounding objects"
+  },
+  {
+    "asset": "themes/scranton/assets/reference/home-desk-slot-live.png",
+    "source": "docs/tv-themes/concepts/scranton/home.png",
+    "sourceSha256": "d70ab21572ee446f0aeb700029b84e28b09f522f7620c18111f00b4370275039",
+    "method": "original deep metal slot, with question mark and slot number cleared"
+  },
+  {
+    "asset": "themes/scranton/assets/reference/badge-trophy-cutout.png",
+    "source": "themes/scranton/assets/reference/badge-trophy.png",
+    "sourceSha256": "9e5ba8ec233c71b44400b187094186a8034c4a87abd723077622290dd6accf7b",
+    "method": {
+      "method": "traced source polygon, original pixels retained",
+      "polygon": [
+        [
+          41,
+          0
+        ],
+        [
+          68,
+          1
+        ],
+        [
+          82,
+          30
+        ],
+        [
+          88,
+          82
+        ],
+        [
+          105,
+          130
+        ],
+        [
+          111,
+          152
+        ],
+        [
+          0,
+          155
+        ],
+        [
+          11,
+          123
+        ],
+        [
+          21,
+          108
+        ],
+        [
+          27,
+          59
+        ]
+      ]
+    }
+  },
+  {
+    "asset": "themes/scranton/assets/reference/badge-certificate-cutout.png",
+    "source": "themes/scranton/assets/reference/badge-certificate.png",
+    "sourceSha256": "a27403407633b1b7a8a372ae8d302099865715c2410e1c413b82a731c9721d76",
+    "method": {
+      "method": "traced source polygon, original pixels retained",
+      "polygon": [
+        [
+          1,
+          15
+        ],
+        [
+          168,
+          7
+        ],
+        [
+          176,
+          0
+        ],
+        [
+          184,
+          1
+        ],
+        [
+          180,
+          12
+        ],
+        [
+          210,
+          12
+        ],
+        [
+          213,
+          132
+        ],
+        [
+          0,
+          132
+        ]
+      ]
+    }
+  },
+  {
+    "asset": "themes/scranton/assets/reference/badge-best-mug-cutout.png",
+    "source": "themes/scranton/assets/reference/badge-best-mug.png",
+    "sourceSha256": "2ac1a1fd20bafe94a30893eb8875dcc407b63066960fdd63a01be1f7f7c3d3e5",
+    "method": {
+      "method": "traced source polygon, original pixels retained",
+      "polygon": [
+        [
+          20,
+          0
+        ],
+        [
+          126,
+          1
+        ],
+        [
+          127,
+          15
+        ],
+        [
+          142,
+          16
+        ],
+        [
+          155,
+          32
+        ],
+        [
+          157,
+          65
+        ],
+        [
+          145,
+          91
+        ],
+        [
+          126,
+          97
+        ],
+        [
+          121,
+          114
+        ],
+        [
+          22,
+          116
+        ],
+        [
+          9,
+          99
+        ],
+        [
+          8,
+          24
+        ]
+      ]
+    }
+  },
+  {
+    "asset": "themes/scranton/assets/reference/badge-in-tray-cutout.png",
+    "source": "themes/scranton/assets/reference/badge-in-tray.png",
+    "sourceSha256": "096a9b9f7b2cb03c8a359cb637b33e9c2b21bac9e13a45b52fc2e479e5b9cd61",
+    "method": {
+      "method": "traced source polygon, original pixels retained",
+      "polygon": [
+        [
+          0,
+          32
+        ],
+        [
+          94,
+          13
+        ],
+        [
+          99,
+          0
+        ],
+        [
+          191,
+          0
+        ],
+        [
+          193,
+          15
+        ],
+        [
+          240,
+          25
+        ],
+        [
+          242,
+          95
+        ],
+        [
+          0,
+          95
+        ]
+      ]
+    }
+  },
+  {
+    "asset": "themes/scranton/assets/reference/badge-dwight-cutout.png",
+    "source": "themes/scranton/assets/reference/badge-dwight.png",
+    "sourceSha256": "ace092a23af2c1e089da8b8cee4f93ba1c1913fd914171d2fa8dfbb31fda7646",
+    "method": {
+      "method": "traced source polygon, original pixels retained",
+      "polygon": [
+        [
+          20,
+          3
+        ],
+        [
+          44,
+          0
+        ],
+        [
+          61,
+          6
+        ],
+        [
+          79,
+          38
+        ],
+        [
+          69,
+          62
+        ],
+        [
+          76,
+          76
+        ],
+        [
+          69,
+          123
+        ],
+        [
+          81,
+          138
+        ],
+        [
+          1,
+          142
+        ],
+        [
+          4,
+          132
+        ],
+        [
+          9,
+          126
+        ],
+        [
+          12,
+          80
+        ],
+        [
+          10,
+          59
+        ],
+        [
+          5,
+          42
+        ]
+      ]
+    }
+  },
+  {
+    "asset": "themes/scranton/assets/reference/badge-printer-locked-cutout.png",
+    "source": "themes/scranton/assets/reference/badge-printer.png",
+    "sourceSha256": "b944a09ce4a37311fec12da3e77e91c460b0ca5083d0a7d034b0b4ef0765bde2",
+    "method": {
+      "method": "traced source polygon, original pixels retained",
+      "polygon": [
+        [
+          39,
+          0
+        ],
+        [
+          108,
+          0
+        ],
+        [
+          111,
+          15
+        ],
+        [
+          168,
+          16
+        ],
+        [
+          171,
+          35
+        ],
+        [
+          188,
+          36
+        ],
+        [
+          189,
+          111
+        ],
+        [
+          164,
+          117
+        ],
+        [
+          15,
+          115
+        ],
+        [
+          0,
+          108
+        ],
+        [
+          0,
+          56
+        ],
+        [
+          17,
+          30
+        ],
+        [
+          32,
+          27
+        ]
+      ]
+    }
+  },
+  {
+    "asset": "themes/scranton/assets/reference/badge-monitor-locked-cutout.png",
+    "source": "themes/scranton/assets/reference/badge-monitor.png",
+    "sourceSha256": "946f505d35b62926166f434cc034d08410d91933aa6156e8e7df21cabdea1f5e",
+    "method": {
+      "method": "traced source polygon, original pixels retained",
+      "polygon": [
+        [
+          5,
+          2
+        ],
+        [
+          138,
+          1
+        ],
+        [
+          139,
+          91
+        ],
+        [
+          87,
+          91
+        ],
+        [
+          96,
+          113
+        ],
+        [
+          121,
+          113
+        ],
+        [
+          122,
+          119
+        ],
+        [
+          24,
+          118
+        ],
+        [
+          25,
+          113
+        ],
+        [
+          52,
+          112
+        ],
+        [
+          57,
+          89
+        ],
+        [
+          3,
+          89
+        ]
+      ]
+    }
+  },
+  {
+    "asset": "themes/scranton/assets/reference/badge-phone-locked-cutout.png",
+    "source": "themes/scranton/assets/reference/badge-phone.png",
+    "sourceSha256": "993b2470664d47e70b96267d8816fc7fd5c816ced1248f00b07ac5b019797d58",
+    "method": {
+      "method": "traced source polygon, original pixels retained",
+      "polygon": [
+        [
+          42,
+          0
+        ],
+        [
+          85,
+          3
+        ],
+        [
+          95,
+          15
+        ],
+        [
+          133,
+          39
+        ],
+        [
+          146,
+          89
+        ],
+        [
+          149,
+          124
+        ],
+        [
+          0,
+          125
+        ],
+        [
+          0,
+          70
+        ],
+        [
+          3,
+          29
+        ],
+        [
+          18,
+          8
+        ]
+      ]
+    }
+  }
+]

@@ -1,0 +1,7 @@
+{
+  "sponge": {"label":"SpongeBob","status":"user-approved-v2","generated":"sponge-body-generated-v2.png","body":"sponge-body-fit-v2.png"},
+  "squidward": {"label":"Squidward","status":"user-approved","generated":"squidward-body-generated-v1.png","body":"squidward-body-fit-v1.png"},
+  "patrick": {"label":"Patrick","status":"user-approved-v2","generated":"patrick-body-generated-v2.png","body":"patrick-body-fit-v2.png"},
+  "mrkrabs": {"label":"Mr. Krabs","status":"user-approved","generated":"mrkrabs-body-generated-v1.png","body":"mrkrabs-body-fit-v1.png"},
+  "sandy": {"label":"Sandy","status":"user-approved","generated":"sandy-body-generated-v1.png","body":"sandy-body-fit-v1.png","fitFace":true}
+}

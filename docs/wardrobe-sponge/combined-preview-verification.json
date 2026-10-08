@@ -1,0 +1,12 @@
+{
+  "passed": true,
+  "errors": [],
+  "actions": [
+    "sponge: native face loads, removal and restoration pass",
+    "squidward: native face loads, removal and restoration pass",
+    "patrick: native face loads, removal and restoration pass",
+    "mrkrabs: native face loads, removal and restoration pass",
+    "sandy: native face loads, removal and restoration pass",
+    "Blink, rapid changes, 320px and 736px layouts pass"
+  ]
+}

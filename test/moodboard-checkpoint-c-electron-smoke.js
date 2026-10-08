@@ -75,7 +75,7 @@ app.whenReady().then(async () => {
       ensure(result.userBoardHeight <= 285, `${skin}: kullanıcı moodboard bölümü gereksiz yüksek: ${JSON.stringify(result)}`);
       ensure(result.neroBoardTop - result.userBoardBottom <= 24, `${skin}: iki moodboard arasında gereksiz boşluk var: ${JSON.stringify(result)}`);
       ensure(result.scrollWidth <= result.calWidth + 2, `${skin}: moodboard yatay taşıyor.`);
-      ensure(result.labels.map(x => x.title).join('|') === 'Muhteşem|İdare eder|Kötü',
+      ensure(result.labels.map(x => x.title).join('|') === 'İyi|İdare eder|Kötü',
         `${skin}: mood picker dili yanlış: ${JSON.stringify(result.labels)}`);
       ensure(result.labels.every(x => /olarak işaretle/.test(x.aria || '')),
         `${skin}: mood picker aria-label eksik.`);

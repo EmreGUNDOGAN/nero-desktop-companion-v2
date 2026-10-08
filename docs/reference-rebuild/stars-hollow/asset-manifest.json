@@ -1,0 +1,2901 @@
+[
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/home-hero.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/home.png",
+    "sourceSha256": "7bef7c04f902407fee581290b506917cdf950d0df49fc7e958cea8b4db579ad1",
+    "rect": [
+      0,
+      113,
+      743,
+      313
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      743,
+      313
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/notes-hero.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/notes.png",
+    "sourceSha256": "31241283d70dbce9b51cd526cd2cb2c3e899590cbdeb041c0d49ad5921e35f52",
+    "rect": [
+      0,
+      134,
+      887,
+      383
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      887,
+      383
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/todos-hero.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/todos.png",
+    "sourceSha256": "b22c0d386660e0a3725e5f15014c37578dcc62a52423cc6add1663aadee2ad9d",
+    "rect": [
+      0,
+      134,
+      887,
+      389
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      887,
+      389
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/timer-hero.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/timer.png",
+    "sourceSha256": "0cb3f6d3bd92de1fca00675d4d50e422be52372e20b72eb86ae0b97248b0a124",
+    "rect": [
+      0,
+      134,
+      887,
+      343
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      887,
+      343
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/badges-hero.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/badges.png",
+    "sourceSha256": "926f268f5af941c7acdecba5e9454346d49c9ec620e726265809be5b93b69a0e",
+    "rect": [
+      0,
+      134,
+      887,
+      317
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      887,
+      317
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/timer-table.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/timer.png",
+    "sourceSha256": "0cb3f6d3bd92de1fca00675d4d50e422be52372e20b72eb86ae0b97248b0a124",
+    "rect": [
+      0,
+      474,
+      887,
+      1300
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      887,
+      1300
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/timer-footer.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/timer.png",
+    "sourceSha256": "0cb3f6d3bd92de1fca00675d4d50e422be52372e20b72eb86ae0b97248b0a124",
+    "rect": [
+      0,
+      1598,
+      887,
+      176
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      887,
+      176
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/timer-receipt.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/timer.png",
+    "sourceSha256": "0cb3f6d3bd92de1fca00675d4d50e422be52372e20b72eb86ae0b97248b0a124",
+    "rect": [
+      710,
+      941,
+      176,
+      374
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      176,
+      374
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/timer-coffee-raw.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/timer.png",
+    "sourceSha256": "0cb3f6d3bd92de1fca00675d4d50e422be52372e20b72eb86ae0b97248b0a124",
+    "rect": [
+      189,
+      755,
+      526,
+      410
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      526,
+      410
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/timer-coffee-tag.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/timer.png",
+    "sourceSha256": "0cb3f6d3bd92de1fca00675d4d50e422be52372e20b72eb86ae0b97248b0a124",
+    "rect": [
+      319,
+      753,
+      239,
+      80
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      239,
+      80
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/wood.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/timer.png",
+    "sourceSha256": "0cb3f6d3bd92de1fca00675d4d50e422be52372e20b72eb86ae0b97248b0a124",
+    "rect": [
+      9,
+      887,
+      165,
+      157
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      165,
+      157
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/paper.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/notes.png",
+    "sourceSha256": "31241283d70dbce9b51cd526cd2cb2c3e899590cbdeb041c0d49ad5921e35f52",
+    "rect": [
+      300,
+      1291,
+      190,
+      82
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      190,
+      82
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/coffee-icon.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/timer.png",
+    "sourceSha256": "0cb3f6d3bd92de1fca00675d4d50e422be52372e20b72eb86ae0b97248b0a124",
+    "rect": [
+      206,
+      490,
+      61,
+      51
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      61,
+      51
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/dragonfly.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/todos.png",
+    "sourceSha256": "b22c0d386660e0a3725e5f15014c37578dcc62a52423cc6add1663aadee2ad9d",
+    "rect": [
+      406,
+      482,
+      85,
+      35
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      85,
+      35
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/notes-footer.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/notes.png",
+    "sourceSha256": "31241283d70dbce9b51cd526cd2cb2c3e899590cbdeb041c0d49ad5921e35f52",
+    "rect": [
+      0,
+      1491,
+      887,
+      283
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      887,
+      283
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/todos-footer.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/todos.png",
+    "sourceSha256": "b22c0d386660e0a3725e5f15014c37578dcc62a52423cc6add1663aadee2ad9d",
+    "rect": [
+      0,
+      1584,
+      887,
+      190
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      887,
+      190
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/yale-stamp.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/notes.png",
+    "sourceSha256": "31241283d70dbce9b51cd526cd2cb2c3e899590cbdeb041c0d49ad5921e35f52",
+    "rect": [
+      666,
+      608,
+      139,
+      94
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      139,
+      94
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/yale-ribbon.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/notes.png",
+    "sourceSha256": "31241283d70dbce9b51cd526cd2cb2c3e899590cbdeb041c0d49ad5921e35f52",
+    "rect": [
+      778,
+      1041,
+      58,
+      158
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      58,
+      158
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/gazebo-photo.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/home.png",
+    "sourceSha256": "7bef7c04f902407fee581290b506917cdf950d0df49fc7e958cea8b4db579ad1",
+    "rect": [
+      54,
+      1060,
+      223,
+      152
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      223,
+      152
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/note-yellow.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/notes.png",
+    "sourceSha256": "31241283d70dbce9b51cd526cd2cb2c3e899590cbdeb041c0d49ad5921e35f52",
+    "rect": [
+      43,
+      513,
+      802,
+      220
+    ],
+    "liveArea": [
+      22,
+      10,
+      760,
+      198
+    ],
+    "textureSource": "docs/tv-themes/concepts/stars-hollow/notes.png",
+    "textureSample": [
+      210,
+      1370,
+      480,
+      1400
+    ],
+    "size": [
+      802,
+      220
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/note-green.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/notes.png",
+    "sourceSha256": "31241283d70dbce9b51cd526cd2cb2c3e899590cbdeb041c0d49ad5921e35f52",
+    "rect": [
+      38,
+      746,
+      397,
+      211
+    ],
+    "liveArea": [
+      22,
+      10,
+      355,
+      189
+    ],
+    "textureSample": [
+      85,
+      907,
+      327,
+      920
+    ],
+    "size": [
+      397,
+      211
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/note-pink.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/notes.png",
+    "sourceSha256": "31241283d70dbce9b51cd526cd2cb2c3e899590cbdeb041c0d49ad5921e35f52",
+    "rect": [
+      447,
+      744,
+      413,
+      210
+    ],
+    "liveArea": [
+      22,
+      10,
+      371,
+      188
+    ],
+    "textureSample": [
+      620,
+      911,
+      799,
+      920
+    ],
+    "size": [
+      413,
+      210
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/note-book.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/notes.png",
+    "sourceSha256": "31241283d70dbce9b51cd526cd2cb2c3e899590cbdeb041c0d49ad5921e35f52",
+    "rect": [
+      14,
+      1036,
+      849,
+      507
+    ],
+    "liveArea": [
+      76,
+      10,
+      753,
+      485
+    ],
+    "textureSource": "docs/tv-themes/concepts/stars-hollow/notes.png",
+    "textureSample": [
+      210,
+      1370,
+      480,
+      1400
+    ],
+    "size": [
+      849,
+      507
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/timer-setup.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/timer.png",
+    "sourceSha256": "0cb3f6d3bd92de1fca00675d4d50e422be52372e20b72eb86ae0b97248b0a124",
+    "rect": [
+      128,
+      475,
+      631,
+      309
+    ],
+    "liveArea": [
+      22,
+      10,
+      589,
+      287
+    ],
+    "textureSample": [
+      171,
+      747,
+      292,
+      757
+    ],
+    "size": [
+      631,
+      309
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/timer-sessions.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/timer.png",
+    "sourceSha256": "0cb3f6d3bd92de1fca00675d4d50e422be52372e20b72eb86ae0b97248b0a124",
+    "rect": [
+      108,
+      1285,
+      678,
+      215
+    ],
+    "liveArea": [
+      22,
+      10,
+      636,
+      193
+    ],
+    "textureSample": [
+      171,
+      747,
+      292,
+      757
+    ],
+    "size": [
+      678,
+      215
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/timer-stat.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/timer.png",
+    "sourceSha256": "0cb3f6d3bd92de1fca00675d4d50e422be52372e20b72eb86ae0b97248b0a124",
+    "rect": [
+      173,
+      1503,
+      268,
+      96
+    ],
+    "liveArea": [
+      14,
+      10,
+      239,
+      74
+    ],
+    "textureSample": [
+      171,
+      747,
+      292,
+      757
+    ],
+    "size": [
+      268,
+      96
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/todo-paper.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/todos.png",
+    "sourceSha256": "b22c0d386660e0a3725e5f15014c37578dcc62a52423cc6add1663aadee2ad9d",
+    "rect": [
+      33,
+      710,
+      826,
+      531
+    ],
+    "liveArea": [
+      22,
+      10,
+      784,
+      509
+    ],
+    "textureSource": "docs/tv-themes/concepts/stars-hollow/timer.png",
+    "textureSample": [
+      171,
+      747,
+      292,
+      757
+    ],
+    "size": [
+      826,
+      531
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/todo-later.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/todos.png",
+    "sourceSha256": "b22c0d386660e0a3725e5f15014c37578dcc62a52423cc6add1663aadee2ad9d",
+    "rect": [
+      37,
+      1244,
+      821,
+      241
+    ],
+    "liveArea": [
+      22,
+      10,
+      779,
+      219
+    ],
+    "textureSource": "docs/tv-themes/concepts/stars-hollow/timer.png",
+    "textureSample": [
+      171,
+      747,
+      292,
+      757
+    ],
+    "size": [
+      821,
+      241
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/todo-capture.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/todos.png",
+    "sourceSha256": "b22c0d386660e0a3725e5f15014c37578dcc62a52423cc6add1663aadee2ad9d",
+    "rect": [
+      26,
+      521,
+      836,
+      183
+    ],
+    "liveArea": [
+      22,
+      10,
+      794,
+      161
+    ],
+    "textureSource": "docs/tv-themes/concepts/stars-hollow/timer.png",
+    "textureSample": [
+      171,
+      747,
+      292,
+      757
+    ],
+    "size": [
+      836,
+      183
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/title-paper.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/todos.png",
+    "sourceSha256": "b22c0d386660e0a3725e5f15014c37578dcc62a52423cc6add1663aadee2ad9d",
+    "rect": [
+      278,
+      410,
+      337,
+      110
+    ],
+    "liveArea": [
+      22,
+      10,
+      295,
+      88
+    ],
+    "textureSource": "docs/tv-themes/concepts/stars-hollow/timer.png",
+    "textureSample": [
+      171,
+      747,
+      292,
+      757
+    ],
+    "size": [
+      337,
+      110
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/home-stat.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/home.png",
+    "sourceSha256": "7bef7c04f902407fee581290b506917cdf950d0df49fc7e958cea8b4db579ad1",
+    "rect": [
+      29,
+      439,
+      220,
+      91
+    ],
+    "liveArea": [
+      19,
+      10,
+      181,
+      69
+    ],
+    "textureSource": "docs/tv-themes/concepts/stars-hollow/timer.png",
+    "textureSample": [
+      171,
+      747,
+      292,
+      757
+    ],
+    "size": [
+      220,
+      91
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/home-newspaper.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/home.png",
+    "sourceSha256": "7bef7c04f902407fee581290b506917cdf950d0df49fc7e958cea8b4db579ad1",
+    "rect": [
+      21,
+      1019,
+      672,
+      208
+    ],
+    "liveArea": [
+      22,
+      10,
+      630,
+      186
+    ],
+    "textureSource": "docs/tv-themes/concepts/stars-hollow/timer.png",
+    "textureSample": [
+      171,
+      747,
+      292,
+      757
+    ],
+    "size": [
+      672,
+      208
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/home-jar-paper.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/home.png",
+    "sourceSha256": "7bef7c04f902407fee581290b506917cdf950d0df49fc7e958cea8b4db579ad1",
+    "rect": [
+      88,
+      727,
+      558,
+      198
+    ],
+    "liveArea": [
+      22,
+      10,
+      516,
+      176
+    ],
+    "textureSource": "docs/tv-themes/concepts/stars-hollow/timer.png",
+    "textureSample": [
+      171,
+      747,
+      292,
+      757
+    ],
+    "size": [
+      558,
+      198
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/home-calendar.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/home.png",
+    "sourceSha256": "7bef7c04f902407fee581290b506917cdf950d0df49fc7e958cea8b4db579ad1",
+    "rect": [
+      9,
+      1372,
+      706,
+      268
+    ],
+    "liveArea": [
+      22,
+      10,
+      664,
+      246
+    ],
+    "textureSource": "docs/tv-themes/concepts/stars-hollow/notes.png",
+    "textureSample": [
+      210,
+      1370,
+      480,
+      1400
+    ],
+    "size": [
+      706,
+      268
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/home-archive.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/home.png",
+    "sourceSha256": "7bef7c04f902407fee581290b506917cdf950d0df49fc7e958cea8b4db579ad1",
+    "rect": [
+      29,
+      1651,
+      603,
+      194
+    ],
+    "liveArea": [
+      22,
+      10,
+      561,
+      172
+    ],
+    "textureSource": "docs/tv-themes/concepts/stars-hollow/timer.png",
+    "textureSample": [
+      171,
+      747,
+      292,
+      757
+    ],
+    "size": [
+      603,
+      194
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/home-bottom.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/home.png",
+    "sourceSha256": "7bef7c04f902407fee581290b506917cdf950d0df49fc7e958cea8b4db579ad1",
+    "rect": [
+      0,
+      1843,
+      743,
+      273
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      743,
+      273
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/home-desk.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/home.png",
+    "sourceSha256": "7bef7c04f902407fee581290b506917cdf950d0df49fc7e958cea8b4db579ad1",
+    "rect": [
+      0,
+      1229,
+      743,
+      143
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      743,
+      143
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/home-chalkboard.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/home.png",
+    "sourceSha256": "7bef7c04f902407fee581290b506917cdf950d0df49fc7e958cea8b4db579ad1",
+    "rect": [
+      18,
+      531,
+      700,
+      187
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      700,
+      187
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/badges-footer.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/badges.png",
+    "sourceSha256": "926f268f5af941c7acdecba5e9454346d49c9ec620e726265809be5b93b69a0e",
+    "rect": [
+      0,
+      1458,
+      887,
+      316
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      887,
+      316
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/badge-frame.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/badges.png",
+    "sourceSha256": "926f268f5af941c7acdecba5e9454346d49c9ec620e726265809be5b93b69a0e",
+    "rect": [
+      84,
+      701,
+      230,
+      262
+    ],
+    "liveArea": [
+      22,
+      10,
+      188,
+      240
+    ],
+    "textureSource": "docs/tv-themes/concepts/stars-hollow/timer.png",
+    "textureSample": [
+      171,
+      747,
+      292,
+      757
+    ],
+    "size": [
+      230,
+      262
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/brand-logo.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/timer.png",
+    "sourceSha256": "0cb3f6d3bd92de1fca00675d4d50e422be52372e20b72eb86ae0b97248b0a124",
+    "rect": [
+      392,
+      6,
+      109,
+      34
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      109,
+      34
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/brand-subtitle.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/timer.png",
+    "sourceSha256": "0cb3f6d3bd92de1fca00675d4d50e422be52372e20b72eb86ae0b97248b0a124",
+    "rect": [
+      366,
+      40,
+      157,
+      19
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      157,
+      19
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/chrome-paper.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/timer.png",
+    "sourceSha256": "0cb3f6d3bd92de1fca00675d4d50e422be52372e20b72eb86ae0b97248b0a124",
+    "rect": [
+      75,
+      7,
+      181,
+      41
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      181,
+      41
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/nav-home.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/timer.png",
+    "sourceSha256": "0cb3f6d3bd92de1fca00675d4d50e422be52372e20b72eb86ae0b97248b0a124",
+    "rect": [
+      110,
+      67,
+      40,
+      45
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      40,
+      45
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/nav-notes.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/timer.png",
+    "sourceSha256": "0cb3f6d3bd92de1fca00675d4d50e422be52372e20b72eb86ae0b97248b0a124",
+    "rect": [
+      236,
+      69,
+      42,
+      42
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      42,
+      42
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/nav-todos.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/timer.png",
+    "sourceSha256": "0cb3f6d3bd92de1fca00675d4d50e422be52372e20b72eb86ae0b97248b0a124",
+    "rect": [
+      360,
+      69,
+      42,
+      42
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      42,
+      42
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/nav-timer.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/timer.png",
+    "sourceSha256": "0cb3f6d3bd92de1fca00675d4d50e422be52372e20b72eb86ae0b97248b0a124",
+    "rect": [
+      483,
+      66,
+      42,
+      46
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      42,
+      46
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/nav-badges.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/timer.png",
+    "sourceSha256": "0cb3f6d3bd92de1fca00675d4d50e422be52372e20b72eb86ae0b97248b0a124",
+    "rect": [
+      606,
+      68,
+      42,
+      44
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      42,
+      44
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/nav-budget.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/timer.png",
+    "sourceSha256": "0cb3f6d3bd92de1fca00675d4d50e422be52372e20b72eb86ae0b97248b0a124",
+    "rect": [
+      732,
+      69,
+      42,
+      42
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      42,
+      42
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/input-frame.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/timer.png",
+    "sourceSha256": "0cb3f6d3bd92de1fca00675d4d50e422be52372e20b72eb86ae0b97248b0a124",
+    "rect": [
+      165,
+      633,
+      561,
+      43
+    ],
+    "liveArea": [
+      8,
+      10,
+      545,
+      26
+    ],
+    "textureSample": [
+      171,
+      747,
+      292,
+      757
+    ],
+    "size": [
+      561,
+      43
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/select-frame.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/timer.png",
+    "sourceSha256": "0cb3f6d3bd92de1fca00675d4d50e422be52372e20b72eb86ae0b97248b0a124",
+    "rect": [
+      165,
+      585,
+      561,
+      42
+    ],
+    "liveArea": [
+      8,
+      10,
+      533,
+      25
+    ],
+    "textureSample": [
+      171,
+      747,
+      292,
+      757
+    ],
+    "size": [
+      561,
+      42
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/button-light.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/timer.png",
+    "sourceSha256": "0cb3f6d3bd92de1fca00675d4d50e422be52372e20b72eb86ae0b97248b0a124",
+    "rect": [
+      164,
+      691,
+      83,
+      50
+    ],
+    "liveArea": [
+      10,
+      10,
+      63,
+      30
+    ],
+    "textureSample": [
+      171,
+      747,
+      292,
+      757
+    ],
+    "size": [
+      83,
+      50
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/button-wine.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/timer.png",
+    "sourceSha256": "0cb3f6d3bd92de1fca00675d4d50e422be52372e20b72eb86ae0b97248b0a124",
+    "rect": [
+      351,
+      691,
+      90,
+      50
+    ],
+    "liveArea": [
+      10,
+      10,
+      70,
+      30
+    ],
+    "textureSample": [
+      171,
+      747,
+      292,
+      757
+    ],
+    "size": [
+      90,
+      50
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/button-start.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/timer.png",
+    "sourceSha256": "0cb3f6d3bd92de1fca00675d4d50e422be52372e20b72eb86ae0b97248b0a124",
+    "rect": [
+      140,
+      1203,
+      375,
+      70
+    ],
+    "liveArea": [
+      12,
+      10,
+      351,
+      48
+    ],
+    "textureSample": [
+      171,
+      747,
+      292,
+      757
+    ],
+    "size": [
+      375,
+      70
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/button-reset.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/timer.png",
+    "sourceSha256": "0cb3f6d3bd92de1fca00675d4d50e422be52372e20b72eb86ae0b97248b0a124",
+    "rect": [
+      523,
+      1203,
+      224,
+      70
+    ],
+    "liveArea": [
+      12,
+      10,
+      200,
+      48
+    ],
+    "textureSample": [
+      171,
+      747,
+      292,
+      757
+    ],
+    "size": [
+      224,
+      70
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/icon-play.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/timer.png",
+    "sourceSha256": "0cb3f6d3bd92de1fca00675d4d50e422be52372e20b72eb86ae0b97248b0a124",
+    "rect": [
+      279,
+      1230,
+      27,
+      31
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      27,
+      31
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/icon-reset.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/timer.png",
+    "sourceSha256": "0cb3f6d3bd92de1fca00675d4d50e422be52372e20b72eb86ae0b97248b0a124",
+    "rect": [
+      577,
+      1226,
+      34,
+      36
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      34,
+      36
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/icon-check.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/timer.png",
+    "sourceSha256": "0cb3f6d3bd92de1fca00675d4d50e422be52372e20b72eb86ae0b97248b0a124",
+    "rect": [
+      153,
+      1359,
+      34,
+      34
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      34,
+      34
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/icon-pause.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/timer.png",
+    "sourceSha256": "0cb3f6d3bd92de1fca00675d4d50e422be52372e20b72eb86ae0b97248b0a124",
+    "rect": [
+      153,
+      1416,
+      34,
+      34
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      34,
+      34
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/progress-paper.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/timer.png",
+    "sourceSha256": "0cb3f6d3bd92de1fca00675d4d50e422be52372e20b72eb86ae0b97248b0a124",
+    "rect": [
+      176,
+      1149,
+      534,
+      39
+    ],
+    "liveArea": [
+      13,
+      10,
+      508,
+      22
+    ],
+    "textureSample": [
+      171,
+      747,
+      292,
+      757
+    ],
+    "size": [
+      534,
+      39
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/timer-teapot-left.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/timer.png",
+    "sourceSha256": "0cb3f6d3bd92de1fca00675d4d50e422be52372e20b72eb86ae0b97248b0a124",
+    "rect": [
+      0,
+      1280,
+      137,
+      491
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      137,
+      491
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/timer-sugar-left.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/timer.png",
+    "sourceSha256": "0cb3f6d3bd92de1fca00675d4d50e422be52372e20b72eb86ae0b97248b0a124",
+    "rect": [
+      0,
+      551,
+      129,
+      318
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      129,
+      318
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/timer-napkin-right.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/timer.png",
+    "sourceSha256": "0cb3f6d3bd92de1fca00675d4d50e422be52372e20b72eb86ae0b97248b0a124",
+    "rect": [
+      758,
+      547,
+      129,
+      365
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      129,
+      365
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/timer-milk-right.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/timer.png",
+    "sourceSha256": "0cb3f6d3bd92de1fca00675d4d50e422be52372e20b72eb86ae0b97248b0a124",
+    "rect": [
+      811,
+      1374,
+      76,
+      400
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      76,
+      400
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/timer-note-bottom.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/timer.png",
+    "sourceSha256": "0cb3f6d3bd92de1fca00675d4d50e422be52372e20b72eb86ae0b97248b0a124",
+    "rect": [
+      340,
+      1611,
+      440,
+      155
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      440,
+      155
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/coffee-icon-small.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/timer.png",
+    "sourceSha256": "0cb3f6d3bd92de1fca00675d4d50e422be52372e20b72eb86ae0b97248b0a124",
+    "rect": [
+      208,
+      1300,
+      39,
+      41
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      39,
+      41
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/note-clip.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/notes.png",
+    "sourceSha256": "31241283d70dbce9b51cd526cd2cb2c3e899590cbdeb041c0d49ad5921e35f52",
+    "rect": [
+      81,
+      509,
+      43,
+      79
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      43,
+      79
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/note-border-top.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/notes.png",
+    "sourceSha256": "31241283d70dbce9b51cd526cd2cb2c3e899590cbdeb041c0d49ad5921e35f52",
+    "rect": [
+      40,
+      514,
+      805,
+      35
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      805,
+      35
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/note-border-bottom.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/notes.png",
+    "sourceSha256": "31241283d70dbce9b51cd526cd2cb2c3e899590cbdeb041c0d49ad5921e35f52",
+    "rect": [
+      46,
+      711,
+      793,
+      24
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      793,
+      24
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/note-ring-binding.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/notes.png",
+    "sourceSha256": "31241283d70dbce9b51cd526cd2cb2c3e899590cbdeb041c0d49ad5921e35f52",
+    "rect": [
+      14,
+      1040,
+      70,
+      504
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      70,
+      504
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/note-pen-right.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/notes.png",
+    "sourceSha256": "31241283d70dbce9b51cd526cd2cb2c3e899590cbdeb041c0d49ad5921e35f52",
+    "rect": [
+      844,
+      1150,
+      42,
+      444
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      42,
+      444
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/note-library-mug.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/notes.png",
+    "sourceSha256": "31241283d70dbce9b51cd526cd2cb2c3e899590cbdeb041c0d49ad5921e35f52",
+    "rect": [
+      0,
+      1476,
+      184,
+      270
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      184,
+      270
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/note-books-bottom.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/notes.png",
+    "sourceSha256": "31241283d70dbce9b51cd526cd2cb2c3e899590cbdeb041c0d49ad5921e35f52",
+    "rect": [
+      506,
+      1491,
+      381,
+      277
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      381,
+      277
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/note-return-slip.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/notes.png",
+    "sourceSha256": "31241283d70dbce9b51cd526cd2cb2c3e899590cbdeb041c0d49ad5921e35f52",
+    "rect": [
+      143,
+      1567,
+      203,
+      207
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      203,
+      207
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/note-pencil-bottom.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/notes.png",
+    "sourceSha256": "31241283d70dbce9b51cd526cd2cb2c3e899590cbdeb041c0d49ad5921e35f52",
+    "rect": [
+      265,
+      1659,
+      430,
+      115
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      430,
+      115
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/note-ivy-left.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/notes.png",
+    "sourceSha256": "31241283d70dbce9b51cd526cd2cb2c3e899590cbdeb041c0d49ad5921e35f52",
+    "rect": [
+      0,
+      686,
+      42,
+      340
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      42,
+      340
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/notes-archive-strip.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/notes.png",
+    "sourceSha256": "31241283d70dbce9b51cd526cd2cb2c3e899590cbdeb041c0d49ad5921e35f52",
+    "rect": [
+      36,
+      965,
+      822,
+      59
+    ],
+    "liveArea": [
+      18,
+      10,
+      784,
+      37
+    ],
+    "textureSource": "docs/tv-themes/concepts/stars-hollow/notes.png",
+    "textureSample": [
+      210,
+      1370,
+      480,
+      1400
+    ],
+    "size": [
+      822,
+      59
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/tag-green.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/notes.png",
+    "sourceSha256": "31241283d70dbce9b51cd526cd2cb2c3e899590cbdeb041c0d49ad5921e35f52",
+    "rect": [
+      303,
+      761,
+      64,
+      28
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      64,
+      28
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/tag-wine.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/notes.png",
+    "sourceSha256": "31241283d70dbce9b51cd526cd2cb2c3e899590cbdeb041c0d49ad5921e35f52",
+    "rect": [
+      733,
+      761,
+      58,
+      27
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      58,
+      27
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/tag-blue.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/notes.png",
+    "sourceSha256": "31241283d70dbce9b51cd526cd2cb2c3e899590cbdeb041c0d49ad5921e35f52",
+    "rect": [
+      675,
+      549,
+      66,
+      27
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      66,
+      27
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/todo-clip.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/todos.png",
+    "sourceSha256": "b22c0d386660e0a3725e5f15014c37578dcc62a52423cc6add1663aadee2ad9d",
+    "rect": [
+      342,
+      669,
+      193,
+      76
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      193,
+      76
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/todo-paper-flower.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/todos.png",
+    "sourceSha256": "b22c0d386660e0a3725e5f15014c37578dcc62a52423cc6add1663aadee2ad9d",
+    "rect": [
+      755,
+      731,
+      73,
+      102
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      73,
+      102
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/todo-later-flower.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/todos.png",
+    "sourceSha256": "b22c0d386660e0a3725e5f15014c37578dcc62a52423cc6add1663aadee2ad9d",
+    "rect": [
+      714,
+      1244,
+      93,
+      77
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      93,
+      77
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/todo-pin-gold.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/todos.png",
+    "sourceSha256": "b22c0d386660e0a3725e5f15014c37578dcc62a52423cc6add1663aadee2ad9d",
+    "rect": [
+      426,
+      1228,
+      23,
+      36
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      23,
+      36
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/todo-dragonfly-stamp.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/todos.png",
+    "sourceSha256": "b22c0d386660e0a3725e5f15014c37578dcc62a52423cc6add1663aadee2ad9d",
+    "rect": [
+      410,
+      757,
+      73,
+      37
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      73,
+      37
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/todo-inn-heading.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/todos.png",
+    "sourceSha256": "b22c0d386660e0a3725e5f15014c37578dcc62a52423cc6add1663aadee2ad9d",
+    "rect": [
+      570,
+      755,
+      190,
+      40
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      190,
+      40
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/todo-mug-left.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/todos.png",
+    "sourceSha256": "b22c0d386660e0a3725e5f15014c37578dcc62a52423cc6add1663aadee2ad9d",
+    "rect": [
+      0,
+      1478,
+      142,
+      268
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      142,
+      268
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/todo-keyring.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/todos.png",
+    "sourceSha256": "b22c0d386660e0a3725e5f15014c37578dcc62a52423cc6add1663aadee2ad9d",
+    "rect": [
+      211,
+      1585,
+      362,
+      120
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      362,
+      120
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/todo-sookie-note.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/todos.png",
+    "sourceSha256": "b22c0d386660e0a3725e5f15014c37578dcc62a52423cc6add1663aadee2ad9d",
+    "rect": [
+      622,
+      1546,
+      265,
+      220
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      265,
+      220
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/todo-towel-left.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/todos.png",
+    "sourceSha256": "b22c0d386660e0a3725e5f15014c37578dcc62a52423cc6add1663aadee2ad9d",
+    "rect": [
+      0,
+      1627,
+      193,
+      147
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      193,
+      147
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/todo-ivy-right.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/todos.png",
+    "sourceSha256": "b22c0d386660e0a3725e5f15014c37578dcc62a52423cc6add1663aadee2ad9d",
+    "rect": [
+      845,
+      782,
+      42,
+      766
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      42,
+      766
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/todo-archive-strip.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/todos.png",
+    "sourceSha256": "b22c0d386660e0a3725e5f15014c37578dcc62a52423cc6add1663aadee2ad9d",
+    "rect": [
+      128,
+      1495,
+      638,
+      92
+    ],
+    "liveArea": [
+      22,
+      10,
+      596,
+      70
+    ],
+    "textureSource": "docs/tv-themes/concepts/stars-hollow/timer.png",
+    "textureSample": [
+      171,
+      747,
+      292,
+      757
+    ],
+    "size": [
+      638,
+      92
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/todo-drag-icon.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/todos.png",
+    "sourceSha256": "b22c0d386660e0a3725e5f15014c37578dcc62a52423cc6add1663aadee2ad9d",
+    "rect": [
+      267,
+      1454,
+      18,
+      20
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      18,
+      20
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/home-stars-hollow-plaque.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/home.png",
+    "sourceSha256": "7bef7c04f902407fee581290b506917cdf950d0df49fc7e958cea8b4db579ad1",
+    "rect": [
+      288,
+      397,
+      154,
+      28
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      154,
+      28
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/home-stat-clip.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/home.png",
+    "sourceSha256": "7bef7c04f902407fee581290b506917cdf950d0df49fc7e958cea8b4db579ad1",
+    "rect": [
+      120,
+      424,
+      26,
+      34
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      26,
+      34
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/home-stat-cup.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/home.png",
+    "sourceSha256": "7bef7c04f902407fee581290b506917cdf950d0df49fc7e958cea8b4db579ad1",
+    "rect": [
+      44,
+      459,
+      52,
+      42
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      52,
+      42
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/home-stat-takeaway.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/home.png",
+    "sourceSha256": "7bef7c04f902407fee581290b506917cdf950d0df49fc7e958cea8b4db579ad1",
+    "rect": [
+      286,
+      462,
+      31,
+      47
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      31,
+      47
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/home-stat-steaming-cup.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/home.png",
+    "sourceSha256": "7bef7c04f902407fee581290b506917cdf950d0df49fc7e958cea8b4db579ad1",
+    "rect": [
+      528,
+      462,
+      40,
+      48
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      40,
+      48
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/home-chalkboard-frame-top.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/home.png",
+    "sourceSha256": "7bef7c04f902407fee581290b506917cdf950d0df49fc7e958cea8b4db579ad1",
+    "rect": [
+      17,
+      531,
+      700,
+      18
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      700,
+      18
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/home-chalkboard-frame-bottom.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/home.png",
+    "sourceSha256": "7bef7c04f902407fee581290b506917cdf950d0df49fc7e958cea8b4db579ad1",
+    "rect": [
+      17,
+      700,
+      701,
+      22
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      701,
+      22
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/home-chalk-texture.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/home.png",
+    "sourceSha256": "7bef7c04f902407fee581290b506917cdf950d0df49fc7e958cea8b4db579ad1",
+    "rect": [
+      369,
+      580,
+      65,
+      24
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      65,
+      24
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/home-chalk-cup.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/home.png",
+    "sourceSha256": "7bef7c04f902407fee581290b506917cdf950d0df49fc7e958cea8b4db579ad1",
+    "rect": [
+      636,
+      550,
+      53,
+      55
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      53,
+      55
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/home-memory-jar.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/home.png",
+    "sourceSha256": "7bef7c04f902407fee581290b506917cdf950d0df49fc7e958cea8b4db579ad1",
+    "rect": [
+      506,
+      751,
+      143,
+      175
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      143,
+      175
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/home-jar-bell.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/home.png",
+    "sourceSha256": "7bef7c04f902407fee581290b506917cdf950d0df49fc7e958cea8b4db579ad1",
+    "rect": [
+      57,
+      812,
+      32,
+      112
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      32,
+      112
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/home-jar-daisies-left.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/home.png",
+    "sourceSha256": "7bef7c04f902407fee581290b506917cdf950d0df49fc7e958cea8b4db579ad1",
+    "rect": [
+      0,
+      724,
+      97,
+      147
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      97,
+      147
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/home-jar-daisies-right.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/home.png",
+    "sourceSha256": "7bef7c04f902407fee581290b506917cdf950d0df49fc7e958cea8b4db579ad1",
+    "rect": [
+      659,
+      730,
+      84,
+      105
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      84,
+      105
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/home-jar-keyring.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/home.png",
+    "sourceSha256": "7bef7c04f902407fee581290b506917cdf950d0df49fc7e958cea8b4db579ad1",
+    "rect": [
+      611,
+      868,
+      127,
+      65
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      127,
+      65
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/home-desk-mug.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/home.png",
+    "sourceSha256": "7bef7c04f902407fee581290b506917cdf950d0df49fc7e958cea8b4db579ad1",
+    "rect": [
+      47,
+      1280,
+      65,
+      74
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      65,
+      74
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/home-desk-book.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/home.png",
+    "sourceSha256": "7bef7c04f902407fee581290b506917cdf950d0df49fc7e958cea8b4db579ad1",
+    "rect": [
+      121,
+      1280,
+      53,
+      77
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      53,
+      77
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/home-desk-snowglobe.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/home.png",
+    "sourceSha256": "7bef7c04f902407fee581290b506917cdf950d0df49fc7e958cea8b4db579ad1",
+    "rect": [
+      646,
+      1280,
+      97,
+      82
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      97,
+      82
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/home-newspaper-photo.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/home.png",
+    "sourceSha256": "7bef7c04f902407fee581290b506917cdf950d0df49fc7e958cea8b4db579ad1",
+    "rect": [
+      54,
+      1060,
+      223,
+      152
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      223,
+      152
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/home-newspaper-heading.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/home.png",
+    "sourceSha256": "7bef7c04f902407fee581290b506917cdf950d0df49fc7e958cea8b4db579ad1",
+    "rect": [
+      431,
+      1036,
+      216,
+      31
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      216,
+      31
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/home-calendar-rings.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/home.png",
+    "sourceSha256": "7bef7c04f902407fee581290b506917cdf950d0df49fc7e958cea8b4db579ad1",
+    "rect": [
+      8,
+      1380,
+      56,
+      256
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      56,
+      256
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/home-calendar-yale.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/home.png",
+    "sourceSha256": "7bef7c04f902407fee581290b506917cdf950d0df49fc7e958cea8b4db579ad1",
+    "rect": [
+      650,
+      1398,
+      82,
+      162
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      82,
+      162
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/home-archive-photo.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/home.png",
+    "sourceSha256": "7bef7c04f902407fee581290b506917cdf950d0df49fc7e958cea8b4db579ad1",
+    "rect": [
+      54,
+      1681,
+      162,
+      146
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      162,
+      146
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/home-archive-pin.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/home.png",
+    "sourceSha256": "7bef7c04f902407fee581290b506917cdf950d0df49fc7e958cea8b4db579ad1",
+    "rect": [
+      137,
+      1651,
+      28,
+      29
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      28,
+      29
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/home-autumn-leaves.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/home.png",
+    "sourceSha256": "7bef7c04f902407fee581290b506917cdf950d0df49fc7e958cea8b4db579ad1",
+    "rect": [
+      57,
+      1774,
+      106,
+      72
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      106,
+      72
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/home-footer-mug.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/home.png",
+    "sourceSha256": "7bef7c04f902407fee581290b506917cdf950d0df49fc7e958cea8b4db579ad1",
+    "rect": [
+      0,
+      1853,
+      108,
+      175
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      108,
+      175
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/home-footer-newspaper.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/home.png",
+    "sourceSha256": "7bef7c04f902407fee581290b506917cdf950d0df49fc7e958cea8b4db579ad1",
+    "rect": [
+      531,
+      2020,
+      212,
+      96
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      212,
+      96
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/badge-corkboard.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/badges.png",
+    "sourceSha256": "926f268f5af941c7acdecba5e9454346d49c9ec620e726265809be5b93b69a0e",
+    "rect": [
+      8,
+      646,
+      875,
+      715
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      875,
+      715
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/badge-cork-texture.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/badges.png",
+    "sourceSha256": "926f268f5af941c7acdecba5e9454346d49c9ec620e726265809be5b93b69a0e",
+    "rect": [
+      315,
+      945,
+      12,
+      117
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      12,
+      117
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/badge-header-gazebo.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/badges.png",
+    "sourceSha256": "926f268f5af941c7acdecba5e9454346d49c9ec620e726265809be5b93b69a0e",
+    "rect": [
+      344,
+      455,
+      223,
+      110
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      223,
+      110
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/badge-cup.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/badges.png",
+    "sourceSha256": "926f268f5af941c7acdecba5e9454346d49c9ec620e726265809be5b93b69a0e",
+    "rect": [
+      171,
+      744,
+      122,
+      111
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      122,
+      111
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/badge-library-tag.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/badges.png",
+    "sourceSha256": "926f268f5af941c7acdecba5e9454346d49c9ec620e726265809be5b93b69a0e",
+    "rect": [
+      429,
+      725,
+      135,
+      164
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      135,
+      164
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/badge-dragonfly-tag.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/badges.png",
+    "sourceSha256": "926f268f5af941c7acdecba5e9454346d49c9ec620e726265809be5b93b69a0e",
+    "rect": [
+      703,
+      747,
+      145,
+      146
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      145,
+      146
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/badge-gazebo-photo.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/badges.png",
+    "sourceSha256": "926f268f5af941c7acdecba5e9454346d49c9ec620e726265809be5b93b69a0e",
+    "rect": [
+      158,
+      973,
+      139,
+      137
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      139,
+      137
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/badge-cassette.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/badges.png",
+    "sourceSha256": "926f268f5af941c7acdecba5e9454346d49c9ec620e726265809be5b93b69a0e",
+    "rect": [
+      426,
+      968,
+      141,
+      139
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      141,
+      139
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/badge-signpost-sketch.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/badges.png",
+    "sourceSha256": "926f268f5af941c7acdecba5e9454346d49c9ec620e726265809be5b93b69a0e",
+    "rect": [
+      727,
+      1009,
+      126,
+      110
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      126,
+      110
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/badge-books-sketch.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/badges.png",
+    "sourceSha256": "926f268f5af941c7acdecba5e9454346d49c9ec620e726265809be5b93b69a0e",
+    "rect": [
+      169,
+      1218,
+      123,
+      89
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      123,
+      89
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/badge-headphones-sketch.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/badges.png",
+    "sourceSha256": "926f268f5af941c7acdecba5e9454346d49c9ec620e726265809be5b93b69a0e",
+    "rect": [
+      446,
+      1233,
+      119,
+      93
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      119,
+      93
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/badge-road-sketch.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/badges.png",
+    "sourceSha256": "926f268f5af941c7acdecba5e9454346d49c9ec620e726265809be5b93b69a0e",
+    "rect": [
+      660,
+      1245,
+      197,
+      85
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      197,
+      85
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/badge-pin-red.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/badges.png",
+    "sourceSha256": "926f268f5af941c7acdecba5e9454346d49c9ec620e726265809be5b93b69a0e",
+    "rect": [
+      146,
+      662,
+      34,
+      33
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      34,
+      33
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/badge-pin-blue.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/badges.png",
+    "sourceSha256": "926f268f5af941c7acdecba5e9454346d49c9ec620e726265809be5b93b69a0e",
+    "rect": [
+      426,
+      662,
+      34,
+      34
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      34,
+      34
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/badge-pin-green.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/badges.png",
+    "sourceSha256": "926f268f5af941c7acdecba5e9454346d49c9ec620e726265809be5b93b69a0e",
+    "rect": [
+      693,
+      662,
+      34,
+      34
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      34,
+      34
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/badge-pin-gold.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/badges.png",
+    "sourceSha256": "926f268f5af941c7acdecba5e9454346d49c9ec620e726265809be5b93b69a0e",
+    "rect": [
+      700,
+      900,
+      38,
+      42
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      38,
+      42
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/badge-paper.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/badges.png",
+    "sourceSha256": "926f268f5af941c7acdecba5e9454346d49c9ec620e726265809be5b93b69a0e",
+    "rect": [
+      43,
+      675,
+      260,
+      224
+    ],
+    "liveArea": [
+      18,
+      10,
+      222,
+      202
+    ],
+    "textureSource": "docs/tv-themes/concepts/stars-hollow/timer.png",
+    "textureSample": [
+      171,
+      747,
+      292,
+      757
+    ],
+    "size": [
+      260,
+      224
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/badge-header-paper.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/badges.png",
+    "sourceSha256": "926f268f5af941c7acdecba5e9454346d49c9ec620e726265809be5b93b69a0e",
+    "rect": [
+      28,
+      451,
+      835,
+      190
+    ],
+    "liveArea": [
+      22,
+      10,
+      793,
+      168
+    ],
+    "textureSource": "docs/tv-themes/concepts/stars-hollow/timer.png",
+    "textureSample": [
+      171,
+      747,
+      292,
+      757
+    ],
+    "size": [
+      835,
+      190
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/badge-next-paper.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/badges.png",
+    "sourceSha256": "926f268f5af941c7acdecba5e9454346d49c9ec620e726265809be5b93b69a0e",
+    "rect": [
+      26,
+      1364,
+      666,
+      210
+    ],
+    "liveArea": [
+      22,
+      10,
+      624,
+      188
+    ],
+    "textureSource": "docs/tv-themes/concepts/stars-hollow/timer.png",
+    "textureSample": [
+      171,
+      747,
+      292,
+      757
+    ],
+    "size": [
+      666,
+      210
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/badge-festival-ticket.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/badges.png",
+    "sourceSha256": "926f268f5af941c7acdecba5e9454346d49c9ec620e726265809be5b93b69a0e",
+    "rect": [
+      617,
+      1340,
+      270,
+      150
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      270,
+      150
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/badge-coffee-card.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/badges.png",
+    "sourceSha256": "926f268f5af941c7acdecba5e9454346d49c9ec620e726265809be5b93b69a0e",
+    "rect": [
+      611,
+      1486,
+      247,
+      102
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      247,
+      102
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/badge-bottom-book.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/badges.png",
+    "sourceSha256": "926f268f5af941c7acdecba5e9454346d49c9ec620e726265809be5b93b69a0e",
+    "rect": [
+      0,
+      1590,
+      380,
+      115
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      380,
+      115
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/badge-bottom-cassette.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/badges.png",
+    "sourceSha256": "926f268f5af941c7acdecba5e9454346d49c9ec620e726265809be5b93b69a0e",
+    "rect": [
+      52,
+      1649,
+      344,
+      100
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      344,
+      100
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/badge-bottom-photo.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/badges.png",
+    "sourceSha256": "926f268f5af941c7acdecba5e9454346d49c9ec620e726265809be5b93b69a0e",
+    "rect": [
+      478,
+      1577,
+      351,
+      197
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      351,
+      197
+    ]
+  },
+  {
+    "theme": "stars-hollow",
+    "asset": "themes/stars-hollow/assets/reference/badge-bottom-leaves.png",
+    "source": "docs/tv-themes/concepts/stars-hollow/badges.png",
+    "sourceSha256": "926f268f5af941c7acdecba5e9454346d49c9ec620e726265809be5b93b69a0e",
+    "rect": [
+      363,
+      1623,
+      149,
+      141
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      149,
+      141
+    ]
+  }
+]

@@ -1,0 +1,768 @@
+[
+  {
+    "theme": "scranton",
+    "asset": "themes/scranton/assets/reference/home-hero.png",
+    "source": "docs/tv-themes/concepts/scranton/home.png",
+    "sourceSha256": "d70ab21572ee446f0aeb700029b84e28b09f522f7620c18111f00b4370275039",
+    "rect": [
+      0,
+      56,
+      734,
+      310
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      734,
+      310
+    ]
+  },
+  {
+    "theme": "scranton",
+    "asset": "themes/scranton/assets/reference/notes-hero.png",
+    "source": "docs/tv-themes/concepts/scranton/notes.png",
+    "sourceSha256": "d105143aa85b7ff90bf94d18d4c6da19d32795c67feb29a3b3bf66f61600a3c1",
+    "rect": [
+      0,
+      82,
+      1122,
+      349
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      1122,
+      349
+    ]
+  },
+  {
+    "theme": "scranton",
+    "asset": "themes/scranton/assets/reference/todos-hero.png",
+    "source": "docs/tv-themes/concepts/scranton/todos.png",
+    "sourceSha256": "69f8a10fd671ab0c386525ffefadb17042c2c116b36bd453ec642b121a80c35f",
+    "rect": [
+      0,
+      126,
+      1122,
+      247
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      1122,
+      247
+    ]
+  },
+  {
+    "theme": "scranton",
+    "asset": "themes/scranton/assets/reference/timer-hero.png",
+    "source": "docs/tv-themes/concepts/scranton/timer.png",
+    "sourceSha256": "365ff879c8129bdfa74a989621362c402cdc9f0928b247e140710baf96586ba0",
+    "rect": [
+      0,
+      139,
+      1122,
+      295
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      1122,
+      295
+    ]
+  },
+  {
+    "theme": "scranton",
+    "asset": "themes/scranton/assets/reference/badges-hero.png",
+    "source": "docs/tv-themes/concepts/scranton/badges.png",
+    "sourceSha256": "a55ec23289ec6205c5c049de733b34e6073057777a43545361aefb82eb26a5d8",
+    "rect": [
+      43,
+      124,
+      1038,
+      234
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      1038,
+      234
+    ]
+  },
+  {
+    "theme": "scranton",
+    "asset": "themes/scranton/assets/reference/timer-clock-raw.png",
+    "source": "docs/tv-themes/concepts/scranton/timer.png",
+    "sourceSha256": "365ff879c8129bdfa74a989621362c402cdc9f0928b247e140710baf96586ba0",
+    "rect": [
+      493,
+      469,
+      544,
+      338
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      544,
+      338
+    ]
+  },
+  {
+    "theme": "scranton",
+    "asset": "themes/scranton/assets/reference/timer-table.png",
+    "source": "docs/tv-themes/concepts/scranton/timer.png",
+    "sourceSha256": "365ff879c8129bdfa74a989621362c402cdc9f0928b247e140710baf96586ba0",
+    "rect": [
+      0,
+      433,
+      1122,
+      969
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      1122,
+      969
+    ]
+  },
+  {
+    "theme": "scranton",
+    "asset": "themes/scranton/assets/reference/timer-footer.png",
+    "source": "docs/tv-themes/concepts/scranton/timer.png",
+    "sourceSha256": "365ff879c8129bdfa74a989621362c402cdc9f0928b247e140710baf96586ba0",
+    "rect": [
+      0,
+      1209,
+      1122,
+      193
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      1122,
+      193
+    ]
+  },
+  {
+    "theme": "scranton",
+    "asset": "themes/scranton/assets/reference/notes-footer.png",
+    "source": "docs/tv-themes/concepts/scranton/notes.png",
+    "sourceSha256": "d105143aa85b7ff90bf94d18d4c6da19d32795c67feb29a3b3bf66f61600a3c1",
+    "rect": [
+      0,
+      1103,
+      1122,
+      299
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      1122,
+      299
+    ]
+  },
+  {
+    "theme": "scranton",
+    "asset": "themes/scranton/assets/reference/todos-footer.png",
+    "source": "docs/tv-themes/concepts/scranton/todos.png",
+    "sourceSha256": "69f8a10fd671ab0c386525ffefadb17042c2c116b36bd453ec642b121a80c35f",
+    "rect": [
+      0,
+      1105,
+      1122,
+      297
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      1122,
+      297
+    ]
+  },
+  {
+    "theme": "scranton",
+    "asset": "themes/scranton/assets/reference/office-logo.png",
+    "source": "docs/tv-themes/concepts/scranton/notes.png",
+    "sourceSha256": "d105143aa85b7ff90bf94d18d4c6da19d32795c67feb29a3b3bf66f61600a3c1",
+    "rect": [
+      841,
+      7,
+      109,
+      74
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      109,
+      74
+    ]
+  },
+  {
+    "theme": "scranton",
+    "asset": "themes/scranton/assets/reference/scranton-stamp.png",
+    "source": "docs/tv-themes/concepts/scranton/notes.png",
+    "sourceSha256": "d105143aa85b7ff90bf94d18d4c6da19d32795c67feb29a3b3bf66f61600a3c1",
+    "rect": [
+      874,
+      1140,
+      226,
+      122
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      226,
+      122
+    ]
+  },
+  {
+    "theme": "scranton",
+    "asset": "themes/scranton/assets/reference/paper.png",
+    "source": "docs/tv-themes/concepts/scranton/notes.png",
+    "sourceSha256": "d105143aa85b7ff90bf94d18d4c6da19d32795c67feb29a3b3bf66f61600a3c1",
+    "rect": [
+      725,
+      994,
+      194,
+      78
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      194,
+      78
+    ]
+  },
+  {
+    "theme": "scranton",
+    "asset": "themes/scranton/assets/reference/desk-texture.png",
+    "source": "docs/tv-themes/concepts/scranton/timer.png",
+    "sourceSha256": "365ff879c8129bdfa74a989621362c402cdc9f0928b247e140710baf96586ba0",
+    "rect": [
+      752,
+      932,
+      155,
+      51
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      155,
+      51
+    ]
+  },
+  {
+    "theme": "scranton",
+    "asset": "themes/scranton/assets/reference/clock-label.png",
+    "source": "docs/tv-themes/concepts/scranton/timer.png",
+    "sourceSha256": "365ff879c8129bdfa74a989621362c402cdc9f0928b247e140710baf96586ba0",
+    "rect": [
+      685,
+      502,
+      182,
+      33
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      182,
+      33
+    ]
+  },
+  {
+    "theme": "scranton",
+    "asset": "themes/scranton/assets/reference/blue-tray.png",
+    "source": "docs/tv-themes/concepts/scranton/notes.png",
+    "sourceSha256": "d105143aa85b7ff90bf94d18d4c6da19d32795c67feb29a3b3bf66f61600a3c1",
+    "rect": [
+      18,
+      402,
+      444,
+      703
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      444,
+      703
+    ]
+  },
+  {
+    "theme": "scranton",
+    "asset": "themes/scranton/assets/reference/note-pin-red.png",
+    "source": "docs/tv-themes/concepts/scranton/notes.png",
+    "sourceSha256": "d105143aa85b7ff90bf94d18d4c6da19d32795c67feb29a3b3bf66f61600a3c1",
+    "rect": [
+      64,
+      480,
+      30,
+      59
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      30,
+      59
+    ]
+  },
+  {
+    "theme": "scranton",
+    "asset": "themes/scranton/assets/reference/note-pin-grey.png",
+    "source": "docs/tv-themes/concepts/scranton/notes.png",
+    "sourceSha256": "d105143aa85b7ff90bf94d18d4c6da19d32795c67feb29a3b3bf66f61600a3c1",
+    "rect": [
+      75,
+      663,
+      28,
+      61
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      28,
+      61
+    ]
+  },
+  {
+    "theme": "scranton",
+    "asset": "themes/scranton/assets/reference/note-sticky.png",
+    "source": "docs/tv-themes/concepts/scranton/notes.png",
+    "sourceSha256": "d105143aa85b7ff90bf94d18d4c6da19d32795c67feb29a3b3bf66f61600a3c1",
+    "rect": [
+      704,
+      318,
+      124,
+      117
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      124,
+      117
+    ]
+  },
+  {
+    "theme": "scranton",
+    "asset": "themes/scranton/assets/reference/timer-sticky.png",
+    "source": "docs/tv-themes/concepts/scranton/timer.png",
+    "sourceSha256": "365ff879c8129bdfa74a989621362c402cdc9f0928b247e140710baf96586ba0",
+    "rect": [
+      914,
+      974,
+      208,
+      193
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      208,
+      193
+    ]
+  },
+  {
+    "theme": "scranton",
+    "asset": "themes/scranton/assets/reference/note-yellow.png",
+    "source": "docs/tv-themes/concepts/scranton/notes.png",
+    "sourceSha256": "d105143aa85b7ff90bf94d18d4c6da19d32795c67feb29a3b3bf66f61600a3c1",
+    "rect": [
+      40,
+      478,
+      400,
+      192
+    ],
+    "liveArea": [
+      38,
+      20,
+      345,
+      154
+    ],
+    "textureSample": [
+      126,
+      483,
+      309,
+      501
+    ],
+    "size": [
+      400,
+      192
+    ]
+  },
+  {
+    "theme": "scranton",
+    "asset": "themes/scranton/assets/reference/note-green.png",
+    "source": "docs/tv-themes/concepts/scranton/notes.png",
+    "sourceSha256": "d105143aa85b7ff90bf94d18d4c6da19d32795c67feb29a3b3bf66f61600a3c1",
+    "rect": [
+      39,
+      670,
+      404,
+      161
+    ],
+    "liveArea": [
+      29,
+      24,
+      355,
+      117
+    ],
+    "textureSample": [
+      229,
+      800,
+      393,
+      820
+    ],
+    "size": [
+      404,
+      161
+    ]
+  },
+  {
+    "theme": "scranton",
+    "asset": "themes/scranton/assets/reference/note-book.png",
+    "source": "docs/tv-themes/concepts/scranton/notes.png",
+    "sourceSha256": "d105143aa85b7ff90bf94d18d4c6da19d32795c67feb29a3b3bf66f61600a3c1",
+    "rect": [
+      470,
+      427,
+      643,
+      677
+    ],
+    "liveArea": [
+      65,
+      60,
+      552,
+      593
+    ],
+    "textureSample": [
+      621,
+      958,
+      1035,
+      1000
+    ],
+    "size": [
+      643,
+      677
+    ]
+  },
+  {
+    "theme": "scranton",
+    "asset": "themes/scranton/assets/reference/timer-sessions.png",
+    "source": "docs/tv-themes/concepts/scranton/timer.png",
+    "sourceSha256": "365ff879c8129bdfa74a989621362c402cdc9f0928b247e140710baf96586ba0",
+    "rect": [
+      20,
+      977,
+      637,
+      252
+    ],
+    "liveArea": [
+      48,
+      47,
+      567,
+      186
+    ],
+    "textureSample": [
+      351,
+      1190,
+      590,
+      1205
+    ],
+    "size": [
+      637,
+      252
+    ]
+  },
+  {
+    "theme": "scranton",
+    "asset": "themes/scranton/assets/reference/timer-stat.png",
+    "source": "docs/tv-themes/concepts/scranton/timer.png",
+    "sourceSha256": "365ff879c8129bdfa74a989621362c402cdc9f0928b247e140710baf96586ba0",
+    "rect": [
+      646,
+      951,
+      253,
+      269
+    ],
+    "liveArea": [
+      36,
+      25,
+      182,
+      218
+    ],
+    "textureSample": [
+      715,
+      1164,
+      865,
+      1202
+    ],
+    "size": [
+      253,
+      269
+    ]
+  },
+  {
+    "theme": "scranton",
+    "asset": "themes/scranton/assets/reference/whiteboard.png",
+    "source": "docs/tv-themes/concepts/scranton/todos.png",
+    "sourceSha256": "69f8a10fd671ab0c386525ffefadb17042c2c116b36bd453ec642b121a80c35f",
+    "rect": [
+      14,
+      371,
+      1098,
+      734
+    ],
+    "liveArea": [
+      37,
+      40,
+      1024,
+      658
+    ],
+    "textureSample": [
+      674,
+      857,
+      1061,
+      889
+    ],
+    "size": [
+      1098,
+      734
+    ]
+  },
+  {
+    "theme": "scranton",
+    "asset": "themes/scranton/assets/reference/todo-white.png",
+    "source": "docs/tv-themes/concepts/scranton/todos.png",
+    "sourceSha256": "69f8a10fd671ab0c386525ffefadb17042c2c116b36bd453ec642b121a80c35f",
+    "rect": [
+      62,
+      581,
+      501,
+      126
+    ],
+    "liveArea": [
+      25,
+      21,
+      456,
+      90
+    ],
+    "textureSample": [
+      344,
+      608,
+      431,
+      638
+    ],
+    "size": [
+      501,
+      126
+    ]
+  },
+  {
+    "theme": "scranton",
+    "asset": "themes/scranton/assets/reference/todo-yellow.png",
+    "source": "docs/tv-themes/concepts/scranton/todos.png",
+    "sourceSha256": "69f8a10fd671ab0c386525ffefadb17042c2c116b36bd453ec642b121a80c35f",
+    "rect": [
+      590,
+      579,
+      474,
+      136
+    ],
+    "liveArea": [
+      23,
+      19,
+      432,
+      99
+    ],
+    "textureSample": [
+      879,
+      660,
+      1027,
+      697
+    ],
+    "size": [
+      474,
+      136
+    ]
+  },
+  {
+    "theme": "scranton",
+    "asset": "themes/scranton/assets/reference/home-report.png",
+    "source": "docs/tv-themes/concepts/scranton/home.png",
+    "sourceSha256": "d70ab21572ee446f0aeb700029b84e28b09f522f7620c18111f00b4370275039",
+    "rect": [
+      22,
+      488,
+      690,
+      230
+    ],
+    "liveArea": [
+      28,
+      26,
+      637,
+      182
+    ],
+    "textureSample": [
+      216,
+      550,
+      464,
+      569
+    ],
+    "size": [
+      690,
+      230
+    ]
+  },
+  {
+    "theme": "scranton",
+    "asset": "themes/scranton/assets/reference/home-total.png",
+    "source": "docs/tv-themes/concepts/scranton/home.png",
+    "sourceSha256": "d70ab21572ee446f0aeb700029b84e28b09f522f7620c18111f00b4370275039",
+    "rect": [
+      25,
+      1029,
+      684,
+      225
+    ],
+    "liveArea": [
+      33,
+      26,
+      625,
+      175
+    ],
+    "textureSample": [
+      402,
+      1180,
+      478,
+      1202
+    ],
+    "size": [
+      684,
+      225
+    ]
+  },
+  {
+    "theme": "scranton",
+    "asset": "themes/scranton/assets/reference/home-tray.png",
+    "source": "docs/tv-themes/concepts/scranton/home.png",
+    "sourceSha256": "d70ab21572ee446f0aeb700029b84e28b09f522f7620c18111f00b4370275039",
+    "rect": [
+      58,
+      347,
+      618,
+      132
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      618,
+      132
+    ]
+  },
+  {
+    "theme": "scranton",
+    "asset": "themes/scranton/assets/reference/home-jar-scene.png",
+    "source": "docs/tv-themes/concepts/scranton/home.png",
+    "sourceSha256": "d70ab21572ee446f0aeb700029b84e28b09f522f7620c18111f00b4370275039",
+    "rect": [
+      0,
+      727,
+      734,
+      205
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      734,
+      205
+    ]
+  },
+  {
+    "theme": "scranton",
+    "asset": "themes/scranton/assets/reference/home-desk.png",
+    "source": "docs/tv-themes/concepts/scranton/home.png",
+    "sourceSha256": "d70ab21572ee446f0aeb700029b84e28b09f522f7620c18111f00b4370275039",
+    "rect": [
+      0,
+      1262,
+      734,
+      165
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      734,
+      165
+    ]
+  },
+  {
+    "theme": "scranton",
+    "asset": "themes/scranton/assets/reference/home-calendar-scene.png",
+    "source": "docs/tv-themes/concepts/scranton/home.png",
+    "sourceSha256": "d70ab21572ee446f0aeb700029b84e28b09f522f7620c18111f00b4370275039",
+    "rect": [
+      0,
+      1430,
+      734,
+      300
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      734,
+      300
+    ]
+  },
+  {
+    "theme": "scranton",
+    "asset": "themes/scranton/assets/reference/home-bottom.png",
+    "source": "docs/tv-themes/concepts/scranton/home.png",
+    "sourceSha256": "d70ab21572ee446f0aeb700029b84e28b09f522f7620c18111f00b4370275039",
+    "rect": [
+      0,
+      1877,
+      734,
+      264
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      734,
+      264
+    ]
+  },
+  {
+    "theme": "scranton",
+    "asset": "themes/scranton/assets/reference/badges-cabinet.png",
+    "source": "docs/tv-themes/concepts/scranton/badges.png",
+    "sourceSha256": "a55ec23289ec6205c5c049de733b34e6073057777a43545361aefb82eb26a5d8",
+    "rect": [
+      52,
+      421,
+      1015,
+      740
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      1015,
+      740
+    ]
+  },
+  {
+    "theme": "scranton",
+    "asset": "themes/scranton/assets/reference/badges-footer.png",
+    "source": "docs/tv-themes/concepts/scranton/badges.png",
+    "sourceSha256": "a55ec23289ec6205c5c049de733b34e6073057777a43545361aefb82eb26a5d8",
+    "rect": [
+      0,
+      1155,
+      1122,
+      247
+    ],
+    "liveArea": null,
+    "textureSample": null,
+    "size": [
+      1122,
+      247
+    ]
+  }
+]

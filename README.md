@@ -1,6 +1,6 @@
 # Nero
 
-**9.6.8 güncel paket:** Arcade Molası, Yörünge ve Serada Bir Gün temaları eklendi. Biletini Sakla ve mevcut temalar korunur. Ayarlar → Görünüm → Tema menüsünden seçilir. Ayrıntılar: [UC-TEMA.md](UC-TEMA.md).
+**6.9.13 güncel paket:** Gilmore Girls, The Office ve SpongeBob'un onaylı sayfa tasarımları; beş SpongeBob kıyafeti; 21.00 sonrası değiştirilebilir gece kıyafeti. Önceki temalar ve özellikler korunur. Ayrıntılar: [OKU-6.9.13.md](OKU-6.9.13.md).
 
 Masaüstünde yaşayan, huysuz ama seni seven küçük bir arkadaş. Notlar, yapılacaklar ve zamanlayıcı içerir; ruh hali zamanla değişir.
 

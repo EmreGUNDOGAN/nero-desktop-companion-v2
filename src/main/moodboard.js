@@ -131,6 +131,9 @@ function renderMoodboardSvg({ key, userDays = [], neroDays = [], ui = {} }) {
   ${board('Benim Moodboard’um', userDays, 180, 'user')}
   <line x1="72" x2="1008" y1="492" y2="492" stroke="${esc(line)}" stroke-width="2"/>
   ${board('Nero’nun Moodboard’u', neroDays, 548, 'nero')}
+  <circle cx="82" cy="832" r="6" fill="${userColors.red}"/><text x="96" y="837" font-family="Segoe UI,Arial,sans-serif" font-size="15" fill="${esc(muted)}">Kötü</text>
+  <circle cx="178" cy="832" r="6" fill="${userColors.yellow}"/><text x="192" y="837" font-family="Segoe UI,Arial,sans-serif" font-size="15" fill="${esc(muted)}">İdare eder</text>
+  <circle cx="322" cy="832" r="6" fill="${userColors.green}"/><text x="336" y="837" font-family="Segoe UI,Arial,sans-serif" font-size="15" fill="${esc(muted)}">İyi</text>
   <text x="1008" y="836" text-anchor="end" font-family="Segoe UI,Arial,sans-serif" font-size="15" fill="${esc(muted)}">Nero ile bir ayın küçük izi.</text>
 </svg>`;
 }

@@ -46,6 +46,7 @@ const state = {
   todos: [
     {
       id: 't1', text: 'Strateji sunumunu bitir', done: false, createdAt: now - 10000, doneAt: null,
+      priority:'high',tag:'İş',tags:['İş'],
       remindAt: null, reminded: false, archivedAt: null,
       plannedDurationMin: 65, actualDurationMs: 3720000, stopwatchStartedAt: null, focusCreditedMin: 62
     },
@@ -53,14 +54,15 @@ const state = {
       id: 't2', text: 'Maili gönder', done: true, createdAt: now - 200000, doneAt: now - 5000,
       remindAt: null, reminded: false, archivedAt: null,
       plannedDurationMin: 15, actualDurationMs: 1080000, stopwatchStartedAt: null, focusCreditedMin: 18
-    }
+    },
+    {id:'t3',text:'Hafta sonunu planla',done:false,createdAt:now-12000,doneAt:null,archivedAt:null,bucket:'later',priority:'normal',tag:'Kişisel, Planlama',tags:['Kişisel','Planlama'],plannedDurationMin:20,actualDurationMs:0}
   ],
   settings: {
     themeId: initialTheme, scale: 1, talkativeness: 'normal', muted: false, showTimerBadge: true,
     sound: true, alwaysOnTop: true, lockPosition: false, stayVisible: true, desktopJokes: true,
     peekVisits: true, weatherFx: true, sceneBg: true, ambientSound: false, quickCapture: false,
     waterEvery: 0, breakEvery: 60, daySummary: true, autoUpdate: false, birthday: '',
-    userName: '', panelPinned: false, launchAtStartup: false, hidden: false, lastTimerMinutes: 25
+    userName: 'Emre', panelPinned: false, launchAtStartup: false, hidden: false, lastTimerMinutes: 25
   },
   mood: { happiness: 82, stage: 'content', asleep: false, ignoredMinutes: 2, label: 'Keyfi yerinde' },
   timer: { status: 'idle', remainingMs: 1500000, progress: 0, label: '' },
@@ -89,7 +91,7 @@ const state = {
   dayMode: 'sakin',
   rest: false,
   achievements: JSON.parse(JSON.stringify(require('../src/data/achievements'))).map((a,i)=>({...a,unlocked:i<5,unlockedAt:i<5?now:null,progress:i<5?1:.2})),
-  desk: { items: [], next: null },
+  desk: { items: ['fincan','defter','saksi1','kitaplar','lamba','cerceve','plak','saat','saksi2','gramofon'].map((id,i)=>({id,icon:['☕','📓','🌱','📚','💡','🖼️','🎵','🕰️','🌸','📻'][i],title:id,hours:(i+1)*.5,unlockedAt:i<2?now:null})), next: {title:'Küçük saksı',minutesLeft:26} },
   jarCount: 3,
   moodboard: {
     key: currentKey, label: 'Eylül 2026',
@@ -112,6 +114,23 @@ const state = {
   version: require('../package.json').version
 };
 
+// Capture-only sample records; production and default functional fixtures are unchanged.
+if(process.env.NERO_SPONGE_REVIEW==='1'){
+ state.stats.display={totals:{todos:20,focusMin:64,timersDone:6,timersQuit:10,notes:8,pets:121},bestStreak:17};state.stats.daysTogether=16;
+ state.moodboard={...state.moodboard,key:'2026-10',currentKey:'2026-10',label:'Ekim 2026',availableMonths:[...state.moodboard.availableMonths,{key:'2026-10',label:'Ekim 2026'}],user:Array.from({length:31},(_,i)=>({day:i+1,date:`2026-10-${String(i+1).padStart(2,'0')}`,value:['red','red','yellow','green'][i]||null,future:i+1>8})),nero:Array.from({length:31},(_,i)=>({day:i+1,date:`2026-10-${String(i+1).padStart(2,'0')}`,cls:i<7?'c5':null,future:i+1>8}))};
+ state.home.archive={total:6,recent:['Steam profili hazırlandı','Reviews güncellendi','Oyun videosu çekildi','Kitap bölümü okundu','Dosyalar düzenlendi','E-postalar yanıtlandı'].map((text,i)=>({text,doneAt:new Date(`2026-10-0${[6,6,5,4,3,2][i]}T12:00:00`).getTime()}))};
+ state.home.quote={t:'Plan yapmak iyidir, uygulamak daha iyi.',nero:'Küçük bir adım daha ilerledin.'};state.home.letter=null;
+}
+if(process.env.NERO_SPONGE_NOTES_REVIEW==='1'){
+ state.notes[0].body='Aklımda kalanlar\nKüçük fikirleri burada saklıyorum.\nBelki bir gün büyük bir şeye dönüşür.';
+ state.notes[1].body='Hafta sonu\nDeniz, güneş, biraz dinlenme.\nYeni haftaya daha enerjik başlamak.';
+ state.notes[2].body='Bir sonraki adım\nProjeyi gözden geçir.\nEksikleri not al.';
+}
+if(process.env.NERO_SPONGE_TIMER_REVIEW==='1'){state.stats.today.focus=45;state.stats.today.timersDone=2;}
+if(process.env.NERO_SPONGE_WORK_REVIEW==='1'){
+ const item=(id,text,options={})=>({id,text,done:false,archivedAt:null,createdAt:now-10000,doneAt:null,actualDurationMs:0,plannedDurationMin:0,bucket:'today',priority:'normal',tags:[],...options});
+ state.todos=[item('t1','Sunumu bitir',{plannedDurationMin:45,actualDurationMs:1200000,priority:'high',tags:['İş'],subtasks:[{id:'s1',text:'Taslağı hazırla',done:true},{id:'s2',text:'Görselleri ekle',done:true},{id:'s3',text:'Kontrol et',done:false},{id:'s4',text:'Gönder',done:false}]}),item('t2','Kitap bölümünü oku',{plannedDurationMin:35,tags:['Kişisel']}),item('t3','E-postaları yanıtla',{tags:['İş']}),item('t4','Hafta sonunu planla',{plannedDurationMin:20,bucket:'later',tags:['Kişisel','Planlama']}),item('t5','Kitapçıya uğra',{plannedDurationMin:30,bucket:'later',tags:['Kişisel']}),item('t6','Dosyaları düzenle',{done:true,doneAt:now,plannedDurationMin:25,tags:['İş']}),item('t7','Eski dosyaları yedekle',{done:true,doneAt:now-86400000,archivedAt:now-86400000}),item('t8','Takvimi düzenle',{done:true,doneAt:now-172800000,archivedAt:now-172800000})];
+}
 const timer=new Timer();
 timer.on('tick',t=>{state.timer=t;emit('timer',t);});
 let featureService;const rerender=()=>{state.productivity=featureService?.snapshot();emit('state',state);};
@@ -150,8 +169,17 @@ contextBridge.exposeInMainWorld('nero', {
     if(channel==='notes:save'){const input=args[0];let note=state.notes.find(n=>n.id===input.id);if(!note){note={id:'note-'+Date.now(),createdAt:Date.now(),archivedAt:null};state.notes.unshift(note);}note.body=input.body;note.updatedAt=Date.now();rerender();return structuredClone(note);}
     if(channel==='notes:archive'){const note=state.notes.find(n=>n.id===args[0]);note.archivedAt=args[1]?Date.now():null;rerender();return true;}
     if(channel==='notes:delete'){state.notes=state.notes.filter(n=>n.id!==args[0]);rerender();return true;}
-    if(channel==='todos:add'){state.todos.push({id:'todo-'+Date.now(),text:args[0],done:false,createdAt:Date.now(),archivedAt:null,actualDurationMs:0});rerender();return true;}
-    if(channel==='todos:toggle'){const todo=state.todos.find(t=>t.id===args[0]);todo.done=!todo.done;rerender();return true;}
+    if(channel==='todos:add'){state.todos.push({id:'todo-'+Date.now(),text:args[0],done:false,createdAt:Date.now(),archivedAt:null,actualDurationMs:0,plannedDurationMin:Number(args[2])||0,bucket:'today'});rerender();return true;}
+    if(channel==='todos:toggle'){const todo=state.todos.find(t=>t.id===args[0]);todo.done=!todo.done;todo.doneAt=todo.done?Date.now():null;rerender();return true;}
+    if(channel==='todos:rename'){state.todos.find(t=>t.id===args[0]).text=args[1];rerender();return true;}
+    if(channel==='todos:archive'){state.todos.find(t=>t.id===args[0]).archivedAt=args[1]?Date.now():null;rerender();return true;}
+    if(channel==='todos:archiveDone'){for(const t of state.todos)if(t.done&&!t.archivedAt)t.archivedAt=Date.now();rerender();return true;}
+    if(channel==='todos:delete'){state.todos=state.todos.filter(t=>t.id!==args[0]);rerender();return true;}
+    if(channel==='todos:setReminder'){state.todos.find(t=>t.id===args[0]).remindAt=args[1]?Date.now()+3600000:null;rerender();return true;}
+    if(channel==='todos:addSubtask'){const t=state.todos.find(t=>t.id===args[0]);(t.subtasks||(t.subtasks=[])).push({id:'s'+Date.now(),text:args[1],done:false});rerender();return true;}
+    if(channel==='todos:toggleSubtask'){const s=state.todos.find(t=>t.id===args[0]).subtasks.find(s=>s.id===args[1]);s.done=!s.done;rerender();return true;}
+    if(channel==='todos:renameSubtask'){state.todos.find(t=>t.id===args[0]).subtasks.find(s=>s.id===args[1]).text=args[2];rerender();return true;}
+    if(channel==='todos:deleteSubtask'){const t=state.todos.find(t=>t.id===args[0]);t.subtasks=t.subtasks.filter(s=>s.id!==args[1]);rerender();return true;}
     if(channel==='timer:start'){featureService.prepare(args[2]);timer.start(args[0],args[1]);return timer.snapshot();}
     if(channel==='timer:pause'){timer.pause();return timer.snapshot();}
     if(channel==='timer:resume'){timer.resume();return timer.snapshot();}
@@ -159,7 +187,8 @@ contextBridge.exposeInMainWorld('nero', {
     if(channel==='jar:add'){state.jarCount++;rerender();return true;}
     if(channel==='moodboard:set'){state.moodboard.user.find(d=>d.date===args[0]).value=args[1];rerender();return true;}
     if (channel === 'home:seen') return true;
-    if (channel === 'todos:stopwatchStart' || channel === 'todos:stopwatchPause') return state.todos[0];
+    if(channel==='todos:stopwatchStart'){const t=state.todos.find(t=>t.id===args[0]);t.stopwatchStartedAt=Date.now();rerender();return structuredClone(t);}
+    if(channel==='todos:stopwatchPause'){const t=state.todos.find(t=>t.id===args[0]);t.actualDurationMs=(t.actualDurationMs||0)+(t.stopwatchStartedAt?Date.now()-t.stopwatchStartedAt:0);t.stopwatchStartedAt=null;rerender();return structuredClone(t);}
     return true;
   },
   send: (channel, ...args) => { calls.push({ channel, args }); },

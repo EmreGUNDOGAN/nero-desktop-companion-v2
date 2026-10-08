@@ -1,0 +1,98 @@
+{
+  ".moodboards": {
+    "rect": {
+      "x": 3,
+      "y": 1167.953125,
+      "width": 595,
+      "height": 243.171875
+    },
+    "offsetParent": "",
+    "position": "relative",
+    "top": "0px",
+    "height": "243.172px",
+    "margin": "0px",
+    "grid": "none",
+    "columns": "none",
+    "font": "500 14px / 21px \"Reference Office\", \"Segoe UI\", sans-serif"
+  },
+  ".moodboard-nav": {
+    "rect": {
+      "x": 212.4375,
+      "y": 1193.484375,
+      "width": 169.578125,
+      "height": 21.875
+    },
+    "offsetParent": "card moodboards",
+    "position": "absolute",
+    "top": "25.5312px",
+    "height": "21.875px",
+    "margin": "0px",
+    "grid": "none",
+    "columns": "none",
+    "font": "500 14px / 21px \"Reference Office\", \"Segoe UI\", sans-serif"
+  },
+  ".nf-mood-modes": {
+    "rect": {
+      "x": 400.453125,
+      "y": 1192.265625,
+      "width": 87.484375,
+      "height": 21.875
+    },
+    "offsetParent": "card moodboards",
+    "position": "absolute",
+    "top": "24.3125px",
+    "height": "21.875px",
+    "margin": "0px",
+    "grid": "none",
+    "columns": "none",
+    "font": "500 14px / 21px \"Reference Office\", \"Segoe UI\", sans-serif"
+  },
+  ".user-mood-board": {
+    "rect": {
+      "x": 162.453125,
+      "y": 1223.875,
+      "width": 318.3125,
+      "height": 151.484375
+    },
+    "offsetParent": "card moodboards",
+    "position": "absolute",
+    "top": "55.9219px",
+    "height": "151.484px",
+    "margin": "0px",
+    "grid": "none",
+    "columns": "none",
+    "font": "500 14px / 21px \"Reference Office\", \"Segoe UI\", sans-serif"
+  },
+  ".mood-calendar": {
+    "rect": {
+      "x": 162.453125,
+      "y": 1223.875,
+      "width": 318.3125,
+      "height": 151.484375
+    },
+    "offsetParent": "mood-board user-mood-board",
+    "position": "static",
+    "top": "auto",
+    "height": "151.484px",
+    "margin": "0px",
+    "grid": "19.4531px 26.4062px 26.4062px 26.4062px 26.4062px 26.4062px",
+    "columns": "45.4688px 45.4688px 45.4688px 45.4844px 45.4688px 45.4688px 45.4688px",
+    "font": "500 14px / 21px \"Reference Office\", \"Segoe UI\", sans-serif"
+  },
+  ".totals dl": {
+    "rect": {
+      "x": 267.171875,
+      "y": 885.46875,
+      "width": 123.75,
+      "height": 135.53125
+    },
+    "offsetParent": "card totals",
+    "position": "absolute",
+    "top": "49.0312px",
+    "height": "135.531px",
+    "margin": "0px",
+    "grid": "19.3594px 19.3594px 19.3594px 19.3594px 19.3594px 19.3594px 19.3594px",
+    "columns": "123.75px",
+    "font": "10.115px / 10.115px \"Courier Prime\", monospace"
+  }
+}

@@ -13,8 +13,11 @@ const SLEEP = ['Ay Bulut Pijaması', 'Çizgili Gecelik', 'Yıldızlı Uyku', 'Uy
 const SPECIAL = { '01-01': 'newyear', '02-14': 'valentine', '04-01': 'april', '04-23': 'children', '05-20': 'bee', '10-29': 'republic', '10-31': 'halloween', '12-31': 'newyear' };
 const slug = (name) => name.toLocaleLowerCase('tr-TR').replace(/ç/g, 'c').replace(/ğ/g, 'g').replace(/ı/g, 'i').replace(/ö/g, 'o').replace(/ş/g, 's').replace(/ü/g, 'u').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 const LEGACY_ITEMS = Object.entries(GROUPS).flatMap(([group, names]) => names.map((name) => ({ id: `${group}-${slug(name)}`, name, group })));
-const ITEMS = [...LEGACY_ITEMS, ...require('./wardrobe-additions.json')];
+const BIKINI_ITEMS = require('./wardrobe-bikini.json');
+const ITEMS = [...LEGACY_ITEMS, ...require('./wardrobe-additions.json'), ...BIKINI_ITEMS];
 const VALID = new Set(ITEMS.map((item) => item.id));
+const BIKINI_DEFAULT = 'bikini-spongebob';
+const isNight = date => date.getHours() >= 21 || date.getHours() < 6;
 function special(date, birthday = '') {
   const key = `${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
   return birthday === key ? 'birthday' : SPECIAL[key] || null;
@@ -27,8 +30,9 @@ function sleepNight(date) {
 function choose(settings, date, persist, random = Math.random) {
   const celebration = special(date, settings.birthday);
   if (celebration) return { outfit: `special-${celebration}`, special: celebration };
-  if (date.getHours() >= 21 || date.getHours() < 6) {
+  if (isNight(date)) {
     const night = sleepNight(date);
+    if (settings.wardrobeNightChoiceDate === night) return { outfit: VALID.has(settings.wardrobeNightChoice) ? settings.wardrobeNightChoice : null };
     if (settings.sleepNight !== night || !/^sleep-[0-7]$/.test(settings.sleepOutfit || '')) {
       const picked = `sleep-${Math.min(7, Math.floor(Math.max(0, random()) * 8))}`;
       persist({ sleepNight: night, sleepOutfit: picked });
@@ -38,4 +42,20 @@ function choose(settings, date, persist, random = Math.random) {
   }
   return { outfit: VALID.has(settings.wardrobeOutfit) ? settings.wardrobeOutfit : null };
 }
-module.exports = { LEGACY_ITEMS, GROUPS, SLEEP, SPECIAL, ITEMS, VALID, special, sleepNight, choose };
+function selectionPatch(settings, value, date) {
+  const outfit = VALID.has(value) ? value : null;
+  return isNight(date) ? { wardrobeNightChoiceDate: sleepNight(date), wardrobeNightChoice: outfit } : { wardrobeOutfit: outfit };
+}
+function themePatch(settings, previous, next, date, startup = false) {
+  if (previous === next || (startup && (next !== 'bikini-bottom' || settings.bikiniWardrobeInitialized))) return {};
+  if (next === 'bikini-bottom') {
+    const before = {day: settings.wardrobeOutfit || null, nightDate: settings.wardrobeNightChoiceDate || '', night: settings.wardrobeNightChoice || null};
+    return { wardrobeBeforeBikini: before, bikiniWardrobeInitialized: true, wardrobeOutfit: BIKINI_DEFAULT, ...(isNight(date) ? selectionPatch(settings, BIKINI_DEFAULT, date) : {}) };
+  }
+  if (previous === 'bikini-bottom' && settings.wardrobeBeforeBikini) {
+    const before = settings.wardrobeBeforeBikini;
+    return { wardrobeOutfit: VALID.has(before.day) ? before.day : null, wardrobeNightChoiceDate: before.nightDate || '', wardrobeNightChoice: VALID.has(before.night) ? before.night : null, wardrobeBeforeBikini: null };
+  }
+  return {};
+}
+module.exports = { LEGACY_ITEMS, GROUPS, SLEEP, SPECIAL, ITEMS, VALID, BIKINI_ITEMS, BIKINI_DEFAULT, isNight, special, sleepNight, choose, selectionPatch, themePatch };
