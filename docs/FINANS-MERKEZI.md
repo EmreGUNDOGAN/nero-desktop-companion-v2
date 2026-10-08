@@ -1,4 +1,4 @@
-# Finans Merkezi — Nero 9.6.9
+# Finans Merkezi — Nero 9.6.8
 
 Kullanıcının sağladığı `financial-dashboard.tsx` bileşeni ve ardından paylaştığı koyu ekran referansı, sekiz Bütçe sekmesine yeni bir seçenek olarak uygulanmıştır. Finans ayarları → Finans teması → **Finans Merkezi** seçilir. Nero, Modern finans, Kartlı finans ve Premium Black seçenekleri de kullanılabilir. Tema seçimi kullanıcı kayıtlarını değiştirmez; Bütçe'den çıkınca genel Nero görünümü döner.
 
@@ -54,10 +54,10 @@ npm run finance:check
 npm run finance:build
 ```
 
-Üretim JS/CSS dosyaları kaynak paketine dahildir. Uygulama bunları yerel yükler; tema kullanımı CDN veya API anahtarı gerektirmez. `npm ci` yalnız geliştirme bağımlılıklarını kurar. GitHub Actions TypeScript, kaynak derlemesi ve UI kontrollerinden sonra Windows kurulumu ve tam kaynak paketini oluşturur.
+Üretim JS/CSS dosyaları kaynak paketine dahildir. Uygulama bunları yerel yükler; tema kullanımı CDN veya API anahtarı gerektirmez. `npm ci` yalnız geliştirme bağımlılıklarını kurar. GitHub yayını ve Actions çalıştırılması bu teslimin parçası değildir.
 
 ## Doğrulama
 
 `npm test`: mevcut işlev testleri. `test/financial-dashboard-ui.cjs`: Windows Electron üzerinde geçici kullanıcı verisiyle sekiz sayfanın boş/dolu durumu, formlar, arama, klavye, rezerv, ödeme geri alma, takvim, Akademi, eski temalara dönüş ve yedekten geri yükleme.
 
-Gerçek test ekranları `docs/financial-dashboard-screens` içindedir. `validation.json` ölçülen pencere/ölçek/yazı boyutu kontrollerini listeler. Ekranların test tutarları kullanıcı kayıtlarına veya uygulamanın başlangıç verisine eklenmez. Windows kurulum EXE’si 9.6.9 Actions paketine dahildir. Gerçek kullanıcı Windows oturumunda kurulum sihirbazı bu kaynak testinin kapsamı dışındadır.
+Gerçek test ekranları `docs/financial-dashboard-screens` içindedir. `validation.json` ölçülen pencere/ölçek/yazı boyutu kontrollerini listeler. Ekranların test tutarları kullanıcı kayıtlarına veya uygulamanın başlangıç verisine eklenmez. Windows kurulum EXE'si bu kaynak tesliminde yeniden üretilmez.

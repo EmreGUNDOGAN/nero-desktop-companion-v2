@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "realMainProcess": true,
+  "isolatedProfile": true,
+  "characterCreated": true,
+  "pinnedPanelReopened": true,
+  "showRequestsRecorded": true,
+  "timerSessionStarted": true,
+  "errors": []
+}

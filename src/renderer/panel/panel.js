@@ -228,6 +228,7 @@
   Object.assign(SKINS, window.NeroThemeTrio.skins(SKINS.cozy));
   Object.assign(SKINS, window.NeroComicTheme.skins(SKINS.cozy));
   Object.assign(SKINS, window.NeroSpongeTheme.skins(SKINS.cozy));
+  Object.assign(SKINS, window.NeroTVThemes.skins(SKINS.cozy));
   const skin = () => SKINS[skinName] || SKINS.cozy;
 
   function applyUi(ui = {}) {
@@ -239,6 +240,7 @@
     if (next !== skinName || !document.documentElement.dataset.skin) {
       window.NeroComicTheme?.leave(next);
       window.NeroSpongeTheme?.leave(next);
+      window.NeroTVThemes?.leave(next);
       skinName = next;
       document.documentElement.dataset.skin = skinName;
       applySkinText();
@@ -1019,6 +1021,7 @@
     window.NeroTicketTheme?.updateTimer(state, chosenMinutes);
     window.NeroThemeTrio?.updateTimer(state, chosenMinutes);
     window.NeroComicTheme?.updateTimer(state, chosenMinutes);
+    window.NeroTVThemes?.timer(t);
   }
 
   function choose(minutes) {
@@ -1031,6 +1034,7 @@
     window.NeroTicketTheme?.updateTimer(state, chosenMinutes);
     window.NeroThemeTrio?.updateTimer(state, chosenMinutes);
     window.NeroComicTheme?.updateTimer(state, chosenMinutes);
+    window.NeroTVThemes?.timer(state?.timer||{status:'idle'});
   }
 
   document.querySelectorAll('#presets button').forEach((b) => b.addEventListener('click', () => choose(b.dataset.min)));
@@ -1825,10 +1829,11 @@
     window.NeroComicTheme?.update(state, chosenMinutes);
     window.NeroSpongeTheme?.update(state,chosenMinutes);
     window.NeroFeaturesUI?.update(state);
+    window.NeroTVThemes?.update(state);
   }
 
   api.on('state', renderAll);
-  api.on('timer', (t) => { if (state) state.timer = t; renderTimer(t); });
+  api.on('timer', (t) => { if (state) state.timer = t; renderTimer(t); window.NeroTVThemes?.timer(t); });
   api.on('panel:tab', (tab) => selectTab(tab));
   api.on('theme', (payload) => applyUi(payload.manifest.ui));
 

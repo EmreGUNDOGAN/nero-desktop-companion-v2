@@ -1,0 +1,61 @@
+name: Build Nero 6.9.13 Final
+on:
+  workflow_dispatch:
+  push:
+    branches: [feature/nero-v6.9.13]
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: windows-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm run finance:check
+      - run: npm run finance:build
+      - run: node scripts/wardrobe-v665/check-release.js
+      - run: npm test
+      - run: npm run dialogue:check
+      - name: Check existing themes and productivity flows
+        run: npx electron --disable-gpu test/all-features-ui.cjs
+      - name: Check Gilmore Girls and The Office across window sizes
+        run: npx electron --disable-gpu test/tv-themes-ui.cjs
+      - name: Check finance screens and partial payments
+        run: npx electron --disable-gpu test/new-features-finance-ui.cjs
+      - name: Check character and notification integration
+        run: npx electron --disable-gpu test/tv-character-smoke.cjs
+      - name: Check Stars Hollow startup and timer
+        env:
+          NERO_STARTUP_THEME: stars-hollow
+        run: npx electron --disable-gpu test/production-startup-smoke.cjs
+      - name: Check Scranton startup and timer
+        env:
+          NERO_STARTUP_THEME: scranton
+        run: npx electron --disable-gpu test/production-startup-smoke.cjs
+      - name: Build Windows installer
+        run: npm run dist
+      - name: Verify packaged startup
+        env:
+          NERO_PACKAGED_RESOURCES: ${{ github.workspace }}\dist\win-unpacked\resources
+          NERO_STARTUP_THEME: scranton
+        run: npx electron --disable-gpu test/production-startup-smoke.cjs
+      - name: Export source
+        run: git archive --format=zip -o Nero-v6_9_13-source.zip HEAD
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Nero-6.9.13-final-bundle
+          if-no-files-found: error
+          path: |
+            dist/Nero-Setup-6.9.13.exe
+            dist/Nero-Setup-6.9.13.exe.blockmap
+            dist/latest.yml
+            Nero-v6_9_13-source.zip
+            CHANGELOG-6.9.13.md
+            OKU-6.9.13.md
+            TUM-GELISTIRMELER-OKU.md
+            OYUN-REHBERI.md

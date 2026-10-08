@@ -1,0 +1,396 @@
+{
+  "stars-hollow": {
+    "home": {
+      "source": "home",
+      "size": {
+        "width": 743,
+        "height": 2116
+      },
+      "rect": {
+        "x": 0,
+        "y": 182,
+        "width": 743,
+        "height": 209
+      }
+    },
+    "notes": {
+      "source": "notes",
+      "size": {
+        "width": 887,
+        "height": 1774
+      },
+      "rect": {
+        "x": 0,
+        "y": 231,
+        "width": 887,
+        "height": 261
+      }
+    },
+    "todos": {
+      "source": "todos",
+      "size": {
+        "width": 887,
+        "height": 1774
+      },
+      "rect": {
+        "x": 0,
+        "y": 138,
+        "width": 887,
+        "height": 277
+      }
+    },
+    "timer": {
+      "source": "timer",
+      "size": {
+        "width": 887,
+        "height": 1774
+      },
+      "rect": {
+        "x": 0,
+        "y": 138,
+        "width": 887,
+        "height": 319
+      }
+    },
+    "badges": {
+      "source": "badges",
+      "size": {
+        "width": 887,
+        "height": 1774
+      },
+      "rect": {
+        "x": 0,
+        "y": 133,
+        "width": 887,
+        "height": 319
+      }
+    },
+    "jar": {
+      "source": "home",
+      "size": {
+        "width": 743,
+        "height": 2116
+      },
+      "rect": {
+        "x": 554,
+        "y": 758,
+        "width": 123,
+        "height": 150
+      }
+    },
+    "books": {
+      "source": "notes",
+      "size": {
+        "width": 887,
+        "height": 1774
+      },
+      "rect": {
+        "x": 452,
+        "y": 1535,
+        "width": 426,
+        "height": 195
+      }
+    },
+    "coffee": {
+      "source": "timer",
+      "size": {
+        "width": 887,
+        "height": 1774
+      },
+      "rect": {
+        "x": 192,
+        "y": 781,
+        "width": 513,
+        "height": 387
+      }
+    },
+    "badgeMug": {
+      "source": "badges",
+      "size": {
+        "width": 887,
+        "height": 1774
+      },
+      "rect": {
+        "x": 187,
+        "y": 747,
+        "width": 105,
+        "height": 151
+      }
+    },
+    "badgeBook": {
+      "source": "badges",
+      "size": {
+        "width": 887,
+        "height": 1774
+      },
+      "rect": {
+        "x": 435,
+        "y": 742,
+        "width": 89,
+        "height": 204
+      }
+    },
+    "badgeDragonfly": {
+      "source": "badges",
+      "size": {
+        "width": 887,
+        "height": 1774
+      },
+      "rect": {
+        "x": 683,
+        "y": 779,
+        "width": 142,
+        "height": 151
+      }
+    },
+    "badgeGazebo": {
+      "source": "badges",
+      "size": {
+        "width": 887,
+        "height": 1774
+      },
+      "rect": {
+        "x": 67,
+        "y": 1077,
+        "width": 195,
+        "height": 128
+      }
+    },
+    "badgeTape": {
+      "source": "badges",
+      "size": {
+        "width": 887,
+        "height": 1774
+      },
+      "rect": {
+        "x": 421,
+        "y": 1100,
+        "width": 182,
+        "height": 138
+      }
+    },
+    "wood": {
+      "source": "timer",
+      "size": {
+        "width": 887,
+        "height": 1774
+      },
+      "rect": {
+        "x": 28,
+        "y": 1004,
+        "width": 129,
+        "height": 89
+      }
+    },
+    "paper": {
+      "source": "notes",
+      "size": {
+        "width": 887,
+        "height": 1774
+      },
+      "rect": {
+        "x": 319,
+        "y": 1401,
+        "width": 302,
+        "height": 89
+      }
+    }
+  },
+  "scranton": {
+    "home": {
+      "source": "home",
+      "size": {
+        "width": 734,
+        "height": 2141
+      },
+      "rect": {
+        "x": 0,
+        "y": 54,
+        "width": 734,
+        "height": 304
+      }
+    },
+    "notes": {
+      "source": "notes",
+      "size": {
+        "width": 1122,
+        "height": 1402
+      },
+      "rect": {
+        "x": 0,
+        "y": 84,
+        "width": 1122,
+        "height": 259
+      }
+    },
+    "todos": {
+      "source": "todos",
+      "size": {
+        "width": 1122,
+        "height": 1402
+      },
+      "rect": {
+        "x": 22,
+        "y": 130,
+        "width": 1077,
+        "height": 238
+      }
+    },
+    "timer": {
+      "source": "timer",
+      "size": {
+        "width": 1122,
+        "height": 1402
+      },
+      "rect": {
+        "x": 0,
+        "y": 142,
+        "width": 1122,
+        "height": 287
+      }
+    },
+    "badges": {
+      "source": "badges",
+      "size": {
+        "width": 1122,
+        "height": 1402
+      },
+      "rect": {
+        "x": 309,
+        "y": 128,
+        "width": 763,
+        "height": 231
+      }
+    },
+    "jar": {
+      "source": "home",
+      "size": {
+        "width": 734,
+        "height": 2141
+      },
+      "rect": {
+        "x": 150,
+        "y": 771,
+        "width": 110,
+        "height": 150
+      }
+    },
+    "jello": {
+      "source": "home",
+      "size": {
+        "width": 734,
+        "height": 2141
+      },
+      "rect": {
+        "x": 576,
+        "y": 801,
+        "width": 139,
+        "height": 126
+      }
+    },
+    "bobble": {
+      "source": "home",
+      "size": {
+        "width": 734,
+        "height": 2141
+      },
+      "rect": {
+        "x": 637,
+        "y": 1270,
+        "width": 88,
+        "height": 154
+      }
+    },
+    "paper": {
+      "source": "notes",
+      "size": {
+        "width": 1122,
+        "height": 1402
+      },
+      "rect": {
+        "x": 561,
+        "y": 981,
+        "width": 337,
+        "height": 77
+      }
+    },
+    "badgeTrophy": {
+      "source": "badges",
+      "size": {
+        "width": 1122,
+        "height": 1402
+      },
+      "rect": {
+        "x": 135,
+        "y": 465,
+        "width": 112,
+        "height": 147
+      }
+    },
+    "badgeCertificate": {
+      "source": "badges",
+      "size": {
+        "width": 1122,
+        "height": 1402
+      },
+      "rect": {
+        "x": 488,
+        "y": 484,
+        "width": 202,
+        "height": 123
+      }
+    },
+    "badgeMug": {
+      "source": "badges",
+      "size": {
+        "width": 1122,
+        "height": 1402
+      },
+      "rect": {
+        "x": 816,
+        "y": 495,
+        "width": 146,
+        "height": 133
+      }
+    },
+    "badgeTray": {
+      "source": "badges",
+      "size": {
+        "width": 1122,
+        "height": 1402
+      },
+      "rect": {
+        "x": 138,
+        "y": 757,
+        "width": 213,
+        "height": 122
+      }
+    },
+    "badgeBobble": {
+      "source": "badges",
+      "size": {
+        "width": 1122,
+        "height": 1402
+      },
+      "rect": {
+        "x": 494,
+        "y": 744,
+        "width": 157,
+        "height": 143
+      }
+    },
+    "laminate": {
+      "source": "timer",
+      "size": {
+        "width": 1122,
+        "height": 1402
+      },
+      "rect": {
+        "x": 6,
+        "y": 729,
+        "width": 28,
+        "height": 49
+      }
+    }
+  }
+}

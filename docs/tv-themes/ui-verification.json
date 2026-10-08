@@ -1,0 +1,433 @@
+{
+  "passed": true,
+  "layouts": [
+    {
+      "theme": "stars-hollow",
+      "id": "home",
+      "w": 380,
+      "h": 660,
+      "z": 1
+    },
+    {
+      "theme": "stars-hollow",
+      "id": "notes",
+      "w": 380,
+      "h": 660,
+      "z": 1
+    },
+    {
+      "theme": "stars-hollow",
+      "id": "todos",
+      "w": 380,
+      "h": 660,
+      "z": 1
+    },
+    {
+      "theme": "stars-hollow",
+      "id": "timer",
+      "w": 380,
+      "h": 660,
+      "z": 1
+    },
+    {
+      "theme": "stars-hollow",
+      "id": "badges",
+      "w": 380,
+      "h": 660,
+      "z": 1
+    },
+    {
+      "theme": "stars-hollow",
+      "id": "settings",
+      "w": 380,
+      "h": 660,
+      "z": 1
+    },
+    {
+      "theme": "stars-hollow",
+      "id": "home",
+      "w": 500,
+      "h": 1100,
+      "z": 1
+    },
+    {
+      "theme": "stars-hollow",
+      "id": "notes",
+      "w": 500,
+      "h": 1100,
+      "z": 1
+    },
+    {
+      "theme": "stars-hollow",
+      "id": "todos",
+      "w": 500,
+      "h": 1100,
+      "z": 1
+    },
+    {
+      "theme": "stars-hollow",
+      "id": "timer",
+      "w": 500,
+      "h": 1100,
+      "z": 1
+    },
+    {
+      "theme": "stars-hollow",
+      "id": "badges",
+      "w": 500,
+      "h": 1100,
+      "z": 1
+    },
+    {
+      "theme": "stars-hollow",
+      "id": "settings",
+      "w": 500,
+      "h": 1100,
+      "z": 1
+    },
+    {
+      "theme": "stars-hollow",
+      "id": "home",
+      "w": 900,
+      "h": 1000,
+      "z": 1
+    },
+    {
+      "theme": "stars-hollow",
+      "id": "notes",
+      "w": 900,
+      "h": 1000,
+      "z": 1
+    },
+    {
+      "theme": "stars-hollow",
+      "id": "todos",
+      "w": 900,
+      "h": 1000,
+      "z": 1
+    },
+    {
+      "theme": "stars-hollow",
+      "id": "timer",
+      "w": 900,
+      "h": 1000,
+      "z": 1
+    },
+    {
+      "theme": "stars-hollow",
+      "id": "badges",
+      "w": 900,
+      "h": 1000,
+      "z": 1
+    },
+    {
+      "theme": "stars-hollow",
+      "id": "settings",
+      "w": 900,
+      "h": 1000,
+      "z": 1
+    },
+    {
+      "theme": "stars-hollow",
+      "id": "home",
+      "w": 1100,
+      "h": 1000,
+      "z": 1
+    },
+    {
+      "theme": "stars-hollow",
+      "id": "notes",
+      "w": 1100,
+      "h": 1000,
+      "z": 1
+    },
+    {
+      "theme": "stars-hollow",
+      "id": "todos",
+      "w": 1100,
+      "h": 1000,
+      "z": 1
+    },
+    {
+      "theme": "stars-hollow",
+      "id": "timer",
+      "w": 1100,
+      "h": 1000,
+      "z": 1
+    },
+    {
+      "theme": "stars-hollow",
+      "id": "badges",
+      "w": 1100,
+      "h": 1000,
+      "z": 1
+    },
+    {
+      "theme": "stars-hollow",
+      "id": "settings",
+      "w": 1100,
+      "h": 1000,
+      "z": 1
+    },
+    {
+      "theme": "stars-hollow",
+      "id": "home",
+      "w": 900,
+      "h": 900,
+      "z": 1.25
+    },
+    {
+      "theme": "stars-hollow",
+      "id": "notes",
+      "w": 900,
+      "h": 900,
+      "z": 1.25
+    },
+    {
+      "theme": "stars-hollow",
+      "id": "todos",
+      "w": 900,
+      "h": 900,
+      "z": 1.25
+    },
+    {
+      "theme": "stars-hollow",
+      "id": "timer",
+      "w": 900,
+      "h": 900,
+      "z": 1.25
+    },
+    {
+      "theme": "stars-hollow",
+      "id": "badges",
+      "w": 900,
+      "h": 900,
+      "z": 1.25
+    },
+    {
+      "theme": "stars-hollow",
+      "id": "settings",
+      "w": 900,
+      "h": 900,
+      "z": 1.25
+    },
+    {
+      "theme": "scranton",
+      "id": "home",
+      "w": 380,
+      "h": 660,
+      "z": 1
+    },
+    {
+      "theme": "scranton",
+      "id": "notes",
+      "w": 380,
+      "h": 660,
+      "z": 1
+    },
+    {
+      "theme": "scranton",
+      "id": "todos",
+      "w": 380,
+      "h": 660,
+      "z": 1
+    },
+    {
+      "theme": "scranton",
+      "id": "timer",
+      "w": 380,
+      "h": 660,
+      "z": 1
+    },
+    {
+      "theme": "scranton",
+      "id": "badges",
+      "w": 380,
+      "h": 660,
+      "z": 1
+    },
+    {
+      "theme": "scranton",
+      "id": "settings",
+      "w": 380,
+      "h": 660,
+      "z": 1
+    },
+    {
+      "theme": "scranton",
+      "id": "home",
+      "w": 500,
+      "h": 1100,
+      "z": 1
+    },
+    {
+      "theme": "scranton",
+      "id": "notes",
+      "w": 500,
+      "h": 1100,
+      "z": 1
+    },
+    {
+      "theme": "scranton",
+      "id": "todos",
+      "w": 500,
+      "h": 1100,
+      "z": 1
+    },
+    {
+      "theme": "scranton",
+      "id": "timer",
+      "w": 500,
+      "h": 1100,
+      "z": 1
+    },
+    {
+      "theme": "scranton",
+      "id": "badges",
+      "w": 500,
+      "h": 1100,
+      "z": 1
+    },
+    {
+      "theme": "scranton",
+      "id": "settings",
+      "w": 500,
+      "h": 1100,
+      "z": 1
+    },
+    {
+      "theme": "scranton",
+      "id": "home",
+      "w": 900,
+      "h": 1000,
+      "z": 1
+    },
+    {
+      "theme": "scranton",
+      "id": "notes",
+      "w": 900,
+      "h": 1000,
+      "z": 1
+    },
+    {
+      "theme": "scranton",
+      "id": "todos",
+      "w": 900,
+      "h": 1000,
+      "z": 1
+    },
+    {
+      "theme": "scranton",
+      "id": "timer",
+      "w": 900,
+      "h": 1000,
+      "z": 1
+    },
+    {
+      "theme": "scranton",
+      "id": "badges",
+      "w": 900,
+      "h": 1000,
+      "z": 1
+    },
+    {
+      "theme": "scranton",
+      "id": "settings",
+      "w": 900,
+      "h": 1000,
+      "z": 1
+    },
+    {
+      "theme": "scranton",
+      "id": "home",
+      "w": 1100,
+      "h": 1000,
+      "z": 1
+    },
+    {
+      "theme": "scranton",
+      "id": "notes",
+      "w": 1100,
+      "h": 1000,
+      "z": 1
+    },
+    {
+      "theme": "scranton",
+      "id": "todos",
+      "w": 1100,
+      "h": 1000,
+      "z": 1
+    },
+    {
+      "theme": "scranton",
+      "id": "timer",
+      "w": 1100,
+      "h": 1000,
+      "z": 1
+    },
+    {
+      "theme": "scranton",
+      "id": "badges",
+      "w": 1100,
+      "h": 1000,
+      "z": 1
+    },
+    {
+      "theme": "scranton",
+      "id": "settings",
+      "w": 1100,
+      "h": 1000,
+      "z": 1
+    },
+    {
+      "theme": "scranton",
+      "id": "home",
+      "w": 900,
+      "h": 900,
+      "z": 1.25
+    },
+    {
+      "theme": "scranton",
+      "id": "notes",
+      "w": 900,
+      "h": 900,
+      "z": 1.25
+    },
+    {
+      "theme": "scranton",
+      "id": "todos",
+      "w": 900,
+      "h": 900,
+      "z": 1.25
+    },
+    {
+      "theme": "scranton",
+      "id": "timer",
+      "w": 900,
+      "h": 900,
+      "z": 1.25
+    },
+    {
+      "theme": "scranton",
+      "id": "badges",
+      "w": 900,
+      "h": 900,
+      "z": 1.25
+    },
+    {
+      "theme": "scranton",
+      "id": "settings",
+      "w": 900,
+      "h": 900,
+      "z": 1.25
+    }
+  ],
+  "actions": [
+    "stars-hollow: live autosave/checklist",
+    "stars-hollow: linked timer/cancel",
+    "scranton: live autosave/checklist",
+    "scranton: linked timer/cancel",
+    "repeated theme switching restores all native nodes"
+  ],
+  "errors": []
+}

@@ -1,6 +1,6 @@
 {
   "status": "passed",
-  "layouts": 120,
+  "layouts": 136,
   "comicLayouts": 24,
   "checks": [
     {
@@ -721,6 +721,150 @@
       ],
       "zoom": 1.25,
       "textSize": "large",
+      "page": "handbook"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "overview"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "transactions"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "accounts"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "budgets"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "plans"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "reports"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "calendar"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "handbook"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "overview"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "transactions"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "accounts"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "budgets"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "plans"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "reports"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
+      "page": "calendar"
+    },
+    {
+      "size": [
+        440,
+        660
+      ],
+      "zoom": 1,
+      "textSize": "comfortable",
       "page": "handbook"
     },
     {

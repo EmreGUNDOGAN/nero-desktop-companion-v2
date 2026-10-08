@@ -1,0 +1,24 @@
+{
+  "passed": true,
+  "themes": [
+    {
+      "theme": "stars-hollow",
+      "skin": "stars-hollow",
+      "bubble": true,
+      "badge": "12:30",
+      "inside": true,
+      "images": true
+    },
+    {
+      "theme": "scranton",
+      "skin": "scranton",
+      "bubble": true,
+      "badge": "12:30",
+      "inside": true,
+      "images": true
+    }
+  ],
+  "rendererErrors": [],
+  "focusNotification": true,
+  "quickCapture": true
+}

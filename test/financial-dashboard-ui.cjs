@@ -17,7 +17,7 @@ app.whenReady().then(async () => {
     panel = new BrowserWindow({ width: 440, height: 660, show: false, frame: false, webPreferences: { preload: path.join(__dirname, 'budget-ui-preload.js'), contextIsolation: true, sandbox: false, offscreen: true } });
     panel.webContents.on('console-message', event => { if (event.level === 'error') errors.push(event.message); });
     registerBudgetIPC({ ipcMain, BrowserWindow, budget, getPanel: () => panel, backup: () => {}, shell: { openPath: async () => '', openExternal: async () => {} }, dialog: { showOpenDialog: async () => ({ canceled: true }), showSaveDialog: async () => ({ canceled: true }), showMessageBox: async () => ({ response: 0 }) } });
-    await panel.loadFile(path.join(root, 'src/renderer/panel/index.html')); panel.setSize(440, 660); await wait(160);
+    await panel.loadFile(path.join(root, 'src/renderer/panel/index.html')); await wait(160);
     const js = code => panel.webContents.executeJavaScript(code);
     const click = async (action, id) => { const selector = `[data-budget-action="${action}"]${id ? `[data-id="${id}"]` : ''}`; assert.ok(await js(`!!document.querySelector(${JSON.stringify(selector)})`), 'Missing action ' + action); await js(`document.querySelector(${JSON.stringify(selector)}).click();true`); await wait(80); };
     const tab = async name => { await js(`document.querySelector('[data-budget-tab="${name}"]').click();true`); await wait(220); assert.equal(await js(`document.querySelector('[data-budget-tab="${name}"]').getAttribute('aria-selected')`), 'true'); };

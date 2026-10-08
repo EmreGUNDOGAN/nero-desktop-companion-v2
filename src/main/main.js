@@ -3002,7 +3002,6 @@ app.whenReady().then(() => {
   bee.markAway();
   journal = new Journal({ moodStore: moodLogStore, archiveStore, jarStore });
   productivityStore=new JsonStore(userData,'productivity',{sessions:[],preferences:{}});
-  productivity=new Productivity({store:productivityStore,notes:notesStore,todos:todosStore,jar:jarStore,timer,changed:broadcastState});
   // Nero Moodboard sonucu 23:00'te kesinleşir; uygulama o saatte kapalı kaldıysa önceki günü açılışta tamamla.
   journal.finalizeDue(new Date());
   // Migration sırasında mevcut saatli görevler sayılır; onUnlock henüz bağlı olmadığı için eski
@@ -3025,6 +3024,7 @@ app.whenReady().then(() => {
 
   mood = new Mood(moodStore);
   timer = new Timer();
+  productivity=new Productivity({store:productivityStore,notes:notesStore,todos:todosStore,jar:jarStore,timer,changed:broadcastState});
   homeDialogue = new HomeDialogueEngine({
     store: homeDialogueStore,
     logger: (...parts) => log(...parts),
