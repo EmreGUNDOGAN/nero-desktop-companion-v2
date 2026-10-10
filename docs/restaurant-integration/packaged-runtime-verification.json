@@ -1,0 +1,29 @@
+{
+  "passed": true,
+  "version": "7.0.0",
+  "packaged": true,
+  "realIpc": true,
+  "reusedWindow": true,
+  "concurrentClicks": true,
+  "webgl": true,
+  "finiteGeometry": true,
+  "tabs": [
+    "Siparişler",
+    "Mutfak",
+    "Tarifler",
+    "Depo",
+    "Araştırmalar",
+    "Ekip"
+  ],
+  "initial": {
+    "gold": 60,
+    "currentGold": 60,
+    "level": 1,
+    "xp": 0,
+    "tables": 1,
+    "cleaners": 1
+  },
+  "saveRestored": true,
+  "errors": [],
+  "failedRequests": []
+}

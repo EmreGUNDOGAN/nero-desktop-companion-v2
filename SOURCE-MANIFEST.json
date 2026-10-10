@@ -859,8 +859,8 @@
     },
     {
       "path": "docs/7.0.0-VALIDATION.md",
-      "bytes": 1679,
-      "sha256": "1ff9fe0cca5fba1a7c727c6b3db3cb603180d9500644c39c599ce11390ba6161"
+      "bytes": 2317,
+      "sha256": "88f3260e321cc22d836350c3852739cd22108158c67b3e592a2fe419ff49f1b9"
     },
     {
       "path": "docs/9.6.8-VALIDATION.md",
@@ -3333,6 +3333,16 @@
       "sha256": "92f118795fe7f243463fca33ac6c467f2fc47b282a4f27aa27d69bf7443b1508"
     },
     {
+      "path": "docs/restaurant-integration/packaged-runtime-verification.json",
+      "bytes": 474,
+      "sha256": "e978457b6e32d09e954d457e68f0788532c8282004c97f995693becc84235bc4"
+    },
+    {
+      "path": "docs/restaurant-integration/packaged-runtime.png",
+      "bytes": 656760,
+      "sha256": "ea74152945aea4a75bbd7bc4dfcb61fdc2f2147b6612926474f83d6f5915885d"
+    },
+    {
       "path": "docs/restaurant-integration/runtime-7.0.0.png",
       "bytes": 656869,
       "sha256": "a6ca77e2f513394bedbbfa48e751dbe522cb131cf4813e1483d51e5e90c71c69"
@@ -3506,6 +3516,11 @@
       "path": "docs/reviews/6.9.13-kullanici-gorselleri/sponge-turkish-menu-font.png",
       "bytes": 12721,
       "sha256": "07ffa8597c4d5cf3cfad9bb1310a21f9ddf4320e05512a84e31529612783b161"
+    },
+    {
+      "path": "docs/reviews/7.0.0-PACKAGED-RESOURCES.json",
+      "bytes": 716,
+      "sha256": "bcd959350fcab47b72105fe3eb85b350826787cb619970773d22da1d5b091202"
     },
     {
       "path": "docs/spongebob/approved-concept.png",
@@ -4729,8 +4744,8 @@
     },
     {
       "path": "scripts/verify-packaged-resources.cjs",
-      "bytes": 1819,
-      "sha256": "7927485975e13c76d53067acbddaef1e308f0d751325ca6eb81442691b072840"
+      "bytes": 2087,
+      "sha256": "310831bc1755ef0ff5946839f55031cb9803ad2e1a5db17b3372549991e3b844"
     },
     {
       "path": "scripts/wardrobe-v665/README.md",

@@ -1,0 +1,40 @@
+{
+  "passed": true,
+  "version": "7.0.0",
+  "sourceFiles": 632,
+  "themeFiles": 5826,
+  "themeIds": [
+    "arcade-molasi",
+    "bikini-bottom",
+    "biletini-sakla",
+    "cilek",
+    "cizgi-roman-arasi",
+    "default",
+    "disket",
+    "ege",
+    "gece",
+    "kar",
+    "kasaba",
+    "latte",
+    "mum",
+    "nero98",
+    "pazartesi",
+    "radyo-aksami",
+    "scranton",
+    "serada-bir-gun",
+    "stars-hollow",
+    "yagmur",
+    "yorunge"
+  ],
+  "allRuntimeSourceAndThemeHashesMatch": true,
+  "developmentOnlyFiles": [
+    "src/renderer/restaurant-ui/pnpm-lock.yaml"
+  ],
+  "approvedCostumes": [
+    "bikini-spongebob",
+    "bikini-squidward",
+    "bikini-patrick",
+    "bikini-mr-krabs",
+    "bikini-sandy"
+  ]
+}
