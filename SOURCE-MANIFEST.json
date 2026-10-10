@@ -859,8 +859,8 @@
     },
     {
       "path": "docs/7.0.0-VALIDATION.md",
-      "bytes": 1430,
-      "sha256": "91f48183e45c2988fce9bddc628db4511801fc505fc1413c9c7505d60a4f68d5"
+      "bytes": 1479,
+      "sha256": "71db6fd43419481a0f1fc9b672231b553d3f25738bef27dc4b729b3dee9601fe"
     },
     {
       "path": "docs/9.6.8-VALIDATION.md",
@@ -3339,8 +3339,8 @@
     },
     {
       "path": "docs/restaurant-integration/runtime-verification.json",
-      "bytes": 424,
-      "sha256": "29865e0ce665f20be3684cf8093c2c5998b201ad4d09dcf2e23aba5125213b71"
+      "bytes": 452,
+      "sha256": "883aacd69697b6e1b2cabd536d9af56024b9fe7ea74bc961a7d677cfb44355aa"
     },
     {
       "path": "docs/reviews/6.9.13-PACKAGED-RESOURCES.json",
@@ -4949,8 +4949,8 @@
     },
     {
       "path": "src/main/restaurant-window.js",
-      "bytes": 2428,
-      "sha256": "62985ab1bc534575bb064ce6e1994d21af34319a0135bacde8b88d0740da59a4"
+      "bytes": 2557,
+      "sha256": "a41a3e1113209df1c39013d3d5eb6eb1d4dbd90cc5a437286a66db59901f7995"
     },
     {
       "path": "src/main/stats.js",
@@ -8314,8 +8314,8 @@
     },
     {
       "path": "test/restaurant-runtime-smoke.cjs",
-      "bytes": 6542,
-      "sha256": "f7062bc6b2dca177d758d97c562477924219b9986b06823817ee394b9797f88f"
+      "bytes": 6788,
+      "sha256": "7e5dfd0b8e8daf3b14181495038fdda64c26f911f3be33d5056c7109e10a7519"
     },
     {
       "path": "test/restaurant-save.test.js",

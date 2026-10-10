@@ -10,7 +10,7 @@ const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 const watchdog = setTimeout(() => { console.error('Restaurant runtime test timed out'); app.exit(1); }, 180000);
 app.whenReady().then(async () => {
   let controller, restaurant;
-  const errors = [], failedRequests = [];
+  const errors = [], failedRequests = [], created = [];
   try {
     const GameWindow = process.env.NERO_HEADLESS ? class extends BrowserWindow {
       constructor(options) { super({ ...options, show: false, webPreferences: { ...options.webPreferences, offscreen: true } }); }
@@ -22,10 +22,12 @@ app.whenReady().then(async () => {
     // Observe production windows before their modules load.
     app.on('browser-window-created', (_event, window) => {
       if (window === controller) return;
+      created.push(window.id);
       window.webContents.on('console-message', event => { if (event.level === 'error') errors.push(event.message); });
       window.webContents.on('did-fail-load', (_e, code, description) => failedRequests.push({ code, description }));
     });
-    assert.equal(await open(), true); restaurant = game.getWindow();
+    assert.deepEqual(await controller.webContents.executeJavaScript("Promise.all([window.nero.invoke('restaurant:open'),window.nero.invoke('restaurant:open')])"), [true, true]); restaurant = game.getWindow();
+    assert.equal(created.length, 1);
     const firstId = restaurant.id;
     assert.equal(await open(), true); assert.equal(game.getWindow().id, firstId);
     const js = code => restaurant.webContents.executeJavaScript(code);
@@ -68,7 +70,7 @@ app.whenReady().then(async () => {
     assert.equal(restored.cleanerCount, saved.cleanerCount); assert.deepEqual(restored.inventory, saved.inventory);
     assert.equal(await js('window.__neroRestaurantLayout.report().clock.manualPaused'), true);
     assert.deepEqual(errors, []); assert.deepEqual(failedRequests, []);
-    fs.writeFileSync(path.join(output, process.env.NERO_PACKAGED_RESOURCES ? 'packaged-runtime-verification.json' : 'runtime-verification.json'), JSON.stringify({ passed: true, version: '7.0.0', packaged: Boolean(process.env.NERO_PACKAGED_RESOURCES), realIpc: true, reusedWindow: true, webgl: true, finiteGeometry: true, tabs, initial: { gold: initial.gold, level: initial.level, xp: initial.xp, tables: initial.activeTables, cleaners: initial.cleaners.length }, saveRestored: true, errors, failedRequests }, null, 2));
+    fs.writeFileSync(path.join(output, process.env.NERO_PACKAGED_RESOURCES ? 'packaged-runtime-verification.json' : 'runtime-verification.json'), JSON.stringify({ passed: true, version: '7.0.0', packaged: Boolean(process.env.NERO_PACKAGED_RESOURCES), realIpc: true, reusedWindow: true, concurrentClicks: true, webgl: true, finiteGeometry: true, tabs, initial: { gold: initial.gold, level: initial.level, xp: initial.xp, tables: initial.activeTables, cleaners: initial.cleaners.length }, saveRestored: true, errors, failedRequests }, null, 2));
     console.log('PASS: restaurant production IPC, window reuse, WebGL, six HUD tabs, real supply purchase and save/reopen restore');
     clearTimeout(watchdog); restaurant.destroy(); controller.destroy(); app.exit(0);
   } catch (error) { console.error(error.stack); console.error(JSON.stringify({ errors, failedRequests })); clearTimeout(watchdog); restaurant?.destroy(); controller?.destroy(); app.exit(1); }

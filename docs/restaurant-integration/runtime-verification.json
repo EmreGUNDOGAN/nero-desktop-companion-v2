@@ -4,6 +4,7 @@
   "packaged": false,
   "realIpc": true,
   "reusedWindow": true,
+  "concurrentClicks": true,
   "webgl": true,
   "finiteGeometry": true,
   "tabs": [
