@@ -255,7 +255,7 @@
     {
       "path": ".github/workflows/build-v7.0.0.yml",
       "bytes": 3542,
-      "sha256": "1359faf2a65cb7a1a5e4bd81ff3ca7bd96194a16589dcb7ae1b5e5b264d214f8"
+      "sha256": "8e197593185adfd34534d66bd1469236cbac4cf8086fbd724b8ddf07adb4017d"
     },
     {
       "path": ".github/workflows/build-v9.6.5.yml",
@@ -859,8 +859,8 @@
     },
     {
       "path": "docs/7.0.0-VALIDATION.md",
-      "bytes": 1479,
-      "sha256": "71db6fd43419481a0f1fc9b672231b553d3f25738bef27dc4b729b3dee9601fe"
+      "bytes": 1679,
+      "sha256": "1ff9fe0cca5fba1a7c727c6b3db3cb603180d9500644c39c599ce11390ba6161"
     },
     {
       "path": "docs/9.6.8-VALIDATION.md",
@@ -3339,8 +3339,8 @@
     },
     {
       "path": "docs/restaurant-integration/runtime-verification.json",
-      "bytes": 452,
-      "sha256": "883aacd69697b6e1b2cabd536d9af56024b9fe7ea74bc961a7d677cfb44355aa"
+      "bytes": 475,
+      "sha256": "21dbcd0bb3c875e6cf126521e95f30929ca7a8618c98d7d725df0a69af09256a"
     },
     {
       "path": "docs/reviews/6.9.13-PACKAGED-RESOURCES.json",
@@ -8314,8 +8314,8 @@
     },
     {
       "path": "test/restaurant-runtime-smoke.cjs",
-      "bytes": 6788,
-      "sha256": "7e5dfd0b8e8daf3b14181495038fdda64c26f911f3be33d5056c7109e10a7519"
+      "bytes": 7199,
+      "sha256": "2b4f802f27fc8d37000d4f79822bd003088a69bac731923462063765f859f662"
     },
     {
       "path": "test/restaurant-save.test.js",

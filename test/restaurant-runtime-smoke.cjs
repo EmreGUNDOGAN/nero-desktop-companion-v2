@@ -7,7 +7,7 @@ app.setPath('userData', fs.mkdtempSync(path.join(os.tmpdir(), 'nero-700-restaura
 app.commandLine.appendSwitch('use-angle', 'swiftshader');
 app.commandLine.appendSwitch('enable-unsafe-swiftshader');
 const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
-const watchdog = setTimeout(() => { console.error('Restaurant runtime test timed out'); app.exit(1); }, 180000);
+const watchdog = setTimeout(() => { console.error('Restaurant runtime test timed out'); app.exit(1); }, 300000);
 app.whenReady().then(async () => {
   let controller, restaurant;
   const errors = [], failedRequests = [], created = [];
@@ -32,7 +32,7 @@ app.whenReady().then(async () => {
     assert.equal(await open(), true); assert.equal(game.getWindow().id, firstId);
     const js = code => restaurant.webContents.executeJavaScript(code);
     const ready = async () => {
-      const deadline = Date.now() + 120000;
+      const deadline = Date.now() + 180000;
       while (Date.now() < deadline) {
         if (await js('Boolean(window.__neroRestaurantLayout?.ready && document.querySelector(".hud-dock"))')) {
           await js('window.__neroRestaurantLayout.setMotion(false);true'); return;
@@ -43,7 +43,12 @@ app.whenReady().then(async () => {
     };
     await ready(); console.log('Restaurant production IPC and WebGL scene ready');
     const initial = await js('window.__neroRestaurantService.snapshot()');
-    assert.equal(initial.gold, 60); assert.equal(initial.level, 1); assert.equal(initial.xp, 0);
+    // Native/software rendering can take long enough for customer prepayments.
+    // Verify the real opening transaction, then reconcile current cash with its ledger.
+    const openingGold = initial.ledger.find(entry => entry.kind === 'opening-budget')?.amount;
+    assert.equal(openingGold, 60);
+    assert.equal(initial.gold, Math.round(initial.ledger.reduce((sum, entry) => sum + entry.amount, 0) * 100) / 100);
+    assert.equal(initial.level, 1); assert.equal(initial.xp, 0);
     assert.equal(initial.activeTables, 1); assert.equal(initial.cleaners.length, 1);
     const report = await js('window.__neroRestaurantLayout.report()');
     assert.equal(report.finite, true); assert.ok(report.drawCalls > 0); assert.ok(report.triangles > 0);
@@ -70,7 +75,7 @@ app.whenReady().then(async () => {
     assert.equal(restored.cleanerCount, saved.cleanerCount); assert.deepEqual(restored.inventory, saved.inventory);
     assert.equal(await js('window.__neroRestaurantLayout.report().clock.manualPaused'), true);
     assert.deepEqual(errors, []); assert.deepEqual(failedRequests, []);
-    fs.writeFileSync(path.join(output, process.env.NERO_PACKAGED_RESOURCES ? 'packaged-runtime-verification.json' : 'runtime-verification.json'), JSON.stringify({ passed: true, version: '7.0.0', packaged: Boolean(process.env.NERO_PACKAGED_RESOURCES), realIpc: true, reusedWindow: true, concurrentClicks: true, webgl: true, finiteGeometry: true, tabs, initial: { gold: initial.gold, level: initial.level, xp: initial.xp, tables: initial.activeTables, cleaners: initial.cleaners.length }, saveRestored: true, errors, failedRequests }, null, 2));
+    fs.writeFileSync(path.join(output, process.env.NERO_PACKAGED_RESOURCES ? 'packaged-runtime-verification.json' : 'runtime-verification.json'), JSON.stringify({ passed: true, version: '7.0.0', packaged: Boolean(process.env.NERO_PACKAGED_RESOURCES), realIpc: true, reusedWindow: true, concurrentClicks: true, webgl: true, finiteGeometry: true, tabs, initial: { gold: openingGold, currentGold: initial.gold, level: initial.level, xp: initial.xp, tables: initial.activeTables, cleaners: initial.cleaners.length }, saveRestored: true, errors, failedRequests }, null, 2));
     console.log('PASS: restaurant production IPC, window reuse, WebGL, six HUD tabs, real supply purchase and save/reopen restore');
     clearTimeout(watchdog); restaurant.destroy(); controller.destroy(); app.exit(0);
   } catch (error) { console.error(error.stack); console.error(JSON.stringify({ errors, failedRequests })); clearTimeout(watchdog); restaurant?.destroy(); controller?.destroy(); app.exit(1); }

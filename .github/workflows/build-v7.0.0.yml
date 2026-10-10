@@ -23,6 +23,10 @@ jobs:
       - run: node scripts/wardrobe-v665/check-release.js
       - run: npm test
       - run: npm run dialogue:check
+      - name: Check restaurant launcher alignment
+        run: npx electron --disable-gpu test/restaurant-launcher-ui.cjs
+      - name: Check real restaurant game, window reuse and save restore
+        run: npx electron test/restaurant-runtime-smoke.cjs
       - name: Check existing themes and productivity flows
         run: npx electron --disable-gpu test/all-features-ui.cjs
       - name: Check Gilmore Girls and The Office across window sizes
@@ -45,10 +49,6 @@ jobs:
         env:
           NERO_STARTUP_THEME: scranton
         run: npx electron --disable-gpu test/production-startup-smoke.cjs
-      - name: Check restaurant launcher alignment
-        run: npx electron --disable-gpu test/restaurant-launcher-ui.cjs
-      - name: Check real restaurant game, window reuse and save restore
-        run: npx electron test/restaurant-runtime-smoke.cjs
       - name: Build Windows installer
         run: npm run dist
       - name: Verify every packaged source and theme file

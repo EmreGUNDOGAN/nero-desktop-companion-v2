@@ -17,6 +17,7 @@
   ],
   "initial": {
     "gold": 60,
+    "currentGold": 60,
     "level": 1,
     "xp": 0,
     "tables": 1,
