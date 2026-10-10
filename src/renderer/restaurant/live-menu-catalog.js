@@ -1,0 +1,14 @@
+import {menuCatalog as models} from './menu-catalog.js';
+const response=await fetch(new URL('./price-review.json',import.meta.url));
+if(!response.ok)throw Error('Approved economy data unavailable');
+export const liveEconomy=await response.json();
+const specialResponse=await fetch(new URL('./special-menu-plan.json',import.meta.url));
+if(!specialResponse.ok)throw Error('Special menu plan unavailable');
+const specialPlan=await specialResponse.json();
+const prices=new Map(liveEconomy.products.map(p=>[p.id,p]));
+if(prices.size!==142)throw Error('Incomplete economy catalogue');
+const byId=new Map([...models.byId].map(([id,p])=>{const row=prices.get(id),special=specialPlan[id];if(!row||row.ingredients.some(i=>!Number.isInteger(i.quantity*4)))throw Error('Invalid material recipe '+id);return[id,Object.freeze({...p,...(special?{station:special.station,stationLevel:models.inStation(special.station)[0].stationLevel,previousRecipe:special.previousRecipe,seconds:special.seconds,stationDecisionPending:false}:{}),saleGold:row.sale_cents/100,unlockGold:row.total_unlock_gold,balanceStatus:'approved-price-plan'})];}));
+export const menuCatalog=Object.freeze({...models,byId,atLevel:level=>[...byId.values()].filter(p=>p.level===level),inStation:station=>[...byId.values()].filter(p=>p.station===station),describe:()=>({...models.describe(),pendingStationDecisions:[],balanceStatus:'approved-price-plan'})});
+export const supplyMaterials=liveEconomy.materials.map(m=>({id:m.id,name:m.name,unitGold:m.unit_cents/100}));
+export const materialRecipes=Object.fromEntries(liveEconomy.products.map(p=>[p.id,Object.fromEntries(p.ingredients.map(i=>[i.id,i.quantity]))]));
+export const researchPolicies=Object.fromEntries([...byId.values()].filter(p=>!p.stationDecisionPending&&p.previousRecipe&&p.level>=10).map(p=>{const items=materialRecipes[p.id],complexity=Object.values(items).reduce((a,b)=>a+b,0)+Object.keys(items).length*.5;return[p.id,{seconds:complexity<3?300:complexity<5?600:900}];}));

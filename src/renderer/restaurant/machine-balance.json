@@ -1,0 +1,222 @@
+[
+  {
+    "station": "fryer",
+    "name": "Kızartma",
+    "level": 5,
+    "first_recipe": "food-32",
+    "machine_gold": 425,
+    "first_recipe_gold": 0,
+    "target_minutes": 20,
+    "forecast": {
+      "orders_per_minute": 3.007,
+      "profit_per_order": 6.879,
+      "net_per_minute": 20.687,
+      "speed_upgrades": 0,
+      "service_workers": 1,
+      "arrival_per_minute": 3.007,
+      "production_cap": 4.808,
+      "transport_cap": 4.438
+    },
+    "minutes_at_forecast": 20.5,
+    "minutes_at_current_arrival_limit": 22.7,
+    "status": "balanced-forecast-not-live"
+  },
+  {
+    "station": "oven",
+    "name": "Fırın / pizza",
+    "level": 10,
+    "first_recipe": "food-44",
+    "machine_gold": 925,
+    "first_recipe_gold": 0,
+    "target_minutes": 30,
+    "forecast": {
+      "orders_per_minute": 3.357,
+      "profit_per_order": 9.042,
+      "net_per_minute": 30.357,
+      "speed_upgrades": 1,
+      "service_workers": 1,
+      "arrival_per_minute": 3.357,
+      "production_cap": 4.579,
+      "transport_cap": 3.589
+    },
+    "minutes_at_forecast": 30.5,
+    "minutes_at_current_arrival_limit": 37.5,
+    "status": "balanced-forecast-not-live"
+  },
+  {
+    "station": "shake",
+    "name": "Milkshake",
+    "level": 18,
+    "first_recipe": "food-41",
+    "machine_gold": 1325,
+    "first_recipe_gold": 0,
+    "target_minutes": 35,
+    "forecast": {
+      "orders_per_minute": 3.917,
+      "profit_per_order": 9.535,
+      "net_per_minute": 37.353,
+      "speed_upgrades": 1,
+      "service_workers": 2,
+      "arrival_per_minute": 3.917,
+      "production_cap": 4.579,
+      "transport_cap": 7.177
+    },
+    "minutes_at_forecast": 35.5,
+    "minutes_at_current_arrival_limit": 50.9,
+    "status": "balanced-forecast-not-live"
+  },
+  {
+    "station": "juice",
+    "name": "Meyve suyu",
+    "level": 27,
+    "first_recipe": "food-42",
+    "machine_gold": 1675,
+    "first_recipe_gold": 0,
+    "target_minutes": 40,
+    "forecast": {
+      "orders_per_minute": 4.452,
+      "profit_per_order": 9.384,
+      "net_per_minute": 41.774,
+      "speed_upgrades": 2,
+      "service_workers": 2,
+      "arrival_per_minute": 4.547,
+      "production_cap": 4.452,
+      "transport_cap": 7.177
+    },
+    "minutes_at_forecast": 40.1,
+    "minutes_at_current_arrival_limit": 65.4,
+    "status": "balanced-forecast-not-live"
+  },
+  {
+    "station": "hot-drink",
+    "name": "Sıcak içecek",
+    "level": 38,
+    "first_recipe": "food-104",
+    "machine_gold": 1950,
+    "first_recipe_gold": 0,
+    "target_minutes": 45,
+    "forecast": {
+      "orders_per_minute": 3.934,
+      "profit_per_order": 9.757,
+      "net_per_minute": 38.38,
+      "speed_upgrades": 2,
+      "service_workers": 2,
+      "arrival_per_minute": 5.317,
+      "production_cap": 3.934,
+      "transport_cap": 7.177
+    },
+    "minutes_at_forecast": 50.8,
+    "minutes_at_current_arrival_limit": 73.3,
+    "status": "balanced-forecast-not-live"
+  },
+  {
+    "station": "icecream",
+    "name": "Dondurma",
+    "level": 50,
+    "first_recipe": "food-152",
+    "machine_gold": 2250,
+    "first_recipe_gold": 0,
+    "target_minutes": 50,
+    "forecast": {
+      "orders_per_minute": 4.108,
+      "profit_per_order": 9.336,
+      "net_per_minute": 38.353,
+      "speed_upgrades": 3,
+      "service_workers": 2,
+      "arrival_per_minute": 6.157,
+      "production_cap": 4.108,
+      "transport_cap": 7.177
+    },
+    "minutes_at_forecast": 58.7,
+    "minutes_at_current_arrival_limit": 88.4,
+    "status": "balanced-forecast-not-live"
+  },
+  {
+    "station": "hotdog",
+    "name": "Sosisli",
+    "level": 64,
+    "first_recipe": "food-43",
+    "machine_gold": 2600,
+    "first_recipe_gold": 0,
+    "target_minutes": 55,
+    "forecast": {
+      "orders_per_minute": 4.071,
+      "profit_per_order": 9.08,
+      "net_per_minute": 36.966,
+      "speed_upgrades": 4,
+      "service_workers": 2,
+      "arrival_per_minute": 7.137,
+      "production_cap": 4.071,
+      "transport_cap": 7.177
+    },
+    "minutes_at_forecast": 70.3,
+    "minutes_at_current_arrival_limit": 105.0,
+    "status": "balanced-forecast-not-live"
+  },
+  {
+    "station": "cold-prep",
+    "name": "Soğuk hazırlama",
+    "level": 80,
+    "first_recipe": "food-56",
+    "machine_gold": 3000,
+    "first_recipe_gold": 0,
+    "target_minutes": 60,
+    "forecast": {
+      "orders_per_minute": 5.066,
+      "profit_per_order": 8.661,
+      "net_per_minute": 43.883,
+      "speed_upgrades": 5,
+      "service_workers": 2,
+      "arrival_per_minute": 8.257,
+      "production_cap": 5.066,
+      "transport_cap": 7.177
+    },
+    "minutes_at_forecast": 68.4,
+    "minutes_at_current_arrival_limit": 127.0,
+    "status": "balanced-forecast-not-live"
+  },
+  {
+    "station": "dessert",
+    "name": "Tatlı",
+    "level": 98,
+    "first_recipe": "food-53",
+    "machine_gold": 3450,
+    "first_recipe_gold": 0,
+    "target_minutes": 65,
+    "forecast": {
+      "orders_per_minute": 4.732,
+      "profit_per_order": 8.481,
+      "net_per_minute": 40.13,
+      "speed_upgrades": 5,
+      "service_workers": 2,
+      "arrival_per_minute": 9.517,
+      "production_cap": 4.732,
+      "transport_cap": 7.177
+    },
+    "minutes_at_forecast": 86.0,
+    "minutes_at_current_arrival_limit": 149.2,
+    "status": "balanced-forecast-not-live"
+  },
+  {
+    "station": "soup-pasta-extra",
+    "name": "Çorba / makarna",
+    "level": 118,
+    "first_recipe": "food-45",
+    "machine_gold": 3975,
+    "first_recipe_gold": 0,
+    "target_minutes": 75,
+    "forecast": {
+      "orders_per_minute": 4.593,
+      "profit_per_order": 8.789,
+      "net_per_minute": 40.367,
+      "speed_upgrades": 5,
+      "service_workers": 2,
+      "arrival_per_minute": 10,
+      "production_cap": 4.593,
+      "transport_cap": 7.177
+    },
+    "minutes_at_forecast": 98.5,
+    "minutes_at_current_arrival_limit": 165.8,
+    "status": "balanced-forecast-not-live"
+  }
+]

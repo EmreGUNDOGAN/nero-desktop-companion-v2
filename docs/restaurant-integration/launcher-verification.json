@@ -1,0 +1,166 @@
+{
+  "passed": true,
+  "layouts": [
+    {
+      "width": 380,
+      "controls": [
+        {
+          "id": "restaurant-launch",
+          "x": 195.015625,
+          "right": 210.75,
+          "center": 26.390625,
+          "width": 15.734375,
+          "height": 17.5625
+        },
+        {
+          "id": "bee-open",
+          "x": 224.65625,
+          "right": 240.390625,
+          "center": 26.390625,
+          "width": 15.734375,
+          "height": 17.5625
+        },
+        {
+          "id": "settings-button",
+          "x": 254.296875,
+          "right": 270.03125,
+          "center": 26.390625,
+          "width": 15.734375,
+          "height": 17.5625
+        },
+        {
+          "id": "pin",
+          "x": 289.9375,
+          "right": 305.671875,
+          "center": 26.390625,
+          "width": 15.734375,
+          "height": 17.5625
+        },
+        {
+          "id": "minimize",
+          "x": 319.578125,
+          "right": 335.3125,
+          "center": 26.390625,
+          "width": 15.734375,
+          "height": 17.5625
+        },
+        {
+          "id": "close",
+          "x": 349.21875,
+          "right": 364.953125,
+          "center": 26.390625,
+          "width": 15.734375,
+          "height": 17.5625
+        }
+      ]
+    },
+    {
+      "width": 600,
+      "controls": [
+        {
+          "id": "restaurant-launch",
+          "x": 311.65625,
+          "right": 336.84375,
+          "center": 38.046875,
+          "width": 25.1875,
+          "height": 28.125
+        },
+        {
+          "id": "bee-open",
+          "x": 359.109375,
+          "right": 384.296875,
+          "center": 38.046875,
+          "width": 25.1875,
+          "height": 28.125
+        },
+        {
+          "id": "settings-button",
+          "x": 406.5625,
+          "right": 431.75,
+          "center": 38.046875,
+          "width": 25.1875,
+          "height": 28.125
+        },
+        {
+          "id": "pin",
+          "x": 460.015625,
+          "right": 485.203125,
+          "center": 38.046875,
+          "width": 25.1875,
+          "height": 28.125
+        },
+        {
+          "id": "minimize",
+          "x": 507.46875,
+          "right": 532.65625,
+          "center": 38.046875,
+          "width": 25.1875,
+          "height": 28.125
+        },
+        {
+          "id": "close",
+          "x": 554.921875,
+          "right": 580.109375,
+          "center": 38.046875,
+          "width": 25.1875,
+          "height": 28.125
+        }
+      ]
+    },
+    {
+      "width": 900,
+      "controls": [
+        {
+          "id": "restaurant-launch",
+          "x": 470.671875,
+          "right": 508.765625,
+          "center": 53.9453125,
+          "width": 38.09375,
+          "height": 42.515625
+        },
+        {
+          "id": "bee-open",
+          "x": 542.421875,
+          "right": 580.515625,
+          "center": 53.9453125,
+          "width": 38.09375,
+          "height": 42.515625
+        },
+        {
+          "id": "settings-button",
+          "x": 614.171875,
+          "right": 652.265625,
+          "center": 53.9453125,
+          "width": 38.09375,
+          "height": 42.515625
+        },
+        {
+          "id": "pin",
+          "x": 691.921875,
+          "right": 730.015625,
+          "center": 53.9453125,
+          "width": 38.09375,
+          "height": 42.515625
+        },
+        {
+          "id": "minimize",
+          "x": 763.671875,
+          "right": 801.765625,
+          "center": 53.9453125,
+          "width": 38.09375,
+          "height": 42.515625
+        },
+        {
+          "id": "close",
+          "x": 835.421875,
+          "right": 873.515625,
+          "center": 53.9453125,
+          "width": 38.09375,
+          "height": 42.515625
+        }
+      ]
+    }
+  ],
+  "clickCalls": 1,
+  "errors": []
+}

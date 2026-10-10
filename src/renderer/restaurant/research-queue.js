@@ -1,0 +1,8 @@
+export class ResearchQueue{
+ constructor({policies,authorize,complete,spendSecondSlot}){this.policies=new Map(Object.entries(policies));this.authorize=authorize;this.complete=complete;this.spendSecondSlot=spendSecondSlot;this.slots=1;this.jobs=new Map();}
+ start(id){const policy=this.policies.get(id);if(!policy||!Number.isFinite(policy.seconds)||policy.seconds<300||policy.seconds>900)return{allowed:false,reason:'duration-pending'};if(this.jobs.has(id))return{allowed:false,reason:'already-researching'};if(this.jobs.size>=this.slots)return{allowed:false,reason:'slots-full'};const result=this.authorize(id);if(!result.allowed)return result;this.jobs.set(id,{id,remaining:policy.seconds,duration:policy.seconds});return{...result,researching:true};}
+ buySecondSlot(){if(this.slots!==1||this.spendSecondSlot()!==true)return false;this.slots=2;return true;}
+ update(realSeconds){if(!Number.isFinite(realSeconds)||realSeconds<0)throw Error('Invalid research delta');for(const [id,job]of this.jobs){job.remaining=Math.max(0,job.remaining-realSeconds);if(job.remaining===0&&this.complete(id)===true)this.jobs.delete(id);}}
+ snapshot(){return{slots:this.slots,jobs:[...this.jobs.values()].map(j=>({...j})),policies:Object.fromEntries(this.policies)};}
+ restore(state){if(!state||![1,2].includes(state.slots)||!Array.isArray(state.jobs)||state.jobs.length>state.slots)return false;const jobs=new Map();for(const j of state.jobs){const policy=this.policies.get(j.id);if(!policy||jobs.has(j.id)||j.duration!==policy.seconds||!Number.isFinite(j.remaining)||j.remaining<0||j.remaining>j.duration)return false;jobs.set(j.id,{...j});}this.slots=state.slots;this.jobs=jobs;return true;}
+}

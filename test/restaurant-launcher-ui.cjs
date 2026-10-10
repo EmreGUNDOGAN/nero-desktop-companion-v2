@@ -1,0 +1,14 @@
+const {app,BrowserWindow,protocol,net}=require('electron');
+const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict'),{pathToFileURL}=require('node:url');
+const root=path.join(__dirname,'..'),out=path.join(root,'docs/restaurant-integration');
+app.setPath('userData',path.join(root,'.test-profiles/restaurant-launcher-final'));
+protocol.registerSchemesAsPrivileged([{scheme:'nero-theme',privileges:{standard:true,secure:true,corsEnabled:true,supportFetchAPI:true}}]);
+app.whenReady().then(async()=>{let win;try{
+ fs.mkdirSync(out,{recursive:true});protocol.handle('nero-theme',req=>{const u=new URL(req.url),file=path.resolve(root,'themes',u.hostname,'.'+decodeURIComponent(u.pathname));assert.ok(file.startsWith(path.join(root,'themes')+path.sep));return net.fetch(pathToFileURL(file).href);});
+ win=new BrowserWindow({width:600,height:1000,show:false,frame:false,webPreferences:{offscreen:true,backgroundThrottling:false,preload:path.join(__dirname,'all-features-preload.cjs'),sandbox:false,contextIsolation:true}});
+ const errors=[];win.webContents.on('console-message',e=>{if(e.level==='error')errors.push(e.message);});const js=s=>win.webContents.executeJavaScript(s),wait=ms=>new Promise(r=>setTimeout(r,ms));
+ await win.loadFile(path.join(root,'src/renderer/panel/index.html'));await wait(250);await js('document.fonts.ready.then(()=>true)');
+ const layouts=[];for(const width of [380,600,900]){win.setContentSize(width,1000);await wait(100);const layout=await js(`(()=>{const ids=['restaurant-launch','bee-open','settings-button','pin','minimize','close'];return ids.map(id=>{const r=document.getElementById(id).getBoundingClientRect();return{id,x:r.x,right:r.right,center:r.y+r.height/2,width:r.width,height:r.height};});})()`);assert.ok(layout[0].x>=0);assert.ok(layout.at(-1).right<=width);for(let i=1;i<layout.length;i++){assert.ok(layout[i].x>=layout[i-1].right-1);assert.ok(Math.abs(layout[i].center-layout[0].center)<1);}layouts.push({width,controls:layout});}
+ const before=await js('window.nero.__getCalls().filter(c=>c.channel==="restaurant:open").length');await js('document.getElementById("restaurant-launch").click()');const after=await js('window.nero.__getCalls().filter(c=>c.channel==="restaurant:open").length');assert.equal(after,before+1);assert.equal(await js('document.querySelector("#restaurant-launch img").naturalWidth'),314);assert.deepEqual(errors,[]);
+ win.setContentSize(600,1000);await wait(100);fs.writeFileSync(path.join(out,'NER0-SPONGEBOB-DUGMESI.png'),(await win.webContents.capturePage({x:0,y:0,width:600,height:120})).toPNG());fs.writeFileSync(path.join(out,'launcher-verification.json'),JSON.stringify({passed:true,layouts,clickCalls:1,errors},null,2));console.log('PASS: launcher alignment at 380/600/900 px, local image loading, single click dispatch and zero renderer errors.');win.destroy();app.exit(0);
+}catch(e){console.error(e.stack);win?.destroy();app.exit(1);}});

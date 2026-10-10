@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; media-src 'self' blob:">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Nero · Gerçek 3D örnek</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="scene" aria-label="Hareketli Krusty Krab 3D örneği"></canvas>
+  <header>
+    <div class="brand"><span class="brand-face">◡</span><div><strong>Nero · Krusty Krab</strong><small>HAREKETLİ 3D ÖRNEK</small></div></div>
+    <div class="top-stats"><div class="pill"><span class="coin">●</span><strong id="coins">250</strong><small>örnek altın</small></div><button id="pause" class="pill" aria-label="Duraklat">Ⅱ</button></div>
+  </header>
+  <section class="quests" aria-label="Görevler">
+    <div class="quest"><span class="quest-icon">🍔</span><div><strong>3 sipariş teslim et</strong><div class="progress"><i id="quest-progress"></i></div><small id="quest-count">0 / 3</small></div><button id="claim" disabled>20 altın</button></div>
+    <div class="quest secondary"><span class="quest-icon">✦</span><div><strong>Birlikte kontrol edelim</strong><small>Masa, mutfak ve karakter hareketleri</small></div></div>
+  </section>
+  <aside class="order-panel">
+    <div class="eyebrow">SİPARİŞ AKIŞI</div>
+    <h1 id="status-title">Restoran hazır.</h1>
+    <p id="status-detail">Bir burger hazırlayalım. Nero onu alıp teslim tezgâhına taşısın.</p>
+    <div class="steps"><span data-stage="cook">Pişir</span><span data-stage="carry">Taşı</span><span data-stage="deliver">Teslim et</span></div>
+    <button id="start" class="primary">Siparişi başlat <span>→</span></button>
+    <button id="replay" class="subtle">Örneği başa al</button>
+  </aside>
+  <div id="item-tip" hidden></div>
+  <footer>
+    <div class="demo-label"><span class="live-dot"></span>Çalışan 3D sahne <small>Oyun sistemleri henüz eklenmedi.</small></div>
+    <div class="controls"><button id="crowd">20 masa testi</button><button id="close-view">Yakın görünüm</button><button id="zoom-out" aria-label="Uzaklaştır">−</button><button id="zoom-in" aria-label="Yakınlaştır">+</button></div>
+  </footer>
+  <div class="hint">Sürükle: sahneyi kaydır · Tekerlek: yakınlaştır</div>
+  <div id="error" hidden></div>
+  <script type="module" src="demo.js"></script>
+</body>
+</html>

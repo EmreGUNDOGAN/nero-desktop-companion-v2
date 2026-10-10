@@ -1,0 +1,5755 @@
+{
+  "status": "active-price-plan",
+  "currency": "oyun altını",
+  "materials": [
+    {
+      "id": "meat",
+      "name": "Et",
+      "unit_cents": 75
+    },
+    {
+      "id": "bread",
+      "name": "Ekmek",
+      "unit_cents": 25
+    },
+    {
+      "id": "potato",
+      "name": "Patates",
+      "unit_cents": 60
+    },
+    {
+      "id": "cola",
+      "name": "Kola",
+      "unit_cents": 40
+    },
+    {
+      "id": "cheese",
+      "name": "Peynir",
+      "unit_cents": 30
+    },
+    {
+      "id": "vegetables",
+      "name": "Sebze",
+      "unit_cents": 30
+    },
+    {
+      "id": "sauce",
+      "name": "Sos",
+      "unit_cents": 20
+    },
+    {
+      "id": "dough",
+      "name": "Hamur",
+      "unit_cents": 50
+    },
+    {
+      "id": "sausage",
+      "name": "Sosis",
+      "unit_cents": 100
+    },
+    {
+      "id": "milk",
+      "name": "Süt",
+      "unit_cents": 65
+    },
+    {
+      "id": "fruit",
+      "name": "Meyve",
+      "unit_cents": 50
+    },
+    {
+      "id": "coffee",
+      "name": "Kahve",
+      "unit_cents": 50
+    },
+    {
+      "id": "tea",
+      "name": "Çay",
+      "unit_cents": 35
+    },
+    {
+      "id": "sugar",
+      "name": "Şeker",
+      "unit_cents": 15
+    },
+    {
+      "id": "pasta",
+      "name": "Makarna",
+      "unit_cents": 75
+    }
+  ],
+  "products": [
+    {
+      "id": "food-1",
+      "name": "Krabby Patty",
+      "level": 1,
+      "group": "Burger / sosisli",
+      "ingredients": [
+        {
+          "id": "meat",
+          "name": "Et",
+          "quantity": 1,
+          "unit_cents": 75,
+          "total_cents": 75
+        },
+        {
+          "id": "bread",
+          "name": "Ekmek",
+          "quantity": 1,
+          "unit_cents": 25,
+          "total_cents": 25
+        },
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 0.5,
+          "unit_cents": 30,
+          "total_cents": 15
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 0.5,
+          "unit_cents": 20,
+          "total_cents": 10
+        }
+      ],
+      "cost_cents": 125,
+      "sale_cents": 500,
+      "material_share": 25.0,
+      "premium_percent": 0.0,
+      "contribution_cents": 375,
+      "unlock_gold": 0,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 0
+    },
+    {
+      "id": "food-96",
+      "name": "Dr. Kelp",
+      "level": 1,
+      "group": "Gazlı / sıcak içecek",
+      "ingredients": [
+        {
+          "id": "cola",
+          "name": "Kola",
+          "quantity": 1,
+          "unit_cents": 40,
+          "total_cents": 40
+        }
+      ],
+      "cost_cents": 40,
+      "sale_cents": 160,
+      "material_share": 25.0,
+      "premium_percent": 0.0,
+      "contribution_cents": 120,
+      "unlock_gold": 0,
+      "notes": "Tat/diyet/renk varyantı aynı ortak içecek stoğunu kullanır.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 0
+    },
+    {
+      "id": "food-2",
+      "name": "Deluxe Krabby Patty",
+      "level": 2,
+      "group": "Burger / sosisli",
+      "ingredients": [
+        {
+          "id": "meat",
+          "name": "Et",
+          "quantity": 1,
+          "unit_cents": 75,
+          "total_cents": 75
+        },
+        {
+          "id": "bread",
+          "name": "Ekmek",
+          "quantity": 1,
+          "unit_cents": 25,
+          "total_cents": 25
+        },
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 0.5,
+          "unit_cents": 30,
+          "total_cents": 15
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 0.5,
+          "unit_cents": 20,
+          "total_cents": 10
+        },
+        {
+          "id": "cheese",
+          "name": "Peynir",
+          "quantity": 1,
+          "unit_cents": 30,
+          "total_cents": 30
+        }
+      ],
+      "cost_cents": 155,
+      "sale_cents": 643,
+      "material_share": 24.11,
+      "premium_percent": 3.71,
+      "contribution_cents": 488,
+      "unlock_gold": 65,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 65
+    },
+    {
+      "id": "food-37",
+      "name": "Seafoam soda",
+      "level": 3,
+      "group": "Gazlı / sıcak içecek",
+      "ingredients": [
+        {
+          "id": "cola",
+          "name": "Kola",
+          "quantity": 1,
+          "unit_cents": 40,
+          "total_cents": 40
+        }
+      ],
+      "cost_cents": 40,
+      "sale_cents": 171,
+      "material_share": 23.39,
+      "premium_percent": 6.88,
+      "contribution_cents": 131,
+      "unlock_gold": 70,
+      "notes": "Tat/diyet/renk varyantı aynı ortak içecek stoğunu kullanır.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 70
+    },
+    {
+      "id": "food-3",
+      "name": "Triple Krabby Supreme",
+      "level": 4,
+      "group": "Burger / sosisli",
+      "ingredients": [
+        {
+          "id": "meat",
+          "name": "Et",
+          "quantity": 3,
+          "unit_cents": 75,
+          "total_cents": 225
+        },
+        {
+          "id": "bread",
+          "name": "Ekmek",
+          "quantity": 1,
+          "unit_cents": 25,
+          "total_cents": 25
+        },
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 0.5,
+          "unit_cents": 30,
+          "total_cents": 15
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 0.5,
+          "unit_cents": 20,
+          "total_cents": 10
+        }
+      ],
+      "cost_cents": 275,
+      "sale_cents": 1161,
+      "material_share": 23.69,
+      "premium_percent": 5.55,
+      "contribution_cents": 886,
+      "unlock_gold": 95,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 95
+    },
+    {
+      "id": "food-32",
+      "name": "Krabby Fries",
+      "level": 5,
+      "group": "Yan ürün",
+      "ingredients": [
+        {
+          "id": "potato",
+          "name": "Patates",
+          "quantity": 1,
+          "unit_cents": 60,
+          "total_cents": 60
+        }
+      ],
+      "cost_cents": 60,
+      "sale_cents": 262,
+      "material_share": 22.9,
+      "premium_percent": 9.17,
+      "contribution_cents": 202,
+      "unlock_gold": 0,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir. İlk tarif makine bedeline dahil; ikinci tariften itibaren tarif bedeli ayrı.",
+      "special_proposal": false,
+      "machine_gold": 425,
+      "previous_combined_unlock_gold": 175,
+      "total_unlock_gold": 425
+    },
+    {
+      "id": "food-4",
+      "name": "Ultra Krabby Supreme",
+      "level": 6,
+      "group": "Burger / sosisli",
+      "ingredients": [
+        {
+          "id": "meat",
+          "name": "Et",
+          "quantity": 3,
+          "unit_cents": 75,
+          "total_cents": 225
+        },
+        {
+          "id": "bread",
+          "name": "Ekmek",
+          "quantity": 1,
+          "unit_cents": 25,
+          "total_cents": 25
+        },
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 0.5,
+          "unit_cents": 30,
+          "total_cents": 15
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 0.5,
+          "unit_cents": 20,
+          "total_cents": 10
+        }
+      ],
+      "cost_cents": 275,
+      "sale_cents": 1177,
+      "material_share": 23.36,
+      "premium_percent": 7.0,
+      "contribution_cents": 902,
+      "unlock_gold": 125,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 125
+    },
+    {
+      "id": "food-40",
+      "name": "Diet Red Tide",
+      "level": 7,
+      "group": "Gazlı / sıcak içecek",
+      "ingredients": [
+        {
+          "id": "cola",
+          "name": "Kola",
+          "quantity": 1,
+          "unit_cents": 40,
+          "total_cents": 40
+        }
+      ],
+      "cost_cents": 40,
+      "sale_cents": 176,
+      "material_share": 22.73,
+      "premium_percent": 10.0,
+      "contribution_cents": 136,
+      "unlock_gold": 110,
+      "notes": "Tat/diyet/renk varyantı aynı ortak içecek stoğunu kullanır.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 110
+    },
+    {
+      "id": "food-33",
+      "name": "Kelp fries",
+      "level": 8,
+      "group": "Yan ürün",
+      "ingredients": [
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 1,
+          "unit_cents": 30,
+          "total_cents": 30
+        },
+        {
+          "id": "dough",
+          "name": "Hamur",
+          "quantity": 0.5,
+          "unit_cents": 50,
+          "total_cents": 25
+        }
+      ],
+      "cost_cents": 55,
+      "sale_cents": 242,
+      "material_share": 22.73,
+      "premium_percent": 10.0,
+      "contribution_cents": 187,
+      "unlock_gold": 95,
+      "notes": "Deniz bitkisi/atıştırmalık ortak sebze ve hamurla temsil edilir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 95
+    },
+    {
+      "id": "food-5",
+      "name": "King Size Krabby Supreme",
+      "level": 9,
+      "group": "Burger / sosisli",
+      "ingredients": [
+        {
+          "id": "meat",
+          "name": "Et",
+          "quantity": 3,
+          "unit_cents": 75,
+          "total_cents": 225
+        },
+        {
+          "id": "bread",
+          "name": "Ekmek",
+          "quantity": 1,
+          "unit_cents": 25,
+          "total_cents": 25
+        },
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 0.5,
+          "unit_cents": 30,
+          "total_cents": 15
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 0.5,
+          "unit_cents": 20,
+          "total_cents": 10
+        }
+      ],
+      "cost_cents": 275,
+      "sale_cents": 1194,
+      "material_share": 23.03,
+      "premium_percent": 8.55,
+      "contribution_cents": 919,
+      "unlock_gold": 155,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 155
+    },
+    {
+      "id": "food-44",
+      "name": "Krusty Krab Pizza",
+      "level": 10,
+      "group": "Ana tabak / pizza",
+      "ingredients": [
+        {
+          "id": "dough",
+          "name": "Hamur",
+          "quantity": 2,
+          "unit_cents": 50,
+          "total_cents": 100
+        },
+        {
+          "id": "cheese",
+          "name": "Peynir",
+          "quantity": 2,
+          "unit_cents": 30,
+          "total_cents": 60
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 1,
+          "unit_cents": 20,
+          "total_cents": 20
+        },
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 1,
+          "unit_cents": 30,
+          "total_cents": 30
+        }
+      ],
+      "cost_cents": 210,
+      "sale_cents": 920,
+      "material_share": 22.83,
+      "premium_percent": 9.52,
+      "contribution_cents": 710,
+      "unlock_gold": 0,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir. İlk tarif makine bedeline dahil; ikinci tariften itibaren tarif bedeli ayrı.",
+      "special_proposal": false,
+      "machine_gold": 925,
+      "previous_combined_unlock_gold": 195,
+      "total_unlock_gold": 925
+    },
+    {
+      "id": "food-6",
+      "name": "Double Triple Bossy Deluxe",
+      "level": 11,
+      "group": "Burger / sosisli",
+      "ingredients": [
+        {
+          "id": "meat",
+          "name": "Et",
+          "quantity": 3,
+          "unit_cents": 75,
+          "total_cents": 225
+        },
+        {
+          "id": "bread",
+          "name": "Ekmek",
+          "quantity": 1,
+          "unit_cents": 25,
+          "total_cents": 25
+        },
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 0.5,
+          "unit_cents": 30,
+          "total_cents": 15
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 0.5,
+          "unit_cents": 20,
+          "total_cents": 10
+        }
+      ],
+      "cost_cents": 275,
+      "sale_cents": 1200,
+      "material_share": 22.92,
+      "premium_percent": 9.09,
+      "contribution_cents": 925,
+      "unlock_gold": 180,
+      "notes": "Altı küçük köfte = üç standart et porsiyonu önerisi; fiyatı sınırda tutar.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 180
+    },
+    {
+      "id": "food-97",
+      "name": "Diet Dr. Kelp",
+      "level": 12,
+      "group": "Gazlı / sıcak içecek",
+      "ingredients": [
+        {
+          "id": "cola",
+          "name": "Kola",
+          "quantity": 1,
+          "unit_cents": 40,
+          "total_cents": 40
+        }
+      ],
+      "cost_cents": 40,
+      "sale_cents": 179,
+      "material_share": 22.35,
+      "premium_percent": 11.87,
+      "contribution_cents": 139,
+      "unlock_gold": 145,
+      "notes": "Tat/diyet/renk varyantı aynı ortak içecek stoğunu kullanır.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 145
+    },
+    {
+      "id": "food-34",
+      "name": "Coral bits",
+      "level": 13,
+      "group": "Yan ürün",
+      "ingredients": [
+        {
+          "id": "dough",
+          "name": "Hamur",
+          "quantity": 1,
+          "unit_cents": 50,
+          "total_cents": 50
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 0.5,
+          "unit_cents": 20,
+          "total_cents": 10
+        }
+      ],
+      "cost_cents": 60,
+      "sale_cents": 268,
+      "material_share": 22.39,
+      "premium_percent": 11.67,
+      "contribution_cents": 208,
+      "unlock_gold": 130,
+      "notes": "Özel deniz atıştırmalığı için sadeleştirilmiş oyun reçetesi.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 130
+    },
+    {
+      "id": "food-48",
+      "name": "Yummy Bunz",
+      "level": 14,
+      "group": "Yan ürün",
+      "ingredients": [
+        {
+          "id": "dough",
+          "name": "Hamur",
+          "quantity": 1,
+          "unit_cents": 50,
+          "total_cents": 50
+        },
+        {
+          "id": "milk",
+          "name": "Süt",
+          "quantity": 0.25,
+          "unit_cents": 65,
+          "total_cents": 16
+        }
+      ],
+      "cost_cents": 66,
+      "sale_cents": 294,
+      "material_share": 22.45,
+      "premium_percent": 11.36,
+      "contribution_cents": 228,
+      "unlock_gold": 115,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 115
+    },
+    {
+      "id": "food-7",
+      "name": "Ice Cream Triple Patty",
+      "level": 15,
+      "group": "Burger / sosisli",
+      "ingredients": [
+        {
+          "id": "meat",
+          "name": "Et",
+          "quantity": 2,
+          "unit_cents": 75,
+          "total_cents": 150
+        },
+        {
+          "id": "bread",
+          "name": "Ekmek",
+          "quantity": 1,
+          "unit_cents": 25,
+          "total_cents": 25
+        },
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 0.5,
+          "unit_cents": 30,
+          "total_cents": 15
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 0.5,
+          "unit_cents": 20,
+          "total_cents": 10
+        },
+        {
+          "id": "milk",
+          "name": "Süt",
+          "quantity": 0.5,
+          "unit_cents": 65,
+          "total_cents": 33
+        },
+        {
+          "id": "sugar",
+          "name": "Şeker",
+          "quantity": 0.5,
+          "unit_cents": 15,
+          "total_cents": 8
+        }
+      ],
+      "cost_cents": 241,
+      "sale_cents": 1067,
+      "material_share": 22.59,
+      "premium_percent": 10.68,
+      "contribution_cents": 826,
+      "unlock_gold": 215,
+      "notes": "Dondurma bileşeni süt/şeker stoklarıyla temsil edilir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 215
+    },
+    {
+      "id": "food-116",
+      "name": "Lemon Lime Soda",
+      "level": 16,
+      "group": "Gazlı / sıcak içecek",
+      "ingredients": [
+        {
+          "id": "cola",
+          "name": "Kola",
+          "quantity": 1,
+          "unit_cents": 40,
+          "total_cents": 40
+        }
+      ],
+      "cost_cents": 40,
+      "sale_cents": 181,
+      "material_share": 22.1,
+      "premium_percent": 13.13,
+      "contribution_cents": 141,
+      "unlock_gold": 180,
+      "notes": "Tat/diyet/renk varyantı aynı ortak içecek stoğunu kullanır.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 180
+    },
+    {
+      "id": "food-35",
+      "name": "Hash browns",
+      "level": 17,
+      "group": "Yan ürün",
+      "ingredients": [
+        {
+          "id": "potato",
+          "name": "Patates",
+          "quantity": 1,
+          "unit_cents": 60,
+          "total_cents": 60
+        }
+      ],
+      "cost_cents": 60,
+      "sale_cents": 270,
+      "material_share": 22.22,
+      "premium_percent": 12.5,
+      "contribution_cents": 210,
+      "unlock_gold": 165,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 165
+    },
+    {
+      "id": "food-41",
+      "name": "Kelp Shake",
+      "level": 18,
+      "group": "Özel içecek",
+      "ingredients": [
+        {
+          "id": "milk",
+          "name": "Süt",
+          "quantity": 1,
+          "unit_cents": 65,
+          "total_cents": 65
+        },
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 0.5,
+          "unit_cents": 30,
+          "total_cents": 15
+        },
+        {
+          "id": "sugar",
+          "name": "Şeker",
+          "quantity": 1,
+          "unit_cents": 15,
+          "total_cents": 15
+        }
+      ],
+      "cost_cents": 95,
+      "sale_cents": 428,
+      "material_share": 22.2,
+      "premium_percent": 12.63,
+      "contribution_cents": 333,
+      "unlock_gold": 0,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir. İlk tarif makine bedeline dahil; ikinci tariften itibaren tarif bedeli ayrı.",
+      "special_proposal": false,
+      "machine_gold": 1325,
+      "previous_combined_unlock_gold": 225,
+      "total_unlock_gold": 1325
+    },
+    {
+      "id": "food-8",
+      "name": "Jelly Patty",
+      "level": 19,
+      "group": "Burger / sosisli",
+      "ingredients": [
+        {
+          "id": "meat",
+          "name": "Et",
+          "quantity": 1,
+          "unit_cents": 75,
+          "total_cents": 75
+        },
+        {
+          "id": "bread",
+          "name": "Ekmek",
+          "quantity": 1,
+          "unit_cents": 25,
+          "total_cents": 25
+        },
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 0.5,
+          "unit_cents": 30,
+          "total_cents": 15
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 0.5,
+          "unit_cents": 20,
+          "total_cents": 10
+        },
+        {
+          "id": "fruit",
+          "name": "Meyve",
+          "quantity": 0.5,
+          "unit_cents": 50,
+          "total_cents": 25
+        },
+        {
+          "id": "sugar",
+          "name": "Şeker",
+          "quantity": 0.5,
+          "unit_cents": 15,
+          "total_cents": 8
+        }
+      ],
+      "cost_cents": 158,
+      "sale_cents": 709,
+      "material_share": 22.28,
+      "premium_percent": 12.18,
+      "contribution_cents": 551,
+      "unlock_gold": 245,
+      "notes": "Jöle sosu meyve/şekerle temsil edilir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 245
+    },
+    {
+      "id": "food-164",
+      "name": "Large fountain drink",
+      "level": 20,
+      "group": "Gazlı / sıcak içecek",
+      "ingredients": [
+        {
+          "id": "cola",
+          "name": "Kola",
+          "quantity": 1.5,
+          "unit_cents": 40,
+          "total_cents": 60
+        }
+      ],
+      "cost_cents": 60,
+      "sale_cents": 272,
+      "material_share": 22.06,
+      "premium_percent": 13.33,
+      "contribution_cents": 212,
+      "unlock_gold": 215,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 215
+    },
+    {
+      "id": "food-36",
+      "name": "Churro fries",
+      "level": 21,
+      "group": "Yan ürün",
+      "ingredients": [
+        {
+          "id": "dough",
+          "name": "Hamur",
+          "quantity": 1,
+          "unit_cents": 50,
+          "total_cents": 50
+        },
+        {
+          "id": "sugar",
+          "name": "Şeker",
+          "quantity": 1,
+          "unit_cents": 15,
+          "total_cents": 15
+        }
+      ],
+      "cost_cents": 65,
+      "sale_cents": 295,
+      "material_share": 22.03,
+      "premium_percent": 13.46,
+      "contribution_cents": 230,
+      "unlock_gold": 195,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 195
+    },
+    {
+      "id": "food-63",
+      "name": "Barnacle Bruschetta",
+      "level": 22,
+      "group": "Yan ürün",
+      "ingredients": [
+        {
+          "id": "bread",
+          "name": "Ekmek",
+          "quantity": 2,
+          "unit_cents": 25,
+          "total_cents": 50
+        },
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 1,
+          "unit_cents": 30,
+          "total_cents": 30
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 0.5,
+          "unit_cents": 20,
+          "total_cents": 10
+        }
+      ],
+      "cost_cents": 90,
+      "sale_cents": 406,
+      "material_share": 22.17,
+      "premium_percent": 12.78,
+      "contribution_cents": 316,
+      "unlock_gold": 165,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 165
+    },
+    {
+      "id": "food-38",
+      "name": "Milkshake",
+      "level": 23,
+      "group": "Özel içecek",
+      "ingredients": [
+        {
+          "id": "milk",
+          "name": "Süt",
+          "quantity": 1,
+          "unit_cents": 65,
+          "total_cents": 65
+        },
+        {
+          "id": "sugar",
+          "name": "Şeker",
+          "quantity": 1,
+          "unit_cents": 15,
+          "total_cents": 15
+        }
+      ],
+      "cost_cents": 80,
+      "sale_cents": 361,
+      "material_share": 22.16,
+      "premium_percent": 12.81,
+      "contribution_cents": 281,
+      "unlock_gold": 150,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 150
+    },
+    {
+      "id": "food-9",
+      "name": "Crying Johnny",
+      "level": 24,
+      "group": "Burger / sosisli",
+      "ingredients": [
+        {
+          "id": "meat",
+          "name": "Et",
+          "quantity": 1,
+          "unit_cents": 75,
+          "total_cents": 75
+        },
+        {
+          "id": "bread",
+          "name": "Ekmek",
+          "quantity": 1,
+          "unit_cents": 25,
+          "total_cents": 25
+        },
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 0.5,
+          "unit_cents": 30,
+          "total_cents": 15
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 0.5,
+          "unit_cents": 20,
+          "total_cents": 10
+        }
+      ],
+      "cost_cents": 125,
+      "sale_cents": 567,
+      "material_share": 22.05,
+      "premium_percent": 13.4,
+      "contribution_cents": 442,
+      "unlock_gold": 280,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 280
+    },
+    {
+      "id": "food-165",
+      "name": "Fizzy Fang",
+      "level": 25,
+      "group": "Gazlı / sıcak içecek",
+      "ingredients": [
+        {
+          "id": "cola",
+          "name": "Kola",
+          "quantity": 1,
+          "unit_cents": 40,
+          "total_cents": 40
+        }
+      ],
+      "cost_cents": 40,
+      "sale_cents": 183,
+      "material_share": 21.86,
+      "premium_percent": 14.38,
+      "contribution_cents": 143,
+      "unlock_gold": 250,
+      "notes": "Tat/diyet/renk varyantı aynı ortak içecek stoğunu kullanır.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 250
+    },
+    {
+      "id": "food-51",
+      "name": "Buttered barnacles",
+      "level": 26,
+      "group": "Yan ürün",
+      "ingredients": [
+        {
+          "id": "dough",
+          "name": "Hamur",
+          "quantity": 1,
+          "unit_cents": 50,
+          "total_cents": 50
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 0.5,
+          "unit_cents": 20,
+          "total_cents": 10
+        }
+      ],
+      "cost_cents": 60,
+      "sale_cents": 274,
+      "material_share": 21.9,
+      "premium_percent": 14.17,
+      "contribution_cents": 214,
+      "unlock_gold": 230,
+      "notes": "Özel deniz atıştırmalığı için sadeleştirilmiş oyun reçetesi.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 230
+    },
+    {
+      "id": "food-42",
+      "name": "Juice Box",
+      "level": 27,
+      "group": "Özel içecek",
+      "ingredients": [
+        {
+          "id": "fruit",
+          "name": "Meyve",
+          "quantity": 1.5,
+          "unit_cents": 50,
+          "total_cents": 75
+        },
+        {
+          "id": "sugar",
+          "name": "Şeker",
+          "quantity": 0.5,
+          "unit_cents": 15,
+          "total_cents": 8
+        }
+      ],
+      "cost_cents": 83,
+      "sale_cents": 379,
+      "material_share": 21.9,
+      "premium_percent": 14.16,
+      "contribution_cents": 296,
+      "unlock_gold": 0,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir. İlk tarif makine bedeline dahil; ikinci tariften itibaren tarif bedeli ayrı.",
+      "special_proposal": false,
+      "machine_gold": 1675,
+      "previous_combined_unlock_gold": 255,
+      "total_unlock_gold": 1675
+    },
+    {
+      "id": "food-10",
+      "name": "Cheese Krabby Patty",
+      "level": 28,
+      "group": "Burger / sosisli",
+      "ingredients": [
+        {
+          "id": "meat",
+          "name": "Et",
+          "quantity": 1,
+          "unit_cents": 75,
+          "total_cents": 75
+        },
+        {
+          "id": "bread",
+          "name": "Ekmek",
+          "quantity": 1,
+          "unit_cents": 25,
+          "total_cents": 25
+        },
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 0.5,
+          "unit_cents": 30,
+          "total_cents": 15
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 0.5,
+          "unit_cents": 20,
+          "total_cents": 10
+        },
+        {
+          "id": "cheese",
+          "name": "Peynir",
+          "quantity": 1,
+          "unit_cents": 30,
+          "total_cents": 30
+        }
+      ],
+      "cost_cents": 155,
+      "sale_cents": 705,
+      "material_share": 21.99,
+      "premium_percent": 13.71,
+      "contribution_cents": 550,
+      "unlock_gold": 315,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 315
+    },
+    {
+      "id": "food-52",
+      "name": "Powdered driftwood",
+      "level": 29,
+      "group": "Yan ürün",
+      "ingredients": [
+        {
+          "id": "dough",
+          "name": "Hamur",
+          "quantity": 1,
+          "unit_cents": 50,
+          "total_cents": 50
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 0.5,
+          "unit_cents": 20,
+          "total_cents": 10
+        }
+      ],
+      "cost_cents": 60,
+      "sale_cents": 275,
+      "material_share": 21.82,
+      "premium_percent": 14.58,
+      "contribution_cents": 215,
+      "unlock_gold": 260,
+      "notes": "Özel deniz atıştırmalığı için sadeleştirilmiş oyun reçetesi.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 260
+    },
+    {
+      "id": "food-91",
+      "name": "Golden Loaf",
+      "level": 30,
+      "group": "Yan ürün",
+      "ingredients": [
+        {
+          "id": "dough",
+          "name": "Hamur",
+          "quantity": 1,
+          "unit_cents": 50,
+          "total_cents": 50
+        },
+        {
+          "id": "milk",
+          "name": "Süt",
+          "quantity": 0.25,
+          "unit_cents": 65,
+          "total_cents": 16
+        }
+      ],
+      "cost_cents": 66,
+      "sale_cents": 302,
+      "material_share": 21.85,
+      "premium_percent": 14.39,
+      "contribution_cents": 236,
+      "unlock_gold": 205,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 205
+    },
+    {
+      "id": "food-77",
+      "name": "Super Seaweed Shake",
+      "level": 31,
+      "group": "Özel içecek",
+      "ingredients": [
+        {
+          "id": "milk",
+          "name": "Süt",
+          "quantity": 1,
+          "unit_cents": 65,
+          "total_cents": 65
+        },
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 0.5,
+          "unit_cents": 30,
+          "total_cents": 15
+        },
+        {
+          "id": "sugar",
+          "name": "Şeker",
+          "quantity": 1,
+          "unit_cents": 15,
+          "total_cents": 15
+        }
+      ],
+      "cost_cents": 95,
+      "sale_cents": 433,
+      "material_share": 21.94,
+      "premium_percent": 13.95,
+      "contribution_cents": 338,
+      "unlock_gold": 190,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 190
+    },
+    {
+      "id": "food-166",
+      "name": "Sugar Squeeze",
+      "level": 32,
+      "group": "Özel içecek",
+      "ingredients": [
+        {
+          "id": "fruit",
+          "name": "Meyve",
+          "quantity": 1.5,
+          "unit_cents": 50,
+          "total_cents": 75
+        },
+        {
+          "id": "sugar",
+          "name": "Şeker",
+          "quantity": 0.5,
+          "unit_cents": 15,
+          "total_cents": 8
+        }
+      ],
+      "cost_cents": 83,
+      "sale_cents": 379,
+      "material_share": 21.9,
+      "premium_percent": 14.16,
+      "contribution_cents": 296,
+      "unlock_gold": 175,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 175
+    },
+    {
+      "id": "food-11",
+      "name": "Monster Krabby Patty",
+      "level": 33,
+      "group": "Burger / sosisli",
+      "ingredients": [
+        {
+          "id": "meat",
+          "name": "Et",
+          "quantity": 3,
+          "unit_cents": 75,
+          "total_cents": 225
+        },
+        {
+          "id": "bread",
+          "name": "Ekmek",
+          "quantity": 1,
+          "unit_cents": 25,
+          "total_cents": 25
+        },
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 0.5,
+          "unit_cents": 30,
+          "total_cents": 15
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 0.5,
+          "unit_cents": 20,
+          "total_cents": 10
+        }
+      ],
+      "cost_cents": 275,
+      "sale_cents": 1200,
+      "material_share": 22.92,
+      "premium_percent": 9.09,
+      "contribution_cents": 925,
+      "unlock_gold": 345,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 345
+    },
+    {
+      "id": "food-54",
+      "name": "Fried flotsam",
+      "level": 34,
+      "group": "Yan ürün",
+      "ingredients": [
+        {
+          "id": "dough",
+          "name": "Hamur",
+          "quantity": 1,
+          "unit_cents": 50,
+          "total_cents": 50
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 0.5,
+          "unit_cents": 20,
+          "total_cents": 10
+        }
+      ],
+      "cost_cents": 60,
+      "sale_cents": 276,
+      "material_share": 21.74,
+      "premium_percent": 15.0,
+      "contribution_cents": 216,
+      "unlock_gold": 295,
+      "notes": "Özel deniz atıştırmalığı için sadeleştirilmiş oyun reçetesi.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 295
+    },
+    {
+      "id": "food-120",
+      "name": "Barnacle loaf",
+      "level": 35,
+      "group": "Yan ürün",
+      "ingredients": [
+        {
+          "id": "bread",
+          "name": "Ekmek",
+          "quantity": 2,
+          "unit_cents": 25,
+          "total_cents": 50
+        },
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 1,
+          "unit_cents": 30,
+          "total_cents": 30
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 0.5,
+          "unit_cents": 20,
+          "total_cents": 10
+        }
+      ],
+      "cost_cents": 90,
+      "sale_cents": 413,
+      "material_share": 21.79,
+      "premium_percent": 14.72,
+      "contribution_cents": 323,
+      "unlock_gold": 240,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 240
+    },
+    {
+      "id": "food-95",
+      "name": "Salty Shake",
+      "level": 36,
+      "group": "Özel içecek",
+      "ingredients": [
+        {
+          "id": "milk",
+          "name": "Süt",
+          "quantity": 1,
+          "unit_cents": 65,
+          "total_cents": 65
+        },
+        {
+          "id": "sugar",
+          "name": "Şeker",
+          "quantity": 1,
+          "unit_cents": 15,
+          "total_cents": 15
+        }
+      ],
+      "cost_cents": 80,
+      "sale_cents": 367,
+      "material_share": 21.8,
+      "premium_percent": 14.69,
+      "contribution_cents": 287,
+      "unlock_gold": 225,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 225
+    },
+    {
+      "id": "food-167",
+      "name": "Sleepy Squeeze",
+      "level": 37,
+      "group": "Özel içecek",
+      "ingredients": [
+        {
+          "id": "fruit",
+          "name": "Meyve",
+          "quantity": 1.5,
+          "unit_cents": 50,
+          "total_cents": 75
+        },
+        {
+          "id": "sugar",
+          "name": "Şeker",
+          "quantity": 0.5,
+          "unit_cents": 15,
+          "total_cents": 8
+        }
+      ],
+      "cost_cents": 83,
+      "sale_cents": 381,
+      "material_share": 21.78,
+      "premium_percent": 14.76,
+      "contribution_cents": 298,
+      "unlock_gold": 210,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 210
+    },
+    {
+      "id": "food-104",
+      "name": "Tea",
+      "level": 38,
+      "group": "Gazlı / sıcak içecek",
+      "ingredients": [
+        {
+          "id": "tea",
+          "name": "Çay",
+          "quantity": 1,
+          "unit_cents": 35,
+          "total_cents": 35
+        }
+      ],
+      "cost_cents": 35,
+      "sale_cents": 162,
+      "material_share": 21.6,
+      "premium_percent": 15.71,
+      "contribution_cents": 127,
+      "unlock_gold": 0,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir. İlk tarif makine bedeline dahil; ikinci tariften itibaren tarif bedeli ayrı.",
+      "special_proposal": false,
+      "machine_gold": 1950,
+      "previous_combined_unlock_gold": 285,
+      "total_unlock_gold": 1950
+    },
+    {
+      "id": "food-12",
+      "name": "Greasy Deluxe Patty",
+      "level": 39,
+      "group": "Burger / sosisli",
+      "ingredients": [
+        {
+          "id": "meat",
+          "name": "Et",
+          "quantity": 1,
+          "unit_cents": 75,
+          "total_cents": 75
+        },
+        {
+          "id": "bread",
+          "name": "Ekmek",
+          "quantity": 1,
+          "unit_cents": 25,
+          "total_cents": 25
+        },
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 0.5,
+          "unit_cents": 30,
+          "total_cents": 15
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 0.5,
+          "unit_cents": 20,
+          "total_cents": 10
+        }
+      ],
+      "cost_cents": 125,
+      "sale_cents": 576,
+      "material_share": 21.7,
+      "premium_percent": 15.2,
+      "contribution_cents": 451,
+      "unlock_gold": 385,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 385
+    },
+    {
+      "id": "food-84",
+      "name": "Kelp Rings",
+      "level": 40,
+      "group": "Yan ürün",
+      "ingredients": [
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 1,
+          "unit_cents": 30,
+          "total_cents": 30
+        },
+        {
+          "id": "dough",
+          "name": "Hamur",
+          "quantity": 0.5,
+          "unit_cents": 50,
+          "total_cents": 25
+        }
+      ],
+      "cost_cents": 55,
+      "sale_cents": 255,
+      "material_share": 21.57,
+      "premium_percent": 15.91,
+      "contribution_cents": 200,
+      "unlock_gold": 330,
+      "notes": "Deniz bitkisi/atıştırmalık ortak sebze ve hamurla temsil edilir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 330
+    },
+    {
+      "id": "food-122",
+      "name": "Canned bread",
+      "level": 41,
+      "group": "Yan ürün",
+      "ingredients": [
+        {
+          "id": "dough",
+          "name": "Hamur",
+          "quantity": 1,
+          "unit_cents": 50,
+          "total_cents": 50
+        },
+        {
+          "id": "milk",
+          "name": "Süt",
+          "quantity": 0.25,
+          "unit_cents": 65,
+          "total_cents": 16
+        }
+      ],
+      "cost_cents": 66,
+      "sale_cents": 305,
+      "material_share": 21.64,
+      "premium_percent": 15.53,
+      "contribution_cents": 239,
+      "unlock_gold": 275,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 275
+    },
+    {
+      "id": "food-100",
+      "name": "Krabby Shake",
+      "level": 42,
+      "group": "Özel içecek",
+      "ingredients": [
+        {
+          "id": "milk",
+          "name": "Süt",
+          "quantity": 1,
+          "unit_cents": 65,
+          "total_cents": 65
+        },
+        {
+          "id": "fruit",
+          "name": "Meyve",
+          "quantity": 0.5,
+          "unit_cents": 50,
+          "total_cents": 25
+        },
+        {
+          "id": "sugar",
+          "name": "Şeker",
+          "quantity": 1,
+          "unit_cents": 15,
+          "total_cents": 15
+        }
+      ],
+      "cost_cents": 105,
+      "sale_cents": 483,
+      "material_share": 21.74,
+      "premium_percent": 15.0,
+      "contribution_cents": 378,
+      "unlock_gold": 260,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 260
+    },
+    {
+      "id": "food-13",
+      "name": "Tiny Krabby Patty",
+      "level": 43,
+      "group": "Burger / sosisli",
+      "ingredients": [
+        {
+          "id": "meat",
+          "name": "Et",
+          "quantity": 0.5,
+          "unit_cents": 75,
+          "total_cents": 38
+        },
+        {
+          "id": "bread",
+          "name": "Ekmek",
+          "quantity": 1,
+          "unit_cents": 25,
+          "total_cents": 25
+        },
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 0.5,
+          "unit_cents": 30,
+          "total_cents": 15
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 0.5,
+          "unit_cents": 20,
+          "total_cents": 10
+        }
+      ],
+      "cost_cents": 88,
+      "sale_cents": 408,
+      "material_share": 21.57,
+      "premium_percent": 15.91,
+      "contribution_cents": 320,
+      "unlock_gold": 415,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 415
+    },
+    {
+      "id": "food-94",
+      "name": "Oyster Skins",
+      "level": 44,
+      "group": "Yan ürün",
+      "ingredients": [
+        {
+          "id": "dough",
+          "name": "Hamur",
+          "quantity": 1,
+          "unit_cents": 50,
+          "total_cents": 50
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 0.5,
+          "unit_cents": 20,
+          "total_cents": 10
+        }
+      ],
+      "cost_cents": 60,
+      "sale_cents": 279,
+      "material_share": 21.51,
+      "premium_percent": 16.25,
+      "contribution_cents": 219,
+      "unlock_gold": 360,
+      "notes": "Özel deniz atıştırmalığı için sadeleştirilmiş oyun reçetesi.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 360
+    },
+    {
+      "id": "food-125",
+      "name": "Holographic meatloaf",
+      "level": 45,
+      "group": "Ana tabak / pizza",
+      "ingredients": [
+        {
+          "id": "meat",
+          "name": "Et",
+          "quantity": 2,
+          "unit_cents": 75,
+          "total_cents": 150
+        },
+        {
+          "id": "dough",
+          "name": "Hamur",
+          "quantity": 1,
+          "unit_cents": 50,
+          "total_cents": 50
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 1,
+          "unit_cents": 20,
+          "total_cents": 20
+        }
+      ],
+      "cost_cents": 220,
+      "sale_cents": 1007,
+      "material_share": 21.85,
+      "premium_percent": 14.43,
+      "contribution_cents": 787,
+      "unlock_gold": 305,
+      "notes": "Holografik ürünün maliyeti gerçek stok tüketen oyun uyarlamasıdır.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 305
+    },
+    {
+      "id": "food-161",
+      "name": "Drinkable Sausage",
+      "level": 46,
+      "group": "Özel içecek",
+      "ingredients": [
+        {
+          "id": "sausage",
+          "name": "Sosis",
+          "quantity": 1,
+          "unit_cents": 100,
+          "total_cents": 100
+        },
+        {
+          "id": "milk",
+          "name": "Süt",
+          "quantity": 0.5,
+          "unit_cents": 65,
+          "total_cents": 33
+        }
+      ],
+      "cost_cents": 133,
+      "sale_cents": 613,
+      "material_share": 21.7,
+      "premium_percent": 15.23,
+      "contribution_cents": 480,
+      "unlock_gold": 290,
+      "notes": "İçilebilir sosis için temsili oyun reçetesi.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 290
+    },
+    {
+      "id": "food-14",
+      "name": "Krabby Kiddie Patty",
+      "level": 47,
+      "group": "Burger / sosisli",
+      "ingredients": [
+        {
+          "id": "meat",
+          "name": "Et",
+          "quantity": 0.5,
+          "unit_cents": 75,
+          "total_cents": 38
+        },
+        {
+          "id": "bread",
+          "name": "Ekmek",
+          "quantity": 1,
+          "unit_cents": 25,
+          "total_cents": 25
+        },
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 0.5,
+          "unit_cents": 30,
+          "total_cents": 15
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 0.5,
+          "unit_cents": 20,
+          "total_cents": 10
+        }
+      ],
+      "cost_cents": 88,
+      "sale_cents": 409,
+      "material_share": 21.52,
+      "premium_percent": 16.19,
+      "contribution_cents": 321,
+      "unlock_gold": 445,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 445
+    },
+    {
+      "id": "food-102",
+      "name": "Large Oyster Skins",
+      "level": 48,
+      "group": "Yan ürün",
+      "ingredients": [
+        {
+          "id": "dough",
+          "name": "Hamur",
+          "quantity": 1.5,
+          "unit_cents": 50,
+          "total_cents": 75
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 0.5,
+          "unit_cents": 20,
+          "total_cents": 10
+        }
+      ],
+      "cost_cents": 85,
+      "sale_cents": 395,
+      "material_share": 21.52,
+      "premium_percent": 16.18,
+      "contribution_cents": 310,
+      "unlock_gold": 390,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 390
+    },
+    {
+      "id": "food-145",
+      "name": "Jelly cake",
+      "level": 49,
+      "group": "Tatlı",
+      "ingredients": [
+        {
+          "id": "dough",
+          "name": "Hamur",
+          "quantity": 1,
+          "unit_cents": 50,
+          "total_cents": 50
+        },
+        {
+          "id": "milk",
+          "name": "Süt",
+          "quantity": 0.5,
+          "unit_cents": 65,
+          "total_cents": 33
+        },
+        {
+          "id": "fruit",
+          "name": "Meyve",
+          "quantity": 1,
+          "unit_cents": 50,
+          "total_cents": 50
+        },
+        {
+          "id": "sugar",
+          "name": "Şeker",
+          "quantity": 1,
+          "unit_cents": 15,
+          "total_cents": 15
+        }
+      ],
+      "cost_cents": 148,
+      "sale_cents": 683,
+      "material_share": 21.67,
+      "premium_percent": 15.37,
+      "contribution_cents": 535,
+      "unlock_gold": 335,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 335
+    },
+    {
+      "id": "food-152",
+      "name": "Ice cream",
+      "level": 50,
+      "group": "Tatlı",
+      "ingredients": [
+        {
+          "id": "milk",
+          "name": "Süt",
+          "quantity": 1,
+          "unit_cents": 65,
+          "total_cents": 65
+        },
+        {
+          "id": "sugar",
+          "name": "Şeker",
+          "quantity": 1,
+          "unit_cents": 15,
+          "total_cents": 15
+        }
+      ],
+      "cost_cents": 80,
+      "sale_cents": 371,
+      "material_share": 21.56,
+      "premium_percent": 15.94,
+      "contribution_cents": 291,
+      "unlock_gold": 0,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir. İlk tarif makine bedeline dahil; ikinci tariften itibaren tarif bedeli ayrı.",
+      "special_proposal": false,
+      "machine_gold": 2250,
+      "previous_combined_unlock_gold": 320,
+      "total_unlock_gold": 2250
+    },
+    {
+      "id": "food-15",
+      "name": "Pipsqueak Patty",
+      "level": 51,
+      "group": "Burger / sosisli",
+      "ingredients": [
+        {
+          "id": "meat",
+          "name": "Et",
+          "quantity": 0.5,
+          "unit_cents": 75,
+          "total_cents": 38
+        },
+        {
+          "id": "bread",
+          "name": "Ekmek",
+          "quantity": 1,
+          "unit_cents": 25,
+          "total_cents": 25
+        },
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 0.5,
+          "unit_cents": 30,
+          "total_cents": 15
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 0.5,
+          "unit_cents": 20,
+          "total_cents": 10
+        }
+      ],
+      "cost_cents": 88,
+      "sale_cents": 410,
+      "material_share": 21.46,
+      "premium_percent": 16.48,
+      "contribution_cents": 322,
+      "unlock_gold": 475,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 475
+    },
+    {
+      "id": "food-105",
+      "name": "Chili Coral Bits",
+      "level": 52,
+      "group": "Yan ürün",
+      "ingredients": [
+        {
+          "id": "dough",
+          "name": "Hamur",
+          "quantity": 1,
+          "unit_cents": 50,
+          "total_cents": 50
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 0.5,
+          "unit_cents": 20,
+          "total_cents": 10
+        }
+      ],
+      "cost_cents": 60,
+      "sale_cents": 280,
+      "material_share": 21.43,
+      "premium_percent": 16.67,
+      "contribution_cents": 220,
+      "unlock_gold": 420,
+      "notes": "Özel deniz atıştırmalığı için sadeleştirilmiş oyun reçetesi.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 420
+    },
+    {
+      "id": "food-160",
+      "name": "GrandPat Cream Puffs",
+      "level": 53,
+      "group": "Tatlı",
+      "ingredients": [
+        {
+          "id": "dough",
+          "name": "Hamur",
+          "quantity": 1,
+          "unit_cents": 50,
+          "total_cents": 50
+        },
+        {
+          "id": "milk",
+          "name": "Süt",
+          "quantity": 1,
+          "unit_cents": 65,
+          "total_cents": 65
+        },
+        {
+          "id": "sugar",
+          "name": "Şeker",
+          "quantity": 1,
+          "unit_cents": 15,
+          "total_cents": 15
+        }
+      ],
+      "cost_cents": 130,
+      "sale_cents": 603,
+      "material_share": 21.56,
+      "premium_percent": 15.96,
+      "contribution_cents": 473,
+      "unlock_gold": 365,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 365
+    },
+    {
+      "id": "food-162",
+      "name": "Seahorse milk",
+      "level": 54,
+      "group": "Özel içecek",
+      "ingredients": [
+        {
+          "id": "milk",
+          "name": "Süt",
+          "quantity": 1,
+          "unit_cents": 65,
+          "total_cents": 65
+        }
+      ],
+      "cost_cents": 65,
+      "sale_cents": 303,
+      "material_share": 21.45,
+      "premium_percent": 16.54,
+      "contribution_cents": 238,
+      "unlock_gold": 330,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 330
+    },
+    {
+      "id": "food-144",
+      "name": "Yellow popsicle",
+      "level": 55,
+      "group": "Tatlı",
+      "ingredients": [
+        {
+          "id": "fruit",
+          "name": "Meyve",
+          "quantity": 1,
+          "unit_cents": 50,
+          "total_cents": 50
+        },
+        {
+          "id": "sugar",
+          "name": "Şeker",
+          "quantity": 1,
+          "unit_cents": 15,
+          "total_cents": 15
+        }
+      ],
+      "cost_cents": 65,
+      "sale_cents": 302,
+      "material_share": 21.52,
+      "premium_percent": 16.15,
+      "contribution_cents": 237,
+      "unlock_gold": 240,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 240
+    },
+    {
+      "id": "food-16",
+      "name": "Triple Turkey Patty",
+      "level": 56,
+      "group": "Burger / sosisli",
+      "ingredients": [
+        {
+          "id": "meat",
+          "name": "Et",
+          "quantity": 3,
+          "unit_cents": 75,
+          "total_cents": 225
+        },
+        {
+          "id": "bread",
+          "name": "Ekmek",
+          "quantity": 1,
+          "unit_cents": 25,
+          "total_cents": 25
+        },
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 0.5,
+          "unit_cents": 30,
+          "total_cents": 15
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 0.5,
+          "unit_cents": 20,
+          "total_cents": 10
+        }
+      ],
+      "cost_cents": 275,
+      "sale_cents": 1200,
+      "material_share": 22.92,
+      "premium_percent": 9.09,
+      "contribution_cents": 925,
+      "unlock_gold": 505,
+      "notes": "Hindi ayrı stok değildir; ortak et türüyle temsil önerisi.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 505
+    },
+    {
+      "id": "food-106",
+      "name": "Kelp Fritters",
+      "level": 57,
+      "group": "Yan ürün",
+      "ingredients": [
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 1,
+          "unit_cents": 30,
+          "total_cents": 30
+        },
+        {
+          "id": "dough",
+          "name": "Hamur",
+          "quantity": 0.5,
+          "unit_cents": 50,
+          "total_cents": 25
+        }
+      ],
+      "cost_cents": 55,
+      "sale_cents": 257,
+      "material_share": 21.4,
+      "premium_percent": 16.82,
+      "contribution_cents": 202,
+      "unlock_gold": 455,
+      "notes": "Deniz bitkisi/atıştırmalık ortak sebze ve hamurla temsil edilir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 455
+    },
+    {
+      "id": "food-163",
+      "name": "Exercise Shake",
+      "level": 58,
+      "group": "Özel içecek",
+      "ingredients": [
+        {
+          "id": "milk",
+          "name": "Süt",
+          "quantity": 1,
+          "unit_cents": 65,
+          "total_cents": 65
+        },
+        {
+          "id": "fruit",
+          "name": "Meyve",
+          "quantity": 0.5,
+          "unit_cents": 50,
+          "total_cents": 25
+        }
+      ],
+      "cost_cents": 90,
+      "sale_cents": 419,
+      "material_share": 21.48,
+      "premium_percent": 16.39,
+      "contribution_cents": 329,
+      "unlock_gold": 360,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 360
+    },
+    {
+      "id": "food-18",
+      "name": "Nasty Patty",
+      "level": 59,
+      "group": "Burger / sosisli",
+      "ingredients": [
+        {
+          "id": "meat",
+          "name": "Et",
+          "quantity": 1,
+          "unit_cents": 75,
+          "total_cents": 75
+        },
+        {
+          "id": "bread",
+          "name": "Ekmek",
+          "quantity": 1,
+          "unit_cents": 25,
+          "total_cents": 25
+        },
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 0.5,
+          "unit_cents": 30,
+          "total_cents": 15
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 0.5,
+          "unit_cents": 20,
+          "total_cents": 10
+        }
+      ],
+      "cost_cents": 125,
+      "sale_cents": 583,
+      "material_share": 21.44,
+      "premium_percent": 16.6,
+      "contribution_cents": 458,
+      "unlock_gold": 535,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 535
+    },
+    {
+      "id": "food-107",
+      "name": "Cream-filled Coral",
+      "level": 60,
+      "group": "Yan ürün",
+      "ingredients": [
+        {
+          "id": "dough",
+          "name": "Hamur",
+          "quantity": 1,
+          "unit_cents": 50,
+          "total_cents": 50
+        },
+        {
+          "id": "milk",
+          "name": "Süt",
+          "quantity": 0.5,
+          "unit_cents": 65,
+          "total_cents": 33
+        },
+        {
+          "id": "sugar",
+          "name": "Şeker",
+          "quantity": 0.5,
+          "unit_cents": 15,
+          "total_cents": 8
+        }
+      ],
+      "cost_cents": 91,
+      "sale_cents": 425,
+      "material_share": 21.41,
+      "premium_percent": 16.76,
+      "contribution_cents": 334,
+      "unlock_gold": 480,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 480
+    },
+    {
+      "id": "food-19",
+      "name": "Plain Patty",
+      "level": 61,
+      "group": "Burger / sosisli",
+      "ingredients": [
+        {
+          "id": "meat",
+          "name": "Et",
+          "quantity": 1,
+          "unit_cents": 75,
+          "total_cents": 75
+        },
+        {
+          "id": "bread",
+          "name": "Ekmek",
+          "quantity": 1,
+          "unit_cents": 25,
+          "total_cents": 25
+        }
+      ],
+      "cost_cents": 100,
+      "sale_cents": 468,
+      "material_share": 21.37,
+      "premium_percent": 17.0,
+      "contribution_cents": 368,
+      "unlock_gold": 555,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 555
+    },
+    {
+      "id": "food-111",
+      "name": "Double Chili Kelp Fries",
+      "level": 62,
+      "group": "Yan ürün",
+      "ingredients": [
+        {
+          "id": "potato",
+          "name": "Patates",
+          "quantity": 1.5,
+          "unit_cents": 60,
+          "total_cents": 90
+        },
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 0.5,
+          "unit_cents": 30,
+          "total_cents": 15
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 0.5,
+          "unit_cents": 20,
+          "total_cents": 10
+        }
+      ],
+      "cost_cents": 115,
+      "sale_cents": 537,
+      "material_share": 21.42,
+      "premium_percent": 16.74,
+      "contribution_cents": 422,
+      "unlock_gold": 505,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 505
+    },
+    {
+      "id": "food-20",
+      "name": "Adult Sized Krabby Patty",
+      "level": 63,
+      "group": "Burger / sosisli",
+      "ingredients": [
+        {
+          "id": "meat",
+          "name": "Et",
+          "quantity": 1,
+          "unit_cents": 75,
+          "total_cents": 75
+        },
+        {
+          "id": "bread",
+          "name": "Ekmek",
+          "quantity": 1,
+          "unit_cents": 25,
+          "total_cents": 25
+        },
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 0.5,
+          "unit_cents": 30,
+          "total_cents": 15
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 0.5,
+          "unit_cents": 20,
+          "total_cents": 10
+        }
+      ],
+      "cost_cents": 125,
+      "sale_cents": 584,
+      "material_share": 21.4,
+      "premium_percent": 16.8,
+      "contribution_cents": 459,
+      "unlock_gold": 580,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 580
+    },
+    {
+      "id": "food-43",
+      "name": "Krusty Dog",
+      "level": 64,
+      "group": "Burger / sosisli",
+      "ingredients": [
+        {
+          "id": "sausage",
+          "name": "Sosis",
+          "quantity": 1,
+          "unit_cents": 100,
+          "total_cents": 100
+        },
+        {
+          "id": "bread",
+          "name": "Ekmek",
+          "quantity": 1,
+          "unit_cents": 25,
+          "total_cents": 25
+        }
+      ],
+      "cost_cents": 125,
+      "sale_cents": 582,
+      "material_share": 21.48,
+      "premium_percent": 16.4,
+      "contribution_cents": 457,
+      "unlock_gold": 0,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir. İlk tarif makine bedeline dahil; ikinci tariften itibaren tarif bedeli ayrı.",
+      "special_proposal": false,
+      "machine_gold": 2600,
+      "previous_combined_unlock_gold": 360,
+      "total_unlock_gold": 2600
+    },
+    {
+      "id": "food-21",
+      "name": "Patty Bun Burger",
+      "level": 65,
+      "group": "Burger / sosisli",
+      "ingredients": [
+        {
+          "id": "bread",
+          "name": "Ekmek",
+          "quantity": 4,
+          "unit_cents": 25,
+          "total_cents": 100
+        }
+      ],
+      "cost_cents": 100,
+      "sale_cents": 469,
+      "material_share": 21.32,
+      "premium_percent": 17.25,
+      "contribution_cents": 369,
+      "unlock_gold": 605,
+      "notes": "Yalnız ekmek ürünü; dört küçük ekmek parçası bir oyun porsiyonu.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 605
+    },
+    {
+      "id": "food-112",
+      "name": "Nacho Oyster Skins",
+      "level": 66,
+      "group": "Yan ürün",
+      "ingredients": [
+        {
+          "id": "dough",
+          "name": "Hamur",
+          "quantity": 1,
+          "unit_cents": 50,
+          "total_cents": 50
+        },
+        {
+          "id": "cheese",
+          "name": "Peynir",
+          "quantity": 0.5,
+          "unit_cents": 30,
+          "total_cents": 15
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 0.5,
+          "unit_cents": 20,
+          "total_cents": 10
+        }
+      ],
+      "cost_cents": 75,
+      "sale_cents": 352,
+      "material_share": 21.31,
+      "premium_percent": 17.33,
+      "contribution_cents": 277,
+      "unlock_gold": 535,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 535
+    },
+    {
+      "id": "food-50",
+      "name": "Krusty Kelp Dog",
+      "level": 67,
+      "group": "Burger / sosisli",
+      "ingredients": [
+        {
+          "id": "sausage",
+          "name": "Sosis",
+          "quantity": 1,
+          "unit_cents": 100,
+          "total_cents": 100
+        },
+        {
+          "id": "bread",
+          "name": "Ekmek",
+          "quantity": 1,
+          "unit_cents": 25,
+          "total_cents": 25
+        }
+      ],
+      "cost_cents": 125,
+      "sale_cents": 581,
+      "material_share": 21.51,
+      "premium_percent": 16.2,
+      "contribution_cents": 456,
+      "unlock_gold": 275,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 275
+    },
+    {
+      "id": "food-22",
+      "name": "Sad Patty",
+      "level": 68,
+      "group": "Burger / sosisli",
+      "ingredients": [
+        {
+          "id": "meat",
+          "name": "Et",
+          "quantity": 1,
+          "unit_cents": 75,
+          "total_cents": 75
+        },
+        {
+          "id": "bread",
+          "name": "Ekmek",
+          "quantity": 1,
+          "unit_cents": 25,
+          "total_cents": 25
+        },
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 0.5,
+          "unit_cents": 30,
+          "total_cents": 15
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 0.5,
+          "unit_cents": 20,
+          "total_cents": 10
+        }
+      ],
+      "cost_cents": 125,
+      "sale_cents": 586,
+      "material_share": 21.33,
+      "premium_percent": 17.2,
+      "contribution_cents": 461,
+      "unlock_gold": 630,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 630
+    },
+    {
+      "id": "food-113",
+      "name": "Barnacle Rings",
+      "level": 69,
+      "group": "Yan ürün",
+      "ingredients": [
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 1,
+          "unit_cents": 30,
+          "total_cents": 30
+        },
+        {
+          "id": "dough",
+          "name": "Hamur",
+          "quantity": 0.5,
+          "unit_cents": 50,
+          "total_cents": 25
+        }
+      ],
+      "cost_cents": 55,
+      "sale_cents": 259,
+      "material_share": 21.24,
+      "premium_percent": 17.73,
+      "contribution_cents": 204,
+      "unlock_gold": 560,
+      "notes": "Deniz bitkisi/atıştırmalık ortak sebze ve hamurla temsil edilir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 560
+    },
+    {
+      "id": "food-88",
+      "name": "Salty Sea Dog",
+      "level": 70,
+      "group": "Burger / sosisli",
+      "ingredients": [
+        {
+          "id": "sausage",
+          "name": "Sosis",
+          "quantity": 1,
+          "unit_cents": 100,
+          "total_cents": 100
+        },
+        {
+          "id": "bread",
+          "name": "Ekmek",
+          "quantity": 1,
+          "unit_cents": 25,
+          "total_cents": 25
+        }
+      ],
+      "cost_cents": 125,
+      "sale_cents": 582,
+      "material_share": 21.48,
+      "premium_percent": 16.4,
+      "contribution_cents": 457,
+      "unlock_gold": 300,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 300
+    },
+    {
+      "id": "food-23",
+      "name": "All-Bun Patty",
+      "level": 71,
+      "group": "Burger / sosisli",
+      "ingredients": [
+        {
+          "id": "bread",
+          "name": "Ekmek",
+          "quantity": 4,
+          "unit_cents": 25,
+          "total_cents": 100
+        }
+      ],
+      "cost_cents": 100,
+      "sale_cents": 470,
+      "material_share": 21.28,
+      "premium_percent": 17.5,
+      "contribution_cents": 370,
+      "unlock_gold": 660,
+      "notes": "Yalnız ekmek ürünü; dört küçük ekmek parçası bir oyun porsiyonu.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 660
+    },
+    {
+      "id": "food-114",
+      "name": "Chili Kelp Fries",
+      "level": 72,
+      "group": "Yan ürün",
+      "ingredients": [
+        {
+          "id": "dough",
+          "name": "Hamur",
+          "quantity": 1,
+          "unit_cents": 50,
+          "total_cents": 50
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 0.5,
+          "unit_cents": 20,
+          "total_cents": 10
+        }
+      ],
+      "cost_cents": 60,
+      "sale_cents": 283,
+      "material_share": 21.2,
+      "premium_percent": 17.92,
+      "contribution_cents": 223,
+      "unlock_gold": 585,
+      "notes": "Özel deniz atıştırmalığı için sadeleştirilmiş oyun reçetesi.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 585
+    },
+    {
+      "id": "food-89",
+      "name": "Footlong",
+      "level": 73,
+      "group": "Burger / sosisli",
+      "ingredients": [
+        {
+          "id": "sausage",
+          "name": "Sosis",
+          "quantity": 1.5,
+          "unit_cents": 100,
+          "total_cents": 150
+        },
+        {
+          "id": "bread",
+          "name": "Ekmek",
+          "quantity": 1.5,
+          "unit_cents": 25,
+          "total_cents": 38
+        }
+      ],
+      "cost_cents": 188,
+      "sale_cents": 874,
+      "material_share": 21.51,
+      "premium_percent": 16.22,
+      "contribution_cents": 686,
+      "unlock_gold": 325,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 325
+    },
+    {
+      "id": "food-24",
+      "name": "Patty Face",
+      "level": 74,
+      "group": "Burger / sosisli",
+      "ingredients": [
+        {
+          "id": "meat",
+          "name": "Et",
+          "quantity": 1,
+          "unit_cents": 75,
+          "total_cents": 75
+        },
+        {
+          "id": "bread",
+          "name": "Ekmek",
+          "quantity": 1,
+          "unit_cents": 25,
+          "total_cents": 25
+        },
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 0.5,
+          "unit_cents": 30,
+          "total_cents": 15
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 0.5,
+          "unit_cents": 20,
+          "total_cents": 10
+        }
+      ],
+      "cost_cents": 125,
+      "sale_cents": 587,
+      "material_share": 21.29,
+      "premium_percent": 17.4,
+      "contribution_cents": 462,
+      "unlock_gold": 685,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 685
+    },
+    {
+      "id": "food-115",
+      "name": "Happy Snacks",
+      "level": 75,
+      "group": "Yan ürün",
+      "ingredients": [
+        {
+          "id": "dough",
+          "name": "Hamur",
+          "quantity": 1,
+          "unit_cents": 50,
+          "total_cents": 50
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 0.5,
+          "unit_cents": 20,
+          "total_cents": 10
+        }
+      ],
+      "cost_cents": 60,
+      "sale_cents": 283,
+      "material_share": 21.2,
+      "premium_percent": 17.92,
+      "contribution_cents": 223,
+      "unlock_gold": 610,
+      "notes": "Özel deniz atıştırmalığı için sadeleştirilmiş oyun reçetesi.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 610
+    },
+    {
+      "id": "food-25",
+      "name": "Veggie Pattie",
+      "level": 76,
+      "group": "Burger / sosisli",
+      "ingredients": [
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 2,
+          "unit_cents": 30,
+          "total_cents": 60
+        },
+        {
+          "id": "bread",
+          "name": "Ekmek",
+          "quantity": 1,
+          "unit_cents": 25,
+          "total_cents": 25
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 0.5,
+          "unit_cents": 20,
+          "total_cents": 10
+        }
+      ],
+      "cost_cents": 95,
+      "sale_cents": 448,
+      "material_share": 21.21,
+      "premium_percent": 17.89,
+      "contribution_cents": 353,
+      "unlock_gold": 710,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 710
+    },
+    {
+      "id": "food-118",
+      "name": "Popcorn",
+      "level": 77,
+      "group": "Yan ürün",
+      "ingredients": [
+        {
+          "id": "dough",
+          "name": "Hamur",
+          "quantity": 1,
+          "unit_cents": 50,
+          "total_cents": 50
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 0.5,
+          "unit_cents": 20,
+          "total_cents": 10
+        }
+      ],
+      "cost_cents": 60,
+      "sale_cents": 283,
+      "material_share": 21.2,
+      "premium_percent": 17.92,
+      "contribution_cents": 223,
+      "unlock_gold": 635,
+      "notes": "Özel deniz atıştırmalığı için sadeleştirilmiş oyun reçetesi.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 635
+    },
+    {
+      "id": "food-26",
+      "name": "Triple Decker",
+      "level": 78,
+      "group": "Burger / sosisli",
+      "ingredients": [
+        {
+          "id": "meat",
+          "name": "Et",
+          "quantity": 3,
+          "unit_cents": 75,
+          "total_cents": 225
+        },
+        {
+          "id": "bread",
+          "name": "Ekmek",
+          "quantity": 1,
+          "unit_cents": 25,
+          "total_cents": 25
+        },
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 0.5,
+          "unit_cents": 30,
+          "total_cents": 15
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 0.5,
+          "unit_cents": 20,
+          "total_cents": 10
+        }
+      ],
+      "cost_cents": 275,
+      "sale_cents": 1200,
+      "material_share": 22.92,
+      "premium_percent": 9.09,
+      "contribution_cents": 925,
+      "unlock_gold": 730,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 730
+    },
+    {
+      "id": "food-124",
+      "name": "Fried oyster skins",
+      "level": 79,
+      "group": "Yan ürün",
+      "ingredients": [
+        {
+          "id": "dough",
+          "name": "Hamur",
+          "quantity": 1,
+          "unit_cents": 50,
+          "total_cents": 50
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 0.5,
+          "unit_cents": 20,
+          "total_cents": 10
+        }
+      ],
+      "cost_cents": 60,
+      "sale_cents": 283,
+      "material_share": 21.2,
+      "premium_percent": 17.92,
+      "contribution_cents": 223,
+      "unlock_gold": 660,
+      "notes": "Özel deniz atıştırmalığı için sadeleştirilmiş oyun reçetesi.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 660
+    },
+    {
+      "id": "food-56",
+      "name": "Salad",
+      "level": 80,
+      "group": "Yan ürün",
+      "ingredients": [
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 2,
+          "unit_cents": 30,
+          "total_cents": 60
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 0.5,
+          "unit_cents": 20,
+          "total_cents": 10
+        }
+      ],
+      "cost_cents": 70,
+      "sale_cents": 330,
+      "material_share": 21.21,
+      "premium_percent": 17.86,
+      "contribution_cents": 260,
+      "unlock_gold": 0,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir. İlk tarif makine bedeline dahil; ikinci tariften itibaren tarif bedeli ayrı.",
+      "special_proposal": false,
+      "machine_gold": 3000,
+      "previous_combined_unlock_gold": 400,
+      "total_unlock_gold": 3000
+    },
+    {
+      "id": "food-27",
+      "name": "Wordyburger",
+      "level": 81,
+      "group": "Burger / sosisli",
+      "ingredients": [
+        {
+          "id": "meat",
+          "name": "Et",
+          "quantity": 1,
+          "unit_cents": 75,
+          "total_cents": 75
+        },
+        {
+          "id": "bread",
+          "name": "Ekmek",
+          "quantity": 1,
+          "unit_cents": 25,
+          "total_cents": 25
+        },
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 0.5,
+          "unit_cents": 30,
+          "total_cents": 15
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 0.5,
+          "unit_cents": 20,
+          "total_cents": 10
+        }
+      ],
+      "cost_cents": 125,
+      "sale_cents": 589,
+      "material_share": 21.22,
+      "premium_percent": 17.8,
+      "contribution_cents": 464,
+      "unlock_gold": 760,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 760
+    },
+    {
+      "id": "food-131",
+      "name": "Pop Kelp",
+      "level": 82,
+      "group": "Yan ürün",
+      "ingredients": [
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 1,
+          "unit_cents": 30,
+          "total_cents": 30
+        },
+        {
+          "id": "dough",
+          "name": "Hamur",
+          "quantity": 0.5,
+          "unit_cents": 50,
+          "total_cents": 25
+        }
+      ],
+      "cost_cents": 55,
+      "sale_cents": 260,
+      "material_share": 21.15,
+      "premium_percent": 18.18,
+      "contribution_cents": 205,
+      "unlock_gold": 685,
+      "notes": "Deniz bitkisi/atıştırmalık ortak sebze ve hamurla temsil edilir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 685
+    },
+    {
+      "id": "food-61",
+      "name": "Sea Sir Salad",
+      "level": 83,
+      "group": "Yan ürün",
+      "ingredients": [
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 2,
+          "unit_cents": 30,
+          "total_cents": 60
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 0.5,
+          "unit_cents": 20,
+          "total_cents": 10
+        }
+      ],
+      "cost_cents": 70,
+      "sale_cents": 329,
+      "material_share": 21.28,
+      "premium_percent": 17.5,
+      "contribution_cents": 259,
+      "unlock_gold": 315,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 315
+    },
+    {
+      "id": "food-28",
+      "name": "Patty Kake",
+      "level": 84,
+      "group": "Tatlı",
+      "ingredients": [
+        {
+          "id": "dough",
+          "name": "Hamur",
+          "quantity": 1,
+          "unit_cents": 50,
+          "total_cents": 50
+        },
+        {
+          "id": "milk",
+          "name": "Süt",
+          "quantity": 0.5,
+          "unit_cents": 65,
+          "total_cents": 33
+        },
+        {
+          "id": "sugar",
+          "name": "Şeker",
+          "quantity": 1,
+          "unit_cents": 15,
+          "total_cents": 15
+        }
+      ],
+      "cost_cents": 98,
+      "sale_cents": 463,
+      "material_share": 21.17,
+      "premium_percent": 18.11,
+      "contribution_cents": 365,
+      "unlock_gold": 785,
+      "notes": "Pasta biçimli oyun reçetesi önerisi.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 785
+    },
+    {
+      "id": "food-140",
+      "name": "Barnacle Chips",
+      "level": 85,
+      "group": "Yan ürün",
+      "ingredients": [
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 1,
+          "unit_cents": 30,
+          "total_cents": 30
+        },
+        {
+          "id": "dough",
+          "name": "Hamur",
+          "quantity": 0.5,
+          "unit_cents": 50,
+          "total_cents": 25
+        }
+      ],
+      "cost_cents": 55,
+      "sale_cents": 260,
+      "material_share": 21.15,
+      "premium_percent": 18.18,
+      "contribution_cents": 205,
+      "unlock_gold": 710,
+      "notes": "Deniz bitkisi/atıştırmalık ortak sebze ve hamurla temsil edilir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 710
+    },
+    {
+      "id": "food-62",
+      "name": "Cubed Ketchup Kabobs",
+      "level": 86,
+      "group": "Yan ürün",
+      "ingredients": [
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 1,
+          "unit_cents": 30,
+          "total_cents": 30
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 1,
+          "unit_cents": 20,
+          "total_cents": 20
+        }
+      ],
+      "cost_cents": 50,
+      "sale_cents": 236,
+      "material_share": 21.19,
+      "premium_percent": 18.0,
+      "contribution_cents": 186,
+      "unlock_gold": 340,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 340
+    },
+    {
+      "id": "food-69",
+      "name": "Double Patty Patty",
+      "level": 87,
+      "group": "Burger / sosisli",
+      "ingredients": [
+        {
+          "id": "meat",
+          "name": "Et",
+          "quantity": 2,
+          "unit_cents": 75,
+          "total_cents": 150
+        },
+        {
+          "id": "bread",
+          "name": "Ekmek",
+          "quantity": 1,
+          "unit_cents": 25,
+          "total_cents": 25
+        },
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 0.5,
+          "unit_cents": 30,
+          "total_cents": 15
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 0.5,
+          "unit_cents": 20,
+          "total_cents": 10
+        }
+      ],
+      "cost_cents": 200,
+      "sale_cents": 942,
+      "material_share": 21.23,
+      "premium_percent": 17.75,
+      "contribution_cents": 742,
+      "unlock_gold": 810,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 810
+    },
+    {
+      "id": "food-159",
+      "name": "Fried mud pie",
+      "level": 88,
+      "group": "Tatlı",
+      "ingredients": [
+        {
+          "id": "dough",
+          "name": "Hamur",
+          "quantity": 1,
+          "unit_cents": 50,
+          "total_cents": 50
+        },
+        {
+          "id": "sugar",
+          "name": "Şeker",
+          "quantity": 1,
+          "unit_cents": 15,
+          "total_cents": 15
+        },
+        {
+          "id": "milk",
+          "name": "Süt",
+          "quantity": 0.5,
+          "unit_cents": 65,
+          "total_cents": 33
+        }
+      ],
+      "cost_cents": 98,
+      "sale_cents": 463,
+      "material_share": 21.17,
+      "premium_percent": 18.11,
+      "contribution_cents": 365,
+      "unlock_gold": 740,
+      "notes": "Mud pie için yenilebilir oyun bileşenleri önerisi.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 740
+    },
+    {
+      "id": "food-81",
+      "name": "Seaweed Salad",
+      "level": 89,
+      "group": "Yan ürün",
+      "ingredients": [
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 2,
+          "unit_cents": 30,
+          "total_cents": 60
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 0.5,
+          "unit_cents": 20,
+          "total_cents": 10
+        }
+      ],
+      "cost_cents": 70,
+      "sale_cents": 330,
+      "material_share": 21.21,
+      "premium_percent": 17.86,
+      "contribution_cents": 260,
+      "unlock_gold": 365,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 365
+    },
+    {
+      "id": "food-70",
+      "name": "Krabby Junior Junior",
+      "level": 90,
+      "group": "Burger / sosisli",
+      "ingredients": [
+        {
+          "id": "meat",
+          "name": "Et",
+          "quantity": 0.5,
+          "unit_cents": 75,
+          "total_cents": 38
+        },
+        {
+          "id": "bread",
+          "name": "Ekmek",
+          "quantity": 1,
+          "unit_cents": 25,
+          "total_cents": 25
+        },
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 0.5,
+          "unit_cents": 30,
+          "total_cents": 15
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 0.5,
+          "unit_cents": 20,
+          "total_cents": 10
+        }
+      ],
+      "cost_cents": 88,
+      "sale_cents": 417,
+      "material_share": 21.1,
+      "premium_percent": 18.47,
+      "contribution_cents": 329,
+      "unlock_gold": 835,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 835
+    },
+    {
+      "id": "food-99",
+      "name": "Small Salad",
+      "level": 91,
+      "group": "Yan ürün",
+      "ingredients": [
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 1.5,
+          "unit_cents": 30,
+          "total_cents": 45
+        }
+      ],
+      "cost_cents": 45,
+      "sale_cents": 213,
+      "material_share": 21.13,
+      "premium_percent": 18.33,
+      "contribution_cents": 168,
+      "unlock_gold": 390,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 390
+    },
+    {
+      "id": "food-71",
+      "name": "Jumbo Small Patty",
+      "level": 92,
+      "group": "Burger / sosisli",
+      "ingredients": [
+        {
+          "id": "meat",
+          "name": "Et",
+          "quantity": 1,
+          "unit_cents": 75,
+          "total_cents": 75
+        },
+        {
+          "id": "bread",
+          "name": "Ekmek",
+          "quantity": 1,
+          "unit_cents": 25,
+          "total_cents": 25
+        },
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 0.5,
+          "unit_cents": 30,
+          "total_cents": 15
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 0.5,
+          "unit_cents": 20,
+          "total_cents": 10
+        }
+      ],
+      "cost_cents": 125,
+      "sale_cents": 591,
+      "material_share": 21.15,
+      "premium_percent": 18.2,
+      "contribution_cents": 466,
+      "unlock_gold": 860,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 860
+    },
+    {
+      "id": "food-121",
+      "name": "Bran Flakes",
+      "level": 93,
+      "group": "Yan ürün",
+      "ingredients": [
+        {
+          "id": "dough",
+          "name": "Hamur",
+          "quantity": 1,
+          "unit_cents": 50,
+          "total_cents": 50
+        },
+        {
+          "id": "milk",
+          "name": "Süt",
+          "quantity": 0.5,
+          "unit_cents": 65,
+          "total_cents": 33
+        }
+      ],
+      "cost_cents": 83,
+      "sale_cents": 392,
+      "material_share": 21.17,
+      "premium_percent": 18.07,
+      "contribution_cents": 309,
+      "unlock_gold": 415,
+      "notes": "Tahıl gevreği hamur/tahıl stok grubuyla temsil edilir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 415
+    },
+    {
+      "id": "food-72",
+      "name": "Junior Senior Patty",
+      "level": 94,
+      "group": "Burger / sosisli",
+      "ingredients": [
+        {
+          "id": "meat",
+          "name": "Et",
+          "quantity": 1,
+          "unit_cents": 75,
+          "total_cents": 75
+        },
+        {
+          "id": "bread",
+          "name": "Ekmek",
+          "quantity": 1,
+          "unit_cents": 25,
+          "total_cents": 25
+        },
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 0.5,
+          "unit_cents": 30,
+          "total_cents": 15
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 0.5,
+          "unit_cents": 20,
+          "total_cents": 10
+        }
+      ],
+      "cost_cents": 125,
+      "sale_cents": 592,
+      "material_share": 21.11,
+      "premium_percent": 18.4,
+      "contribution_cents": 467,
+      "unlock_gold": 885,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 885
+    },
+    {
+      "id": "food-126",
+      "name": "Jelly sandwich",
+      "level": 95,
+      "group": "Yan ürün",
+      "ingredients": [
+        {
+          "id": "bread",
+          "name": "Ekmek",
+          "quantity": 2,
+          "unit_cents": 25,
+          "total_cents": 50
+        },
+        {
+          "id": "fruit",
+          "name": "Meyve",
+          "quantity": 1,
+          "unit_cents": 50,
+          "total_cents": 50
+        },
+        {
+          "id": "sugar",
+          "name": "Şeker",
+          "quantity": 0.5,
+          "unit_cents": 15,
+          "total_cents": 8
+        }
+      ],
+      "cost_cents": 108,
+      "sale_cents": 510,
+      "material_share": 21.18,
+      "premium_percent": 18.06,
+      "contribution_cents": 402,
+      "unlock_gold": 435,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 435
+    },
+    {
+      "id": "food-73",
+      "name": "Quarter Double Pounder",
+      "level": 96,
+      "group": "Burger / sosisli",
+      "ingredients": [
+        {
+          "id": "meat",
+          "name": "Et",
+          "quantity": 2,
+          "unit_cents": 75,
+          "total_cents": 150
+        },
+        {
+          "id": "bread",
+          "name": "Ekmek",
+          "quantity": 1,
+          "unit_cents": 25,
+          "total_cents": 25
+        },
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 0.5,
+          "unit_cents": 30,
+          "total_cents": 15
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 0.5,
+          "unit_cents": 20,
+          "total_cents": 10
+        }
+      ],
+      "cost_cents": 200,
+      "sale_cents": 945,
+      "material_share": 21.16,
+      "premium_percent": 18.12,
+      "contribution_cents": 745,
+      "unlock_gold": 910,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 910
+    },
+    {
+      "id": "food-127",
+      "name": "Kelp Jerky",
+      "level": 97,
+      "group": "Yan ürün",
+      "ingredients": [
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 2,
+          "unit_cents": 30,
+          "total_cents": 60
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 1,
+          "unit_cents": 20,
+          "total_cents": 20
+        }
+      ],
+      "cost_cents": 80,
+      "sale_cents": 379,
+      "material_share": 21.11,
+      "premium_percent": 18.44,
+      "contribution_cents": 299,
+      "unlock_gold": 460,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 460
+    },
+    {
+      "id": "food-53",
+      "name": "Sludge pudding",
+      "level": 98,
+      "group": "Tatlı",
+      "ingredients": [
+        {
+          "id": "milk",
+          "name": "Süt",
+          "quantity": 1,
+          "unit_cents": 65,
+          "total_cents": 65
+        },
+        {
+          "id": "sugar",
+          "name": "Şeker",
+          "quantity": 1,
+          "unit_cents": 15,
+          "total_cents": 15
+        },
+        {
+          "id": "dough",
+          "name": "Hamur",
+          "quantity": 0.5,
+          "unit_cents": 50,
+          "total_cents": 25
+        }
+      ],
+      "cost_cents": 105,
+      "sale_cents": 496,
+      "material_share": 21.17,
+      "premium_percent": 18.1,
+      "contribution_cents": 391,
+      "unlock_gold": 0,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir. İlk tarif makine bedeline dahil; ikinci tariften itibaren tarif bedeli ayrı.",
+      "special_proposal": false,
+      "machine_gold": 3450,
+      "previous_combined_unlock_gold": 445,
+      "total_unlock_gold": 3450
+    },
+    {
+      "id": "food-74",
+      "name": "Super Double Triple Patty",
+      "level": 99,
+      "group": "Burger / sosisli",
+      "ingredients": [
+        {
+          "id": "meat",
+          "name": "Et",
+          "quantity": 3,
+          "unit_cents": 75,
+          "total_cents": 225
+        },
+        {
+          "id": "bread",
+          "name": "Ekmek",
+          "quantity": 1,
+          "unit_cents": 25,
+          "total_cents": 25
+        },
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 0.5,
+          "unit_cents": 30,
+          "total_cents": 15
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 0.5,
+          "unit_cents": 20,
+          "total_cents": 10
+        }
+      ],
+      "cost_cents": 275,
+      "sale_cents": 1200,
+      "material_share": 22.92,
+      "premium_percent": 9.09,
+      "contribution_cents": 925,
+      "unlock_gold": 935,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 935
+    },
+    {
+      "id": "food-136",
+      "name": "SpongeBob's sundae",
+      "level": 100,
+      "group": "Yan ürün",
+      "ingredients": [
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 1,
+          "unit_cents": 30,
+          "total_cents": 30
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 2,
+          "unit_cents": 20,
+          "total_cents": 40
+        }
+      ],
+      "cost_cents": 70,
+      "sale_cents": 332,
+      "material_share": 21.08,
+      "premium_percent": 18.57,
+      "contribution_cents": 262,
+      "unlock_gold": 485,
+      "notes": "Özel sundae dondurma reçetesi gibi ele alınmaz; sadeleştirilmiş oyun uyarlaması.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 485
+    },
+    {
+      "id": "food-55",
+      "name": "Patty Whip",
+      "level": 101,
+      "group": "Tatlı",
+      "ingredients": [
+        {
+          "id": "milk",
+          "name": "Süt",
+          "quantity": 1,
+          "unit_cents": 65,
+          "total_cents": 65
+        },
+        {
+          "id": "sugar",
+          "name": "Şeker",
+          "quantity": 1,
+          "unit_cents": 15,
+          "total_cents": 15
+        },
+        {
+          "id": "dough",
+          "name": "Hamur",
+          "quantity": 0.5,
+          "unit_cents": 50,
+          "total_cents": 25
+        }
+      ],
+      "cost_cents": 105,
+      "sale_cents": 495,
+      "material_share": 21.21,
+      "premium_percent": 17.86,
+      "contribution_cents": 390,
+      "unlock_gold": 355,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 355
+    },
+    {
+      "id": "food-75",
+      "name": "Jumbo Patty Super Jumbo",
+      "level": 102,
+      "group": "Burger / sosisli",
+      "ingredients": [
+        {
+          "id": "meat",
+          "name": "Et",
+          "quantity": 3,
+          "unit_cents": 75,
+          "total_cents": 225
+        },
+        {
+          "id": "bread",
+          "name": "Ekmek",
+          "quantity": 1,
+          "unit_cents": 25,
+          "total_cents": 25
+        },
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 0.5,
+          "unit_cents": 30,
+          "total_cents": 15
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 0.5,
+          "unit_cents": 20,
+          "total_cents": 10
+        }
+      ],
+      "cost_cents": 275,
+      "sale_cents": 1200,
+      "material_share": 22.92,
+      "premium_percent": 9.09,
+      "contribution_cents": 925,
+      "unlock_gold": 960,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 960
+    },
+    {
+      "id": "food-139",
+      "name": "Rusty on Rye",
+      "level": 103,
+      "group": "Burger / sosisli",
+      "ingredients": [
+        {
+          "id": "bread",
+          "name": "Ekmek",
+          "quantity": 2,
+          "unit_cents": 25,
+          "total_cents": 50
+        },
+        {
+          "id": "meat",
+          "name": "Et",
+          "quantity": 0.5,
+          "unit_cents": 75,
+          "total_cents": 38
+        },
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 1,
+          "unit_cents": 30,
+          "total_cents": 30
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 0.5,
+          "unit_cents": 20,
+          "total_cents": 10
+        }
+      ],
+      "cost_cents": 128,
+      "sale_cents": 605,
+      "material_share": 21.16,
+      "premium_percent": 18.16,
+      "contribution_cents": 477,
+      "unlock_gold": 510,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 510
+    },
+    {
+      "id": "food-128",
+      "name": "Kelp Nougat Crunch",
+      "level": 104,
+      "group": "Tatlı",
+      "ingredients": [
+        {
+          "id": "sugar",
+          "name": "Şeker",
+          "quantity": 2,
+          "unit_cents": 15,
+          "total_cents": 30
+        },
+        {
+          "id": "milk",
+          "name": "Süt",
+          "quantity": 0.5,
+          "unit_cents": 65,
+          "total_cents": 33
+        },
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 0.5,
+          "unit_cents": 30,
+          "total_cents": 15
+        }
+      ],
+      "cost_cents": 78,
+      "sale_cents": 369,
+      "material_share": 21.14,
+      "premium_percent": 18.27,
+      "contribution_cents": 291,
+      "unlock_gold": 385,
+      "notes": "Kuruyemiş/deniz bitkisi ortak stokla temsil önerisi; gerçek içerik iddiası değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 385
+    },
+    {
+      "id": "food-80",
+      "name": "Krusty Deluxe",
+      "level": 105,
+      "group": "Burger / sosisli",
+      "ingredients": [
+        {
+          "id": "meat",
+          "name": "Et",
+          "quantity": 1,
+          "unit_cents": 75,
+          "total_cents": 75
+        },
+        {
+          "id": "bread",
+          "name": "Ekmek",
+          "quantity": 1,
+          "unit_cents": 25,
+          "total_cents": 25
+        },
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 0.5,
+          "unit_cents": 30,
+          "total_cents": 15
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 0.5,
+          "unit_cents": 20,
+          "total_cents": 10
+        },
+        {
+          "id": "cheese",
+          "name": "Peynir",
+          "quantity": 1,
+          "unit_cents": 30,
+          "total_cents": 30
+        }
+      ],
+      "cost_cents": 155,
+      "sale_cents": 735,
+      "material_share": 21.09,
+      "premium_percent": 18.55,
+      "contribution_cents": 580,
+      "unlock_gold": 985,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 985
+    },
+    {
+      "id": "food-142",
+      "name": "Kazook Fruit",
+      "level": 106,
+      "group": "Yan ürün",
+      "ingredients": [
+        {
+          "id": "fruit",
+          "name": "Meyve",
+          "quantity": 1,
+          "unit_cents": 50,
+          "total_cents": 50
+        }
+      ],
+      "cost_cents": 50,
+      "sale_cents": 238,
+      "material_share": 21.01,
+      "premium_percent": 19.0,
+      "contribution_cents": 188,
+      "unlock_gold": 540,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 540
+    },
+    {
+      "id": "food-135",
+      "name": "Seanut Brittle",
+      "level": 107,
+      "group": "Tatlı",
+      "ingredients": [
+        {
+          "id": "sugar",
+          "name": "Şeker",
+          "quantity": 2,
+          "unit_cents": 15,
+          "total_cents": 30
+        },
+        {
+          "id": "milk",
+          "name": "Süt",
+          "quantity": 0.5,
+          "unit_cents": 65,
+          "total_cents": 33
+        },
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 0.5,
+          "unit_cents": 30,
+          "total_cents": 15
+        }
+      ],
+      "cost_cents": 78,
+      "sale_cents": 370,
+      "material_share": 21.08,
+      "premium_percent": 18.59,
+      "contribution_cents": 292,
+      "unlock_gold": 410,
+      "notes": "Kuruyemiş/deniz bitkisi ortak stokla temsil önerisi; gerçek içerik iddiası değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 410
+    },
+    {
+      "id": "food-82",
+      "name": "Double Krabby Patty",
+      "level": 108,
+      "group": "Burger / sosisli",
+      "ingredients": [
+        {
+          "id": "meat",
+          "name": "Et",
+          "quantity": 2,
+          "unit_cents": 75,
+          "total_cents": 150
+        },
+        {
+          "id": "bread",
+          "name": "Ekmek",
+          "quantity": 1,
+          "unit_cents": 25,
+          "total_cents": 25
+        },
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 0.5,
+          "unit_cents": 30,
+          "total_cents": 15
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 0.5,
+          "unit_cents": 20,
+          "total_cents": 10
+        }
+      ],
+      "cost_cents": 200,
+      "sale_cents": 948,
+      "material_share": 21.1,
+      "premium_percent": 18.5,
+      "contribution_cents": 748,
+      "unlock_gold": 1010,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 1010
+    },
+    {
+      "id": "food-148",
+      "name": "Sandwich",
+      "level": 109,
+      "group": "Burger / sosisli",
+      "ingredients": [
+        {
+          "id": "bread",
+          "name": "Ekmek",
+          "quantity": 2,
+          "unit_cents": 25,
+          "total_cents": 50
+        },
+        {
+          "id": "meat",
+          "name": "Et",
+          "quantity": 0.5,
+          "unit_cents": 75,
+          "total_cents": 38
+        },
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 1,
+          "unit_cents": 30,
+          "total_cents": 30
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 0.5,
+          "unit_cents": 20,
+          "total_cents": 10
+        }
+      ],
+      "cost_cents": 128,
+      "sale_cents": 606,
+      "material_share": 21.12,
+      "premium_percent": 18.36,
+      "contribution_cents": 478,
+      "unlock_gold": 565,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 565
+    },
+    {
+      "id": "food-138",
+      "name": "Yummy Stuff",
+      "level": 110,
+      "group": "Tatlı",
+      "ingredients": [
+        {
+          "id": "milk",
+          "name": "Süt",
+          "quantity": 1,
+          "unit_cents": 65,
+          "total_cents": 65
+        },
+        {
+          "id": "sugar",
+          "name": "Şeker",
+          "quantity": 1,
+          "unit_cents": 15,
+          "total_cents": 15
+        },
+        {
+          "id": "dough",
+          "name": "Hamur",
+          "quantity": 0.5,
+          "unit_cents": 50,
+          "total_cents": 25
+        }
+      ],
+      "cost_cents": 105,
+      "sale_cents": 497,
+      "material_share": 21.13,
+      "premium_percent": 18.33,
+      "contribution_cents": 392,
+      "unlock_gold": 435,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 435
+    },
+    {
+      "id": "food-83",
+      "name": "Triple Krabby Patty",
+      "level": 111,
+      "group": "Burger / sosisli",
+      "ingredients": [
+        {
+          "id": "meat",
+          "name": "Et",
+          "quantity": 3,
+          "unit_cents": 75,
+          "total_cents": 225
+        },
+        {
+          "id": "bread",
+          "name": "Ekmek",
+          "quantity": 1,
+          "unit_cents": 25,
+          "total_cents": 25
+        },
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 0.5,
+          "unit_cents": 30,
+          "total_cents": 15
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 0.5,
+          "unit_cents": 20,
+          "total_cents": 10
+        }
+      ],
+      "cost_cents": 275,
+      "sale_cents": 1200,
+      "material_share": 22.92,
+      "premium_percent": 9.09,
+      "contribution_cents": 925,
+      "unlock_gold": 1035,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 1035
+    },
+    {
+      "id": "food-150",
+      "name": "Chocolate bar",
+      "level": 112,
+      "group": "Tatlı",
+      "ingredients": [
+        {
+          "id": "milk",
+          "name": "Süt",
+          "quantity": 0.5,
+          "unit_cents": 65,
+          "total_cents": 33
+        },
+        {
+          "id": "sugar",
+          "name": "Şeker",
+          "quantity": 2,
+          "unit_cents": 15,
+          "total_cents": 30
+        }
+      ],
+      "cost_cents": 63,
+      "sale_cents": 300,
+      "material_share": 21.0,
+      "premium_percent": 19.05,
+      "contribution_cents": 237,
+      "unlock_gold": 460,
+      "notes": "Çikolata/şekerleme süt-şeker grubuyla temsil önerisi.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 460
+    },
+    {
+      "id": "food-92",
+      "name": "Bubble Bass Special",
+      "level": 113,
+      "group": "Burger / sosisli",
+      "ingredients": [
+        {
+          "id": "meat",
+          "name": "Et",
+          "quantity": 2,
+          "unit_cents": 75,
+          "total_cents": 150
+        },
+        {
+          "id": "bread",
+          "name": "Ekmek",
+          "quantity": 1,
+          "unit_cents": 25,
+          "total_cents": 25
+        },
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 1,
+          "unit_cents": 30,
+          "total_cents": 30
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 0.5,
+          "unit_cents": 20,
+          "total_cents": 10
+        },
+        {
+          "id": "cheese",
+          "name": "Peynir",
+          "quantity": 1,
+          "unit_cents": 30,
+          "total_cents": 30
+        }
+      ],
+      "cost_cents": 245,
+      "sale_cents": 1161,
+      "material_share": 21.1,
+      "premium_percent": 18.47,
+      "contribution_cents": 916,
+      "unlock_gold": 1060,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 1060
+    },
+    {
+      "id": "food-151",
+      "name": "Candy Bar",
+      "level": 114,
+      "group": "Tatlı",
+      "ingredients": [
+        {
+          "id": "milk",
+          "name": "Süt",
+          "quantity": 0.5,
+          "unit_cents": 65,
+          "total_cents": 33
+        },
+        {
+          "id": "sugar",
+          "name": "Şeker",
+          "quantity": 2,
+          "unit_cents": 15,
+          "total_cents": 30
+        }
+      ],
+      "cost_cents": 63,
+      "sale_cents": 300,
+      "material_share": 21.0,
+      "premium_percent": 19.05,
+      "contribution_cents": 237,
+      "unlock_gold": 480,
+      "notes": "Çikolata/şekerleme süt-şeker grubuyla temsil önerisi.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 480
+    },
+    {
+      "id": "food-98",
+      "name": "Super Patty",
+      "level": 115,
+      "group": "Burger / sosisli",
+      "ingredients": [
+        {
+          "id": "meat",
+          "name": "Et",
+          "quantity": 1,
+          "unit_cents": 75,
+          "total_cents": 75
+        },
+        {
+          "id": "bread",
+          "name": "Ekmek",
+          "quantity": 1,
+          "unit_cents": 25,
+          "total_cents": 25
+        },
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 0.5,
+          "unit_cents": 30,
+          "total_cents": 15
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 0.5,
+          "unit_cents": 20,
+          "total_cents": 10
+        }
+      ],
+      "cost_cents": 125,
+      "sale_cents": 595,
+      "material_share": 21.01,
+      "premium_percent": 19.0,
+      "contribution_cents": 470,
+      "unlock_gold": 1085,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 1085
+    },
+    {
+      "id": "food-153",
+      "name": "Donut",
+      "level": 116,
+      "group": "Tatlı",
+      "ingredients": [
+        {
+          "id": "dough",
+          "name": "Hamur",
+          "quantity": 1,
+          "unit_cents": 50,
+          "total_cents": 50
+        },
+        {
+          "id": "sugar",
+          "name": "Şeker",
+          "quantity": 1,
+          "unit_cents": 15,
+          "total_cents": 15
+        },
+        {
+          "id": "milk",
+          "name": "Süt",
+          "quantity": 0.25,
+          "unit_cents": 65,
+          "total_cents": 16
+        }
+      ],
+      "cost_cents": 81,
+      "sale_cents": 385,
+      "material_share": 21.04,
+      "premium_percent": 18.83,
+      "contribution_cents": 304,
+      "unlock_gold": 505,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 505
+    },
+    {
+      "id": "food-103",
+      "name": "Jumbo Krabby Patty",
+      "level": 117,
+      "group": "Burger / sosisli",
+      "ingredients": [
+        {
+          "id": "meat",
+          "name": "Et",
+          "quantity": 1,
+          "unit_cents": 75,
+          "total_cents": 75
+        },
+        {
+          "id": "bread",
+          "name": "Ekmek",
+          "quantity": 1,
+          "unit_cents": 25,
+          "total_cents": 25
+        },
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 0.5,
+          "unit_cents": 30,
+          "total_cents": 15
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 0.5,
+          "unit_cents": 20,
+          "total_cents": 10
+        }
+      ],
+      "cost_cents": 125,
+      "sale_cents": 596,
+      "material_share": 20.97,
+      "premium_percent": 19.2,
+      "contribution_cents": 471,
+      "unlock_gold": 1105,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 1105
+    },
+    {
+      "id": "food-45",
+      "name": "Krusty Chum",
+      "level": 118,
+      "group": "Ana tabak / pizza",
+      "ingredients": [
+        {
+          "id": "meat",
+          "name": "Et",
+          "quantity": 1.5,
+          "unit_cents": 75,
+          "total_cents": 113
+        },
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 1,
+          "unit_cents": 30,
+          "total_cents": 30
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 1,
+          "unit_cents": 20,
+          "total_cents": 20
+        }
+      ],
+      "cost_cents": 163,
+      "sale_cents": 771,
+      "material_share": 21.14,
+      "premium_percent": 18.25,
+      "contribution_cents": 608,
+      "unlock_gold": 0,
+      "notes": "Chum et karışımı için oyun reçetesi önerisi. İlk tarif makine bedeline dahil; ikinci tariften itibaren tarif bedeli ayrı.",
+      "special_proposal": false,
+      "machine_gold": 3975,
+      "previous_combined_unlock_gold": 490,
+      "total_unlock_gold": 3975
+    },
+    {
+      "id": "food-108",
+      "name": "Jelly Relish Patty",
+      "level": 119,
+      "group": "Burger / sosisli",
+      "ingredients": [
+        {
+          "id": "meat",
+          "name": "Et",
+          "quantity": 1,
+          "unit_cents": 75,
+          "total_cents": 75
+        },
+        {
+          "id": "bread",
+          "name": "Ekmek",
+          "quantity": 1,
+          "unit_cents": 25,
+          "total_cents": 25
+        },
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 0.5,
+          "unit_cents": 30,
+          "total_cents": 15
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 0.5,
+          "unit_cents": 20,
+          "total_cents": 10
+        },
+        {
+          "id": "fruit",
+          "name": "Meyve",
+          "quantity": 0.5,
+          "unit_cents": 50,
+          "total_cents": 25
+        },
+        {
+          "id": "sugar",
+          "name": "Şeker",
+          "quantity": 0.5,
+          "unit_cents": 15,
+          "total_cents": 8
+        }
+      ],
+      "cost_cents": 158,
+      "sale_cents": 752,
+      "material_share": 21.01,
+      "premium_percent": 18.99,
+      "contribution_cents": 594,
+      "unlock_gold": 1130,
+      "notes": "Jöle sosu meyve/şekerle temsil edilir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 1130
+    },
+    {
+      "id": "food-46",
+      "name": "Krabby Soup",
+      "level": 120,
+      "group": "Ana tabak / pizza",
+      "ingredients": [
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 2,
+          "unit_cents": 30,
+          "total_cents": 60
+        },
+        {
+          "id": "meat",
+          "name": "Et",
+          "quantity": 0.5,
+          "unit_cents": 75,
+          "total_cents": 38
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 1,
+          "unit_cents": 20,
+          "total_cents": 20
+        }
+      ],
+      "cost_cents": 118,
+      "sale_cents": 559,
+      "material_share": 21.11,
+      "premium_percent": 18.43,
+      "contribution_cents": 441,
+      "unlock_gold": 400,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 400
+    },
+    {
+      "id": "food-109",
+      "name": "Junior Krabby Patty",
+      "level": 121,
+      "group": "Burger / sosisli",
+      "ingredients": [
+        {
+          "id": "meat",
+          "name": "Et",
+          "quantity": 0.5,
+          "unit_cents": 75,
+          "total_cents": 38
+        },
+        {
+          "id": "bread",
+          "name": "Ekmek",
+          "quantity": 1,
+          "unit_cents": 25,
+          "total_cents": 25
+        },
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 0.5,
+          "unit_cents": 30,
+          "total_cents": 15
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 0.5,
+          "unit_cents": 20,
+          "total_cents": 10
+        }
+      ],
+      "cost_cents": 88,
+      "sale_cents": 420,
+      "material_share": 20.95,
+      "premium_percent": 19.32,
+      "contribution_cents": 332,
+      "unlock_gold": 1155,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 1155
+    },
+    {
+      "id": "food-47",
+      "name": "Krabby Newburg",
+      "level": 122,
+      "group": "Ana tabak / pizza",
+      "ingredients": [
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 2,
+          "unit_cents": 30,
+          "total_cents": 60
+        },
+        {
+          "id": "meat",
+          "name": "Et",
+          "quantity": 0.5,
+          "unit_cents": 75,
+          "total_cents": 38
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 1,
+          "unit_cents": 20,
+          "total_cents": 20
+        }
+      ],
+      "cost_cents": 118,
+      "sale_cents": 560,
+      "material_share": 21.07,
+      "premium_percent": 18.64,
+      "contribution_cents": 442,
+      "unlock_gold": 425,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 425
+    },
+    {
+      "id": "food-110",
+      "name": "Krusty Supreme",
+      "level": 123,
+      "group": "Burger / sosisli",
+      "ingredients": [
+        {
+          "id": "meat",
+          "name": "Et",
+          "quantity": 1,
+          "unit_cents": 75,
+          "total_cents": 75
+        },
+        {
+          "id": "bread",
+          "name": "Ekmek",
+          "quantity": 1,
+          "unit_cents": 25,
+          "total_cents": 25
+        },
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 0.5,
+          "unit_cents": 30,
+          "total_cents": 15
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 0.5,
+          "unit_cents": 20,
+          "total_cents": 10
+        }
+      ],
+      "cost_cents": 125,
+      "sale_cents": 597,
+      "material_share": 20.94,
+      "premium_percent": 19.4,
+      "contribution_cents": 472,
+      "unlock_gold": 1180,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 1180
+    },
+    {
+      "id": "food-49",
+      "name": "Wow! Soup",
+      "level": 124,
+      "group": "Ana tabak / pizza",
+      "ingredients": [
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 2,
+          "unit_cents": 30,
+          "total_cents": 60
+        },
+        {
+          "id": "meat",
+          "name": "Et",
+          "quantity": 0.5,
+          "unit_cents": 75,
+          "total_cents": 38
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 1,
+          "unit_cents": 20,
+          "total_cents": 20
+        }
+      ],
+      "cost_cents": 118,
+      "sale_cents": 560,
+      "material_share": 21.07,
+      "premium_percent": 18.64,
+      "contribution_cents": 442,
+      "unlock_gold": 450,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 450
+    },
+    {
+      "id": "food-119",
+      "name": "Krabby supreme",
+      "level": 125,
+      "group": "Burger / sosisli",
+      "ingredients": [
+        {
+          "id": "meat",
+          "name": "Et",
+          "quantity": 1,
+          "unit_cents": 75,
+          "total_cents": 75
+        },
+        {
+          "id": "bread",
+          "name": "Ekmek",
+          "quantity": 1,
+          "unit_cents": 25,
+          "total_cents": 25
+        },
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 0.5,
+          "unit_cents": 30,
+          "total_cents": 15
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 0.5,
+          "unit_cents": 20,
+          "total_cents": 10
+        }
+      ],
+      "cost_cents": 125,
+      "sale_cents": 597,
+      "material_share": 20.94,
+      "premium_percent": 19.4,
+      "contribution_cents": 472,
+      "unlock_gold": 1200,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 1200
+    },
+    {
+      "id": "food-117",
+      "name": "Tomato Bisque",
+      "level": 126,
+      "group": "Ana tabak / pizza",
+      "ingredients": [
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 2,
+          "unit_cents": 30,
+          "total_cents": 60
+        },
+        {
+          "id": "milk",
+          "name": "Süt",
+          "quantity": 0.5,
+          "unit_cents": 65,
+          "total_cents": 33
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 1,
+          "unit_cents": 20,
+          "total_cents": 20
+        }
+      ],
+      "cost_cents": 113,
+      "sale_cents": 537,
+      "material_share": 21.04,
+      "premium_percent": 18.81,
+      "contribution_cents": 424,
+      "unlock_gold": 470,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 470
+    },
+    {
+      "id": "food-132",
+      "name": "Pretty Patty",
+      "level": 127,
+      "group": "Burger / sosisli",
+      "ingredients": [
+        {
+          "id": "meat",
+          "name": "Et",
+          "quantity": 1,
+          "unit_cents": 75,
+          "total_cents": 75
+        },
+        {
+          "id": "bread",
+          "name": "Ekmek",
+          "quantity": 1,
+          "unit_cents": 25,
+          "total_cents": 25
+        },
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 0.5,
+          "unit_cents": 30,
+          "total_cents": 15
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 0.5,
+          "unit_cents": 20,
+          "total_cents": 10
+        }
+      ],
+      "cost_cents": 125,
+      "sale_cents": 597,
+      "material_share": 20.94,
+      "premium_percent": 19.4,
+      "contribution_cents": 472,
+      "unlock_gold": 1225,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 1225
+    },
+    {
+      "id": "food-123",
+      "name": "Canned coral",
+      "level": 128,
+      "group": "Yan ürün",
+      "ingredients": [
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 2,
+          "unit_cents": 30,
+          "total_cents": 60
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 1,
+          "unit_cents": 20,
+          "total_cents": 20
+        }
+      ],
+      "cost_cents": 80,
+      "sale_cents": 381,
+      "material_share": 21.0,
+      "premium_percent": 19.06,
+      "contribution_cents": 301,
+      "unlock_gold": 495,
+      "notes": "Konserve mercan için temsili oyun reçetesi.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 495
+    },
+    {
+      "id": "food-146",
+      "name": "Flabby Patty",
+      "level": 129,
+      "group": "Burger / sosisli",
+      "ingredients": [
+        {
+          "id": "meat",
+          "name": "Et",
+          "quantity": 1,
+          "unit_cents": 75,
+          "total_cents": 75
+        },
+        {
+          "id": "bread",
+          "name": "Ekmek",
+          "quantity": 1,
+          "unit_cents": 25,
+          "total_cents": 25
+        },
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 0.5,
+          "unit_cents": 30,
+          "total_cents": 15
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 0.5,
+          "unit_cents": 20,
+          "total_cents": 10
+        }
+      ],
+      "cost_cents": 125,
+      "sale_cents": 597,
+      "material_share": 20.94,
+      "premium_percent": 19.4,
+      "contribution_cents": 472,
+      "unlock_gold": 1250,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 1250
+    },
+    {
+      "id": "food-137",
+      "name": "Swedish Barnacle Balls",
+      "level": 130,
+      "group": "Ana tabak / pizza",
+      "ingredients": [
+        {
+          "id": "meat",
+          "name": "Et",
+          "quantity": 2,
+          "unit_cents": 75,
+          "total_cents": 150
+        },
+        {
+          "id": "dough",
+          "name": "Hamur",
+          "quantity": 0.5,
+          "unit_cents": 50,
+          "total_cents": 25
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 1,
+          "unit_cents": 20,
+          "total_cents": 20
+        }
+      ],
+      "cost_cents": 195,
+      "sale_cents": 923,
+      "material_share": 21.13,
+      "premium_percent": 18.33,
+      "contribution_cents": 728,
+      "unlock_gold": 520,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 520
+    },
+    {
+      "id": "food-156",
+      "name": "Aged Patty",
+      "level": 131,
+      "group": "Burger / sosisli",
+      "ingredients": [
+        {
+          "id": "meat",
+          "name": "Et",
+          "quantity": 1,
+          "unit_cents": 75,
+          "total_cents": 75
+        },
+        {
+          "id": "bread",
+          "name": "Ekmek",
+          "quantity": 1,
+          "unit_cents": 25,
+          "total_cents": 25
+        },
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 0.5,
+          "unit_cents": 30,
+          "total_cents": 15
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 0.5,
+          "unit_cents": 20,
+          "total_cents": 10
+        }
+      ],
+      "cost_cents": 125,
+      "sale_cents": 597,
+      "material_share": 20.94,
+      "premium_percent": 19.4,
+      "contribution_cents": 472,
+      "unlock_gold": 1270,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 1270
+    },
+    {
+      "id": "food-147",
+      "name": "Chum Fricassee",
+      "level": 132,
+      "group": "Ana tabak / pizza",
+      "ingredients": [
+        {
+          "id": "meat",
+          "name": "Et",
+          "quantity": 1.5,
+          "unit_cents": 75,
+          "total_cents": 113
+        },
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 1,
+          "unit_cents": 30,
+          "total_cents": 30
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 1,
+          "unit_cents": 20,
+          "total_cents": 20
+        }
+      ],
+      "cost_cents": 163,
+      "sale_cents": 773,
+      "material_share": 21.09,
+      "premium_percent": 18.56,
+      "contribution_cents": 610,
+      "unlock_gold": 540,
+      "notes": "Chum et karışımı için oyun reçetesi önerisi.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 540
+    },
+    {
+      "id": "food-157",
+      "name": "Secret Patty",
+      "level": 133,
+      "group": "Burger / sosisli",
+      "ingredients": [
+        {
+          "id": "meat",
+          "name": "Et",
+          "quantity": 1,
+          "unit_cents": 75,
+          "total_cents": 75
+        },
+        {
+          "id": "bread",
+          "name": "Ekmek",
+          "quantity": 1,
+          "unit_cents": 25,
+          "total_cents": 25
+        },
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 0.5,
+          "unit_cents": 30,
+          "total_cents": 15
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 0.5,
+          "unit_cents": 20,
+          "total_cents": 10
+        }
+      ],
+      "cost_cents": 125,
+      "sale_cents": 597,
+      "material_share": 20.94,
+      "premium_percent": 19.4,
+      "contribution_cents": 472,
+      "unlock_gold": 1295,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 1295
+    },
+    {
+      "id": "food-149",
+      "name": "Chum",
+      "level": 134,
+      "group": "Ana tabak / pizza",
+      "ingredients": [
+        {
+          "id": "meat",
+          "name": "Et",
+          "quantity": 1.5,
+          "unit_cents": 75,
+          "total_cents": 113
+        },
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 1,
+          "unit_cents": 30,
+          "total_cents": 30
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 1,
+          "unit_cents": 20,
+          "total_cents": 20
+        }
+      ],
+      "cost_cents": 163,
+      "sale_cents": 774,
+      "material_share": 21.06,
+      "premium_percent": 18.71,
+      "contribution_cents": 611,
+      "unlock_gold": 565,
+      "notes": "Chum et karışımı için oyun reçetesi önerisi.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 565
+    },
+    {
+      "id": "food-154",
+      "name": "Spaghetti",
+      "level": 135,
+      "group": "Ana tabak / pizza",
+      "ingredients": [
+        {
+          "id": "pasta",
+          "name": "Makarna",
+          "quantity": 2,
+          "unit_cents": 75,
+          "total_cents": 150
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 1,
+          "unit_cents": 20,
+          "total_cents": 20
+        },
+        {
+          "id": "cheese",
+          "name": "Peynir",
+          "quantity": 1,
+          "unit_cents": 30,
+          "total_cents": 30
+        }
+      ],
+      "cost_cents": 200,
+      "sale_cents": 948,
+      "material_share": 21.1,
+      "premium_percent": 18.5,
+      "contribution_cents": 748,
+      "unlock_gold": 585,
+      "notes": "Oyun reçetesi taslağı; kanonik malzeme listesi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 585
+    },
+    {
+      "id": "food-59",
+      "name": "Smorgasbord",
+      "level": 136,
+      "group": "Özel menü",
+      "ingredients": [
+        {
+          "id": "meat",
+          "name": "Et",
+          "quantity": 1,
+          "unit_cents": 75,
+          "total_cents": 75
+        },
+        {
+          "id": "bread",
+          "name": "Ekmek",
+          "quantity": 2,
+          "unit_cents": 25,
+          "total_cents": 50
+        },
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 2,
+          "unit_cents": 30,
+          "total_cents": 60
+        },
+        {
+          "id": "cheese",
+          "name": "Peynir",
+          "quantity": 1,
+          "unit_cents": 30,
+          "total_cents": 30
+        }
+      ],
+      "cost_cents": 215,
+      "sale_cents": 1015,
+      "material_share": 21.18,
+      "premium_percent": 18.02,
+      "contribution_cents": 800,
+      "unlock_gold": 420,
+      "notes": "Özel karma tabak; içerik/istasyon eşlemesi öneri.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 420
+    },
+    {
+      "id": "food-60",
+      "name": "Skipper's Breakfast",
+      "level": 137,
+      "group": "Özel menü",
+      "ingredients": [
+        {
+          "id": "sausage",
+          "name": "Sosis",
+          "quantity": 1,
+          "unit_cents": 100,
+          "total_cents": 100
+        },
+        {
+          "id": "bread",
+          "name": "Ekmek",
+          "quantity": 2,
+          "unit_cents": 25,
+          "total_cents": 50
+        },
+        {
+          "id": "potato",
+          "name": "Patates",
+          "quantity": 1,
+          "unit_cents": 60,
+          "total_cents": 60
+        }
+      ],
+      "cost_cents": 210,
+      "sale_cents": 991,
+      "material_share": 21.19,
+      "premium_percent": 17.98,
+      "contribution_cents": 781,
+      "unlock_gold": 420,
+      "notes": "Kahvaltı tabağı uyarlaması; yumurta mevcut 15 stokta yok, bilinçli sadeleştirme.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 420
+    },
+    {
+      "id": "food-76",
+      "name": "Captain Olaf's Special",
+      "level": 138,
+      "group": "Özel menü",
+      "ingredients": [
+        {
+          "id": "meat",
+          "name": "Et",
+          "quantity": 2,
+          "unit_cents": 75,
+          "total_cents": 150
+        },
+        {
+          "id": "potato",
+          "name": "Patates",
+          "quantity": 1,
+          "unit_cents": 60,
+          "total_cents": 60
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 1,
+          "unit_cents": 20,
+          "total_cents": 20
+        }
+      ],
+      "cost_cents": 230,
+      "sale_cents": 1085,
+      "material_share": 21.2,
+      "premium_percent": 17.93,
+      "contribution_cents": 855,
+      "unlock_gold": 425,
+      "notes": "Özel kaptan tabağı; içerik/istasyon eşlemesi öneri.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 425
+    },
+    {
+      "id": "food-90",
+      "name": "Sailors Surprise",
+      "level": 139,
+      "group": "Özel menü",
+      "ingredients": [
+        {
+          "id": "pasta",
+          "name": "Makarna",
+          "quantity": 1,
+          "unit_cents": 75,
+          "total_cents": 75
+        },
+        {
+          "id": "meat",
+          "name": "Et",
+          "quantity": 1,
+          "unit_cents": 75,
+          "total_cents": 75
+        },
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 2,
+          "unit_cents": 30,
+          "total_cents": 60
+        },
+        {
+          "id": "sauce",
+          "name": "Sos",
+          "quantity": 1,
+          "unit_cents": 20,
+          "total_cents": 20
+        }
+      ],
+      "cost_cents": 230,
+      "sale_cents": 1085,
+      "material_share": 21.2,
+      "premium_percent": 17.93,
+      "contribution_cents": 855,
+      "unlock_gold": 425,
+      "notes": "Özel denizci tabağı; içerik/istasyon eşlemesi öneri.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 425
+    },
+    {
+      "id": "food-101",
+      "name": "Krusty Special",
+      "level": 140,
+      "group": "Özel menü",
+      "ingredients": [
+        {
+          "id": "meat",
+          "name": "Et",
+          "quantity": 1,
+          "unit_cents": 75,
+          "total_cents": 75
+        },
+        {
+          "id": "bread",
+          "name": "Ekmek",
+          "quantity": 1,
+          "unit_cents": 25,
+          "total_cents": 25
+        },
+        {
+          "id": "potato",
+          "name": "Patates",
+          "quantity": 1,
+          "unit_cents": 60,
+          "total_cents": 60
+        },
+        {
+          "id": "cola",
+          "name": "Kola",
+          "quantity": 1,
+          "unit_cents": 40,
+          "total_cents": 40
+        }
+      ],
+      "cost_cents": 200,
+      "sale_cents": 945,
+      "material_share": 21.16,
+      "premium_percent": 18.12,
+      "contribution_cents": 745,
+      "unlock_gold": 430,
+      "notes": "Burger + patates + içecek menüsü önerisi; birleşik servis ayrıca gerekli.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 430
+    },
+    {
+      "id": "food-129",
+      "name": "Kerglooginpfiefer",
+      "level": 141,
+      "group": "Özel menü",
+      "ingredients": [
+        {
+          "id": "dough",
+          "name": "Hamur",
+          "quantity": 1,
+          "unit_cents": 50,
+          "total_cents": 50
+        },
+        {
+          "id": "meat",
+          "name": "Et",
+          "quantity": 1,
+          "unit_cents": 75,
+          "total_cents": 75
+        },
+        {
+          "id": "cheese",
+          "name": "Peynir",
+          "quantity": 1,
+          "unit_cents": 30,
+          "total_cents": 30
+        },
+        {
+          "id": "vegetables",
+          "name": "Sebze",
+          "quantity": 1,
+          "unit_cents": 30,
+          "total_cents": 30
+        }
+      ],
+      "cost_cents": 185,
+      "sale_cents": 875,
+      "material_share": 21.14,
+      "premium_percent": 18.24,
+      "contribution_cents": 690,
+      "unlock_gold": 430,
+      "notes": "İçerik belirsiz: temsili yemek önerisi; kaynak bilgisi değildir.",
+      "special_proposal": false,
+      "machine_gold": 0,
+      "total_unlock_gold": 430
+    }
+  ],
+  "machines": [
+    {
+      "station": "fryer",
+      "name": "Kızartma",
+      "level": 5,
+      "first_recipe": "food-32",
+      "machine_gold": 425,
+      "first_recipe_gold": 0,
+      "target_minutes": 20,
+      "forecast": {
+        "orders_per_minute": 3.007,
+        "profit_per_order": 6.879,
+        "net_per_minute": 20.687,
+        "speed_upgrades": 0,
+        "service_workers": 1,
+        "arrival_per_minute": 3.007,
+        "production_cap": 4.808,
+        "transport_cap": 4.438
+      },
+      "minutes_at_forecast": 20.5,
+      "minutes_at_current_arrival_limit": 22.7,
+      "status": "balanced-forecast-not-live"
+    },
+    {
+      "station": "oven",
+      "name": "Fırın / pizza",
+      "level": 10,
+      "first_recipe": "food-44",
+      "machine_gold": 925,
+      "first_recipe_gold": 0,
+      "target_minutes": 30,
+      "forecast": {
+        "orders_per_minute": 3.357,
+        "profit_per_order": 9.042,
+        "net_per_minute": 30.357,
+        "speed_upgrades": 1,
+        "service_workers": 1,
+        "arrival_per_minute": 3.357,
+        "production_cap": 4.579,
+        "transport_cap": 3.589
+      },
+      "minutes_at_forecast": 30.5,
+      "minutes_at_current_arrival_limit": 37.5,
+      "status": "balanced-forecast-not-live"
+    },
+    {
+      "station": "shake",
+      "name": "Milkshake",
+      "level": 18,
+      "first_recipe": "food-41",
+      "machine_gold": 1325,
+      "first_recipe_gold": 0,
+      "target_minutes": 35,
+      "forecast": {
+        "orders_per_minute": 3.917,
+        "profit_per_order": 9.535,
+        "net_per_minute": 37.353,
+        "speed_upgrades": 1,
+        "service_workers": 2,
+        "arrival_per_minute": 3.917,
+        "production_cap": 4.579,
+        "transport_cap": 7.177
+      },
+      "minutes_at_forecast": 35.5,
+      "minutes_at_current_arrival_limit": 50.9,
+      "status": "balanced-forecast-not-live"
+    },
+    {
+      "station": "juice",
+      "name": "Meyve suyu",
+      "level": 27,
+      "first_recipe": "food-42",
+      "machine_gold": 1675,
+      "first_recipe_gold": 0,
+      "target_minutes": 40,
+      "forecast": {
+        "orders_per_minute": 4.452,
+        "profit_per_order": 9.384,
+        "net_per_minute": 41.774,
+        "speed_upgrades": 2,
+        "service_workers": 2,
+        "arrival_per_minute": 4.547,
+        "production_cap": 4.452,
+        "transport_cap": 7.177
+      },
+      "minutes_at_forecast": 40.1,
+      "minutes_at_current_arrival_limit": 65.4,
+      "status": "balanced-forecast-not-live"
+    },
+    {
+      "station": "hot-drink",
+      "name": "Sıcak içecek",
+      "level": 38,
+      "first_recipe": "food-104",
+      "machine_gold": 1950,
+      "first_recipe_gold": 0,
+      "target_minutes": 45,
+      "forecast": {
+        "orders_per_minute": 3.934,
+        "profit_per_order": 9.757,
+        "net_per_minute": 38.38,
+        "speed_upgrades": 2,
+        "service_workers": 2,
+        "arrival_per_minute": 5.317,
+        "production_cap": 3.934,
+        "transport_cap": 7.177
+      },
+      "minutes_at_forecast": 50.8,
+      "minutes_at_current_arrival_limit": 73.3,
+      "status": "balanced-forecast-not-live"
+    },
+    {
+      "station": "icecream",
+      "name": "Dondurma",
+      "level": 50,
+      "first_recipe": "food-152",
+      "machine_gold": 2250,
+      "first_recipe_gold": 0,
+      "target_minutes": 50,
+      "forecast": {
+        "orders_per_minute": 4.108,
+        "profit_per_order": 9.336,
+        "net_per_minute": 38.353,
+        "speed_upgrades": 3,
+        "service_workers": 2,
+        "arrival_per_minute": 6.157,
+        "production_cap": 4.108,
+        "transport_cap": 7.177
+      },
+      "minutes_at_forecast": 58.7,
+      "minutes_at_current_arrival_limit": 88.4,
+      "status": "balanced-forecast-not-live"
+    },
+    {
+      "station": "hotdog",
+      "name": "Sosisli",
+      "level": 64,
+      "first_recipe": "food-43",
+      "machine_gold": 2600,
+      "first_recipe_gold": 0,
+      "target_minutes": 55,
+      "forecast": {
+        "orders_per_minute": 4.071,
+        "profit_per_order": 9.08,
+        "net_per_minute": 36.966,
+        "speed_upgrades": 4,
+        "service_workers": 2,
+        "arrival_per_minute": 7.137,
+        "production_cap": 4.071,
+        "transport_cap": 7.177
+      },
+      "minutes_at_forecast": 70.3,
+      "minutes_at_current_arrival_limit": 105.0,
+      "status": "balanced-forecast-not-live"
+    },
+    {
+      "station": "cold-prep",
+      "name": "Soğuk hazırlama",
+      "level": 80,
+      "first_recipe": "food-56",
+      "machine_gold": 3000,
+      "first_recipe_gold": 0,
+      "target_minutes": 60,
+      "forecast": {
+        "orders_per_minute": 5.066,
+        "profit_per_order": 8.661,
+        "net_per_minute": 43.883,
+        "speed_upgrades": 5,
+        "service_workers": 2,
+        "arrival_per_minute": 8.257,
+        "production_cap": 5.066,
+        "transport_cap": 7.177
+      },
+      "minutes_at_forecast": 68.4,
+      "minutes_at_current_arrival_limit": 127.0,
+      "status": "balanced-forecast-not-live"
+    },
+    {
+      "station": "dessert",
+      "name": "Tatlı",
+      "level": 98,
+      "first_recipe": "food-53",
+      "machine_gold": 3450,
+      "first_recipe_gold": 0,
+      "target_minutes": 65,
+      "forecast": {
+        "orders_per_minute": 4.732,
+        "profit_per_order": 8.481,
+        "net_per_minute": 40.13,
+        "speed_upgrades": 5,
+        "service_workers": 2,
+        "arrival_per_minute": 9.517,
+        "production_cap": 4.732,
+        "transport_cap": 7.177
+      },
+      "minutes_at_forecast": 86.0,
+      "minutes_at_current_arrival_limit": 149.2,
+      "status": "balanced-forecast-not-live"
+    },
+    {
+      "station": "soup-pasta-extra",
+      "name": "Çorba / makarna",
+      "level": 118,
+      "first_recipe": "food-45",
+      "machine_gold": 3975,
+      "first_recipe_gold": 0,
+      "target_minutes": 75,
+      "forecast": {
+        "orders_per_minute": 4.593,
+        "profit_per_order": 8.789,
+        "net_per_minute": 40.367,
+        "speed_upgrades": 5,
+        "service_workers": 2,
+        "arrival_per_minute": 10,
+        "production_cap": 4.593,
+        "transport_cap": 7.177
+      },
+      "minutes_at_forecast": 98.5,
+      "minutes_at_current_arrival_limit": 165.8,
+      "status": "balanced-forecast-not-live"
+    }
+  ]
+}

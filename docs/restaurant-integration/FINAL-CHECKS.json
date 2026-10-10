@@ -1,0 +1,32 @@
+{
+  "passed": true,
+  "initial": {
+    "gold": 60,
+    "level": 1,
+    "xp": 0,
+    "openTables": 1,
+    "freeCleaner": "Mr Krabs"
+  },
+  "foodModels": 142,
+  "equipmentFactories": 23,
+  "runtimeImportsAndAssetsChecked": 236,
+  "syntaxCheckedGameModules": 74,
+  "launcherViewportWidths": [
+    380,
+    600,
+    900
+  ],
+  "crewSaveRoundTrip": {
+    "service": 10,
+    "cleaning": 10,
+    "cashierSpeedLevel": 2,
+    "machineSpeedLevel": 5,
+    "automationPreserved": true
+  },
+  "editableUiBuildPassed": true,
+  "installerProduced": false,
+  "published": false,
+  "version": "7.0.0",
+  "githubUploaded": false,
+  "deliveryStage": "Source received; Windows installer and packaged runtime are verified separately in GitHub Actions."
+}

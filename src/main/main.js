@@ -1601,6 +1601,7 @@ function pauseAllTodoStopwatches({ final = false } = {}) {
 // IPC
 // ---------------------------------------------------------------------------
 function registerIpc() {
+  require('./restaurant-window').setupRestaurant({app,BrowserWindow,ipcMain});
   registerBudgetIPC({ipcMain,dialog,shell,BrowserWindow,budget,getPanel:()=>panelWin,backup:()=>{
     fs.mkdirSync(backupDir,{recursive:true});
     fs.writeFileSync(path.join(backupDir,`nero-butce-islem-oncesi-${Date.now()}.json`),JSON.stringify({app:'NeroBudget',version:1,budget:budget.export()},null,2),'utf8');

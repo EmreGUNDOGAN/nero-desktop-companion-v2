@@ -1,7 +1,7 @@
 {
   "name": "nero",
   "productName": "Nero",
-  "version": "6.9.13",
+  "version": "7.0.0",
   "description": "Nero - huysuz ama seni seven masaüstü arkadaşın",
   "main": "src/main/main.js",
   "author": {
@@ -20,7 +20,8 @@
     "wardrobe:build": "node scripts/build-wardrobe.js",
     "wardrobe:build-new": "node scripts/wardrobe-v665/build-assets.js",
     "finance:build": "node scripts/build-finance-ui.js",
-    "finance:check": "tsc -p tsconfig.finance.json"
+    "finance:check": "tsc -p tsconfig.finance.json",
+    "restaurant:ui": "node src/renderer/restaurant-ui/build.mjs"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "4.3.3",
@@ -30,6 +31,7 @@
     "electron-builder": "^26.15.3",
     "esbuild": "0.28.2",
     "postcss": "8.5.29",
+    "sass": "1.105.1",
     "tailwindcss": "4.3.3",
     "typescript": "7.0.2"
   },

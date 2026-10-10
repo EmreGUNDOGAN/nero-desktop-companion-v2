@@ -1,0 +1,14 @@
+import {productionSeconds} from './economy.js';
+// One running job per physical station. Materials can be reserved through an adapter.
+export class ProductionScheduler{
+ constructor(catalog,adapter){this.catalog=catalog;this.adapter=adapter;this.settings=new Map();this.running=new Map();this.nextId=0;this.stationLevels=Object.fromEntries([...catalog.byId.values()].filter(p=>!p.stationDecisionPending).map(p=>[p.station,p.stationLevel]));this.stationRecipes=new Map(Object.keys(this.stationLevels).map(id=>[id,catalog.inStation(id)]));}
+ configure(station,{automatic=false,speedLevel=0}){if(!Object.hasOwn(this.catalogStationLevels(),station)||!Number.isInteger(speedLevel)||speedLevel<0||speedLevel>5)return false;this.settings.set(station,{automatic:Boolean(automatic),speedLevel});return true;}
+ catalogStationLevels(){return this.stationLevels;}
+ start(recipeId,{automatic=false}={}){const p=this.catalog.byId.get(recipeId);if(!p||p.stationDecisionPending||!Number.isFinite(p.seconds)||p.seconds<=0||!this.adapter.isUnlocked(recipeId)||this.running.has(p.station)||!this.adapter.hasCapacity(recipeId))return false;
+  if(automatic&&this.adapter.demand(recipeId)<=this.adapter.available(recipeId))return false;const token=this.adapter.reserveMaterials?.(recipeId);if(token===false)return false;const settings=this.settings.get(p.station)||{speedLevel:0};const job={id:++this.nextId,recipeId,station:p.station,elapsed:0,duration:productionSeconds(p.seconds,settings.speedLevel),automatic,status:'preparing',materials:token};this.running.set(p.station,job);this.adapter.onStart?.(job);return true;}
+ update(dt){if(!Number.isFinite(dt)||dt<0)throw Error('Invalid production delta');for(let left=dt;left>1e-8;){const step=Math.min(.05,left);left-=step;
+  for(const [station,job]of this.running){if(job.automatic&&this.adapter.demand(job.recipeId)===0){this.running.delete(station);this.adapter.releaseMaterials?.(job.materials,job);this.adapter.onCancel?.(job);continue;}job.elapsed=Math.min(job.duration,job.elapsed+step);if(job.elapsed+1e-8>=job.duration){if(this.adapter.hasReadyCapacity?.(job.recipeId)===false){job.status='awaiting-space';continue;}this.running.delete(station);this.adapter.consumeMaterials?.(job.materials);this.adapter.onReady(job.recipeId,job);}}
+  for(const [station,settings]of this.settings){if(!settings.automatic||this.running.has(station))continue;const candidates=this.stationRecipes.get(station).filter(p=>this.adapter.isUnlocked(p.id)&&this.adapter.demand(p.id)>this.adapter.available(p.id));candidates.sort((a,b)=>(this.adapter.priority?.(a.id)??a.level)-(this.adapter.priority?.(b.id)??b.level));for(const p of candidates)if(this.start(p.id,{automatic:true}))break;}
+ }}
+ snapshot(){return{settings:[...this.settings].map(([station,s])=>({station,...s})),jobs:[...this.running.values()].map(({materials,...j})=>({...j,remaining:Math.max(0,j.duration-j.elapsed)}))};}
+}

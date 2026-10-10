@@ -1,0 +1,84 @@
+name: Build Nero 7.0.0 — Ezgi’s Krab Shack
+on:
+  workflow_dispatch:
+  push:
+    branches: [feature/nero-v7.0.0]
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: windows-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm run finance:check
+      - run: npm run finance:build
+      - name: Build restaurant React and SCSS UI
+        run: npm run restaurant:ui
+      - run: node scripts/wardrobe-v665/check-release.js
+      - run: npm test
+      - run: npm run dialogue:check
+      - name: Check existing themes and productivity flows
+        run: npx electron --disable-gpu test/all-features-ui.cjs
+      - name: Check Gilmore Girls and The Office across window sizes
+        run: npx electron --disable-gpu test/tv-themes-ui.cjs
+      - name: Check finance screens and partial payments
+        run: npx electron --disable-gpu test/new-features-finance-ui.cjs
+      - name: Check character and notification integration
+        run: npx electron --disable-gpu test/tv-character-smoke.cjs
+      - name: Check SpongeBob wardrobe and editable night outfits
+        run: npx electron --disable-gpu test/bikini-wardrobe-production.cjs
+      - name: Check Bikini Bottom startup and timer
+        env:
+          NERO_STARTUP_THEME: bikini-bottom
+        run: npx electron --disable-gpu test/production-startup-smoke.cjs
+      - name: Check Stars Hollow startup and timer
+        env:
+          NERO_STARTUP_THEME: stars-hollow
+        run: npx electron --disable-gpu test/production-startup-smoke.cjs
+      - name: Check Scranton startup and timer
+        env:
+          NERO_STARTUP_THEME: scranton
+        run: npx electron --disable-gpu test/production-startup-smoke.cjs
+      - name: Check restaurant launcher alignment
+        run: npx electron --disable-gpu test/restaurant-launcher-ui.cjs
+      - name: Check real restaurant game, window reuse and save restore
+        run: npx electron test/restaurant-runtime-smoke.cjs
+      - name: Build Windows installer
+        run: npm run dist
+      - name: Verify every packaged source and theme file
+        run: node scripts/verify-packaged-resources.cjs
+      - name: Verify packaged Bikini Bottom startup
+        env:
+          NERO_PACKAGED_RESOURCES: ${{ github.workspace }}\dist\win-unpacked\resources
+          NERO_STARTUP_THEME: bikini-bottom
+        run: npx electron --disable-gpu test/production-startup-smoke.cjs
+      - name: Verify packaged Scranton startup
+        env:
+          NERO_PACKAGED_RESOURCES: ${{ github.workspace }}\dist\win-unpacked\resources
+          NERO_STARTUP_THEME: scranton
+        run: npx electron --disable-gpu test/production-startup-smoke.cjs
+      - name: Check packaged restaurant game and save restore
+        env:
+          NERO_PACKAGED_RESOURCES: ${{ github.workspace }}\dist\win-unpacked\resources
+        run: npx electron test/restaurant-runtime-smoke.cjs
+      - name: Export source
+        run: git archive --format=zip -o Nero-v7_0_0-source.zip HEAD
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Nero-7.0.0-final-bundle
+          if-no-files-found: error
+          path: |
+            dist/Nero-Setup-7.0.0.exe
+            dist/Nero-Setup-7.0.0.exe.blockmap
+            dist/latest.yml
+            Nero-v7_0_0-source.zip
+            CHANGELOG-7.0.0.md
+            KAYNAK-KULLANIM.md
+            TUM-GELISTIRMELER-OKU.md
+            OYUN-REHBERI.md

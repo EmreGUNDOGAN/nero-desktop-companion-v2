@@ -1,3 +1,7 @@
+# Nero 7.0.0 · Ezgi’s Krab Shack
+
+Restoran oyunu, mevcut Nero 6.9.13 sürümü üzerine eklenmiştir. Ayrıntılar: [CHANGELOG-7.0.0.md](CHANGELOG-7.0.0.md).
+
 # Nero
 
 **6.9.13 güncel paket:** Gilmore Girls, The Office ve SpongeBob'un onaylı sayfa tasarımları; beş SpongeBob kıyafeti; 21.00 sonrası değiştirilebilir gece kıyafeti. Önceki temalar ve özellikler korunur. Ayrıntılar: [OKU-6.9.13.md](OKU-6.9.13.md).

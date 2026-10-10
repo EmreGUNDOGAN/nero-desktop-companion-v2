@@ -1,0 +1,8 @@
+/* Restaurant shortcut: same row and hit area as the existing game controls. */
+.window-controls > .restaurant-launch {flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;padding:3px;border:0;border-radius:9px;background:transparent;cursor:pointer;-webkit-app-region:no-drag;}
+.restaurant-launch-icon {display:block;width:26px;height:26px;overflow:hidden;pointer-events:none;}
+.restaurant-launch-icon img {display:block;width:100%;height:auto;transform:translateY(-1px);pointer-events:none;}
+.restaurant-launch:hover {background:#ffd66766;}
+.restaurant-launch:focus-visible {outline:2px solid #188a9b;outline-offset:2px;}
+html[data-skin=bikini-bottom] .window-controls > .restaurant-launch {width:4.3cqw!important;min-width:0!important;height:4.8cqw;padding:0!important;}
+html[data-skin=bikini-bottom] .restaurant-launch-icon {width:4.1cqw;height:4.1cqw;}

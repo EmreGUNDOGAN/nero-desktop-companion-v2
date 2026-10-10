@@ -1,0 +1,18 @@
+import * as T from './vendor/three.module.min.js';
+// Shared world-space texture coordinates keep crossroads and adjacent segments seamless.
+let seed=9173;const random=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296;};
+function texture(asphalt=false){const c=document.createElement('canvas');c.width=c.height=1024;const x=c.getContext('2d');x.fillStyle=asphalt?'#77796e':'#ead2a0';x.fillRect(0,0,1024,1024);
+ for(let i=0;i<160;i++){const px=random()*1024,py=random()*1024,r=50+random()*160,g=x.createRadialGradient(px,py,0,px,py,r);g.addColorStop(0,asphalt?'rgba(42,52,54,.025)':i%2?'rgba(255,248,210,.055)':'rgba(183,133,73,.025)');g.addColorStop(1,'transparent');x.fillStyle=g;x.fillRect(px-r,py-r,r*2,r*2);}
+ const colors=asphalt?['#bbb9a1','#616763','#8e9183','#d1cbb3']:['#b79b68','#f8e8bd','#d6ad75','#d48d76','#89b0a7','#ab97bb'];
+ for(let i=0;i<34000;i++){x.globalAlpha=.14+random()*.45;x.fillStyle=colors[Math.floor(random()*colors.length)];const r=.35+random()*.85;x.beginPath();x.ellipse(random()*1024,random()*1024,r,r*.7,random()*6.28,0,6.28);x.fill();}x.globalAlpha=1;
+ for(let i=0;i<(asphalt?160:520);i++){x.fillStyle=colors[Math.floor(random()*colors.length)];x.globalAlpha=.3+random()*.35;x.beginPath();x.ellipse(random()*1024,random()*1024,.8+random()*2,.7+random()*1.5,random()*6.28,0,6.28);x.fill();}
+ const map=new T.CanvasTexture(c);map.wrapS=map.wrapT=T.RepeatWrapping;map.colorSpace=T.SRGBColorSpace;map.anisotropy=8;return map;}
+const sandMap=texture(),roadMap=texture(true);
+export const sandMaterial=new T.MeshStandardMaterial({color:0xffffff,map:sandMap,roughness:1});
+export const roadMaterial=new T.MeshStandardMaterial({color:0xffffff,map:roadMap,roughness:1});
+function worldUV(material,scale){material.onBeforeCompile=s=>{s.vertexShader=s.vertexShader.replace('#include <common>','#include <common>\nvarying vec2 floorUV;').replace('#include <worldpos_vertex>','#include <worldpos_vertex>\nfloorUV=(modelMatrix*vec4(transformed,1.0)).xz/'+scale.toFixed(1)+';');s.fragmentShader=s.fragmentShader.replace('#include <common>','#include <common>\nvarying vec2 floorUV;').replace('#include <map_fragment>','diffuseColor *= texture2D(map,floorUV);').replace('#include <bumpmap_pars_fragment>','#include <bumpmap_pars_fragment>');};material.customProgramCacheKey=()=> 'worldfloor-'+scale;}
+worldUV(sandMaterial,12);worldUV(roadMaterial,9);
+// Soft, irregular sandy verge; it overlays asphalt only at the outer perimeter.
+const edgeCanvas=document.createElement('canvas');edgeCanvas.width=512;edgeCanvas.height=128;const ctx=edgeCanvas.getContext('2d');const pixels=ctx.createImageData(512,128);
+for(let y=0;y<128;y++)for(let x=0;x<512;x++){const boundary=28+8*Math.sin(x*.055)+5*Math.sin(x*.17),a=Math.max(0,Math.min(1,(y-boundary)/55));const i=(y*512+x)*4;pixels.data[i]=231;pixels.data[i+1]=209;pixels.data[i+2]=165;pixels.data[i+3]=a*220;}ctx.putImageData(pixels,0,0);const edgeMap=new T.CanvasTexture(edgeCanvas);edgeMap.colorSpace=T.SRGBColorSpace;edgeMap.wrapS=T.RepeatWrapping;
+export function sandyVerge(parent,x,z,length,horizontal,width){for(const side of [-1,1]){const material=new T.MeshStandardMaterial({map:edgeMap,transparent:true,depthWrite:false,roughness:1});material.map=edgeMap.clone();material.map.repeat.set(length/10,1);const mesh=new T.Mesh(new T.PlaneGeometry(length,1.3),material);mesh.rotation.x=-Math.PI/2;mesh.rotation.z=horizontal?(side===1?0:Math.PI):(side===1?-Math.PI/2:Math.PI/2);mesh.position.set(x+(horizontal?0:side*(width/2+.05)),-.225,z+(horizontal?side*(width/2+.05):0));mesh.receiveShadow=true;parent.add(mesh);}}

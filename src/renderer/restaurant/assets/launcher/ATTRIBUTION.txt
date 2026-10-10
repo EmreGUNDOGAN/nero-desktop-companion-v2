@@ -1,0 +1,4 @@
+SpongeBob SquarePants illustration: Nickelodeon / NickRewind.
+Source: https://commons.wikimedia.org/wiki/File:SpongeBob_SquarePants_character.png
+License: CC BY 3.0, https://creativecommons.org/licenses/by/3.0/
+Original PNG retained; head region displayed via CSS clipping.

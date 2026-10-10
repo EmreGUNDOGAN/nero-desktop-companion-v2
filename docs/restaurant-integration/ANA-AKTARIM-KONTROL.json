@@ -1,0 +1,104 @@
+{
+  "stationFamilies": [
+    {
+      "type": "burger",
+      "meshes": 150
+    },
+    {
+      "type": "fryer",
+      "meshes": 122
+    },
+    {
+      "type": "fish",
+      "meshes": 53
+    },
+    {
+      "type": "warmer",
+      "meshes": 68
+    },
+    {
+      "type": "soup",
+      "meshes": 58
+    },
+    {
+      "type": "hotdog",
+      "meshes": 40
+    },
+    {
+      "type": "dough",
+      "meshes": 43
+    },
+    {
+      "type": "oven",
+      "meshes": 69
+    },
+    {
+      "type": "prep",
+      "meshes": 43
+    },
+    {
+      "type": "cold-prep",
+      "meshes": 88
+    },
+    {
+      "type": "sink",
+      "meshes": 29
+    },
+    {
+      "type": "fridge",
+      "meshes": 22
+    },
+    {
+      "type": "freezer",
+      "meshes": 36
+    },
+    {
+      "type": "storage",
+      "meshes": 33
+    },
+    {
+      "type": "coffee",
+      "meshes": 39
+    },
+    {
+      "type": "grinder",
+      "meshes": 26
+    },
+    {
+      "type": "tea",
+      "meshes": 15
+    },
+    {
+      "type": "shake",
+      "meshes": 13
+    },
+    {
+      "type": "icecream",
+      "meshes": 28
+    },
+    {
+      "type": "juice",
+      "meshes": 16
+    },
+    {
+      "type": "soda",
+      "meshes": 38
+    },
+    {
+      "type": "dessert",
+      "meshes": 23
+    },
+    {
+      "type": "packing",
+      "meshes": 57
+    }
+  ],
+  "roundTrip": {
+    "workers": 10,
+    "cleaners": 10,
+    "cashierSpeed": 2,
+    "machineSpeed": 5,
+    "automatic": true,
+    "gold": 9901740
+  }
+}

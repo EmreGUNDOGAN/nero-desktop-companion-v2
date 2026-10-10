@@ -1,0 +1,8 @@
+{
+ "food-59":{"station":"cold-prep","previousRecipe":"food-148","seconds":25,"note":"Karma tabak: ortak hazır yemek hattına çıkan soğuk hazırlama uyarlaması."},
+ "food-60":{"station":"oven","previousRecipe":"food-160","seconds":30,"note":"Kahvaltı tabağı: fırın hattında hazırlanan oyun uyarlaması."},
+ "food-76":{"station":"burger","previousRecipe":"food-157","seconds":30,"note":"Kaptan tabağı: ızgara hattı."},
+ "food-90":{"station":"soup-pasta-extra","previousRecipe":"food-154","seconds":35,"note":"Denizci tabağı: sıcak tabak hattı."},
+ "food-101":{"station":"cold-prep","previousRecipe":"food-59","seconds":30,"note":"Burger, patates ve içecek birleşik seti: tek özel tabak modeliyle servis edilir."},
+ "food-129":{"station":"soup-pasta-extra","previousRecipe":"food-90","seconds":35,"note":"İçeriği belirsiz ürün için sıcak tabak oyun uyarlaması; kanonik tarif iddiası değildir."}
+}

@@ -1,0 +1,23 @@
+@use './hud.scss';
+.hud-popup.orders .hud-popup-title {
+ justify-content:flex-start;padding-right:88px;
+ >.hud-icon {left:10px;top:9px;}
+ h2 {margin-left:25px;font-size:17px;padding:5px 0;background:none;}
+ .hud-close {top:8px;right:10px;}
+}
+.hud-pin {
+ position:absolute;right:49px;top:8px;width:32px;height:32px;padding:6px;
+ border:1px solid #dbcdaa;border-radius:10px;background:#fff9e9;color:#46747c;
+ svg {width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+ &[aria-pressed=true] {background:#169eae;border-color:#087d8c;color:white;box-shadow:0 2px 0 #076c78;svg{fill:#ffffff38;}}
+}
+
+.research-summary {display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px;strong,small{display:block;}small{font-size:12px;color:#728b8c;margin-top:4px;}}
+.research-active {display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-bottom:10px;}
+.research-slot {display:flex;align-items:center;gap:10px;padding:12px;background:#f2efe3;border:1px dashed #c6b996;border-radius:15px;min-height:97px;>img{width:76px;height:76px;object-fit:contain;}>.hud-icon{width:48px;height:48px;}h3{font-size:14px;margin:0 0 4px;}small,span{display:block;font-size:11px;color:#638489;}progress{width:100%;height:8px;margin:7px 0 3px;}div{flex:1;min-width:0;}&.working{border:1px solid #92cbd0;background:#eaf5ef;}}
+.research-slot-buy {width:100%;margin-bottom:15px;}
+.research-recipe small {display:block;line-height:1.45;max-width:320px;}
+.hud-dock {max-width:calc(100vw - 20px);overflow-x:auto;button{flex-shrink:0;}}
+@media(max-width:500px){.hud-dock button{min-width:49px;padding:4px 5px;font-size:8px;}.research-summary{flex-wrap:wrap;}}
+
+.hud-popup[aria-label="Araştırmalar"] .hud-popup-title > .hud-icon {position:static;flex-shrink:0;}

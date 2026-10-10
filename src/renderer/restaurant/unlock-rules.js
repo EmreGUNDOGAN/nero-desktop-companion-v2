@@ -1,0 +1,20 @@
+// Shared rule evaluation; rendering never decides whether an unlock is allowed.
+export function evaluateUnlock(definition,context){
+ const checks=[];
+ if(definition.decisionRequired)checks.push({type:'decision',met:false,code:'decision-pending'});
+ if(definition.level!==null&&definition.level!==undefined)checks.push({type:'level',required:definition.level,current:context.level,met:Number.isFinite(context.level)&&context.level>=definition.level});
+ for(const id of definition.requires||[])checks.push({type:'prerequisite',id,met:context.has(id)});
+ for(const target of definition.sales||[]){const current=context.sales?.[target.key]||0;checks.push({type:'sales',key:target.key,required:target.count,current,met:current>=target.count});}
+ const cost=definition.cost;checks.push({type:'gold',required:cost,current:context.gold,met:Number.isFinite(cost)&&cost>=0&&Number.isFinite(context.gold)&&context.gold>=cost});
+ return{allowed:checks.every(c=>c.met),checks};
+}
+export class MenuUnlocks{
+ constructor(catalog,context){this.catalog=catalog;this.context=context;this.researching=new Set();this.products=new Set(catalog.startingProducts);this.stations=new Set(catalog.startingProducts.map(id=>catalog.byId.get(id).station));}
+ has(id){return this.products.has(id)||this.stations.has(id);}
+ explain(id){const product=this.catalog.byId.get(id);if(!product)return{allowed:false,reason:'unknown-product',checks:[]};if(this.researching.has(id))return{allowed:false,reason:'already-researching',checks:[]};if(this.products.has(id))return{allowed:false,reason:'already-unlocked',checks:[]};const requires=product.previousRecipe?[product.previousRecipe]:[];if(!product.opensStation&&!product.stationDecisionPending)requires.push(product.station);const result=evaluateUnlock({level:product.level,cost:product.unlockGold,requires,decisionRequired:product.stationDecisionPending},{...this.context.read(),has:id=>this.has(id)});return{...result,reason:result.allowed?'available':result.checks.find(c=>!c.met)?.type,opensStation:product.opensStation?product.station:null,balanceStatus:'draft'};}
+ purchase(id){const result=this.explain(id);if(!result.allowed)return result;const product=this.catalog.byId.get(id);if(this.context.spend(product.unlockGold,id)!==true)return{allowed:false,reason:'payment-rejected'};this.products.add(id);if(product.opensStation)this.stations.add(product.station);return{allowed:true,reason:'purchased',product:id,station:product.station,cost:product.unlockGold};}
+ beginResearch(id){const result=this.explain(id);if(!result.allowed)return result;const product=this.catalog.byId.get(id);if(this.context.spend(product.unlockGold,id)!==true)return{allowed:false,reason:'payment-rejected'};this.researching.add(id);return{allowed:true,reason:'research-started',product:id,cost:product.unlockGold};}
+ completeResearch(id){if(!this.researching.has(id))return false;const product=this.catalog.byId.get(id);this.researching.delete(id);this.products.add(id);if(product.opensStation)this.stations.add(product.station);return true;}
+ restore(state){if(!state||state.version!==1||!Array.isArray(state.products)||!Array.isArray(state.stations)||!Array.isArray(state.researching))return false;const products=new Set(state.products),stations=new Set(state.stations),researching=new Set(state.researching);for(const id of this.catalog.startingProducts)if(!products.has(id))return false;for(const id of [...products,...researching]){const p=this.catalog.byId.get(id);if(!p||p.stationDecisionPending||(p.previousRecipe&&!products.has(p.previousRecipe))||!stations.has(p.station)&&!researching.has(id))return false;}for(const id of researching)if(products.has(id))return false;const expected=new Set([...products].map(id=>this.catalog.byId.get(id).station));if([...stations].some(id=>!expected.has(id)))return false;this.products=products;this.stations=stations;this.researching=researching;return true;}
+ snapshot(){return{version:1,researching:[...this.researching],products:[...this.products],stations:[...this.stations]};}
+}
